@@ -2,24 +2,19 @@
 
 @using Syncfusion.Blazor.Gantt
 @using Syncfusion.Blazor.Grids
-@using Syncfusion.Blazor.Inputs
-@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
 @using ej2_blazor_ganttdata
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
     <p>This sample demonstrates the frozen columns feature of the Gantt Chart. Scroll the movable content horizontally on the grid side to view the frozen columns with the content.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>Also, add or remove the frozen columns dynamically by dragging and dropping the column freeze line separator to the desired column or programmatically changing the freeze direction as shown in the sample above.</p>
-    <p>The freezing feature allows the user to freeze specific columns in the right or left direction to scroll through the grid's remaining movable content. This can be accomplished by setting the Gantt Column <a aria-label="Navigate to the freeze property reference for gantt column" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html#Syncfusion_Blazor_Gantt_GanttColumn_Freeze'>Freeze</a> property.</p>
+    <p>You can add or remove frozen columns dynamically by dragging and dropping the column freeze line separator to the desired column or programmatically changing the freeze direction, as shown in the sample above.</p>
+    <p>The freezing feature allows users to freeze specific columns in either the right or left direction, enabling them to scroll through the grid's remaining movable content. This can be accomplished by setting the Gantt Column <a aria-label="Navigate to the freeze property reference for gantt column" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html#Syncfusion_Blazor_Gantt_GanttColumn_Freeze">Freeze</a> property.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
@@ -27,101 +22,113 @@
         <div class="row">
             <div class="e-switch-control">
                 <label class="showhide" style="padding: 10px 15px 10px 10px"> Left Frozen Column </label>
-                <SfDropDownList Width="125px" TValue="string" TItem="string" DataSource="@LeftColumns" @bind-Value="DropdownLeftValue">
-                    <DropDownListEvents TValue="string" ValueChange="LeftFreeze" TItem="string"></DropDownListEvents>
+                <SfDropDownList Width="125px" TValue="string" TItem="string" DataSource="@LeftFrozenColumns"
+                                @bind-Value="SelectedLeftColumn">
+                    <DropDownListEvents TValue="string" ValueChange="OnLeftFreezeChange" TItem="string"></DropDownListEvents>
                 </SfDropDownList>
                 <label class="showhide" style="padding: 10px 15px 10px 25px"> Right Frozen Column </label>
-                <SfDropDownList Width="142px" TValue="string" TItem="string" DataSource="@RightColumns" @bind-Value="DropdownRightValue">
-                    <DropDownListEvents TValue="string" ValueChange="RightFreeze" TItem="string"></DropDownListEvents>
+                <SfDropDownList Width="142px" TValue="string" TItem="string" DataSource="@RightFrozenColumns"
+                                @bind-Value="SelectedRightColumn">
+                    <DropDownListEvents TValue="string" ValueChange="OnRightFreezeChange" TItem="string"></DropDownListEvents>
                 </SfDropDownList>
             </div>
-            <SfGantt @ref="Gantt" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true"
-             Toolbar="@(new List<string>(){ "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll","Indent","Outdent"})"
-             AllowSelection="true" GridLines="Syncfusion.Blazor.Gantt.GridLine.Both" TreeColumnIndex="1"
-                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" FrozenColumns="@FrozenColumns">
-        <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
-                         Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
-        <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true"></GanttEditSettings>
+            <SfGantt @ref="Gantt" DataSource="@TaskList" Height="450px" Width="100%" HighlightWeekends="true"
+                     Toolbar="@(new List<string>() { "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll", "Indent", "Outdent" })"
+                     AllowSelection="true" GridLines="Syncfusion.Blazor.Gantt.GridLine.Both"
+                     TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate"
+                     FrozenColumns="@FrozenColumnCount">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration"
+                                 Progress="Progress" Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+                <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true"
+                                   ShowDeleteConfirmDialog="true"></GanttEditSettings>
                 <GanttColumns>
-                    <GanttColumn Field="TaskId" HeaderText="Task Id" Width="100" Visible="false"></GanttColumn>
-                    <GanttColumn Field="TaskName" HeaderText="Job Name" MinWidth="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" IsFrozen="@TaskNameFreeze" Freeze="@TaskNameDirection"></GanttColumn>
-                    <GanttColumn Field="StartDate" HeaderText="Start Date" Width="180" IsFrozen="@StartDateFreeze" Freeze="@StartDateDirection"></GanttColumn>
+                    <GanttColumn Field="TaskId" HeaderText="Task ID" Width="100" Visible="false"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Job Name" MinWidth="250"
+                                 ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" IsFrozen="@IsTaskNameFrozen" Freeze="@TaskNameFreezeDirection"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date" Width="180" IsFrozen="@IsStartDateFrozen" Freeze="@StartDateFreezeDirection"></GanttColumn>
                     <GanttColumn Field="EndDate" HeaderText="End Date" Width="180"></GanttColumn>
-                    <GanttColumn Field="Duration" HeaderText="Duration" Width="180" IsFrozen="@DurationFreeze" Freeze="@DurationDirection"></GanttColumn>
-                    <GanttColumn Field="Progress" HeaderText="Progress" Width="150" IsFrozen="@ProgressFreeze" Freeze="@ProgressDirection"></GanttColumn>
-                    <GanttColumn Field="Predecessor" HeaderText="Dependency" Width="150" IsFrozen="@DependencyFreeze" Freeze="@DependencyDirection"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration" Width="180" IsFrozen="@IsDurationFrozen" Freeze="@DurationFreezeDirection"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress" Width="150" IsFrozen="@IsProgressFrozen" Freeze="@ProgressFreezeDirection"></GanttColumn>
+                    <GanttColumn Field="Predecessor" HeaderText="Dependency" Width="150" IsFrozen="@IsDependencyFrozen" Freeze="@DependencyFreezeDirection"></GanttColumn>
                 </GanttColumns>
-        <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData">
-        </GanttLabelSettings>
-        <GanttSplitterSettings Position="90%"> </GanttSplitterSettings>
-    </SfGantt>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="90%"></GanttSplitterSettings>
+            </SfGantt>
         </div>
     </div>
 </div>
+
 @code {
     private SfGantt<GanttData.TaskData> Gantt;
-    private DateTime ProjectStart = new DateTime(2021, 3, 25);
-    private DateTime ProjectEnd = new DateTime(2021, 7, 28);
-    private List<GanttData.TaskData> TaskCollection { get; set; }
-    private int FrozenColumns { get; set; } = 1;
-    private bool TaskNameFreeze { get; set; } = true;
-    private FreezeDirection TaskNameDirection { get; set; } = FreezeDirection.Left;
-    private bool StartDateFreeze { get; set; } = false;
-    private FreezeDirection StartDateDirection { get; set; }
-    private bool DurationFreeze { get; set; } = false;
-    private FreezeDirection DurationDirection { get; set; }
-    private bool ProgressFreeze { get; set; } = true;
-    private FreezeDirection ProgressDirection { get; set; } = FreezeDirection.Right;
-    private bool DependencyFreeze { get; set; } = true;
-    private FreezeDirection DependencyDirection { get; set; } = FreezeDirection.Right;
-    private static List<string> RightColumns = new List<string>() { "Duration", "Progress", "Dependency" };
-    private static List<string> LeftColumns = new List<string>() { "Job Name", "Start Date" };
-    private string DropdownLeftValue = LeftColumns[0];
-    private string DropdownRightValue = RightColumns[1];
-    
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 25);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 28);
+    private List<GanttData.TaskData> TaskList { get; set; }
+    private int FrozenColumnCount { get; set; } = 1;
+
+    private bool IsTaskNameFrozen { get; set; } = true;
+    private FreezeDirection TaskNameFreezeDirection { get; set; } = FreezeDirection.Left;
+
+    private bool IsStartDateFrozen { get; set; } = false;
+    private FreezeDirection StartDateFreezeDirection { get; set; }
+
+    private bool IsDurationFrozen { get; set; } = false;
+    private FreezeDirection DurationFreezeDirection { get; set; }
+
+    private bool IsProgressFrozen { get; set; } = true;
+    private FreezeDirection ProgressFreezeDirection { get; set; } = FreezeDirection.Right;
+
+    private bool IsDependencyFrozen { get; set; } = true;
+    private FreezeDirection DependencyFreezeDirection { get; set; } = FreezeDirection.Right;
+
+    private static readonly List<string> RightFrozenColumns = new List<string> { "Duration", "Progress", "Dependency" };
+    private static readonly List<string> LeftFrozenColumns = new List<string> { "Job Name", "Start Date" };
+
+    private string SelectedLeftColumn { get; set; } = LeftFrozenColumns[0];
+    private string SelectedRightColumn { get; set; } = RightFrozenColumns[1];
+
     protected override void OnInitialized()
     {
-        this.TaskCollection = GanttData.EditingData().ToList();
+        TaskList = GanttData.EditingData().ToList();
     }
 
-    public void RightFreeze(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    public void OnRightFreezeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
     {
-        if (args.Value == "Dependency")
+        switch (args.Value)
         {
-            this.DependencyFreeze=true;
-            this.ProgressFreeze = false;
-            this.DurationFreeze = false;
+            case "Dependency":
+                IsDependencyFrozen = true;
+                IsProgressFrozen = false;
+                IsDurationFrozen = false;
+                break;
+            case "Progress":
+                IsDependencyFrozen = true;
+                IsProgressFrozen = true;
+                IsDurationFrozen = false;
+                break;
+            default:
+                IsDependencyFrozen = true;
+                IsProgressFrozen = true;
+                IsDurationFrozen = true;
+                DurationFreezeDirection = FreezeDirection.Right;
+                break;
         }
-        else if (args.Value == "Progress")
+    }
+
+    public void OnLeftFreezeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        if (args.Value == "Job Name")
         {
-            this.DependencyFreeze = true;
-            this.ProgressFreeze = true;
-            this.DurationFreeze = false;
+            IsTaskNameFrozen = true;
+            IsStartDateFrozen = false;
         }
         else
         {
-            this.DependencyFreeze = true;
-            this.ProgressFreeze = true;
-            this.DurationFreeze = true;
-            this.DurationDirection = FreezeDirection.Right;
+            IsTaskNameFrozen = true;
+            IsStartDateFrozen = true;
+            StartDateFreezeDirection = FreezeDirection.Left;
         }
+    }
 
-    }
-    public void LeftFreeze(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
-    {
-        if(args.Value=="Job Name")
-        {
-            this.TaskNameFreeze = true;
-            this.StartDateFreeze = false;
-        }
-        else
-        {
-            this.TaskNameFreeze = true;
-            this.StartDateFreeze = true;
-            this.StartDateDirection = FreezeDirection.Left;
-        }
-    }
-   
 }
 <style>
    

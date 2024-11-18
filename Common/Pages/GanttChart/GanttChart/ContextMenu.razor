@@ -1,15 +1,10 @@
 ﻿@page "/gantt-chart/context-menu"
 
 @using Syncfusion.Blazor.Gantt
-@using Syncfusion.Blazor.TreeGrid 
-@using BlazorDemos
 @using ej2_blazor_ganttdata
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -52,15 +47,20 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGantt EnableContextMenu="true" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true"
-                     Toolbar="@(new List<string>(){ "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll"})" AllowSorting="true" AllowResizing="true"
-                     AllowSelection="true" GridLines="GridLine.Both" TreeColumnIndex="1"
-                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
-                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
-                                 Dependency="Predecessor" ParentID="ParentId" Notes="Notes"></GanttTaskFields>
+            <SfGantt EnableContextMenu="true" DataSource="@TaskCollection" Height="450px" Width="100%"
+                     HighlightWeekends="true"
+                     Toolbar="@(new List<string>(){ "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll"})"
+                     AllowSorting="true" AllowResizing="true" AllowSelection="true"
+                     GridLines="GridLine.Both" TreeColumnIndex="1"
+                     ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
+                                 Duration="Duration" Progress="Progress" Dependency="Predecessor"
+                                 ParentID="ParentId" Notes="Notes">
+                </GanttTaskFields>
                 <GanttColumns>
                     <GanttColumn Field="TaskId" Width="100"></GanttColumn>
-                    <GanttColumn Field="TaskName" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="TaskName" Width="250"
+                                 ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
                     <GanttColumn Field="StartDate" HeaderText="Start Date" MinWidth="120"></GanttColumn>
                     <GanttColumn Field="EndDate" HeaderText="End Date" MinWidth="120"></GanttColumn>
                     <GanttColumn Field="Duration" HeaderText="Duration" MinWidth="120"></GanttColumn>
@@ -69,37 +69,37 @@
                     <GanttColumn Field="Notes" Width="100"></GanttColumn>
                 </GanttColumns>
 
-                <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true"
-                                   ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true"
+                                   AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true">
+                </GanttEditSettings>
 
-                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData">
-                </GanttLabelSettings>
-                <GanttSplitterSettings Position="40%"> </GanttSplitterSettings>
-                <GanttEvents TValue="GanttData.TaskData" RowCreating="RowCreating"></GanttEvents>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="40%"></GanttSplitterSettings>
+                <GanttEvents TValue="GanttData.TaskData" RowCreating="HandleRowCreating"></GanttEvents>
             </SfGantt>
         </div>
     </div>
 </div>
+
 <style>
-html, body {
-    height:100%;
-}
+    html, body {
+        height: 100%;
+    }
 </style>
 
-@code{
-
-    private DateTime ProjectStart = new DateTime(2021, 3, 25);
-    private DateTime ProjectEnd = new DateTime(2021, 7, 28);
-    private List<GanttData.TaskData> TaskCollection { get; set; }
+@code {
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 25);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 28);
+    public List<GanttData.TaskData> TaskCollection { get; set; }
 
     protected override void OnInitialized()
     {
-
-        this.TaskCollection = GanttData.EditingData();
-
+        TaskCollection = GanttData.EditingData();
     }
-    private void RowCreating(GanttRowCreatingEventArgs<GanttData.TaskData> args)
+
+    private void HandleRowCreating(GanttRowCreatingEventArgs<GanttData.TaskData> args)
     {
         args.Data.TaskName = "New Task " + args.Data.TaskId;
     }
+
 }

@@ -2,14 +2,12 @@ import {data} from './version.js';
 if (data.version == "net8.0") {
     var path = "_content/Blazor_Server_Common_NET8";
 }
-const homepagepath = ["/staging/server/demos/","/server/demos/" ,"/net8/demos/", "/development/net8/demos/", "/development/net8/demos/", "/release/net8/demos/", "/release/net8/demos/", "/hotfix/net8/demos/", "/hotfix/net8/demos/","/cloudtesting/net8-server/","/"];
+else {
+    var path = "_content/Blazor_Server_Common_NET9";
+}
+const homepagepath = ["/demos/", "/net9/demos/", "/staging/server/demos/", "/server/demos/" ,"/net8/demos/", "/development/net8/demos/", "/development/net9/demos/", "/release/net8/demos/", "/release/net9/demos/", "/hotfix/net8/demos/", "/hotfix/net9/demos/","/cloudtesting/net8-server/","/"];
 function dynamicResources() {
-    if ((window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) || window.location.href.indexOf('powerpoint') != -1) {
-        let newScript = document.createElement('script');
-        newScript.setAttribute('src', "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js");
-        document.getElementsByClassName('dynamic-resources')[0].appendChild(newScript);
-    }
-    if (window.location.href.indexOf('pdf-viewer-2') != -1) {
+    if (window.location.href.indexOf('pdf-viewer-2') != -1 || window.location.href.indexOf('powerpoint') != -1) {
         let newScript = document.createElement('script');
         newScript.setAttribute('src', "_content/Syncfusion.Blazor.SfPdfViewer/scripts/syncfusion-blazor-sfpdfviewer.min.js");
         document.getElementsByClassName('dynamic-resources')[0].appendChild(newScript);

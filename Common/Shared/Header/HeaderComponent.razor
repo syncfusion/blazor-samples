@@ -12,9 +12,26 @@
             <div id="sb-toggle-left" @onclick="OnToggleClick" @onclick:stopPropagation="true" role="button" tabindex="0" class="sb-slide-nav sb-icons toggle-active sb-icon-hamburger" aria-label="toggle all controls navigation"
                  title='toggle leftpane'></div>
         </div>
-        <div class='sb-header-item sb-table-cell' id="sb-header-text" @onclick="HomeIconClick" style="padding-left:20px" role="button" aria-label="Navigates to Home page">
-            <span>@SampleService.DemoType</span>
-        </div>
+         @{#if(RELEASE) }
+           @if(!(SampleUtils.IsLocalSample(UriHelper.Uri))){
+                <div class='sb-header-item sb-table-cell' id="sb-header-text" style="padding-left:10px" role="button" aria-label="Navigates to Home page">
+                    <DropDownComponent  @ref="dropdowndemoRef" DataSource="@SampleUtils.Blazor_Platform" DefaultValue="@SampleService.DemoType" OnSelect="OnDemoSwitch">
+                        <ItemTemplate>
+                            <span>Blazor @context.Text  Demos</span>   
+                        </ItemTemplate>
+                    </DropDownComponent>
+                </div>
+            }
+            else{
+                <div class='sb-header-item sb-table-cell' id="sb-header-text" @onclick="HomeIconClick" style="padding-left:20px" role="button" aria-label="Navigates to Home page">
+                    <span>@SampleService.DemoType</span>
+                </div>
+            }
+        @{#else}
+            <div class='sb-header-item sb-table-cell' id="sb-header-text" @onclick="HomeIconClick" style="padding-left:20px" role="button" aria-label="Navigates to Home page">
+                <span>@SampleService.DemoType</span>
+            </div>
+         @{#endif}
     </div>
      @if (!SampleService.IsDevice)
      {
@@ -113,7 +130,7 @@
         <span class="sb-notification-update">New Updates</span>
         <span class="sb-notification-new">
             <a href="https://www.syncfusion.com/products/whatsnew/blazor-components" target="_blank" aria-label="Whats New">
-                <div class="sb-whatsnew-content">Whats New</div>
+                <div class="sb-whatsnew-content">What's New</div>
             </a>
         </span>
          <div class="sb-notification-clear-icon" role="button" tabindex="0" aria-label="notification settings menu" @onclick="OnPopupHide">
@@ -204,6 +221,7 @@
     private Preferences preferenceRef { get; set; }
     private SearchComponent searchRef { get; set; }
     public DropDownComponent dropdownRef { get; set; }
+     public DropDownComponent dropdowndemoRef { get; set; }
 
     /// <summary>
     /// Triggers event callback on left toggle button action.
@@ -259,6 +277,13 @@
     private async Task NavigatePages()
     {
         await JsRuntime.InvokeVoidAsync("navigateToPage");
+    }
+    private void OnDemoSwitch(DropDownData args)
+    {
+        if (!UriHelper.BaseUri.Contains("localhost"))
+        {
+            SampleService.SwicthToDemo(args.ID, UriHelper, JsRuntime);
+        }
     }
     public void NotifyClicked() {
         if (notificationClass.Contains(SampleUtils.ACTIVE_CLASS))

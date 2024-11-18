@@ -51,9 +51,24 @@ builder.Services.AddHsts(options =>
     options.MaxAge = TimeSpan.FromDays(730);
 });
 
+#region Localization
+// Set the resx file folder path to access
+builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
+
+// Register the Syncfusion locale service to customize the  SyncfusionBlazor component locale culture
+builder.Services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(SyncfusionLocalizer));
+
+var supportedCultures = new[] { "en-US", "de-DE", "fr-CH", "zh-CN" };
+var localizationOptions = new RequestLocalizationOptions()
+            .SetDefaultCulture("en-US")
+            .AddSupportedCultures(supportedCultures)
+            .AddSupportedUICultures(supportedCultures);
+#endregion
 
 var app = builder.Build();
-
+#region Localization
+app.UseRequestLocalization(localizationOptions);
+#endregion
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -72,7 +87,11 @@ app.UseCookiePolicy(
     {
         Secure = CookieSecurePolicy.Always
     });
+#if NET9_0
+app.MapStaticAssets();
+#else
 app.UseStaticFiles();
+#endif
 app.UseAntiforgery();
 app.UseStatusCodePagesWithRedirects("/Error");
 

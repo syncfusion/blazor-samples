@@ -3,9 +3,6 @@
 @using ej2_blazor_taskbartemplatedata
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -13,10 +10,10 @@
 </SampleDescription>
 <ActionDescription>
     <p>
-        The Gantt Chart provides support for customizing taskbar UI using the taskbar template feature. By using <a aria-label="Navigate to the TaskbarTemplate property reference for gantt templates" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_TaskbarTemplate'>TaskbarTemplate</a> component
-        of <a aria-label="Navigate to the class reference for gantt templates" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html'>GanttTemplates</a>, custom content can be placed.
+        The Gantt Chart supports customizing the taskbar UI using the taskbar template feature. By utilizing the <a aria-label="Navigate to the TaskbarTemplate property reference for gantt templates" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_TaskbarTemplate">TaskbarTemplate</a> component of the <a aria-label="Navigate to the class reference for gantt templates" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html">GanttTemplates</a>, custom content can be added.
     </p>
-    <p>The summary tasks and the milestone items can also be customized using the <a aria-label="Navigate to the ParentTaskbarTemplate property reference for gantt templates" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_ParentTaskbarTemplate'>ParentTaskbarTemplate</a> and <a aria-label="Navigate to the MilestoneTemplate property reference for gantt templates" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_MilestoneTemplate'>MilestoneTemplate</a> properties.
+    <p>
+        The summary tasks and milestone items can also be customized using the <a aria-label="Navigate to the ParentTaskbarTemplate property reference for gantt templates" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_ParentTaskbarTemplate">ParentTaskbarTemplate</a> and <a aria-label="Navigate to the MilestoneTemplate property reference for gantt templates" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_MilestoneTemplate">MilestoneTemplate</a> properties.
     </p>
 </ActionDescription>
 
@@ -25,7 +22,7 @@
         <div class="row">
             <SfGantt RowHeight="75" TaskbarHeight="50"
                      ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd" DurationUnit="DurationUnit.Minute"
-                     DateFormat="hh:mm tt" DataSource="@TaskCollection" Height="450px" Width="100%">
+                     DateFormat="hh:mm tt" DataSource="@Tasks" Height="450px" Width="100%">
                 <Syncfusion.Blazor.Gantt.GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Dependency="Predecessor" ParentID="ParentId"></Syncfusion.Blazor.Gantt.GanttTaskFields>
                 <GanttColumns>
                     <GanttColumn Field="TaskId" HeaderText="Event Id"></GanttColumn>
@@ -34,16 +31,13 @@
                     <GanttColumn Field="EndDate" HeaderText="End Time"></GanttColumn>
                     <GanttColumn Field="Winner" HeaderText="Winner"></GanttColumn>
                     <GanttColumn Field="Movie" HeaderText="Movie"></GanttColumn>
-                    <GanttColumn Field="Performance" HeaderText=" Performance" Width="200"></GanttColumn>
+                    <GanttColumn Field="Performance" HeaderText="Performance" Width="200"></GanttColumn>
                 </GanttColumns>
                 <GanttEventMarkers>
-                    <GanttEventMarker Day="@EventDay1" Label="Performance"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay2" Label="Moments"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay3" Label="Performance"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay4" Label="Moments"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay5" Label="Moments"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay6" Label="Performance"></GanttEventMarker>
-                    <GanttEventMarker Day="@EventDay7" Label="Moments"></GanttEventMarker>
+                    @foreach (var eventDay in EventDays)
+                    {
+                    <GanttEventMarker Day="@eventDay.Date" Label="@eventDay.Label"></GanttEventMarker>
+                    }
                 </GanttEventMarkers>
                 <GanttLabelSettings LeftLabel="TaskName" TValue="TaskbarTemplateData.TaskbarData">
                 </GanttLabelSettings>
@@ -69,13 +63,13 @@
                             <div class="e-gantt-child-taskbar e-custom-performance" style="height:50px;border-radius:5px;" tabindex="-1">
                                 @if (Convert.ToDouble((context as TaskbarTemplateData.TaskbarData).Duration) <= 5)
                                 {
-                                    <img class="face-mask" height="32" width="32" role="presentation" />
+                                    <img class="face-mask" height="32" width="32" role="presentation"/>
                                 }
                                 else
                                 {
-                                    <img class="face-mask" height="32" width="32" role="presentation" />
+                                    <img class="face-mask" height="32" width="32" role="presentation"/>
                                     <span class="e-task-label" style="position:absolute;top:5px;font-size:12px;text-overflow:ellipsis;height:90%;overflow:hidden;">@((context as TaskbarTemplateData.TaskbarData).Performance)</span>
-                                } 
+                                }
                             </div>
                         }
                         else
@@ -83,20 +77,21 @@
                             <div class="e-gantt-parent-taskbar e-custom-parent" style="height:50px;border-radius:5px;text-overflow:ellipsis;" tabindex="-1">
                                 @if (Convert.ToDouble((context as TaskbarTemplateData.TaskbarData).Duration) < 4)
                                 {
-                                    <img class="oscar" height="32" width="32" role="presentation" />
+                                    <img class="oscar" height="32" width="32" role="presentation"/>
                                 }
                                 else
                                 {
-                                    @if (!string.IsNullOrEmpty(((context as TaskbarTemplateData.TaskbarData).Winner)) && !string.IsNullOrEmpty(((context as TaskbarTemplateData.TaskbarData).Movie)))
+                                    var taskData = context as TaskbarTemplateData.TaskbarData;
+                                    if (!string.IsNullOrEmpty(taskData.Winner) && !string.IsNullOrEmpty(taskData.Movie))
                                     {
                                         <img class="oscar" height="32" width="32" role="presentation"/>
-                                        <span class="e-task-label" style="position:absolute; top:10px;font-size:14px;">@((context as TaskbarTemplateData.TaskbarData).Winner)</span>
-                                        <span class="e-task-label" style="position:absolute;top:28px;font-size:10px;text-overflow:ellipsis;">@((context as TaskbarTemplateData.TaskbarData).Movie)</span>
+                                        <span class="e-task-label" style="position:absolute; top:10px;font-size:14px;">@taskData.Winner</span>
+                                        <span class="e-task-label" style="position:absolute;top:28px;font-size:10px;text-overflow:ellipsis;">@taskData.Movie</span>
                                     }
-                                    else if (!string.IsNullOrEmpty(((context as TaskbarTemplateData.TaskbarData).Movie)))
+                                    else if (!string.IsNullOrEmpty(taskData.Movie))
                                     {
                                         <img class="oscar" height="32" width="32" role="presentation"/>
-                                        <span class="e-task-label" style="position:absolute; top:18px;font-size:12px;text-overflow:ellipsis;">@((context as TaskbarTemplateData.TaskbarData).Movie)</span>
+                                        <span class="e-task-label" style="position:absolute; top:18px;font-size:12px;text-overflow:ellipsis;">@taskData.Movie</span>
                                     }
                                     else
                                     {
@@ -128,24 +123,28 @@
     </div>
 </div>
 
-@code{
-    private DateTime EventDay1 = new DateTime(2021, 3, 5, 19, 9, 0);
-    private DateTime EventDay2 = new DateTime(2021, 3, 5, 19, 46, 0);
-    private DateTime EventDay3 = new DateTime(2021, 3, 5, 19, 59, 0);
-    private DateTime EventDay4 = new DateTime(2021, 3, 5, 20, 8, 0);
-    private DateTime EventDay5 = new DateTime(2021, 3, 5, 20, 24, 0);
-    private DateTime EventDay6 = new DateTime(2021, 3, 5, 20, 31, 0);
-    private DateTime EventDay7 = new DateTime(2021, 3, 5, 20, 47, 0);
-    private DateTime ProjectStart = new DateTime(2021, 3, 5, 18, 0, 0);
-    private DateTime ProjectEnd = new DateTime(2021, 3, 6, 18, 0, 0);
-    private List<TaskbarTemplateData.TaskbarData> TaskCollection { get; set; }
-    
-	
+@code {
+    private DateTime ProjectStart { get; set; } = new DateTime(2021, 3, 5, 18, 0, 0);
+    private DateTime ProjectEnd { get; set; } = new DateTime(2021, 3, 6, 18, 0, 0);
+    private List<TaskbarTemplateData.TaskbarData> Tasks { get; set; }
+
+// Define EventDays as a collection for easier management
+    private List<(DateTime Date, string Label)> EventDays { get; } = new List<(DateTime, string)>
+    {
+        (new DateTime(2021, 3, 5, 19, 9, 0), "Performance"),
+        (new DateTime(2021, 3, 5, 19, 46, 0), "Moments"),
+        (new DateTime(2021, 3, 5, 19, 59, 0), "Performance"),
+        (new DateTime(2021, 3, 5, 20, 8, 0), "Moments"),
+        (new DateTime(2021, 3, 5, 20, 24, 0), "Moments"),
+        (new DateTime(2021, 3, 5, 20, 31, 0), "Performance"),
+        (new DateTime(2021, 3, 5, 20, 47, 0), "Moments")
+    };
+
     protected override void OnInitialized()
     {
-        
-        this.TaskCollection = TaskbarTemplateData.TaskTemplateData();
+        Tasks = TaskbarTemplateData.TaskTemplateData();
     }
+
 }
 
 <style>

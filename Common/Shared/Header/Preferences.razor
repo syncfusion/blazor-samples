@@ -146,7 +146,7 @@ else
     {
         touchClass = SampleUtils.AddClass(touchClass, SampleUtils.ACTIVE_CLASS);
         mouseClass = SampleUtils.RemoveClass(mouseClass, SampleUtils.ACTIVE_CLASS);
-        await this.JsRuntime.InvokeVoidAsync("sfBlazorSB.setBiggerSize", true, true);
+        await SetBiggerSizeAsync(true, true);
     }
 
     // Mouse mode click handler.
@@ -154,7 +154,58 @@ else
     {
         mouseClass = SampleUtils.AddClass(mouseClass, SampleUtils.ACTIVE_CLASS);
         touchClass = SampleUtils.RemoveClass(touchClass, SampleUtils.ACTIVE_CLASS);
-        await this.JsRuntime.InvokeVoidAsync("sfBlazorSB.setBiggerSize", false);
+        await SetBiggerSizeAsync(false);
+    }
+
+    // set e-bigger class to the body based on mouse/touch selection
+    public async Task SetBiggerSizeAsync(bool isTouch, bool isTouchReload = false)
+    {
+        var isMouseMode = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.containsTouchModeClass");
+        if (isTouch)
+        {
+            if (!isMouseMode)
+            {
+                await this.JsRuntime.InvokeVoidAsync("sfBlazorSB.addTouchModeClass");
+                await this.JsRuntime.InvokeVoidAsync("localStorage.setItem", "sfPreferenceMode", "touch");
+                if (isTouchReload)
+                {
+#if NET6_0
+                    await JsRuntime.InvokeVoidAsync("sfBlazorSB.jsReload");
+#else
+                    UriHelper.Refresh(true);
+#endif
+                }
+            }
+        }
+        else
+        {
+            if (isMouseMode)
+            {
+                await this.JsRuntime.InvokeVoidAsync("sfBlazorSB.removeTouchModeClass");
+                await this.JsRuntime.InvokeVoidAsync("localStorage.setItem", "sfPreferenceMode", "mouse");
+#if NET6_0
+                await JsRuntime.InvokeVoidAsync("sfBlazorSB.jsReload");
+#else
+                UriHelper.Refresh(true);
+#endif
+            }
+        }
+    }
+
+    // returns the preferences mode.
+    public async Task<string> GetPreferenceModeAsync()
+    {
+        var mode = await this.JsRuntime.InvokeAsync<string>("localStorage.getItem", "sfPreferenceMode");
+        bool screenAvailWidth = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isScreenWide");
+        var isTouchMode = String.IsNullOrEmpty(mode) && screenAvailWidth;
+        var isDeviceMode = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isDeviceMode");
+        if (isTouchMode || isDeviceMode || (!String.IsNullOrEmpty(mode) && mode != "mouse"))
+        {
+            mode = "touch";
+            await SetBiggerSizeAsync(true, false);
+        }
+        mode = String.IsNullOrEmpty(mode) ? "mouse" : mode;
+        return mode;
     }
 
     // Preference popup click handler.
@@ -283,7 +334,7 @@ else
 #endif
         if (firstRender)
         {
-            var preferenceMode = await JsRuntime.InvokeAsync<string>("sfBlazorSB.getPreferenceMode");
+            var preferenceMode = await GetPreferenceModeAsync();
             // Set touch button as default for higher resolution displays.
             if (preferenceMode != SampleUtils.DEFAULT_MODE)
             {

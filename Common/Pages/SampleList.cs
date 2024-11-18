@@ -678,7 +678,7 @@ namespace BlazorDemos
                 IsPreview = true,
                 Samples = MultiColumnComboBox,
                 ControllerName = "MultiColumnComboBox",
-                DemoPath = "multiColumn-combobox/default-functionalities"
+                DemoPath = "multicolumn-combobox/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -1183,7 +1183,7 @@ namespace BlazorDemos
                 CustomDocLink = "pdfviewer/getting-started",
                 DemoPath = "pdf-viewer/default-functionalities",
                 IsHideFromHomePageList = true
-            });*/ 
+            });*/
         }
     }
 }

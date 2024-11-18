@@ -6,27 +6,25 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
     <p>This sample demonstrates copy to clipboard functionality of the Gantt component. Select rows and click the 'Copy' button from the toolbar to copy the content of rows. To copy with a header, click the 'Copy with Header' button from the toolbar. </p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this demo, selected rows of data can be copied into the clipboard using the following Keyboard shortcuts, toolbar interactions, or the <a aria-label="Navigate to the CopyAsync method reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_CopyAsync_System_Nullable_System_Boolean__'>CopyAsync</a> method.</p>
-    <ul><li><code>Ctrl + C</code> - Selects rows or cells data without header.</li>
-         <li><code>Ctrl + Shift + H</code> - Selects rows or cells data with a header.</li>
+    <p>In this demo, selected rows of data can be copied into the clipboard using the following Keyboard shortcuts, toolbar interactions, or the <a aria-label="Navigate to the CopyAsync method reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_CopyAsync_System_Nullable_System_Boolean__">CopyAsync</a> method.</p>
+    <ul>
+        <li><code>Ctrl + C</code> - Selects rows or cells data without header.</li>
+        <li><code>Ctrl + Shift + H</code> - Selects rows or cells data with a header.</li>
     </ul>
-    <p>More information on the clipboard can be found in this <a aria-label="Navigate to the documentation for clipboard in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/clipboard'>documentation section</a>.</p>
+    <p>More information on the clipboard can be found in this <a aria-label="Navigate to the documentation for clipboard in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/clipboard">documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGantt DataSource="@TaskCollection" @ref="GanttObject" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1"
-                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
+            <SfGantt DataSource="@TaskCollection" @ref="GanttChartInstance" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1"
+                     ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
                                  Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
                 <GanttColumns>
@@ -38,12 +36,12 @@
                     <GanttColumn Field="Progress"></GanttColumn>
                     <GanttColumn Field="Predecessor"></GanttColumn>
                 </GanttColumns>
-                <GanttLabelSettings LeftLabel="TaskName" TValue="DefaultData.TaskData"> </GanttLabelSettings>
-                <GanttSplitterSettings Position="50%"> </GanttSplitterSettings>
-                <SfToolbar ID="Gantt_Gantt_Toolbar">
+                <GanttLabelSettings LeftLabel="TaskName" TValue="DefaultData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="50%"></GanttSplitterSettings>
+                <SfToolbar ID="Gantt_Toolbar">
                     <ToolbarItems>
-                        <ToolbarItem Id="copyHeader" Text="Copy With Header" OnClick="ToolbarClick" PrefixIcon="e-copy"></ToolbarItem>
-                        <ToolbarItem Id="copy" Text="Copy" OnClick="ToolbarClick" PrefixIcon="e-copy"></ToolbarItem>
+                        <ToolbarItem Id="copyHeader" Text="Copy With Header" OnClick="OnToolbarItemClick" PrefixIcon="e-copy"></ToolbarItem>
+                        <ToolbarItem Id="copy" Text="Copy" OnClick="OnToolbarItemClick" PrefixIcon="e-copy"></ToolbarItem>
                     </ToolbarItems>
                 </SfToolbar>
             </SfGantt>
@@ -52,30 +50,24 @@
 </div>
 
 @code {
-    private DateTime ProjectStart = new DateTime(2021, 3, 24);
-    private DateTime ProjectEnd = new DateTime(2021, 7, 6);
-    private List<DefaultData.TaskData> TaskCollection { get; set; }
-    private SfGantt<DefaultData.TaskData> GanttObject;
-    public List<object> Toolbar = new List<object>();
-
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 24);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 6);
+    public List<DefaultData.TaskData> TaskCollection { get; private set; }
+    private SfGantt<DefaultData.TaskData> GanttChartInstance { get; set; }
 
     protected override void OnInitialized()
     {
-
-        this.TaskCollection = DefaultData.ProjectNewData();
+        TaskCollection = DefaultData.ProjectNewData();
     }
 
-    public async void ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    public async Task OnToolbarItemClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
     {
-        var SelectedRecords = await this.GanttObject.GetSelectedRecordsAsync();
-        if (SelectedRecords.Count() > 0)
+        var selectedRecords = await GanttChartInstance.GetSelectedRecordsAsync();
+        if (selectedRecords.Any())
         {
-            var WithHeader = false;
-            if (args.Item.Id == "copyHeader")
-            {
-                WithHeader = true;
-            }
-            await this.GanttObject.CopyAsync(WithHeader);
+            bool copyWithHeader = args.Item.Id == "copyHeader";
+            await GanttChartInstance.CopyAsync(copyWithHeader);
         }
     }
+
 }

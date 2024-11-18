@@ -10,7 +10,23 @@
             <div class="sb-header-top">
                 <div class="sb-sf">
                     <div class="sb-mobile-logo"></div>
-                    <div class="sb-name" @onclick="HomeButtonClick">@SampleService.DemoType</div>
+                    @{#if(RELEASE) }
+                        @if(!(SampleUtils.IsLocalSample(UriHelper.Uri))){
+                            <div class="sb-name">
+                                <DropDownComponent  @ref="dropdownRef" DataSource="@SampleUtils.Blazor_Platform" DefaultValue="@SampleService.DemoType" OnSelect="OnDemoSwitch">
+                                    <ItemTemplate>
+                                        <span>Blazor @context.Text  Demos</span>   
+                                    </ItemTemplate>
+                                </DropDownComponent>
+                            
+                            </div>
+                        }
+                        else{
+                            <div class="sb-name" @onclick="HomeButtonClick">@SampleService.DemoType</div>
+                        }
+                    @{#else }
+                            <div class="sb-name" @onclick="HomeButtonClick">@SampleService.DemoType</div>
+                    @{#endif}
                 </div>
             </div>
         </div>
@@ -57,6 +73,11 @@
     /// <summary>
     /// Expand or collapse SideBarComonent based on its previous state.
     /// </summary>
+
+    /// <summary>
+    /// DropdownComponent reference for outside usage.
+    /// </summary>
+    public DropDownComponent dropdownRef { get; set; }
     public void UpdateExpandedState()
     {
         this.isOpen = !isOpen;
@@ -82,6 +103,14 @@
         UriHelper.NavigateTo(UriHelper.BaseUri, true);
         var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
         await JsRuntime.InvokeVoidAsync("sfBlazorSB.updateBodyClass", themeName);
+    }
+
+    private void OnDemoSwitch(DropDownData args)
+    {
+        if (!UriHelper.BaseUri.Contains("localhost"))
+        {
+            SampleService.SwicthToDemo(args.ID, UriHelper, JsRuntime);
+        }
     }
 
     protected override void OnInitialized()

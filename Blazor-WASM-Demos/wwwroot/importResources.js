@@ -3,20 +3,19 @@ if (data.version == "net6.0") {
     var path = "_content/Blazor_WASM_Common_NET6";
     var isolatedCss = "Blazor_WASM_Demos_NET6.styles.css";
 }
-else {
+else if (data.version == "net8.0") {
     var path = "_content/Blazor_WASM_Common_NET8";
     var isolatedCss = "Blazor_WASM_Demos_NET8.styles.css";
 }
+else {
+    var path = "_content/Blazor_WASM_Common_NET9";
+    var isolatedCss = "Blazor_WASM_Demos_NET9.styles.css";
+}
 
-const homepagepath = ["/staging/wasm/demos/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net8/demos/", "/release/wasm/net6/demos/", "/release/wasm/net8/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net8/demos/","/cloudtesting/net8-wasm/","/"];
+const homepagepath = ["/staging/wasm/demos/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net8/demos/","/development/wasm/net9/demos/", "/release/wasm/net6/demos/","/release/wasm/net9/demos/", "/release/wasm/net8/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net8/demos/","/hotfix/wasm/net9/demos/","/cloudtesting/net8-wasm/","/"];
 
 
 function dynamicResources() {
-    if (window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) {
-        let newScript = document.createElement('script');
-        newScript.setAttribute('src', "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js");
-        document.getElementsByClassName('dynamic-resources')[0].appendChild(newScript);
-    }
     if (window.location.href.indexOf('pdf-viewer-2') != -1) {
         let newScript = document.createElement('script');
         newScript.setAttribute('src', "_content/Syncfusion.Blazor.SfPdfViewer/scripts/syncfusion-blazor-sfpdfviewer.min.js");

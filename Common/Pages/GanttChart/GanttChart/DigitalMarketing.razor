@@ -2,16 +2,12 @@
 
 @using Syncfusion.Blazor.Gantt
 @using Syncfusion.Blazor.Grids
-@using Syncfusion.Blazor.Layouts
 @using Syncfusion.Blazor.Charts
 
 @using blazor_gantt_digital_marketing_data
-
-@inject NavigationManager Navigation
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inject NavigationManager UriHelper
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
 @*End:Hidden*@
 
 <SampleDescription>
@@ -33,11 +29,11 @@
                <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12">
                    <div class="e-gantt-chart-digital-marketing">
                        <p class="title">Impressions based on Activity</p>
-                        <SfAccumulationChart Height="270px" Background="@chartBGColor" Width="100%" EnableAnimation="true" EnableSmartLabels="true">
+                        <SfAccumulationChart Height="270px" Background="@ChartBackgroundColor" Width="100%" EnableAnimation="true" EnableSmartLabels="true">
                             <AccumulationChartLegendSettings Visible="true"></AccumulationChartLegendSettings>
 
                             <AccumulationChartSeriesCollection>
-                                <AccumulationChartSeries DataSource="@statisticsDetails" XName="Activity" YName="Impressions" Name="Impressions"
+                                <AccumulationChartSeries DataSource="@StatisticsDetails" XName="Activity" YName="Impressions" Name="Impressions"
                                                             InnerRadius="30%">
                                     <AccumulationDataLabelSettings Visible="true" Name="Activity" Position="AccumulationLabelPosition.Outside">
                                         <AccumulationChartConnector Length="10px" Type="ConnectorType.Curve"></AccumulationChartConnector>
@@ -54,20 +50,20 @@
                <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12">
                     <div class="e-gantt-chart-digital-marketing">
                         <p class="title">Revenue Per Month</p>
-                        <SfChart Height="270px" Width="100%" Background="@chartBGColor">
+                        <SfChart Height="270px" Width="100%" Background="@ChartBackgroundColor">
                             <ChartArea>
                                 <ChartAreaBorder Width="0"></ChartAreaBorder>
                             </ChartArea>
-                            <ChartPrimaryXAxis TitleStyle="@(new ChartAxisTitleStyle{ Color=labelColor})" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelPosition="AxisPosition.Outside" Title="Month">
+                            <ChartPrimaryXAxis TitleStyle="@(new ChartAxisTitleStyle{ Color=LabelTextColor})" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelPosition="AxisPosition.Outside" Title="Month">
                                 <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                             </ChartPrimaryXAxis>
-                            <ChartPrimaryYAxis Title="Revenue" TitleStyle="@(new ChartAxisTitleStyle{ Color=labelColor})" LabelFormat="{value}K">
+                            <ChartPrimaryYAxis Title="Revenue" TitleStyle="@(new ChartAxisTitleStyle{ Color=LabelTextColor})" LabelFormat="{value}K">
                                 <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
                                 <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
                             </ChartPrimaryYAxis>
 
                             <ChartSeriesCollection>
-                                <ChartSeries Fill="@chartFillColor" DataSource="@barChartData" XName="Month" YName="Revenue" Type="ChartSeriesType.Column">
+                                <ChartSeries Fill="@ChartFillColor" DataSource="@BarChartData" XName="Month" YName="Revenue" Type="ChartSeriesType.Column">
                                     <ChartMarker Visible="false"></ChartMarker>
                                 </ChartSeries>
                             </ChartSeriesCollection>
@@ -78,7 +74,7 @@
            </div>
         </div>
         <div class="use-case-gantt">
-            <SfGantt DataSource="@DigitalMarketingCollection" @ref="ganttInstance" ScrollToTaskbarOnClick="true" ProjectStartDate="@(new DateTime(2023, 10, 25))" ProjectEndDate="@(new DateTime(2025, 8, 30))" AllowFiltering="true" Height="400px" RowHeight="44" Width="100%" HighlightWeekends="true"
+            <SfGantt DataSource="@DigitalMarketingCollection" @ref="GanttInstance" ScrollToTaskbarOnClick="true" ProjectStartDate="@(new DateTime(2023, 10, 25))" ProjectEndDate="@(new DateTime(2025, 8, 30))" AllowFiltering="true" Height="400px" RowHeight="44" Width="100%" HighlightWeekends="true"
                         AllowSelection="true" GridLines="Syncfusion.Blazor.Gantt.GridLine.Both" TreeColumnIndex="1">
                 <GanttTaskFields Id="Id" Name="Activity" StartDate="StartDate" Duration="Duration" Progress="Progress"
                                     Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
@@ -135,7 +131,7 @@
                 <TaskbarTemplate>
                     @{
                         var task = context as DigitalMarketingData.TaskInfoModel;
-                        var taskModel = ganttInstance.GetRowTaskModel(task);
+                        var taskModel = GanttInstance.GetRowTaskModel(task);
                         var progresswidth = taskModel.ProgressWidth;
                         string image = UriHelper.ToAbsoluteUri(SampleService.WebAssetsPath + "images/gantt/digital-marketing-icon.png").ToString();
                         <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div e-gantt-child-taskbar-template">
@@ -147,7 +143,7 @@
                 <ParentTaskbarTemplate>
                     @{
                         var task = context as DigitalMarketingData.TaskInfoModel;
-                        var taskModel = ganttInstance.GetRowTaskModel(task);
+                        var taskModel = GanttInstance.GetRowTaskModel(task);
                         var progresswidth = taskModel.ProgressWidth;
                         string image = UriHelper.ToAbsoluteUri(SampleService.WebAssetsPath + "images/gantt/digital-marketing-icon.png").ToString();
                         <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar e-gantt-parent-taskbar-div e-gantt-parent-taskbar-template">
@@ -183,8 +179,6 @@
         fill: #0F6CBD !important;
     }
 
-
-
     .e-digital-marketing-use-case .e-gantt-tooltip-template-container-inner {
         align-items: center;
         text-align: center;
@@ -192,14 +186,14 @@
 
     .e-digital-marketing-use-case .e-gantt .e-gantt-chart .e-gantt-child-taskbar-inner-div{
         height: 27px !important;
-        background: @taskBGColor !important;
+        background: @TaskBackgroundColor !important;
         outline: none !important;
         border-radius: 4px;
     }
 
     .e-digital-marketing-use-case .e-gantt .e-gantt-chart .e-gantt-child-progressbar-inner-div {
         height: 27px !important;
-        background: @progressColor !important;
+        background: @ProgressBarColor !important;
         border-radius: 0 !important;
         position: relative;
     }
@@ -215,15 +209,15 @@
 
     .e-digital-marketing-use-case .e-gantt-parent-taskbar-template {
         height: 27px;
-        background: @parentTaskBGColor !important;
-        border: 1px solid @parentProgressColor !important;
+        background: @ParentTaskBackgroundColor !important;
+        border: 1px solid @ParentProgressBarColor !important;
         border-radius: 4px !important;
         outline:none !important;
     }
 
     .e-digital-marketing-use-case .e-gantt-parent-taskbar-template-progress {
         height: 27px !important;
-        background: @parentProgressColor !important;
+        background: @ParentProgressBarColor !important;
         border-radius: 4px 0px 0px 4px !important;
         position: relative !important;
         border:none !important;
@@ -247,7 +241,7 @@
     }
 
     .e-gantt .e-header-cell-label, .e-gantt .e-gantt-chart .e-label {
-        color: @labelColor !important;
+        color: @LabelTextColor !important;
     } 
     .use-case-layout .e-gantt-chart-digital-marketing {
         box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .14), 0 0 2px 0 rgba(0, 0, 0, .12);
@@ -257,12 +251,12 @@
         text-align:center;
     }
     .e-gantt-chart-digital-marketing .title{
-        color:@labelColor;
+        color:@LabelTextColor;
         font-size: 16px;
         font-weight: 600;
         padding: 10px 0px;
         margin: 0px;
-        background-color: @labelBGColor;
+        background-color: @LabelBackgroundColor;
     }
 
     @@media only screen and (max-width:992px) 

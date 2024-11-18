@@ -95,10 +95,6 @@ namespace Blazor_MAUI_Demos.Shared
         /// </summary>
          public string DiagramScriptPath { get; set; }
         /// <summary>
-        /// Specifies the pdfviewer script path.
-        /// </summary>
-        public string PdfScriptPath { get; set; }
-        /// <summary>
         /// Specifies the pdfviewer2 script path.
         /// </summary>
         public string PdfScriptPath2 { get; set; }
@@ -149,7 +145,6 @@ namespace Blazor_MAUI_Demos.Shared
 #if DEBUG || STAGING
             ImagePath = WebAssetsPath + "images/common/";
             ShowCaseImagePath = WebAssetsPath + "images/showcase/";
-            PdfScriptPath = "_content/Syncfusion.Blazor.PdfViewer/scripts";
             PdfScriptPath2 = "_content/Syncfusion.Blazor.SfPdfViewer/scripts";
             DocScriptPath = "_content/Syncfusion.Blazor.WordProcessor/scripts";
             CommonScriptPath = "_content/Syncfusion.Blazor.Core/scripts";
@@ -159,7 +154,6 @@ namespace Blazor_MAUI_Demos.Shared
 #else
             ImagePath = "https://cdn.syncfusion.com/blazor/images/demos/";
             ShowCaseImagePath = "https://cdn.syncfusion.com/blazor/images/showcase/";
-            PdfScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
             PdfScriptPath2 = "_content/Syncfusion.Blazor.SfPdfViewer/scripts";
             DocScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
             CommonScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
@@ -254,16 +248,11 @@ namespace Blazor_MAUI_Demos.Shared
                     }
                     this.ComponentName = controlInfo.Name;
                     this.CurrentSampleUrl = this.SampleInfo.Url;
-#if NET6_0 || NET7_0
                     var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
                     {
                         ["theme"] = "fluent"
                     });
                     urlHelper.NavigateTo(newUri);
-#else
-                    urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=fluent");
-#endif
-
                 }
             }
         }

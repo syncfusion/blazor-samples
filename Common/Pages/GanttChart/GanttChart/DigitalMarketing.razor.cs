@@ -19,39 +19,39 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
     public partial class DigitalMarketing
     {
         [CascadingParameter]
-        protected MainLayout Layout { get; set; }
-        SfGantt<TaskInfoModel> ganttInstance { get; set; }
-        List<BarChartModel> barChartData = new List<BarChartModel>();
-        List<LineChartModel> lineChartData = new List<LineChartModel>();
-        List<Statistics> statisticsDetails = new List<Statistics>();
-        List<TaskInfoModel> DigitalMarketingCollection { get; set; }
-        static string chartBGColor;
-        static string labelColor;
-        static string labelBGColor;
-        static string taskBGColor;
-        static string progressColor;
-        static string parentTaskBGColor;
-        static string parentProgressColor;
-        static string chartFillColor;
-        Theme currentTheme;
+        protected MainLayout MainLayoutInstance { get; set; }
+        private SfGantt<TaskInfoModel> GanttInstance { get; set; }
+        private List<BarChartModel> BarChartData { get; set; } = new List<BarChartModel>();
+        private List<LineChartModel> LineChartData { get; set; } = new List<LineChartModel>();
+        private List<Statistics> StatisticsDetails { get; set; } = new List<Statistics>();
+        private List<TaskInfoModel> DigitalMarketingCollection { get; set; }
+        public static string ChartBackgroundColor { get; set; }
+        public static string LabelTextColor { get; set; }
+        public static string LabelBackgroundColor { get; set; }
+        public static string TaskBackgroundColor { get; set; }
+        public static string ProgressBarColor { get; set; }
+        public static string ParentTaskBackgroundColor { get; set; }
+        public static string ParentProgressBarColor { get; set; }
+        public static string ChartFillColor { get; set; }
+        public Theme CurrentTheme { get; set; }
 
         protected override void OnInitialized()
         {
-            currentTheme = GetCurrentTheme(NavigationManager.Uri);
+            CurrentTheme = GetCurrentTheme(UriHelper.Uri);
             DigitalMarketingCollection = DigitalMarketCollection;
-            Layout.Collapse();
+            MainLayoutInstance.Collapse();
             foreach (var data in DigitalMarketingCollection)
             {
                 if (!data.ParentId.HasValue && data.Activity != "SEO")
                 {
                     Statistics statistics = new Statistics();
-                    LineChartModel lineChartData = new LineChartModel();
-                    string activity2 = (lineChartData.X = data.Activity);
+                    LineChartModel LineChartData = new LineChartModel();
+                    string activity2 = (LineChartData.X = data.Activity);
                     statistics.Activity = activity2;
                     statistics.Impressions = data.Impressions;
-                    lineChartData.Y = data.ConversionRate * 100.0;
-                    statisticsDetails.Add(statistics);
-                    this.lineChartData.Add(lineChartData);
+                    LineChartData.Y = data.ConversionRate * 100.0;
+                    StatisticsDetails.Add(statistics);
+                    this.LineChartData.Add(LineChartData);
                 }
             }
             var childRecords = DigitalMarketingCollection.Where(t => t.ParentId.HasValue).ToList();
@@ -86,7 +86,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 }
             }
 
-            barChartData = monthlyRevenue.Select(mr => new BarChartModel
+            BarChartData = monthlyRevenue.Select(mr => new BarChartModel
             {
                 Month = mr.Key,
                 Revenue = mr.Value
@@ -98,35 +98,35 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         {
             if (navURL.Contains("dark") || navURL.Contains("highcontrast"))
             {
-                labelColor = "#FFFFFF";
-                labelBGColor = "#292929";
-                progressColor = "#107C10";
-                taskBGColor = "#094509";
-                parentProgressColor = "#115EA3";
-                parentTaskBGColor = "#0E4775";
-                chartFillColor = "#43B786";
+                LabelTextColor = "#FFFFFF";
+                LabelBackgroundColor = "#292929";
+                ProgressBarColor = "#107C10";
+                TaskBackgroundColor = "#094509";
+                ParentProgressBarColor = "#115EA3";
+                ParentTaskBackgroundColor = "#0E4775";
+                ChartFillColor = "#43B786";
             }
             else
             {
-                labelColor = "#242424";
-                labelBGColor = "#FFFFFF";
-                progressColor = "#107C10";
-                taskBGColor = "#54B054";
-                parentProgressColor = "#0F6CBD";
-                parentTaskBGColor = "#B4D6FA";
-                chartFillColor = "#0076E5";
+                LabelTextColor = "#242424";
+                LabelBackgroundColor = "#FFFFFF";
+                ProgressBarColor = "#107C10";
+                TaskBackgroundColor = "#54B054";
+                ParentProgressBarColor = "#0F6CBD";
+                ParentTaskBackgroundColor = "#B4D6FA";
+                ChartFillColor = "#0076E5";
             }
 
             if (navURL.IndexOf("material3") > -1)
             {
                 if (navURL.IndexOf("dark") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.Material3Dark;
                 }
                 else
                 {
-                    chartBGColor = "#FFFFFF";
+                    ChartBackgroundColor = "#FFFFFF";
                     return Theme.Material3;
                 }
             }
@@ -134,12 +134,12 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             {
                 if (navURL.IndexOf("dark") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.MaterialDark;
                 }
                 else
                 {
-                    chartBGColor = "#FFFFFF";
+                    ChartBackgroundColor = "#FFFFFF";
                     return Theme.Material;
                 }
             }
@@ -147,12 +147,12 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             {
                 if (navURL.IndexOf("dark") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.FabricDark;
                 }
                 else
                 {
-                    chartBGColor = "#FFFFFF";
+                    ChartBackgroundColor = "#FFFFFF";
                     return Theme.Fabric;
                 }
             }
@@ -160,30 +160,30 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             {
                 if (navURL.IndexOf("dark") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.Bootstrap5Dark;
                 }
                 else
                 {
-                    chartBGColor = "#FFFFFF";
+                    ChartBackgroundColor = "#FFFFFF";
                     return Theme.Bootstrap5;
                 }
             }
             else if (navURL.IndexOf("bootstrap4") > -1)
             {
-                chartBGColor = "#292929";
+                ChartBackgroundColor = "#292929";
                 return Theme.Bootstrap4;
             }
             else if (navURL.IndexOf("bootstrap") > -1)
             {
                 if (navURL.IndexOf("dark") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.BootstrapDark;
                 }
                 else
                 {
-                    chartBGColor = "#FFFFFF";
+                    ChartBackgroundColor = "#FFFFFF";
                     return Theme.Bootstrap;
                 }
             }
@@ -191,12 +191,12 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             {
                 if (navURL.IndexOf("dark") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.TailwindDark;
                 }
                 else
                 {
-                    chartBGColor = "#FFFFFF";
+                    ChartBackgroundColor = "#FFFFFF";
                     return Theme.Tailwind;
                 }
             }
@@ -204,17 +204,17 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             {
                 if (navURL.IndexOf("highcontrast") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.Fluent2Dark;
                 }
                 else if (navURL.IndexOf("dark") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.Fluent2Dark;
                 }
                 else
                 {
-                    chartBGColor = "#FFFFFF";
+                    ChartBackgroundColor = "#FFFFFF";
                     return Theme.Fluent2;
                 }
             }
@@ -222,23 +222,23 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             {
                 if (navURL.IndexOf("dark") > -1)
                 {
-                    chartBGColor = "#292929";
+                    ChartBackgroundColor = "#292929";
                     return Theme.FluentDark;
                 }
                 else
                 {
-                    chartBGColor = "#FFFFFF";
+                    ChartBackgroundColor = "#FFFFFF";
                     return Theme.Fluent;
                 }
             }
             else if (navURL.IndexOf("highcontrast") > -1)
             {
-                chartBGColor = "#292929";
+                ChartBackgroundColor = "#292929";
                 return Theme.HighContrast;
             }
             else
             {
-                chartBGColor = "#FFFFFF";
+                ChartBackgroundColor = "#FFFFFF";
                 return Theme.Bootstrap4;
             }
         }

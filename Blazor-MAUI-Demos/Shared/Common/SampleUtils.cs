@@ -176,14 +176,10 @@ namespace Blazor_MAUI_Demos.Shared
                 string[] splittedUrl = url.Split("?theme=");
                 url = splittedUrl[0];
             }
-#if NET6_0 || NET7_0
             url = UriHelper.GetUriWithQueryParameters(url, new Dictionary<string, object>
             {
                 ["theme"] = themeName
             });
-#else
-            url += "?theme=" + themeName;
-#endif
             return url;
         }
 
@@ -240,12 +236,6 @@ namespace Blazor_MAUI_Demos.Shared
                 };
                 if (sampleService.ComponentName != null)
                 {
-                    if (sampleService.ComponentName.Equals("PDF Viewer") && !sampleService.IsPdfScriptLoaded)
-                    {
-                        sampleService.IsPdfScriptLoaded = true;
-                        resourceList.Add(sampleService.ViewerScriptPath);
-                        resourceList.Add(sampleService.PdfScriptPath + "/syncfusion-blazor-pdfviewer.min.js");
-                    }
                     if (sampleService.ComponentName.Equals("PDF Viewer (NextGen)") && !sampleService.IsPdfScriptLoaded)
                     {
                         sampleService.IsPdfScriptLoaded = true;

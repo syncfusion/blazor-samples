@@ -24,32 +24,35 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
     {
         [CascadingParameter]
         protected MainLayout Layout { get; set; }
-        SfGantt<AirlineInfoModel> ganttInstance { get; set; } = new SfGantt<AirlineInfoModel>();
+        SfGantt<AirlineInfoModel> GanttInstance { get; set; } = new SfGantt<AirlineInfoModel>();
         List<AirlineInfoModel> AirlineInformations { get; set; } = new List<AirlineInfoModel>();
-        string[] airlines { get; set; } = new string[] { "Delta Airlines", "United Airlines", "American Airlines", "Southwest Airlines", "JetBlue Airways", "Alaska Airlines", "British Airways", "Lufthansa" };
-        string[] startPlaces { get; set; } = new string[] { "JFK", "LAS", "ATL", "ORD", "DFW", "MCO", "SEA", "LHR", "FRA", "DOH" };
-        string[] destinationPlaces { get; set; } = new string[] { "LAS", "ATL", "BWI", "SFO", "LHR", "JFK", "LAX", "MIA", "ORD" };
-        string flightNumber = string.Empty;
-        string airlineName = string.Empty;
-        DateTime departureDate;
-        DateTime arrivalDate;
-        string flightOrigin = string.Empty;
-        string flightDestination = string.Empty;
-        Query queryCollection = new Query();
-        static string searchBtnColor;
-        static string clearBtnColor;
-        static string clearBtnBgColor;
-        static string labelColor;
-        static string clearBtnBorderColor;
-        static string searchInputBgColor;
-        Theme currentTheme;
-        SidebarPosition Position { get; set; } = SidebarPosition.Left;
-        bool SidebarToggle = false;
-        public bool IsSideBar = false;
+        string[] Airlines { get; set; } = new string[] { "Delta Airlines", "United Airlines", "American Airlines", "Southwest Airlines", "JetBlue Airways", "Alaska Airlines", "British Airways", "Lufthansa" };
+        string[] StartPlaces { get; set; } = new string[] { "JFK", "LAS", "ATL", "ORD", "DFW", "MCO", "SEA", "LHR", "FRA", "DOH" };
+        string[] DestinationPlaces { get; set; } = new string[] { "LAS", "ATL", "BWI", "SFO", "LHR", "JFK", "LAX", "MIA", "ORD" };
+        public string FlightNumber { get; set; } = string.Empty;
+        public string AirlineName { get; set; } = string.Empty;
+        public DateTime DepartureDate { get; set; }
+        public DateTime ArrivalDate { get; set; }
+        public string FlightOrigin { get; set; } = string.Empty;
+        public string FlightDestination { get; set; } = string.Empty;
+
+        public Query QueryCollection { get; set; } = new Query();
+
+        public static string SearchButtonColor { get; set; }
+        public static string ClearButtonColor { get; set; }
+        public static string ClearButtonBackgroundColor { get; set; }
+        public static string LabelColor { get; set; }
+        public static string ClearButtonBorderColor { get; set; }
+        public static string SearchInputBackgroundColor { get; set; }
+
+        public Theme CurrentTheme { get; set; }
+
+        public bool IsSidebarVisible { get; set; } = false;
+        public bool SidebarToggle { get; set; } = false;
         // Specifies the event handler for Clicked event in Toolbar component. It's used to open/close the Sidebar component. 
         protected override async Task OnInitializedAsync()
         {
-            currentTheme = GetCurrentTheme(NavigationManager.Uri);
+            CurrentTheme = GetCurrentTheme(NavigationManager.Uri);
             Layout.Collapse();
             AirlineInformations = FlightProcessCollection;
             await Task.CompletedTask;
@@ -131,131 +134,131 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         }
         private void FlightNumberHandler(string value)
         {
-            flightNumber = value;
+            FlightNumber = value;
         }
 
         private void DateValueChangeHandler(RangePickerEventArgs<DateTime?> args)
         {
-            departureDate = args.StartDate != null ? args.StartDate.Value : new DateTime();
-            arrivalDate = args.EndDate != null ? args.EndDate.Value : new DateTime();
+            DepartureDate = args.StartDate != null ? args.StartDate.Value : new DateTime();
+            ArrivalDate = args.EndDate != null ? args.EndDate.Value : new DateTime();
         }
         private void FlightAirlineHandler(string value)
         {
-            airlineName = value;
+            AirlineName = value;
         }
         private void FlightOriginHandler(string value)
         {
-            flightOrigin = value;
+            FlightOrigin = value;
         }
         private void FlightDestinationHandler(string value)
         {
-            flightDestination = value;
+            FlightDestination = value;
         }
 
         private async Task FilterHandler()
         {
             List<WhereFilter> predicateList = new List<WhereFilter>();
-            if (!string.IsNullOrEmpty(flightNumber))
+            if (!string.IsNullOrEmpty(FlightNumber))
             {
                 predicateList.Add(new WhereFilter()
                 {
                     Field = "FlightId",
                     Operator = "contains",
                     Condition = "and",
-                    value = flightNumber,
+                    value = FlightNumber,
                     IgnoreCase = true,
                 });
             }
-            if (arrivalDate.Ticks != 0 && arrivalDate.Date.Ticks != DateTime.Now.Date.Ticks)
+            if (ArrivalDate.Ticks != 0 && ArrivalDate.Date.Ticks != DateTime.Now.Date.Ticks)
             {
                 predicateList.Add(new WhereFilter()
                 {
                     Field = "Arrival",
                     Operator = "contains",
                     Condition = "lessthanorequal",
-                    value = arrivalDate,
+                    value = ArrivalDate,
                     IgnoreCase = true,
                 });
             }
-            if (departureDate.Ticks != 0 && departureDate.Date.Ticks != DateTime.Now.Date.Ticks)
+            if (DepartureDate.Ticks != 0 && DepartureDate.Date.Ticks != DateTime.Now.Date.Ticks)
             {
                 predicateList.Add(new WhereFilter()
                 {
                     Field = "Departure",
                     Operator = "greaterthanorequal",
                     Condition = "and",
-                    value = departureDate,
+                    value = DepartureDate,
                     IgnoreCase = true,
                 });
             }
 
-            if (!string.IsNullOrEmpty(airlineName))
+            if (!string.IsNullOrEmpty(AirlineName))
             {
                 predicateList.Add(new WhereFilter()
                 {
                     Field = "Airline",
                     Operator = "contains",
                     Condition = "and",
-                    value = airlineName,
+                    value = AirlineName,
                     IgnoreCase = true,
                 });
             }
 
-            if (!string.IsNullOrEmpty(flightOrigin))
+            if (!string.IsNullOrEmpty(FlightOrigin))
             {
                 predicateList.Add(new WhereFilter()
                 {
                     Field = "Origin",
                     Operator = "contains",
                     Condition = "and",
-                    value = flightOrigin,
+                    value = FlightOrigin,
                     IgnoreCase = true,
                 });
             }
-            if (!string.IsNullOrEmpty(flightDestination))
+            if (!string.IsNullOrEmpty(FlightDestination))
             {
                 predicateList.Add(new WhereFilter()
                 {
                     Field = "Destination",
                     Operator = "contains",
                     Condition = "and",
-                    value = flightDestination,
+                    value = FlightDestination,
                     IgnoreCase = true,
                 });
             }
-            queryCollection = new Query().Where(WhereFilter.And(predicateList));
+            QueryCollection = new Query().Where(WhereFilter.And(predicateList));
             await Task.CompletedTask;
         }
         private async Task ClearFilterHandler()
         {
-            flightNumber = string.Empty;
-            flightOrigin = string.Empty;
-            flightDestination = string.Empty;
-            airlineName = string.Empty;
-            departureDate = new DateTime();
-            arrivalDate = new DateTime();
-            queryCollection = new Query();
+            FlightNumber = string.Empty;
+            FlightOrigin = string.Empty;
+            FlightDestination = string.Empty;
+            AirlineName = string.Empty;
+            DepartureDate = new DateTime();
+            ArrivalDate = new DateTime();
+            QueryCollection = new Query();
             await Task.CompletedTask;
         }
         private static Theme GetCurrentTheme(string navURL)
         {
             if (navURL.Contains("dark") || navURL.Contains("highcontrast"))
             {
-                searchBtnColor = "#FFFFFF";
-                clearBtnColor = "#FFFFFF";
-                clearBtnBgColor = "#292929";
-                labelColor = "#FFFFFF";
-                clearBtnBorderColor = "#D1D1D1";
-                searchInputBgColor = "#141414";
+                SearchButtonColor = "#FFFFFF";
+                ClearButtonColor = "#FFFFFF";
+                ClearButtonBackgroundColor = "#292929";
+                LabelColor = "#FFFFFF";
+                ClearButtonBorderColor = "#D1D1D1";
+                SearchInputBackgroundColor = "#141414";
             }
             else
             {
-                searchBtnColor = "#FFFFFF";
-                clearBtnColor = "#242424";
-                clearBtnBgColor = "#FFFFFF";
-                labelColor = "#242424";
-                clearBtnBorderColor = "#666666";
-                searchInputBgColor = "#F5F5F5";
+                SearchButtonColor = "#FFFFFF";
+                ClearButtonColor = "#242424";
+                ClearButtonBackgroundColor = "#FFFFFF";
+                LabelColor = "#242424";
+                ClearButtonBorderColor = "#666666";
+                SearchInputBackgroundColor = "#F5F5F5";
             }
 
             if (navURL.IndexOf("material3") > -1)
@@ -636,7 +639,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         private void onToggleClick()
         {
             SidebarToggle = !SidebarToggle;
-            IsSideBar = true;
+            IsSidebarVisible = true;
         }
         public void Close()
         {

@@ -1759,6 +1759,32 @@ namespace BlazorDemos
                     }
                 }
             },
+            new Sample
+            {
+                Name = "Excel to PDF/UA",
+                Category = "Conversions",
+                Directory = "DocumentProcessing/Excel",
+                Url = "excel/excel-to-pdf-ua",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Converting Excel documents to PDF with PDF/UA standard compliance is now supported. This ensures that users who rely on accessibility tools can effectively read the content of these PDF documents."
+                },
+                MetaDescription = "This sample demonstrates how to create macros using XlsIO.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ExcelToPDFUA",
+                        FileName="ExcelToPDFUA.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ExcelToPDFUAService",
+                        FileName="ExcelToPDFUAService.cs"
+                    }
+                }
+            },
 #endif
 			new Sample
             {
@@ -2078,35 +2104,7 @@ namespace BlazorDemos
                         FileName="EditMacroService.cs"
                     }
                 }
-            },
-#if !WASM && !WEBAPP
-            new Sample
-            {
-                Name = "Excel to PDF/UA",
-                Category = "Conversions",
-                Directory = "DocumentProcessing/Excel",
-                Url = "excel/excel-to-pdf-ua",
-                Type = SampleType.New,
-                NotificationDescription = new string[]
-                {
-                    @"Converting Excel documents to PDF with PDF/UA standard compliance is now supported. This ensures that users who rely on accessibility tools can effectively read the content of these PDF documents."
-                },
-                MetaDescription = "This sample demonstrates how to create macros using XlsIO.",
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
-                    {
-                        Id="ExcelToPDFUA",
-                        FileName="ExcelToPDFUA.razor"
-                    },
-                    new SourceCollection
-                    {
-                        Id="ExcelToPDFUAService",
-                        FileName="ExcelToPDFUAService.cs"
-                    }
-                }
-            },
-#endif
+            }
         };	
 
           public List<Sample> PDF { get; set; } = new List<Sample>{
@@ -2480,7 +2478,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="XFAFormFilling",
-                        FileName="XFAFromFillingService.cs"
+                        FileName="XFAFormFillingService.cs"
                     }
                 }
                },
@@ -2528,7 +2526,7 @@ namespace BlazorDemos
                     }
                 }
                },
-#if !WEBAPP
+#if !WEBAPP && !NET9_0
               new Sample
               {
                   Name = "Compress Existing PDF",

@@ -3,6 +3,8 @@
 @using BlazorDemos.Shared; 
 @using Syncfusion.Blazor.Buttons;
 @using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Lists
+@using Syncfusion.Blazor.SplitButtons
 
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
@@ -47,28 +49,38 @@
                 <h1>Blazor Components Examples, <span @onclick="@(() => NavToDemos())">Demos</span> and Showcase Web Apps</h1>
             </div>
             <div class="sf-banner-buttons">
-                @{#if(WASM) }
-                    @{#if(ISSTAGING)}
-                   <div class="demo-btn">
-                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("server"))'>View Server Demos</SfButton>
-                   </div>
-                    @{#endif}
-                    <div class="demo-btn-wasm">
-                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("wasm"))'>View WebAssembly Demos</SfButton>
+               @{#if(RELEASE) }
+                  @if(!(SampleUtils.IsLocalSample(UriHelper.Uri))){
+                    <div class="demo-dropdown-btn" tabindex="0">
+                        @{ var demo_name = "View " + DemoName + " Demos";}
+                        <SfSplitButton Content="@demo_name" CssClass="demo-switch-splitbtn">
+                            <PopupContent>
+                                <SfListView ID="listview" DataSource="@SampleUtils.BlazorPlatform" TValue="BlazorDemos.Shared.ListData">
+                                    <ListViewFieldSettings Text="Text" TValue="BlazorDemos.Shared.ListData"></ListViewFieldSettings>
+                                    <ListViewTemplates TValue="BlazorDemos.Shared.ListData">
+                                        <Template Context="item">
+                                            @{
+                                               <span @onclick="@(() => OnDemoSwitch(item.ID))">View @item.Text Demos</span>
+                                            }
+                                        </Template>
+                                    </ListViewTemplates>
+                                </SfListView>
+                            </PopupContent>
+                            <ChildContent>
+                                <SplitButtonEvents Clicked="clicked"></SplitButtonEvents>
+                            </ChildContent>
+                        </SfSplitButton>
                     </div>
-                 @{#elif(WEBAPP) }
-                    <div class="demo-btn-wasm">
-                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("webapp"))'>View Demos</SfButton>
-                    </div>
-                @{#else}
-                    <div class="demo-btn">
-                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("server"))'>View Server Demos</SfButton>
-                   </div>
-                    @{#if(ISSTAGING)}
-                    <div class="demo-btn-wasm">
-                        <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos("wasm"))'>View WebAssembly Demos</SfButton>
-                    </div>
-                     @{#endif}
+                    }
+                    else{
+                        <div class="demo-btn">
+                            <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos())'>View Demos</SfButton>
+                        </div>
+                    }
+                   @{#else}
+                        <div class="demo-btn">
+                            <SfButton CssClass="e-primary e-outline" @onclick='(() => NavToDemos())'>View Demos</SfButton>
+                        </div>
                 @{#endif}
             </div>
             <div class="trusted-companies">
@@ -89,12 +101,7 @@
                     <div class="sf-component-col">
                         @foreach (var category in orders)
                         {
-                            <div class="sf-catagory">@category
-                                @if(category.Equals("Smart Components"))
-                                {
-                                    <span class="sf-beta">Beta</span>
-                                }
-                            </div>
+                            <div class="sf-catagory">@category</div>
                             var components = SampleBrowser.SampleList.Where(comp => comp.Category == category).ToList();
                             {
                                 <ul>
@@ -264,6 +271,9 @@
     private List<List<string>> categoryOrders { get; set; } = new List<List<string>>();
     private bool isWasmSample { get; set; }
     private string SampleName { get; set; }
+    private DropDownComponent dropdownRef { get; set; }
+    private string DemoName { get; set; }
+    private string selectedItemID { get; set; }
 
 
     [CascadingParameter(Name = "IsDevice")]
@@ -288,9 +298,27 @@
         {
             this.NavToSample("datagrid/overview");
         }
-        else
+    }
+
+    private void clicked()
+    {   
+        #if SERVER
+            selectedItemID = "server";
+        #endif
+        #if WEBAPP
+            selectedItemID = "webapp";
+        #endif
+        #if WASM
+            selectedItemID = "wasm";
+        #endif
+        OnDemoSwitch(selectedItemID);
+    }
+
+    private void OnDemoSwitch(string itemID)
+    {
+        if (!UriHelper.BaseUri.Contains("localhost"))
         {
-            SampleService.SwicthToDemo(demoSampleName, UriHelper.BaseUri + "datagrid/overview", JsRuntime, UriHelper);
+            SampleService.SwicthToDemo(itemID, UriHelper, JsRuntime);
         }
     }
 
@@ -352,10 +380,13 @@
 #if (WASM)
         isWasmSample = true;
         SampleName = "Blazor Components - WebAssembly Demos";
+        DemoName = "WASM";
 #elif WEBAPP
         SampleName = "Blazor Components - WebApp Demos";
+        DemoName = "WebApp";
 #else
         SampleName = "Blazor Components - Server Demos";
+        DemoName = "Server";
 #endif
     }
 

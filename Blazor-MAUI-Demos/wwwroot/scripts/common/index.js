@@ -482,14 +482,6 @@ function onInsertEmotSlashRemove() {
     beforeApplyFormat(null, false);
 }
 
-function loadPdfScript() {
-    return new Promise(function () {
-        var script = document.createElement('script');
-        script.src = "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js";
-        document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
-    });
-}
-
 function loadPdf2Script() {
     return new Promise(function () {
         var script = document.createElement('script');
@@ -726,4 +718,21 @@ function initializeActiveGroup() {
 function toggleDarkMode() {
     var element = document.body;
     element.classList.toggle("dark-mode");
+}
+
+//Method for toggle property section
+function togglePropertySection() {
+    var toggleButton = document.getElementById('toggle-button');
+    var propertySection = document.getElementById('property-section');
+    var contentWrapper = document.querySelector('.show-background');
+
+    if (propertySection.style.display === 'none' || propertySection.style.display === '') {
+        propertySection.style.display = 'flex';
+        contentWrapper.classList.add('blur-background');
+        toggleButton.style.display = 'none';
+    } else {
+        propertySection.style.display = 'none';
+        contentWrapper.classList.remove('blur-background');
+        toggleButton.style.display = 'block';
+    }
 }

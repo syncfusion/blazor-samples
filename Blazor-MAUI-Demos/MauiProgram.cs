@@ -37,6 +37,9 @@ public static class MauiProgram
       builder.Services.AddSingleton<DeviceMode>();
       builder.Services.AddScoped<SfDialogService>();
 
+      // Register the locale service to localize the  SyncfusionBlazor components.
+      builder.Services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(SyncfusionLocalizer));
+
       // Set the resx file folder path to access
       builder.Services.AddLocalization(options => options.ResourcesPath = "Resources");
       // Set the default culture

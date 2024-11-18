@@ -22,34 +22,34 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
     public partial class HumanResourceManagement
     {
         [CascadingParameter]
-        protected MainLayout Layout { get; set; }
-        SfGantt<RecruitmentPlanModel> ganttInstance = new SfGantt<RecruitmentPlanModel>();
-        string department = "Recruitment Team";
-        List<RecruitmentPlanModel> GanttTaskCollection = new List<RecruitmentPlanModel>();
-        DateTime currentDate = new DateTime(2024, 06, 06);
-        List<RecruitmentPlanModel> ScheduleCollection = new List<RecruitmentPlanModel>();
-        bool ganttIsRendered;
-        public string currentUri;
-        List<string> typesOfHR => new List<string>() { "Recruitment Team", "Accounts Team", "Inventory Team" };
-        private string progressColor = string.Empty;
+        protected MainLayout MainLayoutInstance { get; set; }
+        private SfGantt<RecruitmentPlanModel> GanttChartInstance { get; set; }= new SfGantt<RecruitmentPlanModel>();
+        public string SelectedDepartment { get; set; } = "Recruitment Team";
+        private List<RecruitmentPlanModel> GanttTaskCollection { get; set; } = new List<RecruitmentPlanModel>();
+        public DateTime CurrentDate { get; set; } = new DateTime(2024, 06, 06);
+        private List<RecruitmentPlanModel> ScheduleCollection { get; set; } = new List<RecruitmentPlanModel>();
+        public bool IsGanttRendered { get; set; }
+        public string CurrentUri { get; set; }
+        public List<string> HRDepartmentTypes => new List<string>() { "Recruitment Team", "Accounts Team", "Inventory Team" };
+        private string ProgressBarColor  { get; set; } = string.Empty;
         protected async override Task OnInitializedAsync()
         {
             GanttTaskCollection = RecruitmentHrCollection;
-            Layout.Collapse();
-            currentUri = Navigation.Uri;
-            UpdateTheme(currentUri);
+            MainLayoutInstance.Collapse();
+            CurrentUri = Navigation.Uri;
+            UpdateTheme(CurrentUri);
             await Task.CompletedTask;
         }
 
         private async Task DataBoundHandler(object args)
         {
-            if (!ganttIsRendered)
+            if (!IsGanttRendered)
             {
-                ganttIsRendered = true;
+                IsGanttRendered = true;
                 return;
             }
-            ScheduleCollection = new List<RecruitmentPlanModel>() { ganttInstance.GetCurrentViewRecords().ToList()[1] };
-            currentDate = ScheduleCollection[0].StartTime;
+            ScheduleCollection = new List<RecruitmentPlanModel>() { GanttChartInstance.GetCurrentViewRecords().ToList()[1] };
+            CurrentDate = ScheduleCollection[0].StartTime;
             await Task.CompletedTask;
         }
         private async Task PopupHandler(PopupOpenEventArgs<RecruitmentPlanModel> args)
@@ -61,12 +61,12 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         private async Task RowSelectedHandler(RowSelectEventArgs<RecruitmentPlanModel> args)
         {
             ScheduleCollection = args.Datas;
-            currentDate = ScheduleCollection[0].StartTime;
+            CurrentDate = ScheduleCollection[0].StartTime;
             await Task.CompletedTask;
         }
         private async void DepartmentChangedHandler(string value)
         {
-            department = value;
+            SelectedDepartment = value;
             if (value == "Recruitment Team")
             {
                 GanttTaskCollection = RecruitmentHrCollection;
@@ -87,51 +87,51 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         {
             if (currentUri.Contains("fluent-dark"))
             {
-                progressColor = "#036FC1";
+                ProgressBarColor = "#036FC1";
             }
             if (currentUri.Contains("fluent2-dark"))
             {
-                progressColor = "#135997";
+                ProgressBarColor = "#135997";
             }
             else if (currentUri.Contains("fluent2-highcontrast"))
             {
-                progressColor = "#1AEBFF";
+                ProgressBarColor = "#1AEBFF";
             }
             else if (currentUri.Contains("fluent2"))
             {
-                progressColor = "#277AC3";
+                ProgressBarColor = "#277AC3";
             }
             else if (currentUri.Contains("fluent"))
             {
-                progressColor = "#1985D8";
+                ProgressBarColor = "#1985D8";
             }
             else if (currentUri.Contains("bootstrap5-dark"))
             {
-                progressColor = "#0F67E8";
+                ProgressBarColor = "#0F67E8";
             }
             else if (currentUri.Contains("bootstrap5"))
             {
-                progressColor = "#257CFD";
+                ProgressBarColor = "#257CFD";
             }
             else if (currentUri.Contains("highcontrast"))
             {
-                progressColor = "#3E047D";
+                ProgressBarColor = "#3E047D";
             }
             else if (currentUri.Contains("tailwind-dark"))
             {
-                progressColor = "#22C2DC";
+                ProgressBarColor = "#22C2DC";
             }
             else if (currentUri.Contains("tailwind"))
             {
-                progressColor = "#6058E8";
+                ProgressBarColor = "#6058E8";
             }
             else if (currentUri.Contains("material-dark"))
             {
-                progressColor = "#BFADE9";
+                ProgressBarColor = "#BFADE9";
             }
             else if (currentUri.Contains("material"))
             {
-                progressColor = "#7661AD";
+                ProgressBarColor = "#7661AD";
             }
         }
     }

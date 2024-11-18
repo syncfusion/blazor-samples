@@ -1,8 +1,7 @@
 ﻿@page "/powerpoint/powerpoint-viewer"
 
 @using Syncfusion.Blazor
-@using Syncfusion.Blazor.PdfViewer
-@using Syncfusion.Blazor.PdfViewerServer
+@using Syncfusion.Blazor.SfPdfViewer
 @using Syncfusion.Blazor.Navigations
 @using BlazorDemos.Data.DocumentProcessing.PowerPoint
 @using System.Net.Http
@@ -42,7 +41,7 @@
     <p>
         More information on the PDF Viewer instantiation can be found in this
         <a target="_blank"
-           href="https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/features" aria-label="documentation section">
+           href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features" aria-label="documentation section">
             documentation section
         </a>.
     </p>
@@ -160,35 +159,30 @@
             <ToolbarItem PrefixIcon="e-pv-download-document-icon" TooltipText="Download" Align="ItemAlign.Right" OnClick="Download"></ToolbarItem>
         </ToolbarItems>
     </SfToolbar>
-    <SfPdfViewerServer @ref="Viewer" EnableToolbar="false" IsThumbnailPanelOpen="true" DownloadFileName="Sample.pdf" ZoomMode="ZoomMode.FitToPage" Height="500px">
-        <PdfViewerEvents DocumentLoaded="@OnDocumentLoaded">
+    <SfPdfViewer2 @ref="Viewer" EnableToolbar="false" IsThumbnailPanelOpen="true" DownloadFileName="Sample.pdf" ZoomMode="ZoomMode.FitToPage" Height="500px">
+        <PdfViewerEvents Created="@OnCreated" DocumentLoaded="@OnDocumentLoaded">
         </PdfViewerEvents>
-    </SfPdfViewerServer>
+    </SfPdfViewer2>
 </div>
 
 @code {
-    private SfPdfViewerServer Viewer;
+    private SfPdfViewer2 Viewer;
     //Hidden:Lines
-    
+
     Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
-    
+
     //End:Hidden
 
     /// <summary>
     /// Load a default document by converting it as PDF.
     /// </summary>
-    /// <param name="firstRender"></param>
-    protected override async void OnAfterRender(bool firstRender)
+    protected async void OnCreated()
     {
-        base.OnAfterRender(firstRender);
-        if (firstRender)
-        {
-            await LoadTemplate();
-            //Invoke a enable spinner function using JS from _Host.cshtml
-            await JS.InvokeAsync<string>("enableSpinner");
-            string base64String = ConvertToPdf(null);
-            await Viewer.LoadAsync(base64String, null);
-        }
+        await LoadTemplate();
+        //Invoke a enable spinner function using JS from _Host.cshtml
+        await JS.InvokeAsync<string>("enableSpinner");
+        string base64String = ConvertToPdf(null);
+        await Viewer.LoadAsync(base64String, null);
     }
 
     /// <summary>

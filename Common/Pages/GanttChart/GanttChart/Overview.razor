@@ -30,16 +30,16 @@
     <div class="content-wrapper">
         <div class="row">
             <div>
-            <SfGantt @ref="Gantt" RowHeight=RowHeightValue ID="GanttOverview" AllowExcelExport="true" AllowPdfExport="true" TaskbarHeight=TaskbarHeightValue DataSource="TaskCollection" TreeColumnIndex="1" ViewType="@viewType" Height="450px" Width="100%"
-                         GridLines="@gridlines" WorkWeek="@week" WorkUnit="WorkUnit.Hour" HighlightWeekends="true" Toolbar="Toolbaritems"
-                         AllowFiltering="true" AllowResizing="true" AllowSorting="true" ShowColumnMenu="true" ScrollToTaskbarOnClick="true" AllowUnscheduledTasks="true" DurationUnit="@DurationValue" EnableRowHover="true" EnableCriticalPath="@EnableCriticalPath" EnableContextMenu="true">
+            <SfGantt @ref="GanttInstance" RowHeight=RowHeightValue ID="GanttOverview" AllowExcelExport="true" AllowPdfExport="true" TaskbarHeight=TaskbarHeightValue DataSource="TaskCollection" TreeColumnIndex="1" ViewType="@SelectedViewType" Height="450px" Width="100%"
+                         GridLines="@gridlines" WorkWeek="@WorkWeekDays" WorkUnit="WorkUnit.Hour" HighlightWeekends="true" Toolbar="Toolbaritems"
+                         AllowFiltering="true" AllowResizing="true" AllowSorting="true" ShowColumnMenu="true" ScrollToTaskbarOnClick="true" AllowUnscheduledTasks="true" DurationUnit="@DurationValue" EnableRowHover="true" EnableCriticalPath="@IsCriticalPathEnabled" EnableContextMenu="true">
                      @if(!ShowDependency)
                      {
                          <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
                                  Duration="TimeLog" Progress="Progress" ParentID="ParentId">
                         </GanttTaskFields>
                     }
-                    else if(CustomScheduling)
+                    else if(IsCustomSchedulingEnabled)
                     {
                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
                                          Duration="TimeLog" Dependency="Predecessor" Progress="Progress" ParentID="ParentId" Manual="IsManual">
@@ -63,7 +63,7 @@
                             <Template>
                                 @{
                                     var task = (context as OverviewData.TaskData);
-                                    var resource = Gantt.GetResources<OverviewData.ResourceInfoModel>(task);
+                                    var resource = GanttInstance.GetResources<OverviewData.ResourceInfoModel>(task);
                                     string name = string.Empty;
                                     if(resource != null && resource.Any())
                                     {
@@ -103,14 +103,14 @@
                     <GanttColumn Field="Work" HeaderText="Planned Hours" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="150"></GanttColumn>
                     <GanttColumn Field="TimeLog" HeaderText="Work Log" Width="120"></GanttColumn>
                 </GanttColumns>
-                @if (TaskLabels)
+                @if (IsTaskLabelsVisible)
                 {
                     <GanttLabelSettings TValue="OverviewData.TaskData" TaskLabel="Progress">
                         <RightLabelTemplate>
-                            <div class="e-right-label-inner-div">
+                            <div class="e-right-label-inner-div" style="height: @LabelHeight;left: 516px;">
                                 @{
                                         var record = (context as OverviewData.TaskData);
-                                        var resources = Gantt.GetResources<OverviewData.ResourceInfoModel>(record);
+                                        var resources = GanttInstance.GetResources<OverviewData.ResourceInfoModel>(record);
                                         if (resources != null && resources.Any())
                                         {
                                             <span class="e-label">@resources[0].Name</span>
@@ -127,20 +127,20 @@
                 }
                 
                 <GanttEventMarkers>
-                    @if (EventMarker)
+                    @if (IsEventMarkerVisible)
                     {
-                        <GanttEventMarker Day="@VolumeOneRelease" Label="Q-1 Release"
+                        <GanttEventMarker Day="@VolumeOneReleaseDate" Label="Q-1 Release"
                                           CssClass="e-custom-event-marker"></GanttEventMarker>
-                        <GanttEventMarker Day="@VolumeTwoRelease" Label="Q-2 Release"
+                        <GanttEventMarker Day="@VolumeTwoReleaseDate" Label="Q-2 Release"
                                           CssClass="e-custom-event-marker"></GanttEventMarker>
-                        <GanttEventMarker Day="@VolumeThreeRelease" Label="Q-3 Release"
+                        <GanttEventMarker Day="@VolumeThreeReleaseDate" Label="Q-3 Release"
                                           CssClass="e-custom-event-marker"></GanttEventMarker>
                     }
 
                 </GanttEventMarkers>
                          <GanttHolidays>
-                        <GanttHoliday From="@Holiday1" To="@Holiday2" Label="Christmas holidays"></GanttHoliday>
-                        <GanttHoliday From="@Holiday3" To="@Holiday4" Label="New year's' holiday"></GanttHoliday>
+                        <GanttHoliday From="@ChristmasStartDate" To="@ChristmasEndDate" Label="Christmas holidays"></GanttHoliday>
+                        <GanttHoliday From="@NewYearHoliday1" To="@NewYearHoliday2" Label="New year's' holiday"></GanttHoliday>
                     </GanttHolidays>
 
                     
@@ -155,10 +155,10 @@
             <div style="padding-left: 10px; padding-right: 20px;">
                     @if (IsSideBar)
                     {
-                    <SfSidebar class="default-sidebar" Width="260px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="SidebarToggle" >
+                    <SfSidebar class="default-sidebar" Width="260px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="IsSidebarToggled" >
                             <ChildContent>
 
-                            <SfListView DataSource="@ListData"  CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
+                            <SfListView DataSource="@ListViewData"  CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
                                     <ListViewFieldSettings TValue="DataModel" Id="Id" Text="Text" GroupBy="Category" Tooltip="Text"></ListViewFieldSettings>
                                 <ListViewEvents TValue="DataModel"></ListViewEvents>
                                     <ListViewTemplates TValue="DataModel">
@@ -242,7 +242,7 @@
                                                 {
                                                 <label class="labels">View type:</label>
                                                     <div>
-                                                    <SfDropDownList TValue="string" TItem="ViewTypes" Placeholder="@viewTypes" DataSource="@Types" PopupHeight="350px">
+                                                    <SfDropDownList TValue="string" TItem="ViewTypes" Placeholder="@SelectedViewTypes" DataSource="@Types" PopupHeight="350px">
                                                             <DropDownListEvents TItem="ViewTypes" TValue="string" ValueChange="@GanttViewTypes"></DropDownListEvents>
                                                             <DropDownListFieldSettings Text="Type" Value="Type"></DropDownListFieldSettings>
                                                         </SfDropDownList>
@@ -339,8 +339,8 @@
         this.ResourceCollection = OverviewData.GetResources;
         AssignmentCollection = OverviewData.GetAssignmentCollection();
         SegmentCollection = OverviewData.GetSegmentCollection();
-        currentUri = Navigation.Uri;
-        UpdateTheme(currentUri);
+        CurrentUri = Navigation.Uri;
+        UpdateTheme(CurrentUri);
         Layout.Collapse();
     }
    
@@ -355,6 +355,10 @@
     }
     .e-tbar-btn-text {
         display: none;
+    }
+
+    .highcontrast .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt .e-icons.e-btn-icon{
+        padding: 4px !important;
     }
 
     .e-task-label {
@@ -487,15 +491,15 @@
     }
 
 
-    .fluent .e-settings-icon::before, .fluent-dark .e-settings-icon::before, {
+    .fluent .e-settings-icon::before, .fluent-dark .e-settings-icon::before {
         content: '\e880';
         font-family: 'e-icons';
     }
 
     .title {
         line-height: 24px;
-        font-size: @filterHeaderFontSize;
-        font-weight:@filterHeaderFontWeight;
+        font-size: @FilterHeaderFontSize;
+        font-weight:@FilterHeaderFontWeight;
         margin-top: 0;
     }
 
@@ -505,17 +509,17 @@
     }
 
     .e-listview .e-list-header {
-        background: @filterBackground;
+        background: @FilterBackgroundColor;
         padding-left: 15px;
         position: sticky;
         top: -1px;
-        height: @filteraHeaderHeight;
-        color: @labelTextColor;
+        height: @FilterHeaderHeight;
+        color: @LabelTextColor;
     }
 
     .e-listview .e-list-group-item {
         font-size: 16px !important;
-        color: @labelTextColor;
+        color: @LabelTextColor;
         padding: 12px;
     }
 
@@ -624,17 +628,17 @@
     .e-bigger
     .title {
         line-height: 24px;
-        font-size: @filterHeaderFontSizeTouch;
-        font-weight: @filterHeaderFontWeight;
+        font-size: @FilterHeaderFontSizeTouch;
+        font-weight: @FilterHeaderFontWeight;
         margin-top: 0;
     }
 
     .e-bigger .e-listview .e-list-header {
-        background: @filterBackground;
+        background: @FilterBackgroundColor;
         padding-left: 15px;
         position: sticky;
         top: -1px;
-        height: @filteraHeaderHeightTouch;
+        height: @FilterHeaderHeightTouch;
     }
 
     .groupedList.e-listview {

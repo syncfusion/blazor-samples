@@ -4,26 +4,22 @@
 @using Syncfusion.Blazor.Navigations
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
     <p>This sample demonstrates the Gantt Chart row height feature. The following example show the modified row height in Gantt Chart at load time.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>The Gantt Chart row height feature is used to change its height of the row by setting the height in pixels in the <a aria-label="Navigate to the row height property reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_RowHeight'>RowHeight</a> property.</p>
-    <p>More information about Row Height feature can be found in this <a aria-label="Navigate to the documentation for row height in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/rows/#row-height'>documentation</a> section.</p>
+    <p>The Gantt Chart row height feature is used to change the height of the row by setting the height in pixels in the <a aria-label="Navigate to the row height property reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_RowHeight">RowHeight</a> property.</p>
+    <p>More information about the Row Height feature can be found in this <a aria-label="Navigate to the documentation for row height in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/rows/#row-height">documentation</a> section.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGantt DataSource="@TaskCollection" RowHeight=RowHeightValue Toolbar="Tools" Height="450px" TreeColumnIndex="1" Width="100%" HighlightWeekends="true"
-                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
-                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
-                                 Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+            <SfGantt DataSource="@GanttTaskCollection" RowHeight="@CurrentRowHeight" Toolbar="ToolbarItems" Height="450px" TreeColumnIndex="1" Width="100%"
+                     HighlightWeekends="true" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
                 </GanttTaskFields>
                 <GanttColumns>
                     <GanttColumn Field="TaskId" Width="100"></GanttColumn>
@@ -37,7 +33,7 @@
                 <GanttLabelSettings LeftLabel="TaskName" TValue="DefaultData.TaskData">
                 </GanttLabelSettings>
                 <GanttSplitterSettings Position="28%"></GanttSplitterSettings>
-                <GanttEvents OnToolbarClick=ToolBarClick TValue="DefaultData.TaskData"></GanttEvents>
+                <GanttEvents OnToolbarClick="OnToolbarClick" TValue="DefaultData.TaskData"></GanttEvents>
             </SfGantt>
         </div>
     </div>
@@ -63,38 +59,36 @@
     }
 </style>
 
-@code{
-    private DateTime ProjectStart = new DateTime(2021, 3, 24);
-    private DateTime ProjectEnd = new DateTime(2021, 7, 6);
-    private List<DefaultData.TaskData> TaskCollection { get; set; }
-    private List<ToolbarItem> Tools = new List<ToolbarItem>();
-    private int RowHeightValue { get; set; } = 40;
-    
+@code {
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 24);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 6);
+    private List<DefaultData.TaskData> GanttTaskCollection { get; set; }
+    private List<ToolbarItem> ToolbarItems { get; set; } = new List<ToolbarItem>();
+    private int CurrentRowHeight { get; set; } = 40;
 
     protected override void OnInitialized()
     {
-        
-        this.TaskCollection = DefaultData.ProjectNewData();
-        #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
-        Tools.Add(new ToolbarItem() { PrefixIcon = "e-big-icon", Id = "small", Align = ItemAlign.Left, TooltipText = "Small" });
-        Tools.Add(new ToolbarItem() { PrefixIcon = "e-medium-icon", Id = "medium", Align = ItemAlign.Left, TooltipText = "Medium" });
-        Tools.Add(new ToolbarItem() { PrefixIcon = "e-small-icon", Id = "big", Align = ItemAlign.Left, TooltipText = "Big" });
+        GanttTaskCollection = DefaultData.ProjectNewData();
+        InitializeToolbarItems();
+    }
+
+    private void InitializeToolbarItems()
+    {
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
+        ToolbarItems.Add(new ToolbarItem { PrefixIcon = "e-big-icon", Id = "small", Align = ItemAlign.Left, TooltipText = "Small" });
+        ToolbarItems.Add(new ToolbarItem { PrefixIcon = "e-medium-icon", Id = "medium", Align = ItemAlign.Left, TooltipText = "Medium" });
+        ToolbarItems.Add(new ToolbarItem { PrefixIcon = "e-small-icon", Id = "big", Align = ItemAlign.Left, TooltipText = "Big" });
 #pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     }
 
-    private void ToolBarClick(Syncfusion.Blazor.Navigations.ClickEventArgs Args)
+    private void OnToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
     {
-        if (Args.Item.Id == "small")
+        CurrentRowHeight = args.Item.Id switch
         {
-            RowHeightValue = 24;
-        }
-        if (Args.Item.Id == "medium")
-        {
-            RowHeightValue = 40;
-        }
-        if (Args.Item.Id == "big")
-        {
-            RowHeightValue = 60;
-        }
+            "small" => 24,
+            "medium" => 40,
+            "big" => 60,
+            _ => CurrentRowHeight
+        };
     }
 }

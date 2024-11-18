@@ -7,7 +7,7 @@
 #endregion
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Hosting;
-#if NET8_0
+#if NET8_0_OR_GREATER
 using BlazorDemos.Components;
 #endif
 using BlazorDemos.Shared;
@@ -28,7 +28,7 @@ using System;
 var licenseKey = "";
 var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
-#if NET8_0
+#if NET8_0_OR_GREATER
 builder.Services.AddRazorComponents()
 .AddInteractiveServerComponents();
 #else
@@ -102,9 +102,13 @@ if (!app.Environment.IsDevelopment())
         Secure = CookieSecurePolicy.Always
     });
     app.UseDefaultFiles();
+#if NET9_0
+    app.MapStaticAssets();
+#else
     app.UseStaticFiles();
+#endif
     app.UseRouting();
-#if NET8_0
+#if NET8_0_OR_GREATER
     app.UseAntiforgery();
     app.MapRazorComponents<App>()
     .AddAdditionalAssemblies(typeof(BlazorDemos.Pages.Index).Assembly)

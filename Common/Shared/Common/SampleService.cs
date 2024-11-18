@@ -95,10 +95,6 @@ namespace BlazorDemos.Shared
         /// </summary>
          public string DiagramScriptPath { get; set; }
         /// <summary>
-        /// Specifies the pdfviewer script path.
-        /// </summary>
-        public string PdfScriptPath { get; set; }
-        /// <summary>
         /// Specifies the pdfviewer2 script path.
         /// </summary>
         public string PdfScriptPath2 { get; set; }
@@ -110,10 +106,6 @@ namespace BlazorDemos.Shared
         /// Specifies the document editor script path.
         /// </summary>
         public string DocScriptPath { get; set; }
-        /// <summary>
-        /// Specifies the pdfviewer Script loaded or not.
-        /// </summary>
-        public bool IsPdfScriptLoaded { get; set; }
         /// <summary>
         /// Specifies the pdfviewer(NextGen) Script loaded or not.
         /// </summary>
@@ -147,24 +139,30 @@ namespace BlazorDemos.Shared
 #if WASM
     #if NET6_0
             "_content/Blazor_WASM_Common_NET6/";
-    #else
+    #elif NET8_0
             "_content/Blazor_WASM_Common_NET8/";
+    #else
+            "_content/Blazor_WASM_Common_NET9/";
     #endif
 #elif WEBAPP
     #if NET8_0
             "_content/Blazor_WebApp_Common_NET8/";
+    #else
+            "_content/Blazor_WebApp_Common_NET9/";
     #endif
 #else
     #if NET6_0
             "_content/Blazor_Server_Common_NET6/";
-    #else
+    #elif NET8_0
             "_content/Blazor_Server_Common_NET8/";
+    #else
+            "_content/Blazor_Server_Common_NET9/";
     #endif
 #endif
         public SampleService()
         {
 #if WASM
-            DemoType = "Blazor WebAssembly Demos";
+            DemoType = "Blazor WASM Demos";
 #elif WEBAPP
             DemoType = "Blazor WebApp Demos";
 #else
@@ -174,7 +172,6 @@ namespace BlazorDemos.Shared
 #if DEBUG || STAGING
             ImagePath = WebAssetsPath + "images/common/";
             ShowCaseImagePath = WebAssetsPath + "images/showcase/";
-            PdfScriptPath = "_content/Syncfusion.Blazor.PdfViewer/scripts";
             PdfScriptPath2 = "_content/Syncfusion.Blazor.SfPdfViewer/scripts";
             DocScriptPath = "_content/Syncfusion.Blazor.WordProcessor/scripts";
             CommonScriptPath = "_content/Syncfusion.Blazor.Core/scripts";
@@ -184,80 +181,52 @@ namespace BlazorDemos.Shared
 #else
             ImagePath = "https://cdn.syncfusion.com/blazor/images/demos/";
             ShowCaseImagePath = "https://cdn.syncfusion.com/blazor/images/showcase/";
-            PdfScriptPath = "https://cdn.syncfusion.com/blazor/24.1.41";
-            PdfScriptPath2 = "https://cdn.syncfusion.com/blazor/24.1.41";
-            DocScriptPath = "https://cdn.syncfusion.com/blazor/24.1.41";
-            CommonScriptPath = "https://cdn.syncfusion.com/blazor/24.1.41";
+            PdfScriptPath2 = "https://cdn.syncfusion.com/blazor/27.1.48";
+            DocScriptPath = "https://cdn.syncfusion.com/blazor/27.1.48";
+            CommonScriptPath = "https://cdn.syncfusion.com/blazor/27.1.48";
             DiagramScriptPath = WebAssetsPath + "scripts/diagram/interop.min.js";
             SBScriptPath = WebAssetsPath + "scripts/common/demos.min.js";
             ViewerScriptPath = WebAssetsPath + "scripts/pdfviewer/interop.min.js";
 #endif
         }
 
-        public async void SwicthToDemo(string id, string url, IJSRuntime JsRuntime, NavigationManager UriHelper)
+        public async void SwicthToDemo(string id, NavigationManager UriHelper, IJSRuntime JsRuntime)
         {
-            if (!UriHelper.BaseUri.Contains("localhost")){
-#if !WEBAPP
-    #if WASM
-        #if DEBUG || STAGING
+            var Navigation_Url = SampleUtils.IsHomePage(UriHelper) ?  UriHelper.BaseUri + "datagrid/overview/" : UriHelper.Uri;
+#if DEBUG || STAGING
             #if NET8_0
-                                url  = id == "wasm" ? url : url.Replace("/wasm/net8/","/net8/");
+                #if SERVER
+                         Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net8/demos", "wasm/net8/demos") :  Navigation_Url.Replace("net8/demos", "webapp/demos");
+                #endif
+                #if WEBAPP
+                         Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/net8/demos") : Navigation_Url.Replace("webapp/demos", "net8/demos");
+                #endif
+                #if WASM
+                        Navigation_Url =  id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/net8/demos", "net8/demos") : Navigation_Url.Replace("wasm/net8/demos", "webapp/demos");
+                #endif
             #else
-                                url  = id == "wasm" ? url : url.Replace("/wasm/net6/","/net6/");
+                #if SERVER
+                         Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net6/demos", "wasm/net6/demos") : Navigation_Url.Replace("net6/demos", "webapp/net6/demos");
+                #endif
+                #if WEBAPP
+                         Navigation_Url =  id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/net6/demos") : Navigation_Url.Replace("webapp/demos", "net6/demos");
+                #endif
+                #if WASM
+                        Navigation_Url = id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/net6/demos", "net6/demos") : Navigation_Url.Replace("wasm/net6/demos", "webapp/demos");
+                #endif
+            #endif       
+ #else
+            #if SERVER
+                   Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("demos", "wasm/demos") : Navigation_Url.Replace("demos", "webapp/demos");
             #endif
-        #else
-                        url  = id == "wasm" ? url : url.Replace("/wasm/demos/","/demos/");
-        #endif
-    #else
-        #if DEBUG || STAGING
-            #if NET8_0
-                url  = id == "server" ? url : url.Replace("/net8/","/wasm/net8/");
-            #else
-                url = id == "server" ? url : url.Replace("/net6/","/wasm/net6/");
+            #if WEBAPP
+                   Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/demos") : Navigation_Url.Replace("webapp/demos", "demos");
             #endif
-        #else
-                url = id == "server" ? url : url.Replace("/demos/","/wasm/demos/");
-        #endif
-    #endif
+            #if WASM
+                  Navigation_Url = id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/demos", "demos") : Navigation_Url.Replace("wasm/demos", "webapp/demos");
+            #endif
 #endif
-            }
-
-#if WASM
-            if(id != "wasm")
-            {
-                if (!UriHelper.BaseUri.Contains("localhost"))
-                {
-                    await JsRuntime.InvokeVoidAsync("open", url, "_blank");
-                }
-            }
-            else{
-                UriHelper.NavigateTo(url, true);
-            }
-#elif WEBAPP
-            if (id != "webapp")
-            {
-                if (!UriHelper.BaseUri.Contains("localhost"))
-                {
-                    await JsRuntime.InvokeVoidAsync("open", url, "_blank");
-                }
-            }
-            else
-            {
-                UriHelper.NavigateTo(url, true);
-            }
-#else
-            if (id != "server")
-            {
-                if (!UriHelper.BaseUri.Contains("localhost"))
-                {
-                    await JsRuntime.InvokeVoidAsync("open", url, "_blank");
-                }
-            }
-            else
-            {
-                    UriHelper.NavigateTo(url, true);
-            }
-#endif
+            await JsRuntime.InvokeVoidAsync("open", Navigation_Url, "_blank");
         }
 
         // Updates the SampleInfo and ComponentName based on current loaded uri.

@@ -80,22 +80,31 @@ namespace BlazorDemos
     #if NET6_0
             "_content/Blazor_WASM_Common_NET6/styles/common/fonts/open-sans-700.woff2",
             "_content/Blazor_WASM_Common_NET6/styles/common/fonts/open-sans-regular.woff2"
-    #else
+    #elif NET8_0
             "_content/Blazor_WASM_Common_NET8/styles/common/fonts/open-sans-700.woff2",
             "_content/Blazor_WASM_Common_NET8/styles/common/fonts/open-sans-regular.woff2"
+    #else
+            "_content/Blazor_WASM_Common_NET9/styles/common/fonts/open-sans-700.woff2",
+            "_content/Blazor_WASM_Common_NET9/styles/common/fonts/open-sans-regular.woff2"
     #endif  
 #elif WEBAPP
     #if NET8_0
             "_content/Blazor_WebApp_Common_NET8/styles/common/fonts/open-sans-700.woff2",
             "_content/Blazor_WebApp_Common_NET8/styles/common/fonts/open-sans-regular.woff2"
+    #else
+            "_content/Blazor_WebApp_Common_NET9/styles/common/fonts/open-sans-700.woff2",
+            "_content/Blazor_WebApp_Common_NET9/styles/common/fonts/open-sans-regular.woff2"
     #endif
 #else
     #if NET6_0
             "_content/Blazor_Server_Common_NET6/styles/common/fonts/open-sans-700.woff2",
             "_content/Blazor_Server_Common_NET6/styles/common/fonts/open-sans-regular.woff2",
-    #else
+    #elif NET8_0
             "_content/Blazor_Server_Common_NET8/styles/common/fonts/open-sans-700.woff2",
             "_content/Blazor_Server_Common_NET8/styles/common/fonts/open-sans-regular.woff2",
+    #else
+            "_content/Blazor_Server_Common_NET9/styles/common/fonts/open-sans-700.woff2",
+            "_content/Blazor_Server_Common_NET9/styles/common/fonts/open-sans-regular.woff2",
     #endif
 #endif
         };

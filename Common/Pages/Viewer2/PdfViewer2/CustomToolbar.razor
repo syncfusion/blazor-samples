@@ -292,13 +292,14 @@
     width : 95px;
 }
 </style>
-     <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" EnableToolbar="false" EnableAnnotationToolbar="false" ContextMenuSettings="@contextMenu" EnableCommentPanel="false"  EnableNavigationToolbar="false" Width="100%" Height="640px"
+<div id="pdfviewer_section">
+    <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" EnableToolbar="false" EnableAnnotationToolbar="false" ContextMenuSettings="@contextMenu" EnableCommentPanel="false"  EnableNavigationToolbar="false" Width="100%" Height="640px"
          FreeTextSettings="@FreeAnnotationSetting" RectangleSettings="@RectangleAnnoSettings" LineSettings="@LineAnnoSettings" CircleSettings="@CircleAnnoSettings" CustomStampSettings="@CustomStampSettings" InkAnnotationSettings="@InkAnnoSettings">
          <PdfViewerHighlightSettings Color="@Color"></PdfViewerHighlightSettings>
          <PdfViewerEvents DocumentLoaded="@DocumentLoaded" ZoomChanged="@ZoomChanged" AnnotationAdded="OnAnnotationAdd" DocumentEdited="ChangeInFile" PageChanged="@OnPageChanged" AnnotationRemoved="@OnAnnotationRemove" AnnotationSelected="@OnAnnotationSelect" AnnotationUnselected="@OnAnnotationUnSelect" AnnotationMoved="@OnAnnotationMoved"></PdfViewerEvents>  
          <PdfViewerCustomStampSettings CustomStamps="@CustomStamps"></PdfViewerCustomStampSettings>
      </SfPdfViewer2>
-
+</div>
 </div>
 
 @code {
@@ -636,6 +637,7 @@
             //Loads the PDF docuent from the given base64 string in the SfPdfViewer.
             await Viewer.LoadAsync(base64string, null);
             await uploadFiles.ClearAllAsync();
+            await JSRuntime.InvokeVoidAsync("changeFocus");
         }
     }
 
@@ -730,6 +732,7 @@
 
     public void Dispose()
     {
+        JSRuntime.InvokeVoidAsync("disposeDotnetTooltipRef");
         dotnetObjectRef?.Dispose();
     }
     //Method for decide the annotation type After annotation select

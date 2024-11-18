@@ -155,11 +155,47 @@ namespace BlazorDemos.Shared
             return finalClass;
         }
 
+        public static bool IsLocalSample(string url)
+        {
+            return url.Contains("localhost") ? true : false;
+        }
+
         public static bool IsHomePage(NavigationManager uriHelper)
         {
             var currentUri = uriHelper.Uri.Split("?")[0];
             return uriHelper.BaseUri == currentUri;
         }
+
+        /// <summary>
+        /// DropDown data for Demos Sample  page switching button
+        /// </summary>
+        public static List<DropDownData> Blazor_Platform = new List<DropDownData> {
+        #if !SERVER
+            new DropDownData { ID = "server", Text = "Server" },
+        #endif
+        #if !WEBAPP
+            new DropDownData { ID = "webapp", Text = "WebApp" },
+        #endif
+        #if !WASM
+            new DropDownData { ID = "wasm", Text = "WASM" }
+        #endif
+        };
+
+        /// <summary>
+        /// List data for Demos Landing page switching button
+        /// </summary>
+
+        public static List<ListData> BlazorPlatform = new List<ListData> {
+        #if !SERVER
+            new ListData { ID = "server", Text = "Server" },
+        #endif
+        #if !WEBAPP
+            new ListData { ID = "webapp", Text = "WebApp" },
+        #endif
+        #if !WASM
+            new ListData { ID = "wasm", Text = "WASM" }
+        #endif
+        };
 
         /// <summary>
         /// Returns the url with current selected theme query string.
@@ -192,7 +228,7 @@ namespace BlazorDemos.Shared
             var uri = new Uri(url);
             string themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
             themeName = themeName != null ? themeName : "fluent2";
-            themeName = themeName.Equals("bootstrap5") ? "bootstrap5.3" : themeName;
+            themeName = themeName.Equals("bootstrap5") ? "bootstrap5.3" : themeName.Equals("bootstrap5-dark") ? "bootstrap5.3-dark" : themeName;
             return themeName;
         }
 
@@ -247,12 +283,6 @@ namespace BlazorDemos.Shared
                 };
                 if (sampleService.ComponentName != null)
                 {
-                    if (sampleService.ComponentName.Equals("PDF Viewer") && !sampleService.IsPdfScriptLoaded)
-                    {
-                        sampleService.IsPdfScriptLoaded = true;
-                        resourceList.Add(sampleService.ViewerScriptPath);
-                        resourceList.Add(sampleService.PdfScriptPath + "/syncfusion-blazor-pdfviewer.min.js");
-                    }
                     if (sampleService.ComponentName.Equals("PDF Viewer (NextGen)") && !sampleService.IsPdfScript2Loaded)
                     {
                         sampleService.IsPdfScript2Loaded = true;
@@ -327,6 +357,15 @@ namespace BlazorDemos.Shared
     /// Culture switcher datasource model class.
     /// </summary>
     public class DropDownData
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+
+    /// <summary>
+    /// SplitButton datasource model class.
+    /// </summary>
+    public class ListData
     {
         public string ID { get; set; }
         public string Text { get; set; }

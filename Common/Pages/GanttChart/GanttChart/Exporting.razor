@@ -2,14 +2,10 @@
 
 @using Syncfusion.Blazor.Gantt
 @using Syncfusion.Blazor.Navigations
-@using BlazorDemos
 @using ej2_blazor_ganttdata
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -25,10 +21,9 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGantt @ref="GanttObject" ID="GanttExport" DataSource="@TaskCollection" Height="450px" AllowPdfExport="true" Width="100%" HighlightWeekends="true"
-                     Toolbar="ToolbarItems" AllowExcelExport="true"
-                     AllowSelection="true" GridLines="GridLine.Both" TreeColumnIndex="1"
-                     ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
+            <SfGantt @ref="GanttChartInstance" ID="GanttExport" DataSource="@Tasks" Height="450px" AllowPdfExport="true" Width="100%"
+                     HighlightWeekends="true" Toolbar="ToolbarActions" AllowExcelExport="true" AllowSelection="true"
+                     GridLines="GridLine.Both" TreeColumnIndex="1" ProjectStartDate="@ProjectStart" ProjectEndDate="@ProjectEnd">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Progress="Progress"
                                  Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
                 <GanttColumns>
@@ -39,11 +34,9 @@
                     <GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
                     <GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
                 </GanttColumns>
-                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData">
-
-                </GanttLabelSettings>
-                <GanttSplitterSettings ColumnIndex="2"> </GanttSplitterSettings>
-                <GanttEvents OnToolbarClick="ToolbarClickHandler" TValue=GanttData.TaskData></GanttEvents>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings ColumnIndex="2"></GanttSplitterSettings>
+                <GanttEvents OnToolbarClick="HandleToolbarClick" TValue=GanttData.TaskData></GanttEvents>
                 <GanttTimelineSettings>
                     <GanttTopTierSettings Unit="TimelineViewMode.Week" Format="MMM dd, y"></GanttTopTierSettings>
                     <GanttBottomTierSettings Unit="TimelineViewMode.Day"></GanttBottomTierSettings>
@@ -53,32 +46,37 @@
     </div>
 </div>
 
-@code{
-    private DateTime ProjectStart = new DateTime(2021, 3, 25);
-    private DateTime ProjectEnd = new DateTime(2021, 7, 28);
-    private List<GanttData.TaskData> TaskCollection { get; set; }
-    private List<Object> ToolbarItems = new List<Object>() { "ZoomIn", "ZoomOut", "ZoomToFit", "ExcelExport", "CsvExport", new ToolbarItem() { Text = "PDF Export", TooltipText = "PDF Export", Id = "PdfExport", PrefixIcon = "e-pdfexport" } };
+@code {
+    private DateTime ProjectStart { get; set; } = new DateTime(2021, 3, 25);
+    private DateTime ProjectEnd { get; set; } = new DateTime(2021, 7, 28);
+    private List<GanttData.TaskData> Tasks { get; set; }
 
-    private SfGantt<GanttData.TaskData> GanttObject;
+    private List<object> ToolbarActions { get; set; } = new List<object>
+    {
+        "ZoomIn", "ZoomOut", "ZoomToFit", "ExcelExport", "CsvExport",
+        new ToolbarItem { Text = "PDF Export", TooltipText = "PDF Export", Id = "PdfExport", PrefixIcon = "e-pdfexport" }
+    };
+
+    private SfGantt<GanttData.TaskData> GanttChartInstance { get; set; }
+
     protected override void OnInitialized()
     {
-
-        this.TaskCollection = GanttData.EditingData();
-
+        Tasks = GanttData.EditingData();
     }
-    public async void ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+
+    public async Task HandleToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
     {
         if (args.Item.Id == "GanttExport_excelexport")
         {
-            await this.GanttObject.ExportToExcelAsync();
+            await GanttChartInstance.ExportToExcelAsync();
         }
         else if (args.Item.Id == "GanttExport_csvexport")
         {
-           await this.GanttObject.ExportToCsvAsync();
+            await GanttChartInstance.ExportToCsvAsync();
         }
-        else if(args.Item.Id == "PdfExport")
+        else if (args.Item.Id == "PdfExport")
         {
-            await this.GanttObject.ExportToPdfAsync();
+            await GanttChartInstance.ExportToPdfAsync();
         }
     }
 }

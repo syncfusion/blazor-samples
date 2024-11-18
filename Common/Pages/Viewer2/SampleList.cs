@@ -23,6 +23,7 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/default-functionalities",
                 FileName = "DefaultFunctionalities.razor"
             },
+#if !WASM_NET90
             new Sample
             {
                 Name = "Read-Only",
@@ -31,7 +32,7 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/read-only",
                 FileName = "ReadOnly.razor"
             },
-
+#endif
             new Sample
             {
                 Name = "Document List",
@@ -51,6 +52,8 @@ namespace BlazorDemos
                 FileName = "MultiFormatViewer.razor"
             },
 #endif
+#if !WASM_NET90
+
              new Sample
             {
                 Name = "Redaction",
@@ -60,6 +63,7 @@ namespace BlazorDemos
                 Type=SampleType.None,
                 FileName = "Redaction.razor"
             },
+#endif
 
             new Sample
             {
@@ -88,6 +92,7 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/form-filling",
                 FileName = "FormFilling.razor"
             },
+#if !WASM_NET90
             new Sample
             {
                 Name = "Annotations",
@@ -114,8 +119,7 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/handwritten-signature",
                 FileName = "HandwrittenSignature.razor"
             }
-           
-            
+#endif
 #if !(WASM || WEBAPP)
             ,
             new Sample

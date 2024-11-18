@@ -1,14 +1,14 @@
-import {data} from './version.js';
-var path = "_content/Blazor_WebApp_Common_NET8";
+import { data } from './version.js';
+if (data.version == "net8.0") {
+    var path = "_content/Blazor_WebApp_Common_NET8";
+}
+else {
+    var path = "_content/Blazor_WebApp_Common_NET9";
+}
 
-const homepagepath = ["/", "/staging/demos/", "/demos/", "/staging/demos/", "/development/webapp/demos/", "/release/webapp/demos/", "/hotfix/webapp/demos/"];
+const homepagepath = ["/", "/staging/demos/", "/demos/", "/staging/demos/", "/development/webapp/demos/","/development/webapp/net9/demos/", "/release/webapp/demos/","/release/webapp/net9/demos/", "/hotfix/webapp/demos/","/hotfix/webapp/net9/demos/"];
 
 function dynamicResources() {
-    if (window.location.href.indexOf('pdf-viewer') != -1 && window.location.href.indexOf('pdf-viewer-2') == -1) {
-        let newScript = document.createElement('script');
-        newScript.setAttribute('src', "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js");
-        document.getElementsByClassName('dynamic-resources')[0].appendChild(newScript);
-    }
     if (window.location.href.indexOf('pdf-viewer-2') != -1) {
         let newScript = document.createElement('script');
         newScript.setAttribute('src', "_content/Syncfusion.Blazor.SfPdfViewer/scripts/syncfusion-blazor-sfpdfviewer.min.js");

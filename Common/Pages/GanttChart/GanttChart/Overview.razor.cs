@@ -13,9 +13,6 @@ using Syncfusion.Blazor.Navigations;
 using Syncfusion.Blazor;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using Syncfusion.PdfExport;
 using System.Threading.Tasks;
 using Syncfusion.Blazor.Grids;
 
@@ -23,68 +20,68 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
 {
     public partial class Overview
     {
-        public bool SidebarToggle;
-        SfSwitch<bool?> SwitchObj;
-        public bool IsSideBar = false;
-        public bool Settings = true;
+        public bool IsSidebarToggled { get; set; }
+        public SfSwitch<bool?> SidebarSwitch { get; set; }
+        public bool IsSideBar { get; set; } = false;
+        public bool Settings { get; set; } = true;
         private int RowHeightValue { get; set; } = 40;
         private int TaskbarHeightValue { get; set; } = 24;
-        private string TaskBarHeight = "24px";
-        private string MarginValue = "0px";
-        private string TopPosition = "4px";
-        private int DefaultUnitWidth = 75;
-        private SfGantt<OverviewData.TaskData> Gantt;
+        private string TaskBarHeight { get; set; } = "24px";
+        private string MarginValue { get; set; } = "0px";
+        private string TopPosition { get; set; } = "4px";
+        private string LabelHeight { get; set; } = "38px";
+        private int DefaultUnitWidth { get; set; } = 75;
+        private SfGantt<OverviewData.TaskData> GanttInstance { get; set; }
         public List<OverviewData.TaskData> TaskCollection { get; set; }
-        private DateTime VolumeOneRelease = new DateTime(2022, 04, 04);
-        private DateTime VolumeTwoRelease = new DateTime(2022, 06, 30);
-        private DateTime VolumeThreeRelease = new DateTime(2022, 09, 29);
-        private DateTime Holiday1 = new DateTime(2021, 12, 25);
-        private DateTime Holiday2 = new DateTime(2021, 12, 26);
-        private DateTime Holiday3 = new DateTime(2022, 01, 01);
-        private DateTime Holiday4 = new DateTime(2022, 01, 01);
+        private DateTime VolumeOneReleaseDate { get; set; } = new DateTime(2022, 04, 04);
+        private DateTime VolumeTwoReleaseDate { get; set; } = new DateTime(2022, 06, 30);
+        private DateTime VolumeThreeReleaseDate { get; set; } = new DateTime(2022, 09, 29);
+        private DateTime ChristmasStartDate { get; set; } = new DateTime(2021, 12, 25);
+        private DateTime ChristmasEndDate { get; set; } = new DateTime(2021, 12, 26);
+        private DateTime NewYearHoliday1 { get; set; } = new DateTime(2022, 01, 01);
+        private DateTime NewYearHoliday2 { get; set; } = new DateTime(2022, 01, 01);
         public Theme CurrentTheme { get; set; }
-        public string currentUri;
+        public string CurrentUri { get; set; }
         public bool ShowDependency { get; set; } = true;
         private List<OverviewData.ResourceInfoModel> ResourceCollection { get; set; }
-        private List<string> Status = new List<string>() { "Open", "Inprogress", "On Hold", "Complete" };
-        private List<string> Priority = new List<string>() { "Low", "Normal", "High", "Critical" };
-        public string borderRadius = "4px";
-        public string statusStyleColor;
-        public string statusContentstyleColor;
-        public string priorityContentStyle;
-        public string priorityStyle;
-        private List<Theme> ThemeCollection = new List<Theme>() { Theme.Fluent, Theme.Fabric, Theme.Bootstrap5, Theme.Bootstrap, Theme.Bootstrap4, Theme.Tailwind, Theme.Material };
-        public string progressLeft = "0px";
-        private string dropDownWidth { get; set; } = "80px";
+        private List<string> Status { get; set; } = new List<string>() { "Open", "Inprogress", "On Hold", "Complete" };
+        private List<string> Priority { get; set; } = new List<string>() { "Low", "Normal", "High", "Critical" };
+        public string BorderRadius { get; set; } = "4px";
+        public string StatusStyleColor { get; set; }
+        public string StatusContentStyleColor { get; set; }
+        public string PriorityContentStyleColor { get; set; }
+        public string PriorityStyleColor { get; set; }
+        private List<Theme> AvailableThemes { get; set; } = new List<Theme>() { Theme.Fluent, Theme.Fabric, Theme.Bootstrap5, Theme.Bootstrap, Theme.Bootstrap4, Theme.Tailwind, Theme.Material };
+        private string DropdownWidth { get; set; } = "80px";
         //***API properties
-        public Syncfusion.Blazor.Gantt.GridLine gridlines { get; set; } = Syncfusion.Blazor.Gantt.GridLine.Vertical;
-        private ViewType viewType { get; set; } = ViewType.ProjectView;
-        public string viewTypes { get; set; } = "Project view";
+        public Syncfusion.Blazor.Gantt.GridLine gridlines = Syncfusion.Blazor.Gantt.GridLine.Vertical;
+        private ViewType SelectedViewType { get; set; } = ViewType.ProjectView;
+        public string SelectedViewTypes { get; set; } = "Project view";
         public string DurationUnitValue { get; set; } = "Day";
         public Syncfusion.Blazor.Gantt.DurationUnit DurationValue { get; set; } = DurationUnit.Day;
-        private bool EventMarker { get; set; } = false;
-        private bool TaskLabels { get; set; } = false;
+        private bool IsEventMarkerVisible { get; set; } = false;
+        private bool IsTaskLabelsVisible { get; set; } = false;
         public int CurrentValue { get; set; }
         public int PreviousValue { get; set; } = 11;
         public int BindValue { get; set; } = 11;
-        string CurrentHeaderTitle = "Project Settings";
-        public string[] week = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
-        private string filterHeaderFontSize { get; set; }
-        private string filterHeaderFontSizeTouch { get; set; }
-        private string filteraHeaderHeight { get; set; }
-        private string filteraHeaderHeightTouch { get; set; }
-        private string filterHeaderFontWeight { get; set; }
-        private string filterBackground { get; set; }
-        private string labelTextColor { get; set; }
+        public string CurrentHeaderTitle { get; set; } = "Project Settings";
+        public string[] WorkWeekDays { get; set; } = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+        private string FilterHeaderFontSize { get; set; }
+        private string FilterHeaderFontSizeTouch { get; set; }
+        private string FilterHeaderHeight { get; set; }
+        private string FilterHeaderHeightTouch { get; set; }
+        private string FilterHeaderFontWeight { get; set; }
+        private string FilterBackgroundColor { get; set; }
+        private string LabelTextColor { get; set; }
         private static List<OverviewData.AssignmentModel> AssignmentCollection { get; set; }
         private List<OverviewData.SegmentModel> SegmentCollection { get; set; }
-        private bool CustomScheduling { get; set; }
-        private bool EnableCriticalPath { get; set; }
+        private bool IsCustomSchedulingEnabled { get; set; }
+        private bool IsCriticalPathEnabled { get; set; }
         private DateTime? ProjectStartDate { get; set; }
         private DateTime? ProjectEndDate { get; set; }
-        public List<Object> Toolbaritems = new List<Object>() { "ExpandAll", "CollapseAll", "ZoomIn", "ZoomOut", "ZoomToFit", "Indent", "Outdent", "ExcelExport", new ToolbarItem() { TooltipText="PdfExport", Id = "PdfExport", PrefixIcon = "e-pdfexport" }, new ToolbarItem() { Text = "Settings", TooltipText = "Settings", Id = "Settings", PrefixIcon = "e-settings-icon", Align = ItemAlign.Right } };
+        public List<Object> Toolbaritems { get; set; } = new List<Object>() { "ExpandAll", "CollapseAll", "ZoomIn", "ZoomOut", "ZoomToFit", "Indent", "Outdent", "ExcelExport", new ToolbarItem() { TooltipText="PdfExport", Id = "PdfExport", PrefixIcon = "e-pdfexport" }, new ToolbarItem() { Text = "Settings", TooltipText = "Settings", Id = "Settings", PrefixIcon = "e-settings-icon", Align = ItemAlign.Right } };
         // Specifies the ListView datasource.
-        List<DataModel> ListData = new List<DataModel>();
+        public List<DataModel> ListViewData { get; set; } = new List<DataModel>();
         // Specifies the model class for ListView datasource.
 
         public class DataModel
@@ -100,13 +97,13 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         {
             if (args.Value.Contains("Resource view"))
             {
-                viewType = ViewType.ResourceView;
-                viewTypes = viewType.ToString();
+                SelectedViewType = ViewType.ResourceView;
+                SelectedViewTypes = SelectedViewType.ToString();
             }
             else
             {
-                viewType = ViewType.ProjectView;
-                viewTypes = viewType.ToString();
+                SelectedViewType = ViewType.ProjectView;
+                SelectedViewTypes = SelectedViewType.ToString();
             }
             StateHasChanged();
             Settings = true;
@@ -123,21 +120,21 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 gridlines = Syncfusion.Blazor.Gantt.GridLine.Vertical;
             }
             Settings = true;
-            Gantt.RefreshAsync();
+            GanttInstance.RefreshAsync();
         }
 
         private void EventMarkerEvent(ChangeEventArgs<bool?> args)
         {
             if (args.Checked == true)
             {
-                EventMarker = true;
+                IsEventMarkerVisible = true;
             }
             else
             {
-                EventMarker = false;
+                IsEventMarkerVisible = false;
             }
             Settings = true;
-            Gantt.RefreshAsync();
+            GanttInstance.RefreshAsync();
         }
 
         private void ShowDependencies(ChangeEventArgs<bool> args)
@@ -151,21 +148,21 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 ShowDependency = false;
             }
             Settings = true;
-            Gantt.RefreshAsync();
+            GanttInstance.RefreshAsync();
         }
 
         private void ShowTaskLabels(ChangeEventArgs<bool?> args)
         {
             if (args.Checked == true)
             {
-                TaskLabels = true;
+                IsTaskLabelsVisible = true;
             }
             else
             {
-                TaskLabels = false;
+                IsTaskLabelsVisible = false;
             }
             Settings = true;
-            Gantt.RefreshAsync();
+            GanttInstance.RefreshAsync();
         }
 
         private async Task CriticalPathEnable(ChangeEventArgs<bool?> args)
@@ -174,17 +171,17 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             {
                 ProjectStartDate = null;
                 ProjectEndDate = null;
-                EnableCriticalPath = true;
+                IsCriticalPathEnabled = true;
             }
             else
             {
                 ProjectStartDate = new DateTime(2021, 12, 19);
                 ProjectEndDate = new DateTime(2022, 07, 8);
-                EnableCriticalPath = false;
+                IsCriticalPathEnabled = false;
             }
             Settings = true;
-            
-            await Gantt.RefreshAsync();
+
+            await GanttInstance.RefreshAsync();
             await Task.CompletedTask;
         }
 
@@ -192,20 +189,20 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         {
             if (args.Checked == true)
             {
-                CustomScheduling = true;
+                IsCustomSchedulingEnabled = true;
             }
             else
             {
-                CustomScheduling = false;
+                IsCustomSchedulingEnabled = false;
             }
             Settings = true;
-            await Gantt.RefreshAsync();
+            await GanttInstance.RefreshAsync();
             await Task.CompletedTask;
         }
 
         public void OnChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
         {
-            DefaultUnitWidth = (int)args.Value;
+            DefaultUnitWidth = args.Value != null ? (int)args.Value : 33; 
         }
 
         private void rowheightchange(int value)
@@ -217,6 +214,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 TaskBarHeight = "24px";
                 MarginValue = "0px";
                 TopPosition = "4px";
+                LabelHeight = "38px";
             }
             else if (value == 50)
             {
@@ -224,6 +222,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 TaskBarHeight = "32px";
                 MarginValue = "0px";
                 TopPosition = "7px";
+                LabelHeight = "48px";
             }
             else if (value == 60)
             {
@@ -231,12 +230,13 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 TaskBarHeight = "40px";
                 MarginValue = "4px";
                 TopPosition = "10px";
+                LabelHeight = "58px";
             }
         }
 
         public void Close()
         {
-            SidebarToggle = false;
+            IsSidebarToggled = false;
             Settings = true;
         }
 
@@ -283,11 +283,11 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         {
             if (args.Value == null)
             {
-                week = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
+                WorkWeekDays = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
             }
             else
             {
-                week = args.Value;
+                WorkWeekDays = args.Value;
             }
         }
 
@@ -308,7 +308,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 DurationValue = DurationUnit.Minute;
                 DurationUnitValue = DurationValue.ToString();
             }
-            await Gantt.RefreshAsync();
+            await GanttInstance.RefreshAsync();
         }
 
         public class SplitterView
@@ -328,26 +328,26 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         {
             if (args.Value == "Grid")
             {
-                await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Grid);
+                await this.GanttInstance.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Grid);
 
             }
             else if (args.Value == "Chart")
             {
-                await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Chart);
+                await this.GanttInstance.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Chart);
             }
             else
             {
-                await this.Gantt.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Default);
-                dropDownWidth = "90px";
+                await this.GanttInstance.SetSplitterPositionAsync(Syncfusion.Blazor.Gantt.SplitterView.Default);
+                DropdownWidth = "90px";
             }
-            await Gantt.RefreshAsync();
+            await GanttInstance.RefreshAsync();
         }
 
         public async Task ToolbarClickHandler(ClickEventArgs args)
         {
             Syncfusion.Blazor.Grids.ExcelExportProperties ExportProperties = new Syncfusion.Blazor.Grids.ExcelExportProperties();
             Syncfusion.Blazor.Gantt.GanttPdfExportProperties PdfExportProperties = new Syncfusion.Blazor.Gantt.GanttPdfExportProperties();
-            List<GridColumn> gridColumns = new List<GridColumn>() { 
+            List<GridColumn> gridColumns = new List<GridColumn>() {
             new GridColumn(){ Field = "TaskId", HeaderText = "Id" },
             new GridColumn(){Field = "TaskName", HeaderText="Product Release"},
             new GridColumn(){ Field = "Work", HeaderText = "Planned Hours" },
@@ -355,24 +355,24 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             };
             ExportProperties.Columns = gridColumns;
             PdfExportProperties.PageSize = Syncfusion.Blazor.Grids.PdfPageSize.Legal;
-            PdfExportProperties.Columns = Gantt.Columns;
+            PdfExportProperties.Columns = GanttInstance.Columns;
             if (args.Item.Id == "Settings")
             {
-                SidebarToggle = !SidebarToggle;
+                IsSidebarToggled = !IsSidebarToggled;
                 IsSideBar = true;
                 Settings = false;
             }
             if (args.Item.Id == "GanttOverview_excelexport")
             {
-                await Gantt.ExportToExcelAsync(ExportProperties);
+                await GanttInstance.ExportToExcelAsync(ExportProperties);
             }
             if (args.Item.Id == "GanttOverview_csvexport")
             {
-                await Gantt.ExportToCsvAsync(ExportProperties);
+                await GanttInstance.ExportToCsvAsync(ExportProperties);
             }
             if(args.Item.Id == "PdfExport")
             {
-                await Gantt.ExportToPdfAsync(PdfExportProperties);
+                await GanttInstance.ExportToPdfAsync(PdfExportProperties);
             }
             await Task.CompletedTask;
         }
@@ -382,28 +382,28 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             switch (status)
             {
                 case "In Progress":
-                    statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#DFECFF" : "#2D3E57";
-                    statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#006AA6" : "#34B6FF";
+                    StatusStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#DFECFF" : "#2D3E57";
+                    StatusContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#006AA6" : "#34B6FF";
 
                     break;
                 case "Open":
-                    statusStyleColor = "red";
-                    statusContentstyleColor = "white";
+                    StatusStyleColor = "red";
+                    StatusContentStyleColor = "white";
                     break;
                 case "On Hold":
-                    statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#E4E4E7" : "#3C3B43";
-                    statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#766B7C" : "#CDCBD7";
+                    StatusStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#E4E4E7" : "#3C3B43";
+                    StatusContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#766B7C" : "#CDCBD7";
                     break;
                 case "Completed":
-                    statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#DFFFE2" : "#16501C";
-                    statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#00A653" : "#92FFC8";
+                    StatusStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#DFFFE2" : "#16501C";
+                    StatusContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#00A653" : "#92FFC8";
                     break;
                 case "High":
-                    statusStyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                    statusContentstyleColor = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
+                    StatusStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
+                    StatusContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
                     break;
             }
-            return $"background:{statusStyleColor};color:{statusContentstyleColor};padding: 5px 12px; border-radius: 24px";
+            return $"background:{StatusStyleColor};color:{StatusContentStyleColor};padding: 5px 12px; border-radius: 24px";
         }
 
         private string GetPriorityContentStyle(string status)
@@ -411,104 +411,104 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             switch (status)
             {
                 case "Low":
-                    priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFF6D1" : "#473F1E";
-                    priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#70722B" : "#FDFF88";
+                    PriorityStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FFF6D1" : "#473F1E";
+                    PriorityContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#70722B" : "#FDFF88";
                     break;
                 case "Normal":
-                    priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#F5DFFF" : "#4D2F5A";
-                    priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#7100A6" : "#E3A9FF";
+                    PriorityStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#F5DFFF" : "#4D2F5A";
+                    PriorityContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#7100A6" : "#E3A9FF";
                     break;
                 case "Critical":
-                    priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                    priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
+                    PriorityStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
+                    PriorityContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
                     break;
                 case "High":
-                    priorityStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                    priorityContentStyle = ThemeCollection.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
+                    PriorityStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
+                    PriorityContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
                     break;
             }
-            return $"background:{priorityStyle};color:{priorityContentStyle};padding: 5px 12px; border-radius: 24px";
+            return $"background:{PriorityStyleColor};color:{PriorityContentStyleColor};padding: 5px 12px; border-radius: 24px";
         }
 
         private IGanttTaskModel<OverviewData.TaskData> GetTaskData(OverviewData.TaskData data)
         {
-            return Gantt.GetRowTaskModel(data);
+            return GanttInstance.GetRowTaskModel(data);
         }
 
         private void UpdateDataModel()
         {
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "01",
                 Text = "RowHeight",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "02",
                 Text = "Show grid Lines",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "02",
                 Text = "Event markers",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "02",
                 Text = "Show dependencies",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "02",
                 Text = "Show task labels",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "03",
                 Text = "Work Week",
                 Category = "Scheduling Settings",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "03",
                 Text = "Work Time Range",
                 Category = "Scheduling Settings",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "02",
                 Text = "TimeLine Cell Unit",
                 Category = "Scheduling Settings",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "04",
                 Text = "View Type",
                 Category = "View settings",
                 Order = 2,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "04",
                 Text = "View Mode",
                 Category = "View settings",
                 Order = 2,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "02",
                 Text = "Enable critical path",
                 Order = 1,
             });
-            ListData.Add(new DataModel
+            ListViewData.Add(new DataModel
             {
                 Id = "02",
                 Text = "Custom scheduling",
@@ -521,121 +521,121 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             if (currentUri.Contains("fluent-dark"))
             {
                 CurrentTheme = Theme.FluentDark;
-                filterBackground = "#201f1e";
-                filterHeaderFontSize = "14px";
-                filterHeaderFontSizeTouch = "16px";
-                filteraHeaderHeight = "50px";
-                filteraHeaderHeightTouch = "56px";
-                filterHeaderFontWeight = "600";
+                FilterBackgroundColor = "#201f1e";
+                FilterHeaderFontSize = "14px";
+                FilterHeaderFontSizeTouch = "16px";
+                FilterHeaderHeight = "50px";
+                FilterHeaderHeightTouch = "56px";
+                FilterHeaderFontWeight = "600";
             }
             else if (currentUri.Contains("fluent"))
             {
                 CurrentTheme = Theme.Fluent;
-                filterBackground = "#faf9f8";
-                labelTextColor = "#201f1e";
-                filterHeaderFontSize = "14px";
-                filterHeaderFontSizeTouch = "16px";
-                filteraHeaderHeight = "50px";
-                filteraHeaderHeightTouch = "56px";
-                filterHeaderFontWeight = "600";
+                FilterBackgroundColor = "#faf9f8";
+                LabelTextColor = "#201f1e";
+                FilterHeaderFontSize = "14px";
+                FilterHeaderFontSizeTouch = "16px";
+                FilterHeaderHeight = "50px";
+                FilterHeaderHeightTouch = "56px";
+                FilterHeaderFontWeight = "600";
             }
             else if (currentUri.Contains("fabric-dark"))
             {
                 CurrentTheme = Theme.FabricDark;
-                filterBackground = "#333232";
-                labelTextColor = "#f3f2f1";
+                FilterBackgroundColor = "#333232";
+                LabelTextColor = "#f3f2f1";
             }
             else if (currentUri.Contains("fabric"))
             {
                 CurrentTheme = Theme.Fabric;
-                filterBackground = "#f4f4f4";
+                FilterBackgroundColor = "#f4f4f4";
             }
             else if (currentUri.Contains("bootstrap5-dark"))
             {
                 CurrentTheme = Theme.Bootstrap5Dark;
-                filterBackground = "#282d31";
-                labelTextColor = "#fff";
-                filterHeaderFontSize = "14px";
-                filterHeaderFontSizeTouch = "14px";
-                filteraHeaderHeight = "40px";
-                filteraHeaderHeightTouch = "48px";
-                filterHeaderFontWeight = "400";
+                FilterBackgroundColor = "#282d31";
+                LabelTextColor = "#fff";
+                FilterHeaderFontSize = "14px";
+                FilterHeaderFontSizeTouch = "14px";
+                FilterHeaderHeight = "40px";
+                FilterHeaderHeightTouch = "48px";
+                FilterHeaderFontWeight = "400";
             }
             else if (currentUri.Contains("bootstrap-dark"))
             {
                 CurrentTheme = Theme.BootstrapDark;
-                filterBackground = "#393939";
+                FilterBackgroundColor = "#393939";
             }
             else if (currentUri.Contains("bootstrap5"))
             {
                 CurrentTheme = Theme.Bootstrap5;
-                filterBackground = "#f8f9fa";
-                labelTextColor = "#212529";
-                filterHeaderFontSize = "14px";
-                filterHeaderFontSizeTouch = "14px";
-                filteraHeaderHeight = "40px";
-                filteraHeaderHeightTouch = "48px";
-                filterHeaderFontWeight = "400";
+                FilterBackgroundColor = "#f8f9fa";
+                LabelTextColor = "#212529";
+                FilterHeaderFontSize = "14px";
+                FilterHeaderFontSizeTouch = "14px";
+                FilterHeaderHeight = "40px";
+                FilterHeaderHeightTouch = "48px";
+                FilterHeaderFontWeight = "400";
             }
             else if (currentUri.Contains("bootstrap4"))
             {
                 CurrentTheme = Theme.Bootstrap4;
-                filterBackground = "#e9ecef";
+                FilterBackgroundColor = "#e9ecef";
             }
             else if (currentUri.Contains("bootstrap"))
             {
                 CurrentTheme = Theme.Bootstrap;
-                filterBackground = "#eee";
+                FilterBackgroundColor = "#eee";
             }
             else if (currentUri.Contains("highcontrast"))
             {
                 CurrentTheme = Theme.HighContrast;
-                filterBackground = "#000";
-                labelTextColor = "#fff";
+                FilterBackgroundColor = "#000";
+                LabelTextColor = "#fff";
             }
             else if (currentUri.Contains("tailwind-dark"))
             {
                 CurrentTheme = Theme.TailwindDark;
-                filterBackground = "#232e3e";
-                labelTextColor = "#fff";
-                filterHeaderFontSize = "14px";
-                filterHeaderFontSizeTouch = "16px";
-                filteraHeaderHeight = "44px";
-                filteraHeaderHeightTouch = "52px";
-                filterHeaderFontWeight = "400";
+                FilterBackgroundColor = "#232e3e";
+                LabelTextColor = "#fff";
+                FilterHeaderFontSize = "14px";
+                FilterHeaderFontSizeTouch = "16px";
+                FilterHeaderHeight = "44px";
+                FilterHeaderHeightTouch = "52px";
+                FilterHeaderFontWeight = "400";
             }
             else if (currentUri.Contains("tailwind"))
             {
                 CurrentTheme = Theme.Tailwind;
-                filterBackground = "#f9fafb";
-                labelTextColor = "rgb(17, 24, 39)";
-                filterHeaderFontSize = "14px";
-                filterHeaderFontSizeTouch = "16px";
-                filteraHeaderHeight = "44px";
-                filteraHeaderHeightTouch = "52px";
-                filterHeaderFontWeight = "400";
+                FilterBackgroundColor = "#f9fafb";
+                LabelTextColor = "rgb(17, 24, 39)";
+                FilterHeaderFontSize = "14px";
+                FilterHeaderFontSizeTouch = "16px";
+                FilterHeaderHeight = "44px";
+                FilterHeaderHeightTouch = "52px";
+                FilterHeaderFontWeight = "400";
             }
             else if (currentUri.Contains("material-dark"))
             {
                 CurrentTheme = Theme.MaterialDark;
-                filterHeaderFontSize = "16px";
-                filterHeaderFontSizeTouch = "18px";
-                filteraHeaderHeight = "52px";
-                filteraHeaderHeightTouch = "58px";
-                filterBackground = "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)),rgba(28, 27, 31)";
-                labelTextColor = "rgba(230, 225, 229)";
-                filterHeaderFontWeight = "400";
+                FilterHeaderFontSize = "16px";
+                FilterHeaderFontSizeTouch = "18px";
+                FilterHeaderHeight = "52px";
+                FilterHeaderHeightTouch = "58px";
+                FilterBackgroundColor = "linear-gradient(0deg, rgba(103, 80, 164, 0.05), rgba(103, 80, 164, 0.05)),rgba(28, 27, 31)";
+                LabelTextColor = "rgba(230, 225, 229)";
+                FilterHeaderFontWeight = "400";
             }
             else if (currentUri.Contains("material"))
             {
                 CurrentTheme = Theme.Material;
-                filterHeaderFontSize = "16px";
-                filterHeaderFontSizeTouch = "18px";
-                filteraHeaderHeight = "52px";
-                filteraHeaderHeightTouch = "58px";
-                filterBackground = "linear-gradient(0deg, rgba(208, 188, 255, 0.05), rgba(208, 188, 255, 0.05)),rgba(255, 255, 255)";
-                labelTextColor = "#404042";
-                filterHeaderFontWeight = "400";
+                FilterHeaderFontSize = "16px";
+                FilterHeaderFontSizeTouch = "18px";
+                FilterHeaderHeight = "52px";
+                FilterHeaderHeightTouch = "58px";
+                FilterBackgroundColor = "linear-gradient(0deg, rgba(208, 188, 255, 0.05), rgba(208, 188, 255, 0.05)),rgba(255, 255, 255)";
+                LabelTextColor = "#404042";
+                FilterHeaderFontWeight = "400";
             }
         }
     }

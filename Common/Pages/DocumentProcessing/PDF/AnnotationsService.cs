@@ -13,6 +13,7 @@ using System.IO;
 using System;
 using System.Collections.Generic;
 using Syncfusion.Pdf.Parsing;
+using Syncfusion.Pdf.Redaction;
 
 namespace BlazorDemos.Data.FileFormats.PDF
 { 
@@ -328,23 +329,21 @@ namespace BlazorDemos.Data.FileFormats.PDF
             secondPage.Annotations.Add(polygonCloud);
 
             PdfPage thirdPage = document.Pages.Add();
-
-            if (!flatten)
-            {
-                PdfRedactionAnnotation redactionannot = new PdfRedactionAnnotation();
-                redactionannot.Bounds = new RectangleF(40, 610, 100, 55);
-                redactionannot.Text = "Redaction Annotation";
-                redactionannot.InnerColor = Color.Orange;
-                redactionannot.BorderColor = Color.Red;
-                redactionannot.Font = new PdfStandardFont(PdfFontFamily.Helvetica, 13);
-                redactionannot.TextColor = Color.Green;
-                redactionannot.OverlayText = "REDACTED";
-                redactionannot.RepeatText = true;
-                redactionannot.TextAlignment = PdfTextAlignment.Left;
-                redactionannot.SetAppearance(true);
-                secondPage.Graphics.DrawString("Redaction Annotation", font, brush, new PointF(40, 580));
-                secondPage.Annotations.Add(redactionannot);
-            }
+#if !(WASM && NET9_0)
+            PdfRedactionAnnotation redactionAnnotation = new PdfRedactionAnnotation();
+            redactionAnnotation.Bounds = new RectangleF(40, 610, 100, 55);
+            redactionAnnotation.Text = "Redaction Annotation";
+            redactionAnnotation.InnerColor = Color.Orange;
+            redactionAnnotation.BorderColor = Color.Red;
+            redactionAnnotation.Font = new PdfStandardFont(PdfFontFamily.Helvetica, 13);
+            redactionAnnotation.TextColor = Color.Green;
+            redactionAnnotation.OverlayText = "REDACTED";
+            redactionAnnotation.RepeatText = true;
+            redactionAnnotation.TextAlignment = PdfTextAlignment.Left;
+            redactionAnnotation.SetAppearance(true);
+            secondPage.Graphics.DrawString("Redaction Annotation", font, brush, new PointF(40, 580));
+            secondPage.Annotations.Add(redactionAnnotation);
+#endif
             //Creates a new RubberStamp annotation
             PdfRubberStampAnnotation rubberStampAnnotation = new PdfRubberStampAnnotation(new RectangleF(30, 70, 100, 50));
             rubberStampAnnotation.Text = "Rubber Stamp Annotation";
@@ -415,6 +414,11 @@ namespace BlazorDemos.Data.FileFormats.PDF
                 PdfLoadedDocument lDoc = new PdfLoadedDocument(SourceStream);
                 foreach (PdfLoadedPage lpage in lDoc.Pages)
                 {
+#if !(WASM && NET9_0)
+                    //Flatten the redaction annotation
+                    lDoc.Redact();
+#endif
+                    //Flatten all the annotations.
                     lpage.Annotations.Flatten = true;
                 }
                 //Save the PDF to the MemoryStream

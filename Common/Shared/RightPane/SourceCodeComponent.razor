@@ -49,11 +49,17 @@ else
         #if WASM
             string projectPath = "Blazor_WASM_Common_NET6";
         #endif
-    #else
+    #elif NET8_0 
         #if WASM
             string projectPath = "Blazor_WASM_Common_NET8";
         #else
             string projectPath = "Blazor_WebApp_Common_NET8";
+        #endif
+    #else
+        #if WASM
+            string projectPath = "Blazor_WASM_Common_NET9";
+        #else
+            string projectPath = "Blazor_WebApp_Common_NET9";
         #endif
     #endif
             sourceCode = string.Empty;
@@ -64,6 +70,7 @@ else
                 fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
                 try
                 {
+                    directory = Path.GetExtension(fileName).Equals(".razor") ? directory : directory.Split("/")[0];
                     sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
                 }
                 catch

@@ -35,37 +35,20 @@ window.sfBlazorSB = {
       isScrolled = true;
     }
   },
-  // set e-bigger class to the body based on mouse/touch selection
-    setBiggerSize: function (isTouch, isTouchReload) {
-      var isMouseMode = document.body.classList.contains('e-bigger');
-      if (isTouch) {
-          if (!isMouseMode){ 
-              document.body.classList.add('e-bigger');
-              localStorage.setItem("sfPreferenceMode", "touch");
-              if (isTouchReload) {
-                  isTouchEnabled = true;
-                  window.location.reload();
-              }
-          }   
-      } else {
-          if (isMouseMode) {
-              document.body.classList.remove('e-bigger');
-              localStorage.setItem("sfPreferenceMode", "mouse");
-              window.location.reload();
-          }
-          
-      }
-  },
-  // returns the preferences mode.
-  getPreferenceMode: function () {
-    var mode = localStorage.getItem("sfPreferenceMode");
-    var isTouchMode = !mode && screen.availWidth >= 2160;
-    if (isTouchMode || this.isDeviceMode() || (mode && mode != "mouse")) {
-      mode = "touch";
-      this.setBiggerSize(true, false);
-    }
-    mode = !mode ? "mouse" : mode;
-    return mode;
+  isScreenWide: function () {
+        return screen.availWidth >= 2160;
+    },
+    containsTouchModeClass: function () {
+        return document.body.classList.contains('e-bigger');
+    },
+    addTouchModeClass: function () {
+         document.body.classList.add('e-bigger');
+    },
+    removeTouchModeClass: function () {
+        document.body.classList.remove('e-bigger');
+    },
+    jsReload: function () {
+        window.location.reload();
     },
     // To get and set value in local storage for localization
     getValue: function (key) {
@@ -428,12 +411,6 @@ window.onscroll = function () {
   sfBlazorSB.renderShowCase();
 };
 
-window.onbeforeunload = function () {
-    if (!isTouchEnabled) {
-        localStorage.removeItem("sfPreferenceMode");
-    }
-};
-
 (function () {
   if (typeof NodeList.prototype.forEach === "function") return false;
   NodeList.prototype.forEach = Array.prototype.forEach;
@@ -455,7 +432,7 @@ window.openThumbnailPane = (viewerId) => {
     var viewer = window.sfBlazor.getCompInstance(viewerId);
     viewer.viewerBase.navigationPane.isThumbnail = false;
     document.getElementsByClassName('e-pv-sidebar-toolbar-splitter')[0].style.width = '0px';
-    viewer.thumbnailView.openThumbnailPane();
+    viewer.thumbnailView.openThumbnailPane(true);
 };
 
 function beforeApplyFormat() {
@@ -484,20 +461,6 @@ const brTag = document.createElement('br');
 
 function onInsertEmotSlashRemove() {
     beforeApplyFormat(null, false);
-}
-
-function loadPdfScript() {
-    return new Promise(function (resolve, reject) {
-        let script = document.createElement('script');
-        script.src = "_content/Syncfusion.Blazor.PdfViewer/scripts/syncfusion-blazor-pdfviewer.min.js";
-        script.onload = function () {
-            resolve(); // Resolve the promise when the script has loaded successfully
-        };
-        script.onerror = function (error) {
-            reject(error); // Reject the promise if there's an error loading the script
-        };
-        document.getElementsByClassName('dynamic-resources')[0].appendChild(script);
-    });
 }
 
 function loadPdf2Script() {
@@ -533,6 +496,17 @@ function created() {
   document.getElementById('pdfviewer_open').addEventListener('click', function () {
       document.querySelector('.e-upload-browse-btn').click()
   })
+}
+
+function changeFocus() {
+    const activeElement = document.activeElement;
+    if (activeElement) {
+        activeElement.blur();
+    }
+    var pdfViewerContainer = document.getElementById('pdfviewer_section');
+    if (pdfViewerContainer) {
+        pdfViewerContainer.focus();
+    }
 }
 
 function createdBrowsebutton() {
@@ -831,6 +805,10 @@ function closeTooltipPopup(methodName) {
 function getInstance(tooltipInstance) {
     currentURL = window.location.href;
     dotnetTooltipRef = tooltipInstance;
+}
+
+function disposeDotnetTooltipRef() {
+    dotnetTooltipRef = null;
 }
 
 var visiblevalue = false;
