@@ -1,8 +1,8 @@
-# Syncfusion Blazor Component Examples    
+# Syncfusion&reg; Blazor Component Examples    
 
-This repository contains the demos of [Syncfusion Blazor Components](https://www.syncfusion.com/blazor-components). This is the best place to check the controls to get more insight into the usage of APIs.
+This repository contains the demos of [Syncfusion&reg; Blazor Components](https://www.syncfusion.com/blazor-components). This is the best place to check the controls to get more insight into the usage of APIs.
 
-The following topics can help you to use the Syncfusion Blazor Components and run this application in your local.
+The following topics can help you to use the Syncfusion&reg; Blazor Components and run this application in your local.
 
 * [Requirements to run the demo](#requirements-to-run-the-demo)
 * [How to run the demo](#how-to-run-the-demo)
@@ -232,15 +232,15 @@ Clone the repository. This repository contains Blazor Server demos(.NET 6 and .N
 
 ## License
 
-Syncfusion Blazor Components is available under the Syncfusion Essential Studio program, and can be licensed either under the Syncfusion Community License Program or the Syncfusion commercial license.
+Syncfusion&reg; Blazor Components is available under the Syncfusion&reg; Essential Studio&reg; program, and can be licensed either under the Syncfusion&reg; Community License Program or the Syncfusion&reg; commercial license.
 
-To be qualified for the Syncfusion Community License Program, you must have gross revenue of less than one (1) million U.S. dollars (USD 1,000,000.00) per year and have less than five (5) developers in your organization, and agree to be bound by Syncfusion’s terms and conditions.
+To be qualified for the Syncfusion&reg; Community License Program, you must have gross revenue of less than one (1) million U.S. dollars (USD 1,000,000.00) per year and have less than five (5) developers in your organization, and agree to be bound by Syncfusion’s terms and conditions.
 
 Customers who do not qualify for the community license can contact sales@syncfusion.com for commercial licensing options.
 
 You may not use this product without first purchasing a Community License or a Commercial License, as well as agreeing to and complying with Syncfusion's license terms and conditions.
 
-The Syncfusion license that contains the terms and conditions can be found at
+The Syncfusion&reg; license that contains the terms and conditions can be found at
 [https://www.syncfusion.com/content/downloads/syncfusion_license.pdf](https://www.syncfusion.com/content/downloads/syncfusion_license.pdf)
 
 ## Support and feedback
