@@ -1,0 +1,111 @@
+@page "/chart/negative-column"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using System.Globalization
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/column-chart' aria-label="Navigate to explore the Blazor Column Chart">Blazor Column Chart</a> illustrates a column chart with negative points. Data points are enhanced with a tooltip.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see how to render and configure negative values in a column chart.
+    </p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about the column series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/column' aria-label="Navigate to the documentation for column in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Monthly Profit and Loss" Width="@Width" Theme="@Theme" EnableSideBySidePlacement="false">
+        <ChartEvents OnAxisLabelRender="labelRender"></ChartEvents>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelRotation="@Rotation" LabelIntersectAction="@Label">
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="-5000" Maximum="5000" Interval="1000">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries Name="Negative Liquidity" DataSource="LossValues" Type="ChartSeriesType.Column" Fill="red" XName="Month" YName="Income">
+            </ChartSeries>
+            <ChartSeries Name="Positive Liquidity" DataSource="ProfitValues" Type="ChartSeriesType.Column" Fill="green" XName="Month" YName="Income">
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="true" ToggleVisibility="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public LabelIntersectAction Label { get; set; } = LabelIntersectAction.Trim;
+    public double Rotation { get; set; } = 0;
+    public List<ColumnChartData> LossValues { get; set; } = new List<ColumnChartData>
+    {
+        new ColumnChartData { Month = "Jan", Income = null },
+        new ColumnChartData { Month = "Feb", Income = -1000 },
+        new ColumnChartData { Month = "Mar", Income = -1200 },
+        new ColumnChartData { Month = "Apr", Income = -2000 },
+        new ColumnChartData { Month = "May", Income = -300 },
+        new ColumnChartData { Month = "Jun", Income = null },
+        new ColumnChartData { Month = "Jul", Income = null },
+        new ColumnChartData { Month = "Aug", Income = null },
+        new ColumnChartData { Month = "Sep", Income = null }
+    };
+
+    public List<ColumnChartData> ProfitValues { get; set; } = new List<ColumnChartData>
+    {
+        new ColumnChartData { Month = "Jan", Income = 200 },
+        new ColumnChartData { Month = "Feb", Income = null },
+        new ColumnChartData { Month = "Mar", Income = null },
+        new ColumnChartData { Month = "Apr", Income = null },
+        new ColumnChartData { Month = "May", Income = null },
+        new ColumnChartData { Month = "Jun", Income = 1500 },
+        new ColumnChartData { Month = "Jul", Income = 4000 },
+        new ColumnChartData { Month = "Aug", Income = 4500 },
+        new ColumnChartData { Month = "Sep", Income = 4100 },
+        new ColumnChartData { Month = "Oct", Income = 3600 },
+        new ColumnChartData { Month = "Nov", Income = 4300 },
+        new ColumnChartData { Month = "Dec", Income = 3700 }
+    };
+
+    public class ColumnChartData
+    {
+        public string Month { get; set; }
+        public double? Income { get; set; }
+    }
+
+    void labelRender(AxisLabelRenderEventArgs args)
+    {
+        if (args.Value > 999 || args.Value < -999 )
+        {
+            args.Text = args.Value.ToString("0,.##K", CultureInfo.InvariantCulture);
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Rotation = -45;
+            Width = "100%";
+            Label = LabelIntersectAction.None;
+        }
+    }
+
+}

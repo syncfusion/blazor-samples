@@ -1,0 +1,322 @@
+﻿@page "/pdf-viewer-2/multi-format-viewer"
+@using Syncfusion.Blazor.SfPdfViewer;
+@using Syncfusion.Presentation;
+@using Syncfusion.PresentationRenderer;
+@using Syncfusion.XlsIO;
+@using Syncfusion.XlsIORenderer
+@using Syncfusion.DocIORenderer;
+@using Syncfusion.Pdf;
+@*Hidden:Lines*@
+@inject IJSRuntime JSRuntime
+@using WFormatType = Syncfusion.DocIO.FormatType;
+@using Syncfusion.Pdf.Graphics;
+@using Syncfusion.Blazor.ProgressBar;
+@using Syncfusion.Blazor.Inputs;
+@using System.IO;
+@using Syncfusion.Blazor.Buttons;
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+<p>This sample shows how it loads various file types like PDFs, images, and Microsoft Office documents (Word,Excel, PowerPoint) into the PDF Viewer.</p></SampleDescription>
+<ActionDescription>
+    <p>
+        This sample provides a hands-on demonstration of the PDF Viewer's ability to load and display a diverse
+        range of file formats, including PDFs, images, and Microsoft Office documents such as Word, Excel, and
+        PowerPoint files. Users can interact with the sample in the following ways:
+    </p>
+    <ul>
+        <li>Use the Browse button to select any file of interest.</li>
+        <li>Alternatively, drag and drop a chosen file into the designated file pick area.</li>
+        <li>Once a valid file is selected, it will be seamlessly loaded into the PDF Viewer located below, allowing users to easily view and interact with the content.</li>
+    </ul>
+    <p>Note: The PDF conversions are performed using the appropriate libraries, while the role of the PDF Viewer is solely to display the converted PDF document.</p>
+
+    @*WASM:Block*@
+    @{
+    #if (WASM)
+    }
+    <p>More information about the <strong>SfPdfViewer</strong> can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application"
+           aria-label="documentation section for viewing PDF files using PDF Viewer Component in the Blazor WASM app">documentation section</a>.
+    </p>
+    @{
+    #endif
+    }
+    @*End:WASM*@
+
+    @*Server:Block*@
+    @{
+    #if !(WASM)
+    }
+    <p>More information about the <strong>SfPdfViewer</strong> can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application"
+           aria-label="documentation section for viewing PDF files using PDF Viewer Component in the Blazor Server app">documentation section</a>.
+    </p>
+    @{
+    #endif
+    }
+    @*End:Server*@
+</ActionDescription>
+
+<div class="control-section">
+    @*Hidden:Lines*@
+     <div class="content-wrapper">
+                <div id="dropAreaRef" style="height: auto; overflow: auto">
+                    <SfButton id="browseButton">Browse...</SfButton>
+                    <div>
+                        <p style="margin: 15px;">OR</p>
+                        <p id="drop">Drop files (Word, Excel, PowerPoint, Image, PDF)</p>
+                    </div>
+                </div>
+                  <div id="progressbarContainer" style="display: block;">
+                <div id="fileDetails">
+                    <p id="fileName"></p>
+                    <p id="fileSize"></p>
+                </div>
+
+                <div id="linearProgressBar" style="justify-content: center; display: none;">
+                    <SfProgressBar Type="ProgressType.Linear" id="progress-container" @ref="ProgressbarRef" Value="@ProgressBarValue" Height="5" Width="250" Minimum="0" Maximum="100">
+                    </SfProgressBar>
+                    <span id="progress-status">@HtmlContent</span>
+                </div>
+                <div id="uploadedMessage" style="display: none; margin-top: 10px;">
+                    <p style="color: rgb(110, 218, 110);">File successfully uploaded...</p>
+                </div>
+                 <div id="FailedMessage" style="display:none; margin-top:10px">
+                    <p style="color:red">File not Supported!</p>
+                </div>
+                <div id="fileSizeValidation" style="display: none; margin-top: 10px;">
+                    <p style="color: red;">Maximum file size is (4.0 MB) for this operation...</p>
+                </div>
+            </div>
+            @*End:Hidden*@
+
+                <div id="uploader">
+                    <SfUploader @ref="UploadObj" ID="fileUpload" DropArea="#dropAreaRef" AllowedExtensions=".doc, .docx, .rtf, .docm, .dotm, .dotx, .dot, .xls, .xlsx, .pptx, .pptm, .potx, .potm .jpeg, .png, .bmp, .pdf">
+                        <UploaderEvents ValueChange="OnChange" Created="CreatedHandler" FileSelected="Selected"></UploaderEvents>                        
+                    </SfUploader>
+                </div>
+     </div>
+    <div style="visibility:@IsLoaded ;height:@DocumentHeight;width:@DocumentWidth;">
+        <SfPdfViewer2 @ref="PdfViewerInstance" ID="pdfviewer" ZoomMode="ZoomMode.FitToPage">
+        <PdfViewerToolbarSettings MobileToolbarItems="@MobileItems" ToolbarItems="@ToolbarItems"></PdfViewerToolbarSettings>
+        <PdfViewerEvents DocumentLoaded="documentLoaded"></PdfViewerEvents>
+        </SfPdfViewer2>
+    </div>
+</div>
+
+@code {
+    @*Hidden:Lines*@
+    SfPdfViewer2 PdfViewerInstance { get; set; }
+    SfUploader UploadObj { get; set; }
+    SfProgressBar ProgressbarRef { get; set; }
+    public string IsLoaded { get; set; } = "hidden";
+    public string DocumentWidth { get; set; }= "0px";
+    public string DocumentHeight { get; set; }= "0px";
+    public int ProgressBarValue { get; set; }= 0;
+    public string HtmlContent { get; set; }= "0%";
+
+    public List<ToolbarItem> ToolbarItems = new List<ToolbarItem>()
+    {
+            ToolbarItem.PageNavigationTool,
+            ToolbarItem.MagnificationTool,
+            ToolbarItem.SelectionTool,
+            ToolbarItem.PanTool,
+            ToolbarItem.UndoRedoTool,
+            ToolbarItem.CommentTool,
+            ToolbarItem.SearchOption,
+            ToolbarItem.AnnotationEditTool,
+            ToolbarItem.PrintOption,
+            ToolbarItem.DownloadOption
+    };
+
+    public List<MobileToolbarItem> MobileItems = new List<MobileToolbarItem>()
+    {
+        MobileToolbarItem.UndoRedo,
+        MobileToolbarItem.EditAnnotation,
+        MobileToolbarItem.Search,
+    };   
+
+    public async Task CreatedHandler()
+    {
+        await JSRuntime.InvokeVoidAsync("createdBrowsebutton");
+    }
+
+    public void documentLoaded()
+    {        
+        ProgressBarValue = 100;
+        HtmlContent = ProgressBarValue.ToString()+"%";
+        ShowMessage();
+    }
+
+    public async Task ShowMessage()
+    {
+        await JSRuntime.InvokeVoidAsync("showMessage");
+    }
+
+    public async Task Selected(SelectedEventArgs args)
+    {
+        bool isInValidFile=await JSRuntime.InvokeAsync<bool>("onSelect",args);
+        args.Cancel = isInValidFile;
+        ProgressBarValue = 40;
+        HtmlContent = ProgressBarValue.ToString()+"%";
+
+    }
+    @*End:Hidden*@
+
+    private async void OnChange(UploadChangeEventArgs action)
+    {
+        ProgressBarValue = 60;
+        HtmlContent = ProgressBarValue.ToString()+"%";
+        string base64 = action.Files[0].File.ToString();
+        string type = action.Files[0].FileInfo.Type.ToLower();        
+        var fileStream = new MemoryStream();
+        await action.Files[0].File.OpenReadStream(long.MaxValue).CopyToAsync(fileStream);       
+        byte[] bytes = Convert.FromBase64String(Convert.ToBase64String(fileStream.ToArray()));
+        var outputStream = new MemoryStream();
+        Syncfusion.Pdf.PdfDocument pdfDocument = new Syncfusion.Pdf.PdfDocument();
+        if (type == "pdf")
+        {
+            ProgressBarValue = 90;
+            HtmlContent = ProgressBarValue.ToString()+"%";
+            loadPDFdocument(bytes);
+        }
+        else
+        {
+            using (Stream stream = new MemoryStream(bytes))
+            {
+                switch (type)
+                {
+                    case "docx":
+                    case "dot":
+                    case "doc":
+                    case "dotx":
+                    case "docm":
+                    case "dotm":
+                    case "rtf":
+                        Syncfusion.DocIO.DLS.WordDocument doc = new Syncfusion.DocIO.DLS.WordDocument(stream, GetWFormatType(type));
+                        //Instantiation of DocIORenderer for Word to PDF conversion
+                        DocIORenderer render = new DocIORenderer();
+                        //Converts Word document into PDF document
+                        pdfDocument = render.ConvertToPDF(doc);
+                        doc.Close();
+                        break;
+                    case "pptx":
+                    case "pptm":
+                    case "potx":
+                    case "potm":
+                        //Loads or open an PowerPoint Presentation
+                        IPresentation pptxDoc = Presentation.Open(stream);
+                        pdfDocument = PresentationToPdfConverter.Convert(pptxDoc);
+                        pptxDoc.Close();
+                        break;
+                    case "xlsx":
+                    case "xls":
+                        ExcelEngine excelEngine = new ExcelEngine();
+                        //Loads or open an existing workbook through Open method of IWorkbooks
+                        IWorkbook workbook = excelEngine.Excel.Workbooks.Open(stream);
+                        //Initialize XlsIO renderer.
+                        XlsIORenderer renderer = new XlsIORenderer();
+                        //Convert Excel document into PDF document
+                        pdfDocument = renderer.ConvertToPDF(workbook);
+                        workbook.Close();
+                        break;
+                    case "jpeg":
+                    case "jpg":
+                    case "png":
+                    case "bmp":
+                        //Add a page to the document
+                        PdfPage page = pdfDocument.Pages.Add();
+                        //Create PDF graphics for the page
+                        PdfGraphics graphics = page.Graphics;
+                        PdfBitmap image = new PdfBitmap(stream);
+                        //Draw the image
+                        graphics.DrawImage(image, 0, 0);
+                        break;
+                }
+                ProgressBarValue = 90;
+                HtmlContent = ProgressBarValue.ToString()+"%";
+                pdfDocument.Save(outputStream);
+                outputStream.Position = 0;
+                loadPDFdocument(outputStream.ToArray());
+                pdfDocument.Close();
+                outputStream.Close();
+            }
+        }
+    }
+
+    public async void loadPDFdocument(byte[] bytes)
+    {
+        IsLoaded = "visible";
+        DocumentWidth = "100%";
+        DocumentHeight = "100%";
+        StateHasChanged();
+        string base64String = Convert.ToBase64String(bytes);
+        await PdfViewerInstance.LoadAsync("data:application/pdf;base64," + base64String, null);
+        await PdfViewerInstance.FitToPageAsync();
+        
+    }
+
+    public static WFormatType GetWFormatType(string format)
+    {
+        if (string.IsNullOrEmpty(format))
+            throw new NotSupportedException("EJ2 DocumentEditor does not support this file format.");
+        switch (format.ToLower())
+        {
+            case "dotx":
+                return WFormatType.Dotx;
+            case "docx":
+                return WFormatType.Docx;
+            case "docm":
+                return WFormatType.Docm;
+            case "dotm":
+                return WFormatType.Dotm;
+            case "dot":
+                return WFormatType.Dot;
+            case "doc":
+                return WFormatType.Doc;
+            case "rtf":
+                return WFormatType.Rtf;
+            default:
+                throw new NotSupportedException("EJ2 DocumentEditor does not support this file format.");
+        }
+    }
+
+ @*Hidden:Lines*@
+  
+    public async Task ShowViewer()
+    {
+        await JSRuntime.InvokeVoidAsync("showViewer");
+
+    }
+    
+}
+
+
+<style>
+#browse {
+    background-color: #fff;
+    border: none;
+    padding: 5px;
+    width: 90px;
+    box-shadow: 0px 1px 5px 2px #d3d3d3;
+    border-radius: 5px;
+    font-weight: 500;
+}
+
+.content-wrapper {
+    border: 1px dashed #c3c3cc;
+    position: relative;
+    text-align: center;
+    padding: 20px 0 10px;
+    margin-bottom: 15px;
+}
+
+#uploader {
+    display: none;
+}
+</style>
+@*End:Hidden*@

@@ -1,0 +1,217 @@
+﻿@page "/ai-ganttchart/task-prioritizer"
+
+
+@inject AzureAIService OpenAIService
+@using BlazorDemos.Model
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Service
+
+@inject IJSRuntime JsInterop
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how AI can prioritize tasks within a task collection. The AI evaluates baseline dates and scheduled taskbar dates to identify critical tasks, which are crucial for meeting project deadlines. It then reallocates resources to these critical tasks, ensuring efficient resource management and timely project completion.</p>
+
+    <p>To explore this and more Syncfusion Blazor Smart AI integrations locally, check out our <a target='_blank' href='https://github.com/syncfusion/smart-ai-samples/tree/master/blazor' aria-label="Navigate to explore the syncfusion Blazor AI Demos repository">GitHub repository</a>.</p>
+</SampleDescription>
+<ActionDescription>
+     <p>The process begins with the AI identifying the critical tasks based on the project schedule. Following this, the AI generates another prompt to reassign resources and provides a summary of the reallocation and critical task details.</p>
+</ActionDescription>
+
+@*Hidden:Lines*@
+@{#if (SHOW_GIF_IMAGES)}
+<img src="@NavigationManager.ToAbsoluteUri($" {SampleService.WebAssetsPath}images/smartcomponents/gantt/task-prioritizer.gif")" style="width:100%; height:100%;" />
+
+@{#else}
+@*End:Hidden*@
+<div class="col-lg-12 control-section">
+    @if (showMessage)
+    {
+        <div>
+            <span>Something went wrong <button @onclick="Reload" class="btn btn-primary my-2">click</button> to reload.</span>
+        </div>
+    }
+    <SfGantt @ref="Gantt" DataSource="@TaskCollection" Height="400px" Width="100%" RowHeight="38" HighlightWeekends="true" TreeColumnIndex="1">
+        <GanttTaskFields Id="Id" Name="Name" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                         ParentID="ParentId" BaselineStartDate="BaselineStartDate" BaselineEndDate="BaselineEndDate">
+        </GanttTaskFields>
+        <GanttColumns>
+            <GanttColumn Field="Id" HeaderText="Task Id "></GanttColumn>
+            <GanttColumn Field="Name" HeaderText="Task Name" Width="250px" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+            <GanttResourceColumn></GanttResourceColumn>
+            <GanttColumn Field="StartDate" HeaderText="Start Date "></GanttColumn>
+            <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+            <GanttColumn Field="BaselineStartDate" HeaderText="BaselineStartDate " Width="200"></GanttColumn>
+            <GanttColumn Field="BaselineEndDate" HeaderText="BaselineEndDate" Width="200"></GanttColumn>
+        </GanttColumns>
+        <GanttEditSettings AllowEditing></GanttEditSettings>
+        <GanttLabelSettings RightLabel="Resources" TValue="GanttDataModel.TaskInfoModel"></GanttLabelSettings>
+        <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit" TValue="GanttDataModel.TaskInfoModel" TResources="GanttDataModel.ResourceInfoModel"></GanttResource>
+        <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="PrimaryId" TaskID="TaskId" ResourceID="ResourceId" Units="Unit" TValue="GanttDataModel.TaskInfoModel" TAssignment="GanttDataModel.AssignmentModel"></GanttAssignmentFields>
+        <GanttSplitterSettings Position="23%"> </GanttSplitterSettings>
+        <GanttTemplates TValue="GanttDataModel.TaskInfoModel">
+            <TaskbarTemplate>
+                @{
+                    var task = (context as GanttDataModel.TaskInfoModel);
+                    if (task == null)
+                    {
+                        return;
+                    }
+                    var taskModel = Gantt.GetRowTaskModel(task);
+                    string taskbarClassName = string.Empty;
+                    string progressClassName = string.Empty;
+                    if (taskIds.Count > 0 && taskIds.Any(s => s == task.Id))
+                    {
+                        taskbarClassName = "e-custom-taskbar";
+                        progressClassName = "e-custom-progress";
+                    }
+                    <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div @taskbarClassName" style="height:22px;--taskbar-bg: #FAEBD7;" tabindex=-1>
+                        <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar @progressClassName" style="height:22px;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
+                        </div>
+                    </div>
+                }
+            </TaskbarTemplate>
+        </GanttTemplates>
+        <SfToolbar ID="Gantt_Resource_Toolbar">
+            <ToolbarItems>
+                <ToolbarItem>
+                    <Template>
+                        <SfButton IsPrimary ID="openAI" @onclick="OpenAIHandler">Assign prioritize tasks</SfButton>
+                    </Template>
+                </ToolbarItem>
+            </ToolbarItems>
+        </SfToolbar>
+    </SfGantt>
+    <div class="e-sf-ai-summary-content">
+        <p>@summary</p>
+    </div>
+</div>
+@*Hidden:Lines*@
+@{#endif}
+@*End:Hidden*@
+@code {
+    public SfGantt<GanttDataModel.TaskInfoModel> Gantt = new();
+    private List<GanttDataModel.TaskInfoModel> TaskCollection { get; set; } = new();
+    private bool showMessage;
+    private string summary = string.Empty;
+    private Dictionary<string, string> riskAnalyzeContent = new();
+    private Dictionary<string, string> riskAnalyzePriority = new();
+    private List<GanttDataModel.ResourceInfoModel> ResourceCollection { get; set; } = new();
+    private static List<GanttDataModel.AssignmentModel> AssignmentCollection { get; set; } = new();
+    List<int> taskIds = new();
+    protected override void OnInitialized()
+    {
+        TaskCollection = GanttDataModel.GetBaselineCollection();
+        ResourceCollection = GanttDataModel.GetResources;
+        AssignmentCollection = GanttDataModel.ResourceAssignmentCollection();
+    }
+    private string GeneratePrompt(List<GanttDataModel.TaskInfoModel> TaskCollection)
+    {
+        return @"
+    1. Analyze the 'TaskCollection' below to identify critical tasks. Focus on tasks where the 'EndDate' is later than the 'BaselineEndDate'. Only consider tasks where both dates are not null and compare only the dates, not the times. Return the collection of critical tasks in the 'TaskDetails' format. Provide no additional explanation or content.
+    Here is the 'TaskCollection': " + JsonSerializer.Serialize(Gantt.GetCurrentViewRecords()) +
+    ", ResourceCollection: " + JsonSerializer.Serialize(ResourceCollection) +
+    ", ResourceAssignmentCollection: " + JsonSerializer.Serialize(AssignmentCollection) + "/n Note: The response must be a JSON string with no additional explanation.";
+    }
+    private async Task Reload()
+    {
+        await JsInterop.InvokeVoidAsync("window.location.reload");
+    }
+    private async Task OpenAIHandler()
+    {
+        await Gantt.ShowSpinnerAsync();
+        taskIds = new();
+        showMessage = false;
+        summary = string.Empty;
+        riskAnalyzeContent = new();
+        riskAnalyzePriority = new();
+        Dictionary<string, IEnumerable<object>> ganttData = new Dictionary<string, IEnumerable<object>>();
+        List<GanttDataModel.TaskInfoModel> generatedCollection = new();
+        List<GanttDataModel.AssignmentModel> sortedCollection = new List<GanttDataModel.AssignmentModel>();
+        string AIPrompt = GeneratePrompt(GanttDataModel.HistoricalTaskData);
+        string result = await OpenAIService.GetCompletionAsync(AIPrompt, true, true);
+        try
+        {
+            if (result.StartsWith("```json"))
+            {
+                result = result.Replace("```json", "").Replace("```", "").Trim();
+            }
+            else if (result.StartsWith("```"))
+            {
+                result = result.Replace("```", "").Replace("```", "").Trim();
+            }
+            var contentAIPrompt = @"Using the previously identified critical tasks, update the 'AssignmentCollection' by assigning additional resources to unassigned tasks. If there are tasks in 'TaskCollection' without any assigned resources, allocate available resources (ensuring no task has the same resource assigned more than once). Update the values of below fields and return the 'AssignmentCollection' as a property in below format.
+             {
+              AssignmentCollection: [
+                {
+                   PrimaryId: value,
+                   TaskId: value,
+                   ResourceId: value,
+                   Unit: value
+                },
+              ]
+              Do not provide any other format or values.";
+
+            string contentResult = await OpenAIService.GetCompletionAsync(contentAIPrompt, true, true);
+            var taskPrompt = @"Compare the existing collection " + JsonSerializer.Serialize(AssignmentCollection) + " with the updated assignment collection " + contentResult + ". Provide a JSON response containing 'TaskIds', which lists the IDs of tasks with modified resource assignments, and 'Summary', which contains a brief report summarizing the critical tasks identified and the changes made to resource assignments.";
+            string taskResult = await OpenAIService.GetCompletionAsync(taskPrompt,true, true);
+
+            string response = JsonDocument.Parse(contentResult).RootElement.GetProperty("AssignmentCollection").ToString();
+            if (response is not null)
+            {
+                var collection = JsonSerializer.Deserialize<List<GanttDataModel.AssignmentModel>>(response);
+                if (collection is not null)
+                {
+                    sortedCollection = collection;
+                }
+            }
+            string taskIdCollection = JsonDocument.Parse(taskResult).RootElement.GetProperty("TaskIds").ToString();
+            summary = JsonDocument.Parse(taskResult).RootElement.GetProperty("Summary").ToString();
+            if (taskIdCollection is not null)
+            {
+                taskIds = JsonSerializer.Deserialize<List<int>>(taskIdCollection);
+            }
+            if (sortedCollection is not null && sortedCollection.Count > 0)
+            {
+                AssignmentCollection = sortedCollection.Cast<GanttDataModel.AssignmentModel>().ToList();
+            }
+        }
+        catch (Exception e)
+        {
+            showMessage = true;
+            await Gantt.HideSpinnerAsync();
+            return;
+        }
+
+        await Gantt.HideSpinnerAsync();
+        await Task.CompletedTask;
+    }
+}
+<style>
+    .e-custom-taskbar {
+        background-color: lightgreen !important;
+    }
+
+    .e-custom-progress {
+        background-color: green !important;
+    }
+
+    .e-sf-ai-summary-content {
+        min-height: 120px;
+        margin-top: 55px;
+        padding: 15px;
+        background: #F0FFFF
+    }
+
+    .e-sf-ai-summary-content p {
+        font-size: 13px;
+    }
+</style>

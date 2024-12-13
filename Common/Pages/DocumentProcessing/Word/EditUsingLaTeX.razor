@@ -1,0 +1,152 @@
+@page "/word/edit-using-latex"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@using Syncfusion.Blazor.Inputs
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+   <p style="font-size:16px">This sample demonstrates how to modify a mathematical equation using LaTeX in a Word document using .NET Word Library (DocIO).</p> 
+</SampleDescription>
+<ActionDescription>
+   <p style="font-size:16px">.NET Word Library (DocIO) allows you to modify a mathematical equation using LaTeX in the Word document.</p>
+    <p><ul style="font-size:16px"><li>You can extract the LaTeX of an existing equation in a Word document.</li>
+	<li>You can modify text in the equation using LaTeX.</li></ul></p>
+    <p style="font-size:16px">More information about mathematical equations can be found in this <a href="https://help.syncfusion.com/file-formats/docio/working-with-latex" aria-label="documentation section">documentation</a> section.</p> 
+</ActionDescription>
+
+    <div class="control-section">
+        @*Server:Block*@
+        @{ #if !(WASM) && !WEBAPP }
+        <p style="font-size:16px">Click the button to view the generated Word document or PDF. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document and PDF viewer is required to view the resultant PDF.</p>
+        @{ #endif }
+        @*End:Server*@
+        @*WebAssembly:Block*@
+        @{ #if (WASM) || WEBAPP }
+        <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+        @{ #endif }
+        @*End:WebAssembly*@
+        <table class="row">
+            <tr>
+                <td>
+                    <div style="font-weight: bold;">
+                        LaTeX to edit equation :
+                    </div>
+                </td>
+            </tr>
+         </table>
+         <table  style="width:80%;">
+            <tr>
+                <td colspan="4">
+                     <div>
+                         <SfTextBox @bind-Value="@latex" @oninput="OnInputEvent" ></SfTextBox>
+                     </div>
+                 </td>
+            </tr>
+         </table>
+        <table>
+            @*Server:Block*@
+            @{ #if !(WASM) && !WEBAPP }
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:16px">Save As:</h5>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="PDF" Name="PDF" Value=@("PDF") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+            </tr>
+            @{ #endif }
+            @*End:Server*@
+            <tr>
+                <td colspan="3">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+    string latex = @"\frac{d}{dx}\left( {x}^{2}\right)=k{x}^{k-1}";
+    private void OnInputEvent(ChangeEventArgs changeEvent)
+    {
+        latex = (string)changeEvent.Value;
+    }
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        EditUsingLaTeXService service = new EditUsingLaTeXService(fileData);
+        documentStream = service.EditUsingLaTeX(documentType, "Generate Document", latex);
+        service.Close();
+        if (documentType == "DOCX")
+            await JS.SaveAs("EditEquationLaTeX.docx", documentStream.ToArray());       
+@*Server:Block*@            
+#if !(WASM) && !WEBAPP
+        else
+            await JS.SaveAs("EditEquationLaTeX.pdf", documentStream.ToArray());
+#endif
+@*End:Server*@
+    }
+    /// <summary>
+    /// Create and download the template Markdown document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        EditUsingLaTeXService service = new EditUsingLaTeXService(fileData);
+        documentStream = service.EditUsingLaTeX(documentType, "View Template", "");
+        service.Close();
+        await JS.SaveAs("edit-equation-latex-input.docx", documentStream.ToArray());        
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/word/edit-equation-latex-input.docx");
+            fileData.Add("edit-equation-latex-input.docx", new MemoryStream(data));
+        }
+    }
+}

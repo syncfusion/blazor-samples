@@ -1,0 +1,147 @@
+@page "/word/table-of-figures"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+ <p style="font-size:16px">This sample demonstrates how to insert and update the table of figures in a Word document using .NET Word Library (DocIO).</p>   
+</SampleDescription>
+<ActionDescription>
+   <p style="font-size:16px">The .NET Word Library (DocIO) provides support to insert and update table of figures in Word document including page number, hyperlinks to easily navigate to specific caption of figures, tables, charts, and more.</p>
+   <p><ul style="font-size:16px"><li>You can update or rebuild the table of figures in an existing Word document.</li><li>You can customize the table of figures by excluding caption’s label and number.</li></ul></p>
+   <p style="font-size:16px">More information about the table of figures can be found in this <a href="https://help.syncfusion.com/file-formats/docio/working-with-table-of-contents" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="control-section">
+    @*Server:Block*@
+    @{ #if !(WASM) && !WEBAPP }
+    <p style="font-size:16px">Click the button to view the generated Word document or PDF. Please note that a Word-compatible viewer is required to open and view the Word document and a PDF viewer is required to view the resultant PDF.</p>
+    @{ #endif }
+    @*End:Server*@
+    @*WebAssembly:Block*@
+    @{ #if (WASM) || WEBAPP }
+        <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+    @{ #endif }
+    @*End:WebAssembly*@
+
+        <div class="checkbox-control">
+            <div class="row">
+                <SfCheckBox @bind-Checked="@ExcludeLabelsAndNumbers" Label="Exclude caption’s label and number in table of figures"></SfCheckBox>
+            </div>
+        </div>
+        <table>
+           <tr>
+                <td>
+                    <h5 class="row" style="font-size:16px">Save As:</h5>
+                </td>
+                 <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOC" Name="DOC" Value=@("DOC") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="WordML" Name="WordML" Value=@("WordML") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                @*Server:Block*@
+                @{ #if !(WASM) && !WEBAPP }
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="PDF" Name="PDF" Value=@("PDF") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                @{ #endif }
+                @*End:Server*@
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>                                  
+                                     <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+    bool ExcludeLabelsAndNumbers = false;
+    
+    //Hidden:Lines
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    //End:Hidden
+
+    /// <summary>
+    /// Update Table of figures of the Word document.
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        TableOfFiguresService service = new TableOfFiguresService(fileData);
+        documentStream = service.TableOfFigures(documentType, "Generate Document",  ExcludeLabelsAndNumbers);
+        service.Close();
+        if (documentType == "DOCX")
+            await JS.SaveAs("TableOfFigures.docx", documentStream.ToArray());
+        else if (documentType == "WordML")
+            await JS.SaveAs("TableOfFigures.xml", documentStream.ToArray());
+        else if (documentType == "DOC")
+            await JS.SaveAs("TableOfFigures.doc", documentStream.ToArray());
+@*Server:Block*@
+#if !(WASM) && !WEBAPP
+        else
+            await JS.SaveAs("TableOfFigures.pdf", documentStream.ToArray());
+#endif
+@*End:Server*@
+    }
+    /// <summary>
+    /// Download the template Word document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        TableOfFiguresService service = new TableOfFiguresService(fileData);
+        documentStream = service.TableOfFigures(documentType, "View Template",  ExcludeLabelsAndNumbers);
+        service.Close();
+        await JS.SaveAs("TableOfFiguresInput.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/word/table-of-figures-input.docx");
+            fileData.Add("table-of-figures-input.docx", new MemoryStream(data));
+        }
+    }
+}

@@ -1,0 +1,175 @@
+﻿@page "/chart/polar-line"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/radar-chart' aria-label="Navigate to explore the Blazor Polar Radar Line Chart">Blazor Polar Radar Line Chart</a> example visualizes data about Alaska Weather Statistics - 2016 with a default polar line series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure polar and radar charts with a line series. The type of series can be changed using the <b>Series Type</b> dropdown list in the properties panel. Also, the angle can be changed and the series can be inversed using <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxis.html#Syncfusion_Blazor_Charts_ChartAxis_StartAngle' aria-label="Navigate to the Start Angle property reference for chart axis">Start Angle</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxis.html#Syncfusion_Blazor_Charts_ChartAxis_IsInversed' aria-label="Navigate to the Inversed property reference for chart axis">Inversed</a> properties.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the polar and radar series with a line type chart can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/polar/#line' aria-label="Navigate to the documentation for line in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfChart Title="Alaska Weather Statistics - 2016" Theme="@Theme">
+        <ChartTooltipSettings Enable="true">
+        </ChartTooltipSettings>
+        <ChartPrimaryXAxis IsInversed="@IsInversed" StartAngle="@StartAngle" Interval="1" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Title="Months" Coefficient="@Coefficient"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis IsInversed="@IsInversed" Title="Temperature (Celsius)" Minimum="-25" Maximum="25" Interval="10" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}°C"></ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries IsClosed="@IsClosed" DataSource="@ChartPoints" Name="Germany" XName="Month" Width="2" Opacity="1" YName="GER_Temp" Type="@SeriesType">
+                <ChartMarker IsFilled="true" Visible="true" Height="7" Width="7" Shape="ChartShape.Pentagon"></ChartMarker>
+            </ChartSeries>
+            <ChartSeries IsClosed="@IsClosed" DataSource="@ChartPoints" Name="England" XName="Month" Width="2" Opacity="1" YName="ENG_Temp" Type="@SeriesType">
+                <ChartMarker IsFilled="true" Visible="true" Height="7" Width="7" Shape="ChartShape.Pentagon"></ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Series Type:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Polar" DataSource="@SeriesTypes">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>Closed: </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div>
+                            <SfCheckBox Checked="@IsClosed" ValueChange="@CheckClosed" TChecked="bool"></SfCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Start Angle:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div>
+                            <SfNumericTextBox TValue="int?" Value="@StartAngle" Max=360 Min=0 Step=10 Width="90%">
+                                <NumericTextBoxEvents TValue="int?" ValueChange="ChangeAngle" />
+                            </SfNumericTextBox>
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div>
+                            <p style="font-weight: normal;padding-top:10px;"><span>@StartAngle</span></p>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>Inversed: </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <div>
+                            <SfCheckBox Checked="@IsInversed" ValueChange="@checkInversed" TChecked="bool"></SfCheckBox>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    private Boolean IsInversed { get; set; } = false;
+    private Boolean IsClosed { get; set; } = true;
+    private int StartAngle { get; set; } = 0;
+    private ChartSeriesType SeriesType { get; set; } = ChartSeriesType.Polar;
+    private double Coefficient { get; set; }
+    public List<DropDownData> SeriesTypes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Polar" },
+        new DropDownData() { Type = "Radar" },
+    };
+    public List<PolarLineChartData> ChartPoints { get; set; } = new List<PolarLineChartData>
+    {
+        new PolarLineChartData { Month = "Jan", GER_Temp = -7.1, ENG_Temp = -17.4 },
+        new PolarLineChartData { Month = "Feb", GER_Temp = -3.7, ENG_Temp = -15.6  },
+        new PolarLineChartData { Month = "Mar", GER_Temp = 0.8, ENG_Temp = -12.3  },
+        new PolarLineChartData { Month = "Apr", GER_Temp = 6.3, ENG_Temp = -5.3 },
+        new PolarLineChartData { Month = "May", GER_Temp = 13.3, ENG_Temp = 1.0 },
+        new PolarLineChartData { Month = "Jun", GER_Temp = 18.0, ENG_Temp =  6.9  },
+        new PolarLineChartData { Month = "Jul", GER_Temp = 19.8 , ENG_Temp = 9.4 },
+        new PolarLineChartData { Month = "Aug", GER_Temp = 18.1, ENG_Temp = 7.6 },
+        new PolarLineChartData { Month = "Sep", GER_Temp = 13.1 , ENG_Temp = 2.6 },
+        new PolarLineChartData { Month = "Oct", GER_Temp = 4.1, ENG_Temp = -4.9},
+        new PolarLineChartData { Month = "Nov", GER_Temp = -3.8, ENG_Temp = -13.4 },
+        new PolarLineChartData { Month = "Dec", GER_Temp = -6.8, ENG_Temp = -16.4 },
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        Coefficient = SampleService.IsDevice ? 80 : 100;
+    }
+
+    public void ChangeSeriesType(ChangeEventArgs<string, DropDownData> args)
+    {
+        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+
+    public void checkInversed(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsInversed = args.Checked;
+    }
+
+    public void CheckClosed(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsClosed = args.Checked;
+    }
+
+    private void ChangeAngle(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        StartAngle = Convert.ToInt32(args.Value);
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+    public class PolarLineChartData
+    {
+        public string Month { get; set; }
+        public double GER_Temp { get; set; }
+        public double ENG_Temp { get; set; }
+    }
+
+}

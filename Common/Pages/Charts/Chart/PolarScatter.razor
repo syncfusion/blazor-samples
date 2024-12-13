@@ -1,0 +1,131 @@
+﻿@page "/chart/polar-scatter"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows GDP growth of different countries for a few years in the polar and radar charts using the scatter series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure polar and radar charts with a scatter series. Switching between polar and radar series can be done using the <b>Series Type</b> in the property panel.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the polar and radar chart with a scatter series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/polar/#scatter' aria-label="Navigate to the documentation for scatter in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfChart Title="GDP by Countries" Theme="@Theme">
+        <ChartTooltipSettings Enable="true" Header="" Format="<b>${point.x}</b> <br>GDP: <b>${point.y}%</b>">
+        </ChartTooltipSettings>
+        <ChartPrimaryYAxis Minimum="0" Maximum="8" Interval="2"></ChartPrimaryYAxis>
+        <ChartPrimaryXAxis Interval="1" Coefficient="@(SampleService.IsDevice ? 65 : 100 )" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@Chartpoints" Name="2015" XName="Country" Width="2" YName="GDP_2013" Type="@SeriesType" DrawType="ChartDrawType.Scatter">
+                <ChartMarker Visible="true" Height="7" Width="7">
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@Chartpoints" Name="2016" XName="Country" Width="2" YName="GDP_2014" Type="@SeriesType" DrawType="ChartDrawType.Scatter">
+                <ChartMarker Visible="true" Height="7" Width="7" Shape="ChartShape.Diamond">
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@Chartpoints" Name="2017" XName="Country" Width="2" YName="GDP_2015" Type="@SeriesType" DrawType="ChartDrawType.Scatter">
+                <ChartMarker Visible="true" Height="7" Width="7" Shape="ChartShape.Triangle">
+                    <ChartDataLabel Name="TooltipMappingName"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Series Type:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Polar" DataSource="@SeriesTypes">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    private ChartSeriesType SeriesType { get; set; } = ChartSeriesType.Polar;
+    public List<DropDownData> SeriesTypes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Polar" },
+        new DropDownData() { Type = "Radar" },
+    };
+    public List<PolarScatterData> Chartpoints { get; set; } = new List<PolarScatterData>
+    {
+        new PolarScatterData { TooltipMappingName= "Myanmar", Country = "Myanmar", GDP_2013 = 7.3, GDP_2014 = 6.3, GDP_2015 = 7.5 },
+        new PolarScatterData { TooltipMappingName= "India", Country = "India", GDP_2013 = 7.9, GDP_2014 = 6.8, GDP_2015 = 7.2 },
+        new PolarScatterData { TooltipMappingName= "Bangladesh", Country = "Bangladesh", GDP_2013 = 6.8, GDP_2014 = 6.9, GDP_2015 = 6.9 },
+        new PolarScatterData { TooltipMappingName= "Cambodia", Country = "Cambodia", GDP_2013 = 7.0, GDP_2014 = 7.0, GDP_2015 = 6.9 },
+        new PolarScatterData { TooltipMappingName= "China", Country = "China", GDP_2013 = 6.9, GDP_2014 = 6.7, GDP_2015 = 6.6 },
+        new PolarScatterData { TooltipMappingName= "Bhutan", Country = "Bhutan", GDP_2013 = 6.1, GDP_2014 = 6.2, GDP_2015 = 5.9 },
+        new PolarScatterData { TooltipMappingName= "Iceland", Country = "Iceland", GDP_2013 = 4.1, GDP_2014 = 7.2, GDP_2015 = 5.7 },
+        new PolarScatterData { TooltipMappingName= "Nepal", Country = "Nepal", GDP_2013 = 2.7, GDP_2014 = 0.6, GDP_2015 = 5.5 },
+        new PolarScatterData { TooltipMappingName= "Pakistan", Country = "Pakistan", GDP_2013 = 4.0, GDP_2014 = 4.7, GDP_2015 = 5.0 },
+        new PolarScatterData { TooltipMappingName= "Poland", Country = "Poland", GDP_2013 = 3.9, GDP_2014 = 2.7, GDP_2015 = 3.4 },
+        new PolarScatterData { TooltipMappingName= "Australia", Country = "Australia", GDP_2013 = 2.4, GDP_2014 = 2.5, GDP_2015 = 3.1 },
+        new PolarScatterData { TooltipMappingName= "Korea", Country = "Korea", GDP_2013 = 2.8, GDP_2014 = 2.8, GDP_2015 = 2.7 },
+        new PolarScatterData { TooltipMappingName= "Singapore", Country = "Singapore", GDP_2013 = 1.9, GDP_2014 = 2.0, GDP_2015 = 2 },
+        new PolarScatterData { TooltipMappingName= "Canada", Country = "Canada", GDP_2013 = 0.9, GDP_2014 = 1.4, GDP_2015 = 1.9 },
+        new PolarScatterData { TooltipMappingName= "Germany", Country = "Germany", GDP_2013 = 1.5, GDP_2014 = 1.8, GDP_2015 = 1.6 },
+        new PolarScatterData { TooltipMappingName= "Denmark", Country = "Denmark", GDP_2013 = 1.6, GDP_2014 = 1.1, GDP_2015 = 1.5 },
+        new PolarScatterData { TooltipMappingName= "France", Country = "France", GDP_2013 = 1.3, GDP_2014 = 1.3, GDP_2015 = 1.4 },
+        new PolarScatterData { TooltipMappingName= "Austria", Country = "Austria", GDP_2013 = 1.0, GDP_2014 = 1.5, GDP_2015 = 1.4 }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public void ChangeSeriesType(ChangeEventArgs<string, DropDownData> args)
+    {
+        SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+    public class PolarScatterData
+    {
+        public string TooltipMappingName { get; set; }
+        public string Country { get; set; }
+        public double GDP_2013 { get; set; }
+        public double GDP_2014 { get; set; }
+        public double GDP_2015 { get; set; }
+    }
+
+}

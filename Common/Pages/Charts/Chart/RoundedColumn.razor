@@ -1,0 +1,212 @@
+﻿@page "/chart/rounded-column"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows the literacy rate by country in 2015 with the default column series in the chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see how to render and configure the column chart. The column chart is used to compare the frequency, count, total, or average of data in different categories. You can use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartCornerRadius.html' aria-label="Navigate to the class reference for ChartCornerRadius">ChartCornerRadius</a> option to customize the vertical rectangle, resulting in a rounded column.
+    </p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Literacy rate by Country in 2015" Width="@Width" Theme="@Theme" EnableSideBySidePlacement="false">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartTooltipSettings Enable="true" Header="<b>${point.x}</b>" Format="Rate : <b>${point.tooltip}</b>" ></ChartTooltipSettings>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction ="@AxislabelRotation" LabelRotation="@Rotation">
+             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}%" Minimum="0" Maximum="100" Interval="25">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries EnableTooltip="false" DataSource="@ChartPoints" XName="Country" YName="Rate" Type="ChartSeriesType.Column" Opacity="0.5">
+                <ChartMarker>
+                    <ChartDataLabel EnableRotation="@Rotate" Angle="@AngleRotate" Visible="false" Position="LabelPosition.Top">
+                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+                <ChartCornerRadius BottomLeft="@BottomLeft" BottomRight="@BottomRight" TopLeft="@TopLeft" TopRight="@TopRight"></ChartCornerRadius>
+            </ChartSeries>
+            <ChartSeries TooltipMappingName="Text" DataSource="@ChartPoints" XName="Country" YName="Literacy_Rate" Type="ChartSeriesType.Column">
+                <ChartMarker>
+                    <ChartDataLabel EnableRotation="@Rotate" Angle="@AngleRotate" Alignment="Alignment.Near" Visible="true" Position="LabelPosition.Top" Name="Text">
+                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+                 <ChartCornerRadius BottomLeft="@BottomLeft" BottomRight="@BottomRight" TopLeft="@TopLeft" TopRight="@TopRight"></ChartCornerRadius>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartEvents OnPointRender="PointRender"></ChartEvents>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public double TopLeft { get; set; } = 35;
+    public double TopRight { get; set; } = 35;
+    public double BottomLeft { get; set; } = 35;
+    public double BottomRight { get; set; } = 35;
+    public bool Rotate { get; set; } = false;
+    public double AngleRotate { get; set; } = 0;
+    public LabelIntersectAction AxislabelRotation { get; set; } = LabelIntersectAction.Rotate45;
+    public double Rotation { get; set; } = 0;
+    public List<RoundedColumnChartData> ChartPoints { get; set; } = new List<RoundedColumnChartData>
+    {
+       new RoundedColumnChartData { Country = "Sierra Leone", Rate = 100, Literacy_Rate = 48.1, Text = "48.1%" },
+       new RoundedColumnChartData { Country = "South Sudan", Rate = 100, Literacy_Rate = 26.8, Text = "26.8%" },
+       new RoundedColumnChartData { Country = "Nepal", Rate = 100, Literacy_Rate = 64.7, Text = "64.7%" },
+       new RoundedColumnChartData { Country = "Gambia", Rate = 100, Literacy_Rate = 55.5, Text = "55.5%" },
+       new RoundedColumnChartData { Country = "Gyana", Rate = 100, Literacy_Rate = 88.5, Text = "88.5%" },
+       new RoundedColumnChartData { Country = "Kenya", Rate = 100, Literacy_Rate = 78.0, Text = "78.0%" },
+       new RoundedColumnChartData { Country = "Singapore", Rate = 100, Literacy_Rate = 96.8, Text = "96.8%" },
+       new RoundedColumnChartData { Country = "Niger", Rate = 100, Literacy_Rate = 19.1, Text = "19.1%" },
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            AxislabelRotation = LabelIntersectAction.None;
+            Rotation = -45;
+            Width = "100%";
+            TopLeft = 10;
+            TopRight = 10;
+            BottomLeft = 10;
+            BottomRight = 10;
+            Rotate = true;
+            AngleRotate = -90;
+        }
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        this.SetTheme(args);
+    }
+
+    private void SetTheme(PointRenderEventArgs args)
+    {
+        if (NavigationManager.Uri.IndexOf("material") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "#f9fafb";                
+            }
+            else
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "grey";               
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fabric") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "#f9fafb";
+            }
+            else
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "grey";
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap5") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "#f9fafb";
+            }
+            else
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "grey";
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("fluent") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "#f9fafb";
+            }
+            else
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "grey";
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap4") > -1)
+        {
+            if (args.Series.YName == "Rate")
+                args.Fill = "grey";
+        }
+        else if (NavigationManager.Uri.IndexOf("bootstrap") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "#f9fafb";
+            }
+            else
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "grey";
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("tailwind") > -1)
+        {
+            if (NavigationManager.Uri.IndexOf("dark") > -1)
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "#f9fafb";
+            }
+            else
+            {
+                if (args.Series.YName == "Rate")
+                    args.Fill = "grey";
+            }
+        }
+        else if (NavigationManager.Uri.IndexOf("highcontrast") > -1)
+        {
+            if (args.Series.YName == "Rate")
+                args.Fill = "#f9fafb";
+        }
+        else
+        {
+            if (args.Series.YName == "Rate")
+                args.Fill = "grey";
+        }
+    }
+
+    public class RoundedColumnChartData
+    {
+        public string Country { get; set; }
+        public double Rate { get; set; }
+        public double Literacy_Rate { get; set; }
+        public string Text { get; set; }
+    }
+}

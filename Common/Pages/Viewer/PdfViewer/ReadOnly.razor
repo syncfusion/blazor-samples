@@ -1,0 +1,127 @@
+﻿@page "/pdf-viewer/read-only"
+@using BlazorDemos.Shared
+
+@*WebAssembly:Block*@
+@{ #if (WASM || WEBAPP) }
+@using Syncfusion.Blazor.PdfViewer
+@{ #endif }
+@*End:WebAssembly*@
+
+@*Server:Block*@
+@{ #if !(WASM || WEBAPP) }
+@using Syncfusion.Blazor.PdfViewerServer
+@{ #endif }
+@*End:Server*@
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>The sample showcases the PDF viewer operating in a read-only mode, which restricts the ability to make changes to annotations, form fields, and also disables text selection.</p>
+</SampleDescription>
+<ActionDescription>   
+@*WASM:Block*@
+@{ #if (WASM) }
+    <p>More information about the PDF Viewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/web-assembly-application/' aria-label="documentation section" > documentation section</a>.</p>
+@{ #endif }
+@*End:WASM*@
+
+@*Server:Block*@
+@{ #if !(WASM) }
+    <p>More information about the PDF Viewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/server-side-application/' aria-label="documentation section" > documentation section</a>.</p>
+@{ #endif }
+@*End:Server*@
+
+</ActionDescription>
+
+<div class="control-section e-pv-exclude-word-wrap">
+
+@*WASM:Block*@
+@{ #if (WASM || WEBAPP) }
+     <SfPdfViewer @ref='viewer' DocumentPath="@DocumentPath" Height="90%" Width="100%" ServiceUrl="https://blazor.syncfusion.com/services/production/api/pdfviewer" EnableTextSelection="false" ToolbarSettings="@ToolbarSettings" AnnotationSettings="@annotationSettings" EnableStickyNotesAnnotation=false ContextMenuSettings="@ContextMenuSettings">
+                <PdfViewerEvents DocumentLoaded="documentLoad"></PdfViewerEvents>
+     </SfPdfViewer>
+@{ #endif }
+@*End:WASM*@
+
+@*Server:Block*@
+@{ #if !(WASM || WEBAPP) }
+     <SfPdfViewerServer @ref='viewer' DocumentPath="@DocumentPath" Height="90%" Width="100%" EnableTextSelection="false" EnableStickyNotesAnnotation=false AnnotationSettings="@annotationSettings" ToolbarSettings="@ToolbarSettings" ContextMenuSettings="@ContextMenuSettings">
+                 <PdfViewerEvents DocumentLoaded="documentLoad"></PdfViewerEvents>
+
+     </SfPdfViewerServer>
+@{ #endif }
+@*End:Server*@
+</div>
+
+@code {
+
+    PdfViewerAnnotationSettings annotationSettings = new PdfViewerAnnotationSettings()
+   {
+                IsLock = true
+   };
+    PdfViewerToolbarSettings ToolbarSettings = new PdfViewerToolbarSettings()
+   {
+        ToolbarItems = new List<ToolbarItem>()
+        {
+            ToolbarItem.OpenOption,
+            ToolbarItem.PageNavigationTool,
+            ToolbarItem.MagnificationTool,            
+            ToolbarItem.PanTool,            
+            ToolbarItem.PrintOption,
+
+        }
+   };
+
+    PdfViewerContextMenuSettings ContextMenuSettings = new PdfViewerContextMenuSettings()
+    {
+        EnableContextMenu = false
+    };
+
+    
+ @*Server:Block*@
+ #if !(WASM || WEBAPP)
+     SfPdfViewerServer viewer;
+   
+ #endif
+@*End:Server*@
+@*WASM:Block*@
+ #if (WASM || WEBAPP)
+    SfPdfViewer viewer;
+   
+#endif
+@*End:WASM*@
+     private async Task documentLoad(LoadEventArgs args)
+     {         
+        List<FormField> fields = await viewer.RetrieveFormFieldsAsync();
+
+        for (int i = 0; i < fields.Count(); i++)
+        {
+            fields[i].IsReadOnly = true;
+            await viewer.UpdateFormFieldsAsync(fields[i]);     
+        }
+ 
+     }    
+@*Server:Block*@
+ #if !(WASM || WEBAPP)
+    private string DocumentPath { get; set; } = "wwwroot/data/pdfviewer/restricted-formfield.pdf";
+ #endif
+@*End:Server*@
+
+@*WASM:Block*@
+ #if (WASM || WEBAPP)
+ 
+    private string DocumentPath { get; set; } = "restricted-formfield.pdf";
+#endif
+@*End:WASM*@
+}
+@*Hidden:Lines*@
+<style>
+     .e-pv-exclude-word-wrap .e-pdfviewer .e-treeview .e-list-item {
+         white-space: nowrap !important;
+     }
+</style>
+
+@*End:Hidden*@

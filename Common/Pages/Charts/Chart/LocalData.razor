@@ -1,0 +1,105 @@
+﻿@page "/chart/local-data"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows the plotting of local data in a stock price analysis of two products over a period of time.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Charts control supports data binding. The <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartSeries.html#Syncfusion_Blazor_Charts_ChartSeries_DataSource' aria-label="Navigate to the DataSource property reference for chart series">DataSource</a> property can be assigned either as list of objects or with instance of <code>DataManager</code>.</p>
+    <p>In this demo, the list of objects is assigned as the data source to the Charts control. The chart can be bound to IEnumerable, IQueryable, and ObservableCollection data sources.</p>
+    <p>More information about the local data binding can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/working-with-data' aria-label="Navigate to the documentation for working with data in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Stock Price Analysis" Width="@Width" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Price" LabelFormat="${value}" RangePadding="ChartRangePadding.None">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@ChartPointsX" XName="Period" YName="StockPrice" Width="2" Name="Product X">
+            </ChartSeries>
+            <ChartSeries Type="ChartSeriesType.Line" DataSource="@ChartPointsY" XName="Period" YName="StockPrice" Width="2" Name="Product Y">
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical">
+            <ChartCrosshairLine Color="rgba(204,214,235,0.25)" Width="20"></ChartCrosshairLine>
+        </ChartCrosshairSettings>
+        <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+
+@code{
+
+    
+    private Random randomNum = new Random();
+    public string Width { get; set; } = "90%";
+    private double stockPriceX = 80, stockPriceY = 90;
+    private Theme Theme { get; set; }
+    public List<LineChartData> ChartPointsX { get; set; } = new List<LineChartData>();
+    public List<LineChartData> ChartPointsY { get; set; } = new List<LineChartData>();
+
+    protected override void OnInitialized()
+    {
+        
+        GetChartPoints();
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+             Width = "100%";
+        }
+    }
+
+    private void GetChartPoints()
+    {
+        for (int i = 1; i < 500; i++)
+        {
+            if (randomNum.NextDouble() > 0.5)
+            {
+                stockPriceX += randomNum.NextDouble();
+                stockPriceY += randomNum.NextDouble();
+            }
+            else
+            {
+                stockPriceX -= randomNum.NextDouble();
+                stockPriceY -= randomNum.NextDouble();
+            }
+            ChartPointsX.Add(new LineChartData
+            {
+                Period = new DateTime(1960, 1, 1).AddMonths(i + 1).AddDays(i),
+                StockPrice = Math.Round(stockPriceX)
+            });
+            ChartPointsY.Add(new LineChartData
+            {
+                Period = new DateTime(1960, 1, 1).AddMonths(i + 1).AddDays(i),
+                StockPrice = Math.Round(stockPriceY)
+            });
+        }
+    }
+
+    public class LineChartData
+    {
+        public DateTime Period { get; set; }
+        public double StockPrice { get; set; }
+    }
+
+}

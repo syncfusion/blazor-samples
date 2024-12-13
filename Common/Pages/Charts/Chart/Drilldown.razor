@@ -1,0 +1,214 @@
+﻿@page "/chart/drilldown"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates a drill down chart with a pie for automobiles sales by category. By clicking one category, you can navigate to other sub-categories where companies are differentiated.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>In this example, you can see how to achieve the drilldown concept using a pie chart. Automobile sales are shown in different categories. By clicking each category, you can navigate to the next level, which shows the sales by categories made by each company. <code>Datalabel</code> are used in this sample to show information about the data points.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div id="link">
+        <a id="category" @onclick="backClick" style="visibility:@Visible; display:inline-block">
+            Sales by Category
+        </a>
+        <p style="visibility:@Visible; display:inline-block" id="symbol">&nbsp;&gt;&gt;&nbsp;</p>
+        <p id="text" style="display:inline-block;">@Text</p>
+    </div>
+    <SfAccumulationChart EnableSmartLabels="false" EnableBorderOnMouseMove="false" ID="drilldown" Title="@Title" Theme="@Theme">
+        <AccumulationChartEvents OnPointClick="AccPointClick" OnDataLabelRender="DataLabelRender"></AccumulationChartEvents>
+        <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@PieChartPoints" XName="XValue" YName="YValue" Name="Browser" Radius="@Radius" StartAngle="0"
+                                     EndAngle="360" InnerRadius="@InnerRadius">
+                <AccumulationDataLabelSettings Visible="true" EnableRotation="@Rotation" Position="@LabelPosition">
+                    <AccumulationChartDataLabelFont Color="@FontColor" FontWeight="600" Size=@Size></AccumulationChartDataLabelFont>
+                    <AccumulationChartConnector Type="ConnectorType.Curve" Length=@ConnectorLength></AccumulationChartConnector>
+                </AccumulationDataLabelSettings>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+        <AccumulationChartAnnotations>
+            <AccumulationChartAnnotation Region="Regions.Series" X="50%" Y="50%">
+                <ContentTemplate>
+                    <div id="back" @onclick="backClick" style="visibility:@Visible; cursor:pointer;padding:3px;width:30px; height:30px;">
+                        <img src="@(SampleService.WebAssetsPath + @ImgURL)" id="back" />
+                    </div>
+                </ContentTemplate>
+            </AccumulationChartAnnotation>
+        </AccumulationChartAnnotations>
+    </SfAccumulationChart>
+</div>
+<style>
+    #category:hover {
+        cursor: pointer;
+    }
+    path[id^=drilldown_Series_0_Point_] {
+      @CSS_Cursor
+    }
+</style>
+
+@code {
+    
+    public string CSS_Cursor { get; set; } = "cursor: pointer !important";
+    public Theme Theme { get; set; }
+    public string ImgURL { get; set; } = "images/chart/back.png"; 
+    public string Visible { get; set; } = "hidden";
+    public string Text { get; set; } = string.Empty;
+    public string Title { get; set; } = "Automobile Sales by Category";
+    public string InnerRadius { get; set; } = "0%";
+    public string Radius { get; set; } = "70%";
+    public string FontColor { get; set; } = "white";
+    public bool Rotation { get; set; }
+    public string ConnectorLength { get; set; } = "10%";
+    public string Size { get; set; } = "12px";
+
+    public AccumulationLabelPosition LabelPosition { get; set; } = AccumulationLabelPosition.Inside;
+
+    public class PieData
+    {
+        public string XValue { get; set; }
+        public double YValue { get; set; }
+    }
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
+    {
+        new PieData { XValue = "SUV", YValue = 25},
+        new PieData { XValue = "Car", YValue = 37},
+        new PieData { XValue = "Pickup",  YValue = 15 },
+        new PieData { XValue = "Minivan", YValue = 23 }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        ImgURL = Theme == Theme.HighContrast || Theme.ToString().IndexOf("Dark") > -1 ? "images/chart/white.png" : "images/chart/back.png";
+        if(SampleService.IsDevice)
+        {
+            Size = "6px";
+            Rotation = false;
+            ConnectorLength = "5%";
+        }
+    }
+    private void backClick(MouseEventArgs args)
+    {
+        Visible = "hidden";
+        InnerRadius = "0%";
+        CSS_Cursor = "cursor: pointer !important";
+        Title = "Automobile Sales by Category";
+        Text = string.Empty;
+        LabelPosition = AccumulationLabelPosition.Inside;
+        Radius = "70%";
+        FontColor = "white";
+        Rotation = false;
+        PieChartPoints = new List<PieData>
+        {
+            new PieData { XValue = "SUV", YValue = 25},
+            new PieData { XValue = "Car", YValue = 37},
+            new PieData { XValue = "Pickup",  YValue = 15 },
+            new PieData { XValue = "Minivan", YValue = 23 }
+        };
+        StateHasChanged();
+    }
+    private void AccPointClick(AccumulationPointEventArgs args)
+    {
+        if (Visible == "visible")
+        {
+            return;
+        }
+        CSS_Cursor = "cursor: default !important";
+        Visible = "visible";
+        InnerRadius = "30%";
+        Radius = "80%";
+        FontColor = string.Empty;
+        LabelPosition = SampleService.IsDevice ? AccumulationLabelPosition.Inside : AccumulationLabelPosition.Outside;
+        Rotation = SampleService.IsDevice ? true : false;
+        switch (args.PointIndex)
+        {
+            case 0:
+                PieChartPoints = new List<PieData>
+                {
+                    new PieData { XValue = "Toyota", YValue = 8},
+                    new PieData { XValue = "Ford", YValue = 12},
+                    new PieData { XValue = "GM",  YValue = 17 },
+                    new PieData { XValue = "Renault", YValue = 6 },
+                    new PieData { XValue = "Fiat", YValue = 3},
+                    new PieData { XValue = "Hyundai", YValue = 16},
+                    new PieData { XValue = "Honda",  YValue = 8 },
+                    new PieData { XValue = "Maruthi", YValue = 10 },
+                    new PieData { XValue = "BMW", YValue = 20 }
+                };
+                Text = "SUV";
+                Title = "Automobile Sales in the SUV Segment";
+                break;
+            case 1:
+                PieChartPoints = new List<PieData>
+                {
+                    new PieData { XValue = "Toyota", YValue = 7},
+                    new PieData { XValue = "Chrysler", YValue = 12},
+                    new PieData { XValue = "Nissan",  YValue = 9 },
+                    new PieData { XValue = "Ford", YValue = 15 },
+                    new PieData { XValue = "Tata", YValue = 10},
+                    new PieData { XValue = "Mahindra", YValue = 7},
+                    new PieData { XValue = "Renault",  YValue = 8 },
+                    new PieData { XValue = "Skoda", YValue = 5 },
+                    new PieData { XValue = "Volkswagen", YValue = 15 },
+                    new PieData {XValue="Fiat", YValue=3}
+                };
+                Text = "Car";
+                Title = "Automobile Sales in the Car Segment";
+                break;
+            case 2:
+                PieChartPoints = new List<PieData>
+                {
+                    new PieData { XValue = "Nissan", YValue = 9},
+                    new PieData { XValue = "Chrysler", YValue = 4},
+                    new PieData { XValue = "Ford",  YValue = 7 },
+                    new PieData { XValue = "Toyota", YValue = 20 },
+                    new PieData { XValue = "Suzuki", YValue = 13},
+                    new PieData { XValue = "Lada", YValue = 12},
+                    new PieData { XValue = "Bentley",  YValue = 6 },
+                    new PieData { XValue = "Volvo", YValue = 10 },
+                    new PieData {XValue="Audi", YValue=19}
+                };
+                Text = "Pickup";
+                Title = "Automobile Sales in the Pickup Segment";
+                break;
+            case 3:
+                PieChartPoints = new List<PieData>
+                {
+                    new PieData { XValue = "Hummer", YValue = 11},
+                    new PieData { XValue = "Ford", YValue = 5},
+                    new PieData { XValue = "GM",  YValue = 12 },
+                    new PieData { XValue = "Chrysler", YValue = 3 },
+                    new PieData { XValue = "Jaguar", YValue = 9},
+                    new PieData { XValue = "Fiat", YValue = 8},
+                    new PieData { XValue = "Honda",  YValue = 15 },
+                    new PieData { XValue = "Scion", YValue = 11 },
+                    new PieData {XValue="Toyota", YValue=17}
+                };
+                Text = "Minivan";
+                Title = "Automobile Sales in the Minivan Segment";
+                break;
+        }
+        StateHasChanged();
+    }
+    private void DataLabelRender(AccumulationTextRenderEventArgs args)
+    {
+        if (SampleService.IsDevice && args.Point.X.ToString() == "Volkswagen")
+        {
+            args.Point.X = "VW";
+        }
+        args.Text = args.Point.X + " " + args.Point.Y + "%";
+    }
+}

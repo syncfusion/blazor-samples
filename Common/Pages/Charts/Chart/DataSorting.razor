@@ -1,0 +1,221 @@
+@page "/chart/dataSorting"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.DropDowns
+@using System.Globalization
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the different modes of sorting available in the chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you will see how to sort data in a chart in ascending and descending order. The <code>PropertyName</code> and <code>Direction</code> properties in the <code>ChartSorting</code> determine which data value to sort by and in what order. The property <code>PropertyName</code> accepts the following values:</p>
+    <ul>
+        <li><b>None</b>: Turns off the sorting.</li>
+        <li><b>Sort by X</b>: Sorts by the values on the x-axis.</li>
+        <li><b>Sort by Y</b>: Sorts by the values on the y-axis.</li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfChart Title="Motor Vehicle Production by Year" IsTransposed="false" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartEvents OnAxisLabelRender="axisLabel"></ChartEvents>
+        <ChartSorting Direction="@direction" PropertyName="@propertyName"></ChartSorting>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelIntersectAction="@AxislabelRotation" LabelRotation="@Rotation">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Vehicles Production (In Millions)">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+            <ChartAxisMinorGridLines Width="1"></ChartAxisMinorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+
+            <ChartSeries Fill="@fillSeries1" DataSource="@SalesReports" XName="X" YName="Y2007" Name="2007" Type="ChartSeriesType.StackingColumn">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+            </ChartSeries>
+
+            <ChartSeries Fill="@fillSeries2" DataSource="@SalesReports" XName="X" YName="Y2008" Name="2008" Type="ChartSeriesType.StackingColumn">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+            </ChartSeries>
+
+            <ChartSeries Fill="@fillSeries3" DataSource="@SalesReports" XName="X" YName="Y2009" Name="2009" Type="ChartSeriesType.StackingColumn">
+                 <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+            </ChartSeries>
+
+            <ChartSeries Fill="@fillSeries4" DataSource="@SalesReports" XName="X" YName="Y2010" Name="2010" Type="ChartSeriesType.StackingColumn">
+                 <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+            </ChartSeries>
+             <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+        </ChartSeriesCollection>
+
+    </SfChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="width:50%">
+                            <div>Property Name</div>
+                        </td>
+                        <td style="width:50%">
+                            <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="None" DataSource="@Modes">
+                                <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeMode"></DropDownListEvents>
+                                <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="width:50%">
+                            <div> Sort Order </div>
+                        </td>
+                        <td style="width:50%">
+                            <SfDropDownList TValue="ListSortDirection" TItem="string" Placeholder="None" DataSource="@EnumValues" @bind-Value="@direction" Enabled="@enabled">
+                                <DropDownListEvents TValue="ListSortDirection" TItem="string" ValueChange="@ChangeSortOrder"></DropDownListEvents>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    
+    private Theme Theme { get; set; }
+    private string propertyName { get; set; } = null;
+    private ListSortDirection direction = ListSortDirection.Ascending;
+    public string[] EnumValues = Enum.GetNames(typeof(ListSortDirection));
+    public LabelIntersectAction AxislabelRotation { get; set; } = LabelIntersectAction.Rotate45;
+    public double Rotation { get; set; } = 0;
+    public string Width { get; set; } = "90%";
+    public bool enabled { get; set; }
+    private string fillSeries1 { get; set; } = null;
+    private string fillSeries2 { get; set; } = null;
+    private string fillSeries3 { get; set; } = null;
+    private string fillSeries4 { get; set; } = null;
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double Y2007 { get; set; }
+        public double Y2008 { get; set; }
+        public double Y2009 { get; set; }
+        public double Y2010 { get; set; }
+        public double Y2011 { get; set; }
+
+    }
+    public List<DropDownData> Modes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "None" },
+        new DropDownData() { Type = "Sort by X" },
+        new DropDownData() { Type = "Sort by Y" }
+    };
+
+    public List<ChartData> SalesReports = new List<ChartData>
+    {
+        new ChartData { X = "Ford",    Y2007 = 6247506, Y2008 = 5407000, Y2009 = 4685394, Y2010 = 4988031 },
+        new ChartData { X = "Hyundai", Y2007 = 3987055, Y2008 = 4172461, Y2009 = 4645776, Y2010 = 5764918 },
+        new ChartData { X = "Renault", Y2007 = 2669040, Y2008 = 2417351, Y2009 = 2296009, Y2010 = 2716286 },
+        new ChartData { X = "Nissan",  Y2007 = 3431398, Y2008 = 3395065, Y2009 = 2744562, Y2010 = 3982162 },
+        new ChartData { X = "Honda",   Y2007 = 4311814, Y2008 = 3912700, Y2009 = 3412637, Y2010 = 3743057 }
+    };
+
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        SetSeriesFill(Theme);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+
+    }
+
+    private void SetSeriesFill(Theme currentTheme)
+    {
+        if (currentTheme == Theme.Fluent)
+        {
+            fillSeries1 = "#FFE066";
+            fillSeries2 = "#FAB666";
+            fillSeries3 = "#F68F6A";
+            fillSeries4 = "#F3646A";
+        }
+        else if (currentTheme == Theme.Bootstrap5)
+        {
+            fillSeries1 = "#C7E9B6";
+            fillSeries2 = "#81CCBB";
+            fillSeries3 = "#45B5C3";
+            fillSeries4 = "#2390BE";
+        }
+    }
+
+    public void ChangeMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        switch (args.Value.ToUpper())
+        {
+            case "SORT BY X":
+                {
+                    enabled = true;
+                    propertyName = "X";
+                    break;
+                }
+            case "SORT BY Y":
+                {
+                    enabled = true;
+                    propertyName = "Y";
+                    break;
+                }
+            case "NONE":
+                {
+                    propertyName = null;
+                    enabled = false;
+                    break;
+                }
+
+        }
+
+    }
+
+    void axisLabel(AxisLabelRenderEventArgs args)
+    {
+        if (args.Value > 999999 || args.Value < -999999)
+        {
+            args.Text = args.Value.ToString("0,,.##M", CultureInfo.InvariantCulture);
+        }
+    }
+
+    public void ChangeSortOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<ListSortDirection, string> args)
+    {
+        direction = args.Value;
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+}

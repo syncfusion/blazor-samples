@@ -1,0 +1,103 @@
+@page "/word/word-to-pdf"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px"> This sample illustrates how to convert Word document to PDF using Essential DocIO and Essential PDF.</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">DocIO provides support to render Word document from flow to fixed page model and export as PDF or Image. With this support to render Word document,</p>
+    <p><ul style="font-size:16px"><li>You can generate invoice and other reports in PDF, starting from Word document.</li><li>You can view or print the contents of Word document by converting as PDF and loading generated PDF via PDF viewer.</li></ul></p>
+    <p style="font-size:16px">More information about the nested Mail merge can be found in this <a href="https://help.syncfusion.com/file-formats/docio/word-to-pdf" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-size:16px">Click the button to view the resultant PDF document being converted from Word document using Essential DocIO and Essential PDF. Please note that PDF viewer is required to view the resultant PDF.</p>
+    <div class="checkbox-control">
+        <div class="row">
+            <SfCheckBox @bind-Checked="@preserveFormFields" Label="Preserve form fields, generates PDF document with PDF form fields for equivalent Word document form fields."></SfCheckBox>
+        </div>
+        <div class="row">
+            <SfCheckBox @bind-Checked="@preserveWordHeadingsToPDFBookmarks" Label="Convert Word headings to PDF bookmarks, generates PDF document with bookmarks for Word document paragraph with heading style and outline level."></SfCheckBox>
+        </div>
+        <div class="row">
+            <SfCheckBox @bind-Checked="@showRevisions" Label="Show the revision marks in the generated PDF for tracked changes or revisions in the Word document."></SfCheckBox>
+        </div>
+        <div class="row">
+            <SfCheckBox @bind-Checked="@showComments" Label="Show the comments in the generated PDF for comments in the Word document."></SfCheckBox>
+        </div>
+    </div>
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                    <SfButton @onclick="GenerateDocument">Convert to PDF</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    bool showRevisions = true;
+    bool showComments = true;
+    bool preserveFormFields = true;
+    bool preserveWordHeadingsToPDFBookmarks = true ;
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        WordToPDFService service = new WordToPDFService(fileData);
+        documentStream = service.WordToPDF("Generate Document", preserveFormFields, preserveWordHeadingsToPDFBookmarks, showRevisions,showComments);
+        service.Close();
+        await JS.SaveAs("WordToPDF.pdf", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        WordToPDFService service = new WordToPDFService(fileData);
+        documentStream = service.WordToPDF("View Template", preserveFormFields, preserveWordHeadingsToPDFBookmarks, showRevisions ,showComments);
+        service.Close();
+        await JS.SaveAs("WordToPDF.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/word/doc-to-pdf.docx");
+            fileData.Add("doc-to-pdf.docx", new MemoryStream(data));
+        }
+    }
+}

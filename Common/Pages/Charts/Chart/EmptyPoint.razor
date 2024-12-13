@@ -1,0 +1,155 @@
+﻿@page "/chart/empty-point"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates the annual profit by product analysis of an organization with empty point functionality.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure empty points for a chart. Users can customize the empty points using <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartEmptyPointSettings.html' aria-label="Navigate to the class reference for ChartEmptyPointSettings">ChartEmptyPointSettings</a> in series. Default empty point <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartEmptyPointSettings.html#Syncfusion_Blazor_Charts_ChartEmptyPointSettings_Mode' aria-label="Navigate to the Mode property reference for chart empty point settings">Mode</a> is <b>Gap</b>.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about the empty points can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/working-with-data/#empty-points' aria-label="Navigate to the documentation for Empty points in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfChart Title="Annual Product-Wise Profit Analysis" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelRotation="@Rotation">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="0" Maximum="100" Interval="20" LabelFormat="{value}%">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Product" YName="Profit" Type="@SeriesType">
+               <ChartMarker Visible="@Visible" Height="7" Width="7">
+                </ChartMarker>
+                <ChartEmptyPointSettings Fill="#e6e6e6" Mode="@Mode"></ChartEmptyPointSettings>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true" EnableMarker="false"></ChartTooltipSettings>
+    </SfChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width: 100%;">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Series Type:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Column" DataSource="@SeriesTypes">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeType"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Empty Point Mode:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Gap" DataSource="@EmptyPointModes">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeMode"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public ChartSeriesType SeriesType { get; set; } = ChartSeriesType.Column;
+    public EmptyPointMode Mode { get; set; } = EmptyPointMode.Gap;
+    public bool Visible { get; set; } = false;
+    public double Rotation { get; set; } = 0;
+    public List<DropDownData> EmptyPointModes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = EmptyPointMode.Gap.ToString() },
+        new DropDownData() { Type = EmptyPointMode.Drop.ToString() },
+        new DropDownData() { Type = EmptyPointMode.Average.ToString() },
+        new DropDownData() { Type = EmptyPointMode.Zero.ToString() }
+
+    };
+    public List<DropDownData> SeriesTypes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = ChartSeriesType.Column.ToString() },
+        new DropDownData() { Type = ChartSeriesType.SplineArea.ToString() },
+        new DropDownData() { Type = ChartSeriesType.Spline.ToString() },
+    };
+    public List<EmptyPointData> ChartPoints { get; set; } = new List<EmptyPointData>
+    {
+        new EmptyPointData { Product = "Rice",  Profit = 80 },
+        new EmptyPointData { Product = "Wheat", Profit = null },
+        new EmptyPointData { Product = "Oil",   Profit = 70 },
+        new EmptyPointData { Product = "Corn",  Profit = 60 },
+        new EmptyPointData { Product = "Gram",  Profit = null },
+        new EmptyPointData { Product = "Milk",  Profit = 70 },
+        new EmptyPointData { Product = "Peas",  Profit = 80 },
+        new EmptyPointData { Product = "Fruit", Profit = 60 },
+        new EmptyPointData { Product = "Butter", Profit = null }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if(SampleService.IsDevice)
+        {
+            Rotation = -45;
+        }
+    }
+
+    public void ChangeType(ChangeEventArgs<string, DropDownData> args)
+    {
+        SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+        if(SeriesType == ChartSeriesType.Spline)
+        {
+            Visible = true;
+        }
+        else
+        {
+            Visible = false;
+        }
+    }
+
+    public void ChangeMode(ChangeEventArgs<string, DropDownData> args)
+    {
+        Mode = (EmptyPointMode)Enum.Parse(typeof(EmptyPointMode), args.Value.ToString(), true);
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+    public class EmptyPointData
+    {
+        public string Product { get; set; }
+        public Nullable<double> Profit { get; set; }
+    }
+}

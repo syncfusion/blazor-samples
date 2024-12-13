@@ -1,0 +1,802 @@
+﻿@page "/diagramcomponent/swimlane"
+
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Diagram.SymbolPalette
+@using System.Collections.ObjectModel
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@implements IDisposable
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+    <p>This Blazor Diagram example shows how to visualize a sales processing flow chart with the help of built-in swimlane shapes in the Syncfusion Blazor Diagram.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This sample shows how a sales process works with each entity involved in the process assigned a lane that contains all the activities for which they are responsible. The collection of swimlanes is added to a diagram using the <code>Swimlanes</code> property. Using the <code>Children</code> property of the lane, we can add nodes inside the lanes. We can also create a swimlane interactively using the swimlane shapes from the symbol palette.</p>
+</ActionDescription>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<div class="control-section">
+    <style>
+        @@font-face {
+            font-family: 'e-ddb-icons';
+            src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .e-ddb-icons {
+            font-family: 'e-ddb-icons';
+            speak: none;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .e-basic::before {
+            content: "\e726";
+        }
+
+        .e-flow::before {
+            content: "\e724";
+        }
+
+        .e-connector::before {
+            content: "\e725";
+        }
+
+        #container {
+            display: block;
+        }
+
+        #symbolPalette {
+            display: block;
+        }
+    </style>
+    <style>
+        @@font-face {
+            font-family: 'e-ddb-icons1';
+            src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSfIAAAEoAAAAVmNtYXDnEOdVAAABiAAAADZnbHlmdC1P4gAAAcgAAAAwaGVhZBJhohMAAADQAAAANmhoZWEIVQQDAAAArAAAACRobXR4CAAAAAAAAYAAAAAIbG9jYQAYAAAAAAHAAAAABm1heHABDgAUAAABCAAAACBuYW1lm+wy9gAAAfgAAAK1cG9zdLnsYngAAASwAAAAMAABAAAEAAAAAFwEAAAAAAAD+AABAAAAAAAAAAAAAAAAAAAAAgABAAAAAQAAgNcenF8PPPUACwQAAAAAANelrs4AAAAA16WuzgAAAAAD+AN6AAAACAACAAAAAAAAAAEAAAACAAgAAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnAAQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAAAAACAAAAAwAAABQAAwABAAAAFAAEACIAAAAEAAQAAQAA5wD//wAA5wD//wAAAAEABAAAAAEAAAAAAAAAGAAAAAIAAAAAA/gDegACAAcAACUhCQEhATUhAQQC9P6G/YoBMQFF/YqGAjf+hgH0QwAAAAAAEgDeAAEAAAAAAAAAAQAAAAEAAAAAAAEAEwABAAEAAAAAAAIABwAUAAEAAAAAAAMAEwAbAAEAAAAAAAQAEwAuAAEAAAAAAAUACwBBAAEAAAAAAAYAEwBMAAEAAAAAAAoALABfAAEAAAAAAAsAEgCLAAMAAQQJAAAAAgCdAAMAAQQJAAEAJgCfAAMAAQQJAAIADgDFAAMAAQQJAAMAJgDTAAMAAQQJAAQAJgD5AAMAAQQJAAUAFgEfAAMAAQQJAAYAJgE1AAMAAQQJAAoAWAFbAAMAAQQJAAsAJAGzIERpYWdyYW1fU2hhcGVzX0ZPTlRSZWd1bGFyRGlhZ3JhbV9TaGFwZXNfRk9OVERpYWdyYW1fU2hhcGVzX0ZPTlRWZXJzaW9uIDEuMERpYWdyYW1fU2hhcGVzX0ZPTlRGb250IGdlbmVyYXRlZCB1c2luZyBTeW5jZnVzaW9uIE1ldHJvIFN0dWRpb3d3dy5zeW5jZnVzaW9uLmNvbQAgAEQAaQBhAGcAcgBhAG0AXwBTAGgAYQBwAGUAcwBfAEYATwBOAFQAUgBlAGcAdQBsAGEAcgBEAGkAYQBnAHIAYQBtAF8AUwBoAGEAcABlAHMAXwBGAE8ATgBUAEQAaQBhAGcAcgBhAG0AXwBTAGgAYQBwAGUAcwBfAEYATwBOAFQAVgBlAHIAcwBpAG8AbgAgADEALgAwAEQAaQBhAGcAcgBhAG0AXwBTAGgAYQBwAGUAcwBfAEYATwBOAFQARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAdQBzAGkAbgBnACAAUwB5AG4AYwBmAHUAcwBpAG8AbgAgAE0AZQB0AHIAbwAgAFMAdAB1AGQAaQBvAHcAdwB3AC4AcwB5AG4AYwBmAHUAcwBpAG8AbgAuAGMAbwBtAAAAAAIAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgECAQMABlNoYXBlcwAA) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        .e-ddb-icons1 {
+            font-family: 'e-ddb-icons1';
+            speak: none;
+            font-size: 16px;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .sb-mobile-palette {
+            width: 240px;
+            height: 100%;
+            float: left;
+        }
+
+        .sb-mobile-palette-bar {
+            display: none;
+        }
+
+        .sb-mobile-diagram {
+            width: calc(100% - 242px);
+            height: 100%;
+            float: left;
+        }
+
+        @@media (max-width: 550px) {
+            .sb-mobile-palette {
+                z-index: 19;
+                position: absolute;
+                display: none;
+                transition: transform 300ms linear, visibility 0s linear 300ms;
+                width: 30%;
+                height: 100%;
+            }
+
+            .sb-mobile-palette-bar {
+                display: block;
+                width: 100%;
+                background: #fafafa;
+                padding: 14px 10px;
+                border: 0.5px solid #e0e0e0;
+                min-height: 54px;
+            }
+
+            .sb-mobile-diagram {
+                width: 100%;
+                height: 100%;
+                float: left;
+                left: 0px;
+            }
+
+            #palette-icon {
+                font-size: 20px;
+            }
+        }
+
+        .sb-mobile-palette-open {
+            position: absolute;
+            display: block;
+            right: 15px;
+        }
+
+        .e-toggle-palette::before {
+            content: "\e700"
+        }
+
+        #properties {
+            width: 100%;
+            float: left;
+        }
+    </style>
+    @*End:Hidden*@
+    <div style="width: 100%">
+        @*Hidden:Lines*@
+        <div class="sb-mobile-palette-bar">
+            <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
+        </div>
+        @*End:Hidden*@
+        <div id="palette-space" class="sb-mobile-palette">
+            <SfSymbolPaletteComponent @ref="@PaletteInstance" Height="700px" SymbolDragPreviewSize="@SymbolPreview" Palettes="@palettes" SymbolHeight="60" SymbolWidth="60" SymbolMargin="@SymbolMargin">
+            </SfSymbolPaletteComponent>
+        </div>
+        <div id="diagram-space" class="sb-mobile-diagram">
+            <div class="content-wrapper" style="border: 1px solid #D7D7D7">
+                <SfDiagramComponent @ref="@Diagram" Connectors="@connectors" Height="687px" Nodes="@nodes" Swimlanes="@swimlanes" SelectionSettings="@selectionSettings" DragDrop="DragDrop" NodeCreating="OnNodeCreating" ConnectorCreating="OnConnectorCreating">
+                    <SnapSettings Constraints="@snapConstraints">
+                        <HorizontalGridLines LineColor="#e0e0e0 " LineIntervals="@GridLineIntervals">
+                        </HorizontalGridLines>
+                        <VerticalGridLines LineColor="#e0e0e0" LineIntervals="@GridLineIntervals">
+                        </VerticalGridLines>
+                    </SnapSettings>
+                    <ContextMenuSettings Show="true" Items="@ContextMenuItems" ShowCustomMenuOnly="true"
+                                         ContextMenuOpening="ContextMenuOpening" ContextMenuItemClicked="ContextMenuItemClicked"></ContextMenuSettings>
+                </SfDiagramComponent>
+            </div>
+        </div>
+    </div>
+    @*Hidden:Lines*@
+</div>
+@*End:Hidden*@
+
+
+@code {
+
+    private int connectorCount = 0;
+    List<ContextMenuItem> ContextMenuItems = new List<ContextMenuItem>();
+    SnapConstraints snapConstraints = SnapConstraints.All & ~SnapConstraints.ShowLines;
+    DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings() { Constraints = SelectorConstraints.All & ~SelectorConstraints.Rotate };
+    public DiagramSize SymbolPreview;
+    public SymbolMargin SymbolMargin = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
+    public SfDiagramComponent Diagram;
+    public SfSymbolPaletteComponent PaletteInstance;
+
+    //Defines Diagram's nodes collection
+    private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    //Defines Diagram's swimlane collection
+    private DiagramObjectCollection<Swimlane> swimlanes = new DiagramObjectCollection<Swimlane>();
+
+    //Defines Diagram's connectors collection
+    private DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+
+    //Define palettes collection
+    private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
+
+    // Defines palette's flow-shape collection
+    private DiagramObjectCollection<NodeBase> flowShapeSymbols = new DiagramObjectCollection<NodeBase>();
+    // Defines palette's swimlane-shape collection
+    DiagramObjectCollection<NodeBase> SwimlaneNodes = new DiagramObjectCollection<NodeBase>();
+    // Defines interval values for GridLines
+    public double[] GridLineIntervals { get; set; }
+
+    // Defines palette's connector collection
+    private DiagramObjectCollection<NodeBase> connectorSymbols = new DiagramObjectCollection<NodeBase>();
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        {
+            Diagram
+        };
+    }
+
+    protected override void OnInitialized()
+    {
+        GridLineIntervals = new double[] {
+            1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75,
+    };
+        ContextMenuItems = new List<ContextMenuItem>()
+        {
+        new ContextMenuItem(){ID="Copy", Text = "Copy", IconCss = "e-menu-icon e-icons e-copy"},
+        new ContextMenuItem(){ID="Cut",Text = "Cut", IconCss = "e-menu-icon e-icons e-cut"},
+        new ContextMenuItem(){ID="Paste",Text = "Paste", IconCss = "e-menu-icon e-icons e-paste"},
+        new ContextMenuItem(){ID="InsertLaneBefore",Text = "Insert Lane Before", IconCss="e-menu-icon e-icons e-empty"},
+        new ContextMenuItem(){ID="InsertLaneAfter",Text = "Insert Lane After", IconCss="e-menu-icon e-icons e-empty"}
+        };
+        InitDiagramModel();
+        InitPaletteModel();
+    }
+
+    private void ContextMenuOpening(DiagramMenuOpeningEventArgs args)
+    {
+        if (args.Items.Count > 0)
+        {
+            foreach (ContextMenuItem item in args.Items)
+            {
+                if ((Diagram.SelectionSettings.Nodes.Count + Diagram.SelectionSettings.Connectors.Count + Diagram.SelectionSettings.Swimlanes.Count +
+                Diagram.SelectionSettings.Lanes.Count + Diagram.SelectionSettings.Phases.Count) > 0)
+                {
+                    if (item.ID == "InsertLaneBefore" || item.ID == "InsertLaneAfter")
+                    {
+                        if (Diagram.SelectionSettings.Lanes.Count == 0)
+                        {
+                            args.HiddenItems.Add(item.ID);
+                        }
+                    }
+                }
+                else
+                {
+                    args.HiddenItems.Add(item.ID);
+                }
+            }
+        }
+    }
+
+    private void ContextMenuItemClicked(DiagramMenuClickEventArgs args)
+    {
+        if (args.Item.ID == "InsertLaneBefore" || args.Item.ID == "InsertLaneAfter")
+        {
+            if(Diagram.SelectionSettings.Lanes.Count > 0)
+            {
+                Lane lane = Diagram.SelectionSettings.Lanes[0];
+                Swimlane swimlaneObj = lane.GetParent() as Swimlane;
+                Swimlane swimlane = Diagram.GetObject(swimlaneObj.ID) as Swimlane;
+                Lane existingLane = swimlane.Lanes[0].Clone() as Lane;
+                int index = swimlane.Lanes.IndexOf(lane);
+
+                Lane newLane = new Lane()
+                    {
+                        Header = new SwimlaneHeader()
+                        {
+                            Annotation = new ShapeAnnotation(){Content = "Function"},
+                            Width = existingLane.Header.Width,
+                            Height = existingLane.Header.Height,
+                            Style = existingLane.Header.Style
+                        },
+                        Style = existingLane.Style,
+                        Height = existingLane.Height,
+                        Width = existingLane.Width
+                    };
+
+                if(swimlane.Orientation == Orientation.Horizontal)
+                {
+                    newLane.Header.Width = existingLane.Header.Width;
+                    newLane.Header.Height = existingLane.Height;
+                }
+                else
+                {
+                    newLane.Header.Width = existingLane.Width;
+                    newLane.Header.Height = existingLane.Header.Height;
+                }
+                if (args.Item.ID == "InsertLaneBefore")
+                {
+                    swimlane.Lanes.Insert(index, newLane);
+                }
+                else
+                {
+                    swimlane.Lanes.Insert(index + 1, newLane);
+                }
+                Diagram.ClearSelection();
+            }
+        }
+        else if (args.Item.ID == "Cut")
+            Diagram.Cut();
+        else if (args.Item.ID == "Copy")
+            Diagram.Copy();
+        else if (args.Item.ID == "Paste")
+            Diagram.Paste();
+    }
+        // Create Nodes and Connectors for the diagram.
+    private void InitDiagramModel()
+    {
+
+        swimlanes = new DiagramObjectCollection<Swimlane>()
+        {
+            new Swimlane()
+            {
+                ID = "swimlane", OffsetX = 400, OffsetY = 300,
+                Orientation = Orientation.Horizontal,
+                Height = 500,
+                Width = 650,
+                Header = new SwimlaneHeader()
+                {
+                    Annotation = new ShapeAnnotation()
+                    {
+                        Content = "SALES PROCESS FLOW CHART"
+                    },
+                    Height = 50,
+                    Style = new TextStyle()
+                    {
+                            Fill = "#E7F4FF", StrokeColor = "#CCCCCC"
+                    }
+                },
+                Phases = new DiagramObjectCollection<Phase>()
+                {
+                    new Phase()
+                    {
+                        ID="phase",
+                        Header = new SwimlaneHeader()
+                        {
+                            Annotation = new ShapeAnnotation(){
+                                Content = "Phase",
+                            },
+                            Height = 20
+                        },
+                        Width = 650,
+                    }
+                },
+                Lanes = new DiagramObjectCollection<Lane>()
+                {
+                    new Lane(){
+                        ID = "lane1",
+                        Height = 115,
+                        Header = new SwimlaneHeader()
+                        {
+                            Annotation = new ShapeAnnotation(){ Content = "Consumer"}, Width=50,
+                            Style = new TextStyle()
+                            {
+                                  Fill = "#E7F4FF", StrokeColor = "#717171"
+                            }
+                        },
+                        Children = new DiagramObjectCollection<Node>()
+                        {
+                            new Node(){ ID = "node1", Height = 60, RotationAngle=0, Width = 130, LaneOffsetX = 130, LaneOffsetY = 65, Ports = CreatePort(), Shape = new BasicShape(){ Shape = NodeBasicShapes.Rectangle },  Annotations = new DiagramObjectCollection<ShapeAnnotation>(){ new ShapeAnnotation() { Content = "Consumer learns of product" } } },
+                            new Node(){ ID = "node2", Height = 90, Width = 160, LaneOffsetX = 320, LaneOffsetY = 55, Ports = CreatePort(), Shape = new FlowShape(){ Shape = NodeFlowShapes.Decision },  Annotations = new DiagramObjectCollection<ShapeAnnotation>(){ new ShapeAnnotation() { Content = "Does Consumer \n want the product" } } },
+                            new Node(){ ID = "node3", Height = 60, Width = 130, LaneOffsetX = 520, LaneOffsetY = 65, Ports = CreatePort(),
+                            Shape = new PathShape(){ Data = "M100,20 C100,31.05,91.37,40,80.72,40 L19.28,40 C8.63,40,0,31.05,0,20 L0,20 C0,8.95,8.63,0,19.28,0 L80.72,0 C91.37,0,100,8.95,100,20 Z" },
+                            Annotations = new DiagramObjectCollection<ShapeAnnotation>(){ new ShapeAnnotation() { Content = "No sales lead" } } },
+                            new Node(){ ID = "node4", Height = 60, Width = 130, LaneOffsetX = 680, LaneOffsetY = 65, Ports = CreatePort(), Shape = new BasicShape(){ Shape = NodeBasicShapes.Rectangle },  Annotations = new DiagramObjectCollection<ShapeAnnotation>(){ new ShapeAnnotation() { Content = "Sell to consumer" } } },
+                        },
+                    },
+                    new Lane(){
+                        Height = 115,
+                        Header = new SwimlaneHeader(){
+                            Annotation = new ShapeAnnotation(){Content = "Marketing"}, Width=50,
+                            Style = new TextStyle()
+                            {
+                                    Fill = "#E7F4FF", StrokeColor = "#717171"
+                            }
+                        },
+                        Children = new DiagramObjectCollection<Node>()
+                        {
+                            new Node(){ ID = "node5", Height = 60, Width = 130, LaneOffsetX = 130, LaneOffsetY = 55, Ports = CreatePort(), Shape = new BasicShape(){ Shape = NodeBasicShapes.Rectangle },  Annotations = new DiagramObjectCollection<ShapeAnnotation>(){ new ShapeAnnotation() { Content = "Create marketing campaigns" } } },
+                            new Node(){ ID = "node6", Height = 60, Width = 130, LaneOffsetX = 320, LaneOffsetY = 55, Ports = CreatePort(), Shape = new BasicShape(){ Shape = NodeBasicShapes.Rectangle },  Annotations = new DiagramObjectCollection<ShapeAnnotation>(){ new ShapeAnnotation() { Content = "Marketing finds sales leads" } } }
+                        },
+                    },
+                    new Lane(){
+                        Height = 115,
+                        Header = new SwimlaneHeader(){
+                            Annotation = new ShapeAnnotation(){Content = "Sales"}, Width=50,
+                            Style = new TextStyle()
+                            {
+                                    Fill = "#E7F4FF", StrokeColor = "#717171"
+                            }
+                        },
+                        Children = new DiagramObjectCollection<Node>()
+                        {
+                            new Node(){ID = "node7", Height = 60, Width = 130, LaneOffsetX = 320, LaneOffsetY = 60, Ports = CreatePort(), Shape = new BasicShape(){ Shape = NodeBasicShapes.Rectangle },  Annotations = new DiagramObjectCollection<ShapeAnnotation>(){ new ShapeAnnotation() { Content = "Sales receives lead" } } },
+                        },
+                    },
+                    new Lane(){
+                        Height = 115,
+                        Header = new SwimlaneHeader()
+                        {
+                            Annotation = new ShapeAnnotation(){Content = "Success"}, Width=50,
+                            Style = new TextStyle()
+                            {
+                                    Fill = "#E7F4FF", StrokeColor = "#717171"
+                            }
+                        },
+                        Children = new DiagramObjectCollection<Node>()
+                        {
+                            new Node(){ID = "node8", Height = 60, Width = 130, LaneOffsetX = 680, LaneOffsetY = 55, Ports = CreatePort(), Shape = new BasicShape(){ Shape = NodeBasicShapes.Rectangle },  Annotations = new DiagramObjectCollection<ShapeAnnotation>(){ new ShapeAnnotation() { Content = "Success helps retain consumer as a customer" } } },
+                        },
+                    }
+                }
+            }
+        };
+
+        CreateConnector("node1", "node2");
+        CreateConnector("node2", "node3", "No");
+        CreateConnector("node2", "node6", "Yes");
+        CreateConnector("node6", "node7");
+        CreateConnector("node5", "node1");
+        CreateConnector("node4", "node7", sport: "port1", tport: "port3");
+        CreateConnector("node4", "node8");
+    }
+    // Create Nodes and Connectors for the Palette.
+    private void InitPaletteModel()
+    {
+        palettes = new DiagramObjectCollection<Palette>();
+        SymbolPreview = new DiagramSize
+            {
+                Width = 100,
+                Height = 100
+            };
+        flowShapeSymbols = new DiagramObjectCollection<NodeBase>();
+        CreatePaletteNode(NodeFlowShapes.Terminator, "Terminator");
+        CreatePaletteNode(NodeFlowShapes.Process, "Process");
+        CreatePaletteNode(NodeFlowShapes.Decision, "Decision");
+        CreatePaletteNode(NodeFlowShapes.Document, "Document");
+        CreatePaletteNode(NodeFlowShapes.PreDefinedProcess, "Pre-Defined Process");
+        CreatePaletteNode(NodeFlowShapes.Data, "Data");
+
+        //horizontal lane
+        Lane horizontalLane = new Lane()
+            {
+                ID = "HorizontalSwimlane",
+                Orientation = Orientation.Horizontal,
+                Height = 100,
+                Width = 150,
+                Style = new ShapeStyle() { StrokeColor = "#757575" },
+                Header = new SwimlaneHeader()
+                {
+                    Annotation = new ShapeAnnotation() { Content = "Function" },
+                    Style = new TextStyle() { Fill = "#E7F4FF", StrokeColor = "#757575" },
+                    Width = 50,
+                    Height = 100
+                },
+            };
+
+        //vertical lane
+        Lane verticalLane = new Lane()
+            {
+                ID = "VerticalSwimlane",
+                Orientation = Orientation.Vertical,
+                Height = 150,
+                Width = 100,
+                Style = new ShapeStyle() { StrokeColor = "#757575" },
+                Header = new SwimlaneHeader() { 
+                    Annotation = new ShapeAnnotation() { Content = "Function" }, 
+                    Style = new TextStyle() { Fill = "#E7F4FF", StrokeColor = "#757575" },
+                Width = 100, Height = 50 
+                },
+            };
+
+        //horizontal phase
+        Phase horizontalPhase = new Phase() { ID = "HorizontalPhase", Orientation = Orientation.Horizontal, Width = 80, Height = 1, Style = new ShapeStyle() { StrokeColor = "#717171", Fill = "#FFFFFF" } };
+
+        //vertical phase
+        Phase verticalPhase = new Phase() { ID = "VerticalPhase", Orientation = Orientation.Vertical, Width = 1, Height = 80, Style = new ShapeStyle() { StrokeColor = "#717171", Fill = "#FFFFFF" } };
+
+        SwimlaneNodes = new DiagramObjectCollection<NodeBase>()
+        {
+            horizontalLane,
+            verticalLane,
+            horizontalPhase,
+            verticalPhase
+        };
+
+        connectorSymbols = new DiagramObjectCollection<NodeBase>();
+        CreatePaletteConnector("Link1", ConnectorSegmentType.Orthogonal, new DiagramPoint() { X = 40, Y = 40});
+        CreatePaletteConnector("Link2", ConnectorSegmentType.Orthogonal, new DiagramPoint() { X = 40, Y = 40 }, "4 4");
+        CreatePaletteConnector("Link21", ConnectorSegmentType.Straight, new DiagramPoint() { X = 60, Y = 60 });
+        CreatePaletteConnector("Link22", ConnectorSegmentType.Straight, new DiagramPoint() { X = 60, Y = 60 }, "4 4");
+
+        palettes = new DiagramObjectCollection<Palette>()
+        {
+    @*Hidden:Lines*@
+            #pragma warning disable BL0005
+    @*End:Hidden*@
+            new Palette() {Symbols = flowShapeSymbols, Title = "Flow Shapes", ID = "Flow Shapes"},
+            new Palette() {Symbols = SwimlaneNodes, Title = "Swimlane Shapes", ID = "Swimlane Shapes"},
+            new Palette() {Symbols = connectorSymbols, Title = "Connectors", IsExpanded = true},
+    @*Hidden:Lines*@
+            #pragma warning restore BL0005
+    @*End:Hidden*@
+    };
+    }
+    private void OnNodeCreating(IDiagramObject obj)
+    {
+        Node node = obj as Node;
+        if (node != null)
+        {
+            node.Style.StrokeColor = "#717171";
+        }
+        if(obj is Swimlane swimlane)
+        {
+            swimlane.Header.Style = new TextStyle()
+            {
+                Fill = "#E7F4FF",
+                StrokeColor = "#717171"
+            };
+            foreach (Phase phase in swimlane.Phases)
+            {
+                phase.Style = new ShapeStyle() { StrokeColor = "#717171", Fill = "#FFFFFF" };
+            }
+            foreach (Lane lane in swimlane.Lanes)
+            {
+                 lane.Style = new ShapeStyle() { StrokeColor = "#717171", Fill = "#F9F9F9" };
+            }
+        }
+    }
+    private void OnConnectorCreating(IDiagramObject obj)
+    {
+        Connector connector = obj as Connector;
+        if(connector.ID.IndexOf("Link21") != -1)
+        {
+            connector.Type = ConnectorSegmentType.Straight;
+        }
+        else if (connector.ID.IndexOf("Link22") != -1)
+        {
+            connector.Type = ConnectorSegmentType.Straight;
+        }
+        else
+        {
+            connector.Type = ConnectorSegmentType.Orthogonal;
+        }
+        connector.Style.StrokeColor = "#717171";
+        connector.SourceDecorator.Style.StrokeColor = "#717171";
+        connector.TargetDecorator.Style.StrokeColor = "#717171";
+        connector.SourceDecorator.Style.Fill = "#717171";
+        connector.TargetDecorator.Style.Fill = "#717171";
+    }
+    // Method is used to create a node for the palette.
+    private void CreatePaletteNode(NodeFlowShapes flowShape, string id)
+    {
+        string NodeID = id;
+        bool isSpace = id.Contains(" ");
+        if (isSpace)
+        {
+            NodeID = id.Replace(" ", "");
+        }
+        Node diagramNode = new Node()
+            {
+                ID = NodeID,
+                Shape = new FlowShape() { Type = Syncfusion.Blazor.Diagram.NodeShapes.Flow, Shape = flowShape },
+                Style = new ShapeStyle() { StrokeColor = "#757575", StrokeWidth = 1 },
+            };
+        if (isSpace)
+        {
+            diagramNode.Tooltip = new DiagramTooltip()
+                {
+                    Content = id,
+                };
+            diagramNode.Constraints = NodeConstraints.Default | NodeConstraints.Tooltip;
+        }
+        if (id == "Terminator" || id == "Process")
+        {
+            diagramNode.Width = 80;
+            diagramNode.Height = 40;
+        }
+        else if (id == "Decision" || id == "Document" || id == "PreDefined Process" || id == "Data")
+        {
+            diagramNode.Width = 50;
+            diagramNode.Height = 40;
+        }
+        else
+        {
+            diagramNode.Width = 50;
+            diagramNode.Height = 50;
+        }
+        double oldWidth = Convert.ToDouble(diagramNode.Width);
+        double oldHeight = Convert.ToDouble(diagramNode.Height);
+        double ratio = 100 / oldWidth;
+        diagramNode.Width = 100;
+        diagramNode.Height *= ratio;
+        flowShapeSymbols.Add(diagramNode);
+    }
+
+    private void DragDrop(DropEventArgs args)
+    {
+        if(args.Element != null && args.Element is Lane lane)
+        {
+            if(lane.Orientation == Orientation.Horizontal)
+            {
+                lane.Height = 100; lane.Width = 400;
+            }
+            else if(lane.Orientation == Orientation.Vertical)
+            {
+                lane.Height = 400; lane.Width = 100;
+            }
+        }
+
+    }
+    // used to create a Port.
+    private DiagramObjectCollection<PointPort> CreatePort()
+    {
+        DiagramObjectCollection<PointPort> defaultsPorts = new DiagramObjectCollection<PointPort>();
+        PointPort port1 = new PointPort()
+            {
+                ID = "port1",
+                Shape = PortShapes.Square,
+                Offset = new DiagramPoint() { X = 0, Y = 0.5 },
+                Visibility = PortVisibility.Connect | PortVisibility.Hover,
+                Constraints = PortConstraints.Default | PortConstraints.Draw
+            };
+        PointPort port2 = new PointPort()
+            {
+                ID = "port2",
+                Shape = PortShapes.Square,
+                Offset = new DiagramPoint() { X = 0.5, Y = 0 },
+                Visibility = PortVisibility.Connect | PortVisibility.Hover,
+                Constraints = PortConstraints.Default | PortConstraints.Draw
+            };
+        PointPort port3 = new PointPort()
+            {
+                ID = "port3",
+                Shape = PortShapes.Square,
+                Offset = new DiagramPoint() { X = 1, Y = 0.5 },
+                Visibility = PortVisibility.Connect | PortVisibility.Hover,
+                Constraints = PortConstraints.Default | PortConstraints.Draw
+            };
+        PointPort port4 = new PointPort()
+            {
+                ID = "port4",
+                Shape = PortShapes.Square,
+                Offset = new DiagramPoint() { X = 0.5, Y = 1 },
+                Visibility = PortVisibility.Connect | PortVisibility.Hover,
+                Constraints = PortConstraints.Default | PortConstraints.Draw
+            };
+        defaultsPorts.Add(port1);
+        defaultsPorts.Add(port2);
+        defaultsPorts.Add(port3);
+        defaultsPorts.Add(port4);
+        return defaultsPorts;
+    }
+    // Method is used to create a Connector for the diagram.
+    private void CreateConnector(string sourceId, string targetId, string label = default(string), bool isDashLine = false, string sport = "", string tport = "")
+    {
+        Connector diagramConnector = new Connector()
+            {
+                ID = string.Format("connector{0}", ++connectorCount),
+                SourceID = sourceId,
+                TargetID = targetId,
+                SourcePortID = sport,
+                TargetPortID = tport
+            };
+        if (isDashLine)
+        {
+            diagramConnector.Style = new ShapeStyle() { StrokeDashArray = "2,2" };
+        }
+        if (label != default(string))
+        {
+            var annotation = new PathAnnotation()
+                {
+                    Content = label,
+                    Style = new TextStyle() { Fill = "white" }
+                };
+            if ((sourceId == "node5" && targetId == "node6") || label == "Yes" || label == "No")
+            {
+                annotation.Height = 10;
+                annotation.Width = 15;
+            }
+            diagramConnector.Annotations = new DiagramObjectCollection<PathAnnotation>() { annotation };
+        }
+        diagramConnector.Type = ConnectorSegmentType.Orthogonal;
+
+        connectors.Add(diagramConnector);
+    }
+    // Method is used to create a Connector for the palette.
+    private void CreatePaletteConnector(string id, ConnectorSegmentType type, DiagramPoint targetPoint, string dasharray = null)
+    {
+        string connectorID = id;
+        bool isSpace = id.Contains(" ");
+        if (isSpace)
+        {
+            connectorID = id.Replace(" ", "");
+        }
+        Connector diagramConnector = new Connector()
+            {
+                ID = connectorID,
+                Type = type,
+                SourcePoint = new DiagramPoint(){X = 0, Y = 0},
+                TargetPoint = targetPoint,
+                Style = new ShapeStyle() { StrokeColor = "#757575", StrokeWidth = 1, StrokeDashArray = !string.IsNullOrEmpty(dasharray) ? dasharray : string.Empty },
+                TargetDecorator = new DecoratorSettings()
+                {
+                    Shape = DecoratorShape.Arrow,
+                    Style = new ShapeStyle() { StrokeColor = "#757575", Fill = "#757575" }
+                }
+            };
+        if (isSpace)
+        {
+            diagramConnector.Tooltip = new DiagramTooltip()
+                {
+                    Content = id,
+                };
+            diagramConnector.Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip;
+        }
+        connectorSymbols.Add(diagramConnector);
+    }
+
+    public async Task ShowHideSymbolPalette()
+    {
+        await jsRuntime.InvokeAsync<object>("openPalette");
+
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (SymbolPreview != null)
+        {
+            SymbolPreview = null;
+        }
+        if (SymbolMargin != null)
+        {
+            SymbolMargin = null;
+        }
+        Diagram = null;
+        PaletteInstance = null;
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+        if (swimlanes != null)
+        {
+            swimlanes.Clear();
+            swimlanes = null;
+        }
+#pragma warning disable BL0005
+        if (palettes != null)
+        {
+            for (int i = 0; i < palettes.Count; i++)
+            {
+                palettes[i].ID = null;
+                palettes[i].Title = null;
+                palettes[i].IconCss = null;
+                if (palettes[i].Symbols != null)
+                {
+                    for (int j = 0; j < palettes[i].Symbols.Count; j++)
+                    {
+                        palettes[i].Symbols[j] = null;
+                    }
+                    palettes[i].Symbols.Clear();
+                    palettes[i].Symbols = null;
+                }
+            }
+            palettes.Clear();
+            palettes = null;
+        }
+#pragma warning restore BL0005
+        if (flowShapeSymbols != null)
+        {
+            flowShapeSymbols.Clear();
+            flowShapeSymbols = null;
+        }
+        if (GridLineIntervals != null)
+        {
+            Array.Clear(GridLineIntervals, 0, GridLineIntervals.Length);
+            GridLineIntervals = null;
+        }
+        if (connectorSymbols != null)
+        {
+            connectorSymbols.Clear();
+            connectorSymbols = null;
+        }
+    }
+    @*End:Hidden*@
+}

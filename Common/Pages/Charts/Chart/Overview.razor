@@ -1,0 +1,395 @@
+@page "/chart/overview"
+
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Layouts
+@using ThemeHelper
+@using System.Timers
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows an overview of <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts' aria-label="Navigate to explore the Blazor Charts">Blazor Charts</a> that allows users to visualize data easily and take decisions based on it. There are different types of charts to create feature rich apps.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor Chart is a well-crafted charting component to visualize data. In this example, you will see how to render and configure line, column, and pie charts with different features such as highlight, legend, tooltip, and annotation The Chart uses <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Data.SfDataManager.html' aria-label="Navigate to the class reference for SfDataManager">SfDataManager</a>, which supports both RESTful JSON data services binding and IEnumerable binding.</p>
+    <p>More information on the Blazor Chart types can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/getting-started' aria-label="Navigate to the documentation for getting started with chart component">documentation</a> section.</p>
+</ActionDescription>
+
+<style>
+    .e-dashboardlayout {
+        padding: 20px;
+        z-index: 0;
+    }
+
+    .e-panel {
+        cursor: auto !important;
+    }
+
+    .e-panel-header{
+        border: none !important;
+        background-color: @HeaderColor;
+        height: 50px !important;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .title {
+		font-size: 15px;
+        font-weight: bold;
+        color: @TitleColor;
+    }
+</style>
+
+<div class="control-section">
+    <SfDashboardLayout @ref="sfDashboardLayout" CellSpacing="@(new double[]{15 ,15 })" CellAspectRatio="@cellAspectRatio" Columns="@columns">
+        <DashboardLayoutPanels>
+            <DashboardLayoutEvents Created="LayoutCreated" OnWindowResize="OnWindowResize"></DashboardLayoutEvents>
+            <DashboardLayoutPanel Column="0" Row="0" SizeX="@columnSizeX" SizeY="@columnSizeY">
+                <HeaderTemplate>
+					<span class="title">Sales - Yearly Performance</span>
+				</HeaderTemplate>
+                <ContentTemplate>
+                    @if (isLayoutRender)
+                    {
+                        <SfChart @ref="chart1" Theme="@theme" Width="@Width" Height="@Height">
+                            <ChartArea>
+                                <ChartAreaBorder Width="0"></ChartAreaBorder>
+                            </ChartArea>
+                            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+                                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                                <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                            </ChartPrimaryXAxis>
+                            <ChartPrimaryYAxis Minimum="0" Maximum="100" LabelFormat="{value}%">
+                                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                                <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                                <ChartAxisTitleStyle Size="13px"></ChartAxisTitleStyle>
+                            </ChartPrimaryYAxis>
+                            <ChartSeriesCollection>
+                                <ChartSeries DataSource="@ColumnChartDataCollection" Name="Online" Fill="#2485FA" XName="Period" YName="Percentage" Type="ChartSeriesType.Column">
+                                    <ChartMarker>
+                                        <ChartDataLabel Visible="true" Position="LabelPosition.Middle" Name="TextMapping">
+                                            <ChartDataLabelFont Color="#FFFFFF"></ChartDataLabelFont>
+                                        </ChartDataLabel>
+                                    </ChartMarker>
+                                </ChartSeries>
+                                <ChartSeries DataSource="@ColumnChartData" Fill="#FEC200" Name="Retail" XName="Period" YName="Percentage" Type="ChartSeriesType.Column">
+                                    <ChartMarker>
+                                        <ChartDataLabel Visible="true" Position="LabelPosition.Middle" Name="TextMapping">
+                                            <ChartDataLabelFont Color="#FFFFFF"></ChartDataLabelFont>
+                                        </ChartDataLabel>
+                                    </ChartMarker>
+                                </ChartSeries>
+                            </ChartSeriesCollection>
+                        </SfChart>
+                    }
+                </ContentTemplate>
+            </DashboardLayoutPanel>
+            <DashboardLayoutPanel Column="@pieColumn" Row="0" SizeX="@pieSizeX" SizeY="@pieSizeY">
+                <HeaderTemplate>
+					<span class="title">Product Wise Sales - 2021</span>
+				</HeaderTemplate>
+                <ContentTemplate>
+                        @if (isLayoutRender)
+                        {
+                            <SfAccumulationChart EnableAnimation="true" Width="@Width" Height="@Height" Theme="@theme" EnableBorderOnMouseMove="false" EnableSmartLabels="false">
+                                <AccumulationChartBorder Color="transparent"></AccumulationChartBorder>
+                                <AccumulationChartTooltipSettings Enable="true" Format="${point.x}"></AccumulationChartTooltipSettings>
+                                <AccumulationChartSeriesCollection>
+                                    <AccumulationChartSeries DataSource="@PieChartDataCollection" Radius="@Radius" XName="Product" YName="Percentage" InnerRadius="40%" Palettes="@palettes" StartAngle="270" EndAngle="270">
+                                        <AccumulationChartSeriesBorder Color="@Color" Width="3"></AccumulationChartSeriesBorder>
+                                        <AccumulationDataLabelSettings Visible="true" Name="TextMapping" Position="AccumulationLabelPosition.Outside">
+                                            <AccumulationChartConnector Length="10px" Type="ConnectorType.Curve"></AccumulationChartConnector>
+                                        </AccumulationDataLabelSettings>
+                                    </AccumulationChartSeries>
+                                </AccumulationChartSeriesCollection>
+                                <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+                            </SfAccumulationChart>
+                        }
+                </ContentTemplate>
+            </DashboardLayoutPanel>
+            <DashboardLayoutPanel Column="0" Row="@splineRow" SizeX="@splineSizeX" SizeY="@splineSizeY">
+                <HeaderTemplate>
+                    <span class="title">Monthly Sales for 2021</span>
+				</HeaderTemplate>
+                <ContentTemplate>
+                    @if (isLayoutRender)
+                    {
+                        <SfChart @ref="chart2" Theme="@theme" Width="@Width" Height="@Height">
+                            <ChartArea>
+                                <ChartAreaBorder Width="0"></ChartAreaBorder>
+                            </ChartArea>
+                            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                                <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                            </ChartPrimaryXAxis>
+                            <ChartPrimaryYAxis LabelFormat="${value}" Minimum="0" Maximum="12000">
+                                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                                <ChartAxisLabelStyle Size="11px"></ChartAxisLabelStyle>
+                                <ChartAxisTitleStyle Size="13px"></ChartAxisTitleStyle>
+                            </ChartPrimaryYAxis>
+                            <ChartTooltipSettings Enable="true" Shared="true" EnableMarker="false"></ChartTooltipSettings>
+                            <ChartSeriesCollection>
+                                <ChartSeries DataSource="@ChartDataCollection" XName="Period" Opacity="0.3" Width="2.5" PointColorMapping="PointColor" YName="Percentage" Name="Online" Type="ChartSeriesType.SplineArea" Fill="@FillColor">
+                                    <ChartSeriesBorder Width="2.5" Color="@BorderColor"></ChartSeriesBorder>
+                                </ChartSeries>
+                                  <ChartSeries DataSource="@ChartDataCollection1" XName="Period" Opacity="0.3" Width="2.5" PointColorMapping="PointColor" YName="Percentage" Name="Retail" Type="ChartSeriesType.SplineArea" Fill="@FillColor2">
+                                    <ChartSeriesBorder Width="2.5" Color="@BorderColor2"></ChartSeriesBorder>
+                                </ChartSeries>
+                            </ChartSeriesCollection>
+                            <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+                        </SfChart>
+                    }
+                </ContentTemplate>
+            </DashboardLayoutPanel>
+        </DashboardLayoutPanels>
+    </SfDashboardLayout>
+</div>
+<style>
+  
+   
+    ellipse[id*=_Trackball_1] {
+      
+        stroke-width: 1 !important;
+        stroke: white !important;
+    }
+
+</style>
+@code {
+
+    
+    private bool isLayoutRender;
+    string Width = "100%";
+    string Height = "100%";
+    string BorderColor = "#2485FA";                
+    string BorderColor2 = "#FEC200";
+    string FillColor2;
+    string FillColor;
+    string Color;
+    string Radius = "75%";
+    string HeaderColor;
+    string TitleColor;
+    string CurrentUri;
+    string valueUrl = "url";
+    double cellAspectRatio;
+    int columns, pieColumn, splineRow, columnSizeX, columnSizeY,
+    pieSizeX, pieSizeY, splineSizeX, splineSizeY;
+    private Theme theme;
+    private static Timer timer;
+    SfChart chart1;
+    SfChart chart2;
+    SfDashboardLayout sfDashboardLayout;
+    DateTime previousRequestTime = DateTime.MinValue;
+    private string[] palettes = new string[] { "#61EFCD", "#CDDE1F", "#FEC200", "#CA765A", "#2485FA", "#F57D7D", "#C152D2",
+    "#8854D9", "#3D4EB8", "#00BCD7","#4472c4", "#ed7d31", "#ffc000", "#70ad47", "#5b9bd5", "#c1c1c1", "#6f6fe2", "#e269ae", "#9e480e", "#997300" };
+    public List<ChartData> ChartDataCollection { get; set; } = new List<ChartData>
+    {
+        new ChartData { Period = "Jan", Percentage = 3600 },
+        new ChartData { Period = "Feb", Percentage = 6200 },
+        new ChartData { Period = "Mar", Percentage = 8100 },
+        new ChartData { Period = "Apr", Percentage = 5900 },
+        new ChartData { Period = "May", Percentage = 8900 },
+        new ChartData { Period = "Jun", Percentage = 7200 },
+        new ChartData { Period = "Jul", Percentage = 4300 },
+        new ChartData { Period = "Aug", Percentage = 4600 },
+        new ChartData { Period = "Sep", Percentage = 5500 },
+        new ChartData { Period = "Oct", Percentage = 6350 },
+        new ChartData { Period = "Nov", Percentage = 5700 },
+        new ChartData { Period = "Dec", Percentage = 8000 }
+    };
+    public List<ChartData> ChartDataCollection1 { get; set; } = new List<ChartData>
+    {
+        new ChartData { Period = "Jan", Percentage = 6400,},
+        new ChartData { Period = "Feb", Percentage = 5300 },
+        new ChartData { Period = "Mar", Percentage = 4900 },
+        new ChartData { Period = "Apr", Percentage = 5300 },
+        new ChartData { Period = "May", Percentage = 4200 },
+        new ChartData { Period = "Jun", Percentage = 6500 },
+        new ChartData { Period = "Jul", Percentage = 7900 },
+        new ChartData { Period = "Aug", Percentage = 3800 },
+        new ChartData { Period = "Sep", Percentage = 6800 },
+        new ChartData { Period = "Oct", Percentage = 3400 },
+        new ChartData { Period = "Nov", Percentage = 6400 },
+        new ChartData { Period = "Dec", Percentage = 6800 }
+    };
+    public List<ChartData> PieChartDataCollection { get; set; } = new List<ChartData>
+    {
+        new ChartData { Product = "TV : 30 (12%)", Percentage = 12, TextMapping = "TV, 30 <br/>12%"},
+        new ChartData { Product = "PC : 20 (8%)", Percentage = 8, TextMapping = "PC, 20 <br/>8%"},
+        new ChartData { Product = "Laptop : 40 (16%)",  Percentage = 16, TextMapping = "Laptop, 40 <br/>16%"},
+        new ChartData { Product = "Mobile : 90 (36%)", Percentage = 36, TextMapping = "Mobile, 90 <br/>36%"},
+        new ChartData { Product = "Camera : 27 (11%)", Percentage = 11, TextMapping = "Camera, 27 <br/>11%"}
+    };
+    public List<ChartData> ColumnChartDataCollection { get; set; } = new List<ChartData>
+    {
+        new ChartData { Period = "2017", Percentage = 60, TextMapping = "60%" },
+        new ChartData { Period = "2018", Percentage = 56, TextMapping = "56%"},
+        new ChartData { Period = "2019", Percentage = 71, TextMapping = "71%" },
+        new ChartData { Period = "2020", Percentage = 85, TextMapping = "85%" },
+        new ChartData { Period = "2021", Percentage = 73, TextMapping = "73%" },
+    };
+    public List<ChartData> ColumnChartData { get; set; } = new List<ChartData>
+    {
+        new ChartData { Period = "2017", Percentage = 40, TextMapping = "40%" },
+        new ChartData { Period = "2018", Percentage = 44, TextMapping = "44%"},
+        new ChartData { Period = "2019", Percentage = 29, TextMapping = "29%" },
+        new ChartData { Period = "2020", Percentage = 15, TextMapping = "15%" },
+        new ChartData { Period = "2021", Percentage = 27, TextMapping = "27%" },
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        
+        if(SampleService.IsDevice)
+        {
+            Radius = "70%";
+        }
+
+        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        CurrentUri = NavigationManager.Uri;
+        cellAspectRatio = SampleService.IsDevice ? 1 : 0.8;
+        columns = SampleService.IsDevice? 2 : 8;
+        columnSizeX = SampleService.IsDevice? 1: 5;
+        columnSizeY = SampleService.IsDevice? 1 : 2;
+        pieColumn = SampleService.IsDevice? 1 : 5;
+        pieSizeX = SampleService.IsDevice? 1 : 3;
+        pieSizeY = SampleService.IsDevice? 1 : 2;
+        splineRow = SampleService.IsDevice? 1 : 2;
+        splineSizeX = SampleService.IsDevice? 2 : 8;
+        splineSizeY = SampleService.IsDevice? 1 : 3;
+        FillColor = String.Concat(valueUrl, "(#gradient-chart)");
+        FillColor2 = String.Concat(valueUrl, "(#gradient-chart1)");   
+        if (CurrentUri.IndexOf("dark") > -1)
+        {
+            TitleColor = "#F3F2F1";
+            if (CurrentUri.IndexOf("material") > -1)
+            {
+                Color = "#303030";
+                HeaderColor = "#303030";
+            }
+            else if(CurrentUri.IndexOf("bootstrap5") > -1)
+            {
+                Color = "#212529";
+                HeaderColor = "#212529";
+            }
+            else if(CurrentUri.IndexOf("bootstrap") > -1)
+            {
+                Color = "#1A1A1A";
+                HeaderColor = "#1A1A1A";
+            }
+            else if(CurrentUri.IndexOf("tailwind") > -1)
+            {
+                Color = "#1F2937";
+                HeaderColor = "#1F2937";
+            }
+            else
+            {
+                Color = "#222222";
+                HeaderColor = "#222222";
+            }
+        }
+
+        else if(CurrentUri.IndexOf("highcontrast") > -1)
+        {
+            Color = "#000000";
+            HeaderColor = "#000000";
+            TitleColor = "#F3F2F1";
+        }
+        else
+        {
+            Color = "#FFFFFF";
+            HeaderColor = "#FAFAFA";
+            TitleColor = "#737373";
+        }
+        DataLoaded();
+    }
+
+
+    public void DataLoaded()
+    {
+        foreach(ChartData chartData in ChartDataCollection)
+        {
+            chartData.PointColor = FillColor;
+        }
+
+        foreach(ChartData chartData1 in ChartDataCollection1)
+        {
+            chartData1.PointColor = FillColor2;
+        }
+    }
+    public void LayoutCreated()
+    {
+        isLayoutRender = true;
+        timer = new Timer(1000);
+        timer.Elapsed += RefreshCharts;
+        timer.AutoReset = true;
+        timer.Enabled = true;
+    }
+    private async Task OnWindowResize(Syncfusion.Blazor.Layouts.ResizeArgs args)
+    {
+        const int UPDATETHRESHOLD = 200;
+        if ((previousRequestTime == DateTime.MinValue || (DateTime.Now - previousRequestTime).TotalMilliseconds > UPDATETHRESHOLD))
+        {
+            previousRequestTime = DateTime.Now;
+            await Task.Delay(UPDATETHRESHOLD);
+            await sfDashboardLayout.RefreshAsync();
+        }
+
+    }
+    private void RefreshCharts(Object source, ElapsedEventArgs e)
+    {
+        if (chart1 == null && chart2 == null)
+            return;
+        chart1.RefreshAsync(false);
+        chart2.RefreshAsync(false);
+        timer.Enabled = false;
+        timer.AutoReset = false;
+    }
+
+    public class ChartData
+    {
+        public string Period { get; set; }
+        public string Product { get; set; }
+        public double Percentage { get; set; }
+        public string TextMapping { get; set; }
+        public string AnnotationX { get; set; }
+        public string AnnotationY { get; set; }
+        public string PointColor { get; set; }
+    }
+}
+
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+	
+	#gradient-chart stop {
+        stop-color: #2485FA;        
+    }
+
+    #gradient-chart1 stop{
+        stop-color: #FEC200;
+    } 
+</style>
+<svg style="height: 0">
+    <defs>       
+        <linearGradient id="gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+         <linearGradient id="gradient-chart1" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>

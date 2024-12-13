@@ -1,0 +1,274 @@
+﻿@page "/gantt-chart/digital-marketing"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Charts
+@using System.Globalization
+@using blazor_gantt_digital_marketing_data
+@inject NavigationManager UriHelper
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    This sample demonstrates visualizing digital marketing details using a Gantt chart. It is useful for tracking the progress and performance of various marketing activities.
+</SampleDescription>
+
+<ActionDescription>
+    This sample includes several components for customization purposes. The Gantt chart's <a href="https://blazor.syncfusion.com/documentation/gantt-chart/taskbar">taskbar</a> have been customized using various styles.
+    <ul>
+        <li><a href="https://blazor.syncfusion.com/demos/dashboard-layout/overview?theme=fluent">SfDashboardLayout</a> - Used for aligning the chart components.</li>
+        <li><a href="https://blazor.syncfusion.com/demos/chart/overview?theme=fluent">SfChart</a> - Used for tracking the conversion rate on a monthly basis and revenue tracking per month.</li>
+    </ul>
+</ActionDescription>
+
+<section class="col-lg-12 control-section">
+    <div class="content-wrapper e-digital-marketing-use-case">
+        <div class="use-case-layout">
+           <div class="row">
+               <div class="col-xl-4 col-lg-4 col-md-5 col-sm-12">
+                   <div class="e-gantt-chart-digital-marketing">
+                       <p class="title">Impressions based on Activity</p>
+                        <SfAccumulationChart Height="270px" Background="@ChartBackgroundColor" Width="100%" EnableAnimation="true" EnableSmartLabels="true">
+                            <AccumulationChartLegendSettings Visible="true"></AccumulationChartLegendSettings>
+
+                            <AccumulationChartSeriesCollection>
+                                <AccumulationChartSeries DataSource="@StatisticsDetails" XName="Activity" YName="Impressions" Name="Impressions"
+                                                            InnerRadius="30%">
+                                    <AccumulationDataLabelSettings Visible="true" Name="Activity" Position="AccumulationLabelPosition.Outside">
+                                        <AccumulationChartConnector Length="10px" Type="ConnectorType.Curve"></AccumulationChartConnector>
+                                    </AccumulationDataLabelSettings>
+
+                                </AccumulationChartSeries>
+
+                            </AccumulationChartSeriesCollection>
+                            <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+                            <AccumulationChartTooltipSettings Enable="true"></AccumulationChartTooltipSettings>
+                        </SfAccumulationChart>
+                   </div>
+               </div>
+               <div class="col-xl-8 col-lg-8 col-md-7 col-sm-12">
+                    <div class="e-gantt-chart-digital-marketing">
+                        <p class="title">Revenue Per Month</p>
+                        <SfChart Height="270px" Width="100%" Background="@ChartBackgroundColor">
+                            <ChartArea>
+                                <ChartAreaBorder Width="0"></ChartAreaBorder>
+                            </ChartArea>
+                            <ChartPrimaryXAxis TitleStyle="@(new ChartAxisTitleStyle{ Color=LabelTextColor})" ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelPosition="AxisPosition.Outside" Title="Month">
+                                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                            </ChartPrimaryXAxis>
+                            <ChartPrimaryYAxis Title="Revenue" TitleStyle="@(new ChartAxisTitleStyle{ Color=LabelTextColor})" LabelFormat="{value}K">
+                                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                            </ChartPrimaryYAxis>
+
+                            <ChartSeriesCollection>
+                                <ChartSeries Fill="@ChartFillColor" DataSource="@BarChartData" XName="Month" YName="Revenue" Type="ChartSeriesType.Column">
+                                    <ChartMarker Visible="false"></ChartMarker>
+                                </ChartSeries>
+                            </ChartSeriesCollection>
+                            <ChartTooltipSettings Enable="true" Format="<b>${point.x} - ${point.y}</b>" EnableAnimation="true"></ChartTooltipSettings>
+                        </SfChart>
+                        </div>
+               </div>
+           </div>
+        </div>
+        <div class="use-case-gantt">
+            <SfGantt DataSource="@DigitalMarketingCollection" @ref="GanttInstance" ScrollToTaskbarOnClick="true" ProjectStartDate="@(new DateTime(2023, 10, 25))" ProjectEndDate="@(new DateTime(2025, 8, 30))" AllowFiltering="true" Height="400px" RowHeight="44" Width="100%" HighlightWeekends="true"
+                        AllowSelection="true" GridLines="Syncfusion.Blazor.Gantt.GridLine.Both" TreeColumnIndex="1">
+                <GanttTaskFields Id="Id" Name="Activity" StartDate="StartDate" Duration="Duration" Progress="Progress"
+                                    Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="Id" Width="100" Visible="false" ></GanttColumn>
+                    <GanttColumn Field="Activity" HeaderText="Activity" Width="270" AllowEditing="false" AllowFiltering="true" IsFrozen="true" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Type="ColumnType.Integer" Field="Impressions" HeaderText="Impressions" AllowEditing="false" AllowFiltering="true" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="150"></GanttColumn>
+                    <GanttColumn Type="ColumnType.Double" Field="ConversionRate" HeaderText="Conversion Rate" AllowEditing="false" AllowFiltering="true" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Format="P" Width="150"></GanttColumn>
+                    <GanttColumn Type="ColumnType.Double" Field="Revenue" HeaderText="Company Revenue" AllowEditing="false" AllowFiltering="true" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Format="C" Width="170"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date" AllowEditing="false" AllowFiltering="true"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration" AllowEditing="false" AllowFiltering="true"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress" AllowEditing="false" AllowFiltering="true"></GanttColumn>
+                    <GanttColumn Field="Metrics" HeaderText="Metrics" Width="170" AllowEditing="false" AllowFiltering="true" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                </GanttColumns>
+                <GanttLabelSettings LeftLabel="Activity" TValue="DigitalMarketingData.TaskInfoModel">
+                </GanttLabelSettings>
+                <GanttSplitterSettings Position="50%" Collapsible="true"> </GanttSplitterSettings>
+                <GanttTimelineSettings TimelineUnitSize="130" >
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Month"  Format="MMM yyyy"></GanttBottomTierSettings>
+                </GanttTimelineSettings>
+                <GanttTooltipSettings ShowTooltip="true" TValue="DigitalMarketingData.TaskInfoModel">
+                    <TaskbarTemplate>
+                        @{
+                            var taskData = context as DigitalMarketingData.TaskInfoModel;
+                            DateOnly? startDate = taskData.StartDate.HasValue ? DateOnly.FromDateTime(taskData.StartDate.Value) : (DateOnly?)null;
+                            if (taskData == null)
+                            {
+                                return;
+                            }
+                            
+                            <table class="table e-gantt-tooltip-template-table" style="padding:0;margin:0" cellspacing="10">
+                                <tr>
+                                    <td>Activity</td><td> : @taskData.Activity</td>
+                                </tr>
+                                <tr>
+                                    <td>Date</td><td> : @(startDate != null ? startDate.Value.ToString(CultureInfo.CurrentCulture) : "")</td>
+                                </tr>
+                                <tr>
+                                    <td>Progress</td><td> : @taskData.Progress %</td>
+                                </tr>
+                                <tr>
+                                    <td>Impressions</td><td> : @taskData.Impressions </td>
+                                </tr>
+                                <tr>
+                                    <td>Conversion Rate</td><td>: @(taskData.ConversionRate * 100) %</td>
+                                </tr>
+                                <tr>
+                                    <td>Revenue</td><td> : @taskData.Revenue.ToString("C", CultureInfo.CurrentCulture)</td>
+                                </tr>
+                            </table>
+                        }
+                    </TaskbarTemplate>
+                </GanttTooltipSettings>
+                <GanttTemplates TValue="DigitalMarketingData.TaskInfoModel">
+                <TaskbarTemplate>
+                    @{
+                        var task = context as DigitalMarketingData.TaskInfoModel;
+                        var taskModel = GanttInstance.GetRowTaskModel(task);
+                        var progresswidth = taskModel.ProgressWidth;
+                        string image = UriHelper.ToAbsoluteUri(SampleService.WebAssetsPath + "images/gantt/digital-marketing-icon.png").ToString();
+                        <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div e-gantt-child-taskbar-template">
+                            <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar e-gantt-child-taskbar-template-progress" style="width:@(progresswidth+"px");">
+                            </div>
+                        </div>
+                    }
+                </TaskbarTemplate>
+                <ParentTaskbarTemplate>
+                    @{
+                        var task = context as DigitalMarketingData.TaskInfoModel;
+                        var taskModel = GanttInstance.GetRowTaskModel(task);
+                        var progresswidth = taskModel.ProgressWidth;
+                        string image = UriHelper.ToAbsoluteUri(SampleService.WebAssetsPath + "images/gantt/digital-marketing-icon.png").ToString();
+                        <div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar e-gantt-parent-taskbar-div e-gantt-parent-taskbar-template">
+                            <div class="e-gantt e-gantt-chart e-gantt-parent-progressbar-inner-div e-gantt-parent-taskbar-template-progress" style=" width:@(progresswidth+"px");">
+                            </div>
+                        </div>
+                    }
+                </ParentTaskbarTemplate>
+            </GanttTemplates>
+            </SfGantt>
+        </div>
+    </div>
+</section>
+
+
+<style>
+    .e-digital-marketing-use-case .e-dashboardlayout.e-control .e-panel .e-panel-container .e-panel-header {
+        text-align: center;
+        font-weight: 600;
+        line-height: 28px;
+    }
+
+    .e-digital-marketing-use-case .use-case-gantt {
+        margin: 18px 0px;
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .14), 0 0 2px 0 rgba(0, 0, 0, .12);
+    }
+
+    .e-digital-marketing-use-case .e-connector-line {
+        stroke: #0F6CBD !important;
+    }
+
+    .e-digital-marketing-use-case .e-connector-line-arrow {
+        fill: #0F6CBD !important;
+    }
+
+    .e-digital-marketing-use-case .e-gantt-tooltip-template-container-inner {
+        align-items: center;
+        text-align: center;
+    }
+
+    .e-digital-marketing-use-case .e-gantt .e-gantt-chart .e-gantt-child-taskbar-inner-div{
+        height: 27px !important;
+        background: @TaskBackgroundColor !important;
+        outline: none !important;
+        border-radius: 4px;
+    }
+
+    .e-digital-marketing-use-case .e-gantt .e-gantt-chart .e-gantt-child-progressbar-inner-div {
+        height: 27px !important;
+        background: @ProgressBarColor !important;
+        border-radius: 0 !important;
+        position: relative;
+    }
+
+    .e-digital-marketing-use-case .e-gantt-child-taskbar-template-img {
+        height: 22px;
+        width: 22px;
+        position: absolute;
+        left: 0;
+        top: 1px;
+        margin: 5px;
+    }
+
+    .e-digital-marketing-use-case .e-gantt-parent-taskbar-template {
+        height: 27px;
+        background: @ParentTaskBackgroundColor !important;
+        border: 1px solid @ParentProgressBarColor !important;
+        border-radius: 4px !important;
+        outline:none !important;
+    }
+
+    .e-digital-marketing-use-case .e-gantt-parent-taskbar-template-progress {
+        height: 27px !important;
+        background: @ParentProgressBarColor !important;
+        border-radius: 4px 0px 0px 4px !important;
+        position: relative !important;
+        border:none !important;
+    }
+
+    .e-digital-marketing-use-case .e-gantt-parent-taskbar-template-img {
+        height: 22px;
+        width: 22px;
+        position: absolute;
+        left: 0;
+        top: 1px;
+        margin: 5px;
+    }
+
+    .e-digital-marketing-use-case .e-gridheader .e-headertext{
+        font-weight:400 !important;
+    }
+
+    .e-digital-marketing-use-case .e-weekend-container{
+        display:none !important;
+    }
+
+    .e-gantt .e-header-cell-label, .e-gantt .e-gantt-chart .e-label {
+        color: @LabelTextColor !important;
+    } 
+    .use-case-layout .e-gantt-chart-digital-marketing {
+        box-shadow: 0 2px 4px 0 rgba(0, 0, 0, .14), 0 0 2px 0 rgba(0, 0, 0, .12);
+    }
+
+    .e-gantt-chart-digital-marketing{
+        text-align:center;
+    }
+    .e-gantt-chart-digital-marketing .title{
+        color:@LabelTextColor;
+        font-size: 16px;
+        font-weight: 600;
+        padding: 10px 0px;
+        margin: 0px;
+        background-color: @LabelBackgroundColor;
+    }
+
+    @@media only screen and (max-width:992px) 
+    {
+        .e-gantt-chart-digital-marketing
+        {
+            margin-bottom: 10px;
+        }
+    }
+
+    .e-gantt-tooltip-template-table td{
+        padding: 5px;
+    }
+</style>

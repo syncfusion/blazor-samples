@@ -1,0 +1,90 @@
+﻿@page "/chart/rtl"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes a company’s performance with a default column chart rendered right-to-left (RTL). The values of the data points are displayed in a tooltip, and the legend in the sample displays information about the series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        <code>Right-to-left</code>(RTL) is used to render a component from right to left (RTL) and it can be enabled by setting the <code>EnableRtl</code> property as <b>true</b>. 
+        In this demo, you can see the <code>Axis</code>, <code>Data Points</code>, <code>Tooltip</code> and <code>Legend</code> are aligned from right to left.
+    </p>
+    <p>
+        <code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.
+    </p>     
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Company Performance" Width="@Width" Theme="@Theme" EnableRtl="true">
+        <ChartEvents OnAxisLabelRender="LabelRender"></ChartEvents>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis Minimum="2015" Maximum="2020" Interval="1">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="0" Maximum="1200" Interval="200" LabelFormat="{value}B">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="Sales" Name="Sales" Width="2" ColumnSpacing="0.1" Type="ChartSeriesType.Column">
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="Expense" Name="Expense" Width="2" ColumnSpacing="0.1" Type="ChartSeriesType.Column">
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Year" YName="Profit" Name="Profit" Width="2" ColumnSpacing="0.1" Type="ChartSeriesType.Column">
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public class DoubleData
+    {
+        public double Year { get; set; }
+        public double Sales { get; set; }
+        public double Expense { get; set; }
+        public double Profit { get; set; }
+    }
+    public List<DoubleData> ChartPoints { get; set; } = new List<DoubleData>
+    {
+        new DoubleData { Year = 2016, Sales = 1000, Expense = 400, Profit = 600},
+        new DoubleData { Year = 2017, Sales = 970, Expense = 360, Profit = 610},
+        new DoubleData { Year = 2018, Sales = 1060, Expense = 920, Profit = 140},
+        new DoubleData { Year = 2019, Sales = 1030, Expense = 540, Profit = 490},
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    private void LabelRender(AxisLabelRenderEventArgs args)
+    {
+        if (args.Axis.Name == "PrimaryXAxis")
+        {
+            args.Cancel = args.Value == 2015 || args.Value == 2020;
+        }
+    }
+}

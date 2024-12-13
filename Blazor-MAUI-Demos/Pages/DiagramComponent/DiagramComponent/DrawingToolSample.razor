@@ -1,0 +1,537 @@
+﻿@page "/diagramcomponent/drawingtool"
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Buttons
+@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using ButtonEventArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+<PageTitle>Blazor Diagram Drawing Tools Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the Drawing Tools in Blazor Diagram Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This sample visualizes how to draw nodes and connectors during runtime by clicking and dragging on the Diagram page interactively using the drawing tools.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example shows how to draw shapes and connections interactively. In addition to that, rulers, gridlines, and snapping options are enabled to assist drawing. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_InteractionController'>InteractionController</a></code> property is used to enable drawing. Add <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramInteractions.html#Syncfusion_Blazor_Diagram_DiagramInteractions_DrawOnce'>DrawOnce</a></code> or <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramInteractions.html#Syncfusion_Blazor_Diagram_DiagramInteractions_ContinuousDraw'>ContinuousDraw</a></code> options to the InteractionController property. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_DrawingObject'>DrawingObject</a></code> property is used to define a shape or connector to be drawn. </p>
+    <p>A few shape and connector templates are in the palette. To draw basic shapes and connectors, click the templates. A corner or point will be added to the polygon with each mouse left-click to reshape them. Drawings will be completed either on mouse right-click or double-click.</p>
+</ActionDescription>
+@*End:Hidden*@
+
+<div class="col-lg-9 control-section sb-property-border">
+    @*Hidden:Lines*@
+    <style>
+        .image-pattern-style {
+            background-color: white;
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 60px;
+            width: calc((100% - 18px) / 3);
+            cursor: pointer;
+            border: 1px solid #D5D5D5;
+            background-position: center;
+            float: left;
+        }
+
+        .property-panel-header {
+            padding-top: 15px;
+            padding-bottom: 5px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .image-pattern-style:hover {
+            border-color: gray;
+            border-width: 2px;
+        }
+
+        .e-remove-selection .property-section-content {
+            pointer-events: none;
+        }
+
+        .column-style {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: calc((100% - 12px) / 3);
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+
+        .row-header {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .e-checkbox-wrapper .e-label {
+            font-size: 12px;
+        }
+
+        .e-selected-style {
+            border-color: #006CE6;
+            border-width: 2px;
+        }
+
+        .col-xs-6 {
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 5px;
+        }
+
+        .buttonstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 117px;
+            float: left;
+        }
+
+        .column-style custom {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 70px;
+        }
+
+        .e-btn .e-btn-icon, .e-css.e-btn .e-btn-icon {
+            display: inline-block;
+            font-size: 14px;
+            margin-top: -2px;
+            vertical-align: middle;
+            width: 1em;
+        }
+
+        @@font-face {
+            font-family: 'e-bg-icons';
+            src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #bold, #italic, #underline {
+            width: 100%;
+        }
+
+        .bg-icons {
+            font-family: 'e-bg-icons' !important;
+            speak: none;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .e-btngrp-bold::before {
+            content: '\e71a'
+        }
+
+        .e-btngrp-italic::before {
+            content: '\e708';
+        }
+
+        .e-btngrp-underline::before {
+            content: '\e703';
+        }
+
+        .texstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 50%;
+            padding-top: 15px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+
+        .drawingtool-image {
+             width: 62px;
+             height: 65px;
+             float: left;
+             background-size: cover;
+             background-image: url(@(SampleService.WebAssetsPath + "images/diagram/overview/himage1.png"));
+             border: 1px solid #E0E0E0;
+             box-sizing: border-box;
+             border-radius: 80px;
+             margin-top: 5px;
+             margin-bottom: 5px;
+             margin-left: 5px;
+        }
+        .drawingtool-header1 {
+            width: 165px;
+            height: 14px;
+            left: 664px;
+            top: 152px;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: 600;
+            font-size: 13px;
+            line-height: 14px;
+            background-size: cover;
+            letter-spacing: 0.1px;
+            color: white;
+        }
+        .drawingtool-maindiv {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            background-color: #2E95D8;
+            padding-top: 5px;
+        }
+        .drawingtool-header2 {
+            /* width: 121px; */
+            /* height: 14px; */
+            left: 660px;
+            top: 170px;
+            font-family: Roboto;
+            font-style: normal;
+            font-weight: normal;
+            font-size: 11px;
+            line-height: 14px;
+            letter-spacing: 0.1px;
+            color: white;
+            background-size: cover;
+        }
+      
+    </style>
+    @*End:Hidden*@
+    <div id="diagram-space" class="content-wrapper show-background">
+        <SfDiagramComponent Height="640px" @bind-DrawingObject="@drawingObject" InteractionController="Tools" @ref="@diagram" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
+            <DiagramTemplates>
+                <NodeTemplate>
+                    @{
+                        <div class="drawingtool-maindiv">
+                            <div id="image" class="drawingtool-image">
+                            </div>
+                            <div style="Padding-left: 80px;padding-top: 5px;">
+                                <div id="header1" style="font-weight:bold;padding-bottom: 5px;" class="drawingtool-header2">
+                                    Daniel Tonini
+                                </div>
+                                <div id="header2" class="drawingtool-header2">
+                                    Project Lead
+                                </div>
+
+                            </div>
+                        </div>
+
+                    }
+                </NodeTemplate>
+            </DiagramTemplates>
+        </SfDiagramComponent>
+    </div>
+</div>
+@*Hidden:Lines*@
+<button id="toggle-button" onclick="togglePropertySection()">
+    <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.9531 12.1719H20.8438L20.9844 12.1953L21.125 12.2422L21.2656 12.3125L21.3594 12.4062L21.4531 12.5L21.5234 12.6406L21.5703 12.7812L21.5938 12.9219L21.5703 13.0625L21.5234 13.2031L21.4531 13.3438L21.3594 13.4375L21.2656 13.5312L21.125 13.6016L20.9844 13.6484L20.8438 13.6719H13.9531L13.8125 13.6484L13.6719 13.6016L13.5312 13.5312L13.4375 13.4375L13.3438 13.3438L13.2734 13.2031L13.2266 13.0625L13.2031 12.9219L13.2266 12.7812L13.2734 12.6406L13.3438 12.5L13.4375 12.4062L13.5312 12.3125L13.6719 12.2422L13.8125 12.1953L13.9531 12.1719ZM8.04688 11.7031H7.92969L7.78906 11.7266L7.57812 11.7969L7.36719 11.8906L7.17969 12.0547L7.01562 12.2422L6.92188 12.4531L6.85156 12.6641L6.82812 12.9219L6.85156 13.1797L6.92188 13.3906L7.01562 13.6016L7.17969 13.7891L7.36719 13.9531L7.57812 14.0469L7.78906 14.1172L8.04688 14.1406L8.30469 14.1172L8.51562 14.0469L8.72656 13.9531L8.91406 13.7891L9.07812 13.6016L9.17188 13.3906L9.24219 13.1797L9.26562 12.9219L9.24219 12.6641L9.17188 12.4531L9.07812 12.2422L8.91406 12.0547L8.72656 11.8906L8.51562 11.7969L8.30469 11.7266L8.04688 11.7031ZM8.04688 10.2031L8.32812 10.2266L8.58594 10.2734L8.84375 10.3438L9.10156 10.4375L9.33594 10.5312L9.57031 10.6719L9.75781 10.8359L9.96875 11L10.1328 11.2109L10.2969 11.3984L10.4375 11.6328L10.5312 11.8672L10.625 12.125L10.6953 12.3828L10.7422 12.6406L10.7656 12.9219L10.7422 13.2031L10.6953 13.4609L10.625 13.7188L10.5312 13.9766L10.4375 14.2109L10.2969 14.4453L10.1328 14.6328L9.96875 14.8438L9.75781 15.0078L9.57031 15.1719L9.33594 15.3125L9.10156 15.4062L8.84375 15.5L8.58594 15.5703L8.32812 15.6172L8.04688 15.6406L7.8125 15.6172L7.60156 15.5938L7.39062 15.5469L7.17969 15.4766L6.96875 15.4062L6.78125 15.3125L6.59375 15.2188L6.42969 15.1016L6.26562 14.9609L6.10156 14.8203L5.96094 14.6562L5.84375 14.4922L5.72656 14.3047L5.63281 14.1172L5.53906 13.9297L5.44531 13.6719H1.15625L1.01562 13.6484L0.875 13.6016L0.734375 13.5312L0.640625 13.4375L0.546875 13.3438L0.476562 13.2031L0.429688 13.0625L0.40625 12.9219L0.429688 12.7812L0.476562 12.6406L0.546875 12.5L0.640625 12.4062L0.734375 12.3125L0.875 12.2422L1.01562 12.1953L1.15625 12.1719H5.44531L5.53906 11.9141L5.63281 11.7266L5.72656 11.5391L5.84375 11.3516L5.96094 11.1875L6.10156 11.0234L6.26562 10.8828L6.42969 10.7422L6.59375 10.625L6.78125 10.5312L6.96875 10.4375L7.17969 10.3672L7.39062 10.2969L7.60156 10.25L7.8125 10.2266L8.04688 10.2031ZM1.15625 2.32812H8.04688L8.1875 2.35156L8.32812 2.39844L8.46875 2.46875L8.5625 2.5625L8.65625 2.65625L8.72656 2.79688L8.77344 2.9375L8.79688 3.07812L8.77344 3.21875L8.72656 3.35938L8.65625 3.5L8.5625 3.59375L8.46875 3.6875L8.32812 3.75781L8.1875 3.80469L8.04688 3.82812H1.15625L1.01562 3.80469L0.875 3.75781L0.734375 3.6875L0.640625 3.59375L0.546875 3.5L0.476562 3.35938L0.429688 3.21875L0.40625 3.07812L0.429688 2.9375L0.476562 2.79688L0.546875 2.65625L0.640625 2.5625L0.734375 2.46875L0.875 2.39844L1.01562 2.35156L1.15625 2.32812ZM13.9531 1.85938H13.8359L13.6953 1.88281L13.4844 1.95312L13.2734 2.04688L13.0859 2.21094L12.9219 2.39844L12.8281 2.60938L12.7578 2.82031L12.7344 3.07812L12.7578 3.33594L12.8281 3.54688L12.9219 3.75781L13.0859 3.94531L13.2734 4.10938L13.4844 4.20312L13.6953 4.27344L13.9531 4.29688L14.2109 4.27344L14.4219 4.20312L14.6328 4.10938L14.8203 3.94531L14.9844 3.75781L15.0781 3.54688L15.1484 3.33594L15.1719 3.07812L15.1484 2.82031L15.0781 2.60938L14.9844 2.39844L14.8203 2.21094L14.6328 2.04688L14.4219 1.95312L14.2109 1.88281L13.9531 1.85938ZM13.9531 0.359375L14.1875 0.382812L14.3984 0.40625L14.6094 0.453125L14.8203 0.523438L15.0312 0.59375L15.2188 0.6875L15.4062 0.78125L15.5703 0.898438L15.7344 1.03906L15.8984 1.17969L16.0391 1.34375L16.1562 1.50781L16.2734 1.69531L16.3672 1.88281L16.4609 2.07031L16.5547 2.35156H20.8438H20.9844L21.125 2.39844L21.2656 2.46875L21.3594 2.5625L21.4531 2.65625L21.5234 2.79688L21.5703 2.9375L21.5938 3.07812L21.5703 3.21875L21.5234 3.35938L21.4531 3.5L21.3594 3.59375L21.2656 3.6875L21.125 3.75781L20.9844 3.80469L20.8438 3.82812H16.5547L16.4609 4.08594L16.3672 4.27344L16.2734 4.46094L16.1562 4.64844L16.0391 4.8125L15.8984 4.97656L15.7344 5.11719L15.5703 5.25781L15.4062 5.375L15.2188 5.46875L15.0312 5.5625L14.8203 5.63281L14.6094 5.70312L14.3984 5.75L14.1875 5.77344L13.9531 5.79688L13.6719 5.77344L13.4141 5.72656L13.1562 5.65625L12.8984 5.5625L12.6641 5.46875L12.4297 5.32812L12.2422 5.16406L12.0312 5L11.8672 4.78906L11.7031 4.60156L11.5625 4.36719L11.4688 4.13281L11.375 3.875L11.3047 3.61719L11.2578 3.35938L11.2344 3.07812L11.2578 2.79688L11.3047 2.53906L11.375 2.28125L11.4688 2.02344L11.5625 1.78906L11.7031 1.55469L11.8672 1.36719L12.0312 1.15625L12.2422 0.992188L12.4297 0.828125L12.6641 0.6875L12.8984 0.59375L13.1562 0.5L13.4141 0.429688L13.6719 0.382812L13.9531 0.359375Z" fill="white" />
+    </svg>
+</button>
+<div class="col-lg-3 property-section" id="property-section">
+    <div class="property-panel-section">
+    <div class="property-panel-header">
+        Properties
+    </div>
+    <div class="property-panel-content">
+    <svg onclick="togglePropertySection()" role="button" tabindex="0" aria-label="Toggle settings" title='Toggle Settings' id="close-settings" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.25781 0.4375H1.33594L1.49219 0.476562L1.64844 0.535156L1.78516 0.613281L7 5.84766L12.2148 0.613281L12.3516 0.535156L12.5078 0.476562L12.6641 0.4375H12.8203L12.9766 0.476562L13.1328 0.535156L13.2695 0.613281L13.3867 0.730469L13.4648 0.867188L13.5234 1.02344L13.5625 1.17969V1.33594L13.5234 1.49219L13.4648 1.64844L13.3867 1.78516L8.15234 7L13.3867 12.2148L13.4648 12.3516L13.5234 12.5078L13.5625 12.6641V12.8203L13.5234 12.9766L13.4648 13.1328L13.3867 13.2695L13.2695 13.3867L13.1328 13.4648L12.9766 13.5234L12.8203 13.5625H12.6641L12.5078 13.5234L12.3516 13.4648L12.2148 13.3867L7 8.15234L1.78516 13.3867L1.64844 13.4648L1.49219 13.5234L1.33594 13.5625H1.17969L1.02344 13.5234L0.867188 13.4648L0.730469 13.3867L0.613281 13.2695L0.535156 13.1328L0.476562 12.9766L0.4375 12.8203V12.6641L0.476562 12.5078L0.535156 12.3516L0.613281 12.2148L5.84766 7L0.671875 1.84375L0.574219 1.70703L0.496094 1.57031L0.457031 1.41406L0.4375 1.25781L0.457031 1.10156L0.496094 0.945312L0.574219 0.808594L0.671875 0.671875L0.808594 0.574219L0.945312 0.496094L1.10156 0.457031L1.25781 0.4375Z" fill="#424242" />
+    </svg>
+    <div>
+        <div class="row property-panel-content" id="appearance">
+            <div class="row row-header" style="padding-top: 10px">
+                Shapes
+            </div>
+            <div class="row">
+
+                <div class="row" style="padding-top: 8px">
+                    <div style="stroke-width:20px">
+                        <div title="Rectangle" class="@dictionary["rectangle"]" id="bottomr" @onclick="@(() => UpdateTools("rectangle"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/rectangle.png")); margin-left: 4px">
+                        </div>                                             
+                    </div>
+                    <div>
+                        <div title="Ellipse" class="@dictionary["ellipse"]" id="bottome" @onclick="@(() => UpdateTools("ellipse"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/ellipse.png")); margin-left: 4px">
+                        </div>                        
+                    </div>
+                    <div>
+                        <div title="Hexagon" class="@dictionary["hexagon"]" id="right" @onclick="@(() => UpdateTools("hexagon"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/hexagon.png")); margin: 0px 4px">
+                        </div>                                               
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div>
+                        <div title="Pentagon" class="@dictionary["pentagon"]" id="bottoml" @onclick="@(() => UpdateTools("pentagon"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/pentagon.png"));margin-left: 4px">
+                        </div>                                              
+                    </div>
+                    <div>
+                        <div title="Triangle" class="@dictionary["triangle"]" id="bottomcenter_top" @onclick="@(() => UpdateTools("triangle"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/polygon.png"));margin-left: 4px">
+                        </div>                                              
+                    </div>
+                    <div>
+                        <div title="Star" class="@dictionary["star"]" id="center" @onclick="@(() => UpdateTools("star"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/path.png")); margin: 0px 4px">
+                        </div>                                             
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div>
+                        <div title="User" class="@dictionary["user"]" id="bottom_User" @onclick="@(() => UpdateTools("user"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/user.png"));margin-left: 4px">
+                        </div>
+                    </div>
+                    <div >
+                        <div title="Custom Node" class="@dictionary["customnode"]" id="Custom_Node" @onclick="@(() => UpdateTools("customnode"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/customnode.png"));margin-left: 4px">
+                        </div>
+
+                    </div>
+                    <div>
+                        <div title="Text Node" class="@dictionary["textnode"]" id="Custom_Node" @onclick="@(() => UpdateTools("textnode"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/text1.png"));margin-left: 4px">
+                        </div>
+
+                    </div>
+                </div>
+                <div class="row row-header" style="padding-top: 10px">
+                    Connectors
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div>
+                        <div title="Straight" class="@dictionary["straight"]" id="center_Straight" @onclick="@(() => UpdateTools("straight"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/connectors-1.png")); margin: 0px 4px">
+                        </div>                       
+                    </div>
+                    <div>
+                        <div title="Orthogonal" class="@dictionary["orthogonal"]" id="bottom_Orthogonal" @onclick="@(() => UpdateTools("orthogonal"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/connectors-2.png")); margin-left: 4px">
+                        </div>                                              
+                    </div>
+                    <div>
+                        <div title="Bezier" class="@dictionary["bezier"]" id="bottombezier" @onclick="@(() => UpdateTools("bezier"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/basic-shape/connectors-3.png")); margin-left: 4px">
+                        </div>                       
+                    </div>
+                </div>
+                <div class="row" style="padding-top: 8px">
+                    <div>
+                        <div title="Polyline" class="@dictionary["polyline"]" id="bottompoly" @onclick="@(() => UpdateTools("polyline"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/polyline1.png")); margin:0px 4px">
+                        </div>                                               
+                    </div>
+                    <div>
+                        <div title="Freehand" class="@dictionary["freehand"]" id="bottomfreehand" @onclick="@(() => UpdateTools("freehand"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/drawing-tool/freehand.png")); margin:0px 4px">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <SfCheckBox Label="Continuous Drawing" @bind-Checked="@checkbox" ValueChange="@UpdateDrawingTool" TChecked="bool" />
+
+    </div>
+    </div>
+    </div>
+</div>
+
+@*End:Hidden*@
+@code{
+    @*Hidden:Lines*@
+    private string canonicalURL { get; set; }
+    bool checkbox = true;
+    const string unselecteditem = "image-pattern-style";
+    const string selectedItem = "image-pattern-style e-selected-style";
+    Dictionary<string, string> dictionary = new Dictionary<string, string>() { { "textnode", unselecteditem }, { "polyline", unselecteditem }, { "user", unselecteditem }, { "customnode", unselecteditem }, { "bezier", unselecteditem }, { "orthogonal", unselecteditem }, { "straight", unselecteditem }, { "star", unselecteditem }, { "ellipse", unselecteditem }, { "pentagon", unselecteditem }, { "hexagon", unselecteditem }, { "rectangle", selectedItem }, { "triangle", unselecteditem },{ "freehand", unselecteditem} };
+    @*End:Hidden*@
+    DiagramInteractions Tools = DiagramInteractions.ContinuousDraw;
+
+    //Define drawing object
+    IDiagramObject drawingObject { get; set; }
+
+    //Refer to diagram
+    SfDiagramComponent diagram;
+
+    //Defines diagram's nodes collection
+    public DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    //Defines diagram's connectors collection
+    public DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+
+    protected override void OnInitialized()
+    {
+        //Hidden:Lines
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+        //End:Hidden
+        Node node = new Node()
+        {
+            Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Rectangle }
+        };
+        drawingObject = node;
+    }
+    @*Hidden:Lines*@
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }
+    }
+    private void UpdateDrawingTool(ButtonEventArgs args)
+    {
+        if (args.Checked)
+        {
+            Tools |= DiagramInteractions.ContinuousDraw;
+            Tools &= ~DiagramInteractions.DrawOnce;
+            for (int i = 0; i < dictionary.Count; i++)
+            {
+                if (dictionary.ElementAt(i).Value == selectedItem)
+                {
+                    string id = dictionary.ElementAt(i).Key;
+                    UpdateTools(id);
+                }
+            }
+        }
+        else
+        {
+            Tools |= DiagramInteractions.DrawOnce;
+            Tools &= ~DiagramInteractions.ContinuousDraw;
+        }
+    }
+
+    private void UpdateSelection(string id)
+    {
+        for (int i = 0; i < dictionary.Count; i++)
+        {
+            var value = dictionary.Values.ElementAt(i);
+            var key = dictionary.Keys.ElementAt(i);
+            if (dictionary.ContainsKey(id) && key == id)
+            {
+                value = selectedItem;
+            }
+            else
+            {
+                value = unselecteditem;
+            }
+            dictionary.Remove(key);
+            dictionary.Add(key, value);
+        }
+    }
+
+    private void UpdateTools(string id)
+    {
+        switch (id)
+        {
+            case "rectangle":
+                Node node = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Rectangle }
+                };
+                drawingObject = node;
+                break;
+            case "user":
+                Node imageNode = new Node()
+                {
+                    Shape = new ImageShape() { Type = shapes.Image, Source = "/images/diagram/drawing-tool/image.png" }
+                };
+                drawingObject = imageNode;
+                break;
+            case "customnode":
+                Node customNode = new Node()
+                {
+                    ID = "node",
+                    Height = 200,
+                    Width = 200,
+                    Shape = new Shape() { Type = shapes.HTML },
+                };
+                drawingObject = customNode;
+                break;
+            case "ellipse":
+                Node ellipseNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Ellipse }
+                };
+                drawingObject = ellipseNode;
+                break;
+            case "star":
+                Node starNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Star }
+                };
+                drawingObject = starNode;
+                break;
+            case "hexagon":
+                Node hexagonNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Hexagon }
+                };
+                drawingObject = hexagonNode;
+                break;
+            case "pentagon":
+                Node pentagonNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Pentagon }
+                };
+                drawingObject = pentagonNode;
+                break;
+            case "triangle":
+                Node triangleNode = new Node()
+                {
+                    Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Triangle }
+                };
+                drawingObject = triangleNode;
+                break;
+            case "straight":
+                Connector straightConnector = new Connector() { ID = "straightConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Straight };
+                drawingObject = straightConnector;
+                break;
+            case "orthogonal":
+                Connector orthogonalConnector = new Connector() { ID = "orthogonalConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Orthogonal };
+                drawingObject = orthogonalConnector;
+                break;
+            case "bezier":
+                Connector bezierConnector = new Connector() { ID = "bezierConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Bezier };
+                drawingObject = bezierConnector;
+                break;
+            case "polyline":
+                Connector polylineConnector = new Connector() { ID = "polylineConnector", Type = ConnectorSegmentType.Polyline };
+                drawingObject = polylineConnector;
+                break;
+            case "freehand":
+                Connector freeHandConnector = new Connector() { ID = "freehandConnector", Type = ConnectorSegmentType.Freehand, Constraints = ConnectorConstraints.Default | ConnectorConstraints.DragSegmentThumb };
+                drawingObject = freeHandConnector;
+                break;
+            case "textnode":
+                Node textNode = new Node()
+                {
+                    ID = "textnode",
+                    Shape = new TextShape() { Type = shapes.Text }
+                };
+                drawingObject = textNode;
+                break;
+        }
+        UpdateSelection(id);
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+    }
+    @*End:Hidden*@
+}

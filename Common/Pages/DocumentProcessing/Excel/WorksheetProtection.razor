@@ -1,0 +1,89 @@
+﻿@page "/excel/worksheet-protection"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO;
+@inject HttpClient Http
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@using BlazorDemos.Data.FileFormats.XlsIO
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to Lock and Unlock spreadsheets using Excel (XlsIO) Library.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Microsoft Excel offers a special way for protecting specific data and certain worksheets with or without a password. This prevents anyone from changing, moving, or deleting important data.</p> <br />
+    <p>Excel allows you to edit or lock a range of cells in a protected worksheet by using the <b>Protection</b> tab in the <b>Format Cells</b> dialog. By default, all cells are locked, but they are not hidden when the worksheet is protected. Worksheets can be protected by choosing the <b>Tools - Protection - Protect Sheet</b> option in Excel.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-weight:normal">Click the "Lock Worksheet" button to view the locked Excel document and "Unlock Worksheet" to view the unlocked Excel document. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document.</p>
+
+    <br/>
+    <div class="radio-control">
+        <label style="font-weight:bold">Save As:</label>
+        <SfRadioButton Label="XLS" Name="XLS" Value=@("Xls") @bind-Checked="@excelVersion"></SfRadioButton>
+        <SfRadioButton Label="XLSX" Name="XLSX" Value=@("Xlsx") @bind-Checked="@excelVersion"></SfRadioButton>
+    </div>
+    
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton style="width:160px; text-transform:capitalize" @onclick="WorksheetProtectionXlsIO">Lock Worksheet</SfButton>
+                    <SfButton style="width:160px; text-transform:capitalize" @onclick="WorksheetUnProtectionXlsIO">Unlock Worksheet</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    string excelVersion = "Xls";
+    string button;
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+    /// <summary>
+    /// Lock worksheet, Unlock worksheet and download the Excel document .
+    /// </summary>
+    public async Task WorksheetProtectionXlsIO()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/worksheet-protection-template.xls");
+        fileData.Add("worksheet-protection-template.xls", new MemoryStream(data));
+        WorksheetProtectionService service = new WorksheetProtectionService(fileData);
+        excelStream = service.WorksheetProtection("Lock Worksheet", excelVersion);
+        service.Close();
+        if (excelVersion == "Xlsx")
+            await JS.SaveAs("WorksheetLocked.xlsx", excelStream.ToArray());
+        else
+            await JS.SaveAs("WorksheetLocked.xls", excelStream.ToArray());
+    }
+    public async Task WorksheetUnProtectionXlsIO()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/worksheet-protection-template.xls");
+        fileData.Add("worksheet-protection-template.xls", new MemoryStream(data));
+        WorksheetProtectionService service = new WorksheetProtectionService(fileData);
+        excelStream = service.WorksheetProtection("Unlock Worksheet", excelVersion);
+        service.Close();
+        if (excelVersion == "Xlsx")
+            await JS.SaveAs("WorsheetUnlocked.xlsx", excelStream.ToArray());
+        else
+            await JS.SaveAs("WorksheetUnlocked.xls", excelStream.ToArray());
+    }
+}

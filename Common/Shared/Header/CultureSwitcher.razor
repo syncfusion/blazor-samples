@@ -1,0 +1,101 @@
+@namespace BlazorDemos.Shared
+@using System.Globalization
+@implements IDisposable;
+
+@inject SampleService SampleService;
+@inject NavigationManager NavigationManager;
+@inject IJSRuntime JSRuntime;
+
+<DropDownComponent @ref="DropDownRef" DataSource="@cultureData" Value="@culture" OnSelect="@OnSelected"></DropDownComponent>
+
+@code {
+    private string culture { get; set; }
+    internal DropDownComponent DropDownRef { get; set; }
+
+    private List<DropDownData> cultureData = new List<DropDownData> {
+        new DropDownData() { ID = "en-US", Text = "English" },
+        new DropDownData() { ID = "de-DE", Text = "German - Germany*" },
+        new DropDownData() { ID = "fr-CH", Text = "French - Switzerland*" },
+        new DropDownData() { ID = "zh-CN", Text = "Chinese - China*" },
+    };
+
+    // Culture selection event callback handler
+    private async void OnSelected(DropDownData args)
+    {
+    #if WASM
+            if (CultureInfo.CurrentCulture.Name != args.ID)
+                {
+                     var js = (IJSInProcessRuntime)JSRuntime;
+                     js.InvokeVoid("cultureInfo.set", args.ID);
+                     NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad:  true);
+                 }
+    #elif SERVER
+            var culture = args.ID;
+            string currentUri = SampleService.SampleInfo.Url.ToLower();
+            string themeName = (NavigationManager.Uri.IndexOf('?') >= 0) ? (NavigationManager.Uri.Split('?')[1]) : null;
+            string replacedContent = (themeName != null) ? (currentUri + '?' + themeName) : currentUri;
+            var uri = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+            var path = uri.Replace(replacedContent, "").Trim('/');
+            var query = $"?culture={Uri.EscapeDataString(culture)}&" + $"redirectUri={Uri.EscapeDataString(uri)}";
+            if (String.IsNullOrEmpty(path))
+            {
+                NavigationManager.NavigateTo("/Culture/SetCulture" + query, forceLoad: true);
+            }
+            else
+            {
+                NavigationManager.NavigateTo("/" + path + "/Culture/SetCulture" + query, forceLoad: true);
+            }
+    #endif
+	#if WEBAPP
+#if NET8_0
+            if (OperatingSystem.IsBrowser())
+#else
+            
+            if (RendererInfo.Name == "WebAssembly")
+#endif
+            {
+		        if (CultureInfo.CurrentCulture.Name != args.ID)
+		        {
+		            await JSRuntime.InvokeVoidAsync("cultureInfo.set", args.ID);
+		            NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad:  true);
+		        }
+		    }
+		    else
+		    {
+		        var culture = args.ID;
+		        string currentUri = SampleService.SampleInfo.Url.ToLower();
+		        string themeName = (NavigationManager.Uri.IndexOf('?') >= 0) ? (NavigationManager.Uri.Split('?')[1]) : null;
+		        string replacedContent = (themeName != null) ? (currentUri + '?' + themeName) : currentUri;
+		        var uri = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
+		        var path = uri.Replace(replacedContent, "").Trim('/');
+		        var query = $"?culture={Uri.EscapeDataString(culture)}&" + $"redirectUri={Uri.EscapeDataString(uri)}";
+		        if (String.IsNullOrEmpty(path))
+		        {
+		            NavigationManager.NavigateTo("/Culture/SetCulture" + query, forceLoad: true);
+		        }
+		        else
+		        {
+		            NavigationManager.NavigateTo("/" + path + "/Culture/SetCulture" + query, forceLoad: true);
+		        }
+		    }
+	#endif
+    }
+        protected override void OnInitialized()
+        {
+            base.OnInitialized();
+            var currentCulture = cultureData.Where(item => item.ID == System.Globalization.CultureInfo.CurrentCulture.Name).ToList();
+            if (currentCulture.Any())
+            {
+                culture = currentCulture.First().Text;
+            }
+        }
+        public async Task SetValueAsync<T>(string key, T value)
+        {
+            await this.JSRuntime.InvokeVoidAsync("sfBlazorSB.setValue", key, value);
+        }
+        public void Dispose()
+        {
+            cultureData = null;
+        }
+
+}
