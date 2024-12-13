@@ -1,32 +1,23 @@
 ﻿@page "/diagramcomponent/nodecontent"
 
 @using Syncfusion.Blazor.Diagram
-@using System.Collections.ObjectModel
-@using Microsoft.AspNetCore.Components
-@using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.DropDowns
 @using Node = Syncfusion.Blazor.Diagram.Node
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @implements IDisposable;
 @inject NavigationManager NavigationManager
 
-
-@*End:Hidden*@
-
-@*Hidden:Lines*@
 <SampleDescription>
-    <p>This sample shows how the node content updates with different types of shapes. The shapes used in node content include eclipses, rectangles, HTML, and path shapes.</p>
+    <p>This sample demonstrates how the node content can be updated using various shapes, including ellipses, rectangles, HTML, and path shapes.</p>
 </SampleDescription>
 <ActionDescription>
     <p>
-        Using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramTemplates.html#Syncfusion_Blazor_Diagram_DiagramTemplates_NodeTemplate' aria-label="NodeTemplate">NodeTemplate</a></code> property, we can represent a segment of the UI to be rendered for a node. If you want to define a separate template for each node, differentiate the nodes with the ID property.
-        The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Shape.html' aria-label="Shape">Shape</a></code> property of nodes allows you to set the type of node. To create a path node, specify the shape as Path. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.PathShape.html#Syncfusion_Blazor_Diagram_PathShape_Data' aria-label="Data">Data</a></code> property of nodes allows you to define the path to be drawn.
+        The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramTemplates.html#Syncfusion_Blazor_Diagram_DiagramTemplates_NodeTemplate" aria-label="NodeTemplate">NodeTemplate</a></code> property allows you to define a specific UI segment to be rendered for a node. To create distinct templates for each node, differentiate the nodes using the ID property. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Shape.html" aria-label="Shape">Shape</a></code> property enables you to specify the type of node. For path nodes, set the shape to Path, and use the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.PathShape.html#Syncfusion_Blazor_Diagram_PathShape_Data" aria-label="Data">Data</a></code> property to define the path to be drawn.
     </p>
 </ActionDescription>
 @*End:Hidden*@
 <div class="col-lg-12 control-section">
-<SfDiagramComponent @ref="diagram" Height="630px" Nodes="@nodes" Connectors="@connectors" InteractionController="@DiagramInteractions.ZoomPan" Created="OnCreated" >
+<SfDiagramComponent @ref="DiagramInstance" Height="630px" Nodes="@DiagramNodes" Connectors="@DiagramConnectors" InteractionController="@DiagramInteractions.ZoomPan" Created="OnCreated" >
     <SnapSettings Constraints=SnapConstraints.None>
     </SnapSettings>
     <DiagramTemplates>
@@ -100,758 +91,763 @@
     </SfDiagramComponent>
     </div>
     @code {
-    
-    public SfDiagramComponent diagram;
-    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
-    DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
-    private bool node7Contentchange { get; set; } = false;
-    protected override void OnInitialized()
-    {
-        
-        nodes = new DiagramObjectCollection<Node>()
-{
-            new Node()
+        public SfDiagramComponent DiagramInstance { get; set; }
+        DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
+        DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
+
+        protected override void OnInitialized()
+        {
+
+            DiagramNodes = new DiagramObjectCollection<Node>()
             {
-                ID = "node1",
-                Width = 130,
-                Height = 120,
-                OffsetX = 200,
-                OffsetY = 100,
-                 Ports = new DiagramObjectCollection<PointPort>()
+                new Node()
                 {
-                    new PointPort()
+                    ID = "node1",
+                    Width = 130,
+                    Height = 120,
+                    OffsetX = 200,
+                    OffsetY = 100,
+                    Ports = new DiagramObjectCollection<PointPort>()
                     {
-                        ID="port1",
-                        Visibility = PortVisibility.Visible,
-                        Offset = new DiagramPoint() { X = 1, Y = 0.5},
-                        Height = 1, Width = 1,
-                       Constraints=PortConstraints.OutConnect,
-                         Style = new ShapeStyle()
+                        new PointPort()
                         {
-                            Fill = "#0079d6",
+                            ID = "port1",
+                            Visibility = PortVisibility.Visible,
+                            Offset = new DiagramPoint() { X = 1, Y = 0.5 },
+                            Height = 1, Width = 1,
+                            Constraints = PortConstraints.OutConnect,
+                            Style = new ShapeStyle()
+                            {
+                                Fill = "#0079d6",
+
+                            },
+                        }
+                    },
+                    Shape = new Shape()
+                    {
+                        Type = NodeShapes.HTML,
+                    },
+                    Style = new ShapeStyle() { Fill = "#f2f2f2", StrokeColor = "#f2f2f2" },
+                },
+                new Node()
+                {
+                    ID = "node2",
+                    Width = 115,
+                    Height = 115,
+                    OffsetX = 200,
+                    OffsetY = 300,
+                    Ports = new DiagramObjectCollection<PointPort>()
+                    {
+                        new PointPort()
+                        {
+                            ID = "port14",
+                            Visibility = PortVisibility.Hidden,
+                            Offset = new DiagramPoint() { X = 1, Y = 0.5 },
+                            Height = 1, Width = 1,
+                            Constraints = PortConstraints.OutConnect,
+                            Style = new ShapeStyle()
+                            {
+                                Fill = "#0079d6",
+
+                            },
+                        }
+                    },
+                    Shape = new BasicShape()
+                    {
+                        Type = NodeShapes.Basic, Shape = NodeBasicShapes.Ellipse
+                    },
+                    Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+                    {
+                        new ShapeAnnotation
+                        {
+                            Content = "Application",
+                            // Sets the offset for an annotation content.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 0.5 },
+                            Style = new TextStyle()
+                            {
+                                Color = "white",
+                            }
+                        }
+                    },
+                    Style = new ShapeStyle() { Fill = "#0199EE", StrokeColor = "#0199EE" }
+                },
+                new Node()
+                {
+                    ID = "node3",
+                    Width = 100,
+                    Height = 100,
+                    OffsetX = 200,
+                    OffsetY = 500,
+                    Style = new ShapeStyle() { Fill = "white", StrokeColor = "white" },
+                    Shape = new Shape()
+                    {
+                        Type = NodeShapes.HTML,
+                    },
+                    Ports = new DiagramObjectCollection<PointPort>()
+                    {
+                        new PointPort()
+                        {
+                            ID = "port2",
+                            Visibility = PortVisibility.Hidden,
+                            Offset = new DiagramPoint() { X = 1, Y = 0.5 },
+                            Height = 1, Width = 1,
+                            Constraints = PortConstraints.InConnect,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+                        },
+                    },
+                    Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+                    {
+                        new ShapeAnnotation
+                        {
+                            Content = "User Login",
+                            // Sets the offset for an annotation content.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 1.2 },
+                            Style = new TextStyle()
+                            {
+                                FontSize = 15,
+                            }
+                        }
+                    },
+
+                },
+                new Node()
+                {
+                    ID = "node4",
+                    Width = 170,
+                    Height = 80,
+                    OffsetX = 500,
+                    OffsetY = 300,
+                    Ports = new DiagramObjectCollection<PointPort>()
+                    {
+                        new PointPort()
+                        {
+                            ID = "port12",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0, Y = 0.5 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
 
                         },
-                    }
-                },
-                Shape = new Shape()
-                {
-                    Type = NodeShapes.HTML,
-                },
-                  Style = new ShapeStyle() { Fill = "#f2f2f2" ,StrokeColor="#f2f2f2"},
-            },
-            new Node()
-            {
-                ID = "node2",
-                Width = 115,
-                Height = 115,
-                OffsetX = 200,
-                OffsetY = 300,
-                 Ports = new DiagramObjectCollection<PointPort>()
-                {
-                    new PointPort()
-                    {
-                        ID="port14",
-                        Visibility = PortVisibility.Hidden,
-                        Offset = new DiagramPoint() { X = 1, Y = 0.5},
-                        Height = 1, Width = 1,
-                       Constraints=PortConstraints.OutConnect,
-                         Style = new ShapeStyle()
+                        new PointPort()
                         {
-                            Fill = "#0079d6",
+                            ID = "port15",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 1, Y = 0.5 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+
+                        }
+                    },
+                    Shape = new BasicShape() { Type = NodeShapes.Basic, Shape = NodeBasicShapes.Rectangle },
+                    Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+                    {
+                        new ShapeAnnotation
+                        {
+                            Content = "External-Configuration",
+                            // Sets the offset for an annotation content.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 0.5 },
+                            Style = new TextStyle()
+                            {
+                                Color = "white",
+                            }
+                        }
+                    },
+                    Style = new ShapeStyle() { Fill = "#0199EE", StrokeColor = "#0199EE" }
+                },
+                new Node()
+                {
+                    ID = "node5",
+                    Width = 100,
+                    Height = 100,
+                    OffsetX = 500,
+                    OffsetY = 500,
+                    Shape = new Shape() { Type = NodeShapes.SVG },
+                    Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+                    {
+                        new ShapeAnnotation
+                        {
+                            Content = "Local Cache",
+                            // Sets the offset for an annotation content.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 1.2 },
+                            Style = new TextStyle()
+                            {
+                                FontSize = 15,
+                            }
+                        }
+                    },
+                },
+                new Node()
+                {
+                    ID = "node6",
+                    Width = 130,
+                    Height = 100,
+                    OffsetX = 770,
+                    OffsetY = 300,
+                    Shape = new Shape() { Type = NodeShapes.SVG },
+                    Ports = new DiagramObjectCollection<PointPort>()
+                    {
+                        new PointPort()
+                        {
+                            ID = "port14",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0, Y = 0.5 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+
+                        }
+                    },
+                    Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+                    {
+                        new ShapeAnnotation
+                        {
+                            Content = "Cloud Storage",
+                            // Sets the offset for an annotation content.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 1.2 },
+                            Style = new TextStyle()
+                            {
+                                FontSize = 15,
+                            }
+                        }
+                    },
+
+
+                },
+                new Node()
+                {
+                    ID = "node8",
+                    Width = 20,
+                    Height = 20,
+                    OffsetX = 340,
+                    OffsetY = 300,
+                    Ports = new DiagramObjectCollection<PointPort>()
+                    {
+                        new PointPort()
+                        {
+                            ID = "port4",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 1, Y = 0.5 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
 
                         },
-                    }
-                },
-                Shape = new BasicShape()
-                {
-                    Type = NodeShapes.Basic,Shape=NodeBasicShapes.Ellipse
-                },
-                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-                {
-                    new ShapeAnnotation
-                    {
-                        Content = "Application",
-                        // Sets the offset for an annotation content.
-                        Offset = new DiagramPoint() { X = 0.5, Y = 0.5},
-                        Style = new TextStyle()
+                        new PointPort()
                         {
-                        Color = "white",
-                        }
-                    }
-                },
-                  Style = new ShapeStyle() { Fill = "#0199EE",StrokeColor="#0199EE" }
-            },
-            new Node()
-            {
-                ID = "node3",
-                Width = 100,
-                Height = 100,
-                OffsetX = 200,
-                OffsetY = 500,
-                 Style = new ShapeStyle() { Fill = "white",StrokeColor="white" },
-                 Shape = new Shape()
-                {
-                    Type = NodeShapes.HTML,
-                },
-                Ports = new DiagramObjectCollection<PointPort>()
-                {
-                    new PointPort()
-                    {
-                        ID="port2",
-                        Visibility = PortVisibility.Hidden,
-                        Offset = new DiagramPoint() { X = 1, Y = 0.5},
-                        Height = 1, Width = 1,
-                        Constraints=PortConstraints.InConnect,
-                        Style = new TextStyle()
+                            ID = "port5",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0, Y = 0.5 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+
+                        },
+                        new PointPort()
                         {
-                        Color = "#0079d6",
+                            ID = "port6",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 0 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+
+                        },
+                        new PointPort()
+                        {
+                            ID = "port7",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 1 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+                        },
+
+                    },
+                    Shape = new BasicShape()
+                    {
+                        Type = NodeShapes.Basic, Shape = NodeBasicShapes.Ellipse
+                    },
+                    Style = new ShapeStyle() { Fill = "#0079d6", StrokeColor = "#0079d6" }
+                },
+                new Node()
+                {
+                    ID = "node9",
+                    Width = 20,
+                    Height = 20,
+                    OffsetX = 640,
+                    OffsetY = 300,
+                    Ports = new DiagramObjectCollection<PointPort>()
+                    {
+                        new PointPort()
+                        {
+                            ID = "port8",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 1, Y = 0.5 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+                        },
+                        new PointPort()
+                        {
+                            ID = "port9",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0, Y = 0.5 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+                        },
+                        new PointPort()
+                        {
+                            ID = "port10",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 0 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+                        },
+                        new PointPort()
+                        {
+                            ID = "port11",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 1 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
+                        },
+
+                    },
+                    Shape = new BasicShape()
+                    {
+                        Type = NodeShapes.Basic, Shape = NodeBasicShapes.Ellipse
+                    },
+                    Style = new ShapeStyle() { Fill = "#0079d6", StrokeColor = "#0079d6" }
+                },
+                new Node()
+                {
+                    ID = "node7",
+                    Width = 100,
+                    Height = 100,
+                    OffsetX = 770,
+                    OffsetY = 500,
+                    Shape = new Shape() { Type = NodeShapes.SVG },
+                    Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+                    {
+                        new ShapeAnnotation
+                        {
+                            Content = "DataBase(Alternative)",
+                            // Sets the offset for an annotation content.
+                            Offset = new DiagramPoint() { X = 0.5, Y = 1.2 },
+                            Style = new TextStyle()
+                            {
+                                FontSize = 15,
+                            }
                         }
                     },
-                },
-                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-                {
-                    new ShapeAnnotation
+                    Ports = new DiagramObjectCollection<PointPort>()
                     {
-                        Content = "User Login",
-                        // Sets the offset for an annotation content.
-                        Offset = new DiagramPoint() { X = 0.5, Y = 1.2 },
-                         Style = new TextStyle()
+                        new PointPort()
                         {
-                         FontSize=15,
-                        }
-                    }
-                },
-
-            },
-            new Node()
-            {
-                ID = "node4",
-                Width = 170,
-                Height = 80,
-                OffsetX = 500,
-                OffsetY = 300,
-                  Ports = new DiagramObjectCollection<PointPort>()
-            {
-                new PointPort()
-                {
-                    ID = "port12",
-                    // Sets the offset for the port.
-                    Offset = new DiagramPoint() { X = 0, Y = 0.5 },
-                    Visibility = PortVisibility.Hidden,
-                    Width = 1,
-                    Height = 1,
-                    Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-
-                },
-                  new PointPort()
-                {
-                    ID = "port15",
-                    // Sets the offset for the port.
-                    Offset = new DiagramPoint() { X = 1, Y = 0.5 },
-                    Visibility = PortVisibility.Hidden,
-                    Width = 1,
-                    Height = 1,
-                    Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-
-                }
-            },
-                Shape = new BasicShape() { Type = NodeShapes.Basic, Shape = NodeBasicShapes.Rectangle},
-                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-                {
-                    new ShapeAnnotation
-                    {
-                        Content = "External-Configuration",
-                        // Sets the offset for an annotation content.
-                        Offset = new DiagramPoint() { X = 0.5, Y = 0.5 },
-                        Style = new TextStyle()
-                        {
-                        Color = "white",
-                        }
-                    }
-                },
-                  Style = new ShapeStyle() { Fill = "#0199EE",StrokeColor="#0199EE" }
-            },
-            new Node()
-            {
-                ID = "node5",
-                Width = 100,
-                Height = 100,
-                OffsetX = 500,
-                OffsetY = 500,
-                Shape = new Shape() { Type = NodeShapes.SVG },
-                 Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-                {
-                    new ShapeAnnotation
-                    {
-                        Content = "Local Cache",
-                        // Sets the offset for an annotation content.
-                        Offset = new DiagramPoint() { X = 0.5, Y = 1.2 },
-                        Style = new TextStyle()
-                        {
-                         FontSize=15,
-                        }
-                    }
-                },
-            },
-             new Node()
-            {
-                ID = "node6",
-                Width = 130,
-                Height = 100,
-                OffsetX = 770,
-                OffsetY = 300,
-                Shape = new Shape() { Type = NodeShapes.SVG },
-                Ports = new DiagramObjectCollection<PointPort>()
-            {
-                new PointPort()
-                {
-                    ID = "port14",
-                    // Sets the offset for the port.
-                    Offset = new DiagramPoint() { X = 0, Y = 0.5 },
-                    Visibility = PortVisibility.Hidden,
-                    Width = 1,
-                    Height = 1,
-                    Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-
-                }
-            },
-                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-                {
-                    new ShapeAnnotation
-                    {
-                        Content = "Cloud Storage",
-                        // Sets the offset for an annotation content.
-                        Offset = new DiagramPoint() { X = 0.5, Y = 1.2 },
-                         Style = new TextStyle()
-                        {
-                         FontSize=15,
+                            ID = "port3",
+                            // Sets the offset for the port.
+                            Offset = new DiagramPoint() { X = 0, Y = 0.5 },
+                            Visibility = PortVisibility.Hidden,
+                            Width = 1,
+                            Height = 1,
+                            Style = new TextStyle()
+                            {
+                                Color = "#0079d6",
+                            }
                         }
                     }
                 },
 
-
-            },
-              new Node()
+            };
+            DiagramConnectors = new DiagramObjectCollection<Connector>()
             {
-                ID = "node8",
-                Width = 20,
-                Height = 20,
-                OffsetX = 340,
-                OffsetY = 300,
-                Ports = new DiagramObjectCollection<PointPort>()
+                new Connector()
                 {
-                    new PointPort()
+                    ID = "connector1",
+                    //Source node id of the connector.
+                    SourceID = "node1",
+                    SourcePortID = "port1",
+                    //Target node id of the connector.
+                    TargetID = "node8",
+
+                    TargetPortID = "port6",
+                    TargetDecorator = new DecoratorSettings()
                     {
-                        ID = "port4",
-                        // Sets the offset for the port.
-                        Offset = new DiagramPoint() {  X = 1, Y = 0.5 },
-                        Visibility = PortVisibility.Hidden,
-                        Width = 1,
-                        Height = 1,
-                        Style = new TextStyle()
+                        Style = new ShapeStyle()
                         {
-                        Color = "#0079d6",
-                        }
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.None,
+                    },
+                    SourceDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "#0079d6",
+                        StrokeColor = "#0079d6",
 
                     },
-                    new PointPort()
-                    {
-                        ID = "port5",
-                        // Sets the offset for the port.
-                        Offset = new DiagramPoint() {  X = 0, Y = 0.5 },
-                        Visibility = PortVisibility.Hidden,
-                        Width = 1,
-                        Height = 1,
-                        Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-
-                    },
-                     new PointPort()
-                    {
-                        ID = "port6",
-                        // Sets the offset for the port.
-                        Offset = new DiagramPoint() {  X = 0.5, Y = 0 },
-                        Visibility = PortVisibility.Hidden,
-                        Width = 1,
-                        Height = 1,
-                        Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-
-                    },
-                     new PointPort()
-                    {
-                        ID = "port7",
-                        // Sets the offset for the port.
-                        Offset = new DiagramPoint() {  X = 0.5, Y = 1 },
-                        Visibility = PortVisibility.Hidden,
-                        Width = 1,
-                        Height = 1,
-                        Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-                    },
+                    Type = ConnectorSegmentType.Orthogonal,
 
                 },
-                 Shape = new BasicShape()
+                new Connector()
                 {
-                    Type = NodeShapes.Basic,Shape=NodeBasicShapes.Ellipse
+                    ID = "connector2",
+                    //Source node id of the connector.
+                    SourceID = "node2",
+                    SourcePortID = "port14",
+                    //Target node id of the connector.
+                    TargetID = "node8",
+
+                    TargetPortID = "port5",
+                    TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.None,
+                    },
+                    SourceDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "#0079d6",
+                        StrokeColor = "#0079d6",
+
+                    },
+                    Type = ConnectorSegmentType.Straight,
+
                 },
-                 Style = new ShapeStyle() { Fill = "#0079d6",StrokeColor="#0079d6" }
-            },
-              new Node()
+                new Connector()
+                {
+                    ID = "connector3",
+                    //Source node id of the connector.
+                    SourceID = "node8",
+                    SourcePortID = "port7",
+                    //Target node id of the connector.
+                    TargetID = "node3",
+
+                    TargetPortID = "port2",
+                    TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+                    SourceDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.None,
+                    },
+
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "#0079d6",
+                        StrokeColor = "#0079d6",
+
+                    },
+                    Type = ConnectorSegmentType.Orthogonal,
+
+                },
+                new Connector()
+                {
+                    ID = "connector4",
+                    //Source node id of the connector.
+                    SourceID = "node8",
+                    SourcePortID = "port4",
+                    //Target node id of the connector.
+                    TargetID = "node4",
+
+                    TargetPortID = "port12",
+                    TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+                    SourceDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.None,
+                    },
+
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "#0079d6",
+                        StrokeColor = "#0079d6",
+
+                    },
+                    Type = ConnectorSegmentType.Straight,
+
+                },
+                new Connector()
+                {
+                    ID = "connector5",
+                    //Source node id of the connector.
+                    SourceID = "node4",
+
+                    TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+                    SourceDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+                    //Target node id of the connector.
+                    TargetID = "node5",
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "#0079d6",
+                        StrokeColor = "#0079d6",
+                    },
+                    // Type of the connector.
+                    Type = ConnectorSegmentType.Straight,
+                },
+                new Connector()
+                {
+                    ID = "connector6",
+                    //Source node id of the connector.
+                    SourceID = "node4",
+                    SourcePortID = "port15",
+                    //Target node id of the connector.
+                    TargetID = "node9",
+
+                    TargetPortID = "port9",
+                    TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.None,
+                    },
+                    SourceDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "#0079d6",
+                        StrokeColor = "#0079d6",
+
+                    },
+                    Type = ConnectorSegmentType.Straight,
+
+                },
+                new Connector()
+                {
+                    ID = "connector7",
+                    //Source node id of the connector.
+                    SourceID = "node9",
+                    SourcePortID = "port1",
+                    //Target node id of the connector.
+                    TargetID = "node7",
+
+                    TargetPortID = "port3",
+                    TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+                    SourceDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.None,
+                    },
+
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "#0079d6",
+                        StrokeColor = "#0079d6",
+                    },
+                    Type = ConnectorSegmentType.Orthogonal,
+
+                },
+                new Connector()
+                {
+                    ID = "connector8",
+                    //Source node id of the connector.
+                    SourceID = "node9",
+                    SourcePortID = "port8",
+                    //Target node id of the connector.
+                    TargetID = "node6",
+
+                    TargetPortID = "port14",
+                    TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.Arrow,
+                    },
+                    SourceDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = "#0079d6",
+                            StrokeColor = "#0079d6",
+                        },
+                        Shape = DecoratorShape.None,
+                    },
+
+                    Style = new ShapeStyle()
+                    {
+                        Fill = "#0079d6",
+                        StrokeColor = "#0079d6",
+
+                    },
+                    Type = ConnectorSegmentType.Straight,
+
+                },
+            };
+        }
+
+        public class UserHandleAppearance
+        {
+            public string Name { get; set; }
+        }
+
+        private List<UserHandleAppearance> UserHandleAppearanceLists = new List<UserHandleAppearance>()
+        {
+            new UserHandleAppearance() { Name = "Item#1" },
+            new UserHandleAppearance() { Name = "Item#2" },
+
+        };
+
+        private void OnCreated()
+        {
+            FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+            DiagramInstance.FitToPage(mobileoptions);
+        }
+
+        @*Hidden:Lines*@
+        public void Dispose()
+        {
+            if (DiagramNodes != null)
             {
-                ID = "node9",
-                Width = 20,
-                Height = 20,
-                OffsetX = 640,
-                OffsetY = 300,
-                Ports = new DiagramObjectCollection<PointPort>()
-                {
-                    new PointPort()
-                    {
-                        ID = "port8",
-                        // Sets the offset for the port.
-                        Offset = new DiagramPoint() {  X = 1, Y = 0.5 },
-                        Visibility = PortVisibility.Hidden,
-                        Width = 1,
-                        Height = 1,
-                        Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-                    },
-                    new PointPort()
-                    {
-                        ID = "port9",
-                        // Sets the offset for the port.
-                        Offset = new DiagramPoint() {  X = 0, Y = 0.5 },
-                        Visibility = PortVisibility.Hidden,
-                        Width = 1,
-                        Height = 1,
-                        Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-                    },
-                     new PointPort()
-                    {
-                        ID = "port10",
-                        // Sets the offset for the port.
-                        Offset = new DiagramPoint() {  X = 0.5, Y = 0 },
-                        Visibility = PortVisibility.Hidden,
-                        Width = 1,
-                        Height = 1,
-                        Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-                    },
-                     new PointPort()
-                    {
-                        ID = "port11",
-                        // Sets the offset for the port.
-                        Offset = new DiagramPoint() {  X = 0.5, Y = 1 },
-                        Visibility = PortVisibility.Hidden,
-                        Width = 1,
-                        Height = 1,
-                        Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-                    },
-
-                },
-                Shape = new BasicShape()
-                {
-                    Type = NodeShapes.Basic,Shape=NodeBasicShapes.Ellipse
-                },
-                 Style = new ShapeStyle() { Fill = "#0079d6" ,StrokeColor="#0079d6"}
-            },
-             new Node()
-            {
-                ID = "node7",
-                Width = 100,
-                Height = 100,
-                OffsetX = 770,
-                OffsetY = 500,
-               Shape = new Shape() { Type = NodeShapes.SVG },
-                 Annotations = new DiagramObjectCollection<ShapeAnnotation>()
-                {
-                    new ShapeAnnotation
-                    {
-                        Content = "DataBase(Alternative)",
-                        // Sets the offset for an annotation content.
-                        Offset = new DiagramPoint() { X = 0.5, Y = 1.2 },
-                         Style = new TextStyle()
-                        {
-                         FontSize=15,
-                        }
-                    }
-                },
-                 Ports = new DiagramObjectCollection<PointPort>()
-            {
-                new PointPort()
-                {
-                    ID = "port3",
-                    // Sets the offset for the port.
-                    Offset = new DiagramPoint() { X = 0, Y = 0.5 },
-                    Visibility = PortVisibility.Hidden,
-                    Width = 1,
-                    Height = 1,
-                    Style = new TextStyle()
-                        {
-                        Color = "#0079d6",
-                        }
-                }
+                DiagramNodes.Clear();
+                DiagramNodes = null;
             }
-            },
 
-        };
-        connectors = new DiagramObjectCollection<Connector>()
-        {
-            new Connector()
+            if (DiagramConnectors != null)
             {
-                  ID = "connector1",
-                //Source node id of the connector.
-                SourceID = "node1",
-                SourcePortID = "port1",
-                 //Target node id of the connector.
-                TargetID = "node8",
-
-                 TargetPortID="port6",
-                TargetDecorator = new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                        Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                    Shape = DecoratorShape.None,
-                },
-                SourceDecorator= new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                        Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                    Shape = DecoratorShape.Arrow,
-                },
-
-                Style = new ShapeStyle()
-                {
-                    Fill = "#0079d6",
-                    StrokeColor = "#0079d6",
-
-                },
-                Type = ConnectorSegmentType.Orthogonal,
-
-            },
-            new Connector()
-            {
-                  ID = "connector2",
-                //Source node id of the connector.
-                SourceID = "node2",
-                SourcePortID = "port14",
-                 //Target node id of the connector.
-                TargetID = "node8",
-
-                 TargetPortID="port5",
-                TargetDecorator = new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                        Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                    Shape = DecoratorShape.None,
-                },
-                SourceDecorator= new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                       Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                    Shape = DecoratorShape.Arrow,
-                },
-
-                Style = new ShapeStyle()
-                {
-                  Fill = "#0079d6",
-                  StrokeColor = "#0079d6",
-
-                },
-                Type = ConnectorSegmentType.Straight,
-
-            },
-           new Connector()
-            {
-                  ID = "connector3",
-                //Source node id of the connector.
-                SourceID = "node8",
-                SourcePortID = "port7",
-                 //Target node id of the connector.
-                TargetID = "node3",
-
-                 TargetPortID="port2",
-                TargetDecorator = new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                       Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                   Shape = DecoratorShape.Arrow,
-                },
-                SourceDecorator= new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                        Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                    Shape = DecoratorShape.None,
-                },
-
-                Style = new ShapeStyle()
-                {
-                   Fill = "#0079d6",
-                   StrokeColor = "#0079d6",
-
-                },
-                Type = ConnectorSegmentType.Orthogonal,
-
-            },
-             new Connector()
-            {
-                  ID = "connector4",
-                //Source node id of the connector.
-                SourceID = "node8",
-                SourcePortID = "port4",
-                 //Target node id of the connector.
-                TargetID = "node4",
-
-                 TargetPortID="port12",
-                TargetDecorator = new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                       Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                   Shape = DecoratorShape.Arrow,
-                },
-                SourceDecorator= new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                        Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                     Shape = DecoratorShape.None,
-                },
-
-                Style = new ShapeStyle()
-                {
-                    Fill = "#0079d6",
-                    StrokeColor = "#0079d6",
-
-                },
-                Type = ConnectorSegmentType.Straight,
-
-            },
-            new Connector()
-            {
-                  ID = "connector5",
-                //Source node id of the connector.
-                SourceID = "node4",
-
-                TargetDecorator = new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                      Fill = "#0079d6",
-                      StrokeColor = "#0079d6",
-                    },
-                    Shape = DecoratorShape.Arrow,
-                },
-                SourceDecorator= new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                        Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                    Shape = DecoratorShape.Arrow,
-                },
-                //Target node id of the connector.
-                TargetID = "node5",
-                Style = new ShapeStyle()
-                {
-                    Fill = "#0079d6",
-                    StrokeColor = "#0079d6",
-                },
-                // Type of the connector.
-                Type = ConnectorSegmentType.Straight,
-            },
-            new Connector()
-            {
-                  ID = "connector6",
-                //Source node id of the connector.
-                SourceID = "node4",
-                SourcePortID = "port15",
-                 //Target node id of the connector.
-                TargetID = "node9",
-
-                 TargetPortID="port9",
-                TargetDecorator = new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                        Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                     Shape = DecoratorShape.None,
-                },
-                SourceDecorator= new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                       Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                      Shape = DecoratorShape.Arrow,
-                },
-
-                Style = new ShapeStyle()
-                {
-                   Fill = "#0079d6",
-                   StrokeColor = "#0079d6",
-
-                },
-                Type = ConnectorSegmentType.Straight,
-
-            },
-             new Connector()
-            {
-                  ID = "connector7",
-                //Source node id of the connector.
-                SourceID = "node9",
-                SourcePortID = "port1",
-                 //Target node id of the connector.
-                TargetID = "node7",
-
-                 TargetPortID="port3",
-                TargetDecorator = new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                       Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                   Shape = DecoratorShape.Arrow,
-                },
-                SourceDecorator= new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                      Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                     Shape = DecoratorShape.None,
-                },
-
-                Style = new ShapeStyle()
-                {
-                   Fill = "#0079d6",
-                   StrokeColor = "#0079d6",
-                },
-                Type = ConnectorSegmentType.Orthogonal,
-
-            },
-             new Connector()
-            {
-                  ID = "connector8",
-                //Source node id of the connector.
-                SourceID = "node9",
-                SourcePortID = "port8",
-                 //Target node id of the connector.
-                TargetID = "node6",
-
-                 TargetPortID="port14",
-                TargetDecorator = new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                        Fill = "#0079d6",
-                        StrokeColor = "#0079d6",
-                    },
-                   Shape = DecoratorShape.Arrow,
-                },
-                SourceDecorator= new DecoratorSettings()
-                {
-                    Style = new ShapeStyle()
-                    {
-                       Fill = "#0079d6",
-                       StrokeColor = "#0079d6",
-                    },
-                     Shape = DecoratorShape.None,
-                },
-
-                Style = new ShapeStyle()
-                {
-                   Fill = "#0079d6",
-                   StrokeColor = "#0079d6",
-
-                },
-                Type = ConnectorSegmentType.Straight,
-
-            },
-        };
-    }
-    public class UserHandleAppearance
-    {
-        public string Name { get; set; }
-    }
-    private List<UserHandleAppearance> UserHandleAppearanceLists = new List<UserHandleAppearance>() {
-        new UserHandleAppearance() { Name ="Item#1"},
-        new UserHandleAppearance() { Name ="Item#2" },
-
-    };
-
-    private void OnCreated()
-    {
-        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        diagram.FitToPage(mobileoptions);
-    }
-    @*Hidden:Lines*@
-    public void Dispose()
-    {
-        if (nodes != null)
-        {
-            nodes.Clear();
-            nodes = null;
+                DiagramConnectors.Clear();
+                DiagramConnectors = null;
+            }
         }
-        if (connectors != null)
-        {
-            connectors.Clear();
-            connectors = null;
-        }
+
+        @*End:Hidden*@
     }
-    @*End:Hidden*@
-}

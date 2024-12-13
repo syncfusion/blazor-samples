@@ -2,14 +2,10 @@
 
 @using Syncfusion.Blazor.DocumentEditor
 @using Syncfusion.Blazor.Buttons
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @inject IJSRuntime JSRuntime;
 @using BlazorSamples.DocumentData;
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -23,7 +19,7 @@
         <li>Show the custom menu item in bottom of the exisiting item. It will be achieved by passing boolean value in third parameter of AddCustomMenu() method</li>
          <li>Custom Option Functionality achieved by using the <code>ContextMenuItemSelected</code> Event</li>
       </ul>
-    <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank"" href="https://blazor.syncfusion.com/documentation/document-editor/" aria-label="Blazor DocumentEditor Overview documentation">documentation section. </a></p>
+    <p style="display: block"> More information about the document editor features can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/document-editor/" aria-label="Blazor DocumentEditor Overview documentation">documentation section. </a></p>
 </ActionDescription>
 
 <div class="control-section">
@@ -40,7 +36,7 @@
             </div>
         </div>
         <div>
-            <SfDocumentEditorContainer @ref="container" Height="590px" RestrictEditing="@ReadOnly" ShowPropertiesPane="@ShowProperties" DocumentEditorSettings="settings">
+            <SfDocumentEditorContainer @ref="Container" Height="590px" RestrictEditing="@ReadOnly" ShowPropertiesPane="@ShowProperties" DocumentEditorSettings="Settings">
                 <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange" ContextMenuItemSelected="OnContentMenuSelect"></DocumentEditorContainerEvents>
             </SfDocumentEditorContainer>
         </div>
@@ -49,28 +45,27 @@
 
 
 @code {
-
     internal string DocumentName { get; set; }
     internal bool ReadOnly { get; set;  }
     internal bool ShowProperties { get; set; } = true;
-    SfDocumentEditorContainer container;
-    DocumentEditorSettingsModel settings = new DocumentEditorSettingsModel() { ShowRuler = true};
+    private SfDocumentEditorContainer Container;
+    private DocumentEditorSettingsModel Settings = new DocumentEditorSettingsModel() { ShowRuler = true};
 
     public void OnExport(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.SaveAsync(DocumentName, FormatType.Docx);
     }
 
     public void Print(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.PrintAsync();
     }
 
     public async void OnCreated(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         if (documentEditor != null)
         {
             await documentEditor.OpenAsync(Data.DefaultDocument);
@@ -91,7 +86,7 @@
 
     public void OnDocumentChange()
     {
-        string name = container.DocumentEditor.DocumentName;
+        string name = Container.DocumentEditor.DocumentName;
         if (name != "")
         {
             DocumentName = name;
@@ -101,7 +96,7 @@
     {
         if (args.Id.EndsWith("search_in_google"))
         {
-            string selectedText = await container.DocumentEditor.Selection.GetTextAsync();
+            string selectedText = await Container.DocumentEditor.Selection.GetTextAsync();
             string url = "http://google.com/search?q=" + selectedText;
             await JSRuntime.InvokeVoidAsync("open", new object[2] { url, "_blank" });
         }

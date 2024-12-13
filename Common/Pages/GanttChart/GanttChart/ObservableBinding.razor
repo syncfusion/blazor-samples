@@ -4,6 +4,7 @@
 @using Syncfusion.Blazor.Buttons
 @using System.Collections.ObjectModel;
 @using System.ComponentModel;
+@using Syncfusion.Blazor.Grids
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
@@ -36,24 +37,35 @@
                     <GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
                 </GanttColumns>
                 <GanttEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true" AllowTaskbarEditing="true"></GanttEditSettings>
+                <GanttEvents TValue="TaskData" RowUpdated="RowUpdated"></GanttEvents>
             </SfGantt>
         </div>
     </div>
 </div>
 @code {
     public ObservableCollection<TaskData> ObservableData { get; set; }
-    
+    private int recordId = 0;
+    private int taskId;
 
     protected override void OnInitialized()
     {
         
         ObservableData = ProjectNewData();
     }
+    public async Task RowUpdated(RowUpdatedEventArgs<TaskData> args)
+    {
+        taskId = args.Data.TaskId;
+        await Task.CompletedTask;
+    }
     public void AddRecord()
     {
-        int ID = ObservableData.Count();
-        ID++;
-        ObservableData.Insert(0,new TaskData() { TaskId = ID, TaskName = "New Task", StartDate = new DateTime(2021, 04, 04), Duration = "4" });
+        if (ObservableData.Count() != 0)
+        {
+            recordId = ObservableData.Max(data => data.TaskId);
+            recordId = Math.Max(recordId, taskId);
+        }
+        recordId++;
+        ObservableData.Insert(0, new TaskData() { TaskId = recordId, TaskName = "New Task", StartDate = new DateTime(2021, 04, 04), Duration = "4" });
     }
     public void DeleteRecord()
     {

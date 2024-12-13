@@ -2,30 +2,26 @@
 
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.DropDowns
-@using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Inputs
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 @*Hidden:Lines*@
 <SampleDescription>
-    <p>This Blazor Diagram example demonstrates an online purchasing process by creating a flowchart layout using the built-in flow shapes in the component.</p>
+    <p>This Blazor Diagram example demonstrates an online purchasing process, illustrating a flowchart layout using built-in flow shapes in the component.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example shows you how to use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation' aria-label="Orientation">Orientation</a></code> property of the layout to change the flowchart's orientation. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.FlowchartLayoutSettings.html#Syncfusion_Blazor_Diagram_FlowchartLayoutSettings_YesBranchDirection' aria-label="YesBranchDirection">YesBranchDirection</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.FlowchartLayoutSettings.html#Syncfusion_Blazor_Diagram_FlowchartLayoutSettings_NoBranchDirection' aria-label="NoBranchDirection">NoBranchDirection</a></code> properties allow you to customize the direction of the Yes and No branches. Additionally, the spacing between objects in the layout can be adjusted using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing' aria-label="HorizontalSpacing">HorizontalSpacing</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing' aria-label="VerticalSpacing">VerticalSpacing</a></code> properties of the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html' aria-label="Layout">Layout</a></code>.</p>
+    <p>This example shows how to use the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation" aria-label="Orientation">Orientation</a></code> property of the layout to adjust the flowchart’s orientation. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.FlowchartLayoutSettings.html#Syncfusion_Blazor_Diagram_FlowchartLayoutSettings_YesBranchDirection" aria-label="YesBranchDirection">YesBranchDirection</a></code> and <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.FlowchartLayoutSettings.html#Syncfusion_Blazor_Diagram_FlowchartLayoutSettings_NoBranchDirection" aria-label="NoBranchDirection">NoBranchDirection</a></code> properties allow customization of the directions for Yes and No branches. Additionally, spacing between objects in the layout can be controlled using the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing" aria-label="HorizontalSpacing">HorizontalSpacing</a></code> and <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing" aria-label="VerticalSpacing">VerticalSpacing</a></code> properties of the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html" aria-label="Layout">Layout</a></code>.</p>
 </ActionDescription>
 @*End:Hidden*@
 
 <div class="content-wrapper">
-    <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7;height: 640px">
+    <div class="col-lg-9 control-section sb-property-border" style="height: 640px">
         <div class="sb-mobile-diagram">
-            <SfDiagramComponent @ref="Diagram" Width="100%" Height="600px" ConnectorCreating="@OnConnectorCreating" NodeCreating="@OnNodeCreating" DataLoaded="@OnDataLoaded" InteractionController="@DiagramInteractions.ZoomPan">
-                <ScrollSettings @bind-ScrollLimit="@scrollLimit"></ScrollSettings>
+            <SfDiagramComponent @ref="DiagramInstance" Width="100%" Height="600px" ConnectorCreating="@OnConnectorCreating" NodeCreating="@OnNodeCreating" DataLoaded="@OnDataLoaded" InteractionController="@DiagramInteractions.ZoomPan">
+                <ScrollSettings @bind-ScrollLimit="@ScrollLimit"></ScrollSettings>
                 <DataSourceSettings ID="Id" ParentID="ParentId" DataSource="DataSource"> </DataSourceSettings>
-                <Layout @bind-Type="@Type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" @bind-VerticalSpacing="@VerticalSpacing" FlowchartLayoutSettings="@flowchartSettings">
+                <Layout @bind-Type="@DiagramLayoutType" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@LayoutOrientationType" @bind-VerticalSpacing="@VerticalSpacing" FlowchartLayoutSettings="@FlowchartSettings">
 
                 </Layout>
                 <RulerSettings>
@@ -81,7 +77,7 @@
                         <div style="display: table-cell; vertical-align: middle">Orientation</div>
                     </div>
                     <div class="textboxstyle" style="padding-left:10px">
-                        <SfDropDownList @ref="@expandDropDown" TValue="string" @bind-Value="@orientation" TItem="Orientationvalue" Width="100%" DataSource="@Orientation">
+                        <SfDropDownList TValue="string" @bind-Value="@DropDownOrientation" TItem="Orientationvalue" Width="100%" DataSource="@Orientation">
                             <DropDownListEvents TValue="string" TItem="Orientationvalue" ValueChange="OrientationTypeChange"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Value" Value="Text"></DropDownListFieldSettings>
                         </SfDropDownList>
@@ -92,7 +88,7 @@
                         <div style="display: table-cell; vertical-align: middle">Yes branch direction</div>
                     </div>
                     <div class="textboxstyle" style="padding-left:10px">
-                        <SfDropDownList @ref="@expandDropDown1" TValue="string" @bind-Value="@yesBranchDirection" TItem="BranchDirectionvalue" Width="100%" DataSource="@BranchDirection1">
+                        <SfDropDownList TValue="string" @bind-Value="@YesBranchDirection" TItem="BranchDirectionvalue" Width="100%" DataSource="@BranchDirection1">
                             <DropDownListEvents TValue="string" TItem="BranchDirectionvalue" ValueChange="YesBranchDirectionChange"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Value" Value="Text"></DropDownListFieldSettings>
                         </SfDropDownList>
@@ -103,7 +99,7 @@
                         <div style="display: table-cell; vertical-align: middle">No branch direction</div>
                     </div>
                     <div class="textboxstyle" style="padding-left:10px">
-                        <SfDropDownList @ref="@expandDropDown2" TValue="string" @bind-Value="@noBranchDirection" TItem="BranchDirectionvalue1" Width="100%" DataSource="@BranchDirection2">
+                        <SfDropDownList TValue="string" @bind-Value="@NoBranchDirection" TItem="BranchDirectionvalue1" Width="100%" DataSource="@BranchDirection2">
                             <DropDownListEvents TValue="string" TItem="BranchDirectionvalue1" ValueChange="NoBranchDirectionChange"></DropDownListEvents>
                             <DropDownListFieldSettings Text="Value" Value="Text"></DropDownListFieldSettings>
                         </SfDropDownList>
@@ -112,7 +108,7 @@
                 <div class="row" style="padding-top: 8px">
                     <div style="display: table;height: 30px;" class="textboxstyle">
                         <div style="display: table-cell; vertical-align: middle">Horizontal spacing</div>
-                    </div>                    
+                    </div>
                     <div class="textboxstyle" style="padding-left:10px">
                         <SfNumericTextBox TValue="int" Width="100%" @bind-Value="@HorizontalSpacing" Min="30" Max="1000" Step="10" Format="n0">
                             <NumericTextBoxEvents TValue="int" ValueChange="OnHorizontalSpacingChange"></NumericTextBoxEvents>
@@ -122,7 +118,7 @@
                 <div class="row" style="padding-top: 8px">
                     <div style="display: table;height: 30px;" class="textboxstyle">
                         <div style="display: table-cell; vertical-align: middle">Vertical spacing</div>
-                    </div>                   
+                    </div>
                     <div class="textboxstyle" style="padding-left:10px">
                         <SfNumericTextBox TValue="int" Width="100%" @bind-Value="@VerticalSpacing" Min="30" Max="1000" Step="10" Format="n0">
                             <NumericTextBoxEvents TValue="int" ValueChange="OnVerticalSpacingChange"></NumericTextBoxEvents>
@@ -136,27 +132,20 @@
 </div>
 @code
 {
-    FlowchartLayoutSettings flowchartSettings = new FlowchartLayoutSettings()
+    public FlowchartLayoutSettings FlowchartSettings { get; set; } = new FlowchartLayoutSettings()
         {
             YesBranchDirection = BranchDirection.RightInFlow,
             NoBranchDirection = BranchDirection.LeftInFlow
         };
-    ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Diagram;
-    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
-    DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
-    public SfDiagramComponent Diagram;
-    public int? HValue { get; set; } = 60;
-    public int? VValue { get; set; } = 60;
-    public LayoutType Type = LayoutType.Flowchart;
-    public LayoutOrientation OrientationType = LayoutOrientation.TopToBottom;
-    public int HorizontalSpacing = 50;
-    public int VerticalSpacing = 50;
-    string orientation = "Vertical";
-    SfDropDownList<string, Orientationvalue> expandDropDown;
-    SfDropDownList<string, BranchDirectionvalue> expandDropDown1;
-    SfDropDownList<string, BranchDirectionvalue1> expandDropDown2;
-    string yesBranchDirection = "left";
-    string noBranchDirection = "right";
+    public ScrollLimitMode ScrollLimit { get; set; } = ScrollLimitMode.Diagram;
+    public SfDiagramComponent DiagramInstance { get; set; }
+    public LayoutType DiagramLayoutType { get; set; } = LayoutType.Flowchart;
+    public LayoutOrientation LayoutOrientationType { get; set; } = LayoutOrientation.TopToBottom;
+    public int HorizontalSpacing { get; set; } = 50;
+    public int VerticalSpacing { get; set; } = 50;
+    public string DropDownOrientation { get; set; } = "Vertical";
+    public string YesBranchDirection { get; set; } = "left";
+    public string NoBranchDirection { get; set; } = "right";
 
     public class Orientationvalue
     {
@@ -196,12 +185,12 @@
     };
     private void OnDataLoaded(object obj)
     {
-        for (int i = 0; i < Diagram.Connectors.Count; i++)
+        for (int i = 0; i < DiagramInstance.Connectors.Count; i++)
         {
-            var connector = Diagram.Connectors[i];
+            var connector = DiagramInstance.Connectors[i];
             {
-                var node = Diagram.GetObject(connector.TargetID) as Node;
-                var srcNode = Diagram.GetObject(connector.SourceID) as Node;
+                var node = DiagramInstance.GetObject(connector.TargetID) as Node;
+                var srcNode = DiagramInstance.GetObject(connector.SourceID) as Node;
                 if (node.Data != null && node.Data is ItemInfo itemInfo)
                 {
                     if (itemInfo.Label != null && itemInfo.Label.Count > 0)
@@ -427,37 +416,37 @@
 
     public void OrientationTypeChange(ChangeEventArgs<string, Orientationvalue> args)
     {
-        OrientationType = args.ItemData.Value == "Vertical" ? LayoutOrientation.TopToBottom : LayoutOrientation.LeftToRight;
+        LayoutOrientationType = args.ItemData.Value == "Vertical" ? LayoutOrientation.TopToBottom : LayoutOrientation.LeftToRight;
     }
 
     public void YesBranchDirectionChange(ChangeEventArgs<string, BranchDirectionvalue> args)
     {
         if (args.ItemData.Text == "same")
         {
-            flowchartSettings.YesBranchDirection = BranchDirection.SameAsFlow;
+            FlowchartSettings.YesBranchDirection = BranchDirection.SameAsFlow;
         }
         if (args.ItemData.Text == "left")
         {
-            flowchartSettings.YesBranchDirection = BranchDirection.LeftInFlow;
+            FlowchartSettings.YesBranchDirection = BranchDirection.LeftInFlow;
         }
         if (args.ItemData.Text == "right")
         {
-            flowchartSettings.YesBranchDirection = BranchDirection.RightInFlow;
+            FlowchartSettings.YesBranchDirection = BranchDirection.RightInFlow;
         }
     }
     public void NoBranchDirectionChange(ChangeEventArgs<string, BranchDirectionvalue1> args)
     {
         if (args.ItemData.Text == "same")
         {
-            flowchartSettings.NoBranchDirection = BranchDirection.SameAsFlow;
+            FlowchartSettings.NoBranchDirection = BranchDirection.SameAsFlow;
         }
         if (args.ItemData.Text == "left")
         {
-            flowchartSettings.NoBranchDirection = BranchDirection.LeftInFlow;
+            FlowchartSettings.NoBranchDirection = BranchDirection.LeftInFlow;
         }
         if (args.ItemData.Text == "right")
         {
-            flowchartSettings.NoBranchDirection = BranchDirection.RightInFlow;
+            FlowchartSettings.NoBranchDirection = BranchDirection.RightInFlow;
         }
     }
     private void OnHorizontalSpacingChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)

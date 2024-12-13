@@ -848,16 +848,6 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Performance",
-                Category = "Benchmark",
-                Directory = "Charts/Chart",
-                Url = "chart/performance",
-                FileName = "Performance.razor",
-                HeaderText = "Blazor Chart's Perfomance Example.",
-                Type = SampleType.None
-            },
-            new Sample
-            {
                 Name = "Numeric Axis",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
@@ -1078,6 +1068,17 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Adaptive Layout",
+                Category = "Chart Customization",
+                Directory = "Charts/Chart",
+                Url = "chart/adaptive-layout",
+                FileName = "AdaptiveLayout.razor",
+                HeaderText = "Blazor Chart with Adaptive Layout Example.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample showcases how to dynamically adjust a chart's design and element positions to seamlessly fit different screen sizes." }
+            },
+            new Sample
+            {
                 Name = "Print",
                 Category = "Print and Export",
                 Directory = "Charts/Chart",
@@ -1134,7 +1135,8 @@ namespace BlazorDemos
                 Url = "chart/crosshair",
                 FileName = "Crosshair.razor",
                 HeaderText = "Blazor Chart with Crosshair Example.",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Enhanced the demo to snap the crosshair to the nearest data point instead of tracking the exact cursor position, ensuring a more accurate and professional focus on the data." }
             },
             new Sample
             {
@@ -1529,7 +1531,8 @@ namespace BlazorDemos
                 Url = "stock-chart/stock-chart-spline-area",
                 FileName = "SplineArea.razor",
                 HeaderText = "Blazor Stock Chart with Spline Area Example.",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Enhanced the demo to snap the crosshair to the nearest data point instead of tracking the exact cursor position, ensuring a more accurate and professional focus on the data." }
             },
             new Sample
             {
@@ -1636,6 +1639,48 @@ namespace BlazorDemos
                 Url = "bullet-chart/legend",
                 FileName = "Legend.razor"
             }
+        };
+        public List<Sample> Sankey { get; set; } = new List<Sample>{
+           new Sample
+            {
+                Name = "Default",
+                Category = "Sankey",
+                Directory = "Charts/Sankey",
+                Url = "sankey/default",
+                FileName = "DefaultSankey.razor",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"Explore the basic features of a Sankey chart, including node and link customization, layout adjustment, and interactivity." }
+            },
+            new Sample
+            {
+                Name = "Vertical Mode",
+                Category = "Sankey",
+                Directory = "Charts/Sankey",
+                Url = "sankey/vertical",
+                FileName = "VerticalSankeySample.razor",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"Demonstrates the vertical layout of a Sankey chart, optimizing the arrangement of nodes and links for specific use cases." }
+            },
+            new Sample
+            {
+                Name = "RTL",
+                Category = "Sankey",
+                Directory = "Charts/Sankey",
+                Url = "sankey/Rtl",
+                FileName = "RTLSankeySample.razor",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"Showcases support for right-to-left (RTL) text and layout adaptation, ensuring compatibility with RTL languages." }
+            },
+            new Sample
+            {
+                Name = "Print & Export",
+                Category = "Sankey",
+                Directory = "Charts/Sankey",
+                Url = "sankey/print-export",
+                FileName = "PrintExport.razor",
+                Type = SampleType.None,
+                NotificationDescription = new string[]{ @"Illustrates print and export functionalities, enabling users to save charts as images or PDF for reporting purposes." }
+            },
         };
     }
 

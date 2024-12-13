@@ -29,7 +29,20 @@ namespace BlazorDemos
                 Category = "Scheduler",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/default-functionalities",
-                FileName = "Default.razor"
+                FileName = "Default.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Default.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -37,8 +50,20 @@ namespace BlazorDemos
                 Category = "Product Use Case",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/holiday-Calendar",
-                Type = SampleType.New,
-                FileName = "HolidayCalendar.razor"
+                FileName = "HolidayCalendar.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="HolidayCalendar.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -46,7 +71,20 @@ namespace BlazorDemos
                 Category = "Data Binding",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/local-data",
-                FileName = "LocalData.razor"
+                FileName = "LocalData.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="LocalData.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -94,7 +132,20 @@ namespace BlazorDemos
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/recurrence-events",
-                FileName = "RecurrenceEvents.razor"
+                FileName = "RecurrenceEvents.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="RecurrenceEvents.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -102,7 +153,20 @@ namespace BlazorDemos
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/block-out-dates-and-hours",
-                FileName = "BlockEvents.razor"
+                FileName = "BlockEvents.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="BlockEvents.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -110,7 +174,20 @@ namespace BlazorDemos
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/readonly-events",
-                FileName = "ReadonlyEvents.razor"
+                FileName = "ReadonlyEvents.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ReadonlyEvents.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -118,7 +195,20 @@ namespace BlazorDemos
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/timezone",
-                FileName = "Timezone.razor"
+                FileName = "Timezone.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Timezone.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -126,23 +216,20 @@ namespace BlazorDemos
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/search-events",
-                FileName = "SearchEvents.razor"
-            },
-            new Sample
-            {
-                Name = "External Drag and Drop",
-                Category = "Appointments",
-                Directory = "Schedule/Scheduler",
-                Url = "scheduler/external-drag-and-drop",
-                FileName = "ExternalDragDrop.razor"
-            },
-            new Sample
-            {
-                Name = "Drag and Drop",
-                Category = "Appointments",
-                Directory = "Schedule/Scheduler",
-                Url = "scheduler/drag-and-drop",
-                FileName = "DragDrop.razor",
+                FileName = "SearchEvents.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="SearchEvents.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -150,7 +237,43 @@ namespace BlazorDemos
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/inline-editing",
-                FileName = "InlineEditing.razor"
+                FileName = "InlineEditing.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="InlineEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Overlap Events",
+                Category = "Appointments",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/overlap-events",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Demonstrated how to effectively restrict overlapping appointments within the same time range, ensuring a clear and organized schedule view for improved time management and user experience." },
+                FileName = "OverlapEvents.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="OverlapEvents.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -158,7 +281,109 @@ namespace BlazorDemos
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/reminder",
-                FileName = "Reminder.razor"
+                FileName = "Reminder.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Reminder.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "External Drag and Drop",
+                Category = "Drag and Drop",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/external-drag-and-drop",
+                FileName = "ExternalDragDrop.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ExternalDragDrop.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Multiple Events Drag",
+                Category = "Drag and Drop",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/drag-and-drop",
+                FileName = "DragDrop.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DragDrop.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Drag Between Schedulers",
+                Category = "Drag and Drop",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/drag-between-schedulers",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Showcased the ability to drag and drop events seamlessly between multiple Scheduler instances, enabling effortless event transfer and enhancing scheduling flexibility across different Schedulers." },
+                IsHideInMobile = true,
+                FileName = "DragBetweenSchedulers.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DragBetweenSchedulers.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Drag Events From Grid",
+                Category = "Drag and Drop",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/grid-to-schedule",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Demonstrated the seamless integration of DataGrid and Scheduler components by enabling drag-and-drop functionality between them, allowing for efficient event creation and management across different data visualization formats." },
+                FileName = "GridToSchedule.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GridToSchedule.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -190,7 +415,20 @@ namespace BlazorDemos
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/basic-views",
-                FileName = "Views.razor"
+                FileName = "Views.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Views.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -198,7 +436,20 @@ namespace BlazorDemos
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/timeline-view",
-                FileName = "Timeline.razor"
+                FileName = "Timeline.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Timeline.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -206,7 +457,20 @@ namespace BlazorDemos
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/agenda-view",
-                FileName = "Agenda.razor"
+                FileName = "Agenda.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Agenda.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -214,7 +478,20 @@ namespace BlazorDemos
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/month-agenda-view",
-                FileName = "MonthAgenda.razor"
+                FileName = "MonthAgenda.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="MonthAgenda.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -222,7 +499,20 @@ namespace BlazorDemos
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/individual-view-settings",
-                FileName = "IndividualViewSettings.razor"
+                FileName = "IndividualViewSettings.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="IndividualViewSettings.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -230,7 +520,20 @@ namespace BlazorDemos
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/custom-views",
-                FileName = "ExtendedViews.razor"
+                FileName = "ExtendedViews.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ExtendedViews.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -246,7 +549,20 @@ namespace BlazorDemos
                 Category = "Views",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/custom-month-view",
-                FileName = "CustomMonthView.razor"
+                FileName = "CustomMonthView.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CustomMonthView.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -254,7 +570,20 @@ namespace BlazorDemos
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/room-scheduler",
-                FileName = "TimelineResource.razor"
+                FileName = "TimelineResource.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="TimelineResource.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -270,7 +599,20 @@ namespace BlazorDemos
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/resource",
-                FileName = "Resource.razor"
+                FileName = "Resource.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Resource.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -278,7 +620,20 @@ namespace BlazorDemos
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/shared-events",
-                FileName = "GroupEditing.razor"
+                FileName = "GroupEditing.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GroupEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -286,7 +641,20 @@ namespace BlazorDemos
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/different-work-days",
-                FileName = "GroupCustomWorkdays.razor"
+                FileName = "GroupCustomWorkdays.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GroupCustomWorkdays.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -294,7 +662,20 @@ namespace BlazorDemos
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/add-remove-resources",
-                FileName = "AddRemoveResources.razor"
+                FileName = "AddRemoveResources.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="AddRemoveResources.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -302,7 +683,20 @@ namespace BlazorDemos
                 Category = "Multiple Resources",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/adaptive-rows",
-                FileName = "AdaptiveRows.razor"
+                FileName = "AdaptiveRows.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="AdaptiveRows.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -318,7 +712,20 @@ namespace BlazorDemos
                 Category = "Resource Grouping",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/timeline-grouping",
-                FileName = "TimelineResourceGroup.razor"
+                FileName = "TimelineResourceGroup.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="TimelineResourceGroup.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -326,7 +733,20 @@ namespace BlazorDemos
                 Category = "Resource Grouping",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/date-wise-grouping",
-                FileName = "GroupByDate.razor"
+                FileName = "GroupByDate.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GroupByDate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -334,7 +754,20 @@ namespace BlazorDemos
                 Category = "Resource Grouping",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/hierarchical-grouping",
-                FileName = "GroupByChild.razor"
+                FileName = "GroupByChild.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="GroupByChild.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -343,7 +776,20 @@ namespace BlazorDemos
                Directory = "Schedule/Scheduler",
                Url = "scheduler/adaptive-grouping",
                FileName = "AdaptiveGrouping.razor",
-               IsHideInMobile = true
+               IsHideInMobile = true,
+               SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="AdaptiveGrouping.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -351,7 +797,20 @@ namespace BlazorDemos
                 Category = "Templates",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/date-header",
-                FileName = "DateHeader.razor"
+                FileName = "DateHeader.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DateHeader.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -359,7 +818,20 @@ namespace BlazorDemos
                 Category = "Templates",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/cell-template",
-                FileName = "CustomCell.razor"
+                FileName = "CustomCell.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CustomCell.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -367,7 +839,20 @@ namespace BlazorDemos
                 Category = "Templates",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/event-template",
-                FileName = "AppointmentTemplate.razor"
+                FileName = "AppointmentTemplate.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="AppointmentTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -375,7 +860,20 @@ namespace BlazorDemos
                 Category = "Templates",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/tooltip-template",
-                FileName = "Tooltip.razor"
+                FileName = "Tooltip.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Tooltip.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -383,7 +881,20 @@ namespace BlazorDemos
                 Category = "Templates",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/quick-info-template",
-                FileName = "QuickInfoTemplate.razor"
+                FileName = "QuickInfoTemplate.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="QuickInfoTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -391,7 +902,20 @@ namespace BlazorDemos
                 Category = "Editor Window",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/field-validation",
-                FileName = "EditorValidation.razor"
+                FileName = "EditorValidation.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="EditorValidation.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -399,7 +923,20 @@ namespace BlazorDemos
                 Category = "Editor Window",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/editor-template",
-                FileName = "EditorPopupTemplate.razor"
+                FileName = "EditorPopupTemplate.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="EditorPopupTemplate.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -408,6 +945,19 @@ namespace BlazorDemos
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/external-form-editing",
                 FileName = "ExternalFormEditing.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ExternalFormEditing.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -415,7 +965,20 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/header-rows",
-                FileName = "HeaderRows.razor"
+                FileName = "HeaderRows.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="HeaderRows.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -423,7 +986,20 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/time-scale",
-                FileName = "Timescale.razor"
+                FileName = "Timescale.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Timescale.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -431,7 +1007,20 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/context-menu",
-                FileName = "ContextMenu.razor"
+                FileName = "ContextMenu.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ContextMenu.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -440,6 +1029,19 @@ namespace BlazorDemos
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/header-bar",
                 FileName = "HeaderBar.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="HeaderBar.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
              new Sample
              {
@@ -447,7 +1049,20 @@ namespace BlazorDemos
                  Category = "Customization",
                  Directory = "Schedule/Scheduler",
                  Url = "scheduler/scroll-time",
-                 FileName = "ScrollTime.razor"
+                 FileName = "ScrollTime.razor",
+                 SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ScrollTime.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
              },
             new Sample
             {
@@ -455,7 +1070,20 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/working-days",
-                FileName = "WorkDays.razor"
+                FileName = "WorkDays.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="WorkDays.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -463,7 +1091,20 @@ namespace BlazorDemos
                Category = "Customization",
                Directory = "Schedule/Scheduler",
                Url = "scheduler/working-hours",
-               FileName = "WorkHours.razor"
+               FileName = "WorkHours.razor",
+               SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="WorkHours.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -471,7 +1112,20 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/hide-non-working-hours",
-                FileName = "DayHourLimit.razor"
+                FileName = "DayHourLimit.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="DayHourLimit.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -479,7 +1133,20 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/cell-dimensions",
-                FileName = "CellDimensions.razor"
+                FileName = "CellDimensions.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CellDimensions.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -487,7 +1154,20 @@ namespace BlazorDemos
                 Category = "Exporting",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/export-to-excel",
-                FileName = "ExcelExport.razor"
+                FileName = "ExcelExport.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="ExcelExport.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -495,7 +1175,20 @@ namespace BlazorDemos
                Category = "Exporting",
                Directory = "Schedule/Scheduler",
                Url = "scheduler/export-and-import-ics",
-               FileName = "CalendarExportImport.razor"
+               FileName = "CalendarExportImport.razor",
+               SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="CalendarExportImport.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -504,7 +1197,20 @@ namespace BlazorDemos
                Directory = "Schedule/Scheduler",
                Url = "scheduler/print",
                FileName = "Print.razor",
-               IsHideInMobile = true
+               IsHideInMobile = true,
+               SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Print.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -528,9 +1234,21 @@ namespace BlazorDemos
                 Category = "Miscellaneous",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/keyboard-interaction",
-                Type = SampleType.Updated,
                 FileName = "KeyboardInteraction.razor",
-                IsHideInMobile = true
+                IsHideInMobile = true,
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="KeyboardInteraction.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {
@@ -538,7 +1256,20 @@ namespace BlazorDemos
                 Category = "Miscellaneous",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/events",
-                FileName = "Events.razor"
+                FileName = "Events.razor",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Events.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             }
         };
     }

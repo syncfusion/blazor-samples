@@ -2,7 +2,6 @@
 
 @using Syncfusion.Blazor.Diagram
 @*Hidden:Lines*@
-@using Syncfusion.Blazor.DropDowns
 @using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Inputs
 @implements IDisposable
@@ -10,25 +9,20 @@
 @using shapes = Syncfusion.Blazor.Diagram.NodeShapes
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
 
-
-@*End:Hidden*@
-
-@*Hidden:Lines*@
 <SampleDescription>
-    <p>This sample demonstrates creatively using a mind map layout algorithm.</p>
+    <p>This sample creatively demonstrates the application of a mind map layout algorithm.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example shows how to generate a mind map from an external data source. The spacing between the objects in the layout can be customized by using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing' aria-label="HorizontalSpacing">HorizontalSpacing</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing' aria-label="VerticalSpacing">VerticalSpacing</a></code> properties of <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html' aria-label="Layout">Layout</a></code>. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation' aria-label="Orientation">Orientation</a></code> property of <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html' aria-label="Layout">Layout</a></code> can be used to change the orientation of the chart. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_GetLayoutInfo' aria-label="GetLayoutInfo">GetLayoutInfo</a></code> property of Layout can be used to customize the tree structure.</p>
+    <p>This example illustrates how to generate a mind map from an external data source. You can customize the spacing between objects in the layout using the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing" aria-label="HorizontalSpacing">HorizontalSpacing</a></code> and <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing" aria-label="VerticalSpacing">VerticalSpacing</a></code> properties of the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html" aria-label="Layout">Layout</a></code>. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation" aria-label="Orientation">Orientation</a></code> property of the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html" aria-label="Layout">Layout</a></code> allows you to modify the chart's orientation. Additionally, the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_GetLayoutInfo" aria-label="GetLayoutInfo">GetLayoutInfo</a></code> method provides options to further customize the tree structure.</p>
 </ActionDescription>
 @*End:Hidden*@
 
 <div class="content-wrapper">
     <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7;height: 640px">
-        <SfDiagramComponent @ref="@diagram" InteractionController="@interactionController" Height="600px" GetCustomTool="@GetCustomTool" NodeCreating="@NodeCreating" ConnectorCreating="@ConnectorCreating" SelectionSettings="@selectionSettings" SelectionChanging="OnSelectionChanging" Created="OnCreated">
-            <ScrollSettings @bind-ScrollLimit="@scrollLimit"></ScrollSettings>
-            <Layout FixedNode="1" HorizontalSpacing="@HorizontalSpacing" VerticalSpacing="@VerticalSpacing" Type="LayoutType.MindMap" GetBranch="@getbranch"></Layout>
+        <SfDiagramComponent @ref="@DiagramInstance" InteractionController="@InteractionController" Height="600px" GetCustomTool="@GetCustomTool" NodeCreating="@NodeCreating" ConnectorCreating="@ConnectorCreating" SelectionSettings="@DiagramSelectionSettings" SelectionChanging="OnSelectionChanging" Created="OnCreated">
+            <ScrollSettings @bind-ScrollLimit="@ScrollLimit"></ScrollSettings>
+            <Layout FixedNode="1" HorizontalSpacing="@HorizontalSpacing" VerticalSpacing="@VerticalSpacing" Type="LayoutType.MindMap" GetBranch="@GetBranch"></Layout>
             <SnapSettings Constraints="@SnapConstraints.None"></SnapSettings>
             <DataSourceSettings ID="Id" ParentID="ParentId" DataSource="@DataSource">
             </DataSourceSettings>
@@ -74,7 +68,7 @@
                         <div style="display: table-cell; vertical-align: middle">Horizontal Spacing</div>
                     </div>                    
                     <div class="textboxstyle" style="padding-left:10px">
-                        <SfNumericTextBox TValue="int?" Width="110px" @bind-Value="@horizontalValue" Min="20" Step="2" Format="###.##">
+                        <SfNumericTextBox TValue="int?" Width="110px" @bind-Value="@HorizontalValue" Min="20" Step="2" Format="###.##">
                             <NumericTextBoxEvents TValue="int?" ValueChange="OnHorizontalSpaceChange"></NumericTextBoxEvents>
                         </SfNumericTextBox>
                     </div>
@@ -84,7 +78,7 @@
                         <div style="display: table-cell; vertical-align: middle">Vertical Spacing</div>
                     </div>                   
                     <div class="textboxstyle" style="padding-left:10px">
-                        <SfNumericTextBox TValue="int?" Width="110px" @bind-Value="@verticalValue" Min="20" Step="2" Format="###.##">
+                        <SfNumericTextBox TValue="int?" Width="110px" @bind-Value="@VerticalValue" Min="20" Step="2" Format="###.##">
                             <NumericTextBoxEvents TValue="int?" ValueChange="OnVerticalSpaceChange"></NumericTextBoxEvents>
                         </SfNumericTextBox>
                     </div>
@@ -96,19 +90,19 @@
 </div>
 @code
 {
-    static List<MindMapDetails> MindmapData = new List<MindMapDetails>();
-    ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Diagram;
-    SfDiagramComponent diagram;
-    DiagramInteractions interactionController = DiagramInteractions.SingleSelect;
-    int VerticalSpacing = 20;
-    int HorizontalSpacing = 80;
-    int? horizontalValue = 80;
-    int? verticalValue = 20;
-    DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
-    DiagramObjectCollection<UserHandle> handles = new DiagramObjectCollection<UserHandle>();
+    static List<MindMapDetails> MindmapData { get; set; } = new List<MindMapDetails>();
+    ScrollLimitMode ScrollLimit { get; set; } = ScrollLimitMode.Diagram;
+    SfDiagramComponent DiagramInstance { get; set; }
+    DiagramInteractions InteractionController { get; set; } = DiagramInteractions.SingleSelect;
+    int VerticalSpacing { get; set; } = 20;
+    int HorizontalSpacing { get; set; } = 80;
+    int? HorizontalValue { get; set; } = 80;
+    int? VerticalValue { get; set; } = 20;
+    DiagramSelectionSettings DiagramSelectionSettings { get; set; } = new DiagramSelectionSettings();
+    DiagramObjectCollection<UserHandle> Handles { get; set; } = new DiagramObjectCollection<UserHandle>();
     
 
-    private BranchType getbranch(IDiagramObject obj)
+    private BranchType GetBranch(IDiagramObject obj)
     {
         BranchType Branch = ((obj as Node).Data as MindMapDetails).Branch;
         return Branch;
@@ -116,18 +110,18 @@
 
     private void OnCreated()
     {
-        diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[0] });
+        DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[0] });
     }
 
     private void OnHorizontalSpaceChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        horizontalValue = (int)args.Value;
+        HorizontalValue = (int)args.Value;
         HorizontalSpacing = int.Parse(args.Value.ToString());
     }
 
     private void OnVerticalSpaceChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        verticalValue = (int)args.Value;
+        VerticalValue = (int)args.Value;
         VerticalSpacing = int.Parse(args.Value.ToString());
     }
 
@@ -137,15 +131,15 @@
         InteractionControllerBase tool = null;
         if (id == "AddLeft")
         {
-            tool = new AddRightTool(diagram);
+            tool = new AddRightTool(DiagramInstance);
         }
         else if(id == "AddRight")
         {
-            tool = new AddLeftTool(diagram);
+            tool = new AddLeftTool(DiagramInstance);
         }
         else
         {
-            tool = new DeleteTool(diagram);
+            tool = new DeleteTool(DiagramInstance);
         }
         return tool;
     }
@@ -153,16 +147,16 @@
     // Custom tool to add the node.
     public class AddLeftTool : InteractionControllerBase
     {
-        SfDiagramComponent diagram;
+        SfDiagramComponent DiagramInstance;
         public AddLeftTool(SfDiagramComponent Diagram) : base(Diagram)
         {
-            diagram = Diagram;
+            DiagramInstance = Diagram;
         }
         public override async void OnMouseDown(DiagramMouseEventArgs args)
         {
-            int newChildID = diagram.Nodes.Count + 1;
+            int newChildID = DiagramInstance.Nodes.Count + 1;
             string newchildColor = "";
-            BranchType type = (diagram.SelectionSettings.Nodes[0].Data as MindMapDetails).Branch;
+            BranchType type = (DiagramInstance.SelectionSettings.Nodes[0].Data as MindMapDetails).Branch;
             BranchType childType = BranchType.Left;
 
             switch (type.ToString())
@@ -178,7 +172,7 @@
                     break;
             }
 
-            if (diagram.SelectionSettings.Nodes[0].Style.Fill == "#034d6d")
+            if (DiagramInstance.SelectionSettings.Nodes[0].Style.Fill == "#034d6d")
             {
                 newchildColor = "#1b80c6";
             }
@@ -190,23 +184,23 @@
             MindMapDetails childNode = new MindMapDetails()
             {
                 Id = newChildID.ToString(),
-                ParentId = (diagram.SelectionSettings.Nodes[0].Data as MindMapDetails).Id,
+                ParentId = (DiagramInstance.SelectionSettings.Nodes[0].Data as MindMapDetails).Id,
                 Fill = newchildColor,
                 Branch = childType,
                 Label = "New Child"
             };
-            diagram.BeginUpdate();
-            await UpdatePortConnection(childNode, diagram);
-            await diagram.EndUpdateAsync();
+            DiagramInstance.BeginUpdate();
+            await UpdatePortConnection(childNode, DiagramInstance);
+            await DiagramInstance.EndUpdateAsync();
             MindmapData.Add(childNode);
-            diagram.ClearSelection();
+            DiagramInstance.ClearSelection();
             base.OnMouseDown(args);
-            diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[diagram.Nodes.Count - 1] });
-            diagram.StartTextEdit(diagram.Nodes[diagram.Nodes.Count - 1]);
+            DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[DiagramInstance.Nodes.Count - 1] });
+            DiagramInstance.StartTextEdit(DiagramInstance.Nodes[DiagramInstance.Nodes.Count - 1]);
             this.InAction = true;
         }
     }
-    private static async Task UpdatePortConnection(MindMapDetails childNode,SfDiagramComponent diagram)
+    private static async Task UpdatePortConnection(MindMapDetails childNode,SfDiagramComponent DiagramInstance)
     {
         Node node = new Node()
         {
@@ -215,11 +209,11 @@
         Connector connector = new Connector()
         {
             TargetID = node.ID,
-            SourceID = diagram.SelectionSettings.Nodes[0].ID
+            SourceID = DiagramInstance.SelectionSettings.Nodes[0].ID
         };
-        await diagram.AddDiagramElementsAsync(new DiagramObjectCollection<NodeBase>() { node, connector });
-        Node sourceNode = diagram.GetObject((connector as Connector).SourceID) as Node;
-        Node targetNode = diagram.GetObject((connector as Connector).TargetID) as Node;
+        await DiagramInstance.AddDiagramElementsAsync(new DiagramObjectCollection<NodeBase>() { node, connector });
+        Node sourceNode = DiagramInstance.GetObject((connector as Connector).SourceID) as Node;
+        Node targetNode = DiagramInstance.GetObject((connector as Connector).TargetID) as Node;
         if (targetNode != null && targetNode.Data != null)
         {
             MindMapDetails nodeInfo = (targetNode.Data as MindMapDetails);
@@ -234,22 +228,22 @@
                 (connector as Connector).TargetPortID = targetNode.Ports[0].ID;
             }
         }
-        await diagram.DoLayoutAsync();
+        await DiagramInstance.DoLayoutAsync();
     }
 
     // Custom tool to add the node.
     public class AddRightTool : InteractionControllerBase
     {
-        SfDiagramComponent diagram;
+        SfDiagramComponent DiagramInstance;
         public AddRightTool(SfDiagramComponent Diagram) : base(Diagram)
         {
-            diagram = Diagram;
+            DiagramInstance = Diagram;
         }
         public override async void OnMouseDown(DiagramMouseEventArgs args)
         {
-            int newChildID = diagram.Nodes.Count + 1;
+            int newChildID = DiagramInstance.Nodes.Count + 1;
             string newchildColor = "";
-            BranchType type = (diagram.SelectionSettings.Nodes[0].Data as MindMapDetails).Branch;
+            BranchType type = (DiagramInstance.SelectionSettings.Nodes[0].Data as MindMapDetails).Branch;
             BranchType childType = BranchType.Left;
 
             switch (type.ToString())
@@ -265,7 +259,7 @@
                     break;
             }
 
-            if (diagram.SelectionSettings.Nodes[0].Style.Fill == "#034d6d")
+            if (DiagramInstance.SelectionSettings.Nodes[0].Style.Fill == "#034d6d")
             {
                 newchildColor = "#1b80c6";
             }
@@ -277,19 +271,19 @@
             MindMapDetails childNode = new MindMapDetails()
             {
                 Id = newChildID.ToString(),
-                ParentId = (diagram.SelectionSettings.Nodes[0].Data as MindMapDetails).Id,
+                ParentId = (DiagramInstance.SelectionSettings.Nodes[0].Data as MindMapDetails).Id,
                 Fill = newchildColor,
                 Branch = childType,
                 Label = "New Child"
             };
-            diagram.BeginUpdate();
-            await UpdatePortConnection(childNode, diagram);
-            await diagram.EndUpdateAsync();
+            DiagramInstance.BeginUpdate();
+            await UpdatePortConnection(childNode, DiagramInstance);
+            await DiagramInstance.EndUpdateAsync();
             MindmapData.Add(childNode);
-            diagram.ClearSelection();
+            DiagramInstance.ClearSelection();
             base.OnMouseDown(args);
-            diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[diagram.Nodes.Count - 1] });
-            diagram.StartTextEdit(diagram.Nodes[diagram.Nodes.Count - 1]);
+            DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[DiagramInstance.Nodes.Count - 1] });
+            DiagramInstance.StartTextEdit(DiagramInstance.Nodes[DiagramInstance.Nodes.Count - 1]);
             this.InAction = true;
         }
     }
@@ -321,17 +315,17 @@
         }
     }
 
-    private static void RemoveData(Node node,SfDiagramComponent diagram)
+    private static void RemoveData(Node node,SfDiagramComponent DiagramInstance)
     {
         if(node.OutEdges.Count>0)
         {
             for(int i=0;i< node.OutEdges.Count;i++)
             {
-                Connector connector = diagram.GetObject(node.OutEdges[i]) as Connector;
-                Node targetnode = diagram.GetObject(connector.TargetID) as Node;
+                Connector connector = DiagramInstance.GetObject(node.OutEdges[i]) as Connector;
+                Node targetnode = DiagramInstance.GetObject(connector.TargetID) as Node;
                 if(targetnode.OutEdges.Count > 0)
                 {
-                    RemoveData(targetnode, diagram);
+                    RemoveData(targetnode, DiagramInstance);
                 }
                 else
                 {
@@ -355,24 +349,24 @@
                 BranchType type = ((args.NewValue[0] as Node).Data as MindMapDetails).Branch;
                 if (type == BranchType.Root)
                 {
-                    selectionSettings.UserHandles[0].Visible = false;
-                    selectionSettings.UserHandles[1].Visible = false;
-                    selectionSettings.UserHandles[2].Visible = true;
-                    selectionSettings.UserHandles[3].Visible = true;
+                    DiagramSelectionSettings.UserHandles[0].Visible = false;
+                    DiagramSelectionSettings.UserHandles[1].Visible = false;
+                    DiagramSelectionSettings.UserHandles[2].Visible = true;
+                    DiagramSelectionSettings.UserHandles[3].Visible = true;
                 }
                 else if(type==BranchType.Left||type==BranchType.SubLeft)
                 {
-                    selectionSettings.UserHandles[0].Visible = false;
-                    selectionSettings.UserHandles[1].Visible = true;
-                    selectionSettings.UserHandles[2].Visible = true;
-                    selectionSettings.UserHandles[3].Visible = false;
+                    DiagramSelectionSettings.UserHandles[0].Visible = false;
+                    DiagramSelectionSettings.UserHandles[1].Visible = true;
+                    DiagramSelectionSettings.UserHandles[2].Visible = true;
+                    DiagramSelectionSettings.UserHandles[3].Visible = false;
                 }
                 else if (type == BranchType.Right || type == BranchType.SubRight)
                 {
-                    selectionSettings.UserHandles[0].Visible = true;
-                    selectionSettings.UserHandles[1].Visible = false;
-                    selectionSettings.UserHandles[2].Visible = false;
-                    selectionSettings.UserHandles[3].Visible = true;
+                    DiagramSelectionSettings.UserHandles[0].Visible = true;
+                    DiagramSelectionSettings.UserHandles[1].Visible = false;
+                    DiagramSelectionSettings.UserHandles[2].Visible = false;
+                    DiagramSelectionSettings.UserHandles[3].Visible = true;
                 }
             }
         }
@@ -451,8 +445,8 @@
         (connector as Connector).Style = new ShapeStyle() { StrokeColor = "#4f4f4f", StrokeWidth = 1 };
         (connector as Connector).TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None };
         (connector as Connector).SourceDecorator.Shape = DecoratorShape.None;
-        Node sourceNode = diagram.GetObject((connector as Connector).SourceID) as Node;
-        Node targetNode = diagram.GetObject((connector as Connector).TargetID) as Node;
+        Node sourceNode = DiagramInstance.GetObject((connector as Connector).SourceID) as Node;
+        Node targetNode = DiagramInstance.GetObject((connector as Connector).TargetID) as Node;
         if (targetNode != null && targetNode.Data != null)
         {
             MindMapDetails nodeInfo = (targetNode.Data as MindMapDetails);
@@ -480,12 +474,12 @@
 
         UserHandle deleteRightHandle = AddHandle("DeleteLeft", "delete", Direction.Left);
 
-        handles.Add(deleteLeftHandle);
-        handles.Add(deleteRightHandle);
-        handles.Add(addLeftHandle);
-        handles.Add(addRightHandle);
+        Handles.Add(deleteLeftHandle);
+        Handles.Add(deleteRightHandle);
+        Handles.Add(addLeftHandle);
+        Handles.Add(addRightHandle);
 
-        selectionSettings.UserHandles = handles;
+        DiagramSelectionSettings.UserHandles = Handles;
     }
 
     private UserHandle AddHandle(string name, string path, Direction direction)
@@ -523,7 +517,7 @@
     protected override void OnInitialized()
     {
         
-        selectionSettings.Constraints &= ~(SelectorConstraints.ResizeAll | SelectorConstraints.Rotate);
+        DiagramSelectionSettings.Constraints &= ~(SelectorConstraints.ResizeAll | SelectorConstraints.Rotate);
         MindmapData = new List<MindMapDetails>()
         {
             new MindMapDetails(){Id="1",Label="Business Planning",ParentId ="",Branch= BranchType.Root, Fill="#034d6d" },
@@ -562,18 +556,18 @@
     @*Hidden:Lines*@
 public void Dispose()
 {
-    if (selectionSettings != null)
+    if (DiagramSelectionSettings != null)
     {
-        if (selectionSettings.UserHandles != null)
+        if (DiagramSelectionSettings.UserHandles != null)
         {
-            selectionSettings.UserHandles.Clear();
-            selectionSettings.UserHandles = null;
+            DiagramSelectionSettings.UserHandles.Clear();
+            DiagramSelectionSettings.UserHandles = null;
         }
-        selectionSettings = null;
+        DiagramSelectionSettings = null;
     }
-    if (diagram != null)
+    if (DiagramInstance != null)
     {
-        diagram = null;
+        DiagramInstance = null;
     }
     if (MindmapData != null)
     {

@@ -835,7 +835,7 @@
         }
     }
 
-    private void NavSample(SampleList sample)
+    private async Task NavSample(SampleList sample)
     {
         if (ToggleClass.Contains(SampleUtils.ACTIVE_CLASS))
         {
@@ -844,16 +844,18 @@
         }
         else
         {
-            NavToSample(sample.DemoPath);
+            await NavToSample(sample.DemoPath);
         }
     }
 
     // Sample click event handler method.
-    private void NavToSample(string path)
+    private async Task NavToSample(string path)
     {
         SampleService.Spinner.Show();
+        var SelectedTheme = await JsRuntime.InvokeAsync<String>("sfBlazorSB.getValue", "SelectedTheme");
+        SelectedTheme = SelectedTheme ?? "tailwind3";
         var newUri = UriHelper.GetUriWithQueryParameters(path, new Dictionary<string, object>{
-            ["theme"] = "fluent"
+            ["theme"] = SelectedTheme
         });
         UriHelper.NavigateTo(newUri, true);
     }
@@ -876,9 +878,14 @@
         }
     }
 
-    protected override void OnInitialized()
+    protected async override Task OnInitializedAsync()
     {
-        base.OnInitialized();
+        base.OnInitializedAsync();
+        var SelectedMode = await JsRuntime.InvokeAsync<String>("sfBlazorSB.getValue", "ThemeMode");
+        if (SelectedMode == "dark")
+        {
+            await JsRuntime.InvokeAsync<String>("toggleDarkMode");
+        }
         cURL = UriHelper.Uri.Split("?")[0];
         headerLogo = SampleUtils.HEADER_LOGO;
         searchIcon = SampleUtils.SEARCH_ICON;

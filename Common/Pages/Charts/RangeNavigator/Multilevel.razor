@@ -4,6 +4,8 @@
 @using System.Net.Http.Json
 @inject NavigationManager NavigationManager
 @inject HttpClient Http
+@using ThemeHelper
+
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 
@@ -11,14 +13,14 @@
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>Axis labels are placed based on the values of the start and end ranges. You can add higher level of labels to the range navigator using multi-level labels.</p>
+    <p>Axis labels are placed based on the values of the start and end ranges. You can add higher-level labels to the range navigator using multi-level labels.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to group the axis labels in the range navigator. Here, the interval for the second level labels can be customized using <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfRangeNavigator.html#Syncfusion_Blazor_Charts_SfRangeNavigator_GroupBy' aria-label="groupBy">groupBy</a>.</p>
-    <p>More information about the multi-level labels can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/labels#multi-level-labels' aria-label="documentation section" >documentation section</a>.</p>
+    <p>In this example, you can see how to group the axis labels in the range navigator. The interval for the second level labels can be customized using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfRangeNavigator.html#Syncfusion_Blazor_Charts_SfRangeNavigator_GroupBy" aria-label="groupBy">groupBy</a> property.</p>
+    <p>More information about multi-level labels can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/range-selector/labels#multi-level-labels" aria-label="documentation section">documentation section</a>.</p>
 </ActionDescription>
 
-@if (MultiLevelData == null)
+@if (RangeNavigatorData == null)
 {
     <div class="stockchartloader"></div>
 }
@@ -26,28 +28,26 @@ else
 {
     <div class="control-section">
         <br>
-        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px; text-align:center">Multi Level Labels</h4>
+        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px; text-align:center">Multi-Level Labels</h4>
         <div align="center">
-            <SfRangeNavigator LabelPosition="AxisPosition.Outside" Theme="@RangeNavigatorTheme" EnableGrouping="true" GroupBy="RangeIntervalType.Years" Value="@RangeValue" IntervalType="RangeIntervalType.Quarter" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@MultiLevelData" XName="x" YName="low" Interval="@interval">
-                <RangeNavigatorStyleSettings SelectedRegionColor="@SelectedRegionColor"></RangeNavigatorStyleSettings>
+            <SfRangeNavigator LabelPosition="AxisPosition.Outside" Theme="@NavigatorTheme" EnableGrouping="true" GroupBy="RangeIntervalType.Years" Value="@SelectedRange" IntervalType="RangeIntervalType.Quarter" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@RangeNavigatorData" XName="x" YName="low" Interval="@GroupInterval">
+                <RangeNavigatorStyleSettings SelectedRegionColor="@SelectedColor"></RangeNavigatorStyleSettings>
                 <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
             </SfRangeNavigator>
         </div>
     </div>
 }
-@code{
 
-    
-    public Theme RangeNavigatorTheme { get; set; }
-    public ChartData[] MultiLevelData { get; set; }
-    public object[] RangeValue { get; set; } = new object[] { new DateTime(2014, 01, 01), new DateTime(2016, 01, 01) };
-    private string currentUri;
-    string SelectedRegionColor;
-    public double interval{ get; set; }
+@code{
+    public Theme NavigatorTheme { get; set; }
+    public ChartData[] RangeNavigatorData { get; set; }
+    public object[] SelectedRange { get; set; } = { new DateTime(2014, 01, 01), new DateTime(2016, 01, 01) };
+    public string SelectedColor { get; set; }
+    public double GroupInterval { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
-        MultiLevelData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/chart-data.json");
+        RangeNavigatorData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/chart-data.json");
     }
 
     public class ChartData
@@ -58,132 +58,38 @@ else
 
     protected override void OnInitialized()
     {
-        
-        currentUri = NavigationManager.Uri;
-        interval = SampleService.IsDevice ? 4 : 1;
-        if (currentUri.IndexOf("material3") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.Material3Dark;
-                SelectedRegionColor = "#4EAAFF";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Material3;
-                SelectedRegionColor = "#6355C7";
-            }
-        }
-        else if (currentUri.IndexOf("material") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.MaterialDark;
-                SelectedRegionColor = "#9ECB08";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Material;
-                SelectedRegionColor = "#00bdae";
-            }
-        }
-        else if (currentUri.IndexOf("fabric") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.FabricDark;
-                SelectedRegionColor = "#4472c4";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Fabric;
-                SelectedRegionColor = "#4472c4";
-            }
-        }
-        else if (currentUri.IndexOf("bootstrap5") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.Bootstrap5Dark;
-                SelectedRegionColor = "#FD7E14";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Bootstrap5;
-                SelectedRegionColor = "#FD7E14";
-            }
-        }
-        else if (currentUri.IndexOf("fluent2") > -1)
-        {
-            if (currentUri.IndexOf("highcontrast") > -1)
-            {
-                RangeNavigatorTheme = Theme.Fluent2HighContrast;
-                SelectedRegionColor = "#9BB449";
-            }
-            else if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.Fluent2Dark;
-                SelectedRegionColor = "#9BB449";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Fluent2;
-                SelectedRegionColor = "#6200EE";
-            }
-        }
-        else if (currentUri.IndexOf("fluent") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.FluentDark;
-                SelectedRegionColor = "#1AC9E6";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Fluent;
-                SelectedRegionColor = "#1AC9E6";
-            }
-        }
-        else if (currentUri.IndexOf("bootstrap4") > -1)
-        {
-            RangeNavigatorTheme = Theme.Bootstrap4;
-            SelectedRegionColor = "#a16ee5";
-        }
-        else if (currentUri.IndexOf("bootstrap") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.BootstrapDark;
-                SelectedRegionColor = "#a16ee5";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Bootstrap;
-                SelectedRegionColor = "#a16ee5";
-            }
-        }
-        else if (currentUri.IndexOf("highcontrast") > -1)
-        {
-            RangeNavigatorTheme = Theme.HighContrast;
-            SelectedRegionColor = "#79ECE4";
-        }
-        else if (currentUri.IndexOf("tailwind") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.TailwindDark;
-                SelectedRegionColor = "#8B5CF6";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Tailwind;
-                SelectedRegionColor = "#5A61F6";
-            }
-        }
-        else
-        {
-            RangeNavigatorTheme = Theme.Bootstrap4;
-            SelectedRegionColor = "#a16ee5";
-        }
+        GroupInterval = SampleService.IsDevice ? 4 : 1;
+        SetThemeAndColor();
     }
+
+    private void SetThemeAndColor()
+    {
+        // Get the current theme using a helper method
+        NavigatorTheme  = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    
+        // Use switch expression to set the selected region color based on the theme
+        SelectedColor  = NavigatorTheme switch
+        {
+            Theme.Material3Dark => "#4EAAFF",
+            Theme.Material3 => "#6355C7",
+            Theme.MaterialDark => "#9ECB08",
+            Theme.Material => "#00bdae",
+            Theme.FabricDark => "#4472c4",
+            Theme.Fabric => "#4472c4",
+            Theme.Bootstrap5Dark => "#FD7E14",
+            Theme.Bootstrap5 => "#FD7E14",
+            Theme.Fluent2HighContrast => "#9BB449",
+            Theme.Fluent2Dark => "#9BB449",
+            Theme.Fluent2 => "#6200EE",
+            Theme.FluentDark => "#1AC9E6",
+            Theme.Fluent => "#1AC9E6",
+            Theme.BootstrapDark => "#a16ee5",
+            Theme.Bootstrap => "#a16ee5",
+            Theme.HighContrast => "#79ECE4",            
+            Theme.Tailwind3Dark => "#8029F1",
+            Theme.Tailwind3 => "#2F4074",
+            _ => "#a16ee5" // Default color
+        };
+    }
+
 }

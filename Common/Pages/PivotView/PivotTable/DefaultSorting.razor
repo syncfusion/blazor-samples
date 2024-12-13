@@ -4,12 +4,8 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
 
-@using BlazorDemos
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -18,8 +14,8 @@
 <ActionDescription>
     <p>
         In this sample, any field can be selected from the <b>Fields</b> dropdown list and its order can be changed to display headers either in ascending or descending order.
-        It can be applied either through code-behind or UI. To achieve this in code-behind, set the <code>EnableSorting</code> property in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html' aria-label="Class reference of PivotViewDataSourceSettings">PivotViewDataSourceSettings</a> to <b>true</b>. Also, set the
-        <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSortSettings.html' aria-label="Class reference of PivotViewSortSettings">PivotViewSortSettings</a> in the pivot table along with the following properties:
+        It can be applied either through code-behind or UI. To achieve this in code-behind, set the <code>EnableSorting</code> property in <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html" aria-label="Class reference of PivotViewDataSourceSettings">PivotViewDataSourceSettings</a> to <b>true</b>. Also, set the
+        <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewSortSettings.html" aria-label="Class reference of PivotViewSortSettings">PivotViewSortSettings</a> in the pivot table along with the following properties:
     </p>
     <table>
         <tr>
@@ -33,13 +29,13 @@
     </table>
     <br />
     <p>To achieve the same through UI, either enable grouping bar or field list or both to perform the sorting operation.</p>
-    <p>More information on the label sorting feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/sorting/' aria-label="Blazor PivotTable Sorting documentation" >documentation section</a>.</p>
+    <p>More information on the label sorting feature can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/sorting/" aria-label="Blazor PivotTable Sorting documentation" >documentation section</a>.</p>
 </ActionDescription>
 
-    <div class="col-lg-8 control-section sb-property-border">
+<div class="col-lg-8 control-section sb-property-border">
     <div class="content-wrapper">
         <SfPivotView TValue="PivotProductDetails" @ref="@Pivot" Height="300" Width="100%" ShowTooltip=false>
-            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting="@SortOrder">
+            <PivotViewDataSourceSettings DataSource="@PivotViewDataSource" ExpandAll=false EnableSorting="@SortOrder">
                 <PivotViewColumns>
                     <PivotViewColumn Name="Year"></PivotViewColumn>
                     <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
@@ -62,64 +58,64 @@
             </PivotViewDataSourceSettings>
             <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
         </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-4 property-section pivottable-property-section">
+    <div class="property-panel-section">
+    <div class="property-panel-header" style="padding-bottom:0px; font-size:16px">Properties</div>
+    <div class="property-panel-content">
+        <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+            <tbody>
+                <tr style="height: 50px">
+                    <td colspan="2">
+                        <div>
+                            <SfCheckBox ValueChange="@IsChecked" Label="Enable Sorting" @bind-Checked="@SortOrder" TChecked="bool"></SfCheckBox>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="padding-right: 10px;">
+                        <div>
+                            Fields:
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList @ref="Fields" TValue="string" Placeholder="Country" TItem="DataId" @bind-Value="SelectedField" DataSource="@DropDownData" Enabled="@ShowOption" PopupWidth="auto">
+                                <DropDownListFieldSettings Value="Id" Text="Name"></DropDownListFieldSettings>
+                                <DropDownListEvents TValue="string" TItem="DataId" ValueChange="ChangeField"></DropDownListEvents>
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td style="padding-right: 10px;">
+                        <div>
+                            Order:
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList @ref="Order" TValue="string" Placeholder="Ascending" TItem="DataId" DataSource="@OrderData" Enabled="@ShowOption" @bind-Value="@SelectOrder">
+                                <DropDownListFieldSettings Value="Id"></DropDownListFieldSettings>
+                                <DropDownListEvents TValue="string" TItem="DataId" ValueChange="ChangeOrder"></DropDownListEvents>
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr style="height: 50px">
+                    <td></td>
+                    <td>
+                        <div style="float:right">
+                            <SfButton IsPrimary="true" OnClick="OnApply" Disabled="@HideButton">Apply</SfButton>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
         </div>
     </div>
-    <div class="col-lg-4 property-section pivottable-property-section">
-        <div class="property-panel-section">
-        <div class="property-panel-header" style="padding-bottom:0px; font-size:16px">Properties</div>
-        <div class="property-panel-content">
-            <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
-                <tbody>
-                    <tr style="height: 50px">
-                        <td colspan="2">
-                            <div>
-                                <SfCheckBox ValueChange="@IsChecked" Label="Enable Sorting" @bind-Checked="@SortOrder" TChecked="bool"></SfCheckBox>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr style="height: 50px">
-                        <td style="padding-right: 10px;">
-                            <div>
-                                Fields:
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <SfDropDownList @ref="Fields" TValue="string" Placeholder="Country" TItem="DataID" @bind-Value="SelectedField" DataSource="@DropDownData" Enabled="@ShowOption" PopupWidth="auto">
-                                    <DropDownListFieldSettings Value="ID" Text="Name"></DropDownListFieldSettings>
-                                    <DropDownListEvents TValue="string" TItem="DataID" ValueChange="ChangeField"></DropDownListEvents>
-                                </SfDropDownList>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr style="height: 50px">
-                        <td style="padding-right: 10px;">
-                            <div>
-                                Order:
-                            </div>
-                        </td>
-                        <td>
-                            <div>
-                                <SfDropDownList @ref="Order" TValue="string" Placeholder="Ascending" TItem="DataID" DataSource="@OrderData" Enabled="@ShowOption" @bind-Value="@SelectOrder">
-                                    <DropDownListFieldSettings Value="ID"></DropDownListFieldSettings>
-                                    <DropDownListEvents TValue="string" TItem="DataID" ValueChange="ChangeOrder"></DropDownListEvents>
-                                </SfDropDownList>
-                            </div>
-                        </td>
-                    </tr>
-                    <tr style="height: 50px">
-                        <td></td>
-                        <td>
-                            <div style="float:right">
-                                <SfButton IsPrimary="true" OnClick="OnApply" Disabled="@HideButton">Apply</SfButton>
-                            </div>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
-            </div>
-        </div>
-    </div>
+</div>
 
     <style>
         .e-pivotview {
@@ -140,10 +136,9 @@
     </style>
 
 @code{
-
-    SfPivotView<PivotProductDetails> Pivot;
-    SfDropDownList<string, DataID> Fields;
-    SfDropDownList<string, DataID> Order;
+    public SfPivotView<PivotProductDetails> Pivot;
+    public SfDropDownList<string, DataId> Fields;
+    public SfDropDownList<string, DataId> Order;
     public bool SortOrder = true;
     public bool ShowOption = true;
     public bool HideButton = false;
@@ -157,12 +152,11 @@
         {"Year", "Ascending" },
         {"Order_Source", "Ascending" }
     };
-    public List<PivotProductDetails> Data { get; set; }
+    public List<PivotProductDetails> PivotViewDataSource { get; set; }
 
     protected override void OnInitialized()
     {
-        
-        this.Data = PivotProductDetails.GetProductData();
+        this.PivotViewDataSource = PivotProductDetails.GetProductData();
     }
 
     private void IsChecked(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
@@ -171,12 +165,12 @@
         this.ShowOption = args.Checked;
     }
 
-    private void ChangeField(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string,DataID> args)
+    private void ChangeField(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string,DataId> args)
     {
         this.SelectOrder = this.FieldCollection[args.Value];
     }
 
-    private void ChangeOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string,DataID> args)
+    private void ChangeOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string,DataId> args)
     {
         this.FieldCollection[this.Fields.Value] = args.Value;
     }
@@ -200,30 +194,31 @@
 @*End:Hidden*@
             }
             Pivot.DataSourceSettings.SortSettings = sortSettings;
-        } else
+        }
+        else
         {
             Pivot.DataSourceSettings.EnableSorting = false;
             Pivot.DataSourceSettings.SortSettings = new List<PivotViewSortSetting>();
         }
     }
 
-    public class DataID
+    public class DataId
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Name { get; set; }
     }
 
-    private List<DataID> DropDownData = new List<DataID>()
-        {
-        new DataID(){ ID= "Country", Name = "Country"},
-        new DataID(){ ID= "Products", Name = "Products"},
-        new DataID(){ ID= "Year", Name = "Year"},
-        new DataID(){ ID= "Order_Source", Name = "Order Source"}
+    private List<DataId> DropDownData = new List<DataId>()
+    {
+        new DataId() { Id = "Country", Name = "Country" },
+        new DataId() { Id = "Products", Name = "Products" },
+        new DataId() { Id = "Year", Name = "Year" },
+        new DataId() { Id = "Order_Source", Name = "Order Source" }
     };
 
-    private List<DataID> OrderData = new List<DataID>()
-        {
-        new DataID(){ ID= "Ascending"},
-        new DataID(){ ID= "Descending"}
+    private List<DataId> OrderData = new List<DataId>()
+    {
+        new DataId() { Id = "Ascending" },
+        new DataId() { Id = "Descending" }
     };
 }

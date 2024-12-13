@@ -19,8 +19,7 @@ namespace BlazorDemos
                 Category = "SmartTextArea",
                 Directory = "AISamples/SmartTextArea",
                 Url = "ai-smarttextarea/default",
-                FileName = "SmartTextArea.razor",
-                NotificationDescription = new string[]{ @" This demo showcases intelligent text editing experience with features like auto-completion and context-aware suggestions." }
+                FileName = "SmartTextArea.razor"
             }
         };
     }

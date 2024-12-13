@@ -608,6 +608,285 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
             });
             return zooEventData;
         }
+
+        public List<AppointmentData> GetOverlappingData()
+        {
+            List<AppointmentData> overlapEventData = new List<AppointmentData>();
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 1,
+                Subject = "Holiday Market",
+                StartTime = new DateTime(2024, 12, 2, 10, 0, 0),
+                EndTime = new DateTime(2024, 12, 2, 12, 0, 0),
+                CategoryColor = "#ff0000"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 2,
+                Subject = "Christmas Caroling",
+                StartTime = new DateTime(2024, 12, 2, 11, 0, 0),
+                EndTime = new DateTime(2024, 12, 2, 13, 0, 0),
+                CategoryColor = "#00ff00"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 3,
+                Subject = "Gingerbread House Workshop",
+                StartTime = new DateTime(2024, 12, 5, 9, 0, 0),
+                EndTime = new DateTime(2024, 12, 5, 11, 0, 0),
+                CategoryColor = "#0000ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 4,
+                Subject = "Winter Wonderland",
+                StartTime = new DateTime(2024, 12, 5, 10, 30, 0),
+                EndTime = new DateTime(2024, 12, 5, 12, 30, 0),
+                CategoryColor = "#ff00ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 5,
+                Subject = "Santa's Grotto",
+                StartTime = new DateTime(2024, 12, 6, 14, 0, 0),
+                EndTime = new DateTime(2024, 12, 6, 16, 0, 0),
+                CategoryColor = "#00ffff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 6,
+                Subject = "Ice Sculpture Contest",
+                StartTime = new DateTime(2024, 12, 7, 15, 0, 0),
+                EndTime = new DateTime(2024, 12, 7, 17, 0, 0),
+                CategoryColor = "#ff8000"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 7,
+                Subject = "Hot Cocoa Social",
+                StartTime = new DateTime(2024, 12, 8, 10, 0, 0),
+                EndTime = new DateTime(2024, 12, 8, 12, 0, 0),
+                CategoryColor = "#8000ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 8,
+                Subject = "Snowflake Ball",
+                StartTime = new DateTime(2024, 12, 9, 11, 30, 0),
+                EndTime = new DateTime(2024, 12, 9, 13, 30, 0),
+                CategoryColor = "#ff0080"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 9,
+                Subject = "Reindeer Games",
+                StartTime = new DateTime(2024, 12, 10, 9, 0, 0),
+                EndTime = new DateTime(2024, 12, 10, 11, 0, 0),
+                CategoryColor = "#0080ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 10,
+                Subject = "Elf Workshop",
+                StartTime = new DateTime(2024, 12, 11, 10, 30, 0),
+                EndTime = new DateTime(2024, 12, 11, 12, 30, 0),
+                CategoryColor = "#ff8000"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 11,
+                Subject = "Holiday Parade",
+                StartTime = new DateTime(2024, 12, 12, 13, 0, 0),
+                EndTime = new DateTime(2024, 12, 12, 15, 0, 0),
+                CategoryColor = "#800080"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 12,
+                Subject = "Christmas Tree Lighting",
+                StartTime = new DateTime(2024, 12, 13, 14, 30, 0),
+                EndTime = new DateTime(2024, 12, 13, 16, 30, 0),
+                CategoryColor = "#ff00ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 13,
+                Subject = "Holiday Baking Class",
+                StartTime = new DateTime(2024, 12, 14, 11, 0, 0),
+                EndTime = new DateTime(2024, 12, 14, 13, 0, 0),
+                CategoryColor = "#00ff80"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 14,
+                Subject = "Winter Fair",
+                StartTime = new DateTime(2024, 12, 15, 12, 30, 0),
+                EndTime = new DateTime(2024, 12, 15, 14, 30, 0),
+                CategoryColor = "#ff0080"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 15,
+                Subject = "Parrot Show",
+                StartTime = new DateTime(2024, 12, 5, 14, 0, 0),
+                EndTime = new DateTime(2024, 12, 5, 15, 0, 0),
+                CategoryColor = "#cddc39"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 16,
+                Subject = "Seal Show",
+                StartTime = new DateTime(2024, 12, 6, 14, 30, 0),
+                EndTime = new DateTime(2024, 12, 6, 16, 0, 0),
+                CategoryColor = "#ff9800"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 17,
+                Subject = "Dolphin Show",
+                StartTime = new DateTime(2024, 12, 7, 10, 0, 0),
+                EndTime = new DateTime(2024, 12, 7, 11, 0, 0),
+                CategoryColor = "#795548"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 18,
+                Subject = "Shark Feeding",
+                StartTime = new DateTime(2024, 12, 8, 12, 0, 0),
+                EndTime = new DateTime(2024, 12, 8, 13, 0, 0),
+                CategoryColor = "#607d8b"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 19,
+                Subject = "Otter Show",
+                StartTime = new DateTime(2024, 12, 9, 14, 0, 0),
+                EndTime = new DateTime(2024, 12, 9, 15, 0, 0),
+                CategoryColor = "#e91e63"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 20,
+                Subject = "Crocodile Feeding",
+                StartTime = new DateTime(2024, 12, 10, 14, 30, 0),
+                EndTime = new DateTime(2024, 12, 10, 16, 0, 0),
+                CategoryColor = "#9e9e9e"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 21,
+                Subject = "Panda Playtime",
+                StartTime = new DateTime(2024, 12, 11, 10, 0, 0),
+                EndTime = new DateTime(2024, 12, 11, 11, 30, 0),
+                CategoryColor = "#ff4081"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 22,
+                Subject = "Tiger Talk",
+                StartTime = new DateTime(2024, 12, 12, 12, 0, 0),
+                EndTime = new DateTime(2024, 12, 12, 14, 0, 0),
+                CategoryColor = "#8e24aa"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 23,
+                Subject = "Holiday Market",
+                StartTime = new DateTime(2024, 12, 13, 10, 0, 0),
+                EndTime = new DateTime(2024, 12, 13, 12, 0, 0),
+                CategoryColor = "#ff0000"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 24,
+                Subject = "Christmas Caroling",
+                StartTime = new DateTime(2024, 12, 13, 11, 0, 0),
+                EndTime = new DateTime(2024, 12, 13, 13, 0, 0),
+                CategoryColor = "#00ff00"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 25,
+                Subject = "Gingerbread House Workshop",
+                StartTime = new DateTime(2024, 11, 1, 9, 0, 0),
+                EndTime = new DateTime(2024, 11, 1, 11, 0, 0),
+                CategoryColor = "#0000ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 26,
+                Subject = "Winter Wonderland",
+                StartTime = new DateTime(2024, 11, 1, 10, 30, 0),
+                EndTime = new DateTime(2024, 11, 1, 12, 30, 0),
+                CategoryColor = "#ff00ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 27,
+                Subject = "Santa's Grotto",
+                StartTime = new DateTime(2024, 11, 2, 14, 0, 0),
+                EndTime = new DateTime(2024, 11, 2, 16, 0, 0),
+                CategoryColor = "#00ffff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 28,
+                Subject = "Ice Sculpture Contest",
+                StartTime = new DateTime(2024, 11, 2, 15, 0, 0),
+                EndTime = new DateTime(2024, 11, 2, 17, 0, 0),
+                CategoryColor = "#ff8000"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 29,
+                Subject = "Hot Cocoa Social",
+                StartTime = new DateTime(2024, 11, 3, 10, 0, 0),
+                EndTime = new DateTime(2024, 11, 3, 12, 0, 0),
+                CategoryColor = "#8000ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 30,
+                Subject = "Snowflake Ball",
+                StartTime = new DateTime(2025, 1, 1, 11, 30, 0),
+                EndTime = new DateTime(2025, 1, 1, 13, 30, 0),
+                CategoryColor = "#ff0080"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 31,
+                Subject = "Reindeer Games",
+                StartTime = new DateTime(2025, 1, 1, 9, 0, 0),
+                EndTime = new DateTime(2025, 1, 1, 11, 0, 0),
+                CategoryColor = "#0080ff"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 32,
+                Subject = "Elf Workshop",
+                StartTime = new DateTime(2025, 1, 2, 10, 30, 0),
+                EndTime = new DateTime(2025, 1, 2, 12, 30, 0),
+                CategoryColor = "#ff8000"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 33,
+                Subject = "Holiday Parade",
+                StartTime = new DateTime(2025, 1, 3, 13, 0, 0),
+                EndTime = new DateTime(2025, 1, 3, 15, 0, 0),
+                CategoryColor = "#800080"
+            });
+            overlapEventData.Add(new AppointmentData
+            {
+                Id = 34,
+                Subject = "Christmas Tree Lighting",
+                StartTime = new DateTime(2025, 1, 3, 14, 30, 0),
+                EndTime = new DateTime(2025, 1, 3, 16, 30, 0),
+                CategoryColor = "#ff00ff"
+            });
+            return overlapEventData;
+        }
+
         public List<ReadonlyEventsData> GetReadonlyEventsData()
         {
             DateTime dateNow = DateTime.Now;
@@ -7305,6 +7584,38 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 EndTime = new DateTime(CurrentYear, 6, 12, 20, 0, 0),
                 OwnerId = 1
             });
+            data.Add(new ResourceSampleData
+            {
+                Id = 14,
+                Subject = "Tech Conference",
+                StartTime = new DateTime(CurrentYear, 6, 3, 9, 0, 0),
+                EndTime = new DateTime(CurrentYear, 6, 3, 11, 0, 0),
+                OwnerId = 1
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 15,
+                Subject = "Team Meeting",
+                StartTime = new DateTime(CurrentYear, 6, 3, 12, 0, 0),
+                EndTime = new DateTime(CurrentYear, 6, 3, 13, 0, 0),
+                OwnerId = 4
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 16,
+                Subject = "Project Review",
+                StartTime = new DateTime(CurrentYear, 6, 3, 10, 0, 0),
+                EndTime = new DateTime(CurrentYear, 6, 3, 11, 00, 0),
+                OwnerId = 3
+            });
+            data.Add(new ResourceSampleData
+            {
+                Id = 17,
+                Subject = "Client Presentation",
+                StartTime = new DateTime(CurrentYear, 6, 3, 10, 0, 0),
+                EndTime = new DateTime(CurrentYear, 6, 3, 11, 30, 0),
+                OwnerId = 5
+            });
             return data;
         }
 
@@ -7672,6 +7983,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
         public class ResourceSampleData : AppointmentData
         {
             public int OwnerId { get; set; }
+            public double Duration { get; set; }
         }
     }
 }

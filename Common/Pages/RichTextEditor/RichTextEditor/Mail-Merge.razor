@@ -6,9 +6,6 @@
 @using System.Text.RegularExpressions;
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -43,20 +40,20 @@
 <div class="control-section">
     <div class="control-wrapper">
         <div class="">
-           <SfRichTextEditor ID="mailMergeEditor" @bind-Value="rteValue" SaveInterval="1" @ref="mailMergeEditor">
-                <RichTextEditorToolbarSettings Items="@tools">
+           <SfRichTextEditor ID="_mailMergeEditor" @bind-Value="_rteValue" SaveInterval="1" @ref="_mailMergeEditor">
+                <RichTextEditorToolbarSettings Items="@_tools">
                     <RichTextEditorEvents OnActionComplete="@OnActionCompleteHandler" />
                     <RichTextEditorCustomToolbarItems>
                         <RichTextEditorCustomToolbarItem Name="MergeData">
                             <Template>
-                                <SfButton CssClass="@buttonClass" OnClick="OnClickHandler" id="merge_data" tabindex="-1">
+                                <SfButton CssClass="@_buttonClass" OnClick="OnClickHandler" id="merge_data" tabindex="-1">
                                     <div class="e-tbar-btn-text">Merge Data</div>
                                 </SfButton>
                             </Template>
                         </RichTextEditorCustomToolbarItem>
                         <RichTextEditorCustomToolbarItem Name="InsertField">
                             <Template>
-                                <SfDropDownButton CssClass="@buttonClass" id="insertField" Items="@items" Content="Insert Field">
+                                <SfDropDownButton CssClass="@_buttonClass" id="insertField" Items="@_items" Content="Insert Field">
                                     <DropDownButtonEvents ItemSelected="OnItemSelect"></DropDownButtonEvents>
                                 </SfDropDownButton>
                             </Template>
@@ -64,7 +61,7 @@
                     </RichTextEditorCustomToolbarItems>
                 </RichTextEditorToolbarSettings>
             </SfRichTextEditor>
-            <SfMention DataSource="mergeData" TItem="MergeData" Target="#mailMergeEditor" MentionChar="mentionChar" AllowSpaces="true" PopupWidth='250px' PopupHeight='200px' @ref="mentionObj">
+            <SfMention DataSource="_mergeData" TItem="MergeData" Target="#_mailMergeEditor" MentionChar="_mentionChar" AllowSpaces="true" PopupWidth='250px' PopupHeight='200px' @ref="mentionObj">
                 <DisplayTemplate>
                     <span>{{@((context as MergeData).Value)}}</span>
                 </DisplayTemplate>
@@ -77,21 +74,23 @@
 </div>
 
 <style>
-    .sb-content div#navigation-btn,
-    .sb-content .sb-toolbar-splitter {
-        z-index: 0
-    }
-    .tailwind #insertField {
+    .tailwind #insertField,
+    .tailwind3 #insertField {
     font-size: 14px
+    }
+    
+    .tailwind3 #merge_data,
+    .tailwind3-dark #merge_data {
+        font-weight:400;
     }
 </style>
 
 @code {
-    SfMention<MergeData> mentionObj;
-    SfRichTextEditor mailMergeEditor;
+    private SfMention<MergeData> mentionObj;
+    private SfRichTextEditor _mailMergeEditor;
 
-    string buttonClass = "e-tbar-btn e-tbar-btn-text";
-    private string rteValue = @"<p>Dear <span contenteditable=""false"" class=""e-mention-chip""><span>{{FirstName}}</span></span> <span contenteditable=""false"" class=""e-mention-chip""><span>{{LastName}}</span></span>,</p>
+    private string _buttonClass = "e-tbar-btn e-tbar-btn-text";
+    private string _rteValue = @"<p>Dear <span contenteditable=""false"" class=""e-mention-chip""><span>{{FirstName}}</span></span> <span contenteditable=""false"" class=""e-mention-chip""><span>{{LastName}}</span></span>,</p>
     <p>We are thrilled to have you with us! Your unique promotional code for this month is: <span contenteditable=""false"" class=""e-mention-chip""><span>{{PromoCode}}</span></span>.</p>
     <p>Your current subscription plan is: <span contenteditable=""false"" class=""e-mention-chip""><span>{{SubscriptionPlan}}</span></span>.</p>
     <p>Your customer ID is: <span contenteditable=""false"" class=""e-mention-chip""><span>{{CustomerID}}</span></span>.</p>
@@ -99,7 +98,7 @@
     <p>Feel free to browse our latest offerings and updates. If you need any assistance, don't hesitate to contact us at <a href=""mailto:{{SupportEmail}}""><span contenteditable=""false"" class=""e-mention-chip""><span>{{SupportEmail}}</span></span></a> or call us at <span contenteditable=""false"" class=""e-mention-chip""><span>{{SupportPhoneNumber}}</span></span>.</p>
     <p>Best regards,<br>The <span contenteditable=""false"" class=""e-mention-chip""><span>{{CompanyName}}</span></span> Team</p>";
 
-    char mentionChar = '{';
+    private char _mentionChar = '{';
 
     public class MergeData
     {
@@ -107,7 +106,7 @@
         public string Value { get; set; }
     }
 
-    List<MergeData> mergeData = new List<MergeData>
+    private List<MergeData> _mergeData = new List<MergeData>
     {
         new MergeData { Text = "First Name", Value = "FirstName" },
         new MergeData { Text = "Last Name", Value = "LastName" },
@@ -120,7 +119,7 @@
         new MergeData { Text = "Subscription Plan", Value = "SubscriptionPlan" }
     };
 
-    private List<ToolbarItemModel> tools = new List<ToolbarItemModel>()
+    private List<ToolbarItemModel> _tools = new List<ToolbarItemModel>()
     {
         new ToolbarItemModel() { Command = ToolbarCommand.Bold },
         new ToolbarItemModel() { Command = ToolbarCommand.Italic },
@@ -143,7 +142,7 @@
         new ToolbarItemModel() { Command = ToolbarCommand.Redo },
     };
 
-    List<DropDownMenuItem> items = new List<DropDownMenuItem>
+    private List<DropDownMenuItem> _items = new List<DropDownMenuItem>
     {
         new DropDownMenuItem { Text = "First Name" },
         new DropDownMenuItem { Text = "Last Name" },
@@ -156,7 +155,7 @@
         new DropDownMenuItem { Text = "Subscription Plan" }
     };
 
-    Dictionary<string, string> placeholderData = new Dictionary<string, string>
+    private Dictionary<string, string> _placeholderData = new Dictionary<string, string>
     {
         { "FirstName", "John" },
         { "LastName", "Doe" },
@@ -171,11 +170,11 @@
 
     public void OnClickHandler()
     {
-        if (this.mailMergeEditor != null)
+        if (this._mailMergeEditor != null)
         {
-            var editorContent = this.mailMergeEditor.Value;
-            var mergedContent = ReplacePlaceholders(editorContent, this.placeholderData);
-            rteValue = mergedContent;
+            var editorContent = this._mailMergeEditor.Value;
+            var mergedContent = ReplacePlaceholders(editorContent, this._placeholderData);
+            _rteValue = mergedContent;
         }
     }
 
@@ -183,10 +182,10 @@
     {
         if (args.Item.Text != null)
         {
-            var value = mergeData.FirstOrDefault(md => md.Text == args.Item.Text)?.Value;
+            var value = _mergeData.FirstOrDefault(md => md.Text == args.Item.Text)?.Value;
             string htmlContent = $"<span contenteditable=\"false\" class=\"e-mention-chip\"><span>{{{{{value}}}}}</span></span>&nbsp;";
             var undoOption = new ExecuteCommandOption { Undo = true };
-            this.mailMergeEditor.ExecuteCommandAsync(CommandName.InsertHTML, htmlContent, undoOption);
+            this._mailMergeEditor.ExecuteCommandAsync(CommandName.InsertHTML, htmlContent, undoOption);
         }
     }
 
@@ -194,11 +193,11 @@
     {
         if (args.RequestType == "SourceCode")
         {
-            this.buttonClass = "e-tbar-btn e-tbar-btn-text e-overlay";
+            this._buttonClass = "e-tbar-btn e-tbar-btn-text e-overlay";
         }
         if (args.RequestType == "Preview")
         {
-            this.buttonClass = "e-tbar-btn e-tbar-btn-text";
+            this._buttonClass = "e-tbar-btn e-tbar-btn-text";
         }
     }
 

@@ -2,7 +2,6 @@
 
 @using System.Timers
 @using System.Collections.ObjectModel;
-@using System.ComponentModel;
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.CircularGauge
 @using Syncfusion.Blazor.Grids
@@ -10,16 +9,14 @@
 @inject NavigationManager NavigationManager
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-
-
 @*End:Hidden*@
 
 <SampleDescription>
     <p>This sample shows live stock price data displayed in multiple circular gauges.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>The pointer value in the circular gauge can be dynamically updated using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.CircularGauge.SfCircularGauge.html#Syncfusion_Blazor_CircularGauge_SfCircularGauge_SetPointerValueAsync_System_Int32_System_Int32_System_Double_' aria-label="Class reference of SetPointerValueAsync method in Circular Gauge">SetPointerValueAsync</a> method. In this example, the stock price changes across countries are displayed in multiple circular gauges.</p>
-    <p>More information on the method for setting pointer value can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/circular-gauge/methods#setpointervalueasync' aria-label="Blazor Circular Gauge Methods documentation" >documentation section</a>.</p>
+    <p>The pointer value in the circular gauge can be dynamically updated using the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.CircularGauge.SfCircularGauge.html#Syncfusion_Blazor_CircularGauge_SfCircularGauge_SetPointerValueAsync_System_Int32_System_Int32_System_Double_" aria-label="Class reference of SetPointerValueAsync method in Circular Gauge">SetPointerValueAsync</a> method. In this example, the stock price changes across countries are displayed in multiple circular gauges.</p>
+    <p>More information on the method for setting pointer value can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/circular-gauge/methods#setpointervalueasync" aria-label="Blazor Circular Gauge Methods documentation" >documentation section</a>.</p>
 </ActionDescription>
 
 <style>
@@ -200,7 +197,7 @@
                                 <GridColumn Field="Country" HeaderText="Country" TextAlign="TextAlign.Left"></GridColumn>
                                 <GridColumn Field="Sales" HeaderText="Sales $" TextAlign="TextAlign.Left"></GridColumn>
                                 <GridColumn Field="Target" HeaderText="Target $" TextAlign="TextAlign.Left"></GridColumn>
-                                <GridColumn Field="vsTarget" HeaderText="vs Target" TextAlign="TextAlign.Left"></GridColumn>
+                                <GridColumn Field="VsTarget" HeaderText="Vs Target" TextAlign="TextAlign.Left"></GridColumn>
                             </GridColumns>
                         </SfGrid>
                     </div>
@@ -222,18 +219,17 @@
     public string USAAnnotationText = "60%";
     public string UKAnnotationText = "-25%";
     public ObservableCollection<GaugeGridData> GridData { get; set; } = new ObservableCollection<GaugeGridData>();
-    private Random random = new Random();
-    private string grid1;
-    private string grid2;
-    private string grid3;
-    private Timer syncTimer = null;
-    
+    private Random _random = new Random();
+    private string _grid1;
+    private string _grid2;
+    private string _grid3;
+    private Timer _syncTimer = null;
 
     private void PointerValueUpdate(Object source, System.Timers.ElapsedEventArgs e)
     {
-        syncTimer.Enabled = false;
-        syncTimer.Stop();
-        syncTimer.Dispose();
+        _syncTimer.Enabled = false;
+        _syncTimer.Stop();
+        _syncTimer.Dispose();
         UpdateGrid().GetAwaiter();
     }
 
@@ -241,24 +237,25 @@
     {
         await InvokeAsync(() =>
         {
-            double randomValue = random.NextDouble();
+            double randomValue = _random.NextDouble();
             GermanPointerValue = (randomValue * 35) + 55;
             UsaPointerValue = (randomValue * 15) + 60;
             UkPointerValue = -(randomValue * 30) + 10;
-            grid1 = (4 * Math.Round((randomValue * 35) + 55)).ToString();
-            grid2 = (6 * Math.Round((randomValue * 15) + 60)).ToString();
-            grid3 = (-(7 * Math.Round((randomValue * 30) + 10))).ToString();
+            _grid1 = (4 * Math.Round((randomValue * 35) + 55)).ToString();
+            _grid2 = (6 * Math.Round((randomValue * 15) + 60)).ToString();
+            _grid3 = (-(7 * Math.Round((randomValue * 30) + 10))).ToString();
             GermanAnnotationText = GermanPointerValue.ToString("N0") + "%";
             USAAnnotationText = UsaPointerValue.ToString("N0") + "%";
             UKAnnotationText = UkPointerValue.ToString("N0") + "%";
 
             this.GridData.Clear();
 
-            List<GaugeGridData> ListData = new List<GaugeGridData> {
-            new GaugeGridData() { Country = "Germany", Sales = 500, Target = 400, vsTarget = grid1 },
-            new GaugeGridData() { Country = "USA", Sales = 1000, Target = 600, vsTarget = grid2 },
-            new GaugeGridData() { Country = "UK", Sales = 600, Target = 700, vsTarget = grid3 },
-                };
+            List<GaugeGridData> ListData = new List<GaugeGridData>
+            {
+                new GaugeGridData() { Country = "Germany", Sales = 500, Target = 400, VsTarget = _grid1 },
+                new GaugeGridData() { Country = "USA", Sales = 1000, Target = 600, VsTarget = _grid2 },
+                new GaugeGridData() { Country = "UK", Sales = 600, Target = 700, VsTarget = _grid3 },
+            };
 
             if (!this.GridData.Any())
             {
@@ -280,25 +277,24 @@
 
     private void StartTimer()
     {
-
-        syncTimer = new System.Timers.Timer();
-        syncTimer.Elapsed += new System.Timers.ElapsedEventHandler(PointerValueUpdate);
-        syncTimer.Interval = 2000;
-        syncTimer.Enabled = true;
-        syncTimer.Start();
+        _syncTimer = new System.Timers.Timer();
+        _syncTimer.Elapsed += new System.Timers.ElapsedEventHandler(PointerValueUpdate);
+        _syncTimer.Interval = 2000;
+        _syncTimer.Enabled = true;
+        _syncTimer.Start();
     }
     protected override void OnInitialized()
     {
-        
-        syncTimer = new Timer(2000);
-        syncTimer.Elapsed += this.PointerValueUpdate;
-        syncTimer.AutoReset = true;
-        syncTimer.Enabled = true;
-        List<GaugeGridData> GaugeData = new List<GaugeGridData> {
-                                new GaugeGridData { Country = "Germany" , Sales = 500 , Target = 400 ,vsTarget = "300"},
-                                new GaugeGridData { Country = "USA" , Sales = 1000 , Target = 600 ,vsTarget = "360"},
-                                new GaugeGridData { Country = "UK" , Sales = 600 , Target = 700 ,vsTarget = "-100"},
-                            };
+        _syncTimer = new Timer(2000);
+        _syncTimer.Elapsed += this.PointerValueUpdate;
+        _syncTimer.AutoReset = true;
+        _syncTimer.Enabled = true;
+        List<GaugeGridData> GaugeData = new List<GaugeGridData>
+        {
+            new GaugeGridData { Country = "Germany", Sales = 500, Target = 400, VsTarget = "300" },
+            new GaugeGridData { Country = "USA", Sales = 1000, Target = 600, VsTarget = "360" },
+            new GaugeGridData { Country = "UK", Sales = 600, Target = 700, VsTarget = "-100" },
+        };
         this.GridData = new ObservableCollection<GaugeGridData>(GaugeData);
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
         TextColor = (Theme.ToString().IndexOf("Dark") > -1 || Theme.ToString().IndexOf("HighContrast") > -1) ? "#FFFFFF" : "#000000";        
@@ -309,6 +305,6 @@
         public string Country { get; set; }
         public double Sales { get; set; }
         public double Target { get; set; }
-        public string vsTarget { get; set; }
+        public string VsTarget { get; set; }
     }
 }

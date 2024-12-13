@@ -22,8 +22,18 @@ namespace BlazorDemos
                 Directory = "InteractiveChat/AIAssistView",
                 Url = "ai-assistview/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the basic rendering of the AI AssistView component and its Suggestions, BannerTemplate, PromptRequested, and AssistViewToolbar items."
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "DefaultFunctionalities.razor",
+                        Id="DefaultFunctionalities",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "PromptResponseData.cs",
+                        Id="PromptResponseData",
+                    }
                 }
             },
             new Sample
@@ -33,8 +43,18 @@ namespace BlazorDemos
                 Directory = "InteractiveChat/AIAssistView",
                 Url = "ai-assistview/custom-views",
                 FileName = "Views.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the different views of the AI AssistView component for creating customized views in addition to the built-in assist view."
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "Views.razor",
+                        Id="Views",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "PromptResponseData.cs",
+                        Id="PromptResponseData",
+                    }
                 }
             },
             new Sample
@@ -44,8 +64,18 @@ namespace BlazorDemos
                 Directory = "InteractiveChat/AIAssistView",
                 Url = "ai-assistview/template",
                 FileName = "Template.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the customization of the AI AssistView component using various templates."
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "Template.razor",
+                        Id="Template",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "PromptResponseData.cs",
+                        Id="PromptResponseData",
+                    }
                 }
             },
             new Sample
@@ -55,11 +85,121 @@ namespace BlazorDemos
                 Directory = "InteractiveChat/AIAssistView",
                 Url = "ai-assistview/dialog",
                 FileName = "Dialog.razor",
-                NotificationDescription = new string[] {
-                    @"Shows a use-case of the AI AssistView component in the dialog control."
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "Dialog.razor",
+                        Id="Dialog",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "PromptResponseData.cs",
+                        Id="PromptResponseData",
+                    }
                 }
             }
-        };        
+        };
+
+        public List<Sample> ChatUI { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Chat UI",
+                Directory = "InteractiveChat/ChatUI",
+                Url = "chat-ui/default-functionalities",
+                FileName = "Default.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the basic functionality of the Chat UI component, showcasing how to integrate and use it for chat interactions with simple configurations."
+                },
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "Default.razor",
+                        Id="DefaultFunctionalities",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "ChatMessagesData.cs",
+                        Id="ChatMessagesData",
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "Chat UI",
+                Directory = "InteractiveChat/ChatUI",
+                Url = "chat-ui/template",
+                FileName = "Template.razor",
+                NotificationDescription = new string[] {
+                    @"Highlights the template functionality in the Chat UI, allowing customization of chat message appearances, including different templates for messages, empty chats, and time breaks."
+                },
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "Template.razor",
+                        Id="ChatTemplate",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "ChatMessagesData.cs",
+                        Id="ChatMessagesData",
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "API",
+                Category = "Chat UI",
+                Directory = "InteractiveChat/ChatUI",
+                Url = "chat-ui/api",
+                FileName = "Api.razor",
+                NotificationDescription = new string[] {
+                    @"Demonstrates how to customize the Chat UI component using its API, including properties like timestamp format, visibility of headers/footers, and time breaks."
+                },
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "Api.razor",
+                        Id="API",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "ChatMessagesData.cs",
+                        Id="ChatMessagesData",
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Use Case",
+                Category = "Integration",
+                Directory = "InteractiveChat/ChatUI",
+                Url = "chat-ui/chat-integration",
+                FileName = "ChatIntegration.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases how to design a chat application with a multi-user interface, where pre-loaded messages for different users are displayed and managed, along with dynamic message responses."
+                },
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "ChatIntegration.razor",
+                        Id="ChatIntegration",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "ChatMessagesData.cs",
+                        Id="ChatMessagesData",
+                    }
+                }
+            }
+
+        };
     }
 
 }

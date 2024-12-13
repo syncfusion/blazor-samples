@@ -522,9 +522,7 @@ namespace BlazorDemos
                 Category = "File Manager",
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/pagination",
-                FileName = "Pagination.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Added the demo about pagination support in the File Manager. This sample showcases how to render and configure a File Manager with pager." }
+                FileName = "Pagination.razor"
             },
              new Sample
             {
@@ -532,9 +530,7 @@ namespace BlazorDemos
                 Category = "File Manager",
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/api",
-                FileName = "API.razor",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The API sample has been updated with the EnableRangeSelection property. This demo showcases how to select multiple items with mouse dragging." }
+                FileName = "API.razor"
             },
             new Sample
             {
@@ -592,9 +588,7 @@ namespace BlazorDemos
                 Category = "Use Case",
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/file-upload",
-                FileName = "FileUpload.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"This sample showcases how files are browsed and selected in the FileManager component to upload through the Uploader component." }
+                FileName = "FileUpload.razor"
             },
             new Sample
             {
@@ -849,5 +843,62 @@ namespace BlazorDemos
             }
         };
 
+        public List<Sample> Ribbon { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/default-functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                NotificationDescription = new string[] {
+                    @"Demonstrates the basic rendering of the Ribbon component in classic mode, with all built-in items displayed."
+                }
+            },
+            new Sample
+            {
+                Name = "Simplified",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/simplified",
+                FileName = "Simplified.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the simplified mode rendering of the Ribbon component, offering a compact UI with all built-in items."
+                }
+            },
+            new Sample
+            {
+                Name = "Backstage",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/backstage",
+                FileName = "Backstage.razor",
+                NotificationDescription = new string[] {
+                    @"Displays the Ribbon backstage view, designed to show additional information and options."
+                }
+            },
+            new Sample
+            {
+                Name = "Ribbon Resizing",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/resize",
+                FileName = "Resize.razor",
+                NotificationDescription = new string[] {
+                    @"Illustrates the Ribbon's responsive support, with items adjusting to optimized layouts as the slider value changes."
+                }
+            },
+            new Sample
+            {
+                Name = "Ribbon Gallery",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/gallery",
+                FileName = "Gallery.razor",
+                NotificationDescription = new string[] {
+                    @"Highlights the gallery view of the Ribbon, showcasing a collection of related items."
+                }
+            }
+        };
     }
 }

@@ -47,11 +47,9 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         private List<string> Status { get; set; } = new List<string>() { "Open", "Inprogress", "On Hold", "Complete" };
         private List<string> Priority { get; set; } = new List<string>() { "Low", "Normal", "High", "Critical" };
         public string BorderRadius { get; set; } = "4px";
-        public string StatusStyleColor { get; set; }
-        public string StatusContentStyleColor { get; set; }
-        public string PriorityContentStyleColor { get; set; }
-        public string PriorityStyleColor { get; set; }
-        private List<Theme> AvailableThemes { get; set; } = new List<Theme>() { Theme.Fluent, Theme.Fabric, Theme.Bootstrap5, Theme.Bootstrap, Theme.Bootstrap4, Theme.Tailwind, Theme.Material };
+        public string TextColor { get; set; }
+        public string BackgroundColor { get; set; }
+        private List<Theme> AvailableThemes { get; set; } = new List<Theme>() { Theme.Fluent, Theme.Fabric, Theme.Bootstrap5, Theme.Bootstrap, Theme.Bootstrap4, Theme.Tailwind, Theme.Material, Theme.Tailwind3 };
         private string DropdownWidth { get; set; } = "80px";
         //***API properties
         public Syncfusion.Blazor.Gantt.GridLine gridlines = Syncfusion.Blazor.Gantt.GridLine.Vertical;
@@ -98,12 +96,12 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             if (args.Value.Contains("Resource view"))
             {
                 SelectedViewType = ViewType.ResourceView;
-                SelectedViewTypes = SelectedViewType.ToString();
+                SelectedViewTypes = args.Value;
             }
             else
             {
                 SelectedViewType = ViewType.ProjectView;
-                SelectedViewTypes = SelectedViewType.ToString();
+                SelectedViewTypes = args.Value;
             }
             StateHasChanged();
             Settings = true;
@@ -377,58 +375,58 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             await Task.CompletedTask;
         }
 
-        private string GetStatusContentStyles(string status)
+        private string GetContentStyles(string type, string status)
         {
-            switch (status)
+            var tailwind3Colors = new Dictionary<string, (string BackgroundColor, string TextColor)>
             {
-                case "In Progress":
-                    StatusStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#DFECFF" : "#2D3E57";
-                    StatusContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#006AA6" : "#34B6FF";
+                ["In Progress"] = ("#ECFEFF", "#0E7490"),
+                ["Open"] = ("#EF4444", "#FFFFFF"),
+                ["On Hold"] = ("#F3F4F6", "#374151"),
+                ["Completed"] = ("#F0FDF4", "#15803D"),
+                ["High"] = ("#FEF2F2", "#DC2626"),
+                ["Low"] = ("#FFF7ED", "#C2410C"),
+                ["Normal"] = ("#E0E7FF", "#4F46E5"),
+                ["Critical"] = ("#FEF2F2", "#DC2626")
+            };
 
-                    break;
-                case "Open":
-                    StatusStyleColor = "red";
-                    StatusContentStyleColor = "white";
-                    break;
-                case "On Hold":
-                    StatusStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#E4E4E7" : "#3C3B43";
-                    StatusContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#766B7C" : "#CDCBD7";
-                    break;
-                case "Completed":
-                    StatusStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#DFFFE2" : "#16501C";
-                    StatusContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#00A653" : "#92FFC8";
-                    break;
-                case "High":
-                    StatusStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                    StatusContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
-                    break;
+            bool isTailwind3 = CurrentUri.Contains("tailwind3") || CurrentUri.Contains("tailwind3-dark");
+            bool themeAvailable = AvailableThemes.Contains(this.CurrentTheme);
+
+            if (isTailwind3 && tailwind3Colors.TryGetValue(status, out var colors))
+            {
+                (BackgroundColor, TextColor) = colors;
             }
-            return $"background:{StatusStyleColor};color:{StatusContentStyleColor};padding: 5px 12px; border-radius: 24px";
+            else
+            {
+                (BackgroundColor, TextColor) = type switch
+                {
+                    "status" => status switch
+                    {
+                        "In Progress" => themeAvailable ? ("#DFECFF", "#006AA6") : ("#2D3E57", "#34B6FF"),
+                        "Open" => ("red", "white"),
+                        "On Hold" => themeAvailable ? ("#E4E4E7", "#766B7C") : ("#3C3B43", "#CDCBD7"),
+                        "Completed" => themeAvailable ? ("#DFFFE2", "#00A653") : ("#16501C", "#92FFC8"),
+                        "High" => themeAvailable ? ("#FFEBE9", "#FF3740") : ("#48211D", "#FFB5B8"),
+                        _ => ("#FFFFF0", "#000000")
+                    },
+                    "priority" => status switch
+                    {
+                        "Low" => themeAvailable ? ("#FFF6D1", "#70722B") : ("#473F1E", "#FDFF88"),
+                        "Normal" => themeAvailable ? ("#F5DFFF", "#7100A6") : ("#4D2F5A", "#E3A9FF"),
+                        "Critical" => themeAvailable ? ("#FFEBE9", "#FF3740") : ("#48211D", "#FFB5B8"),
+                        "High" => themeAvailable ? ("#FFEBE9", "#FF3740") : ("#48211D", "#FFB5B8"),
+                        _ => ("#FFFFF0", "#000000")
+                    },
+                    _ => ("#FFFFF0", "#000000")
+                };
+            }
+
+            return $"background:{BackgroundColor};color:{TextColor};padding: 5px 12px; border-radius: 24px";
         }
 
-        private string GetPriorityContentStyle(string status)
-        {
-            switch (status)
-            {
-                case "Low":
-                    PriorityStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FFF6D1" : "#473F1E";
-                    PriorityContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#70722B" : "#FDFF88";
-                    break;
-                case "Normal":
-                    PriorityStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#F5DFFF" : "#4D2F5A";
-                    PriorityContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#7100A6" : "#E3A9FF";
-                    break;
-                case "Critical":
-                    PriorityStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                    PriorityContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
-                    break;
-                case "High":
-                    PriorityStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FFEBE9" : "#48211D";
-                    PriorityContentStyleColor = AvailableThemes.Contains(this.CurrentTheme) ? "#FF3740" : "#FFB5B8";
-                    break;
-            }
-            return $"background:{PriorityStyleColor};color:{PriorityContentStyleColor};padding: 5px 12px; border-radius: 24px";
-        }
+        private string GetStatusContentStyles(string status) => GetContentStyles("status", status);
+
+        private string GetPriorityContentStyle(string status) => GetContentStyles("priority", status);
 
         private IGanttTaskModel<OverviewData.TaskData> GetTaskData(OverviewData.TaskData data)
         {

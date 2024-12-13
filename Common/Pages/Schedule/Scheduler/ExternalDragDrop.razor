@@ -5,9 +5,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -37,7 +34,7 @@
                 <ScheduleView MaxEventsPerRow="1" Option="View.TimelineMonth"></ScheduleView>
             </ScheduleViews>
             <ScheduleWorkHours Highlight="true" Start="08:00" End="18:00"></ScheduleWorkHours>
-            <ScheduleEventSettings DataSource="@dataSource">
+            <ScheduleEventSettings DataSource="@_dataSource">
                 <ScheduleField>
                     <FieldSubject Name="Name" Title="Patient Name"></FieldSubject>
                     <FieldStartTime Name="StartTime" Title="From"></FieldStartTime>
@@ -53,7 +50,7 @@
         </div>
         <SfTreeView TValue="ScheduleData.HospitalData" AllowDragAndDrop="true" CssClass="treeview-external-drag" DropArea=".control-section">
             <TreeViewEvents TValue="ScheduleData.HospitalData" OnNodeDragStop="OnTreeViewDragStop"></TreeViewEvents>
-            <TreeViewFieldsSettings DataSource="@treeViewData" Id="Id" Text="Name"></TreeViewFieldsSettings>
+            <TreeViewFieldsSettings DataSource="@_treeViewData" Id="Id" Text="Name"></TreeViewFieldsSettings>
             <TreeViewTemplates TValue="ScheduleData.HospitalData">
                 <NodeTemplate>
                     <div id="waiting">
@@ -71,16 +68,19 @@
 @code{
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 6);
     SfSchedule<ScheduleData.HospitalData> ScheduleRef;
-    private List<ScheduleData.HospitalData> dataSource = new ScheduleData().GetHospitalData();
-    private List<ScheduleData.HospitalData> treeViewData = new ScheduleData().GetWaitingListData();
+    private List<ScheduleData.HospitalData> _dataSource = new ScheduleData().GetHospitalData();
+    private List<ScheduleData.HospitalData> _treeViewData = new ScheduleData().GetWaitingListData();
     private string[] Resources = new string[] { "Departments", "Consultants" };
-    private ScheduleData.HospitalData draggedItem;
-    
-    private List<ResourceData> Departments { get; set; } = new List<ResourceData> {
+    private ScheduleData.HospitalData _draggedItem;
+
+    private List<ResourceData> Departments { get; set; } = new List<ResourceData>
+    {
         new ResourceData { Text = "GENERAL", Id = 1, Color = "#bbdc00" },
         new ResourceData { Text = "DENTAL", Id = 2, Color = "#9e5fff" }
     };
-    private List<ResourceData> Consultants { get; set; } = new List<ResourceData> {
+
+    private List<ResourceData> Consultants { get; set; } = new List<ResourceData>
+    {
         new ResourceData { Text = "Alice", Id = 1, GroupId = 1, Color = "#1aaa55", Designation = "Cardiologist" },
         new ResourceData { Text = "Nancy", Id = 2, GroupId = 2, Color = "#357cd2", Designation = "Orthodontist" },
         new ResourceData { Text = "Robert", Id = 3, GroupId = 1, Color = "#7fa900", Designation = "Optometrist" },
@@ -97,7 +97,7 @@
             var resourceDetails = ScheduleRef.GetResourceByIndex(cellData.GroupIndex);
             Random rnd = new Random();
             int Id = rnd.Next(1000);
-            ScheduleData.HospitalData TreeData = treeViewData.Where(data => data.Id.ToString() == args.DraggedNodeData.Id).First();
+            ScheduleData.HospitalData TreeData = _treeViewData.Where(data => data.Id.ToString() == args.DraggedNodeData.Id).First();
             ScheduleData.HospitalData eventData = new ScheduleData.HospitalData
             {
                 Id = Id,
@@ -111,15 +111,15 @@
                 DepartmentName = TreeData.DepartmentName
             };
             await ScheduleRef.OpenEditorAsync(eventData, CurrentAction.Add);
-            draggedItem = TreeData;
+            _draggedItem = TreeData;
         }
     }
     public void OnActionBegin(ActionEventArgs<ScheduleData.HospitalData> args)
     {
-        if (args.ActionType == ActionType.EventCreate && draggedItem != null)
+        if (args.ActionType == ActionType.EventCreate && _draggedItem != null)
         {
-            treeViewData.Remove(draggedItem);
-            draggedItem = null;
+            _treeViewData.Remove(_draggedItem);
+            _draggedItem = null;
         }
     }
     public class ResourceData

@@ -81,7 +81,7 @@
     <div class="toolbar-test" id="toolbar-box">
 
     <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%" ZoomMode="ZoomMode.FitToPage" EnableToolbar="false" EnableAnnotationToolbar="false" EnableNavigationToolbar="false">
-    <PdfViewerEvents DocumentLoaded="ValidateSiganture" AddSignature="SignatureAdded" DownloadEnd="@DownloadEndEvent"></PdfViewerEvents>
+    <PdfViewerEvents DocumentLoaded="ValidateSiganture" AddSignature="SignatureAdded" DownloadEnd="@DownloadEndEvent" ExportSucceed="@ExportSuccessEvent"></PdfViewerEvents>
     </SfPdfViewer2>
 
     </div>
@@ -100,6 +100,7 @@
 #if MAUI
     private string DocumentPath ;
     SfPdfViewer2 Viewer;
+    private bool exportSuccess { get; set; } = false;
 #endif
     protected override void OnInitialized()
     {
@@ -338,6 +339,31 @@
          byte[] bytes = Convert.FromBase64String(bas64string);
          SaveService saveService = new();
          saveService.SaveAndView(downloadEndEvent.FileName, "application/pdf", new MemoryStream(bytes));
+    }
+
+    private async void ExportSuccessEvent(ExportSuccessEventArgs exportSuccessEvent)
+    {
+        if (!exportSuccess)
+        {
+            exportSuccess = true;
+            Stream exportStream = new MemoryStream();
+            string type = exportSuccessEvent.FileName.EndsWith("xfdf") ? "xfdf" : "json";
+            if (type == "xfdf")
+            {
+                exportStream = await Viewer.ExportAnnotationAsStreamAsync(Syncfusion.Blazor.SfPdfViewer.AnnotationDataFormat.Xfdf);
+            }
+            else
+            {
+                exportStream = await Viewer.ExportAnnotationAsStreamAsync(Syncfusion.Blazor.SfPdfViewer.AnnotationDataFormat.Json);
+            }
+            exportSuccess = false;
+            exportStream.Position = 0;
+            MemoryStream newMemoryStream = new MemoryStream();
+            exportStream.CopyTo(newMemoryStream);
+            newMemoryStream.Position = 0;
+            SaveService saveService = new();
+            saveService.SaveAndView(exportSuccessEvent.FileName, "application/" + type, newMemoryStream);
+        }
     }
 }
 @*Hidden:Lines*@

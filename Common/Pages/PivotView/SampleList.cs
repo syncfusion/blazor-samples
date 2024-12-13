@@ -167,7 +167,7 @@ namespace BlazorDemos
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/conditional-formatting",
                 FileName = "ConditionalFormatting.razor",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 NotificationDescription = new string[] { @"The custom toolbar demo has been updated with a new UI option ""Apply to Grand Total"" added in the conditional formatting dialog UI, that allows the conditional formatting to be applied to row and column grand totals." }
             },
             new Sample

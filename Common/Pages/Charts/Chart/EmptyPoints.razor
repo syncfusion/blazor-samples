@@ -30,7 +30,7 @@
             <AccumulationChartSeries DataSource="@PieChartPoints" Radius="80%" Name="Profit" XName="Product" YName="ProfitPercentage" Type="AccumulationType.Pie">
                 <AccumulationChartEmptyPointSettings Mode="@Mode" Fill="#e6e6e6"></AccumulationChartEmptyPointSettings>
                 <AccumulationDataLabelSettings Visible="true" EnableRotation="true" Position="AccumulationLabelPosition.Inside">
-                    <AccumulationChartDataLabelFont Size=@Size FontWeight="600"></AccumulationChartDataLabelFont>
+                    <AccumulationChartDataLabelFont Size=@Size FontWeight="600" Color="@FontColor"></AccumulationChartDataLabelFont>
                 </AccumulationDataLabelSettings>
             </AccumulationChartSeries>
         </AccumulationChartSeriesCollection>
@@ -58,10 +58,11 @@
 </div>
 @code{
 
-    
+
     private Theme Theme { get; set; }
     private EmptyPointMode Mode { get; set; } = EmptyPointMode.Drop;
     public string Size { get; set; } = "12px";
+    public string FontColor { get; set; } = null;
 
     public List<PieData> PieChartPoints { get; set; } = new List<PieData>
     {
@@ -84,7 +85,7 @@
 
     protected override void OnInitialized()
     {
-        
+
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
 
         if (SampleService.IsDevice)
@@ -112,6 +113,7 @@
     public void DataLabelRenderEvent(AccumulationTextRenderEventArgs args)
     {
         args.Text = args.Point.X + ": $" + args.Point.Y + "K";
+        FontColor = Theme == Theme.Bootstrap5Dark || Theme == Theme.TailwindDark ? "black" : args.Font.Color;
     }
 
     public class SelectionTypes

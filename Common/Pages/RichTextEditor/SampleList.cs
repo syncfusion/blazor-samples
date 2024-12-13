@@ -37,8 +37,7 @@ namespace BlazorDemos
                 Category = "Markdown Editor",
                 Directory = "RichTextEditor/MarkdownEditor",
                 Url = "markdown-editor/mention-integration",
-                FileName = "Mention-Integration.razor",
-                Type = SampleType.New
+                FileName = "Mention-Integration.razor"
             },
         };
         public List<Sample> RichTextEditor { get; set; } = new List<Sample>{
@@ -49,7 +48,6 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/overview",
                 FileName = "Overview.razor",
-                Type = SampleType.Updated,
                 NotificationDescription = new string[] { @"The Rich Text Editor overview sample has been updated to configure the import/export feature directly within the Rich Text Editor. Previously, this was achieved at the application level, but now this support is provided at the source level." }
             },
             new Sample
@@ -155,7 +153,6 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/mail-merge",
                 FileName = "Mail-Merge.razor",
-                Type = SampleType.New,
                 NotificationDescription = new string[] {
                     @"Added a demo to showcase Mail Merge configuration of the Rich Text Editor component."
                 }
@@ -167,7 +164,6 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/import-word",
                 FileName = "Import.razor",
-                Type = SampleType.Updated,
                 NotificationDescription = new string[] { @"The Rich Text Editor import from word sample has been updated to configure the import feature directly within the Rich Text Editor. Previously, this was achieved at the application level, but now this support is provided at the source level." }
             },
             new Sample
@@ -177,7 +173,6 @@ namespace BlazorDemos
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/export-word",
                 FileName = "Export-Word.razor",
-                Type = SampleType.Updated,
                 NotificationDescription = new string[] { @"The Rich Text Editor export to pdf/word sample has been updated to configure the export feature directly within the Rich Text Editor. Previously, this was achieved at the application level, but now this support is provided at the source level." }
             },
             new Sample

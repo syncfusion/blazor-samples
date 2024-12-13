@@ -18,7 +18,7 @@
             {
                 @foreach (var item in group.SampleList)
                 {
-                    <li class="@liClass samplelist" @onclick="@(() => { OnSampleSelect(item.SamplePath); })">
+                    <li class="@liClass samplelist" @onclick="@(async() => { await OnSampleSelect(item.SamplePath); })">
                         <span class="sf-home-icon @(GetIconClass(group.Category))"></span>
                         <span class="samplename">@item.SampleName</span>
                         <span class="groupname">@group.Category</span>
@@ -257,10 +257,11 @@
     }
 
     // Search result selection event handler method.
-    private void OnSampleSelect(string samplePath)
+    private async Task OnSampleSelect(string samplePath)
     {
         //SampleService.Spinner.Show();
-        var themeName = SampleUtils.GetThemeName(UriHelper.Uri);
+        var themeName = await JsRuntime.InvokeAsync<String>("sfBlazorSB.getValue", "SelectedTheme");
+        themeName = themeName ?? "tailwind3";
         Layout.RightPaneRef?.TabSelectedItemChange();
         UriHelper.NavigateTo(samplePath.ToLower() + "?theme=" + themeName, true);
     }

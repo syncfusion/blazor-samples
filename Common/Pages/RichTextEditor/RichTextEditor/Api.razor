@@ -8,9 +8,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -40,10 +37,10 @@
                         </Content>
                     </DialogTemplates>
                     <DialogButtons>
-                        <DialogButton Content="OK" IsPrimary="true" OnClick="@DlgButtonClick" />
+                        <DialogButton Content="OK" IsPrimary="true" OnClick="@DialogButtonClick" />
                     </DialogButtons>
                 </SfDialog>
-                <SfRichTextEditor @ref="defaultAPIObj" @bind-Value="@RteValue" ShowCharCount="true" MaxLength="@MaxLength" Readonly="@ReadOnly"
+                <SfRichTextEditor @ref="DefaultAPIObj" @bind-Value="@RteValue" ShowCharCount="true" MaxLength="@MaxLength" Readonly="@ReadOnly"
                                   Enabled="@Enabled" EnableHtmlEncode="@EnableHtmlEncode" />
             </div>
         </div>
@@ -69,7 +66,7 @@
                     </td>
                     <td>
                         <div style="padding-left: 0px">
-                            <SfCheckBox @bind-Checked="@Checkbox1" ValueChange="ReadOnlyChange" TChecked="bool" />
+                            <SfCheckBox @bind-Checked="@IsReadonly" ValueChange="ReadOnlyChange" TChecked="bool" />
                         </div>
                     </td>
                 </tr>
@@ -79,7 +76,7 @@
                     </td>
                     <td>
                         <div style="padding-left: 0px">
-                            <SfCheckBox @bind-Checked="@Checkbox2" ValueChange="EnableChange" TChecked="bool" />
+                            <SfCheckBox @bind-Checked="@IsEnable" ValueChange="EnableChange" TChecked="bool" />
                         </div>
                     </td>
                 </tr>
@@ -89,7 +86,7 @@
                     </td>
                     <td>
                         <div style="padding-left: 0px">
-                            <SfCheckBox @bind-Checked="@Checkbox3" ValueChange="EnableHtmlChange" TChecked="bool" />
+                            <SfCheckBox @bind-Checked="@IsEnableHtmlEncode" ValueChange="EnableHtmlChange" TChecked="bool" />
                         </div>
                     </td>
                 </tr>
@@ -129,6 +126,7 @@
     .bootstrap5-dark button#getVal,
     .bootstrap5\.3-dark button#getVal,
     .tailwind-dark button#getVal,
+    .tailwind3-dark button#getVal,
     .highcontrast button#getVal,
     .material3-dark  button#getVal {
         color:  #FFFFFF;
@@ -140,6 +138,7 @@
     .bootstrap5-dark button#selectall,
     .bootstrap5\.3-dark button#selectall,
     .tailwind-dark button#selectall,
+    .tailwind3-dark button#selectall,
     .highcontrast button#selectall,
     .material3-dark  button#selectall {
         color:  #FFFFFF;
@@ -156,8 +155,8 @@
 </style>
 
 @code {
-    SfDialog DialogObj;
-    SfRichTextEditor defaultAPIObj;
+    private SfDialog DialogObj;
+    private SfRichTextEditor DefaultAPIObj;
 
     private string Content;
     private bool Enabled = true;
@@ -165,13 +164,12 @@
     private bool Visibility = false;
     private bool EnableHtmlEncode = false;
     private int MaxLength { get; set; } = 560;
-    private bool Checkbox2 { get; set; } = true;
-    private bool Checkbox1 { get; set; } = false;
-    private bool Checkbox3 { get; set; } = false;
+    private bool IsEnable { get; set; } = true;
+    private bool IsReadonly { get; set; } = false;
+    private bool IsEnableHtmlEncode { get; set; } = false;
     private string Header = "RichTextEditor's Value";
     private string RteValue = @"<p>Rich Text Editor is a WYSIWYG editing control which will reduce the effort for users while trying to express their formatting word content as HTML or Markdown format.</p><p><b>API’s:</b></p><ul><li><p>MaxLength - allows restricting the maximum length to be entered.</p></li><li><p>ReadOnly - allows to change it as a non-editable state.</p></li><li><p>Enabled - enable or disable the RTE component.</p></li><li><p>EnableHtmlEncode - Get the encoded string value through value property and source code panel</p></li><li><p>GetValue - get the value of RTE.</p></li></ul>";
     
-
     private void ReadOnlyChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         this.ReadOnly = args.Checked;
@@ -195,10 +193,10 @@
 
     private async Task SelectAllonClick()
     {
-        await this.defaultAPIObj.SelectAllAsync();
+        await this.DefaultAPIObj.SelectAllAsync();
     }
 
-    private async Task DlgButtonClick(object arg)
+    private async Task DialogButtonClick(object arg)
     {
         await this.DialogObj.HideAsync();
     }

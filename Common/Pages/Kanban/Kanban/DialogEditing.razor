@@ -7,9 +7,6 @@
 @using Syncfusion.Blazor.Kanban
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -23,9 +20,9 @@
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
-    <SfKanban @ref="KanbanRef" KeyField="Status" DataSource="@cardData">
+    <SfKanban @ref="KanbanRef" KeyField="Status" DataSource="@_cardData">
         <KanbanColumns>
-            @foreach (ColumnModel item in columnData)
+            @foreach (ColumnModel item in ColumnData)
             {
                 <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
             }
@@ -113,19 +110,20 @@
 </style>
 
 @code{
-    SfKanban<KanbanDataModel> KanbanRef;
-    SfDropDownList<string, DropDownModel> StatusRef;
-    SfDropDownList<string, DropDownModel> AssigneeRef;
-    SfDropDownList<string, DropDownModel> PriorityRef;
-    SfTextBox SummaryRef;
+    private SfKanban<KanbanDataModel> KanbanRef;
+    private SfDropDownList<string, DropDownModel> StatusRef;
+    private SfDropDownList<string, DropDownModel> AssigneeRef;
+    private SfDropDownList<string, DropDownModel> PriorityRef;
+    private SfTextBox SummaryRef;
     
+    private List<KanbanDataModel> _cardData = new KanbanDataModel().GetTasks();
 
-    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
-    private List<ColumnModel> columnData = new List<ColumnModel>() {
-        new ColumnModel(){ HeaderText= "Backlog", KeyField= new List<string>() { "Open" } },
-        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "In Progress" } },
-        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing" } },
-        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" } }
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "Backlog", KeyField = new List<string>() { "Open" } },
+        new ColumnModel() { HeaderText = "In Progress", KeyField = new List<string>() { "In Progress" } },
+        new ColumnModel() { HeaderText = "Testing", KeyField = new List<string>() { "Testing" } },
+        new ColumnModel() { HeaderText = "Done", KeyField = new List<string>() { "Close" } }
     };
 
     private class DropDownModel
@@ -134,14 +132,16 @@
         public string Value { get; set; }
     }
 
-    private List<DropDownModel> StatusData = new List<DropDownModel>() {
+    private List<DropDownModel> StatusData = new List<DropDownModel>()
+    {
         new DropDownModel { Id = 0, Value = "Open" },
         new DropDownModel { Id = 1, Value = "In Progress" },
         new DropDownModel { Id = 2, Value = "Testing" },
         new DropDownModel { Id = 3, Value = "Close" }
     };
 
-    private List<DropDownModel> AssigneeData = new List<DropDownModel>() {
+    private List<DropDownModel> AssigneeData = new List<DropDownModel>()
+    {
         new DropDownModel { Id = 0, Value = "Nancy Davloio" },
         new DropDownModel { Id = 1, Value = "Andrew Fuller" },
         new DropDownModel { Id = 2, Value = "Janet Leverling" },
@@ -151,7 +151,8 @@
         new DropDownModel { Id = 6, Value = "Michael Suyama" }
     };
 
-    private List<DropDownModel> PriorityData = new List<DropDownModel>() {
+    private List<DropDownModel> PriorityData = new List<DropDownModel>()
+    {
         new DropDownModel { Id = 0, Value = "Low" },
         new DropDownModel { Id = 1, Value = "Normal" },
         new DropDownModel { Id = 2, Value = "Critical" },
@@ -163,7 +164,7 @@
     {
         var data = new KanbanDataModel()
         {
-            Id = "Task " + (this.cardData.Count + 1).ToString(),
+            Id = "Task " + (this._cardData.Count + 1).ToString(),
             Title = "",
             Tags = "",
             Estimate = 0,

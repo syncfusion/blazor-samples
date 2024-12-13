@@ -1,12 +1,9 @@
 ﻿@page "/pivot-table/defer-layout-update"
 
 @using Syncfusion.Blazor.PivotView
-@using BlazorDemos
+
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -17,17 +14,17 @@
         Deferring a layout update can be useful when you need to remove or add multiple fields in a report and you don't want to
         update the pivot table after each change. Now, you can update a pivot table after performing all changes at the report level in the field list resulting in better performance.
     </p>
-    <p> In this sample, the <b>Defer Layout Update</b> option can be enabled or disabled via field list UI. In general, this feature can be enabled by setting the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_AllowDeferLayoutUpdate' aria-label="Class reference of AllowDeferLayoutUpdate property in PivotView">AllowDeferLayoutUpdate</a> property in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html' aria-label="Class reference of PivotView">SfPivotView</a> to <b>true</b>.</p>
-    <p>More information on the defer update feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/defer-layout-update/' aria-label="Blazor PivotTable Layout Update documentation" >documentation section</a>.</p>
+    <p> In this sample, the <b>Defer Layout Update</b> option can be enabled or disabled via field list UI. In general, this feature can be enabled by setting the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_AllowDeferLayoutUpdate" aria-label="Class reference of AllowDeferLayoutUpdate property in PivotView">AllowDeferLayoutUpdate</a> property in <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html" aria-label="Class reference of PivotView">SfPivotView</a> to <b>true</b>.</p>
+    <p>More information on the defer update feature can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/defer-layout-update/" aria-label="Blazor PivotTable Layout Update documentation" >documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="content-wrapper">
-        <SfPivotView TValue="PivotProductDetails" @ref="@pivotView" Height="620" ShowFieldList="@mobileFieldList" AllowDeferLayoutUpdate="true" EnableValueSorting="true" ShowTooltip="false">
+        <SfPivotView TValue="PivotProductDetails" @ref="@_pivotView" Height="620" ShowFieldList="@_mobileFieldList" AllowDeferLayoutUpdate="true" EnableValueSorting="true" ShowTooltip="false">
             <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
-            @if (@mobileFieldList)
+            @if (@_mobileFieldList)
             {
-                <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
+                <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
                     <PivotViewColumns>
                         <PivotViewColumn Name="Year"></PivotViewColumn>
                         <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
@@ -51,10 +48,10 @@
                 <PivotViewEvents TValue="PivotProductDetails" EnginePopulated="@PivotEnginePopulated" Drill="@UpdateDrillInfo"></PivotViewEvents>
             }
         </SfPivotView>
-        @if (!mobileFieldList)
+        @if (!_mobileFieldList)
         {
-            <SfPivotFieldList TValue="PivotProductDetails" @ref="@fieldList" RenderMode="Mode.Fixed" AllowDeferLayoutUpdate="true" AllowCalculatedField="true">
-                <PivotFieldListDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true>
+            <SfPivotFieldList TValue="PivotProductDetails" @ref="@_fieldList" RenderMode="Mode.Fixed" AllowDeferLayoutUpdate="true" AllowCalculatedField="true">
+                <PivotFieldListDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
                     <PivotFieldListColumns>
                         <PivotFieldListColumn Name="Year"></PivotFieldListColumn>
                     </PivotFieldListColumns>
@@ -116,30 +113,29 @@
 </style>
 
 @code {
-    SfPivotFieldList<PivotProductDetails> fieldList;
-    SfPivotView<PivotProductDetails> pivotView;
-    private bool mobileFieldList = false;
-    public List<PivotProductDetails> data { get; set; }
+    private SfPivotFieldList<PivotProductDetails> _fieldList;
+    private SfPivotView<PivotProductDetails> _pivotView;
+    private bool _mobileFieldList = false;
+    public List<PivotProductDetails> Data { get; set; }
     
     protected override void OnInitialized()
     {
-        
-        data = PivotProductDetails.GetProductData();
+        Data = PivotProductDetails.GetProductData();
         if (SampleService.IsDevice)
         {
-            mobileFieldList = true;
+            _mobileFieldList = true;
         }
     }
     private async Task PivotEnginePopulated(EnginePopulatedEventArgs args)
     {
-        await fieldList.UpdateAsync(pivotView);
+        await _fieldList.UpdateAsync(_pivotView);
     }
     private async Task UpdateDrillInfo(DrillArgs<PivotProductDetails> args)
     {
-        await fieldList.UpdateAsync(pivotView);
+        await _fieldList.UpdateAsync(_pivotView);
     }
     public async Task EnginePopulated(EnginePopulatedEventArgs args)
     {
-        await fieldList.UpdateViewAsync(pivotView);
+        await _fieldList.UpdateViewAsync(_pivotView);
     }
 }

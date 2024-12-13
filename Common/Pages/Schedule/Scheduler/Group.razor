@@ -1,11 +1,9 @@
 ﻿@page "/scheduler/horizontal-grouping"
 
 @using Syncfusion.Blazor.Schedule
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inject NavigationManager UriHelper
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -25,7 +23,7 @@
 <div class="control-section">
     <div class="schedule-demo-heading">Flight timings between Barcelona and Los Angeles</div>
     <SfSchedule TValue="AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
-        <ScheduleGroup EnableCompactView="false" Resources="@groupData"></ScheduleGroup>
+        <ScheduleGroup EnableCompactView="false" Resources="@_groupData"></ScheduleGroup>
         <ScheduleResources>
             <ScheduleResource TItem="AirlinesData" TValue="int[]" DataSource="@ResourceData" Field="AirlineId" Title="Airline Name" Name="Airlines" TextField="AirlineName" IdField="AirlineId" ColorField="AirlineColor" AllowMultiple="true"></ScheduleResource>
         </ScheduleResources>
@@ -44,7 +42,7 @@
                 }
             </ResourceHeaderTemplate>
         </ScheduleTemplates>
-        <ScheduleEventSettings DataSource="@dataSource">
+        <ScheduleEventSettings DataSource="@EventDataSource">
             <ScheduleField>
                 <FieldSubject Title="Travel Summary" Name="Subject"></FieldSubject>
                 <FieldLocation Title="Place" Name="Location"></FieldLocation>
@@ -66,9 +64,11 @@
 @code{
     
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 9);
-    private List<AppointmentData> dataSource = new List<AppointmentData>();
-    private string[] groupData = new string[] { "Airlines" };
-    private List<AirlinesData> ResourceData { get; set; } = new List<AirlinesData> {
+    private List<AppointmentData> EventDataSource = new List<AppointmentData>();
+    private string[] _groupData = new string[] { "Airlines" };
+
+    private List<AirlinesData> ResourceData { get; set; } = new List<AirlinesData>
+    {
         new AirlinesData { AirlineName = "Airways 1", AirlineId = 1, AirlineColor = "#EA7A57", AirlineModel = "CRJ 700", AirlineSeats = 50, AirlineImage = "airways-1" },
         new AirlinesData { AirlineName = "Airways 2", AirlineId = 2, AirlineColor = "#357cd2", AirlineModel = "Airbus A330", AirlineSeats = 75, AirlineImage = "airways-2" },
         new AirlinesData { AirlineName = "Airways 3", AirlineId = 3, AirlineColor = "#7fa900", AirlineModel = "ATR 72-600", AirlineSeats = 100, AirlineImage = "airways-3" }
@@ -77,7 +77,7 @@
     {
         base.OnInitialized();
         
-        dataSource = GenerateEvents();
+        EventDataSource = GenerateEvents();
     }
     private List<AppointmentData> GenerateEvents()
     {
@@ -161,7 +161,7 @@
     }
 
     .e-schedule .template-wrap .airline-image {
-        width: 30px;
+        min-width: 30px;
         margin-top: 15px;
         background-repeat: no-repeat;
     }
@@ -174,6 +174,7 @@
         height: 30px;
         margin-top: 0;
         margin-left: 35%;
+        max-width: 36px;
     }
 
     .e-schedule .e-vertical-view .e-resource-cells {
@@ -217,6 +218,14 @@
     @@media (max-width: 550px) {
         .schedule-demo-heading {
             font-size: 14px;
+        }
+
+        .e-schedule .e-vertical-view.e-day-view .airline-image {
+            display: none;
+        }
+        
+        .e-schedule .e-vertical-view.e-day-view .template-wrap .airline-details {
+            padding: 0;
         }
     }
 

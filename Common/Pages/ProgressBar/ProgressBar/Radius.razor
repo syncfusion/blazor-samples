@@ -13,15 +13,15 @@
     <p>A circular progress bar with different radius, inner-radius, pie progress, track, and progress thickness is shown in this example.</p>
 </SampleDescription>
 <ActionDescription>
-    <p> In this demo, you can see how to configure the radius, inner radius, pie progress, track and progress thickness of a circular progress bar using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_Radius' aria-label="Radius">Radius</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_InnerRadius' aria-label="InnerRadius">InnerRadius</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_TrackColor' aria-label="TrackColor">TrackColor</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_TrackThickness' aria-label="TrackThickness">TrackThickness</a>, and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_ProgressThickness' aria-label="ProgressThickness">ProgressThickness</a> properties.</p>
-    <p>More information about the radius and inner radius for circular progress bar can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/progress-bar/customization#radius' aria-label="documentation section" >documentation section</a>.</p>
+    <p>In this demo, you can see how to configure the radius, inner radius, pie progress, track, and progress thickness of a circular progress bar using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_Radius" aria-label="Radius">Radius</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_InnerRadius" aria-label="InnerRadius">InnerRadius</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_TrackColor" aria-label="TrackColor">TrackColor</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_TrackThickness" aria-label="TrackThickness">TrackThickness</a>, and <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_ProgressThickness" aria-label="ProgressThickness">ProgressThickness</a> properties.</p>
+    <p>More information about the radius and inner radius for circular progress bar can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/progress-bar/customization#radius" aria-label="documentation section">documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="row" style="margin-top: 4%;">
         <div class="col-lg-3 col-md-3 col-3" align="center">
-            <SfProgressBar ID="FullBackground"
-                           @ref="ProObj1"
+            <SfProgressBar ID="FullProgressBar"
+                           @ref="FullProgress"
                            Type="ProgressType.Circular"
                            Minimum="0"
                            Maximum="100"
@@ -40,7 +40,9 @@
                 <ProgressBarAnnotations>
                     <ProgressBarAnnotation>
                         <ContentTemplate>
-                            <div style='font-size:20px;font-weight:bold;color:@color;font-family: @FontFamily'><span>60%</span></div>
+                            <div style='font-size:20px;font-weight:bold;color:@TextColor;font-family:@FontFamily'>
+                                <span>60%</span>
+                            </div>
                         </ContentTemplate>
                     </ProgressBarAnnotation>
                 </ProgressBarAnnotations>
@@ -48,8 +50,8 @@
         </div>
 
         <div class="col-lg-3 col-md-3 col-3" align="center">
-            <SfProgressBar ID="OuterRadius"
-                           @ref="ProObj2"
+            <SfProgressBar ID="OuterProgressBar"
+                           @ref="OuterProgress"
                            Type="ProgressType.Circular"
                            Value="90"
                            Minimum="0"
@@ -65,8 +67,8 @@
         </div>
 
         <div class="col-lg-3 col-md-3 col-3" align="center">
-            <SfProgressBar ID="OnRadius"
-                           @ref="ProObj3"
+            <SfProgressBar ID="ThinProgressBar"
+                           @ref="ThinProgress"
                            Type="ProgressType.Circular"
                            Value="90"
                            Minimum="0"
@@ -82,8 +84,8 @@
         </div>
 
         <div class="col-lg-3 col-md-3 col-3" align="center">
-            <SfProgressBar ID="Pie"
-                           @ref="ProObj4"
+            <SfProgressBar ID="PieProgressBar"
+                           @ref="PieProgress"
                            Type="ProgressType.Circular"
                            Value="70"
                            Minimum="0"
@@ -97,150 +99,126 @@
             </SfProgressBar>
         </div>
     </div>
-    <div class="row" align="center" style="font-family: @FontFamily">
-        <button id="reLoad" class="e-control e-btn e-lib e-outline e-primary" @onclick="ProgressRefresh">Reload</button>
+
+    <div class="row" align="center" style="font-family:@FontFamily">
+        <button id="reloadButton" class="e-control e-btn e-lib e-outline e-primary" @onclick="ReloadProgressBars">Reload</button>
     </div>
 </div>
 
-@code{ 
-    public SfProgressBar ProObj1, ProObj2, ProObj3, ProObj4;
+@code{
+    public SfProgressBar FullProgress { get; set; }
+    public SfProgressBar OuterProgress { get; set; }
+    public SfProgressBar ThinProgress { get; set; }
+    public SfProgressBar PieProgress { get; set; }
     public Theme CurrentTheme { get; set; }
     public string FullTrackColor { get; set; }
-    public string ProgressColor { get; set;} = "#FFFFFF";
-    public string color { get; set; } = "#FFFFFF";
+    public string ProgressColor { get; set; } = "#FFFFFF";
+    public string TextColor { get; set; } = "#FFFFFF";
     public string FontFamily { get; set; }
-    private string currentUri;
-    
 
-    public async Task ProgressRefresh()
+    public async Task ReloadProgressBars()
     {
-        await ProObj1.RefreshAsync();
-        await ProObj2.RefreshAsync();
-        await ProObj3.RefreshAsync();
-        await ProObj4.RefreshAsync();
+        await FullProgress.RefreshAsync();
+        await OuterProgress.RefreshAsync();
+        await ThinProgress.RefreshAsync();
+        await PieProgress.RefreshAsync();
     }
 
     protected override void OnInitialized()
     {
-        
-        currentUri = Navigation.Uri;
         FontFamily = ThemeHelper.GetFontFamily(Navigation.Uri);
-        if (currentUri.Contains("material3-dark"))
+        UpdateThemeBasedOnUri(Navigation.Uri);
+    }
+
+    private void UpdateThemeBasedOnUri(string uri)
+    {
+        if (uri.Contains("material3-dark"))
         {
-            CurrentTheme = Theme.Material3Dark;
-            ProgressColor = "#D0BCFF";
-            color = "#D0BCFF";
+            SetTheme(Theme.Material3Dark, "#D0BCFF");
         }
-        else if (currentUri.Contains("material3"))
+        else if (uri.Contains("material3"))
         {
-            CurrentTheme = Theme.Material3;
-            ProgressColor = "#6750A4";
-            color = "#6750A4";
+            SetTheme(Theme.Material3, "#6750A4");
         }
-        else if (currentUri.Contains("fabric-dark"))
+        else if (uri.Contains("fabric-dark"))
         {
-            CurrentTheme = Theme.FabricDark;
-            ProgressColor = "#9A9A9A";
-            color = "#9A9A9A";
+            SetTheme(Theme.FabricDark, "#9A9A9A");
         }
-        else if (currentUri.Contains("fabric"))
+        else if (uri.Contains("fabric"))
         {
-            CurrentTheme = Theme.Fabric;
-            ProgressColor = "#0078D6";
-            color = "#0078D6";
+            SetTheme(Theme.Fabric, "#0078D6");
         }
-        else if (currentUri.Contains("bootstrap-dark"))
+        else if (uri.Contains("bootstrap-dark"))
         {
-            CurrentTheme = Theme.BootstrapDark;
-            ProgressColor = "#9A9A9A";
-            color = "#9A9A9A";
+            SetTheme(Theme.BootstrapDark, "#9A9A9A");
         }
-        else if (currentUri.Contains("bootstrap5-dark"))
+        else if (uri.Contains("bootstrap5-dark"))
         {
-            CurrentTheme = Theme.Bootstrap5Dark;
-            ProgressColor = "#0D6EFD";
-            color = "#0D6EFD";
+            SetTheme(Theme.Bootstrap5Dark, "#0D6EFD");
         }
-        else if (currentUri.Contains("bootstrap5"))
+        else if (uri.Contains("bootstrap5"))
         {
-            CurrentTheme = Theme.Bootstrap5;
-            ProgressColor = "#0D6EFD";
-            color = "#0D6EFD";
+            SetTheme(Theme.Bootstrap5, "#0D6EFD");
         }
-        else if (currentUri.Contains("fluent2-highcontrast"))
+        else if (uri.Contains("fluent2-highcontrast"))
         {
-            CurrentTheme = Theme.Fluent2HighContrast;
-            ProgressColor = "#1AEBFF";
-            color = "#1AEBFF";
+            SetTheme(Theme.Fluent2HighContrast, "#1AEBFF");
         }
-        else if (currentUri.Contains("fluent2-dark"))
+        else if (uri.Contains("fluent2-dark"))
         {
-            CurrentTheme = Theme.Fluent2Dark;
-            ProgressColor = "#115EA3";
-            color = "#115EA3";
+            SetTheme(Theme.Fluent2Dark, "#115EA3");
         }
-        else if (currentUri.Contains("fluent2"))
+        else if (uri.Contains("fluent2"))
         {
-            CurrentTheme = Theme.Fluent2;
-            ProgressColor = "#0F6CBD";
-            color = "#0F6CBD";
+            SetTheme(Theme.Fluent2, "#0F6CBD");
         }
-        else if (currentUri.Contains("fluent-dark"))
+        else if (uri.Contains("fluent-dark"))
         {
-            CurrentTheme = Theme.FluentDark;
-            ProgressColor = "#0D6EFD";
-            color = "#0D6EFD";
+            SetTheme(Theme.FluentDark, "#0D6EFD");
         }
-        else if (currentUri.Contains("fluent"))
+        else if (uri.Contains("fluent"))
         {
-            CurrentTheme = Theme.Fluent;
-            ProgressColor = "#0D6EFD";
-            color = "#0D6EFD";
+            SetTheme(Theme.Fluent, "#0D6EFD");
         }
-        else if (currentUri.Contains("bootstrap4"))
+        else if (uri.Contains("bootstrap4"))
         {
-            CurrentTheme = Theme.Bootstrap4;
-            ProgressColor = "#007bff";
-            color = "#007bff";
+            SetTheme(Theme.Bootstrap4, "#007bff");
         }
-        else if (currentUri.Contains("bootstrap"))
+        else if (uri.Contains("bootstrap"))
         {
-            CurrentTheme = Theme.Bootstrap;
-            ProgressColor = "#317ab9";
-            color = "#317ab9";
+            SetTheme(Theme.Bootstrap, "#317ab9");
         }
-        else if (currentUri.Contains("highcontrast"))
+        else if (uri.Contains("highcontrast"))
         {
-            CurrentTheme = Theme.HighContrast;
-            ProgressColor = "#FFD939";
-            color = "#FFD939";
+            SetTheme(Theme.HighContrast, "#FFD939");
         }
-        else if (currentUri.Contains("tailwind-dark"))
+        else if (uri.Contains("tailwind3-dark"))
         {
-            CurrentTheme = Theme.TailwindDark;
-            ProgressColor = "#22D3EE";
-            color = "#22D3EE";
+            SetTheme(Theme.Tailwind3Dark, "#6366F1");
         }
-        else if (currentUri.Contains("tailwind"))
+        else if (uri.Contains("tailwind3"))
         {
-            CurrentTheme = Theme.Tailwind;
-            ProgressColor = "#4F46E5";
-            color = "#4F46E5";
+            SetTheme(Theme.Tailwind3, "#4F46E5");
         }
-        else if (currentUri.Contains("material-dark"))
+        else if (uri.Contains("material-dark"))
         {
-            CurrentTheme = Theme.MaterialDark;
-            ProgressColor = "#9A9A9A";
-            color = "#9A9A9A";
+            SetTheme(Theme.MaterialDark, "#9A9A9A");
         }
-        else if (currentUri.Contains("material"))
+        else if (uri.Contains("material"))
         {
-            CurrentTheme = Theme.Material;
-            ProgressColor = "#E3165B";
-            color = "#E3165B";
+            SetTheme(Theme.Material, "#E3165B");
         }
     }
+
+    private void SetTheme(Theme theme, string progressColor)
+    {
+        CurrentTheme = theme;
+        ProgressColor = progressColor;
+        TextColor = progressColor;
+    }
+
 }
+
 
 <style>
     #control-container {

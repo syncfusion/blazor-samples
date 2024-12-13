@@ -4,9 +4,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -29,7 +26,7 @@
 
 <div class="control-section">
     <SfSchedule TValue="ScheduleData.ResourceTeamData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate" StartHour="09:00" EndHour="19:00">
-        <ScheduleGroup ByGroupID="false" Resources="@groupData"></ScheduleGroup>
+        <ScheduleGroup ByGroupID="false" Resources="@_groupData"></ScheduleGroup>
         <ScheduleResources>
             <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@Projects" Field="ProjectId" Title="Choose Project" Name="Projects" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
             <ScheduleResource TItem="ResourceData" TValue="int[]" DataSource="@Categories" Field="CategoryId" Title="Category" Name="Categories" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
@@ -41,7 +38,7 @@
             <ScheduleView Option="View.Month"></ScheduleView>
             <ScheduleView Option="View.Agenda"></ScheduleView>
         </ScheduleViews>
-        <ScheduleEventSettings DataSource="@dataSource">
+        <ScheduleEventSettings DataSource="@EventDataSource">
             <ScheduleField>
                 <FieldSubject Name="Subject" Title="Summary"></FieldSubject>
                 <FieldDescription Name="Description" Title="Comments"></FieldDescription>
@@ -53,14 +50,17 @@
 @code{
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 7);
     private View CurrentView { get; set; } = View.WorkWeek;
-    private List<ScheduleData.ResourceTeamData> dataSource = new ScheduleData().GetResourceTeamData();
-    private string[] groupData = new string[] { "Projects", "Categories" };
-    
-    private List<ResourceData> Projects { get; set; } = new List<ResourceData> {
+    private List<ScheduleData.ResourceTeamData> EventDataSource = new ScheduleData().GetResourceTeamData();
+    private string[] _groupData = new string[] { "Projects", "Categories" };
+
+    private List<ResourceData> Projects { get; set; } = new List<ResourceData>
+    {
         new ResourceData { Text = "PROJECT 1", Id = 1, Color = "#cb6bb2" },
         new ResourceData { Text = "PROJECT 2", Id = 2, Color = "#56ca85" }
     };
-    private List<ResourceData> Categories { get; set; } = new List<ResourceData> {
+
+    private List<ResourceData> Categories { get; set; } = new List<ResourceData>
+    {
         new ResourceData { Text = "Development", Id = 1, Color = "#df5286" },
         new ResourceData { Text = "Testing", Id = 2, Color = "#7fa900" }
     };

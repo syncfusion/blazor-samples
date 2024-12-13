@@ -18,12 +18,11 @@ namespace BlazorDemos
             new Sample
             {
                 Name = "Default Functionalities",
-                Category = "PDF Viewer (NextGen)",
+                Category = "PDF Viewer",
                 Directory = "Viewer2/PdfViewer2",              
                 Url = "pdf-viewer-2/default-functionalities",
                 FileName = "DefaultFunctionalities.razor"
             },
-#if !WASM_NET90
             new Sample
             {
                 Name = "Read-Only",
@@ -32,7 +31,7 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/read-only",
                 FileName = "ReadOnly.razor"
             },
-#endif
+
             new Sample
             {
                 Name = "Document List",
@@ -52,18 +51,14 @@ namespace BlazorDemos
                 FileName = "MultiFormatViewer.razor"
             },
 #endif
-#if !WASM_NET90
-
              new Sample
             {
                 Name = "Redaction",
                 Category = "Editor",
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/redaction",
-                Type=SampleType.None,
                 FileName = "Redaction.razor"
             },
-#endif
 
             new Sample
             {
@@ -71,7 +66,6 @@ namespace BlazorDemos
                 Category = "Toolbar",
                 Directory = "Viewer2/PdfViewer2",             
                 Url = "pdf-viewer-2/custom-toolbar",
-                Type=SampleType.Updated,
                 FileName = "CustomToolbar.razor",
                 NotificationDescription = new string[]{ @"The custom toolbar demo has been updated with a new UI and additional functionalities, adding various annotations such as highlights, free text, shapes, stamps, drawings, and handwritten signatures. Users can also edit these annotations within the document." }
             },
@@ -82,7 +76,6 @@ namespace BlazorDemos
                 Directory = "Viewer2/PdfViewer2",             
                 Url = "pdf-viewer-2/primary-toolbar-customization",
                 FileName = "PrimaryToolbarCustomization.razor",
-                Type = SampleType.None,
             },
             new Sample
             {
@@ -92,14 +85,12 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/form-filling",
                 FileName = "FormFilling.razor"
             },
-#if !WASM_NET90
             new Sample
             {
                 Name = "Annotations",
                 Category = "Annotation",
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/annotations-toolbar",
-                Type = SampleType.None,              
                 FileName = "AnnotationsToolbar.razor"
             },
             new Sample
@@ -108,7 +99,6 @@ namespace BlazorDemos
                 Category = "Annotation",
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/programmatical-annotations",
-                Type=SampleType.None,
                 FileName = "ProgrammaticalAnnotations.razor"
             },
             new Sample
@@ -119,7 +109,8 @@ namespace BlazorDemos
                 Url = "pdf-viewer-2/handwritten-signature",
                 FileName = "HandwrittenSignature.razor"
             }
-#endif
+           
+            
 #if !(WASM || WEBAPP)
             ,
             new Sample

@@ -1,15 +1,11 @@
 ﻿@page "/carousel/api"
 
 @using Syncfusion.Blazor.Navigations
-@using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
-@inject IJSRuntime JsRuntime;
+@inject NavigationManager UriHelper
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -29,48 +25,19 @@
 <div class="control-section api-carousel-section">
     <div class="col-lg-9 content-wrapper">
         <div class="carousel-sample">
-            <SfCarousel CssClass="api-carousel" AutoPlay="@enableAutoPlay" ShowPlayButton="@showPlayButton" Loop="@isLoop" Interval="@slideInterval" ButtonsVisibility="@buttonsVisibility" ShowIndicators="@showIndicators">
+            <SfCarousel CssClass="api-carousel" AutoPlay="@_enableAutoPlay" ShowPlayButton="@_showPlayButton" Loop="@_isLoop" Interval="@_slideInterval" ButtonsVisibility="@_buttonsVisibility" ShowIndicators="@_showIndicators">
                 <ChildContent>
-                    <CarouselItem>
-                        <Template>
-                            <figure class="img-container">
-                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/bridge.png")" alt="bridge" style="height:100%;width:100%;" />
-                                <figcaption class="img-caption">Showing 1 of 5</figcaption>
-                            </figure>
-                        </Template>
-                    </CarouselItem>
-                    <CarouselItem>
-                        <Template>
-                            <figure class="img-container">
-                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/trees.png")" alt="spring_trees" style="height:100%;width:100%;" />
-                                <figcaption class="img-caption">Showing 2 of 5</figcaption>
-                            </figure>
-                        </Template>
-                    </CarouselItem>
-                    <CarouselItem Interval="3000">
-                        <Template>
-                            <figure class="img-container">
-                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/waterfall.png")" alt="waterfall" style="height:100%;width:100%;" />
-                                <figcaption class="img-caption">Showing 3 of 5</figcaption>
-                            </figure>
-                        </Template>
-                    </CarouselItem>
-                    <CarouselItem Interval="7000">
-                        <Template>
-                            <figure class="img-container">
-                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/sea.png")" alt="sea" style="height:100%;width:100%;" />
-                                <figcaption class="img-caption">Showing 4 of 5</figcaption>
-                            </figure>
-                        </Template>
-                    </CarouselItem>
-                    <CarouselItem>
-                        <Template>
-                            <figure class="img-container">
-                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/rocks.png")" alt="rocks" style="height:100%;width:100%;" />
-                                <figcaption class="img-caption">Showing 5 of 5</figcaption>
-                            </figure>
-                        </Template>
-                    </CarouselItem>
+                    @foreach (var slide in CarouselSlides)
+                    {
+                        <CarouselItem>
+                            <Template>
+                                <figure class="img-container">
+                                    <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/{slide.Image}.png")" alt="@slide.AltText" style="height:100%;width:100%;" />
+                                    <figcaption class="img-caption">Showing @slide.Caption</figcaption>
+                                </figure>
+                            </Template>
+                        </CarouselItem>
+                    }
                 </ChildContent>
             </SfCarousel>
         </div>
@@ -82,31 +49,31 @@
                     <tr style="height: 50px">
                         <td>Enable AutoPlay</td>
                         <td>
-                            <SfSwitch TChecked="bool" @bind-Checked="enableAutoPlay"></SfSwitch>
+                            <SfSwitch TChecked="bool" @bind-Checked="_enableAutoPlay"></SfSwitch>
                         </td>
                     </tr>
                     <tr style="height: 50px">
                         <td>Infinite looping</td>
                         <td>
-                            <SfSwitch TChecked="bool" @bind-Checked="isLoop"></SfSwitch>
+                            <SfSwitch TChecked="bool" @bind-Checked="_isLoop"></SfSwitch>
                         </td>
                     </tr>
                     <tr style="height: 50px">
                         <td>Show Indicators</td>
                         <td>
-                            <SfSwitch TChecked="bool" @bind-Checked="showIndicators"></SfSwitch>
+                            <SfSwitch TChecked="bool" @bind-Checked="_showIndicators"></SfSwitch>
                         </td>
                     </tr>
                     <tr style="height: 50px">
                         <td>Show Play Button</td>
                         <td>
-                            <SfSwitch TChecked="bool" @bind-Checked="showPlayButton"></SfSwitch>
+                            <SfSwitch TChecked="bool" @bind-Checked="_showPlayButton"></SfSwitch>
                         </td>
                     </tr>
                     <tr>
                         <td>Show Arrows</td>
                         <td>
-                            <SfDropDownList TValue="CarouselButtonVisibility" TItem="DropDownData" @bind-Value="@buttonsVisibility" DataSource="@ArrowData">
+                            <SfDropDownList TValue="CarouselButtonVisibility" TItem="DropDownData" @bind-Value="@_buttonsVisibility" DataSource="@ArrowData">
                                 <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
                             </SfDropDownList>
                         </td>
@@ -114,7 +81,7 @@
                     <tr>
                         <td>Slide interval</td>
                         <td>
-                            <SfDropDownList TValue="int" TItem="DropDownData" @bind-Value="@slideInterval" DataSource="@IntervalData">
+                            <SfDropDownList TValue="int" TItem="DropDownData" @bind-Value="@_slideInterval" DataSource="@IntervalData">
                                 <DropDownListFieldSettings Text="Name" Value="IntervalValue"></DropDownListFieldSettings>
                             </SfDropDownList>
                         </td>
@@ -153,23 +120,28 @@
 </style>
 
 @code {
-    private CarouselButtonVisibility buttonsVisibility = CarouselButtonVisibility.Visible;
-    private bool showIndicators = true;
-    private bool showPlayButton;
-    private bool enableAutoPlay = true;
-    private bool isLoop = true;
-    private int slideInterval = 5000;
+    private CarouselButtonVisibility _buttonsVisibility = CarouselButtonVisibility.Visible;
+    private bool _showIndicators = true;
+    private bool _showPlayButton;
+    private bool _enableAutoPlay = true;
+    private bool _isLoop = true;
+    private int _slideInterval = 5000;
     
-    private List<DropDownData> ArrowData { get; set; } = new List<DropDownData>() {
+    private List<CarouselSlide> CarouselSlides = new List<CarouselSlide>()
+    {
+        new CarouselSlide{Image = "bridge", AltText = "bridge", Caption = "1 of 5"},
+        new CarouselSlide{Image = "trees", AltText = "spring_trees", Caption = "2 of 5"},
+        new CarouselSlide {Image = "waterfall", AltText = "waterfall", Caption = "3 of 5" },
+        new CarouselSlide {Image = "sea", AltText = "sea", Caption = "4 of 5" },
+        new CarouselSlide {Image = "rocks", AltText = "rocks", Caption = "5 of 5" }
+    };
+    
+    private List<DropDownData> ArrowData = new List<DropDownData>() {
         new DropDownData { Name = "Hidden", Value = CarouselButtonVisibility.Hidden },
         new DropDownData { Name = "Visible", Value = CarouselButtonVisibility.Visible },
         new DropDownData { Name = "On Hover", Value = CarouselButtonVisibility.VisibleOnHover }
     };
-    private List<DropDownData> BoolData { get; set; } = new List<DropDownData>() {
-        new DropDownData { Name = "True", BoolValue = true },
-        new DropDownData { Name = "False", BoolValue = false }
-    };
-    private List<DropDownData> IntervalData { get; set; } = new List<DropDownData>() {
+    private List<DropDownData> IntervalData = new List<DropDownData>() {
         new DropDownData { Name = "3 seconds", IntervalValue = 3000 },
         new DropDownData { Name = "5 seconds", IntervalValue = 5000 },
         new DropDownData { Name = "7 seconds", IntervalValue = 7000 }
@@ -178,7 +150,12 @@
     {
         public string Name { get; set; }
         public CarouselButtonVisibility Value { get; set; }
-        public bool BoolValue { get; set; }
         public int IntervalValue { get; set; }
+    }
+    public class CarouselSlide
+    {
+        public string Image { get; set; }
+        public string AltText { get; set; }
+        public string Caption { get; set; }
     }
 }

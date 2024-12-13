@@ -4,12 +4,9 @@
 @using Syncfusion.Blazor.HeatMap
 @using Syncfusion.Blazor.DropDowns
 @using sf_blazor_heatmapdata
-@using SFHeatMap = Syncfusion.Blazor.HeatMap
 @inject NavigationManager NavigationManager
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -22,12 +19,12 @@
 
 <div class="col-lg-9 control-section">
     <div class="row">
-        <SfHeatMap DataSource="@DataSource" Theme="@theme">
+        <SfHeatMap DataSource="@DataSource" Theme="@_theme">
             <HeatMapEvents TooltipRendering="@TooltipRendering"></HeatMapEvents>
             <HeatMapTitleSettings Text="Hourly Weather Forecast (in Celsius)">
                 <HeatMapTitleTextStyle Size="15px" FontFamily="inherit" FontWeight="500" FontStyle="Normal" TextOverflow="TextOverflow.Trim"></HeatMapTitleTextStyle>
             </HeatMapTitleSettings>
-            <HeatMapXAxis Labels="@XLabels" LabelIntersectAction="@SFHeatMap.LabelIntersectAction.None">
+            <HeatMapXAxis Labels="@XLabels" LabelIntersectAction="@LabelIntersectAction.None">
                 <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapXAxisTextStyle>
             </HeatMapXAxis>
             <HeatMapYAxis Labels="@YLabels">
@@ -64,8 +61,8 @@
         </td>
         <td>
             <div style="margin-left: 50px">
-            <SfDropDownList TValue="string" TItem="DataModel" PopupHeight="230px" Width="120px" @bind-Index="@index" Placeholder="Select the Legend Placement" DataSource="@LegendPlacements">
-                <DropDownListEvents TValue="string" TItem="DataModel" ValueChange="@(e => { Enum.TryParse<SFHeatMap.LegendPosition>(e.ItemData.Text, out CurrentLegentPosition); })"></DropDownListEvents>
+            <SfDropDownList TValue="string" TItem="DataModel" PopupHeight="230px" Width="120px" @bind-Index="@_index" Placeholder="Select the Legend Placement" DataSource="@LegendPlacements">
+                <DropDownListEvents TValue="string" TItem="DataModel" ValueChange="@(e => { Enum.TryParse<LegendPosition>(e.ItemData.Text, out CurrentLegentPosition); })"></DropDownListEvents>
                 <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
             </SfDropDownList>
             </div>
@@ -74,15 +71,14 @@
 </div>
 
 @code{
-    
-    private Theme theme { get; set; }
+    private Theme _theme { get; set; }
     public string AxisLabelColor = "Black";
-    private int? index { get; set; } = 0;
-    SFHeatMap.LegendPosition CurrentLegentPosition = SFHeatMap.LegendPosition.Bottom;
-    string[] XLabels = new string[] { "London", "Berlin", "Madrid", "Paris", "Rome", "Lisbon", "Dublin" };
-    string[] YLabels = new string[] { "12AM", "2AM", "4AM", "6AM", "8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM" };
-    int[,] DataSource = HeatMapData.GetLegendData();
-    List<DataModel> LegendPlacements = new List<DataModel>();
+    private int? _index { get; set; } = 0;
+    private LegendPosition CurrentLegentPosition = LegendPosition.Bottom;
+    private string[] XLabels = new string[] { "London", "Berlin", "Madrid", "Paris", "Rome", "Lisbon", "Dublin" };
+    private string[] YLabels = new string[] { "12AM", "2AM", "4AM", "6AM", "8AM", "10AM", "12PM", "2PM", "4PM", "6PM", "8PM", "10PM" };
+    private int[,] DataSource = HeatMapData.GetLegendData();
+    private List<DataModel> LegendPlacements = new List<DataModel>();
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -91,10 +87,10 @@
         LegendPlacements.Add(new DataModel { Id = "1", Text = "Right" });
         LegendPlacements.Add(new DataModel { Id = "2", Text = "Top" });
         LegendPlacements.Add(new DataModel { Id = "3", Text = "Left" });
-        theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
-        AxisLabelColor = (theme.ToString().IndexOf("Dark") > -1 || theme.ToString().IndexOf("HighContrast") > -1) ? "#FFFFFF" : "#000000";
+        _theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        AxisLabelColor = (_theme.ToString().IndexOf("Dark") > -1 || _theme.ToString().IndexOf("HighContrast") > -1) ? "#FFFFFF" : "#000000";
     }
-    class DataModel
+    public class DataModel
     {
         public string Id { get; set; }
         public string Text { get; set; }
@@ -109,5 +105,5 @@
 <style>
     .col-lg-3.property-section {
         padding-top: 20px;
-    }    
+    }
 </style>

@@ -4,22 +4,19 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @implements IDisposable
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 @*Hidden:Lines*@
 <SampleDescription>
-    <p>This sample visually represents a simple fishbone diagram in the Syncfusion Blazor Diagram. Diagram nodes and annotations are used to define fishbone diagrams.</p>
+    <p>This sample demonstrates a basic fishbone (Ishikawa) diagram using Syncfusion Blazor Diagram. The diagram nodes and annotations are used to construct the fishbone structure.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This sample shows how to create a fishbone diagram (Ishikawa) using the Diagram component. Zoom and pan options are enabled. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_InteractionController'>InteractionController</a></code> property of the Diagram control allows you to enable or disable zoom and pan options. Read-only mode is enabled here.</p>
+    <p>This sample demonstrates how to build a fishbone (Ishikawa) diagram with the Diagram component. Zoom and pan functionalities are enabled. You can control these interactions through the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_InteractionController">InteractionController</a></code> property of the Diagram control. The diagram is displayed in read-only mode.</p>
 </ActionDescription>
 @*End:Hidden*@
 <div class="col-lg-12 control-section">
     <div id="diagram-space" class="content-wrapper" style="height:650px">
-        <SfDiagramComponent @ref="diagram" Height="650px" InteractionController="@DiagramInteractions.ZoomPan" Nodes="@NodeCollection" Connectors="@ConnectorCollection" Created="OnCreated">
+        <SfDiagramComponent @ref="DiagramInstance" Height="650px" InteractionController="@DiagramInteractions.ZoomPan" Nodes="@DiagramNodes" Connectors="@DiagramConnectors" Created="OnCreated">
             <SnapSettings Constraints="@SnapConstraints.None"></SnapSettings>
         </SfDiagramComponent>
     </div>
@@ -27,22 +24,22 @@
 
 @code{
     //Defines Diagram's nodes collection
-    public DiagramObjectCollection<Node> NodeCollection { get; set; }
+    public DiagramObjectCollection<Node> DiagramNodes { get; set; }
     //Defines Diagram's connectors collection
-    public DiagramObjectCollection<Connector> ConnectorCollection { get; set; }
+    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; }
     @*Hidden:Lines*@
     
-    Syncfusion.Blazor.Diagram.NodeShapes BasicShape = Syncfusion.Blazor.Diagram.NodeShapes.Basic;
-    Syncfusion.Blazor.Diagram.NodeShapes PathShape = Syncfusion.Blazor.Diagram.NodeShapes.Path;
-    string FishBonePath = "M0 50H140L160 25L140 0H0L20 25L0 50Z";
-    string TailPath = "M0 0H60L80 25L60 50H0V25V0Z";
-    string HeadPath = "M0 0H115.5L132 25L115.5 50H0V25V0Z";
-    SfDiagramComponent diagram;
+    private NodeShapes BasicShape { get; set; } = NodeShapes.Basic;
+    private NodeShapes PathShape { get; set; } = NodeShapes.Path;
+    private string FishBonePath { get; set; } = "M0 50H140L160 25L140 0H0L20 25L0 50Z";
+    private string TailPath { get; set; } = "M0 0H60L80 25L60 50H0V25V0Z";
+    private string HeadPath { get; set; } = "M0 0H115.5L132 25L115.5 50H0V25V0Z";
+    private SfDiagramComponent DiagramInstance { get; set; }
     @*End:Hidden*@
     protected override void OnInitialized()
     {
         
-        NodeCollection = new DiagramObjectCollection<Node>();
+        DiagramNodes = new DiagramObjectCollection<Node>();
         DiagramObjectCollection<PointPort> Ports = new DiagramObjectCollection<PointPort>()
         {
             new PointPort()
@@ -115,7 +112,7 @@
         CreateNode("Software", 260, 500, 70, 20, "transparent", "", 0, BasicShape, "", softwareAnnotation);
         CreateNode("Procurement", 517, 500, 71, 20, "transparent", "", 0, BasicShape, "", procurementAnnotation);
         CreateNode("Standardization", 774, 500, 86, 20, "transparent", "", 0, BasicShape, "", standardizationAnnotation);
-        ConnectorCollection = new DiagramObjectCollection<Connector>();
+        DiagramConnectors = new DiagramObjectCollection<Connector>();
         CreateConnector("equipellise", "5,5", "Equipment", "ellipse1", "#3941C4", 1, "port1");
         CreateConnector("connect12", "5,5", "ellipse1", "ellipse2", "#3941C4", 1);
         CreateConnector("connect13", "5,5", "ellipse2", "ellipse3", "#3941C4", 1);
@@ -162,9 +159,9 @@
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        diagram.FitToPage(mobileoptions);
+        DiagramInstance.FitToPage(mobileoptions);
     }
-    // Method is used to create a Connector for the diagram.
+    // Method is used to create a Connector for the DiagramInstance.
     private void CreateConnector(string id, string lineDashArray, string source, string target, string lineColor, int lineWidth, string portId = null, int padding = 0)
     {
         Connector connector = new Connector()
@@ -182,7 +179,7 @@
         }
         if (portId != null && portId != "")
             connector.SourcePortID = portId;
-        ConnectorCollection.Add(connector);
+        DiagramConnectors.Add(connector);
     }
     // Method is used to create a Node for the diagram.
     private void CreateNode(string id, double x, double y, double width, double height, string fill, string strokeColor, int strokeWidth, Syncfusion.Blazor.Diagram.NodeShapes shape, string pathData = null, DiagramObjectCollection<ShapeAnnotation> annotations = null, DiagramObjectCollection<PointPort> ports = null)
@@ -208,7 +205,7 @@
             diagramNode.Annotations = annotations;
         if (ports != null)
             diagramNode.Ports = ports;
-        NodeCollection.Add(diagramNode);
+        DiagramNodes.Add(diagramNode);
     }
     // Method is used to create an annotation for the diagram.
     private DiagramObjectCollection<ShapeAnnotation> CreateAnnotations(string content1, string color, string fontFamily, int fontSize = 12, bool bold = false)
@@ -223,15 +220,15 @@
     @*Hidden:Lines*@
     public void Dispose()
     {
-        if (NodeCollection != null)
+        if (DiagramNodes != null)
         {
-            NodeCollection.Clear();
-            NodeCollection = null;
+            DiagramNodes.Clear();
+            DiagramNodes = null;
         }
-        if (ConnectorCollection != null)
+        if (DiagramConnectors != null)
         {
-            ConnectorCollection.Clear();
-            ConnectorCollection = null;
+            DiagramConnectors.Clear();
+            DiagramConnectors = null;
         }
     }
     @*End:Hidden*@

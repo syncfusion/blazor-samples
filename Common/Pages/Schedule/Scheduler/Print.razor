@@ -6,9 +6,6 @@
 @using Syncfusion.Blazor.DropDowns
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -25,7 +22,7 @@
 
 <div class="col-lg-9 control-section">
     <SfSchedule @ref="ScheduleRef" TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
-        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleEventSettings DataSource="@EventDataSource"></ScheduleEventSettings>
         <ScheduleViews>
             <ScheduleView Option="View.Day"></ScheduleView>
             <ScheduleView Option="View.Week"></ScheduleView>
@@ -49,12 +46,12 @@
                 {
                     <tr>
                         <td>
-                            <SfDropDownList TValue="string" TItem="string" @bind-Value="@printHeight" DataSource="@printData" Placeholder="Height" FloatLabelType="FloatLabelType.Always"></SfDropDownList>
+                            <SfDropDownList TValue="string" TItem="string" @bind-Value="@_printHeight" DataSource="@_printData" Placeholder="Height" FloatLabelType="FloatLabelType.Always"></SfDropDownList>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <SfDropDownList TValue="string" TItem="string" @bind-Value="@printWidth" DataSource="@printData" Placeholder="Width" FloatLabelType="FloatLabelType.Always"></SfDropDownList>
+                            <SfDropDownList TValue="string" TItem="string" @bind-Value="@_printWidth" DataSource="@_printData" Placeholder="Width" FloatLabelType="FloatLabelType.Always"></SfDropDownList>
                         </td>
                     </tr>
                 }
@@ -70,19 +67,18 @@
 
 @code{
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 9);
-    SfSchedule<ScheduleData.AppointmentData> ScheduleRef;
-    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetScheduleData();
+    private SfSchedule<ScheduleData.AppointmentData> ScheduleRef;
+    private List<ScheduleData.AppointmentData> EventDataSource = new ScheduleData().GetScheduleData();
     private bool IsPrintWithOptions { get; set; } = false;
-    private string printHeight = "auto";
-    private string printWidth = "auto";
-    private List<string> printData = new List<string>() { "auto", "100%", "500px" };
-    
+    private string _printHeight = "auto";
+    private string _printWidth = "auto";
+    private List<string> _printData = new List<string>() { "auto", "100%", "500px" };
 
     public async Task OnPrint()
     {
         if (IsPrintWithOptions)
         {
-            PrintOptions Options = new PrintOptions() { Height = printHeight, Width = printWidth };
+            PrintOptions Options = new PrintOptions() { Height = _printHeight, Width = _printWidth };
             await ScheduleRef.PrintAsync(Options);
         }
         else

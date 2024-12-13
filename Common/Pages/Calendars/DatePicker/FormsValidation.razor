@@ -5,11 +5,6 @@
 @using System.ComponentModel.DataAnnotations;
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -38,17 +33,17 @@
     <div class="control-wrapper">
         @if (string.IsNullOrEmpty(Message))
         {
-        <EditForm Model="@annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
-            <DataAnnotationsValidator />
-            <div class="form-group">
-                <label class="example-label">Date of journey</label>
-                    <SfDatePicker id='DatePick' Placeholder="Choose a Date" TValue="DateTime?" Min='@MinDate' Max='@MaxDate' @bind-Value="@annotation.Startdate" ShowClearButton="true" FullScreen="true"></SfDatePicker>
-                <ValidationMessage For="@(() => annotation.Startdate)" />
-            </div>
-            <div class="submit-btn">
-                <SfButton type="submit" IsPrimary="true">Submit</SfButton>
-            </div>
-        </EditForm>
+            <EditForm Model="@_annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator/>
+                <div class="form-group">
+                    <label class="example-label">Date of journey</label>
+                    <SfDatePicker id='DatePick' Placeholder="Choose a Date" TValue="DateTime?" Min='@MinDate' Max='@MaxDate' @bind-Value="@_annotation.Startdate" ShowClearButton="true" FullScreen="true"></SfDatePicker>
+                    <ValidationMessage For="@(() => _annotation.Startdate)"/>
+                </div>
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
         }
         else
         {
@@ -86,12 +81,12 @@
 @code {
     private string Message = string.Empty;
     
-    async void OnValidSubmit()
+    private async void OnValidSubmit()
     {
         Message = "Form Submitted Successfully!";
         await Task.Delay(2000);
         Message = string.Empty;
-        annotation.Startdate = null;
+        _annotation.Startdate = null;
         StateHasChanged();
     }
     private void OnInvalidSubmit()
@@ -100,7 +95,8 @@
     }
     private DateTime MinDate { get; set; } = new DateTime(2021, 3, 1);
     private DateTime MaxDate { get; set; } = new DateTime(2021, 3, 31);
-    private Annotation annotation = new Annotation();
+    private Annotation _annotation = new Annotation();
+
     public class Annotation
     {
         [Required(ErrorMessage = "The Date field is required.")]
@@ -108,4 +104,3 @@
         public DateTime? Startdate { get; set; } = null;
     }
 }
-

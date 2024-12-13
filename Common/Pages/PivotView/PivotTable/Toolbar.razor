@@ -1,15 +1,11 @@
 ﻿@page "/pivot-table/toolbar"
 
 @using Syncfusion.Blazor.PivotView
-@using BlazorDemos
 @using Syncfusion.Blazor
 @using ThemeHelper
-
 @inject NavigationManager NavigationManager
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -18,8 +14,8 @@
 <ActionDescription>
     <p>
         In this example, users can generate a report at runtime, as well as save and load them. Save and load operations
-        are performed in local variable using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_SaveReport' aria-label="Class reference of SaveReport event in PivotView">SaveReport</a> and <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_LoadReport' aria-label="Class reference of LoadReport event in PivotView">LoadReport</a> events.
-        Users can change to either pivot table or pivot chart using the toolbar options. To enable toolbar, set the <code>ShowToolbar</code> property in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html' aria-label="Class reference of PivotView">SfPivotView</a> to <b>true</b>, The toolbar options that are available are:
+        are performed in local variable using the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_SaveReport" aria-label="Class reference of SaveReport event in PivotView">SaveReport</a> and <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_LoadReport" aria-label="Class reference of LoadReport event in PivotView">LoadReport</a> events.
+        Users can change to either pivot table or pivot chart using the toolbar options. To enable toolbar, set the <code>ShowToolbar</code> property in <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html" aria-label="Class reference of PivotView">SfPivotView</a> to <b>true</b>, The toolbar options that are available are:
     </p>
     <table>
         <tr>
@@ -76,8 +72,8 @@
         </tr>
     </table>
     <br />
-    <p>To define toolbar options, create a list with necessary <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.ToolbarItems.html' aria-label="Class reference of ToolbarItems property in PivotView">ToolbarItems</a> enumeration values and add it to the <code>Toolbar</code> property in <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html' aria-label="Class reference of PivotView">SfPivotView</a>.</p>
-    <p>More information on the toolbar feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/tool-bar/' aria-label="Blazor PivotTable Toolbar documentation" >documentation section</a>.</p>
+    <p>To define toolbar options, create a list with necessary <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.ToolbarItems.html" aria-label="Class reference of ToolbarItems property in PivotView">ToolbarItems</a> enumeration values and add it to the <code>Toolbar</code> property in <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html" aria-label="Class reference of PivotView">SfPivotView</a>.</p>
+    <p>More information on the toolbar feature can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/tool-bar/" aria-label="Blazor PivotTable Toolbar documentation" >documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
@@ -127,9 +123,9 @@
 </style>
 
 @code{
-    
-    SfPivotView<PivotProductDetails> Pivot;
-            public List<ToolbarItems> PivotToolbar = new List<ToolbarItems> {
+    public SfPivotView<PivotProductDetails> Pivot;
+    public List<ToolbarItems> PivotToolbar = new List<ToolbarItems>
+    {
         ToolbarItems.New,
         ToolbarItems.Save,
         ToolbarItems.SaveAs,
@@ -144,72 +140,78 @@
         ToolbarItems.Formatting,
         ToolbarItems.FieldList
     };
-            private Theme Theme { get; set; }
-            public List<PivotProductDetails> Data { get; set; }
 
-            protected override void OnInitialized()
-            {
-                
-                Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-                this.Data = PivotProductDetails.GetProductData();
-            }
+    private Theme Theme { get; set; }
+    public List<PivotProductDetails> Data { get; set; }
 
-            public string InitReport { get; set; }
-            public string[] Name { get; set; }
-            public List<string> Report = new List<string>();
-            public List<string> ReportName = new List<string>();
-            public void SaveReport(SaveReportArgs args)
-            {
-                int i = 0;
-                bool IsSaved = false;
-                for (i = 0; i < this.ReportName.Count; i++)
-                {
-                    if (this.ReportName[i] == args.ReportName)
-                    {
-                        this.Report[i] = args.Report;
-                        IsSaved = true;
-                    }
-                }
-                if (args.Report != null && !(IsSaved))
-                {
-                    this.Report.Add(args.Report);
-                    this.ReportName.Add(args.ReportName);
-                }
-            }
-            public void FetchReport(FetchReportArgs args)
-            {
-                args.ReportName = ReportName.ToArray();
-
-            }
-            public async Task LoadReport(LoadReportArgs args)
-            {
-                int i = 0;
-                int j = 0;
-                for (i = 0; i < ReportName.Count; i++)
-                {
-                    if (ReportName[i] == args.ReportName)
-                    {
-                        j = i;
-                    }
-                }
-                await this.Pivot.LoadPersistDataAsync(Report[j]);
-            }
-            public async Task RemoveReport(RemoveReportArgs args)
-            {
-                int i = 0;
-                for (i = 0; i < ReportName.Count; i++)
-                {
-                    if (ReportName[i] == args.ReportName)
-                    {
-                        ReportName.RemoveAt(i);
-                        Report.RemoveAt(i);
-                        break;
-                    }
-                }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        this.Data = PivotProductDetails.GetProductData();
     }
+
+    public string InitReport { get; set; }
+    public string[] Name { get; set; }
+    public List<string> Report = new List<string>();
+    public List<string> ReportName = new List<string>();
+
+    public void SaveReport(SaveReportArgs args)
+    {
+        int i = 0;
+        bool IsSaved = false;
+        for (i = 0; i < this.ReportName.Count; i++)
+        {
+            if (this.ReportName[i] == args.ReportName)
+            {
+                this.Report[i] = args.Report;
+                IsSaved = true;
+            }
+        }
+
+        if (args.Report != null && !(IsSaved))
+        {
+            this.Report.Add(args.Report);
+            this.ReportName.Add(args.ReportName);
+        }
+    }
+
+    public void FetchReport(FetchReportArgs args)
+    {
+        args.ReportName = ReportName.ToArray();
+    }
+
+    public async Task LoadReport(LoadReportArgs args)
+    {
+        int i = 0;
+        int j = 0;
+        for (i = 0; i < ReportName.Count; i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                j = i;
+            }
+        }
+        await this.Pivot.LoadPersistDataAsync(Report[j]);
+    }
+
+    public async Task RemoveReport(RemoveReportArgs args)
+    {
+        int i = 0;
+        for (i = 0; i < ReportName.Count; i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                ReportName.RemoveAt(i);
+                Report.RemoveAt(i);
+                break;
+            }
+        }
+    }
+
     public void RenameReport(RenameReportArgs args)
     {
-        if (args.IsReportExists) {
+        if (args.IsReportExists)
+        {
             int j = 0;
             for (j = 0; j < ReportName.Count; j++)
             {
@@ -221,14 +223,14 @@
                 }
             }
         }
+
         int i = 0;
         for (i = 0; i <= (ReportName.Count - 1); i++)
         {
             if (ReportName[i] == args.ReportName)
             {
-               ReportName[i]=args.Rename;
+                ReportName[i] = args.Rename;
             }
         }
-
     }
 }

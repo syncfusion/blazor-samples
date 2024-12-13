@@ -4,22 +4,18 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Navigations
 @using shapes = Syncfusion.Blazor.Diagram.NodeShapes
-
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @implements IDisposable
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 @*Hidden:Lines*@
 <SampleDescription>
-    <p> This sample illustrates how to restrict end-users interaction with the diagram component, nodes, and connectors using constraints. Node constraints are used to restrict end-users from performing certain operations on nodes and connector constraints are used to restrict end-users from performing certain operation on connectors. </p>
+    <p>This sample illustrates the flow of data in a marketing process created using a <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html" aria-label="Connector">Connector</a></code>. Different types of connectors and decorators are used to customize the appearance, path, and direction of the data flow.</p>
 </SampleDescription>
 <ActionDescription>
-    <p> This example shows how to restrict interaction with a diagram using constraints and explains <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.NodeConstraints.html' aria-label="NodeConstraints">NodeConstraints</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.ConnectorConstraints.html' aria-label="ConnectorConstraints">ConnectorConstraints</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.AnnotationConstraints.html' aria-label="AnnotationConstraints">AnnotationConstraints</a>,<a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramConstraints.html#Syncfusion_Blazor_Diagram_DiagramConstraints' aria-label="DiagramConstraints">DiagramConstraints</a>.</p>
-    <p> The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_Constraints' aria-label="Constraints">Constraints</a> property allows you to enable or disable node behaviors like select, drag, resize, rotate, and delete. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_Constraints'>Constraints</a> property allows you to enable or disable connector behaviors like select, drag, delete, drag source end, and drag target end. Using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramConstraints.html#Syncfusion_Blazor_Diagram_DiagramConstraints' aria-label="Constraints">Constraints</a> property, enable or disable certain features of the diagram like bridging, undo/redo, user interaction, page editable, and tooltip support.The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.AnnotationConstraints.html' aria-label="Constraints">Constraints</a> property allows you to enable or disable the read-only mode for the annotations.</p>
+    <p>In this example, you can see how to add connectors to connect shapes and customize their appearance. A collection of connectors is added to a diagram using the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Connectors" aria-label="Connectors">Connectors</a></code> property of the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html" aria-label="SfDiagramComponent">SfDiagramComponent</a></code>. You can use the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_Style" aria-label="Style">Style</a></code> property to customize its stroke style and the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_CornerRadius" aria-label="CornerRadius">CornerRadius</a></code> property to add rounded corners to connectors. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SegmentThumbSettings.html#Syncfusion_Blazor_Diagram_SegmentThumbSettings_Shape" aria-label="Shape">Shape</a></code> property of <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_SegmentThumbSettings" aria-label="SegmentThumbSettings">SegmentThumbSettings</a></code> customizes the appearance of the segment shape for both Orthogonal and Bezier connectors.</p>
+    <p>Click different styles in the properties panel to customize the appearance of the connector. The <code>Lock</code> option enables or disables connector editing.</p>
 </ActionDescription>
 @*End:Hidden*@
 @*Hidden:Lines*@
@@ -35,9 +31,6 @@
             border: 1px solid #D5D5D5;
             background-position: center;
             float: left;
-        }
-        .sb-property-border {
-            border-right: 1px solid #D7D7D7;
         }
 
         .property-panel-header {
@@ -191,18 +184,18 @@
     <div style="width:100%">
         <SfToolbar>
             <ToolbarItems>
-                <ToolbarItem @ref="@UndoItem" PrefixIcon="e-icons e-undo" Text="Undo" Disabled="@undoredo" OnClick="@OnUndoItemClick"></ToolbarItem>
+                <ToolbarItem PrefixIcon="e-icons e-undo" Text="Undo" Disabled="@IsUndoRedoEnabled" OnClick="@OnUndoItemClick"></ToolbarItem>
                 <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
-                <ToolbarItem @ref="@RedoItem" PrefixIcon="e-icons e-redo" Text="Redo" Disabled="@undoredo" OnClick="@OnRedoItemClick"></ToolbarItem>
+                <ToolbarItem PrefixIcon="e-icons e-redo" Text="Redo" Disabled="@IsUndoRedoEnabled" OnClick="@OnRedoItemClick"></ToolbarItem>
                 <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
-                <ToolbarItem @ref="@ZoomInItem" Text="ZoomIn" Disabled="@zoomvalue" PrefixIcon="e-ddb-icons e-zoomin" OnClick="@OnZoomInItemClick"></ToolbarItem>
+                <ToolbarItem Text="ZoomIn" Disabled="@ZoomValue" PrefixIcon="e-ddb-icons e-zoomin" OnClick="@OnZoomInItemClick"></ToolbarItem>
                 <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
-                <ToolbarItem @ref="@ZoomOutItem" Text="ZoomOut" Disabled="@zoomvalue" PrefixIcon="e-ddb-icons e-zoomout" OnClick="@OnZoomOutItemClick"></ToolbarItem>
+                <ToolbarItem Text="ZoomOut" Disabled="@ZoomValue" PrefixIcon="e-ddb-icons e-zoomout" OnClick="@OnZoomOutItemClick"></ToolbarItem>
             </ToolbarItems>
         </SfToolbar>
     </div>
     <div id="diagram-space" class="content-wrapper" style="width:100%">
-        <SfDiagramComponent Height="640px" Constraints="@constraints" @ref="@diagram" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
+        <SfDiagramComponent Height="640px" Constraints="@Constraints" @ref="@DiagramInstance" Nodes="@DiagramNodes" Connectors="@DiagramConnectors" Created="OnCreated">
             <SnapSettings Constraints=SnapConstraints.ShowLines>
             </SnapSettings>
         </SfDiagramComponent>
@@ -215,29 +208,29 @@
         Diagram Constraints
     </div>
 
-    <div class="@appearance">
+    <div class="@AppearanceClass">
         <div class="row property-panel-content" id="appearance">
             <div class="row">
                 <div class="row row-header"></div>
                 <div class="row" style="padding-top: 8px">
-                    <SfCheckBox ID="chkLock" Label="Zooming" Checked="@zoom" TChecked="bool" ValueChange="ZoomChanged" />
+                    <SfCheckBox ID="chkLock" Label="Zooming" Checked="@IsZoomEnabled" TChecked="bool" ValueChange="ZoomChanged" />
                 </div>
                 <div class="row row-header"></div>
                 <div class="row" style="padding-top: 8px">
-                    <SfCheckBox ID="chkLock" Label="Undo/Redo" Checked="@undo" ValueChange="UndoChanged" TChecked="bool" />
+                    <SfCheckBox ID="chkLock" Label="Undo/Redo" Checked="@IsUndoEnabled" ValueChange="UndoChanged" TChecked="bool" />
                 </div>
                 <div class="row row-header"></div>
                 <div class="row" style="padding-top: 8px">
-                    <SfCheckBox ID="chkLock" Label="Text Editing" Checked="@textEdit" ValueChange="TextEditChanged" TChecked="bool" />
+                    <SfCheckBox ID="chkLock" Label="Text Editing" Checked="@IsTextEditingEnabled" ValueChange="TextEditChanged" TChecked="bool" />
                 </div>
                 <div class="row row-header"></div>
                 <div class="row row-header"></div>
                 <div class="row" style="padding-top: 8px">
-                    <SfCheckBox ID="chkLock" Label="Selectable" Checked="@select" ValueChange="SelectChanged" TChecked="bool" />
+                    <SfCheckBox ID="chkLock" Label="Selectable" Checked="@IsSelectable" ValueChange="SelectChanged" TChecked="bool" />
                 </div>
                 <div class="row row-header"></div>
                 <div class="row" style="padding-top: 8px">
-                    <SfCheckBox ID="chkLock" Label="Draggable" Checked="@drag" ValueChange="DragChanged" TChecked="bool" />
+                    <SfCheckBox ID="chkLock" Label="Draggable" Checked="@IsDraggable" ValueChange="DragChanged" TChecked="bool" />
                 </div>
             </div>
         </div>
@@ -246,39 +239,30 @@
 @*End:Hidden*@
 @code{
     @*Hidden:Lines*@
-    
-    string appearance = "e-remove-selection";
-    bool zoom = true;
-    bool undo = true;
-    bool undoredo = false;
-    bool zoomvalue = false;
-    bool select = true;
-    bool drag = true;
-    bool textEdit = true;
+    public string AppearanceClass { get; set; } = "e-remove-selection";
+    public bool IsZoomEnabled { get; set; } = true;
+    public bool IsUndoEnabled { get; set; } = true;
+    public bool IsUndoRedoEnabled { get; set; } = false;
+    public bool ZoomValue { get; set; } = false;
+    public bool IsSelectable { get; set; } = true;
+    public bool IsDraggable { get; set; } = true;
+    public bool IsTextEditingEnabled { get; set; } = true;
     @*End:Hidden*@
-
-    ToolbarItem UndoItem;
-    ToolbarItem RedoItem;
-    ToolbarItem ZoomInItem;
-    ToolbarItem ZoomOutItem;
-
     //Defines sfdiagramComponent
-    SfDiagramComponent diagram;
+    public SfDiagramComponent DiagramInstance { get; set; }
 
     //Defines diagram constraints
-    public DiagramConstraints constraints { get; set; }
+    public DiagramConstraints Constraints { get; set; }
 
     //Defines diagrams's nodes collection
-    public DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
 
     //Defines diagrams's connectors collection
-    public DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
 
     protected override void OnInitialized()
     {
-        
-        constraints = DiagramConstraints.Default;
-
+        Constraints = DiagramConstraints.Default;
         CreateNode("textnode", 390, NodeBasicShapes.Rectangle, "Node Constraints", "Node");
         CreateNode("connector", 390, NodeBasicShapes.Rectangle, "Connector Constraints", "Connector");
         CreateNode("select", 80, NodeBasicShapes.Rectangle, "Selection = False", "Selection");
@@ -301,35 +285,34 @@
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
         if (SampleService.IsDevice)
         {
-            diagram.FitToPage(mobileoptions);
-
+            DiagramInstance.FitToPage(mobileoptions);
         }
     }
     //Enable or disable text edit constraints
     private void TextEditChanged(ChangeEventArgs<bool> args)
     {
-        for (var i = 0; i < diagram.Connectors.Count; i++)
+        for (var i = 0; i < DiagramInstance.Connectors.Count; i++)
         {
-            var connector = diagram.Connectors[i];
+            var connector = DiagramInstance.Connectors[i];
             for (var j = 0; j < connector.Annotations.Count; j++)
             {
                 PathAnnotation pathAnnotation = connector.Annotations[j];
                 if (args.Checked == true)
                 {
-                    textEdit = true;
+                    IsTextEditingEnabled = true;
                     pathAnnotation.Constraints &= ~AnnotationConstraints.ReadOnly;
                 }
                 else
                 {
-                    textEdit = false;
+                    IsTextEditingEnabled = false;
                     pathAnnotation.Constraints = AnnotationConstraints.ReadOnly;
                 }
             }
         }
 
-        for (var i = 0; i < diagram.Nodes.Count; i++)
+        for (var i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            var node = diagram.Nodes[i];
+            var node = DiagramInstance.Nodes[i];
             for (var j = 0; j < node.Annotations.Count; j++)
             {
                 ShapeAnnotation shapeAnnotation = node.Annotations[j];
@@ -341,13 +324,13 @@
                     }
                     else
                     {
-                        textEdit = true;
+                        IsTextEditingEnabled = true;
                         shapeAnnotation.Constraints &= ~AnnotationConstraints.ReadOnly;
                     }
                 }
                 else
                 {
-                    textEdit = false;
+                    IsTextEditingEnabled = false;
                     shapeAnnotation.Constraints = AnnotationConstraints.ReadOnly;
                 }
             }
@@ -358,15 +341,15 @@
     {
         if (args.Checked == true)
         {
-            zoom = true;
-            zoomvalue = false;
-            constraints |= DiagramConstraints.Zoom;
+            IsZoomEnabled = true;
+            ZoomValue = false;
+            Constraints |= DiagramConstraints.Zoom;
         }
         else
         {
-            zoom = false;
-            zoomvalue = true;
-            constraints &= ~DiagramConstraints.Zoom;
+            IsZoomEnabled = false;
+            ZoomValue = true;
+            Constraints &= ~DiagramConstraints.Zoom;
         }
     }
     //Enable or disable undo/redo constraints
@@ -374,23 +357,23 @@
     {
         if (args.Checked == true)
         {
-            undo = true;
-            undoredo = false;
-            constraints |= DiagramConstraints.UndoRedo;
+            IsUndoEnabled = true;
+            IsUndoRedoEnabled = false;
+            Constraints |= DiagramConstraints.UndoRedo;
         }
         else
         {
-            undo = false;
-            undoredo = true;
-            constraints &= ~DiagramConstraints.UndoRedo;
+            IsUndoEnabled = false;
+            IsUndoRedoEnabled = true;
+            Constraints &= ~DiagramConstraints.UndoRedo;
         }
     }
     //Enable or disable select constraints
     private void SelectChanged(ChangeEventArgs<bool> args)
     {
-        for (var i = 0; i < diagram.Connectors.Count; i++)
+        for (var i = 0; i < DiagramInstance.Connectors.Count; i++)
         {
-            var connector = diagram.Connectors[i];
+            var connector = DiagramInstance.Connectors[i];
             if (args.Checked == true)
             {
                 if (connector.ID == "selection")
@@ -399,20 +382,20 @@
                 }
                 else
                 {
-                    select = true;
+                    IsSelectable = true;
                     connector.Constraints |= ConnectorConstraints.Select;
                 }
             }
             else
             {
-                select = false;
+                IsSelectable = false;
                 connector.Constraints &= ~ConnectorConstraints.Select;
             }
         }
 
-        for (var i = 0; i < diagram.Nodes.Count; i++)
+        for (var i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            var node = diagram.Nodes[i];
+            var node = DiagramInstance.Nodes[i];
             if (args.Checked == true)
             {
                 if (node.ID == "select")
@@ -421,13 +404,13 @@
                 }
                 else
                 {
-                    select = true;
+                    IsSelectable = true;
                     node.Constraints |= NodeConstraints.Select;
                 }
             }
             else
             {
-                select = false;
+                IsSelectable = false;
                 node.Constraints &= ~NodeConstraints.Select;
             }
         }
@@ -435,9 +418,9 @@
     //Enable or disable drag constraints
     private void DragChanged(ChangeEventArgs<bool> args)
     {
-        for (var i = 0; i < diagram.Connectors.Count; i++)
+        for (var i = 0; i < DiagramInstance.Connectors.Count; i++)
         {
-            var connector = diagram.Connectors[i];
+            var connector = DiagramInstance.Connectors[i];
             if (args.Checked == true)
             {
                 if (connector.ID == "dragging")
@@ -446,23 +429,23 @@
                 }
                 else
                 {
-                    drag = true;
+                    IsDraggable = true;
                     connector.Constraints |= ConnectorConstraints.Drag;
                 }
             }
             else
             {
-                drag = false;
+                IsDraggable = false;
                 connector.Constraints &= ~ConnectorConstraints.Drag;
             }
         }
 
-        for (var i = 0; i < diagram.Nodes.Count; i++)
+        for (var i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            var node = diagram.Nodes[i];
+            var node = DiagramInstance.Nodes[i];
             if (args.Checked == true)
             {
-                drag = true;
+                IsDraggable = true;
                 if (node.ID == "drag")
                 {
                     node.Constraints &= ~NodeConstraints.Drag;
@@ -474,7 +457,7 @@
             }
             else
             {
-                drag = false;
+                IsDraggable = false;
                 node.Constraints &= ~NodeConstraints.Drag;
             }
         }
@@ -520,7 +503,7 @@
                 con.Constraints |= ConnectorConstraints.DragSegmentThumb;
                 break;
         }
-        connectors.Add(con);
+        DiagramConnectors.Add(con);
     }
     //Create Node
     private void CreateNode(string id, double offsetx, NodeBasicShapes shape, string annotation, string constraints)
@@ -589,38 +572,38 @@
                 node.Annotations[0].Constraints = AnnotationConstraints.ReadOnly;
                 break;
         }
-        nodes.Add(node);
+        DiagramNodes.Add(node);
     }
     @*Hidden:Lines*@
     public void Dispose()
     {
-        if (nodes != null)
+        if (DiagramNodes != null)
         {
-            nodes.Clear();
-            nodes = null;
+            DiagramNodes.Clear();
+            DiagramNodes = null;
         }
-        if (connectors != null)
+        if (DiagramConnectors != null)
         {
-            connectors.Clear();
-            connectors = null;
+            DiagramConnectors.Clear();
+            DiagramConnectors = null;
         }
     }
     @*End:Hidden*@
 
     public void OnUndoItemClick()
     {
-        diagram.Undo();
+        DiagramInstance.Undo();
     }
     public void OnRedoItemClick()
     {
-        diagram.Redo();
+        DiagramInstance.Redo();
     }
     public void OnZoomInItemClick()
     {
-        diagram.Zoom(1.2, new DiagramPoint() { X = 100, Y = 100 });
+        DiagramInstance.Zoom(1.2, new DiagramPoint() { X = 100, Y = 100 });
     }
     public void OnZoomOutItemClick()
     {
-       diagram.Zoom(1/1.2, new DiagramPoint() { X = 100, Y = 100 });
+       DiagramInstance.Zoom(1/1.2, new DiagramPoint() { X = 100, Y = 100 });
     }
 }

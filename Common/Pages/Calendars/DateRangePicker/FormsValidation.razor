@@ -3,15 +3,9 @@
 @using Syncfusion.Blazor.Calendars;
 @using Syncfusion.Blazor.Buttons;
 @using System.ComponentModel.DataAnnotations;
-@using System.Reflection;
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
-
-
 @*End:Hidden*@
 <SampleDescription>
     <p>This example is used to validate form using the Data Annotation. Type the date range in the input element or choose the date range from the calendar popup. If the input value is a valid date range value, then the given input will be ready to submit. Otherwise, an error message will be shown until you enter or choose the valid date.</p>
@@ -39,13 +33,13 @@
     <div class="control-wrapper">
         @if (string.IsNullOrEmpty(Message))
         {
-            <EditForm Model="@annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+            <EditForm Model="@_annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
                 <DataAnnotationsValidator />
                 <div class="form-group">
                     <label class="example-label">Check-In and Check-Out Date</label>
-                    <SfDateRangePicker TValue="DateTime?" Placeholder="Choose a range" Min='@MinDate' Max='@MaxDate' @bind-StartDate="@annotation.StartDate" @bind-EndDate="@annotation.EndDate" ShowClearButton="true" FullScreen="true"></SfDateRangePicker>
-                    <ValidationMessage For="@(() => annotation.StartDate)" />
-                    <ValidationMessage For="@(() => annotation.EndDate)" />
+                    <SfDateRangePicker TValue="DateTime?" Placeholder="Choose a range" Min='@MinDate' Max='@MaxDate' @bind-StartDate="@_annotation.StartDate" @bind-EndDate="@_annotation.EndDate" ShowClearButton="true" FullScreen="true"></SfDateRangePicker>
+                    <ValidationMessage For="@(() => _annotation.StartDate)" />
+                    <ValidationMessage For="@(() => _annotation.EndDate)" />
                 </div>
                 <div class="submit-btn">
                     <SfButton type="submit" IsPrimary="true">Submit</SfButton>
@@ -88,14 +82,13 @@
 @code {
     private string Message = string.Empty;
     
-    
-    async void OnValidSubmit()
+    private async void OnValidSubmit()
     {
         Message = "Form Submitted Successfully!";
         await Task.Delay(2000);
         Message = string.Empty;
-        annotation.StartDate = null;
-        annotation.EndDate = null;
+        _annotation.StartDate = null;
+        _annotation.EndDate = null;
         StateHasChanged();
     }
     private void OnInvalidSubmit()
@@ -114,7 +107,7 @@
             return startDate < endDate ? null : new ValidationResult("The start date should be before the end date.", new[] { validationContext.MemberName });
         }
     }
-    private Annotation annotation = new Annotation();
+    private Annotation _annotation = new Annotation();
     public class Annotation
     {
         [Required(ErrorMessage = "The Start Date field is required.")]

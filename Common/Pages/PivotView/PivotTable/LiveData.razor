@@ -1,18 +1,14 @@
 ﻿@page "/pivot-table/live-data"
 
 @using Syncfusion.Blazor.PivotView
-@using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor
-@using BlazorDemos
 @using ThemeHelper
 @implements IDisposable
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -39,7 +35,7 @@
         </ul>
     </p>
     <p>
-        More information on the Blazor Pivot Table can be found in these <a target="_blank" href='https://blazor.syncfusion.com/documentation/pivot-table/row-and-column/#cell-template'>Cell Template</a> & <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/pivot-chart/'>Pivot Chart</a> documentation section.
+        More information on the Blazor Pivot Table can be found in these <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/row-and-column/#cell-template">Cell Template</a> & <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/pivot-chart/">Pivot Chart</a> documentation section.
     </p>
 </ActionDescription>
 
@@ -47,11 +43,11 @@
     <div class="content-wrapper">
         <div class="head">
             <strong style="font-size:14px">Feed Delay(ms) :</strong>
-            <SfNumericTextBox @bind-Value=@feedDelayInput Width="150px" Min="5000" Step="1000" Format="N0" Enabled=@enableInput aria-label="feed delay(ms)"> </SfNumericTextBox>
-            <SfButton OnClick="StartInterval" Disabled="@start"> Start Updating... </SfButton> <SfButton OnClick="StopInterval" Disabled="@stop"> Stop Updating... </SfButton>
+            <SfNumericTextBox @bind-Value=@_feedDelayInput Width="150px" Min="5000" Step="1000" Format="N0" Enabled=@_enableInput aria-label="feed delay(ms)"> </SfNumericTextBox>
+            <SfButton OnClick="StartInterval" Disabled="@_start"> Start Updating... </SfButton> <SfButton OnClick="StopInterval" Disabled="@_stop"> Stop Updating... </SfButton>
         </div>
 
-        <SfPivotView TValue="PivotLiveData" @ref=@pivotObj Width="100%" Height="350">
+        <SfPivotView TValue="PivotLiveData" @ref=@_pivotObj Width="100%" Height="350">
             <PivotViewTemplates>
                 <CellTemplate>
                     @{
@@ -62,7 +58,7 @@
                             {
                                 if (!data.IsGrandSum && data.ActualText.ToString() == "Change")
                                 {
-                                    pivotObj.PivotValues[data.RowIndex][data.ColIndex].CssClass = colorScheme[cellColour(data.Value)];
+                                    _pivotObj.PivotValues[data.RowIndex][data.ColIndex].CssClass = _colorScheme[CellColour(data.Value)];
                                 }
                                 @data.FormattedText
                             }
@@ -74,7 +70,7 @@
                     }
                 </CellTemplate>
             </PivotViewTemplates>
-            <PivotViewDataSourceSettings TValue="PivotLiveData" DataSource="@updatedData" EmptyCellsTextContent="Revising" ShowGrandTotals="false" ShowSubTotals="false" EnableSorting="true">
+            <PivotViewDataSourceSettings TValue="PivotLiveData" DataSource="@_updatedData" EmptyCellsTextContent="Revising" ShowGrandTotals="false" ShowSubTotals="false" EnableSorting="true">
                 <PivotViewColumns>
                     <PivotViewColumn Name="Type"></PivotViewColumn>
                 </PivotViewColumns>
@@ -99,7 +95,7 @@
             <PivotViewDisplayOption View=Syncfusion.Blazor.PivotView.View.Both></PivotViewDisplayOption>
             <PivotChartSettings Theme="Theme" Value="Price">
                 <PivotChartSeries Type=Syncfusion.Blazor.PivotView.ChartSeriesType.Column></PivotChartSeries>
-                <PivotChartZoomSettings ToolbarItems="@pivotChartToolbarItems" EnableScrollbar="false" EnablePan="false" EnableSelectionZooming="false"></PivotChartZoomSettings>
+                <PivotChartZoomSettings ToolbarItems="@_pivotChartToolbarItems" EnableScrollbar="false" EnablePan="false" EnableSelectionZooming="false"></PivotChartZoomSettings>
                 <PivotChartLegendSettings Visible="false"></PivotChartLegendSettings>
             </PivotChartSettings>
             <PivotViewEvents TValue="PivotLiveData" DataBound="DataBound" Created="Created"></PivotViewEvents>
@@ -150,40 +146,36 @@
 
 </style>
 
-
 @code {
-
-    
-    private SfPivotView<PivotLiveData> pivotObj;
-    private List<PivotChartToolbarItems> pivotChartToolbarItems = new List<PivotChartToolbarItems>();
+    private SfPivotView<PivotLiveData> _pivotObj;
+    private List<PivotChartToolbarItems> _pivotChartToolbarItems = new List<PivotChartToolbarItems>();
     private Theme Theme { get; set; }
-    private int feedDelayInput = 5000;
-    private string[] colorScheme = new string[] { "bg-fade", "bg-fade1", "bg-fade2", "bg-fade3", "bg-fade4", "bg-fade5" };
-    private bool enableInput;
-    private bool start;
-    private bool stop = true;
-    private List<PivotLiveData> dataSource;
-    private List<PivotLiveData> updatedData;
-    private System.Threading.Timer timer;
-    private bool allowDataUpdate;
+    private int _feedDelayInput = 5000;
+    private string[] _colorScheme = new string[] { "bg-fade", "bg-fade1", "bg-fade2", "bg-fade3", "bg-fade4", "bg-fade5" };
+    private bool _enableInput;
+    private bool _start;
+    private bool _stop = true;
+    private List<PivotLiveData> _dataSource;
+    private List<PivotLiveData> _updatedData;
+    private System.Threading.Timer _timer;
+    private bool _allowDataUpdate;
     private PivotChartZoomSettings pivotChartZoomSettings = new PivotChartZoomSettings() { ToolbarItems = new List<PivotChartToolbarItems>(), EnableSelectionZooming = false, EnableScrollbar = false };
-
-
+    
     private void StartInterval()
     {
-        double value = Convert.ToDouble((feedDelayInput / 1000));
-        timer = new System.Threading.Timer(Callback, null, TimeSpan.FromSeconds(1), TimeSpan.FromSeconds(value));
-        start = true;
-        stop = false;
-        enableInput = false;
+        double value = Convert.ToDouble((_feedDelayInput / 1000));
+        _timer = new System.Threading.Timer(Callback, null, TimeSpan.FromSeconds(5), TimeSpan.FromSeconds(value));
+        _start = true;
+        _stop = false;
+        _enableInput = false;
     }
 
     private void StopInterval()
     {
-        timer.Dispose();
-        stop = true;
-        start = false;
-        enableInput = true;
+        _timer.Dispose();
+        _stop = true;
+        _start = false;
+        _enableInput = true;
     }
 
     private void Callback(object state)
@@ -197,16 +189,16 @@
     {
         void All()
         {
-            if (allowDataUpdate)
+            if (_allowDataUpdate)
             {
-                allowDataUpdate = false;
-                updatedData = GenerateData();
+                _allowDataUpdate = false;
+                _updatedData = GenerateData();
                 StateHasChanged();
             }
         }
         await InvokeAsync(All);
     }
-    private int cellColour(double? value)
+    private int CellColour(double? value)
     {
         int colorIndex = value < 0 ? 0 : value > 0 ? 1 : 2;
         return colorIndex;
@@ -214,19 +206,19 @@
     protected override void OnInitialized()
     {
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-        
-        dataSource = PivotLiveData.GetPivotLiveData();
-        updatedData = GenerateData();
+        _dataSource = PivotLiveData.GetPivotLiveData();
+        _updatedData = GenerateData();
     }
     private void DataBound()
     {
-        allowDataUpdate = true;
+        _allowDataUpdate = true;
     }
 
     private void Created()
     {
-            StartInterval();
+        StartInterval();
     }
+
     private List<PivotLiveData> GenerateData()
     {
         var count = 1000;
@@ -236,11 +228,11 @@
         bool startRandom = false;
         for (int i = 0; i < count; i++)
         {
-            int rand = startRandom ? (int)Math.Floor(new Random().NextDouble() * Convert.ToDouble((Math.Floor((decimal)dataSource.Count)))) : 0;
+            int rand = startRandom ? (int)Math.Floor(new Random().NextDouble() * Convert.ToDouble((Math.Floor((decimal)_dataSource.Count)))) : 0;
             RegionData region = RegionData.Data[j];
             for (int k = 0; k < region.Country.Count; k++)
             {
-                PivotLiveData dataObj = startRandom ? new PivotLiveData { Buy = dataSource[rand].Buy, Category = dataSource[rand].Category, Change = dataSource[rand].Change, Change_Percentage = dataSource[rand].Change_Percentage, Country = dataSource[rand].Country, OpenPrice = dataSource[rand].OpenPrice, Price = dataSource[rand].Price, Region = dataSource[rand].Region, Sell = dataSource[rand].Sell, Spread = dataSource[rand].Spread, Type = dataSource[rand].Type, Volume = dataSource[rand].Volume } : new PivotLiveData { Buy = dataSource[l].Buy, Category = dataSource[l].Category, Change = dataSource[l].Change, Change_Percentage = dataSource[l].Change_Percentage, Country = dataSource[l].Country, OpenPrice = dataSource[l].OpenPrice, Price = dataSource[l].Price, Region = dataSource[l].Region, Sell = dataSource[l].Sell, Spread = dataSource[l].Spread, Type = dataSource[l].Type, Volume = dataSource[l].Volume };
+                PivotLiveData dataObj = startRandom ? new PivotLiveData { Buy = _dataSource[rand].Buy, Category = _dataSource[rand].Category, Change = _dataSource[rand].Change, Change_Percentage = _dataSource[rand].Change_Percentage, Country = _dataSource[rand].Country, OpenPrice = _dataSource[rand].OpenPrice, Price = _dataSource[rand].Price, Region = _dataSource[rand].Region, Sell = _dataSource[rand].Sell, Spread = _dataSource[rand].Spread, Type = _dataSource[rand].Type, Volume = _dataSource[rand].Volume } : new PivotLiveData { Buy = _dataSource[l].Buy, Category = _dataSource[l].Category, Change = _dataSource[l].Change, Change_Percentage = _dataSource[l].Change_Percentage, Country = _dataSource[l].Country, OpenPrice = _dataSource[l].OpenPrice, Price = _dataSource[l].Price, Region = _dataSource[l].Region, Sell = _dataSource[l].Sell, Spread = _dataSource[l].Spread, Type = _dataSource[l].Type, Volume = _dataSource[l].Volume };
                 dataObj.Region = region.Region;
                 dataObj.Country = region.Country[k];
                 randomizeObjectData(dataObj);
@@ -292,6 +284,5 @@
         result.Volume = newVolume;
         return result;
     }
-
     public void Dispose() => StopInterval();
 }

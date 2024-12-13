@@ -12,177 +12,117 @@
     <p>This sample illustrates a striped linear progress bar with animation.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This demo for Blazor Progress Bar control shows the linear striped progress bar with help of <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_IsStriped' aria-label="IsStriped">IsStriped</a> property.</p>
-    <p>More information about the customization in progress bar can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/progress-bar/customization' aria-label="documentation section" >documentation section</a>.</p>
+    <p>This demo for Blazor Progress Bar control shows the linear striped progress bar with help of <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_IsStriped" aria-label="IsStriped">IsStriped</a> property.</p>
+    <p>More information about the customization in progress bar can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/progress-bar/customization" aria-label="documentation section">documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="row linear-parent">
+        @foreach (var progressBar in ProgressBars)
+        {
         <div class="linear-progress">
-            <SfProgressBar @ref="ProObj1" Type="ProgressType.Linear" ID="Danger"
+            <SfProgressBar @ref="@progressBar.Reference" Type="ProgressType.Linear" ID="@progressBar.Id"
                            Height="30" Width="100%"
-                           Value="20" Minimum="0" Maximum="100"
+                           Value="@progressBar.Value" Minimum="0" Maximum="100"
                            IsStriped="true"
                            TrackThickness="20"
                            ProgressThickness="20"
-                           Role="ModeType.Success"
-                           Theme="@CurrentTheme"
-                           TrackColor="@ColorTrack">
-                <ProgressBarAnimation Enable="@EnableAnimation" Duration="2000" Delay="0" />
+                           Role="@progressBar.Role"
+                           Theme="@SelectedTheme"
+                           TrackColor="@TrackColor">
+                <ProgressBarAnimation Enable="@IsAnimationEnabled" Duration="2000" Delay="0" />
             </SfProgressBar>
         </div>
-        <div class="linear-progress">
-            <SfProgressBar @ref="ProObj2" Type="ProgressType.Linear" ID="Warning"
-                           Height="30" Width="100%"
-                           Value="40" Minimum="0" Maximum="100"
-                           IsStriped="true"
-                           TrackThickness="20"
-                           ProgressThickness="20"
-                           Role="ModeType.Info"
-                           Theme="@CurrentTheme"
-                           TrackColor="@ColorTrack">
-                <ProgressBarAnimation Enable="@EnableAnimation" Duration="2000" Delay="0" />
-            </SfProgressBar>
-        </div>
-        <div class="linear-progress">
-            <SfProgressBar @ref="ProObj3" Type="ProgressType.Linear" ID="Info"
-                           Height="30" Width="100%"
-                           Value="70" Minimum="0" Maximum="100"
-                           IsStriped="true"
-                           TrackThickness="20"
-                           ProgressThickness="20"
-                           Role="ModeType.Warning"
-                           Theme="@CurrentTheme"
-                           TrackColor="@ColorTrack">
-                <ProgressBarAnimation Enable="@EnableAnimation" Duration="2000" Delay="0" />
-            </SfProgressBar>
-        </div>
-        <div class="linear-progress">
-            <SfProgressBar @ref="ProObj4" Type="ProgressType.Linear" ID="Success"
-                           Height="30" Width="100%"
-                           Value="100" Minimum="0" Maximum="100"
-                           IsStriped="true"
-                           TrackThickness="20"
-                           ProgressThickness="20"
-                           Role="ModeType.Danger"
-                           Theme="@CurrentTheme"
-                           TrackColor="@ColorTrack">
-                <ProgressBarAnimation Enable="@EnableAnimation" Duration="2000" Delay="0" />
-            </SfProgressBar>
-        </div>
+        }
     </div>
     <div class="row linear-button">
-        <button id="animation" @onclick="ProgressRefresh" class="e-control e-btn e-lib e-outline e-primary">@AnimationText</button>
+        <button id="animation" @onclick="ToggleAnimation" class="e-control e-btn e-lib e-outline e-primary">@AnimationButtonText</button>
     </div>
 </div>
 
-@code{
-    public SfProgressBar ProObj1, ProObj2, ProObj3, ProObj4;
-    public bool EnableAnimation { get; set; } = true;
-    public string ColorTrack { get; set; } = null;
-    public string AnimationText { get; set; } = "Stop Animation";
-    public Theme CurrentTheme { get; set; }
-    private string currentUri;
-    
+@code {
 
-    public void ProgressRefresh()
+// Auto-properties for animation and theme settings
+    public bool IsAnimationEnabled { get; set; } = true;
+    public string TrackColor { get; set; }
+    public string AnimationButtonText { get; set; } = "Stop Animation";
+    public Theme SelectedTheme { get; set; }
+
+// Progress bar information model
+    public class ProgressBarData
     {
-        EnableAnimation = !EnableAnimation;
-        if (EnableAnimation)
-        {
-            AnimationText = "Stop Animation";
-        }
-        else
-        {
-            AnimationText = "Start Animation";
-        }
+        public string Id { get; set; }
+        public SfProgressBar Reference { get; set; }
+        public double Value { get; set; }
+        public ModeType Role { get; set; }
     }
+
+// List of progress bars to be displayed
+    public List<ProgressBarData> ProgressBars { get; set; }
 
     protected override void OnInitialized()
     {
-        
-        currentUri = Navigation.Uri;
-        if (currentUri.Contains("material3-dark"))
+        SetProgressBarData();
+        SetThemeBasedOnUri(Navigation.Uri);
+    }
+
+// Toggles animation on or off
+    public void ToggleAnimation()
+    {
+        IsAnimationEnabled = !IsAnimationEnabled;
+        AnimationButtonText = IsAnimationEnabled ? "Stop Animation" : "Start Animation";
+    }
+
+// Initialize progress bar data
+    private void SetProgressBarData()
+    {
+        ProgressBars = new List<ProgressBarData>
         {
-            CurrentTheme = Theme.Material3Dark;
-        }
-        else if (currentUri.Contains("material3"))
+            new ProgressBarData { Id = "Danger", Value = 20, Role = ModeType.Success },
+            new ProgressBarData { Id = "Warning", Value = 40, Role = ModeType.Info },
+            new ProgressBarData { Id = "Info", Value = 70, Role = ModeType.Warning },
+            new ProgressBarData { Id = "Success", Value = 100, Role = ModeType.Danger }
+        };
+    }
+
+// Set theme and track color based on URI
+    private void SetThemeBasedOnUri(string uri)
+    {
+        var themeMapping = new Dictionary<string, (Theme theme, string trackColor)>
         {
-            CurrentTheme = Theme.Material3;
-        }
-        else if (currentUri.Contains("fabric-dark"))
+            { "material3-dark", (Theme.Material3Dark, null) },
+            { "material3", (Theme.Material3, null) },
+            { "fabric-dark", (Theme.FabricDark, null) },
+            { "fabric", (Theme.Fabric, null) },
+            { "bootstrap-dark", (Theme.BootstrapDark, null) },
+            { "bootstrap5-dark", (Theme.Bootstrap5Dark, null) },
+            { "bootstrap5", (Theme.Bootstrap5, null) },
+            { "fluent2-highcontrast", (Theme.Fluent2HighContrast, null) },
+            { "fluent2-dark", (Theme.Fluent2Dark, null) },
+            { "fluent2", (Theme.Fluent2, null) },
+            { "fluent-dark", (Theme.FluentDark, null) },
+            { "fluent", (Theme.Fluent, null) },
+            { "bootstrap4", (Theme.Bootstrap4, null) },
+            { "bootstrap", (Theme.Bootstrap, null) },
+            { "highcontrast", (Theme.HighContrast, "#969696") },
+            { "tailwind3-dark", (Theme.Tailwind3Dark, null) },
+            { "tailwind3", (Theme.Tailwind3, "#E5E7EB") },
+            { "material-dark", (Theme.MaterialDark, null) },
+            { "material", (Theme.Material, "#eee") }
+        };
+
+        foreach (var theme in themeMapping)
         {
-            CurrentTheme = Theme.FabricDark;
-        }
-        else if (currentUri.Contains("fabric"))
-        {
-            CurrentTheme = Theme.Fabric;
-        }
-        else if (currentUri.Contains("bootstrap-dark"))
-        {
-            CurrentTheme = Theme.BootstrapDark;
-        }
-        else if (currentUri.Contains("bootstrap5-dark"))
-        {
-            CurrentTheme = Theme.Bootstrap5Dark;
-        }
-        else if (currentUri.Contains("bootstrap5"))
-        {
-            CurrentTheme = Theme.Bootstrap5;
-        }
-        else if (currentUri.Contains("fluent2-highcontrast"))
-        {
-            CurrentTheme = Theme.Fluent2HighContrast;
-        }
-        else if (currentUri.Contains("fluent2-dark"))
-        {
-            CurrentTheme = Theme.Fluent2Dark;
-        }
-        else if (currentUri.Contains("fluent2"))
-        {
-            CurrentTheme = Theme.Fluent2;
-        }
-        else if (currentUri.Contains("fluent-dark"))
-        {
-            CurrentTheme = Theme.FluentDark;
-        }
-        else if (currentUri.Contains("fluent"))
-        {
-            CurrentTheme = Theme.Fluent;
-        }
-        else if (currentUri.Contains("bootstrap4"))
-        {
-            CurrentTheme = Theme.Bootstrap4;
-        }
-        else if (currentUri.Contains("bootstrap"))
-        {
-            CurrentTheme = Theme.Bootstrap;
-        }
-        else if (currentUri.Contains("highcontrast"))
-        {
-            CurrentTheme = Theme.HighContrast;
-            ColorTrack = "#969696";
-        }
-        else if (currentUri.Contains("tailwind-dark"))
-        {
-            CurrentTheme = Theme.TailwindDark;
-        }
-        else if (currentUri.Contains("tailwind"))
-        {
-            CurrentTheme = Theme.Tailwind;
-             ColorTrack = "#E5E7EB";
-        }
-        else if (currentUri.Contains("material-dark"))
-        {
-            CurrentTheme = Theme.MaterialDark;
-        }
-        else if (currentUri.Contains("material"))
-        {
-            CurrentTheme = Theme.Material;
-            ColorTrack = "#eee";
+            if (uri.Contains(theme.Key))
+            {
+                (SelectedTheme, TrackColor) = theme.Value;
+                break;
+            }
         }
     }
+
 }
+
 
 <style>
     #control-container {

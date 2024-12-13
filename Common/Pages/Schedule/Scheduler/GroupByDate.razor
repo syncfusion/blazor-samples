@@ -5,9 +5,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -30,7 +27,7 @@
 </div>
 <div class="col-lg-12 control-section">
     <SfSchedule TValue="ScheduleData.ResourceData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate">
-        <ScheduleGroup ByDate="true" HideNonWorkingDays="@HideNonWorkingDays" Resources="@groupData"></ScheduleGroup>
+        <ScheduleGroup ByDate="true" HideNonWorkingDays="@HideNonWorkingDays" Resources="@_groupData"></ScheduleGroup>
         <ScheduleResources>
             <ScheduleResource TItem="ResourceData" TValue="int[]" DataSource="@OwnersData" Field="TaskId" Title="Assignee" Name="Owners" TextField="Text" IdField="Id" ColorField="Color" WorkDaysField="WorkDays" AllowMultiple="true"></ScheduleResource>
         </ScheduleResources>
@@ -40,7 +37,7 @@
             <ScheduleView MaxEventsPerRow="1" Option="View.Month"></ScheduleView>
             <ScheduleView Option="View.Agenda"></ScheduleView>
         </ScheduleViews>
-        <ScheduleEventSettings DataSource="@dataSource">
+        <ScheduleEventSettings DataSource="@EventDataSource">
             <ScheduleField>
                 <FieldSubject Name="Subject" Title="Task"></FieldSubject>
                 <FieldLocation Name="Location" Title="Project Name"></FieldLocation>
@@ -52,13 +49,14 @@
 
 @code{
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 12);
-    private List<ScheduleData.ResourceData> dataSource = new ScheduleData().GetResourceData();
+    private List<ScheduleData.ResourceData> EventDataSource = new ScheduleData().GetResourceData();
     private bool HideNonWorkingDays { get; set; } = true;
-    private string[] groupData = new string[] { "Owners" };
-    
-    private List<ResourceData> OwnersData { get; set; } = new List<ResourceData> {
-        new ResourceData { Text = "Alice", Id= 1, Color = "#df5286", WorkDays = new int[] { 1, 2, 3, 4} },
-        new ResourceData { Text = "Smith", Id= 2, Color = "#5978ee", WorkDays = new int[] { 2, 3, 5 } }
+    private string[] _groupData = new string[] { "Owners" };
+
+    private List<ResourceData> OwnersData { get; set; } = new List<ResourceData>
+    {
+        new ResourceData { Text = "Alice", Id = 1, Color = "#df5286", WorkDays = new int[] { 1, 2, 3, 4 } },
+        new ResourceData { Text = "Smith", Id = 2, Color = "#5978ee", WorkDays = new int[] { 2, 3, 5 } }
     };
     public class ResourceData
     {

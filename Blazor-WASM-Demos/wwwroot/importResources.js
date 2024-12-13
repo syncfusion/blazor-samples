@@ -12,7 +12,7 @@ else {
     var isolatedCss = "Blazor_WASM_Demos_NET9.styles.css";
 }
 
-const homepagepath = ["/staging/wasm/demos/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net8/demos/","/development/wasm/net9/demos/", "/release/wasm/net6/demos/","/release/wasm/net9/demos/", "/release/wasm/net8/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net8/demos/","/hotfix/wasm/net9/demos/","/cloudtesting/net8-wasm/","/"];
+const homepagepath = ["/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net8/demos/","/development/wasm/net9/demos/", "/release/wasm/net6/demos/","/release/wasm/net9/demos/", "/release/wasm/net8/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net8/demos/","/hotfix/wasm/net9/demos/"];
 
 
 function dynamicResources() {
@@ -115,16 +115,12 @@ function samplePageAssets() {
 
 
 if (homepagepath.indexOf(window.location.pathname) !== -1) {
+    loadAssets(isolatedCss);
     homePageAssets();
     loadAssets('_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js');
-    loadAssets(isolatedCss);
 }
 else {
-    samplePageAssets();
     loadAssets(isolatedCss);
+    samplePageAssets();
 }
 dynamicResources();
-setTimeout(LoadingText, 400);
-function LoadingText() {
-    document.getElementById("Loading-Text").innerHTML = "Loading Syncfusion Blazor Web Assembly Demos…"
-}

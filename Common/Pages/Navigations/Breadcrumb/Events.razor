@@ -5,9 +5,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -21,7 +18,7 @@
     </ul>
     <p><b>See also</b></p>
     <ul>
-       <li><a href='https://blazor.syncfusion.com/documentation/breadcrumb/getting-started/' target='_blank' aria-label="Getting started with Blazor Breadcrumb">Getting started with Blazor Breadcrumb</a></li>
+       <li><a href="https://blazor.syncfusion.com/documentation/breadcrumb/getting-started/" target="_blank" aria-label="Getting started with Blazor Breadcrumb">Getting started with Blazor Breadcrumb</a></li>
     </ul>
 </ActionDescription>
 
@@ -30,12 +27,12 @@
         <div class="row material2">
             <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                 <h5 style="display: inline-block">Breadcrumb with Events</h5>
-                <SfButton class="e-small reset-btn" @onclick="ResetBtnClickHandler">Reset State</SfButton>
+                <SfButton class="e-small reset-btn" @onclick="ResetBreadcrumbState">Reset State</SfButton>
             </div>
         </div>
         <div class="row material2">
             <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
-                <SfBreadcrumb ItemClicked="@OnItemClicked" ItemRendering="@ItemRendering" @bind-ActiveItem="@ActiveItem">
+                <SfBreadcrumb ItemClicked="@HandleItemClicked" ItemRendering="@HandleItemRendering" @bind-ActiveItem="@ActiveBreadcrumbItem">
                     <BreadcrumbItems>
                         <BreadcrumbItem Text="Program Files" IconCss="e-bicons e-folder"/>
                         <BreadcrumbItem Text="Commom Files" IconCss="e-bicons e-folder"/>
@@ -53,22 +50,22 @@
         <div class="property-panel-content">
             <table id="property" title="Event Trace" class="property-panel-table">
                 <tbody>
-                    <tr>
-                        <td>
-                            <div class="eventarea" style="height: 245px;overflow: auto" tabindex="0">
-                                <div class="EventLog" id="EventLog" style="word-break: normal;">
-                                    <span>@((MarkupString)Output)</span>
-                                </div>
+                <tr>
+                    <td>
+                        <div class="eventarea" style="height: 245px; overflow: auto" tabindex="0">
+                            <div class="EventLog" id="EventLog" style="word-break: normal;">
+                                <span>@((MarkupString)EventLog)</span>
                             </div>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <div class="evtbtn" style="padding-bottom: 10px">
-                                <button class="e-btn e-outline" @onclick="ClearLog">Clear log</button>
-                            </div>
-                        </td>
-                    </tr>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div class="evtbtn" style="padding-bottom: 10px">
+                            <button class="e-btn e-outline" @onclick="ClearEventLog">Clear log</button>
+                        </div>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
@@ -76,27 +73,30 @@
 </div>
 
 @code {
-    private string Output = "";
-    private string ActiveItem = "Config.json";
-    
-    public void ClearLog()
+    private string EventLog { get; set; } = "";
+    private string ActiveBreadcrumbItem { get; set; } = "Config.json";
+
+    private void ClearEventLog()
     {
-        this.Output = "";
-    }
-    
-    private void OnItemClicked(BreadcrumbClickedEventArgs args) {
-        this.Output = this.Output + "<span>An <b>ItemClicked</b> event is triggered<hr></span>";
+        EventLog = String.Empty;
     }
 
-    private void ItemRendering(BreadcrumbItemRenderingEventArgs args) {
-        this.Output = this.Output + "<span>An <b>ItemRendering</b> event is triggered<hr></span>";
+    private void HandleItemClicked(BreadcrumbClickedEventArgs args)
+    {
+        EventLog += "<span>An <b>ItemClicked</b> event is triggered<hr></span>";
     }
 
-    // To refresh the Breadcrumb control state when reset button clicked
-    private void ResetBtnClickHandler()
+    private void HandleItemRendering(BreadcrumbItemRenderingEventArgs args)
     {
-        ActiveItem = "Config.json";
+        EventLog += "<span>An <b>ItemRendering</b> event is triggered<hr></span>";
     }
+
+// Resets the Breadcrumb control to its initial state
+    private void ResetBreadcrumbState()
+    {
+        ActiveBreadcrumbItem = "Config.json";
+    }
+
 }
 @*Hidden:Lines*@
 <style>

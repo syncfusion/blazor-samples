@@ -6,9 +6,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -27,14 +24,14 @@
 <div class="control-section">
     <div class="sample-container">
         <div class="default-section" id="rteSection">
-            <SfRichTextEditor @ref="rteObj" @bind-Value="@Value">
+            <SfRichTextEditor @ref="RteObj" @bind-Value="@Value">
                 <RichTextEditorToolbarSettings Items="@Tools">
                     <RichTextEditorEvents OnActionComplete="@OnActionCompleteHandler" />
                     <RichTextEditorCustomToolbarItems>
                         <RichTextEditorCustomToolbarItem Name="Symbol">
                             <Template>
-                                <SfButton cssClass="@buttonCssClass" @onclick="ClickHandler">
-                                    <div class="e-tbar-btn-text" style="font-weight: 500;"> &#937;</div>
+                                <SfButton cssClass="@ButtonCssClass" @onclick="ClickHandler">
+                                    <div class="e-tbar-btn-text" style="font-weight: 400;"> &#937;</div>
                                 </SfButton>
                             </Template>
                         </RichTextEditorCustomToolbarItem>
@@ -46,24 +43,24 @@
 </div>
 
 <div>
-    <SfDialog @bind-Visible="@dialogVisible" CssClass="e-rte-elements" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="45%" Target="#rteSection">
+    <SfDialog @bind-Visible="@DialogVisible" CssClass="e-rte-elements" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="45%" Target="#rteSection">
         <DialogTemplates>
             <Header> Special Characters </Header>
             <Content>
                 <div id="rteSpecial_char">
-                    @for (int i = 0; i < this.charactersArray.Length; i++)
+                    @for (int i = 0; i < this.CharactersArray.Length; i++)
                     {
                         int index = i;
-                        if (currentIndex == i)
+                        if (CurrentIndex == i)
                         {
-                            <div class="char_block @activeClass" title="@this.charactersArray[i]" @onclick="@(e => OnIconIconClick(index))">
-                                @this.charactersArray[i]
+                            <div class="char_block @ActiveClass" title="@this.CharactersArray[i]" @onclick="@(e => OnIconClick(index))">
+                                @this.CharactersArray[i]
                             </div>
                         }
                         else
                         {
-                            <div class="char_block" title="@this.charactersArray[i]" @onclick="@(e => OnIconIconClick(index))">
-                                @this.charactersArray[i]
+                            <div class="char_block" title="@this.CharactersArray[i]" @onclick="@(e => OnIconClick(index))">
+                                @this.CharactersArray[i]
                             </div>
                         }
                     }
@@ -71,7 +68,7 @@
             </Content>
         </DialogTemplates>
         <DialogButtons>
-            <DialogButton Content="Insert" IsPrimary="true" OnClick="OnInsert" Disabled="@disableInsertBtn" />
+            <DialogButton Content="Insert" IsPrimary="true" OnClick="OnInsert" Disabled="@DisableInsertButton" />
             <DialogButton Content="Cancel" OnClick="DialogOverlay" />
         </DialogButtons>
         <DialogEvents OnOverlayModalClick="DialogOverlay" />
@@ -79,19 +76,18 @@
 </div>
 
 @code{
-    SfRichTextEditor rteObj;
+    private SfRichTextEditor RteObj;
     private string Value { get; set; } = "The custom command <b>Ω - Insert Symbol</b> is configured in the Toolbar. Click on the command and choose the symbol you want to include from the popup.";
-    public string[] charactersArray = new string[] { "^", "_", "`", "{", "|", "}", "~", " ", "¡", "¢", "£", "¤", "¥", "₹", "¦", "§", "¨", "©", "ª", "«", "¬", "-", "°", "±", "²", "³", "´", "µ", "¶", "·", "¸", "¹", "º", "»", "¼", "½", "¾", "¿", "À", "Á", "Â", "Ã" };
+    public string[] CharactersArray = new string[] { "^", "_", "`", "{", "|", "}", "~", " ", "¡", "¢", "£", "¤", "¥", "₹", "¦", "§", "¨", "©", "ª", "«", "¬", "-", "°", "±", "²", "³", "´", "µ", "¶", "·", "¸", "¹", "º", "»", "¼", "½", "¾", "¿", "À", "Á", "Â", "Ã" };
 
-    int currentIndex { get; set; } = -1;
+    private int CurrentIndex { get; set; } = -1;
+    private string ActiveClass = "e-active";
+    private string ButtonCssClass = "e-tbar-btn";
+    private bool DialogVisible { get; set; }
+    private bool DisableInsertButton { get; set; } = true;
 
-    string activeClass = "e-active";
-    string buttonCssClass = "e-tbar-btn";
-    private bool dialogVisible { get; set; }
-    private bool disableInsertBtn { get; set; } = true;
-    
-
-    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>() {
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
         new ToolbarItemModel() { Command = ToolbarCommand.Bold },
         new ToolbarItemModel() { Command = ToolbarCommand.Italic },
         new ToolbarItemModel() { Command = ToolbarCommand.Underline },
@@ -115,41 +111,41 @@
     {
         if (args.RequestType == "SourceCode")
         {
-            this.buttonCssClass = "e-tbar-btn e-overlay";
+            this.ButtonCssClass = "e-tbar-btn e-overlay";
         }
         if (args.RequestType == "Preview")
         {
-            this.buttonCssClass = "e-tbar-btn";
+            this.ButtonCssClass = "e-tbar-btn";
         }
     }
 
-    private void OnIconIconClick(int index)
+    private void OnIconClick(int index)
     {
-        this.disableInsertBtn = false;
-        this.currentIndex = index;
+        this.DisableInsertButton = false;
+        this.CurrentIndex = index;
     }
 
     private void ClickHandler()
     {
-        this.dialogVisible = true;
+        this.DialogVisible = true;
     }
 
     private async Task OnInsert()
     {
-        if (this.currentIndex > -1)
+        if (this.CurrentIndex > -1)
         {
             ExecuteCommandOption executeCommandOption = new ExecuteCommandOption();
             executeCommandOption.Undo = true;
-            await this.rteObj.ExecuteCommandAsync(CommandName.InsertText, this.charactersArray[this.currentIndex], executeCommandOption);
-            this.dialogVisible = false;
-            this.currentIndex = -1;
+            await this.RteObj.ExecuteCommandAsync(CommandName.InsertText, this.CharactersArray[this.CurrentIndex], executeCommandOption);
+            this.DialogVisible = false;
+            this.CurrentIndex = -1;
         }
-        this.disableInsertBtn = true;
+        this.DisableInsertButton = true;
     }
     private void DialogOverlay()
     {
-        this.dialogVisible = false;
-        this.currentIndex = -1;
+        this.DialogVisible = false;
+        this.CurrentIndex = -1;
     }
 }
 
@@ -205,12 +201,14 @@
         border-color: #ffd939;
     }
 
-    .tailwind .char_block.e-active {
+    .tailwind .char_block.e-active,
+    .tailwind3 .char_block.e-active {
         outline: 1px solid #3730a3;
         border-color: #3730a3;
     }
 
-    .tailwind-dark .char_block.e-active {
+    .tailwind-dark .char_block.e-active,
+    .tailwind3-dark .char_block.e-active {
         outline: 1px solid #22d3ee;
         border-color: #22d3ee;
     }

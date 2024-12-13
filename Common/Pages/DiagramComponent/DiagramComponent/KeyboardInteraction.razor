@@ -1,23 +1,18 @@
 ﻿@page "/diagramcomponent/keyboard-interaction"
 
-@using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Diagram
-@using Syncfusion.Blazor.Diagram.Internal
 @using System.Collections.ObjectModel
 @using shapes = Syncfusion.Blazor.Diagram.NodeShapes
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 @*Hidden:Lines*@
 <SampleDescription>
-    <p>This sample illustrates interaction with the Diagram component using shortcut keys. The command manager is used to manage keyboard interactions.</p>
+    <p>This sample demonstrates keyboard interaction with the Diagram component through shortcut keys, managed by the command manager.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example shows how to interact with the Diagram component using shortcut keys. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.CommandManager.html'>CommandManager</a></code> property is used to map the commands with key gestures. In this example, along with the built-in commands, a few custom commands have been added and a few built-in commands (nudge) are overridden. That is, when the arrow keys are pressed, selection will move to the next node instead of moving the selected objects. Different kinds of interactions and the corresponding key gestures are also listed in the property panel.</p>
+    <p>This example shows how to interact with the Diagram component using shortcut keys. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.CommandManager.html" aria-label="CommandManager">CommandManager</a></code> property maps KeyboardCommands to key gestures. Alongside the built-in commands, several custom commands are added, and some default commands (e.g., nudge) are overridden. For instance, pressing the arrow keys moves the selection to the next node rather than shifting selected objects. The property panel lists various interactions and their associated key gestures.</p>
 </ActionDescription>
 @*End:Hidden*@
 
@@ -48,22 +43,18 @@
             padding-top: 0px !important;
         }
     }
-
-    .sb-property-border {
-        border-right: 1px solid #D7D7D7;
-    }
 </style>
 @*End:Hidden*@
 <div class="col-lg-9 control-section sb-property-border">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagramComponent @ref="@Diagram" Height="645px" NodeCreating="@NodeCreating">
-            <CommandManager Commands="commands" Execute="@ExecuteCommand" CanExecute="@CanExecute"/>            
+        <SfDiagramComponent @ref="@DiagramInstance" Height="645px" NodeCreating="@NodeCreating">
+            <CommandManager Commands="KeyboardCommands" Execute="@ExecuteCommand" CanExecute="@CanExecute"/>            
             <DataSourceSettings ID="Id" ParentID="Ancestor" DataSource="@DataSource"/>
-            <Layout @bind-Type="@type"/> 
+            <Layout @bind-Type="@DiagramLayoutType"/> 
             <SnapSettings>
-                <HorizontalGridLines LineColor="#e0e0e0 " LineIntervals="@gridLineIntervals">
+                <HorizontalGridLines LineColor="#e0e0e0 " LineIntervals="@GridLineIntervals">
                 </HorizontalGridLines>
-                <VerticalGridLines LineColor="#e0e0e0" LineIntervals="@gridLineIntervals">
+                <VerticalGridLines LineColor="#e0e0e0" LineIntervals="@GridLineIntervals">
                 </VerticalGridLines>
             </SnapSettings>
         </SfDiagramComponent>
@@ -190,25 +181,26 @@
 @*End:Hidden*@
 @code
 {
-    
-    SfDiagramComponent Diagram;
-    LayoutType type = LayoutType.HierarchicalTree;
-    DiagramObjectCollection<KeyboardCommand> commands;
+    private SfDiagramComponent DiagramInstance { get; set; }
+    private LayoutType DiagramLayoutType { get; set; } = LayoutType.HierarchicalTree;
+
+    private DiagramObjectCollection<KeyboardCommand> KeyboardCommands { get; set; }
+
     // Defines interval values for GridLines
-    public double[] gridLineIntervals { get; set; }
+    public double[] GridLineIntervals { get; set; }
 
     protected override void OnInitialized()
     {
-        
-        gridLineIntervals = new double[] { 1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75 };
-        commands = new DiagramObjectCollection<KeyboardCommand>()
+
+        GridLineIntervals = new double[] { 1, 9, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75, 0.25, 9.75 };
+        KeyboardCommands = new DiagramObjectCollection<KeyboardCommand>()
         {
-            CreateCustomCommand("customGroup",DiagramKeys.G,ModifierKeys.Control),
-            CreateCustomCommand("customUngroup",DiagramKeys.U,ModifierKeys.Control),
-            CreateCustomCommand("navigateUp",DiagramKeys.ArrowUp,ModifierKeys.None),
-            CreateCustomCommand("navigateDown",DiagramKeys.ArrowDown,ModifierKeys.None),
-            CreateCustomCommand("navigateLeft",DiagramKeys.ArrowLeft,ModifierKeys.None),
-            CreateCustomCommand("navigateRight",DiagramKeys.ArrowRight,ModifierKeys.None),
+            CreateCustomCommand("customGroup", DiagramKeys.G, ModifierKeys.Control),
+            CreateCustomCommand("customUngroup", DiagramKeys.U, ModifierKeys.Control),
+            CreateCustomCommand("navigateUp", DiagramKeys.ArrowUp, ModifierKeys.None),
+            CreateCustomCommand("navigateDown", DiagramKeys.ArrowDown, ModifierKeys.None),
+            CreateCustomCommand("navigateLeft", DiagramKeys.ArrowLeft, ModifierKeys.None),
+            CreateCustomCommand("navigateRight", DiagramKeys.ArrowRight, ModifierKeys.None),
         };
     }
 
@@ -231,6 +223,7 @@
         {
             node.Data = System.Text.Json.JsonSerializer.Deserialize<DataModel>(node.Data.ToString());
         }
+
         if (node.Data != null)
         {
             DataModel organizationData = node.Data as DataModel;
@@ -263,14 +256,14 @@
     // Method to execute the custom command
     public void ExecuteCommand(CommandKeyArgs obj)
     {
-        Diagram.BeginUpdate();
+        DiagramInstance.BeginUpdate();
         switch (obj.Name)
         {
             case "customGroup":
-                Diagram.Group();
+                DiagramInstance.Group();
                 break;
             case "customUngroup":
-                Diagram.Ungroup();
+                DiagramInstance.Ungroup();
                 break;
             case "navigateUp":
                 _ = this.NavigateLevels(false);
@@ -285,31 +278,32 @@
                 _ = this.NavigateToSiblings(true);
                 break;
         }
-        _ = Diagram.EndUpdateAsync();
+
+        _ = DiagramInstance.EndUpdateAsync();
     }
 
     public List<DataModel> DataSource = new List<DataModel>()
     {
-        new DataModel{ Id = "A", Fill = "#1ba1e2" },
-        new DataModel{ Id = "B", Ancestor = "A", Fill = "#e41404" },
-        new DataModel{ Id = "C", Ancestor = "A", Fill = "#e41404" },
-        new DataModel{ Id = "D", Ancestor = "A", Fill = "#e41404" },
-        new DataModel{ Id = "E", Ancestor = "B", Fill = "#f09609" },
-        new DataModel{ Id = "F", Ancestor = "B", Fill = "#f09609" },
-        new DataModel{ Id = "G", Ancestor = "D", Fill = "#f09609" },
-        new DataModel{ Id = "H", Ancestor = "D", Fill = "#f09609" },
-        new DataModel{ Id = "I", Ancestor = "F", Fill = "#e41404" },
-        new DataModel{ Id = "J", Ancestor = "F", Fill = "#e41404" },
-        new DataModel{ Id = "K", Ancestor = "H", Fill = "#e41404" },
-        new DataModel{ Id = "L", Ancestor = "H", Fill = "#e41404" },
-        new DataModel{ Id = "M", Ancestor = "I", Fill = "#2b862b" },
-        new DataModel{ Id = "N", Ancestor = "I", Fill = "#2b862b" },
-        new DataModel{ Id = "O", Ancestor = "K", Fill = "#2b862b" },
-        new DataModel{ Id = "P", Ancestor = "K", Fill = "#2b862b" },
-        new DataModel{ Id = "Q", Ancestor = "N", Fill = "#1ba1e2" },
-        new DataModel{ Id = "R", Ancestor = "N", Fill = "#1ba1e2" },
-        new DataModel{ Id = "S", Ancestor = "P", Fill = "#1ba1e2" },
-        new DataModel{ Id = "T", Ancestor = "P", Fill = "#1ba1e2" }
+        new DataModel { Id = "A", Fill = "#1ba1e2" },
+        new DataModel { Id = "B", Ancestor = "A", Fill = "#e41404" },
+        new DataModel { Id = "C", Ancestor = "A", Fill = "#e41404" },
+        new DataModel { Id = "D", Ancestor = "A", Fill = "#e41404" },
+        new DataModel { Id = "E", Ancestor = "B", Fill = "#f09609" },
+        new DataModel { Id = "F", Ancestor = "B", Fill = "#f09609" },
+        new DataModel { Id = "G", Ancestor = "D", Fill = "#f09609" },
+        new DataModel { Id = "H", Ancestor = "D", Fill = "#f09609" },
+        new DataModel { Id = "I", Ancestor = "F", Fill = "#e41404" },
+        new DataModel { Id = "J", Ancestor = "F", Fill = "#e41404" },
+        new DataModel { Id = "K", Ancestor = "H", Fill = "#e41404" },
+        new DataModel { Id = "L", Ancestor = "H", Fill = "#e41404" },
+        new DataModel { Id = "M", Ancestor = "I", Fill = "#2b862b" },
+        new DataModel { Id = "N", Ancestor = "I", Fill = "#2b862b" },
+        new DataModel { Id = "O", Ancestor = "K", Fill = "#2b862b" },
+        new DataModel { Id = "P", Ancestor = "K", Fill = "#2b862b" },
+        new DataModel { Id = "Q", Ancestor = "N", Fill = "#1ba1e2" },
+        new DataModel { Id = "R", Ancestor = "N", Fill = "#1ba1e2" },
+        new DataModel { Id = "S", Ancestor = "P", Fill = "#1ba1e2" },
+        new DataModel { Id = "T", Ancestor = "P", Fill = "#1ba1e2" }
     };
 
     //This method is used to determine the parent node
@@ -317,38 +311,39 @@
     {
         DiagramObjectCollection<IDiagramObject> nodes = new DiagramObjectCollection<IDiagramObject>();
         Node node;
-        Connector connector = Diagram.GetObject(name) as Connector;
+        Connector connector = DiagramInstance.GetObject(name) as Connector;
         if (connector != null)
         {
             string Id = (isParent ? connector.SourceID : connector.TargetID);
-            node = Diagram.GetObject(Id) as Node;
+            node = DiagramInstance.GetObject(Id) as Node;
             nodes.Add(node);
         }
+
         return nodes;
     }
 
     @*Hidden:Lines*@
-    #pragma warning disable 1998
+#pragma warning disable 1998
     @*End:Hidden*@
     // This method is used to select the node
     private async Task SelectNode(ObservableCollection<IDiagramObject> node)
     {
         if (node != null && node.Count > 0)
         {
-            Diagram.ClearSelection();
-            Diagram.Select(node, false);
+            DiagramInstance.ClearSelection();
+            DiagramInstance.Select(node, false);
         }
     }
     @*Hidden:Lines*@
-    #pragma warning restore 1998
+#pragma warning restore 1998
     @*End:Hidden*@
 
     // This method is used to select the node(up or down) through arrow key
     private async Task NavigateLevels(Boolean isParent)
     {
-        if (Diagram.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
-            Node node = Diagram.SelectionSettings.Nodes[0] as Node;
+            Node node = DiagramInstance.SelectionSettings.Nodes[0] as Node;
             if (node.ID != "")
             {
                 List<string> inEdges = node.InEdges;
@@ -367,9 +362,9 @@
     // This method is used to select the sibling node(left or right) through arrow key
     private async Task NavigateToSiblings(bool isRightSibling)
     {
-        if (Diagram.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
-            Node child = Diagram.SelectionSettings.Nodes[0] as Node;
+            Node child = DiagramInstance.SelectionSettings.Nodes[0] as Node;
             if (child != null)
             {
                 List<string> inEdges = child.InEdges;
@@ -391,6 +386,7 @@
                                 }
                             }
                         }
+
                         DiagramObjectCollection<IDiagramObject> sibling = this.GetNode(altConnectorId, false);
                         await this.SelectNode(sibling);
                     }

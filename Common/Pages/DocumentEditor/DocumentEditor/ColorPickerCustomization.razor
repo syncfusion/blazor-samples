@@ -6,8 +6,6 @@
 @using Syncfusion.Blazor.DocumentEditor;
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -16,7 +14,7 @@
 <ActionDescription>
    <p>Color picker's can be customized for the default apperance as Picker or Palette mode for font, border color.</p>
     <p style='display: block'> More information about the document editor features can be found in this
-    <a target=""_blank"" href="https://blazor.syncfusion.com/documentation/document-editor/overview" aria-label="Blazor DocumentEditor Overview documentation">documentation section. </a> </p>
+    <a target="_blank" href="https://blazor.syncfusion.com/documentation/document-editor/overview" aria-label="Blazor DocumentEditor Overview documentation">documentation section. </a> </p>
 </ActionDescription>
     
 <div class="control-section">
@@ -33,7 +31,7 @@
             </div>
         </div>
         <div>
-            <SfDocumentEditorContainer @ref="container" Height="590px" RestrictEditing="@ReadOnly" DocumentEditorSettings="settings" ShowPropertiesPane="@ShowProperties">
+            <SfDocumentEditorContainer @ref="Container" Height="590px" RestrictEditing="@ReadOnly" DocumentEditorSettings="Settings" ShowPropertiesPane="@ShowProperties">
                 <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange" ></DocumentEditorContainerEvents>
             </SfDocumentEditorContainer>
         </div>
@@ -79,43 +77,46 @@
     internal string DocumentName { get; set; } 
     internal bool ReadOnly { get; set;  }
     internal bool ShowProperties { get; set; } = true;
-    SfDocumentEditorContainer container;
+    private SfDocumentEditorContainer Container;
     private bool Switcher = true;
     private bool Buttons = true;
-
-    DocumentEditorSettingsModel settings = new DocumentEditorSettingsModel() { ShowRuler = true  , ColorPickerSettings = { Mode = ColorPickerMode.Palette , ShowButtons = true , ModeSwitcher = true}};
+    private DocumentEditorSettingsModel Settings = new DocumentEditorSettingsModel() { ShowRuler = true  , ColorPickerSettings = { Mode = ColorPickerMode.Palette , ShowButtons = true , ModeSwitcher = true}};
     public void OnExport(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.SaveAsync(DocumentName, FormatType.Docx);
     }
-    public void OnChange() {
-        if (IsChecked == "Palette") {
-            container.DocumentEditor.DocumentEditorSettings.ColorPickerSettings.Mode = ColorPickerMode.Palette;
-        } else {
-            container.DocumentEditor.DocumentEditorSettings.ColorPickerSettings.Mode = ColorPickerMode.Picker;
+
+    public void OnChange()
+    {
+        if (IsChecked == "Palette")
+        {
+            Container.DocumentEditor.DocumentEditorSettings.ColorPickerSettings.Mode = ColorPickerMode.Palette;
+        }
+        else
+        {
+            Container.DocumentEditor.DocumentEditorSettings.ColorPickerSettings.Mode = ColorPickerMode.Picker;
         }
     }
 
-    
     private void OnSwitcherChecked(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-        container.DocumentEditor.DocumentEditorSettings.ColorPickerSettings.ModeSwitcher = Switcher;
+        Container.DocumentEditor.DocumentEditorSettings.ColorPickerSettings.ModeSwitcher = Switcher;
     }
 
     private void OnButtonsChecked(Microsoft.AspNetCore.Components.ChangeEventArgs args)
     {
-        container.DocumentEditor.DocumentEditorSettings.ColorPickerSettings.ShowButtons = Buttons;
+        Container.DocumentEditor.DocumentEditorSettings.ColorPickerSettings.ShowButtons = Buttons;
     }
     public void Print(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.PrintAsync();
     }
 
     public async void OnCreated(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         if (documentEditor != null)
         {
             await documentEditor.OpenAsync(Data.DefaultDocument);
@@ -131,7 +132,7 @@
 
     public void OnDocumentChange()
     {
-        string name = container.DocumentEditor.DocumentName;
+        string name = Container.DocumentEditor.DocumentName;
         if (name != "")
         {
             DocumentName = name;

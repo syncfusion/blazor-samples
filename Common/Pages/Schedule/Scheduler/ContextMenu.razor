@@ -4,9 +4,6 @@
 @using Syncfusion.Blazor.Navigations
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -24,7 +21,7 @@
 
 <div class="col-lg-12 control-section">
     <SfSchedule TValue="ScheduleData.ContextEventsData" @ref="ScheduleRef" Height="650px" @bind-SelectedDate="@SelectedDate">
-        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleEventSettings DataSource="@EventDataSource"></ScheduleEventSettings>
         <ScheduleViews>
             <ScheduleView Option="View.Day"></ScheduleView>
             <ScheduleView Option="View.Week"></ScheduleView>
@@ -35,21 +32,21 @@
     </SfSchedule>
     <SfContextMenu TValue="MenuItem" Target=".e-schedule">
         <MenuItems>
-            <MenuItem Text="New Event" IconCss="e-icons e-plus" Id="Add" Hidden="@isCell"></MenuItem>
-            <MenuItem Text="New Recurring Event" IconCss="e-icons e-repeat" Hidden="@isCell" Id="AddRecurrence"></MenuItem>
-            <MenuItem Text="Today" IconCss="e-icons e-timeline-today" Id="Today" Hidden="@isCell"></MenuItem>
-            <MenuItem Text="Edit Event" IconCss="e-icons e-edit" Id="Save" Hidden="@isEvent"></MenuItem>
-            <MenuItem Text="Edit Event" IconCss="e-icons e-edit" Id="EditRecurrenceEvent" Hidden="@isRecurrence">
+            <MenuItem Text="New Event" IconCss="e-icons e-plus" Id="Add" Hidden="@_isCell"></MenuItem>
+            <MenuItem Text="New Recurring Event" IconCss="e-icons e-repeat" Hidden="@_isCell" Id="AddRecurrence"></MenuItem>
+            <MenuItem Text="Today" IconCss="e-icons e-timeline-today" Id="Today" Hidden="@_isCell"></MenuItem>
+            <MenuItem Text="Edit Event" IconCss="e-icons e-edit" Id="Save" Hidden="@_isEvent"></MenuItem>
+            <MenuItem Text="Edit Event" IconCss="e-icons e-edit" Id="EditRecurrenceEvent" Hidden="@_isRecurrence">
                 <MenuItems>
-                    <MenuItem Text="Edit Occurrence" Id="EditOccurrence" Hidden="@isRecurrence"></MenuItem>
-                    <MenuItem Text="Edit Series" Id="EditSeries" Hidden="@isRecurrence"></MenuItem>
+                    <MenuItem Text="Edit Occurrence" Id="EditOccurrence" Hidden="@_isRecurrence"></MenuItem>
+                    <MenuItem Text="Edit Series" Id="EditSeries" Hidden="@_isRecurrence"></MenuItem>
                 </MenuItems>
             </MenuItem>
-            <MenuItem Text="Delete Event" IconCss="e-icons e-trash" Id="Delete" Hidden="@isEvent"></MenuItem>
-            <MenuItem Text="Delete Event" IconCss="e-icons e-trash" Id="DeleteRecurrenceEvent" Hidden="@isRecurrence">
+            <MenuItem Text="Delete Event" IconCss="e-icons e-trash" Id="Delete" Hidden="@_isEvent"></MenuItem>
+            <MenuItem Text="Delete Event" IconCss="e-icons e-trash" Id="DeleteRecurrenceEvent" Hidden="@_isRecurrence">
                 <MenuItems>
-                    <MenuItem Text="Delete Occurrence" Id="DeleteOccurrence" Hidden="@isRecurrence"></MenuItem>
-                    <MenuItem Text="Delete Series" Id="DeleteSeries" Hidden="@isRecurrence"></MenuItem>
+                    <MenuItem Text="Delete Occurrence" Id="DeleteOccurrence" Hidden="@_isRecurrence"></MenuItem>
+                    <MenuItem Text="Delete Series" Id="DeleteSeries" Hidden="@_isRecurrence"></MenuItem>
                 </MenuItems>
             </MenuItem>
         </MenuItems>
@@ -59,13 +56,13 @@
 
 @code{
     private DateTime SelectedDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 8);
-    private bool isCell;
-    private bool isEvent;
-    private bool isRecurrence;
-    SfSchedule<ScheduleData.ContextEventsData> ScheduleRef;
+    private bool _isCell;
+    private bool _isEvent;
+    private bool _isRecurrence;
+    private SfSchedule<ScheduleData.ContextEventsData> ScheduleRef;
     private ScheduleData.ContextEventsData EventData { get; set; }
     private CellClickEventArgs CellData { get; set; }
-    private List<ScheduleData.ContextEventsData> dataSource = new ScheduleData().GetContextEventData();
+    private List<ScheduleData.ContextEventsData> EventDataSource = new ScheduleData().GetContextEventData();
     
     public async Task OnOpen(BeforeOpenCloseMenuEventArgs<MenuItem> args)
     {
@@ -82,19 +79,19 @@
                 }
                 if (EventData.RecurrenceRule != null)
                 {
-                    isCell = isEvent = true;
-                    isRecurrence = false;
+                    _isCell = _isEvent = true;
+                    _isRecurrence = false;
                 }
                 else
                 {
-                    isCell = isRecurrence = true;
-                    isEvent = false;
+                    _isCell = _isRecurrence = true;
+                    _isEvent = false;
                 }
             }
             else
             {
-                isCell = false;
-                isEvent = isRecurrence = true;
+                _isCell = false;
+                _isEvent = _isRecurrence = true;
             }
         }
     }

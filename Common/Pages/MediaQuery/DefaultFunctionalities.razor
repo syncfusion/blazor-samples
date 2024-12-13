@@ -5,8 +5,6 @@
 @using Syncfusion.Blazor.Buttons
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
 
 @*End:Hidden*@
 
@@ -22,44 +20,42 @@
         <div class="row">
             <h5 style="text-align:center;">Resize the browser to see the responsiveness of the below layout using MediaQuery component.</h5>
 
-            <SfMediaQuery @bind-ActiveBreakPoint = "activeBreakpoint"></SfMediaQuery>
+            <SfMediaQuery @bind-ActiveBreakPoint="ActiveBreakpoint"></SfMediaQuery>
 
             <br />
             @{
-                //Form a class name with the active breakpoint.
-                string deviceSize =activeBreakpoint.ToLowerInvariant() + "-device";
+            // Form a class name with the active breakpoint.
+            string DeviceSizeClass = ActiveBreakpoint.ToLowerInvariant() + "-device";
             }
-            <div class="mediaquery-demo @deviceSize">
+            <div class="mediaquery-demo @DeviceSizeClass">
                 <SfAppBar ColorMode="AppBarColor.Light" CssClass="headercss">
-                    @if (activeBreakpoint == "Large")
+                    @if (ActiveBreakpoint == "Large")
                     {
-                        <SfToolbar CssClass="e-inherit headercss" OverflowMode="OverflowMode.Popup" Width="100%" Height="100%">
-
-                            <ToolbarItems>
-                                <ToolbarItem Align="ItemAlign.Left">
-                                    <Template>
-                                        <SfButton CssClass="e-inherit logobtn" Content="MQ" readonly></SfButton>
-                                    </Template>
-                                </ToolbarItem>
-                                @foreach (string city in cities)
-                                {
-                                    <ToolbarItem Text="@city" Align="ItemAlign.Center" CssClass="@(city==selectedCity?"selected":"")"></ToolbarItem>
-                                }
-                            </ToolbarItems>
-                        </SfToolbar>
+                    <SfToolbar CssClass="e-inherit headercss" OverflowMode="OverflowMode.Popup" Width="100%" Height="100%">
+                        <ToolbarItems>
+                            <ToolbarItem Align="ItemAlign.Left">
+                                <Template>
+                                    <SfButton CssClass="e-inherit logobtn" Content="MQ" ReadOnly></SfButton>
+                                </Template>
+                            </ToolbarItem>
+                            @foreach (string City in CityList)
+                            {
+                            <ToolbarItem Text="@City" Align="ItemAlign.Center" CssClass="@(City == SelectedCity ? "selected" : "")"></ToolbarItem>
+                            }
+                        </ToolbarItems>
+                    </SfToolbar>
                     }
-
                     else
                     {
-                        <SfMenu CssClass="e-inherit headercss" @ref="menu" TValue="MenuItem" HamburgerMode=true Title="MQ">
-                            <MenuItems>
-                                @foreach (string city in cities)
-                                {
-                                    <MenuItem Text="@city"></MenuItem>
-                                }
-                            </MenuItems>
-                            <MenuEvents TValue="MenuItem" ItemSelected="menuselected"></MenuEvents>
-                        </SfMenu>
+                    <SfMenu CssClass="e-inherit headercss" @ref="CityMenu" TValue="MenuItem" HamburgerMode=true Title="MQ">
+                        <MenuItems>
+                            @foreach (string City in CityList)
+                            {
+                            <MenuItem Text="@City"></MenuItem>
+                            }
+                        </MenuItems>
+                        <MenuEvents TValue="MenuItem" ItemSelected="OnMenuItemSelected"></MenuEvents>
+                    </SfMenu>
                     }
                 </SfAppBar>
 
@@ -68,18 +64,18 @@
                 </div>
                 <div class="main-container">
                     <div class="contentimage normal-view">
-                        @for( int i = 0; i < places.Count(); i++)
+                        @for (int i = 0; i < PlacesToVisit.Length; i++)
                         {
-                            <div class="fig-container">
-                                <figure class="img-container">
-                                    <img src="@(SampleService.WebAssetsPath + "images/media-query/" + @places[i].Replace(" ", "-").ToLowerInvariant() + ".png")" alt="@places[i]" />
-                                    <figcaption class="img-caption">@places[i]</figcaption>
-                                </figure>
-                            </div>
+                        <div class="fig-container">
+                            <figure class="img-container">
+                                <img src="@(SampleService.WebAssetsPath + "images/media-query/" + @PlacesToVisit[i].Replace(" ", "-").ToLowerInvariant() + ".png")" alt="@PlacesToVisit[i]" />
+                                <figcaption class="img-caption">@PlacesToVisit[i]</figcaption>
+                            </figure>
+                        </div>
                         }
                     </div>
-                    <label>New York</label>
-                    <p>@cityDescription</p>
+                    <label>@SelectedCity</label>
+                    <p>@CityDescription</p>
                 </div>
                 <SfAppBar ColorMode="AppBarColor.Light" CssClass="footer">
                     <div class="footer-content">Demo of Media Query component</div>
@@ -90,25 +86,36 @@
 </div>
 
 @code {
-    SfMenu<MenuItem> menu;
-
-    private string activeBreakpoint { get; set; } = "Large";
-    private string selectedCity { get; set; } = "New York";
     
+    SfMenu<MenuItem> CityMenu { get; set; }
 
-    private string[] cities = { "New York", "San Francisco", "The Grand Canyon", "Houston", "Las Vegas", "Waikiki", "Washington, D.C.", "Los Angeles", "Miami", "New Orleans" };
+    private string ActiveBreakpoint { get; set; } = "Large";
+    private string SelectedCity { get; set; } = "New York";
 
-    private string cityDescription = "New York City is like no other city in the world, and one that must be experienced to be fully appreciated. For first-time visitors, walking "
-    + "the streets can be like walking through a movie set, with famous sites at every turn, from the Empire State Building, to Rockefeller Plaza, the Chrysler Building, Central Park, "
-    + "The High Line, Times Square, 5th Avenue, Broadway, and of course, the Statue of Liberty.";
-
-    private string[] places = { "Empire State Building", "Central Park", "The High Line", "Statue of liberty", "Brooklyn Bridge", "Times Square" };
-
-    private void menuselected()
+    private string[] CityList { get; set; } =
     {
-        //To close the menu when the menu item is selected.
-        menu.CloseAsync();
+        "New York", "San Francisco", "The Grand Canyon", "Houston",
+        "Las Vegas", "Waikiki", "Washington, D.C.",
+        "Los Angeles", "Miami", "New Orleans"
+    };
+
+    private string CityDescription { get; set; } =
+        "New York City is like no other city in the world, and one that must be experienced to be fully appreciated. " +
+        "For first-time visitors, walking the streets can be like walking through a movie set, with famous sites at every turn, " +
+        "from the Empire State Building, to Rockefeller Plaza, the Chrysler Building, Central Park, The High Line, Times Square, " +
+        "5th Avenue, Broadway, and of course, the Statue of Liberty.";
+
+    private string[] PlacesToVisit { get; set; } =
+    {
+        "Empire State Building", "Central Park", "The High Line",
+        "Statue of Liberty", "Brooklyn Bridge", "Times Square"
+    };
+    
+    private void OnMenuItemSelected()
+    {
+        CityMenu.CloseAsync();
     }
+
 }
 
 <style>

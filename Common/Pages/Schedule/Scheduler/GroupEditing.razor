@@ -1,11 +1,9 @@
 ﻿@page "/scheduler/shared-events"
 
 @using Syncfusion.Blazor.Schedule
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inject NavigationManager UriHelper
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -23,7 +21,7 @@
 <div class="control-section">
     <div class="content-wrapper">
         <SfSchedule TValue="ScheduleData.ResourceConferenceData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate">
-            <ScheduleGroup EnableCompactView="false" AllowGroupEdit="true" Resources="@groupData"></ScheduleGroup>
+            <ScheduleGroup EnableCompactView="false" AllowGroupEdit="true" Resources="@_groupData"></ScheduleGroup>
             <ScheduleResources>
                 <ScheduleResource TItem="ScheduleData.ConferenceData" TValue="int[]" DataSource="@Conferences" Field="ConferenceId" Title="Attendees" Name="Conferences" TextField="Text" IdField="Id" ColorField="Color" AllowMultiple="true"></ScheduleResource>
             </ScheduleResources>
@@ -47,7 +45,7 @@
                 <ScheduleView MaxEventsPerRow="1" Option="View.Month"></ScheduleView>
                 <ScheduleView MaxEventsPerRow="3" Option="View.TimelineWeek"></ScheduleView>
             </ScheduleViews>
-            <ScheduleEventSettings DataSource="@dataSource">
+            <ScheduleEventSettings DataSource="@EventDataSource">
                 <ScheduleField>
                     <FieldSubject Name="Subject" Title="Conference Name"></FieldSubject>
                     <FieldStartTime Name="StartTime" Title="From"></FieldStartTime>
@@ -62,14 +60,16 @@
 @code{
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 7);
     private View CurrentView { get; set; } = View.WorkWeek;
-    private List<ScheduleData.ResourceConferenceData> dataSource = new ScheduleData().GetResourceConferenceData();
-    private string[] groupData = new string[] { "Conferences" };
-    
-    private List<ScheduleData.ConferenceData> Conferences { get; set; } = new List<ScheduleData.ConferenceData> {
+    private List<ScheduleData.ResourceConferenceData> EventDataSource = new ScheduleData().GetResourceConferenceData();
+    private string[] _groupData = new string[] { "Conferences" };
+
+    private List<ScheduleData.ConferenceData> Conferences { get; set; } = new List<ScheduleData.ConferenceData>
+    {
         new ScheduleData.ConferenceData { Text = "Margaret", Id = 1, Color = "#1aaa55", Designation = "Sales Representative" },
         new ScheduleData.ConferenceData { Text = "Robert", Id = 2, Color = "#357cd2", Designation = "Vice President, Sales" },
         new ScheduleData.ConferenceData { Text = "Laura", Id = 3, Color = "#7fa900", Designation = "Inside Sales Coordinator" }
     };
+
 }
 <style>
     .e-schedule .e-month-view .e-appointment .e-appointment-details {

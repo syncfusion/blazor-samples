@@ -1,60 +1,64 @@
 ﻿@page "/pdf-viewer-2/multi-format-viewer"
-@using BlazorDemos.Shared;
 @using Syncfusion.Blazor.SfPdfViewer;
-@using Syncfusion.Pdf.Parsing;
 @using Syncfusion.Presentation;
 @using Syncfusion.PresentationRenderer;
 @using Syncfusion.XlsIO;
 @using Syncfusion.XlsIORenderer
 @using Syncfusion.DocIORenderer;
 @using Syncfusion.Pdf;
-
-
 @*Hidden:Lines*@
 @inject IJSRuntime JSRuntime
 @using WFormatType = Syncfusion.DocIO.FormatType;
 @using Syncfusion.Pdf.Graphics;
-@using Syncfusion.Pdf.Interactive;
 @using Syncfusion.Blazor.ProgressBar;
 @using Syncfusion.Blazor.Inputs;
 @using System.IO;
 @using Syncfusion.Blazor.Buttons;
 @*End:Hidden*@
-
-
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-
-@inject NavigationManager NavigationManager
-
 @*End:Hidden*@
 
 <SampleDescription>
 <p>This sample shows how it loads various file types like PDFs, images, and Microsoft Office documents (Word,Excel, PowerPoint) into the PDF Viewer.</p></SampleDescription>
-<ActionDescription> 
-     <p>
+<ActionDescription>
+    <p>
         This sample provides a hands-on demonstration of the PDF Viewer's ability to load and display a diverse
         range of file formats, including PDFs, images, and Microsoft Office documents such as Word, Excel, and
         PowerPoint files. Users can interact with the sample in the following ways:
-     </p>
-     <ul>
+    </p>
+    <ul>
         <li>Use the Browse button to select any file of interest.</li>
         <li>Alternatively, drag and drop a chosen file into the designated file pick area.</li>
         <li>Once a valid file is selected, it will be seamlessly loaded into the PDF Viewer located below, allowing users to easily view and interact with the content.</li>
-     </ul>
-     <p>Note : The PDF conversions are performed using the appropriate libraries, while the role of the PDF Viewer is solely to display the converted PDF document.</p>
-@*WASM:Block*@
-@{ #if (WASM) }
-    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application' aria-label="documentation section for View PDF files using PDF Viewer Component in the Blazor WASM app"> documentation section</a>.</p>
-@{ #endif }
-@*End:WASM*@
+    </ul>
+    <p>Note: The PDF conversions are performed using the appropriate libraries, while the role of the PDF Viewer is solely to display the converted PDF document.</p>
 
-@*Server:Block*@
-@{ #if !(WASM) }
-    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application' aria-label="documentation section for View PDF files using PDF Viewer Component in the Blazor Server app"> documentation section</a>.</p>
-@{ #endif }
-@*End:Server*@
+    @*WASM:Block*@
+    @{
+    #if (WASM)
+    }
+    <p>More information about the <strong>SfPdfViewer</strong> can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application"
+           aria-label="documentation section for viewing PDF files using PDF Viewer Component in the Blazor WASM app">documentation section</a>.
+    </p>
+    @{
+    #endif
+    }
+    @*End:WASM*@
 
+    @*Server:Block*@
+    @{
+    #if !(WASM)
+    }
+    <p>More information about the <strong>SfPdfViewer</strong> can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application"
+           aria-label="documentation section for viewing PDF files using PDF Viewer Component in the Blazor Server app">documentation section</a>.
+    </p>
+    @{
+    #endif
+    }
+    @*End:Server*@
 </ActionDescription>
 
 <div class="control-section">
@@ -74,9 +78,9 @@
                 </div>
 
                 <div id="linearProgressBar" style="justify-content: center; display: none;">
-                    <SfProgressBar Type="ProgressType.Linear" id="progress-container" @ref="progressRef" Value="@progressValue" Height="5" Width="250" Minimum="0" Maximum="100">
+                    <SfProgressBar Type="ProgressType.Linear" id="progress-container" @ref="ProgressbarRef" Value="@ProgressBarValue" Height="5" Width="250" Minimum="0" Maximum="100">
                     </SfProgressBar>
-                    <span id="progress-status">@htmlContent</span>
+                    <span id="progress-status">@HtmlContent</span>
                 </div>
                 <div id="uploadedMessage" style="display: none; margin-top: 10px;">
                     <p style="color: rgb(110, 218, 110);">File successfully uploaded...</p>
@@ -91,13 +95,13 @@
             @*End:Hidden*@
 
                 <div id="uploader">
-                    <SfUploader @ref="uploadObj" ID="fileUpload" DropArea="#dropAreaRef" AllowedExtensions=".doc, .docx, .rtf, .docm, .dotm, .dotx, .dot, .xls, .xlsx, .pptx, .pptm, .potx, .potm .jpeg, .png, .bmp, .pdf">
+                    <SfUploader @ref="UploadObj" ID="fileUpload" DropArea="#dropAreaRef" AllowedExtensions=".doc, .docx, .rtf, .docm, .dotm, .dotx, .dot, .xls, .xlsx, .pptx, .pptm, .potx, .potm .jpeg, .png, .bmp, .pdf">
                         <UploaderEvents ValueChange="OnChange" Created="CreatedHandler" FileSelected="Selected"></UploaderEvents>                        
                     </SfUploader>
                 </div>
      </div>
-    <div style="visibility:@isLoaded ;height:@height;width:@width;">
-        <SfPdfViewer2 @ref="viewer" ID="pdfviewer" ZoomMode="ZoomMode.FitToPage">
+    <div style="visibility:@IsLoaded ;height:@DocumentHeight;width:@DocumentWidth;">
+        <SfPdfViewer2 @ref="PdfViewerInstance" ID="pdfviewer" ZoomMode="ZoomMode.FitToPage">
         <PdfViewerToolbarSettings MobileToolbarItems="@MobileItems" ToolbarItems="@ToolbarItems"></PdfViewerToolbarSettings>
         <PdfViewerEvents DocumentLoaded="documentLoaded"></PdfViewerEvents>
         </SfPdfViewer2>
@@ -106,14 +110,14 @@
 
 @code {
     @*Hidden:Lines*@
-    SfPdfViewer2 viewer;
-    SfUploader uploadObj;
-    SfProgressBar progressRef;
-    public string isLoaded = "hidden";
-    public string width = "0px";
-    public string height = "0px";
-    public int progressValue = 0;
-    public string htmlContent = "0%";
+    SfPdfViewer2 PdfViewerInstance { get; set; }
+    SfUploader UploadObj { get; set; }
+    SfProgressBar ProgressbarRef { get; set; }
+    public string IsLoaded { get; set; } = "hidden";
+    public string DocumentWidth { get; set; }= "0px";
+    public string DocumentHeight { get; set; }= "0px";
+    public int ProgressBarValue { get; set; }= 0;
+    public string HtmlContent { get; set; }= "0%";
 
     public List<ToolbarItem> ToolbarItems = new List<ToolbarItem>()
     {
@@ -143,8 +147,8 @@
 
     public void documentLoaded()
     {        
-        progressValue = 100;
-        htmlContent = progressValue.ToString()+"%";
+        ProgressBarValue = 100;
+        HtmlContent = ProgressBarValue.ToString()+"%";
         ShowMessage();
     }
 
@@ -157,16 +161,16 @@
     {
         bool isInValidFile=await JSRuntime.InvokeAsync<bool>("onSelect",args);
         args.Cancel = isInValidFile;
-        progressValue = 40;
-        htmlContent = progressValue.ToString()+"%";
+        ProgressBarValue = 40;
+        HtmlContent = ProgressBarValue.ToString()+"%";
 
     }
     @*End:Hidden*@
 
     private async void OnChange(UploadChangeEventArgs action)
     {
-        progressValue = 60;
-        htmlContent = progressValue.ToString()+"%";
+        ProgressBarValue = 60;
+        HtmlContent = ProgressBarValue.ToString()+"%";
         string base64 = action.Files[0].File.ToString();
         string type = action.Files[0].FileInfo.Type.ToLower();        
         var fileStream = new MemoryStream();
@@ -176,8 +180,8 @@
         Syncfusion.Pdf.PdfDocument pdfDocument = new Syncfusion.Pdf.PdfDocument();
         if (type == "pdf")
         {
-            progressValue = 90;
-            htmlContent = progressValue.ToString()+"%";
+            ProgressBarValue = 90;
+            HtmlContent = ProgressBarValue.ToString()+"%";
             loadPDFdocument(bytes);
         }
         else
@@ -233,8 +237,8 @@
                         graphics.DrawImage(image, 0, 0);
                         break;
                 }
-                progressValue = 90;
-                htmlContent = progressValue.ToString()+"%";
+                ProgressBarValue = 90;
+                HtmlContent = ProgressBarValue.ToString()+"%";
                 pdfDocument.Save(outputStream);
                 outputStream.Position = 0;
                 loadPDFdocument(outputStream.ToArray());
@@ -246,13 +250,13 @@
 
     public async void loadPDFdocument(byte[] bytes)
     {
-        isLoaded = "visible";
-        width = "100%";
-        height = "100%";
+        IsLoaded = "visible";
+        DocumentWidth = "100%";
+        DocumentHeight = "100%";
         StateHasChanged();
         string base64String = Convert.ToBase64String(bytes);
-        await viewer.LoadAsync("data:application/pdf;base64," + base64String, null);
-        await viewer.FitToPageAsync();
+        await PdfViewerInstance.LoadAsync("data:application/pdf;base64," + base64String, null);
+        await PdfViewerInstance.FitToPageAsync();
         
     }
 

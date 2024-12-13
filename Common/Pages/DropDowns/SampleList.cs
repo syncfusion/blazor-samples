@@ -50,7 +50,8 @@ namespace BlazorDemos
                 Directory = "DropDowns/DropDownList",
                 Url = "DropDown-List/Filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ "This demo demonstrates the debounce delay feature in filtering for the DropDownList. You can set a custom delay in milliseconds, which reduces the frequency of data filtering as you type, enhancing performance and responsiveness." }
             },
             new Sample
             {
@@ -87,6 +88,17 @@ namespace BlazorDemos
                 Url = "DropDown-List/Template",
                 FileName = "Template.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Popup Resize",
+                Category = "Dropdown List",
+                Directory = "DropDowns/DropDownList",
+                Url = "DropDown-List/Resize",
+                FileName = "Resize.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "This demo showcases the custom resizing functionality of the DropDownList. You can adjust the popup size to suit your preferences, providing enhanced control over its appearance." }
+
             },
             new Sample
             {
@@ -183,7 +195,7 @@ namespace BlazorDemos
             {
                 Name = "Disabled Items",
                 Category = "ComboBox",
-                Directory = "DropDowns/DropDownList",
+                Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/DisabledItems",
                 FileName = "DisabledItems.razor",
                 Type = SampleType.None
@@ -204,7 +216,9 @@ namespace BlazorDemos
                 Directory = "DropDowns/ComboBox",
                 Url = "ComboBox/Filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ "This demo demonstrates the debounce delay feature in filtering for the ComboBox. You can set a custom delay in milliseconds, which reduces the frequency of data filtering as you type, enhancing performance and responsiveness." }
+
             },
             new Sample
             {
@@ -232,6 +246,17 @@ namespace BlazorDemos
                 Url = "ComboBox/Template",
                 FileName = "Template.razor",
                 Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Popup Resize",
+                Category = "ComboBox",
+                Directory = "DropDowns/ComboBox",
+                Url = "ComboBox/Resize",
+                FileName = "Resize.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "This demo showcases the custom resizing functionality of the ComboBox. You can adjust the popup size to suit your preferences, providing enhanced control over its appearance." }
+
             },
              new Sample
             {
@@ -269,6 +294,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 Type = SampleType.None
             }
+           
         };
 
         public List<Sample> AutoComplete { get; set; } = new List<Sample> {
@@ -294,7 +320,7 @@ namespace BlazorDemos
             {
                 Name = "Disabled Items",
                 Category = "AutoComplete",
-                Directory = "DropDowns/DropDownList",
+                Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/DisabledItems",
                 FileName = "DisabledItems.razor",
                 Type = SampleType.None
@@ -316,6 +342,17 @@ namespace BlazorDemos
                 Url = "AutoComplete/Template",
                 FileName = "Template.razor",
                 Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Popup Resize",
+                Category = "AutoComplete",
+                Directory = "DropDowns/AutoComplete",
+                Url = "AutoComplete/Resize",
+                FileName = "Resize.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "This demo showcases the custom resizing functionality of the AutoComplete. You can adjust the popup size to suit your preferences, providing enhanced control over its appearance." }
+
             },
             new Sample
             {
@@ -342,7 +379,9 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Custom-Filtering",
                 FileName = "CustomFiltering.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ "This demo demonstrates the debounce delay feature in filtering for the AutoComplete. You can set a custom delay in milliseconds, which reduces the frequency of data filtering as you type, enhancing performance and responsiveness." }
+
             },
             new Sample
             {
@@ -387,7 +426,7 @@ namespace BlazorDemos
             {
                 Name = "Disabled Items",
                 Category = "MultiSelect Dropdown",
-                Directory = "DropDowns/DropDownList",
+                Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/DisabledItems",
                 FileName = "DisabledItems.razor",
                 Type = SampleType.None
@@ -399,7 +438,9 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Filtering",
                 FileName = "Filtering.razor",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ "This demo demonstrates the debounce delay feature in filtering for the MultiSelect Dropdown. You can set a custom delay in milliseconds, which reduces the frequency of data filtering as you type, enhancing performance and responsiveness." }
+
             },
             new Sample
             {
@@ -481,6 +522,17 @@ namespace BlazorDemos
                 Url = "MultiSelect-Dropdown/Keyboard-Navigation",
                 FileName = "KeyboardNavigation.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Popup Resize",
+                Category = "MultiSelect Dropdown",
+                Directory = "DropDowns/MultiSelect",
+                Url = "MultiSelect-Dropdown/Resize",
+                FileName = "Resize.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "This demo showcases the custom resizing functionality of the MultiSelect Dropdown. You can adjust the popup size to suit your preferences, providing enhanced control over its appearance." }
+
             }
         };
 
@@ -493,10 +545,6 @@ namespace BlazorDemos
                 Url = "MultiColumn-ComboBox/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.None,
-                NotificationDescription = new string[]
-                {
-                    "This sample demonstrates the default functionalities of the MultiColumn ComboBox component, showcasing various options for customization, selection, and data binding."
-                }
             },
             new Sample
             {
@@ -578,6 +626,18 @@ namespace BlazorDemos
                 Url = "MultiColumn-ComboBox/FormSupport",
                 FileName = "FormSupport.razor",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Text Wrap",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/TextWrap",
+                FileName = "TextWrap.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "This demo showcases the TextWrap feature of the Blazor MultiColumn ComboBox, which controls how text wraps within content and headers. This feature ensures that words break properly at the end of a line, improving readability based on the selected wrapping options." }
+
+
             }
         };
 
@@ -680,8 +740,7 @@ namespace BlazorDemos
                 Directory = "DropDowns/Mention",
                 Url = "Mention/DisabledItems",
                 FileName = "DisabledItems.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @" Added the Disabled Items support for the Mention." }
+                Type = SampleType.None,
             }
         };
     }

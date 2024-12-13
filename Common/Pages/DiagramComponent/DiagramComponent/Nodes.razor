@@ -1,29 +1,23 @@
 ﻿@page "/diagramcomponent/nodes"
 
 @using Syncfusion.Blazor.Diagram
-@using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Buttons
 @using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @implements IDisposable
-@inject NavigationManager NavigationManager
 
-
-@*End:Hidden*@
-
-@*Hidden:Lines*@
 <SampleDescription>
-    <p>This sample visualizes the different stages of a software development life cycle created using <code><a target='_blank' href='https://blazor.syncfusion.com/documentation/diagram/nodes/nodes' aria-label="Nodes">Nodes</a></code> of `SfDiagramComponent`. Customizing the appearance of the nodes is illustrated in this example.</p>
+    <p>This sample visualizes the different stages of a software development life cycle using <code><a target="_blank" href="https://blazor.syncfusion.com/documentation/diagram/nodes/nodes" aria-label="Nodes">Nodes</a></code> from the `SfDiagramComponent`. The example illustrates how to customize the appearance of these nodes.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example shows how to add nodes to the diagram component and how to customize the appearance of the nodes. The collection of nodes is added to a diagram using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Nodes' aria-label="Nodes">Nodes</a></code> property. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_Style' aria-label="Style">Style</a></code> property is used to customize the appearance of the nodes. Click different styles in the property panel to change the appearance of a node.</p>
-    <p>The `Lock` option is used to disable the resize, drag, and rotate operations of a node whereas `Aspect Ratio` is used to enable proportional resizing of nodes.</p>
+    <p>This example demonstrates how to add nodes to the diagram component and customize their appearance. Nodes are added to the diagram using the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Nodes" aria-label="Nodes">Nodes</a></code> property. You can customize the nodes' appearance using the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_Style" aria-label="Style">Style</a></code> property. Click different styles in the property panel to change the appearance of a node.</p>
+    <p>The `Lock` option disables the resize, drag, and rotate operations for a node, while the `Aspect Ratio` option enables proportional resizing of nodes.</p>
 </ActionDescription>
 @*End:Hidden*@
 <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagramComponent @ref="@Diagram" NodeCreating="@OnNodeCreating" SelectionChanged="SelectionChanged" ConnectorCreating="@OnConnectorCreating" Height="590px" Nodes="@NodeCollection" Connectors="@ConnectorCollection" Created = "OnCreated">
+        <SfDiagramComponent @ref="@DiagramInstance" NodeCreating="@OnNodeCreating" SelectionChanged="SelectionChanged" ConnectorCreating="@OnConnectorCreating" Height="590px" Nodes="@DiagramNodes" Connectors="@DiagramConnectors" Created = "OnCreated">
             <SnapSettings Constraints=SnapConstraints.None>
             </SnapSettings>
         </SfDiagramComponent>
@@ -106,10 +100,10 @@
             Apply To
         </div>
         <div class="row" style="padding-top: 8px">
-            <SfRadioButton Label="All Shapes" Name="NodeSelection" Value=@value1 @bind-Checked="@checkValue" TChecked="string"></SfRadioButton>
+            <SfRadioButton Label="All Shapes" Name="NodeSelection" Value=@SelectedShapeOption1 @bind-Checked="@SelectedShapeOption" TChecked="string"></SfRadioButton>
         </div>
         <div class="row" style="padding-top: 8px">
-            <SfRadioButton Label="Selected Shapes" Name="NodeSelection" Value=@value2 @bind-Checked="@checkValue" TChecked="string"></SfRadioButton>
+            <SfRadioButton Label="Selected Shapes" Name="NodeSelection" Value=@SelectedShapeOption2 @bind-Checked="@SelectedShapeOption" TChecked="string"></SfRadioButton>
         </div>
         <div class="row row-header" style="padding-top: 10px;">
             Appearance
@@ -153,35 +147,35 @@
 
 @code{
 
-    private const string seleceditem = "image-pattern-style e-selected-style";
-    private const string unseleceditem = "image-pattern-style";
-    private string value1 = "All Shapes";
-    private string value2 = "Selected Shapes";
-    private string checkValue = "All Shapes";
-    private Dictionary<string, string> dict = new Dictionary<string, string>() { { "preview0", unseleceditem }, { "preview1", unseleceditem }, { "preview2", unseleceditem }, { "preview3", unseleceditem }, { "preview4", unseleceditem } };
+    private const string SelectedPatternItemClass = "image-pattern-style e-selected-style";
+    private const string UnSelectedPatternItemClass = "image-pattern-style";
+    private string SelectedShapeOption1 { get; set; } = "All Shapes";
+    private string SelectedShapeOption2 { get; set; } = "Selected Shapes";
+    private string SelectedShapeOption { get; set; } = "All Shapes";
+    private Dictionary<string, string> dict = new Dictionary<string, string>() { { "preview0", UnSelectedPatternItemClass }, { "preview1", UnSelectedPatternItemClass }, { "preview2", UnSelectedPatternItemClass }, { "preview3", UnSelectedPatternItemClass }, { "preview4", UnSelectedPatternItemClass } };
 
-    public SfDiagramComponent Diagram;
-    public bool AspectRatioValue = false;
-    public bool LockValue = false;
-    public SfCheckBox<bool> AspectRatiocheckbox;
-    public SfCheckBox<bool> LockRatiocheckbox;
+    public SfDiagramComponent DiagramInstance { get; set; }
+    public bool AspectRatioValue { get; set; } = false;
+    public bool LockValue { get; set; } = false;
+    public SfCheckBox<bool> AspectRatiocheckbox { get; set; }
+    public SfCheckBox<bool> LockRatiocheckbox { get; set; }
 
     //Defines diagram's nodes collection
-    public DiagramObjectCollection<Node> NodeCollection = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
     //Defines diagram's connectors collection
-    public DiagramObjectCollection<Connector> ConnectorCollection = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
 
     protected override void OnInitialized()
     {
 
         dict = new Dictionary<string, string>()
         {
-            { "preview0", unseleceditem },
-            { "preview1", unseleceditem },
-            { "preview2", unseleceditem },
-            { "preview3", unseleceditem },
-            { "preview4", unseleceditem },
-            { "preview5", unseleceditem }
+            { "preview0", UnSelectedPatternItemClass },
+            { "preview1", UnSelectedPatternItemClass },
+            { "preview2", UnSelectedPatternItemClass },
+            { "preview3", UnSelectedPatternItemClass },
+            { "preview4", UnSelectedPatternItemClass },
+            { "preview5", UnSelectedPatternItemClass }
         };
         Node node1 = CreateNode("sdlc", 300, 288, "SDLC", 100, 100);
         Node node2 = CreateNode("support", 150, 250, "Support", 100, 100);
@@ -199,7 +193,7 @@
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        Diagram.FitToPage(mobileoptions);
+        DiagramInstance.FitToPage(mobileoptions);
     }
     // Defines default values for Connector object
     private void OnConnectorCreating(IDiagramObject obj)
@@ -232,7 +226,7 @@
             TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.Arrow, Style = new ShapeStyle() { Fill = "#024249", StrokeColor = "#024249" } },
             Style = new ShapeStyle() { StrokeColor = "#6d6d6d", StrokeWidth = 2 }
         };
-        ConnectorCollection.Add(connector);
+        DiagramConnectors.Add(connector);
         return connector;
     }
     // Method is used to create a Node for the diagram.
@@ -257,7 +251,7 @@
                 },
             }
         };
-        NodeCollection.Add(node);
+        DiagramNodes.Add(node);
         return node;
     }
     //Method is used to apply the style for the Node.
@@ -285,26 +279,26 @@
 
     private void AppearanceSelect(string id)
     {
-        Diagram.StartGroupAction();
-        Diagram.BeginUpdate();
-        if (checkValue == "All Shapes")
+        DiagramInstance.StartGroupAction();
+        DiagramInstance.BeginUpdate();
+        if (SelectedShapeOption == "All Shapes")
         {
-            for (var i = 0; i < Diagram.Nodes.Count; i++)
+            for (var i = 0; i < DiagramInstance.Nodes.Count; i++)
             {
-                this.ApplyPreview(id, Diagram.Nodes[i]);
+                this.ApplyPreview(id, DiagramInstance.Nodes[i]);
             };
         }
-        if (checkValue == "Selected Shapes" && Diagram.SelectionSettings.Nodes.Count > 0)
+        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
-            for (var i = 0; i < Diagram.SelectionSettings.Nodes.Count; i++)
+            for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
-                IDiagramObject node = Diagram.GetObject(Diagram.SelectionSettings.Nodes[i].ID) as IDiagramObject;
+                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID) as IDiagramObject;
                 Node node1 = node as Node;
                 this.ApplyPreview(id, node as Node);
             }
         };
-        _ = Diagram.EndUpdateAsync();
-        Diagram.EndGroupAction();
+        _ = DiagramInstance.EndUpdateAsync();
+        DiagramInstance.EndGroupAction();
     }
 
     private void Preview0()
@@ -335,7 +329,7 @@
             if (arg.NewValue[0] is Node)
             {
                 Node node1 = arg.NewValue[0] as Node;
-                IDiagramObject node2 = Diagram.GetObject(node1.ID) as IDiagramObject;
+                IDiagramObject node2 = DiagramInstance.GetObject(node1.ID) as IDiagramObject;
                 node = node2 as Node;
             }
             if (node != null)
@@ -383,12 +377,12 @@
                 {
                     dict = new Dictionary<string, string>()
                     {
-                        { "preview0", unseleceditem },
-                        { "preview1", unseleceditem },
-                        { "preview2", unseleceditem },
-                        { "preview3", unseleceditem },
-                        { "preview4", unseleceditem },
-                        { "preview5", unseleceditem },
+                        { "preview0", UnSelectedPatternItemClass },
+                        { "preview1", UnSelectedPatternItemClass },
+                        { "preview2", UnSelectedPatternItemClass },
+                        { "preview3", UnSelectedPatternItemClass },
+                        { "preview4", UnSelectedPatternItemClass },
+                        { "preview5", UnSelectedPatternItemClass },
                     };
                 }
             }
@@ -448,11 +442,11 @@
             var key = dict.Keys.ElementAt(i);
             if (dict.ContainsKey(id) && key == id)
             {
-                value = seleceditem;
+                value = SelectedPatternItemClass;
             }
             else
             {
-                value = unseleceditem;
+                value = UnSelectedPatternItemClass;
             }
             dict.Remove(key);
             dict.Add(key, value);
@@ -474,18 +468,18 @@
     private void CheckBoxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         AspectRatioValue = args.Checked;
-        if (checkValue == "All Shapes")
+        if (SelectedShapeOption == "All Shapes")
         {
-            for (int i = 0; i < Diagram.Nodes.Count; i++)
+            for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
             {
-                this.UpdateAspectRatioValue(args, Diagram.Nodes[i]);
+                this.UpdateAspectRatioValue(args, DiagramInstance.Nodes[i]);
             }
         }
-        if (checkValue == "Selected Shapes" && Diagram.SelectionSettings.Nodes.Count > 0)
+        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
-            for (var i = 0; i < Diagram.SelectionSettings.Nodes.Count; i++)
+            for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
-                IDiagramObject node = Diagram.GetObject(Diagram.SelectionSettings.Nodes[i].ID) as IDiagramObject;
+                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID) as IDiagramObject;
                 Node node1 = node as Node;
                 this.UpdateAspectRatioValue(args, node1);
             }
@@ -508,18 +502,18 @@
     private void LockChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         LockValue = args.Checked;
-        if (checkValue == "All Shapes")
+        if (SelectedShapeOption == "All Shapes")
         {
-            for (int i = 0; i < Diagram.Nodes.Count; i++)
+            for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
             {
-                this.UpdateLockValue(args, Diagram.Nodes[i]);
+                this.UpdateLockValue(args, DiagramInstance.Nodes[i]);
             }
         }
-        if (checkValue == "Selected Shapes" && Diagram.SelectionSettings.Nodes.Count > 0)
+        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
-            for (var i = 0; i < Diagram.SelectionSettings.Nodes.Count; i++)
+            for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
-                IDiagramObject node = Diagram.GetObject(Diagram.SelectionSettings.Nodes[i].ID) as IDiagramObject;
+                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID) as IDiagramObject;
                 Node node1 = node as Node;
                 this.UpdateLockValue(args, node1);
             }
@@ -529,25 +523,25 @@
     @*Hidden:Lines*@
     public void Dispose()
     {
-        Diagram = null;
+        DiagramInstance = null;
         AspectRatiocheckbox = null;
         LockRatiocheckbox = null;
-        value1 = null;
-        value2 = null;
+        SelectedShapeOption1 = null;
+        SelectedShapeOption2 = null;
         if (dict != null)
         {
             dict.Clear();
             dict = null;
         }
-        if (NodeCollection != null)
+        if (DiagramNodes != null)
         {
-            NodeCollection.Clear();
-            NodeCollection = null;
+            DiagramNodes.Clear();
+            DiagramNodes = null;
         }
-        if (ConnectorCollection != null)
+        if (DiagramConnectors != null)
         {
-            ConnectorCollection.Clear();
-            ConnectorCollection = null;
+            DiagramConnectors.Clear();
+            DiagramConnectors = null;
         }
     }
     @*End:Hidden*@

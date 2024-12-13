@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor
 @using System.Net.Http.Json
 @inject NavigationManager NavigationManager
+@using ThemeHelper
 @inject HttpClient Http
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
@@ -14,8 +15,8 @@
     <p>This sample represents the total number of business and weekend days in a selected period.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to render and configure the Light weight range navigator. To personalise the thumb in the range navigator, use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Width' aria-label="Width">Width</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Height' aria-label="Height">Height</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Fill' aria-label="Fill">Fill</a>, and <code>Border</code> properties. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Type' aria-label="Type">Type</a> property can also be used to modify the Thumb's type.</p>
-    <p>More information about the light weight range navigator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/light-weight' aria-label="documentation section" >documentation section</a>.</p>
+    <p>In this example, you can see how to render and configure the lightweight range navigator. To personalize the thumb in the range navigator, use the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Width" aria-label="Width">Width</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Height" aria-label="Height">Height</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Fill" aria-label="Fill">Fill</a>, and <code>Border</code> properties. The <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Type" aria-label="Type">Type</a> property can also be used to modify the Thumb's type.</p>
+    <p>More information about the lightweight range navigator can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/range-selector/light-weight" aria-label="documentation section">documentation section</a>.</p>
 </ActionDescription>
 
 @if (LightWeightData == null)
@@ -25,25 +26,36 @@
 else
 {
     <div class="control-section" align="center">
-        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">Calculate the Business and Weekend Days in a Period</h4>
-        <br /><div>
-            <SfRangeNavigator Value="@RangeValue" IntervalType="RangeIntervalType.Months" Theme="@RangeNavigatorTheme" AnimationDuration="500" LabelFormat="MMM" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@LightWeightData" XName="x" YName="y" Interval="@interval">
+        <h4 style="font-family: Segoe UI; font-weight: 500; font-style: normal; font-size: 15px;">
+            Calculate the Business and Weekend Days in a Period
+        </h4>
+        <br />
+        <div>
+            <SfRangeNavigator 
+                Value="@DateRangeSelection" 
+                IntervalType="RangeIntervalType.Months" 
+                Theme="@SelectedTheme" 
+                AnimationDuration="500" 
+                LabelFormat="MMM" 
+                ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" 
+                DataSource="@LightWeightData" 
+                XName="x" 
+                YName="y" 
+                Interval="@TimeInterval">
                 <RangeNavigatorStyleSettings SelectedRegionColor="@SelectedRegionColor"></RangeNavigatorStyleSettings>
                 <RangeNavigatorMajorGridLines Width="0.000001"></RangeNavigatorMajorGridLines>
             </SfRangeNavigator>
         </div>
     </div>
-
 }
-@code{
 
-    
-    public Theme RangeNavigatorTheme { get; set; } = Theme.Bootstrap4;
+@code {
+    public Theme SelectedTheme { get; set; } = Theme.Bootstrap4;
     public ChartData[] LightWeightData { get; set; }
-    public object[] RangeValue = new object[] { new DateTime(2017, 10, 01), new DateTime(2017, 11, 01) };
-    private string currentUri;
-    string SelectedRegionColor;
-    public double interval { get; set; }
+    public object[] DateRangeSelection { get; set; } = new object[] { new DateTime(2017, 10, 1), new DateTime(2017, 11, 1) };
+    public double TimeInterval { get; set; }
+    private string CurrentUri { get; set; }
+    private string SelectedRegionColor { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -58,132 +70,31 @@ else
 
     protected override void OnInitialized()
     {
-        
-        currentUri = NavigationManager.Uri;
-        interval = SampleService.IsDevice ? 2 : 1;
-        if (currentUri.IndexOf("material3") > -1)
+        CurrentUri = NavigationManager.Uri;
+        TimeInterval = SampleService.IsDevice ? 2 : 1;
+
+        SelectedTheme = ThemeHelper.GetCurrentTheme(CurrentUri);
+        SelectedRegionColor = SelectedTheme switch
         {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.Material3Dark;
-                SelectedRegionColor = "#4EAAFF";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Material3;
-                SelectedRegionColor = "#6355C7";
-            }
-        }
-        else if (currentUri.IndexOf("material") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.MaterialDark;
-                SelectedRegionColor = "#9ECB08";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Material;
-                SelectedRegionColor = "#00bdae";
-            }
-        }
-        else if (currentUri.IndexOf("fabric") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.FabricDark;
-                SelectedRegionColor = "#4472c4";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Fabric;
-                SelectedRegionColor = "#4472c4";
-            }
-        }
-        else if (currentUri.IndexOf("bootstrap5") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.Bootstrap5Dark;
-                SelectedRegionColor = "#FD7E14";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Bootstrap5;
-                SelectedRegionColor = "#FD7E14";
-            }
-        }
-        else if (currentUri.IndexOf("fluent2") > -1)
-        {
-            if (currentUri.IndexOf("highcontrast") > -1)
-            {
-                RangeNavigatorTheme = Theme.Fluent2HighContrast;
-                SelectedRegionColor = "#9BB449";
-            }
-            else if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.Fluent2Dark;
-                SelectedRegionColor = "#9BB449";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Fluent2;
-                SelectedRegionColor = "#6200EE";
-            }
-        }
-        else if (currentUri.IndexOf("fluent") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.FluentDark;
-                SelectedRegionColor = "#1AC9E6";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Fluent;
-                SelectedRegionColor = "#1AC9E6";
-            }
-        }
-        else if (currentUri.IndexOf("bootstrap4") > -1)
-        {
-            RangeNavigatorTheme = Theme.Bootstrap4;
-            SelectedRegionColor = "#a16ee5";
-        }
-        else if (currentUri.IndexOf("bootstrap") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.BootstrapDark;
-                SelectedRegionColor = "#a16ee5";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Bootstrap;
-                SelectedRegionColor = "#a16ee5";
-            }
-        }
-        else if (currentUri.IndexOf("highcontrast") > -1)
-        {
-            RangeNavigatorTheme = Theme.HighContrast;
-            SelectedRegionColor = "#79ECE4";
-        }
-        else if (currentUri.IndexOf("tailwind") > -1)
-        {
-            if (currentUri.IndexOf("dark") > -1)
-            {
-                RangeNavigatorTheme = Theme.TailwindDark;
-                SelectedRegionColor = "#8B5CF6";
-            }
-            else
-            {
-                RangeNavigatorTheme = Theme.Tailwind;
-                SelectedRegionColor = "#5A61F6";
-            }
-        }
-        else
-        {
-            RangeNavigatorTheme = Theme.Bootstrap4;
-            SelectedRegionColor = "#a16ee5";
-        }
+            Theme.Material3Dark => "#4EAAFF",
+            Theme.Material3 => "#6355C7",
+            Theme.MaterialDark => "#9ECB08",
+            Theme.Material => "#00bdae",
+            Theme.FabricDark => "#4472c4",
+            Theme.Fabric => "#4472c4",
+            Theme.Bootstrap5Dark => "#FD7E14",
+            Theme.Bootstrap5 => "#FD7E14",
+            Theme.Fluent2HighContrast => "#9BB449",
+            Theme.Fluent2Dark => "#9BB449",
+            Theme.Fluent2 => "#6200EE",
+            Theme.FluentDark => "#1AC9E6",
+            Theme.Fluent => "#1AC9E6",
+            Theme.BootstrapDark => "#a16ee5",
+            Theme.Bootstrap => "#a16ee5",
+            Theme.HighContrast => "#79ECE4",
+            Theme.Tailwind3Dark => "#8B5CF6",
+            Theme.Tailwind3 => "#5A61F6",
+            _ => "#a16ee5",
+        };
     }
 }

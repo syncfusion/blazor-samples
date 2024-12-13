@@ -22,16 +22,16 @@
     </p>
 </ActionDescription>
 
-@if (DataSource == null)
+@if (StockData == null)
 {
-    <div class="stockchartloader"></div> 
+    <div class="stock-chart-loader"></div> 
 }
 else
 {
-    <div class="@loadClass"></div>
-    <div class="@loadDiv">
-        <SfStockChart Title="AAPL Historical" Height="@Height" Theme="@theme">
-            <StockChartEvents OnLoaded="@ChartLoaded" AxisLabelRendering="AxisLabelEvent"></StockChartEvents>
+    <div class="@LoaderClass"></div>
+    <div class="@ChartContainerClass">
+        <SfStockChart Title="AAPL Historical" Height="@ChartHeight" Theme="@CurrentTheme">
+            <StockChartEvents OnLoaded="@OnChartLoaded" AxisLabelRendering="OnAxisLabelRender"></StockChartEvents>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
             </StockChartChartArea>
@@ -40,12 +40,12 @@ else
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
             </StockChartPrimaryXAxis>
             <StockChartPrimaryYAxis>
-                 <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
             </StockChartPrimaryYAxis>
             <StockChartTooltipSettings Enable="true" Format="High : <b>${point.high}</b><br/>Low : <b>${point.low}</b><br/>Open : <b>${point.open}</b><br/>Close : <b>${point.close}</b><br/>Volume : <b>${point.volume}</b>"></StockChartTooltipSettings>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartAxes>
-               <StockChartAxis RowIndex=1 Name="yAxis1" LabelPosition="AxisPosition.Inside" EdgeLabelPlacement="EdgeLabelPlacement.Hide">                    
+                <StockChartAxis RowIndex="1" Name="yAxis1" LabelPosition="AxisPosition.Inside" EdgeLabelPlacement="EdgeLabelPlacement.Hide">                    
                     <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
                     <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
                 </StockChartAxis>
@@ -55,11 +55,11 @@ else
                 <StockChartRow Height="70%"></StockChartRow>
             </StockChartRows>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Candle" XName="date" YName="high" YAxisName="yAxis1" High="high" Low="low" Name="Apple Inc" Fill="#2ecd71"></StockChartSeries>
-                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Column" XName="date" YName="volume" High="high" Low="low" Name="Volume">
-                    <StockChartPrimaryYAxis LabelFormat= "{value}M">   
-                            <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
-                            <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+                <StockChartSeries DataSource="@StockData" Type="ChartSeriesType.Candle" XName="date" YName="high" YAxisName="yAxis1" High="high" Low="low" Name="Apple Inc"></StockChartSeries>
+                <StockChartSeries DataSource="@StockData" Type="ChartSeriesType.Column" XName="date" YName="volume" High="high" Low="low" Name="Volume">
+                    <StockChartPrimaryYAxis LabelFormat="{value}M">   
+                        <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                        <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
                     </StockChartPrimaryYAxis>
                 </StockChartSeries>
             </StockChartSeriesCollection>
@@ -70,7 +70,7 @@ else
         </SfStockChart>
     </div>
     <style>
-        .stockchartloader {
+        .stock-chart-loader {
             border: 6px solid #f3f3f3;
             border-top: 6px solid #7a0fff;
             width: 40px;
@@ -83,7 +83,7 @@ else
             animation: loader 2s linear infinite;
         }
 
-        .stockchartdiv {
+        .stock-chart-container {
             visibility: hidden;
         }
 
@@ -92,7 +92,7 @@ else
         }
 
         div[id*="_selector_Secondary_Element"] {
-            transform: translate(0px, @translateY) !important;
+            transform: translate(0px, @TranslateY) !important;
         }
 
         .e-tbar-btn {
@@ -100,22 +100,19 @@ else
         }
     </style>
 }
-@code{ 
-    
-    private ChartData[] DataSource;
-    private string Height = "500";
-    string translateY = "-5px";
-    
+@code {
+
+    private ChartData[] StockData { get; set; }
+    private string ChartHeight { get; set; } = "500";
+    private string LoaderClass { get; set; } = "stock-chart-loader";
+    private string ChartContainerClass { get; set; } = "stock-chart-container";
+    private string TranslateY { get; set; } = "-5px";
+    private Theme CurrentTheme { get; set; } = Theme.Bootstrap4;
+
     protected override async Task OnInitializedAsync()
     {
-        BeforeRender();
-        DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/chart-data.json");
-        //Hidden:Lines
-        if (theme == Theme.Material3 || theme == Theme.Material3Dark || theme == Theme.Bootstrap4 || theme == Theme.Material || theme == Theme.MaterialDark)
-        {
-            translateY = "-7px";
-        }
-        //End:Hidden
+        SetThemeProperties();
+        StockData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/chart-data.json");
     }
 
     public class ChartData
@@ -128,26 +125,30 @@ else
         public double volume { get; set; }
     }
 
-    string loadClass = "stockchartloader";
-    string loadDiv = "stockchartdiv";
-    void ChartLoaded(StockChartEventArgs args)
+    private void OnChartLoaded(StockChartEventArgs args)
     {
-        loadClass = "";
-        loadDiv = "";
+        LoaderClass = string.Empty;
+        ChartContainerClass = string.Empty;
         StateHasChanged();
     }
 
-    public void AxisLabelEvent(StockChartAxisLabelRenderEventArgs args)
+    private void OnAxisLabelRender(StockChartAxisLabelRenderEventArgs args)
     {
-        if(args.Text.Contains("M"))
+        if (args.Text.Contains("M"))
         {
             args.Text = args.Text.Replace("0000000M", "M", StringComparison.InvariantCulture);
         }
     }
 
-    Theme theme = Theme.Bootstrap4;
-    void BeforeRender()
+    private void SetThemeProperties()
     {
-        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-    } 
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+
+        if (CurrentTheme == Theme.Material3 || CurrentTheme == Theme.Material3Dark ||
+            CurrentTheme == Theme.Bootstrap4 || CurrentTheme == Theme.Material ||
+            CurrentTheme == Theme.MaterialDark)
+        {
+            TranslateY = "-7px";
+        }
+    }
 }

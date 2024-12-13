@@ -1,15 +1,11 @@
 ﻿@page "/toast/template"
 
-@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -34,10 +30,10 @@
     <div class="control_wrapper">
         <div class="row">
             <div id="reminder" style="margin: auto;text-align: center">
-                <SfButton id="toast_mail_remainder" @onclick="@MailBtnclick"> Mail Reminder</SfButton>
+                <SfButton id="toast_mail_remainder" @onclick="@MailButtonclick"> Mail Reminder</SfButton>
                 @if (this.ShowButton)
                 {
-                    <SfButton id="Alarm_turn_on" @onclick="@AlarmBtnclick"> Turn on Alarm</SfButton>
+                    <SfButton id="Alarm_turn_on" @onclick="@AlarmButtonclick"> Turn on Alarm</SfButton>
                 }
             </div>
         </div>
@@ -56,7 +52,7 @@
                                             Weekend Alarm
                                         </div>
                                         <div class='toast-message'>
-                                            With traffic, its likely to take 45 minutes to get to jenny's 24th Birthday Bash at Hillside Bar, 454 E.
+                                            With traffic, its likely to take 45 minutes to get to jennys 24th Birthday Bash at Hillside Bar, 454 E.
                                             Olive Way by 10:00 PM
                                         </div>
                                     </div>
@@ -64,14 +60,14 @@
                                 <img src="@(SampleService.WebAssetsPath + "images/toast/map.png")" style="width:100%;height:50%;">
                                 <div class="snooze"> Snooze for </div>
                                 <div id='snoozedropDown'>
-                                    <SfDropDownList TItem="DropDownValues" @bind-Index="@index" TValue="string" @ref="@DropDownObj" PopupHeight="200px" DataSource="@DropData" Placeholder="Select a snooze time">
+                                    <SfDropDownList TItem="DropDownValues" @bind-Index="@_index" TValue="string" @ref="@DropDownObj" PopupHeight="200px" DataSource="@DropData" Placeholder="Select a snooze time">
                                         <DropDownListEvents TValue="string" TItem="DropDownValues" ValueChange="@ListChange"></DropDownListEvents>
-                                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                                        <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
                                 <div class="snoozeBtn">
-                                    <SfButton ID="snooze" CssClass="e-btn e-flat e-info" @onclick="@SnoozeBtnclick"> Snooze </SfButton>
-                                    <SfButton ID="dismiss" CssClass="e-btn e-flat e-info" @onclick="@DismissBtnclick"> Dismiss </SfButton>
+                                    <SfButton ID="snooze" CssClass="e-btn e-flat e-info" @onclick="@SnoozeButtonclick"> Snooze </SfButton>
+                                    <SfButton ID="dismiss" CssClass="e-btn e-flat e-info" @onclick="@DismissButtonclick"> Dismiss </SfButton>
                                 </div>
                             </div>
                         </Template>
@@ -91,11 +87,10 @@
 
 @code
 { 
-    private int? index { get; set; } = 0;
-    SfToast MailToastObj;
-    SfToast AlarmToastObj;
-    SfDropDownList<string, DropDownValues> DropDownObj;
-
+    private int? _index { get; set; } = 0;
+    private SfToast MailToastObj;
+    private SfToast AlarmToastObj;
+    private SfDropDownList<string, DropDownValues> DropDownObj;
     private int ToastFlag { get; set; } = 0;
     private string ToastFieldData { get; set; }
     private string ToastImageData { get; set; }
@@ -105,39 +100,38 @@
     private int AlarmTimeout { get; set; } = 120000;
     private bool ShowButton { get; set; } = true;
     
-
     public class ToastFields
     {
-        public string from { get; set; }
-        public string subject { get; set; }
-        public string image { get; set; }
+        public string From { get; set; }
+        public string Subject { get; set; }
+        public string Image { get; set; }
     }
 
     public class DropDownValues
     {
-        public string value { get; set; }
-        public string text { get; set; }
+        public string Value { get; set; }
+        public string Text { get; set; }
     }
 
     private List<ToastFields> ToastData = new List<ToastFields>() 
     {
-        new ToastFields {from = "Anjolie Stokes", subject = "Networking Referral", image = SampleService.AssetsPath + "images/toast/laura.png" },
-        new ToastFields {from = "Ila Russo", subject = "Business dinner invitation", image = SampleService.AssetsPath + "images/toast/janat.png" },
-        new ToastFields {from = "Camden Mcmillan", subject = "Reference Request - Cameran Hester", image = SampleService.AssetsPath + "images/toast/camden.png" },
-        new ToastFields {from = "Chase Solomon", subject= "New business relationship confirmation", image = SampleService.AssetsPath + "images/toast/chase.png" },
-        new ToastFields {from = "Inga Scott", subject = "Application for Sales Associate", image = SampleService.AssetsPath + "images/toast/michael.png" }
+        new ToastFields {From = "Anjolie Stokes", Subject = "Networking Referral", Image = SampleService.AssetsPath + "images/toast/laura.png" },
+        new ToastFields {From = "Ila Russo", Subject = "Business dinner invitation", Image = SampleService.AssetsPath + "images/toast/janat.png" },
+        new ToastFields {From = "Camden Mcmillan", Subject = "Reference Request - Cameran Hester", Image = SampleService.AssetsPath + "images/toast/camden.png" },
+        new ToastFields {From = "Chase Solomon", Subject= "New business relationship confirmation", Image = SampleService.AssetsPath + "images/toast/chase.png" },
+        new ToastFields {From = "Inga Scott", Subject = "Application for Sales Associate", Image = SampleService.AssetsPath + "images/toast/michael.png" }
     };
 
     private List<DropDownValues> DropData = new List<DropDownValues>()
     {
-        new DropDownValues(){ value= "2", text= "2 minutes" },
-        new DropDownValues(){ value= "5", text= "5 minutes" },
-        new DropDownValues(){ value= "10", text= "10 minutes" }
+        new DropDownValues() { Value = "2", Text = "2 minutes" },
+        new DropDownValues() { Value = "5", Text = "5 minutes" },
+        new DropDownValues() { Value = "10", Text = "10 minutes" }
     };
 
-    private async Task MailBtnclick()
+    private async Task MailButtonclick()
     {
-        string template = "<div id='toastEmail_template'><div class='e-toast-template'><div class='e-toast-message'><div class='e-toast-title'>" + this.ToastData[ToastFlag].from + "</div><div class='e-toast-content'>" + this.ToastData[ToastFlag].subject + "</div></div></div></div>";
+        string template = "<div id=\"toastEmail_template\"><div class=\"e-toast-template\"><img class=\"e-toast-icon e-toast-image\" src=\"" + this.ToastData[ToastFlag].Image + "\" /><div class=\"e-toast-message\"><div class=\"e-toast-title\">" + this.ToastData[ToastFlag].From + "</div><div class=\"e-toast-content\">" + this.ToastData[ToastFlag].Subject + "</div></div></div></div>";
         await this.MailToastObj.ShowAsync(new ToastModel { Content = template, ShowCloseButton = true });
         ToastFlag++;
         if (ToastFlag == ToastData.Count)
@@ -146,18 +140,18 @@
         }
     }
 
-    private async Task AlarmBtnclick()
+    private async Task AlarmButtonclick()
     {
         await this.AlarmToastObj.ShowAsync();
     }
 
-    private async Task SnoozeBtnclick()
+    private async Task SnoozeButtonclick()
     {
         await this.AlarmToastObj.HideAsync();
         this.SnoozeFlag = true;
     }
 
-    private async Task DismissBtnclick()
+    private async Task DismissButtonclick()
     {
         await this.AlarmToastObj.HideAsync();
     }
@@ -251,7 +245,7 @@
         display: inline-flex;
     }
 
-    #toast_custom .e-toast-icon.e-toast-image {
+    #toast_template .e-toast-icon.e-toast-image {
         border-radius: 50%;
         background-repeat: no-repeat;
         background-size: cover;
@@ -413,6 +407,7 @@
     .bootstrap5-dark #snoozedropDown .e-input-group.e-control-wrapper,
     .fabric-dark #snoozedropDown .e-input-group.e-control-wrapper,
     .tailwind-dark #snoozedropDown .e-input-group.e-control-wrapper,
+    .tailwind3-dark #snoozedropDown .e-input-group.e-control-wrapper,
     .fluent-dark #snoozedropDown .e-input-group.e-control-wrapper,
     .fluent2-dark #snoozedropDown .e-input-group.e-control-wrapper,
     .fluent2-highcontrast #snoozedropDown .e-input-group.e-control-wrapper {

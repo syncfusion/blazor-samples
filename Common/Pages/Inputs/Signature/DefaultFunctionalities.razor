@@ -4,9 +4,6 @@
 @using Syncfusion.Blazor.Buttons
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -23,39 +20,40 @@
         <div class='e-sign-heading'>
             <span id="signdescription">Sign below</span>
             <span class="e-btn-options">
-                <SfButton @ref="saveButton" Disabled="saveDisabled" IsPrimary="true" class="e-sign-save" @onclick="onSave">Save</SfButton>
-                <SfButton @ref="clearButton" Disabled="clearDisabled" IsPrimary="true" class="e-sign-clear" @onclick="onClear">Clear</SfButton>
+                <SfButton @ref="SaveButtonRef" Disabled="IsSaveDisabled" IsPrimary="true" class="e-sign-save" @onclick="SaveSignature">Save</SfButton>
+                <SfButton @ref="ClearButtonRef" Disabled="IsClearDisabled" IsPrimary="true" class="e-sign-clear" @onclick="ClearSignature">Clear</SfButton>
             </span>
         </div>
-        <SfSignature @ref="signature" Changed="OnChange" style="height:100%; width: 100%;"></SfSignature>
+        <SfSignature @ref="SignatureComponent" Changed="OnSignatureChanged" style="height:100%; width: 100%;"></SfSignature>
     </div>
 </div>
 
 @code{
-    private SfSignature signature;
-    private SfButton saveButton;
-    private SfButton clearButton;
-    private bool saveDisabled = true;
-    private bool clearDisabled = true;
+
+    private SfSignature SignatureComponent { get; set; }
+    private SfButton SaveButtonRef { get; set; }
+    private SfButton ClearButtonRef { get; set; }
+    private bool IsSaveDisabled { get; set; } = true;
+    private bool IsClearDisabled { get; set; } = true;
+
+    private void OnSignatureChanged()
+    {
+        IsClearDisabled = false;
+        IsSaveDisabled = false;
+    }
+
+    private async Task SaveSignature()
+    {
+        await SignatureComponent.SaveAsync();
+        IsClearDisabled = true;
+    }
     
-
-    private void OnChange()
+    private async Task ClearSignature()
     {
-        clearDisabled = false;
-        saveDisabled = false;
+        await SignatureComponent.ClearAsync();
+        IsSaveDisabled = true;
     }
 
-    private async Task onSave()
-    {
-        await signature.SaveAsync();
-        clearDisabled = true;
-    }
-
-    private async Task onClear()
-    {
-        await signature.ClearAsync();
-        saveDisabled = true;
-    }
 }
 
 

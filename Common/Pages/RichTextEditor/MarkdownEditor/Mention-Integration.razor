@@ -6,9 +6,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -27,25 +24,25 @@
     @if (!IsPreview)
     {
         <SfMention TItem="PersonData" ID="RT_Editor_mention" Target="#MD_Editor .e-rte-content .e-content" DataSource="@EmailData" SortOrder="SortOrder.Ascending" AllowSpaces="true" PopupHeight="200px" PopupWidth="250px">
-        <ItemTemplate>
-            <div class="editor-mention-item-template">
-                <div class="em-header">
-                    <div class="em-avatar" style="background-color: @((context as PersonData).BgColor); color: @((context as PersonData).Color);">
-                        <div class="em-initial">@((context as PersonData).Initial)</div>
+            <ItemTemplate>
+                <div class="editor-mention-item-template">
+                    <div class="em-header">
+                        <div class="em-avatar" style="background-color: @((context as PersonData).BgColor); color: @((context as PersonData).Color);">
+                            <div class="em-initial">@((context as PersonData).Initial)</div>
+                        </div>
+                    </div>
+                    <div class="em-content">
+                        <div class="em-name">@((context as PersonData).Name)</div>
+                        <div class="em-email">@((context as PersonData).Email)</div>
                     </div>
                 </div>
-                <div class="em-content">
-                    <div class="em-name">@((context as PersonData).Name)</div>
-                    <div class="em-email">@((context as PersonData).Email)</div>
-                </div>
-            </div>
-        </ItemTemplate>
-        <DisplayTemplate>
-           [@((context as PersonData).Name)](mailto:@((context as PersonData).Email))
-        </DisplayTemplate>
-        <ChildContent>
-            <MentionFieldSettings Text="Name"></MentionFieldSettings>
-        </ChildContent>
+            </ItemTemplate>
+            <DisplayTemplate>
+                [@@@((context as PersonData).Name)](mailto:@((context as PersonData).Email))
+            </DisplayTemplate>
+            <ChildContent>
+                <MentionFieldSettings Text="Name"></MentionFieldSettings>
+            </ChildContent>
         </SfMention>
         <SfRichTextEditor ID="MD_Editor" Height="250px" EditorMode="EditorMode.Markdown" SaveInterval="1" @bind-Value="@MarkdownValue">
             <RichTextEditorToolbarSettings Items="@Tools">
@@ -82,12 +79,11 @@
 </div>
 
 @code{
-
     private bool IsPreview { get; set; }
     private string HtmlValue { get; set; }
     private MarkdownPipeline Pipeline { get; set; }
 
-    private string MarkdownValue { get; set; } =@"Hello [Albert](mailto:albert@gmail.com)
+    private string MarkdownValue { get; set; } =@"Hello [@Albert](mailto:albert@gmail.com)
 
 Welcome to the mention integration with markdown editor demo. Type @ character and tag user from the suggestion list.";
 
@@ -123,7 +119,6 @@ Welcome to the mention integration with markdown editor demo. Type @ character a
 
     protected override void OnInitialized()
     {
-
         Pipeline = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
         this.HtmlValue = Markdig.Markdown.ToHtml(MarkdownValue, Pipeline);
         base.OnInitialized();
@@ -173,30 +168,33 @@ Welcome to the mention integration with markdown editor demo. Type @ character a
         };
         this.IsPreview = false;
     }
+
     public class PersonData
-{
-    public string Name { get; set; }
-    public string Initial { get; set; }
-    public string Email { get; set; }
-    public string Color { get; set; }
-    public string BgColor { get; set; }
-}
-List<PersonData> EmailData = new List<PersonData> {
-    new PersonData() { Name= "Selma Rose", Initial= "SR", Email= "selma@gmail.com", Color= "#FAFDFF", BgColor= "#01579B" },
-    new PersonData() { Name= "Maria", Initial= "MA", Email= "maria@gmail.com", Color= "#004378", BgColor= "#ADDBFF" },
-    new PersonData() { Name= "Russo Kay", Initial= "RK", Email= "russo@gmail.com", Color= "#F9DEDC", BgColor= "#8C1D18" },
-    new PersonData() { Name= "Robert", Initial= "RO", Email= "robert@gmail.com", Color= "#FFD6F7", BgColor= "#37003A" },
-    new PersonData() { Name= "Camden Kate", Initial= "CK", Email= "camden@gmail.com", Color= "#FFFFFF", BgColor= "#464ECF" },
-    new PersonData() { Name= "Garth", Initial= "GA", Email= "garth@gmail.com", Color= "#FFFFFF", BgColor= "#008861" },
-    new PersonData() { Name= "Andrew James", Initial= "AJ", Email= "james@gmail.com", Color= "#FFFFFF", BgColor= "#53CA17" },
-    new PersonData() { Name= "Olivia", Initial= "OL", Email= "olivia@gmail.com", Color= "#FFFFFF", BgColor= "#8C1D18" },
-    new PersonData() { Name= "Sophia", Initial= "SO", Email= "sophia@gmail.com", Color= "#000000", BgColor= "#D0BCFF" },
-    new PersonData() { Name= "Margaret", Initial= "MA", Email= "margaret@gmail.com", Color= "#000000", BgColor= "#F2B8B5" },
-    new PersonData() { Name= "Ursula Ann", Initial= "UA", Email= "ursula@gmail.com", Color= "#000000", BgColor= "#47ACFB" },
-    new PersonData() { Name= "Laura Grace", Initial= "LG", Email= "laura@gmail.com", Color= "#000000", BgColor= "#FFE088" },
-    new PersonData() { Name= "Albert", Initial= "AL", Email= "albert@gmail.com", Color= "#FFFFFF", BgColor= "#00335B" },
-    new PersonData() { Name= "William", Initial= "WA", Email= "william@gmail.com", Color= "#FFFFFF", BgColor= "#163E02" }
-};
+    {
+        public string Name { get; set; }
+        public string Initial { get; set; }
+        public string Email { get; set; }
+        public string Color { get; set; }
+        public string BgColor { get; set; }
+    }
+
+    private List<PersonData> EmailData = new List<PersonData>
+    {
+        new PersonData() { Name = "Selma Rose", Initial = "SR", Email = "selma@gmail.com", Color = "#FAFDFF", BgColor = "#01579B" },
+        new PersonData() { Name = "Maria", Initial = "MA", Email = "maria@gmail.com", Color = "#004378", BgColor = "#ADDBFF" },
+        new PersonData() { Name = "Russo Kay", Initial = "RK", Email = "russo@gmail.com", Color = "#F9DEDC", BgColor = "#8C1D18" },
+        new PersonData() { Name = "Robert", Initial = "RO", Email = "robert@gmail.com", Color = "#FFD6F7", BgColor = "#37003A" },
+        new PersonData() { Name = "Camden Kate", Initial = "CK", Email = "camden@gmail.com", Color = "#FFFFFF", BgColor = "#464ECF" },
+        new PersonData() { Name = "Garth", Initial = "GA", Email = "garth@gmail.com", Color = "#FFFFFF", BgColor = "#008861" },
+        new PersonData() { Name = "Andrew James", Initial = "AJ", Email = "james@gmail.com", Color = "#FFFFFF", BgColor = "#53CA17" },
+        new PersonData() { Name = "Olivia", Initial = "OL", Email = "olivia@gmail.com", Color = "#FFFFFF", BgColor = "#8C1D18" },
+        new PersonData() { Name = "Sophia", Initial = "SO", Email = "sophia@gmail.com", Color = "#000000", BgColor = "#D0BCFF" },
+        new PersonData() { Name = "Margaret", Initial = "MA", Email = "margaret@gmail.com", Color = "#000000", BgColor = "#F2B8B5" },
+        new PersonData() { Name = "Ursula Ann", Initial = "UA", Email = "ursula@gmail.com", Color = "#000000", BgColor = "#47ACFB" },
+        new PersonData() { Name = "Laura Grace", Initial = "LG", Email = "laura@gmail.com", Color = "#000000", BgColor = "#FFE088" },
+        new PersonData() { Name = "Albert", Initial = "AL", Email = "albert@gmail.com", Color = "#FFFFFF", BgColor = "#00335B" },
+        new PersonData() { Name = "William", Initial = "WA", Email = "william@gmail.com", Color = "#FFFFFF", BgColor = "#163E02" }
+    };
 }
 
 <style>
@@ -224,6 +222,8 @@ List<PersonData> EmailData = new List<PersonData> {
 
     .tailwind .e-icon-btn .e-md-preview::before,
     .tailwind-dark .e-icon-btn .e-md-preview::before,
+    .tailwind3 .e-icon-btn .e-md-preview::before,
+    .tailwind3-dark .e-icon-btn .e-md-preview::before,
     .bootstrap5 .e-icon-btn .e-md-preview::before,
     .bootstrap5-dark .e-icon-btn .e-md-preview::before,
     .bootstrap5\.3 .e-icon-btn .e-md-preview::before,
@@ -232,6 +232,7 @@ List<PersonData> EmailData = new List<PersonData> {
     .fluent-dark .e-icon-btn .e-md-preview::before,
     .fluent2 .e-icon-btn .e-md-preview::before,
     .fluent2-dark .e-icon-btn .e-md-preview::before,
+    .fluent2-highcontrast .e-icon-btn .e-md-preview::before,
     .material3 .e-icon-btn .e-md-preview::before,
     .material3-dark .e-icon-btn .e-md-preview::before {
         content: '\e7de';
@@ -239,10 +240,13 @@ List<PersonData> EmailData = new List<PersonData> {
 
     .tailwind .e-icon-btn .e-preview::before,
     .tailwind-dark .e-icon-btn .e-preview::before,
+    .tailwind3 .e-icon-btn .e-preview::before,
+    .tailwind3-dark .e-icon-btn .e-preview::before,
     .fluent .e-icon-btn .e-preview::before,
     .fluent-dark .e-icon-btn .e-preview::before,
     .fluent2 .e-icon-btn .e-preview::before,
     .fluent2-dark .e-icon-btn .e-preview::before,
+    .fluent2-highcontrast .e-icon-btn .e-preview::before,
     .bootstrap5 .e-icon-btn .e-preview::before,
     .bootstrap5-dark .e-icon-btn .e-preview::before,
     .bootstrap5\.3 .e-icon-btn .e-preview::before,

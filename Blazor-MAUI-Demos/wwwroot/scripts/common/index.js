@@ -1,7 +1,7 @@
 var isScrolled = false;
 var isUpdatedDevice = false;
 var isTouchEnabled = false;
-const DEFAULT_THEME = 'fluent';
+const DEFAULT_THEME = 'fluent2';
 
 window.sfBlazorSB = {
     dotnetRef: null,
@@ -718,6 +718,13 @@ function initializeActiveGroup() {
 function toggleDarkMode() {
     var element = document.body;
     element.classList.toggle("dark-mode");
+    var selectedMode = localStorage.getItem('ThemeMode');
+    if (selectedMode === null) {
+        localStorage.setItem('ThemeMode', 'dark');
+    }
+    if (selectedMode === 'dark' && !element.classList.contains('dark-mode')) {
+        localStorage.removeItem('ThemeMode');
+    }
 }
 
 //Method for toggle property section

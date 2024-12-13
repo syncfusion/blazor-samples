@@ -3,7 +3,6 @@
 @*Hidden:Lines*@
 @using BlazorDemos.Models.Form
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
 @*End:Hidden*@
 
 <SampleDescription>
@@ -22,14 +21,13 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Calendars
-@using System.ComponentModel.DataAnnotations
 
 <div class="col-lg-12 control-section">
 
     <div class="control-wrapper">
         <h4 class="control-header">Bus Ticket Booking</h4>
         <SfDataForm ID="Ticket-Booking" EnableFloatingLabel="true"
-                    Model="@TicketBooking"
+                    Model="@_ticketBooking"
                     ColumnCount=6
                     ColumnSpacing="10px"
                     ButtonsAlignment="FormButtonsAlignment.Center">
@@ -39,22 +37,22 @@
             <FormItems>
                 <FormAutoGenerateItems />
 
-                <FormItem Field="@nameof(TicketBooking.DepartureDate)">
+                <FormItem Field="@nameof(_ticketBooking.DepartureDate)">
                     <Template>
-                        <SfDatePicker TValue="DateTime?" Min="DateTime.Today" Placeholder="Departure Date" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Auto" @bind-Value="TicketBooking.DepartureDate"></SfDatePicker>
+                        <SfDatePicker TValue="DateTime?" Min="DateTime.Today" Placeholder="Departure Date" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Auto" @bind-Value="_ticketBooking.DepartureDate"></SfDatePicker>
                     </Template>
                 </FormItem>
-                <FormItem Field="@nameof(TicketBooking.DepartureCity)">
+                <FormItem Field="@nameof(_ticketBooking.DepartureCity)">
                     <Template>
-                        <SfDropDownList TValue="City?" CssClass="@Error_Class" TItem="string" Placeholder="Departure City" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Auto" DataSource="Enum.GetNames(typeof(City))" @bind-Value="TicketBooking.DepartureCity">
+                        <SfDropDownList TValue="City?" CssClass="@Error_Class" TItem="string" Placeholder="Departure City" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Auto" DataSource="Enum.GetNames(typeof(City))" @bind-Value="_ticketBooking.DepartureCity">
                             <DropDownListEvents TValue="City?" TItem="string" ValueChange="ChangeDepartureCity"></DropDownListEvents>
                         </SfDropDownList>
                         <span class="validation-message">@City_Validation</span>
                     </Template>
                 </FormItem>
-                <FormItem Field="@nameof(TicketBooking.DestinationCity)">
+                <FormItem Field="@nameof(_ticketBooking.DestinationCity)">
                     <Template>
-                        <SfDropDownList TValue="City?" TItem="string" CssClass="@Error_Class" Placeholder="Destination City" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Auto" DataSource="Enum.GetNames(typeof(City))" @bind-Value="TicketBooking.DestinationCity">
+                        <SfDropDownList TValue="City?" TItem="string" CssClass="@Error_Class" Placeholder="Destination City" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Auto" DataSource="Enum.GetNames(typeof(City))" @bind-Value="_ticketBooking.DestinationCity">
                             <DropDownListEvents TValue="City?" TItem="string" ValueChange="ChangeDestinationCity"></DropDownListEvents>
                         </SfDropDownList>
                         <span class="validation-message">@City_Validation</span>
@@ -85,16 +83,13 @@
 </style>
 
 @code {
-
     public string City_Validation { get; set; } = " ";
-
     public string Error_Class { get; set; }
-
-    private BookingDetails TicketBooking = new BookingDetails();
+    private BookingDetails _ticketBooking = new BookingDetails();
 
     public void ChangeDepartureCity(Syncfusion.Blazor.DropDowns.ChangeEventArgs<City?, string> args)
     {
-        if (args.Value.ToString() == TicketBooking.DestinationCity.ToString())
+        if (args.Value.ToString() == _ticketBooking.DestinationCity.ToString())
         {
             City_Validation = "Departure city and destination city should not be same.";
             Error_Class = "e-error";
@@ -108,7 +103,7 @@
 
     public void ChangeDestinationCity(Syncfusion.Blazor.DropDowns.ChangeEventArgs<City?, string> args)
     {
-        if (args.Value.ToString() == TicketBooking.DepartureCity.ToString())
+        if (args.Value.ToString() == _ticketBooking.DepartureCity.ToString())
         {
             City_Validation = "Departure city and destination city should not be same.";
             Error_Class = "e-error";

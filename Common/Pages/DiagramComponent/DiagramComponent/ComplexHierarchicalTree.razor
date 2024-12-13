@@ -3,14 +3,10 @@
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor.DropDowns
 @using ButtonChangeArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @implements IDisposable;
-@inject NavigationManager NavigationManager
-
-
 <SampleDescription>
     <p>This sample demonstrates a complex hierarchical template built from an external data source using a complex hierarchical tree algorithm.</p>
 </SampleDescription>
@@ -91,10 +87,6 @@
         padding-right: 0px;
     }
 
-    .sb-property-border {
-        border-right: 1px solid #D7D7D7;
-    }
-
     .e-orgchart-template-div-style {
         position: absolute;
         width: 177px;
@@ -140,10 +132,10 @@
 <div class="col-lg-9 control-section sb-property-border">
     <div id="diagram-space" class="content-wrapper">
         <SfDiagramComponent @ref="@Diagram" Created="OnCreated" Height="690px" NodeCreating="@OnNodeCreating" ConnectorCreating="@OnConnectorCreating" InteractionController="@DiagramInteractions.ZoomPan">
-            <ScrollSettings @bind-ScrollLimit="@scrollLimit"></ScrollSettings>
+            <ScrollSettings @bind-ScrollLimit="@ScrollLimit"></ScrollSettings>
             <DataSourceSettings ID="Id" ParentID="ReportingPerson" DataSource="DataSource"></DataSourceSettings>
-            <Layout @bind-Type="@Type" @bind-VerticalSpacing="@VerticalSpacing" @bind-SamePoint="@samepoint" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" HorizontalAlignment="@HorizontalAlignment" VerticalAlignment="@VerticalAlignment">
-                <LayoutMargin @bind-Top="@Top" @bind-Bottom="@Bottom" @bind-Right="@Right" @bind-Left="@Left"></LayoutMargin>
+            <Layout @bind-Type="@LayoutStyle" @bind-VerticalSpacing="@VerticalSpacing" @bind-SamePoint="@IsSamePoint" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" HorizontalAlignment="@HorizontalAlignment" VerticalAlignment="@VerticalAlignment">
+                <LayoutMargin @bind-Top="@TopPosition" @bind-Bottom="@BottomPosition" @bind-Right="@RightPosition" @bind-Left="@LeftPosition"></LayoutMargin>
             </Layout>
             <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
         </SfDiagramComponent>
@@ -161,17 +153,17 @@
             </div>
             <div id="orientation">
                 <div class="row" style="padding-top: 8px">
-                    <div title="Top to Bottom" class="@dict["topToBottom"]" @onclick="ToptoBottomClick" id="topToBottom" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/top-to-bottom.png"));
+                    <div title="Top to Bottom" class="@OrientationClassDictionary["topToBottom"]" @onclick="ToptoBottomClick" id="topToBottom" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/top-to-bottom.png"));
         margin-right: 3px">
                     </div>
-                    <div title="Bottom to Top" class="@dict["bottomToTop"]" id="bottomToTop" @onclick="BottomtoTopClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/bottom-to-top.png"));
+                    <div title="Bottom to Top" class="@OrientationClassDictionary["bottomToTop"]" id="bottomToTop" @onclick="BottomtoTopClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/bottom-to-top.png"));
         margin: 0px 3px">
                     </div>
-                    <div title="Left to Right" class="@dict["leftToRight"]" id="leftToRight" @onclick="LefttoRightClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/left-to-right.png")); margin-right:0px 3px">
+                    <div title="Left to Right" class="@OrientationClassDictionary["leftToRight"]" id="leftToRight" @onclick="LefttoRightClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/left-to-right.png")); margin-right:3px">
                     </div>
                 </div>
                 <div class="row" style="padding-top: 8px">
-                    <div title="Right to Left" class="@dict["rightToLeft"]" id="rightToLeft" @onclick="RighttoLeftClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/right-to-left.png"));
+                    <div title="Right to Left" class="@OrientationClassDictionary["rightToLeft"]" id="rightToLeft" @onclick="RighttoLeftClick" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/common-orientation/right-to-left.png"));
         margin: 0px 3px">
                     </div>
                 </div>
@@ -207,7 +199,7 @@
                 <div style="display: table-cell; vertical-align: middle">Left Margin</div>
             </div>
             <div class="textboxstyle">
-                <SfNumericTextBox TValue="int?" ID="marginx" Format="###.##" Width="100%"  Step="2" Value="@LeftValue">
+                <SfNumericTextBox TValue="int?" ID="marginx" Format="###.##" Width="100%"  Step="2" Value="@LeftSpacingValue">
                     <NumericTextBoxEvents TValue="int?" ValueChange="MarginLeftChange"></NumericTextBoxEvents>
                 </SfNumericTextBox>
             </div>
@@ -217,7 +209,7 @@
                 <div style="display: table-cell; vertical-align: middle">Top Margin</div>
             </div>
             <div class="textboxstyle">
-                <SfNumericTextBox TValue="int?" ID="marginy" Format="###.##" Width="100%"  Step="2" Value="@TopValue">
+                <SfNumericTextBox TValue="int?" ID="marginy" Format="###.##" Width="100%"  Step="2" Value="@TopSpacingValue">
                     <NumericTextBoxEvents TValue="int?" ValueChange="MarginTopChange"></NumericTextBoxEvents>
                 </SfNumericTextBox>
             </div>
@@ -225,7 +217,7 @@
          <div class="row" style="padding-top: 8px">
           
             <div  class="textboxstyle" style="width:1000px">
-              <SfCheckBox Label="Prevent Connector Overlapping" Checked="@checkBoxValue" ValueChange="@LinearChange" TChecked="bool" />
+              <SfCheckBox Label="Prevent Connector Overlapping" Checked="@IsCheckBoxSelected" ValueChange="@LinearChange" TChecked="bool" />
             </div>
         </div>
                 
@@ -234,41 +226,41 @@
 @*End:Hidden*@
 @code
 {
-    private const string selecteditem = "image-pattern-style  e-selected-orientation-style";
-    private const string unselecteditem = "image-pattern-style";
-    private const string selectedPattenitem = "image-pattern-style  e-selected-pattern-style";
-    ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Diagram;
-    private Orientation subTreeOrientation = Orientation.Vertical;
-    private bool samepoint = false;
-    private SubTreeAlignmentType subTreeAlignment = SubTreeAlignmentType.Right;
-    private int rows = 0;
-    private string pattern;
-    private double offset = 20;
-    private Dictionary<string, string> dict = new Dictionary<string, string>() {
-        { "topToBottom", selecteditem },
-        { "bottomToTop", unselecteditem },
-        { "leftToRight", unselecteditem },
-        { "rightToLeft", unselecteditem }
+    private const string SelectedItemClass = "image-pattern-style  e-selected-orientation-style";
+    private const string UnselectedItemClass = "image-pattern-style";
+    private const string SelectedPatternItemClass  = "image-pattern-style  e-selected-pattern-style";
+    ScrollLimitMode ScrollLimit { get; set; } = ScrollLimitMode.Diagram;
+    private Orientation SubTreeOrientation { get; set; } = Orientation.Vertical;
+    private bool IsSamePoint { get; set; } = false;
+    private SubTreeAlignmentType subTreeAlignment { get; set; } = SubTreeAlignmentType.Right;
+    private int RowCount { get; set; } = 0;
+    private string SelectedPattern { get; set; }
+    private double ElementOffset { get; set; } = 20;
+    public Dictionary<string, string> OrientationClassDictionary = new Dictionary<string, string>() {
+        { "topToBottom", SelectedItemClass },
+        { "bottomToTop", UnselectedItemClass },
+        { "leftToRight", UnselectedItemClass },
+        { "rightToLeft", UnselectedItemClass }
     };
 
-    bool checkBoxValue = true;
+    bool IsCheckBoxSelected { get; set; } = true;
     public SfDiagramComponent Diagram;
     public LayoutOrientation OrientationType = LayoutOrientation.TopToBottom;
     public int? HorizontalValue { get; set; } = 40;
     public int? VerticalValue { get; set; } = 40;
     public int? MaginXValue { get; set; } = 22;
     public int? MaginYValue { get; set; } = 22;
-    public LayoutType Type = LayoutType.ComplexHierarchicalTree;
+    public LayoutType LayoutStyle = LayoutType.ComplexHierarchicalTree;
     public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Left;
     public VerticalAlignment VerticalAlignment = VerticalAlignment.Top;
-    public int HorizontalSpacing = 40;
-    public int VerticalSpacing = 40;
-    public double Top = 50;
-    public double Bottom = 0;
-    public double Right = 0;
-    public double Left = 10;
-    public int TopValue = 50;
-    public int LeftValue = 10;
+    public int HorizontalSpacing { get; set; } = 40;
+    public int VerticalSpacing { get; set; } = 40;
+    public double TopPosition { get; set; } = 50;
+    public double BottomPosition { get; set; } = 0;
+    public double RightPosition { get; set; } = 0;
+    public double LeftPosition { get; set; } = 10;
+    public int TopSpacingValue { get; set; } = 50;
+    public int LeftSpacingValue { get; set; } = 10;
     
 
     // Defines default values for Node object
@@ -335,12 +327,12 @@
     };
     private TreeInfo GetLayoutInfo(IDiagramObject obj, TreeInfo options)
     {
-        if (rows == 0)
+        if (RowCount == 0)
         {
-            if (rows == 0 && options.Rows != null)
+            if (RowCount == 0 && options.Rows != null)
                 options.Rows = null;
             Node node = obj as Node;
-            if (pattern == "LeftOrientationVertical50" || pattern == "RightOrientationVertical50")
+            if (SelectedPattern == "LeftOrientationVertical50" || SelectedPattern == "RightOrientationVertical50")
             {
                 options.Offset = -50;
             }
@@ -348,7 +340,7 @@
             if (!options.HasSubTree)
             {
                 options.AlignmentType = subTreeAlignment;
-                options.Orientation = subTreeOrientation;
+                options.Orientation = SubTreeOrientation;
                 options.AlignmentType = subTreeAlignment;
             }
         }
@@ -357,8 +349,8 @@
             if (!options.HasSubTree)
             {
                 options.AlignmentType = subTreeAlignment;
-                options.Orientation = subTreeOrientation;
-                options.Offset = offset;
+                options.Orientation = SubTreeOrientation;
+                options.Offset = ElementOffset;
             }
         }
         return options;
@@ -387,13 +379,13 @@
     }
     private void MarginLeftChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        LeftValue = (int)args.Value;
-        Left = (double)args.Value;
+        LeftSpacingValue = (int)args.Value;
+        LeftPosition = (double)args.Value;
     }
     private void MarginTopChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        TopValue = (int)args.Value;
-        Top = (double)args.Value; ;
+        TopSpacingValue = (int)args.Value;
+        TopPosition = (double)args.Value; ;
     }
     private void ToptoBottomClick()
     {
@@ -418,46 +410,46 @@
 
     private void LinearChange(ButtonChangeArgs args)
     {
-        checkBoxValue = args.Checked;
-        if (checkBoxValue)
+        IsCheckBoxSelected = args.Checked;
+        if (IsCheckBoxSelected)
         {
-            samepoint = false;
+            IsSamePoint = false;
         }
         else
         {
-            samepoint = true;
+            IsSamePoint = true;
         }
     }
     // Method is used to apply the selection to the prroperty panel.
     private void UpdateSelection(string id)
     {
-        for (int i = 0; i < dict.Count; i++)
+        for (int i = 0; i < OrientationClassDictionary.Count; i++)
         {
-            var value = dict.Values.ElementAt(i);
-            var key = dict.Keys.ElementAt(i);
-            if (dict.ContainsKey(id) && key == id)
+            var value = OrientationClassDictionary.Values.ElementAt(i);
+            var key = OrientationClassDictionary.Keys.ElementAt(i);
+            if (OrientationClassDictionary.ContainsKey(id) && key == id)
             {
-                value = selectedPattenitem;
+                value = SelectedPatternItemClass;
             }
             else
             {
-                value = unselecteditem;
+                value = UnselectedItemClass;
             }
-            dict.Remove(key);
-            dict.Add(key, value);
+            OrientationClassDictionary.Remove(key);
+            OrientationClassDictionary.Add(key, value);
         }
     }
 
     @*Hidden:Lines*@
     public void Dispose()
     {
-        if (dict != null)
+        if (OrientationClassDictionary != null)
         {
-            dict.Clear();
-            dict = null;
+            OrientationClassDictionary.Clear();
+            OrientationClassDictionary = null;
         }
         Diagram = null;
-        pattern = null;
+        SelectedPattern = null;
     }
     @*End:Hidden*@
 }

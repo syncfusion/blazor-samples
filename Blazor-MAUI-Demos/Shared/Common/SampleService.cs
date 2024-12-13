@@ -154,9 +154,9 @@ namespace Blazor_MAUI_Demos.Shared
 #else
             ImagePath = "https://cdn.syncfusion.com/blazor/images/demos/";
             ShowCaseImagePath = "https://cdn.syncfusion.com/blazor/images/showcase/";
-            PdfScriptPath2 = "_content/Syncfusion.Blazor.SfPdfViewer/scripts";
-            DocScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
-            CommonScriptPath = "https://cdn.syncfusion.com/blazor/19.4.38";
+            PdfScriptPath2 = "https://cdn.syncfusion.com/blazor/27.1.48";
+            DocScriptPath = "https://cdn.syncfusion.com/blazor/27.1.48";
+            CommonScriptPath = "https://cdn.syncfusion.com/blazor/27.1.48";
             DiagramScriptPath = WebAssetsPath + "scripts/diagram/interop.min.js";
             SBScriptPath = WebAssetsPath + "scripts/common/demos.min.js";
             ViewerScriptPath = WebAssetsPath + "scripts/pdfviewer/interop.min.js";
@@ -248,11 +248,16 @@ namespace Blazor_MAUI_Demos.Shared
                     }
                     this.ComponentName = controlInfo.Name;
                     this.CurrentSampleUrl = this.SampleInfo.Url;
+#if NET6_0 || NET7_0
                     var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
                     {
                         ["theme"] = "fluent"
                     });
                     urlHelper.NavigateTo(newUri);
+#else
+                    urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=fluent");
+#endif
+
                 }
             }
         }

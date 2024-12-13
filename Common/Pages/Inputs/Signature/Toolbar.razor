@@ -7,9 +7,6 @@
 @using Syncfusion.Blazor.SplitButtons
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -31,24 +28,30 @@
 </ActionDescription>
 
 <div class="control-section">
-    <div id="signature-toolbar-control">
+    <div id="signature-toolbar-container">
         <SfToolbar ID="toolbar">
             <ToolbarItems>
+                <!-- Undo Button -->
                 <ToolbarItem Type="@ItemType.Button" TooltipText="Undo (Ctrl + Z)">
                     <Template>
-                        <SfButton Disabled="undoDisabled" @ref="undoButton" IconCss="e-icons e-undo" @onclick="@onUndo" Content="Undo"/>
+                        <SfButton Disabled="@IsUndoDisabled" @ref="UndoButtonRef" IconCss="e-icons e-undo" @onclick="UndoSignature" Content="Undo"/>
                     </Template>
                 </ToolbarItem>
+
+                <!-- Redo Button -->
                 <ToolbarItem Type="@ItemType.Button" TooltipText="Redo (Ctrl + Y)">
                     <Template>
-                        <SfButton Disabled="redoDisabled" @ref="redoButton" IconCss="e-icons e-redo" @onclick="@onRedo" Content="Redo"/>
+                        <SfButton Disabled="@IsRedoDisabled" @ref="RedoButtonRef" IconCss="e-icons e-redo" @onclick="RedoSignature" Content="Redo"/>
                     </Template>
                 </ToolbarItem>
+
                 <ToolbarItem Type="@ItemType.Separator"/>
-                <ToolbarItem Type="@ItemType.Button" TooltipText="save">
+
+                <!-- Save Button -->
+                <ToolbarItem Type="@ItemType.Button" TooltipText="Save">
                     <Template>
-                        <SfSplitButton Content="Save" IconCss="e-sign-icons e-save" Disabled="saveDisabled">
-                            <SplitButtonEvents Clicked="onSaveClicked" ItemSelected="onSaveType"/>
+                        <SfSplitButton Content="Save" IconCss="e-sign-icons e-save" Disabled="@IsSaveDisabled">
+                            <SplitButtonEvents Clicked="OnSaveClicked" ItemSelected="OnSaveFormatSelected"/>
                             <DropDownMenuItems>
                                 <DropDownMenuItem Text="PNG"/>
                                 <DropDownMenuItem Text="JPEG"/>
@@ -57,167 +60,174 @@
                         </SfSplitButton>
                     </Template>
                 </ToolbarItem>
+
                 <ToolbarItem Type="@ItemType.Separator"/>
+
+                <!-- Stroke Color Picker -->
                 <ToolbarItem Type="@ItemType.Button" TooltipText="Stroke Color">
                     <Template>
-                        <SfColorPicker Mode="ColorPickerMode.Palette" CssClass="circle-palette" Value="@strokeColor" ShowButtons="false" ModeSwitcher="false" Columns="4" PresetColors="@circlePaletteColors" ValueChange="@onStrokeColor"/>
+                        <SfColorPicker Mode="ColorPickerMode.Palette" CssClass="circle-palette" Value="@StrokeColor" ShowButtons="false" ModeSwitcher="false" Columns="4" PresetColors="@StrokePaletteColors" ValueChange="OnStrokeColorChanged"/>
                     </Template>
                 </ToolbarItem>
+
                 <ToolbarItem Type="@ItemType.Separator"/>
+
+                <!-- Background Color Picker -->
                 <ToolbarItem Type="@ItemType.Button" TooltipText="Background Color">
                     <Template>
-                        <SfColorPicker CssClass="circle-palette e-bg-color" NoColor="true" Mode="ColorPickerMode.Palette" Value="@backgroundColor" ShowButtons="false" ModeSwitcher="false" Columns="4" PresetColors="@circlePaletteColors1" ValueChange="@onBgColor"/>
+                        <SfColorPicker CssClass="circle-palette e-bg-color" NoColor="true" Mode="ColorPickerMode.Palette" Value="@BackgroundColor" ShowButtons="false" ModeSwitcher="false" Columns="4" PresetColors="@BackgroundPaletteColors" ValueChange="OnBackgroundColorChanged"/>
                     </Template>
                 </ToolbarItem>
+
                 <ToolbarItem Type="@ItemType.Separator"/>
+
+                <!-- Stroke Width -->
                 <ToolbarItem Type="@ItemType.Input" TooltipText="Stroke Width">
                     <Template>
-                        <SfDropDownList TItem="double" TValue="double" Width="60px" Value="@maxStrokeWidth" DataSource="@data">
-                            <DropDownListEvents TItem="double" TValue="double" ValueChange="@ValueChangeHandler"/>
+                        <SfDropDownList TItem="double" TValue="double" Width="60px" Value="@StrokeWidth" DataSource="@StrokeWidthOptions">
+                            <DropDownListEvents TItem="double" TValue="double" ValueChange="OnStrokeWidthChanged"/>
                         </SfDropDownList>
                     </Template>
                 </ToolbarItem>
+
                 <ToolbarItem Type="@ItemType.Separator"/>
+
+                <!-- Clear Button -->
                 <ToolbarItem Type="@ItemType.Button" TooltipText="Clear">
                     <Template>
-                        <SfButton Disabled="clearDisabled" @ref="clearButton" IconCss="e-sign-icons e-clear" @onclick="@onClear" Content="Clear"/>
+                        <SfButton Disabled="@IsClearDisabled" @ref="ClearButtonRef" IconCss="e-sign-icons e-clear" @onclick="ClearSignature" Content="Clear"/>
                     </Template>
                 </ToolbarItem>
-                <ToolbarItem Type="ItemType.Input" Align="ItemAlign.Right" TooltipText="Disabled">
+
+                <ToolbarItem Type="@ItemType.Input" Align="ItemAlign.Right" TooltipText="Disabled">
                     <Template>
-                        <SfCheckBox Label="Disabled" ValueChange="@onDisabled" TChecked="bool"/>
+                        <SfCheckBox Label="Disabled" ValueChange="OnDisabledChange" TChecked="bool"/>
                     </Template>
                 </ToolbarItem>
             </ToolbarItems>
         </SfToolbar>
-        <div id="signature-control">
-            <SfSignature id="signature" @ref="signature" style=" width: 100%; height: 100%;" BackgroundColor="@backgroundColor" StrokeColor="@strokeColor"
-        Disabled="@disabled" MaxStrokeWidth="@maxStrokeWidth" Changed="SignChanged"/>
-        </div> 
-     </div> 
+
+        <!-- Signature Canvas -->
+        <div id="signature-container">
+            <SfSignature id="signature" @ref="SignatureRef" style="width: 100%; height: 100%;" BackgroundColor="@BackgroundColor" StrokeColor="@StrokeColor"
+                         Disabled="@IsSignatureDisabled" MaxStrokeWidth="@StrokeWidth" Changed="OnSignatureChanged"/>
+        </div>
+    </div>
 </div>
 
 @code{
-    private SfSignature signature;
-    private string backgroundColor = "#ffffff";
-    private string strokeColor = "#000000";
-    private double maxStrokeWidth = 2;
-    private bool disabled = false;
-    private SfButton clearButton;
-    private SfButton undoButton;
-    private SfButton redoButton;
-    private bool redoDisabled = true;
-    private bool undoDisabled = true;
-    private bool clearDisabled = true;
-    private bool saveDisabled = true;
-    private SignatureFileType type = SignatureFileType.Png;
-    
+    private SfSignature SignatureRef { get; set; }
+    private SfButton UndoButtonRef { get; set; }
+    private SfButton RedoButtonRef { get; set; }
+    private SfButton ClearButtonRef { get; set; }
+    private bool IsUndoDisabled { get; set; } = true;
+    private bool IsRedoDisabled { get; set; } = true;
+    private bool IsSaveDisabled { get; set; } = true;
+    private bool IsClearDisabled { get; set; } = true;
+    private bool IsSignatureDisabled { get; set; } = false;
+    private SignatureFileType SaveFileType { get; set; } = SignatureFileType.Png;
+    private string BackgroundColor { get; set; } = "#ffffff";
+    private string StrokeColor { get; set; } = "#000000";
+    private double StrokeWidth { get; set; } = 2;
 
-    private Dictionary<string, string[]> circlePaletteColors = new Dictionary<string, string[]>() {
-        { "Custom", new string[] {"#000000", "#e91e63", "#9c27b0", "#673ab7", "#2196f3", "#03a9f4", "#00bcd4",
-        "#009688", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107" } }
-    };
-    private Dictionary<string, string[]> circlePaletteColors1 = new Dictionary<string, string[]>() {
-        { "Custom", new string[] {"#ffffff", "#f44336", "#e91e63", "#9c27b0", "#673ab7", "#2196f3", "#03a9f4", "#00bcd4",
-        "#009688", "#8bc34a", "#cddc39", "#ffeb3b" } }
+// Palette color options for stroke and background
+    private Dictionary<string, string[]> StrokePaletteColors { get; set; } = new Dictionary<string, string[]>()
+    {
+        { "Custom", new[] { "#000000", "#e91e63", "#9c27b0", "#673ab7", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107" } }
     };
 
-    public double[] data = new double[] { 1, 2, 3, 4, 5 };
-
-    private async Task SignChanged()
+    private Dictionary<string, string[]> BackgroundPaletteColors { get; set; } = new Dictionary<string, string[]>()
     {
-        await updateSaveClear();
-        await updateUndoRedo();
+        { "Custom", new[] { "#ffffff", "#f44336", "#e91e63", "#9c27b0", "#673ab7", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#8bc34a", "#cddc39", "#ffeb3b" } }
+    };
+
+// Stroke width options
+    private double[] StrokeWidthOptions { get; set; } = { 1, 2, 3, 4, 5 };
+
+// Event Handlers
+
+    private async Task OnSignatureChanged()
+    {
+        await UpdateUndoRedoState();
+        await UpdateSaveClearState();
     }
 
-    private void ValueChangeHandler(Syncfusion.Blazor.DropDowns.ChangeEventArgs<double, double> args)
+    private void OnStrokeWidthChanged(Syncfusion.Blazor.DropDowns.ChangeEventArgs<double, double> args)
     {
-        maxStrokeWidth = args.Value;
+        StrokeWidth = args.Value;
     }
 
-    private async Task onUndo()
+    private async Task UndoSignature()
     {
-        bool canUndo = await signature.CanUndoAsync();
-        if (canUndo) {
-            await signature.UndoAsync();
-            await updateUndoRedo();
-            await updateSaveClear();
-        }
-    }
-
-    private async Task onRedo()
-    {
-        bool canRedo = await signature.CanRedoAsync();
-        if (canRedo) {
-            await signature.RedoAsync();
-            await updateUndoRedo();
-            await updateSaveClear();
-        }
-    }
-
-    private async Task updateUndoRedo()
-    {
-        bool canUndo = await signature.CanUndoAsync();
-        bool canRedo = await signature.CanRedoAsync();
-        redoDisabled = !canRedo;
-        undoDisabled = !canUndo;
-    }
-
-    private async Task updateSaveClear()
-    {
-        bool isEmpty = await signature.IsEmptyAsync();
-        if (isEmpty) {
-            saveDisabled = true;
-            clearDisabled = true;
-        }
-        else
+        if (await SignatureRef.CanUndoAsync())
         {
-            saveDisabled = false;
-            clearDisabled = false;
+            await SignatureRef.UndoAsync();
+            await UpdateUndoRedoState();
+            await UpdateSaveClearState();
         }
     }
 
-    private async Task onClear()
+    private async Task RedoSignature()
     {
-        await signature.ClearAsync();
-        await updateSaveClear();
-    }
-
-    private void onBgColor(ColorPickerEventArgs args)
-    {
-        backgroundColor = args.CurrentValue.Hex;
-    }
-
-    private void onStrokeColor(ColorPickerEventArgs args)
-    {
-        strokeColor = args.CurrentValue.Hex;
-    }
-
-    private void onDisabled(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        disabled = args.Checked;
-    }
-
-    private void onSaveClicked(Syncfusion.Blazor.SplitButtons.ClickEventArgs args) {
-        signature.SaveAsync();
-    }
-
-    private void onSaveType(MenuEventArgs args)
-    {
-        switch (args.Item.Text)
+        if (await SignatureRef.CanRedoAsync())
         {
-            case "PNG":
-                type = SignatureFileType.Png;
-                break;
-            case "JPEG":
-                type = SignatureFileType.Jpeg;
-                break;
-            case "SVG":
-                type = SignatureFileType.Svg;
-                break;
+            await SignatureRef.RedoAsync();
+            await UpdateUndoRedoState();
+            await UpdateSaveClearState();
         }
-        signature.SaveAsync(type, "Signature");
     }
+
+    private async Task UpdateUndoRedoState()
+    {
+        IsUndoDisabled = !await SignatureRef.CanUndoAsync();
+        IsRedoDisabled = !await SignatureRef.CanRedoAsync();
+    }
+
+    private async Task UpdateSaveClearState()
+    {
+        bool isSignatureEmpty = await SignatureRef.IsEmptyAsync();
+        IsSaveDisabled = isSignatureEmpty;
+        IsClearDisabled = isSignatureEmpty;
+    }
+
+    private async Task ClearSignature()
+    {
+        await SignatureRef.ClearAsync();
+        await UpdateSaveClearState();
+    }
+
+    private void OnBackgroundColorChanged(ColorPickerEventArgs args)
+    {
+        BackgroundColor = args.CurrentValue.Hex;
+    }
+
+    private void OnStrokeColorChanged(ColorPickerEventArgs args)
+    {
+        StrokeColor = args.CurrentValue.Hex;
+    }
+
+    private void OnDisabledChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsSignatureDisabled = args.Checked;
+    }
+
+    private void OnSaveClicked(Syncfusion.Blazor.SplitButtons.ClickEventArgs args)
+    {
+        SignatureRef.SaveAsync();
+    }
+
+    private void OnSaveFormatSelected(MenuEventArgs args)
+    {
+        SaveFileType = args.Item.Text switch
+        {
+            "PNG" => SignatureFileType.Png,
+            "JPEG" => SignatureFileType.Jpeg,
+            "SVG" => SignatureFileType.Svg,
+            _ => SaveFileType
+        };
+        SignatureRef.SaveAsync(SaveFileType, "Signature");
+    }
+
 }
 
 <style>
@@ -241,100 +251,100 @@
         -moz-osx-font-smoothing: grayscale;
     }
 
-    #signature-toolbar-control .e-clear::before {
+    #signature-toolbar-container .e-clear::before {
         content: '\e706';
     }
 
-    #signature-toolbar-control .e-save::before {
+    #signature-toolbar-container .e-save::before {
         content: '\e701';
     }
 
-    #signature-toolbar-control {
+    #signature-toolbar-container {
         border: 1px solid lightgray;
     }
 
-    .highcontrast #signature-toolbar-control {
+    .highcontrast #signature-toolbar-container {
         border: 1px solid white;
     }
 
-    #signature-toolbar-control #toolbar {
+    #signature-toolbar-container #toolbar {
         border: none;
         border-bottom: 1px solid lightgray;
         box-sizing: border-box;
     }
 
-    #signature-toolbar-control #toolbar {
+    #signature-toolbar-container #toolbar {
         height: 44px !important;
     }
 
-    .e-bigger #signature-toolbar-control #toolbar {
+    .e-bigger #signature-toolbar-container #toolbar {
         height: 54px !important;
     }
 
-    .e-bigger .material #signature-toolbar-control div#toolbar,
-    .e-bigger .material-dark #signature-toolbar-control div#toolbar {
+    .e-bigger .material #signature-toolbar-container div#toolbar,
+    .e-bigger .material-dark #signature-toolbar-container div#toolbar {
         height: 57px !important;
     }
 
-    .e-bigger .bootstrap4 #signature-toolbar-control div#toolbar,
-    .e-bigger .bootstrap4-dark #signature-toolbar-control div#toolbar {
+    .e-bigger .bootstrap4 #signature-toolbar-container div#toolbar,
+    .e-bigger .bootstrap4-dark #signature-toolbar-container div#toolbar {
         height: 65px !important;
     }
 
-    .bootstrap4 #signature-toolbar-control div#toolbar,
-    .bootstrap4-dark #signature-toolbar-control div#toolbar,
-    .bootstrap-dark #signature-toolbar-control div#toolbar,
-    .bootstrap #signature-toolbar-control div#toolba {
+    .bootstrap4 #signature-toolbar-container div#toolbar,
+    .bootstrap4-dark #signature-toolbar-container div#toolbar,
+    .bootstrap-dark #signature-toolbar-container div#toolbar,
+    .bootstrap #signature-toolbar-container div#toolba {
         height: 49px !important;
     }
 
-    .bootstrap5 #signature-toolbar-control #toolbar .e-split-btn,
-    .bootstrap5 #signature-toolbar-control #toolbar .e-dropdown-btn {
+    .bootstrap5 #signature-toolbar-container #toolbar .e-split-btn,
+    .bootstrap5 #signature-toolbar-container #toolbar .e-dropdown-btn {
         color: #6c757d
     }
 
-    .bootstrap4 #signature-toolbar-control #toolbar .e-split-btn,
-    .bootstrap4 #signature-toolbar-control #toolbar .e-dropdown-btn {
+    .bootstrap4 #signature-toolbar-container #toolbar .e-split-btn,
+    .bootstrap4 #signature-toolbar-container #toolbar .e-dropdown-btn {
         color: #495057;
     }
 
-    .highcontrast #signature-toolbar-control #toolbar .e-split-btn,
-    .highcontrast #signature-toolbar-control #toolbar .e-dropdown-btn {
+    .highcontrast #signature-toolbar-container #toolbar .e-split-btn,
+    .highcontrast #signature-toolbar-container #toolbar .e-dropdown-btn {
         color: #fff;
     }
 
-    .fabric #signature-toolbar-control #toolbar .e-split-btn,
-    .fabric #signature-toolbar-control #toolbar .e-dropdown-btn,
-    .bootstrap5 #signature-toolbar-control #toolbar .e-split-btn,
-    .bootstrap5 #signature-toolbar-control #toolbar .e-dropdown-btn,
-    .bootstrap4 #signature-toolbar-control #toolbar .e-split-btn,
-    .bootstrap4 #signature-toolbar-control #toolbar .e-dropdown-btn {
+    .fabric #signature-toolbar-container #toolbar .e-split-btn,
+    .fabric #signature-toolbar-container #toolbar .e-dropdown-btn,
+    .bootstrap5 #signature-toolbar-container #toolbar .e-split-btn,
+    .bootstrap5 #signature-toolbar-container #toolbar .e-dropdown-btn,
+    .bootstrap4 #signature-toolbar-container #toolbar .e-split-btn,
+    .bootstrap4 #signature-toolbar-container #toolbar .e-dropdown-btn {
         background-color: transparent !important;
         border-color: lightgray;
     }
 
-    .fabric-dark #signature-toolbar-control #toolbar .e-dropdown-btn,
-    .fabric-dark #signature-toolbar-control #toolbar .e-split-btn,
-    .bootstrap5-dark #signature-toolbar-control #toolbar .e-split-btn,
-    .bootstrap5-dark #signature-toolbar-control #toolbar .e-dropdown-btn,
-    .bootstrap4-dark #signature-toolbar-control #toolbar .e-split-btn,
-    .bootstrap4-dark #signature-toolbar-control #toolbar .e-dropdown-btn {
+    .fabric-dark #signature-toolbar-container #toolbar .e-dropdown-btn,
+    .fabric-dark #signature-toolbar-container #toolbar .e-split-btn,
+    .bootstrap5-dark #signature-toolbar-container #toolbar .e-split-btn,
+    .bootstrap5-dark #signature-toolbar-container #toolbar .e-dropdown-btn,
+    .bootstrap4-dark #signature-toolbar-container #toolbar .e-split-btn,
+    .bootstrap4-dark #signature-toolbar-container #toolbar .e-dropdown-btn {
         background-color: transparent !important;
         border-color: gray;
     }
 
-    #signature-toolbar-control .e-btn:disabled {
+    #signature-toolbar-container .e-btn:disabled {
         opacity: 0.5 !important;
         pointer-events: none;
     }
 
-    #signature-toolbar-control #signature-control {
+    #signature-toolbar-container #signature-container {
         height: 300px;
         width: 100%;
         margin: 0;
     }
 
-    #signature-toolbar-control #signature {
+    #signature-toolbar-container #signature {
         border: none !important;
     }
 

@@ -4,23 +4,19 @@
 @using Syncfusion.Blazor.Diagram
 @using System.Collections.ObjectModel
 @using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
-
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @implements IDisposable
-@inject NavigationManager NavigationManager
-
-
 <SampleDescription>
-    <p>This sample demonstrates how to process and get consecutive nodes and connectors.</p>
+    <p>This sample demonstrates how to retrieve and process consecutive nodes and connectors within a diagram.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>Get the inward and outward connections of a node using its <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_InEdges' aria-label="InEdges">InEdges</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_OutEdges' aria-label="OutEdges">OutEdges</a></code> properties. Get nodes connected to the connector using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_SourceID' aria-label="SourceID">SourceID</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_TargetID' aria-label="TargetID">TargetID</a></code> properties of the connector. To get node information from the diagram, use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_GetObject_System_String_' aria-label="GetObject">GetObject</a></code> method.</p><br>
+    <p>Retrieve inward and outward connections of a node using its <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_InEdges" aria-label="InEdges">InEdges</a></code> and <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_OutEdges" aria-label="OutEdges">OutEdges</a></code> properties. Identify nodes connected to a specific connector using the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_SourceID" aria-label="SourceID">SourceID</a></code> and <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_TargetID" aria-label="TargetID">TargetID</a></code> properties of the connector. To retrieve detailed information about a node, use the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_GetObject_System_String_" aria-label="GetObject">GetObject</a></code> method of the diagram component.</p>
 </ActionDescription>
 @*End:Hidden*@
 <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagramComponent Height="590px" @ref="@Diagram" Nodes="@NodeCollection" SelectionChanged="OnSelectionChanged" Connectors="@ConnectorCollection" Created="OnCreated">
+        <SfDiagramComponent Height="590px" @ref="@DiagramInstance" Nodes="@DiagramNodes" SelectionChanged="OnSelectionChanged" Connectors="@DiagramConnectors" Created="OnCreated">
             <SnapSettings @bind-Constraints="@Constraints"></SnapSettings>
         </SfDiagramComponent>
     </div>
@@ -62,42 +58,42 @@
     <div class="row property-panel-content">
         <div class="row" style="padding-top: 8px">
             <div class="col-xs-7">
-                <SfRadioButton Label="None" Name="radio" Value="UnhighlightAll" @bind-Checked="stringChecked" ValueChange="OnCheckedItemChange" @bind-Disabled="@disabled" TChecked="string"></SfRadioButton>
+                <SfRadioButton Label="None" Name="radio" Value="UnhighlightAll" @bind-Checked="IsRadiobuttoChecked" ValueChange="OnCheckedItemChange" @bind-Disabled="@IsDisabled" TChecked="string"></SfRadioButton>
             </div>
         </div>
         <div class="row" style="padding-top: 8px">
             <div class="col-xs-7">
-                <SfRadioButton Label="Incoming connections" Name="radio" @bind-Checked="stringChecked" Value="LinksInto" ValueChange="OnCheckedItemChange"  @bind-Disabled="@disabled" TChecked="string"></SfRadioButton>
+                <SfRadioButton Label="Incoming connections" Name="radio" @bind-Checked="IsRadiobuttoChecked" Value="LinksInto" ValueChange="OnCheckedItemChange"  @bind-Disabled="@IsDisabled" TChecked="string"></SfRadioButton>
             </div>
         </div>
         <div class="row" style="padding-top: 8px">
             <div class="col-xs-7">
-                <SfRadioButton Label="Outgoing connections" Name="radio" @bind-Checked="stringChecked" Value="LinksOutOf" ValueChange="OnCheckedItemChange"  @bind-Disabled="@disabled" TChecked="string"></SfRadioButton>
+                <SfRadioButton Label="Outgoing connections" Name="radio" @bind-Checked="IsRadiobuttoChecked" Value="LinksOutOf" ValueChange="OnCheckedItemChange"  @bind-Disabled="@IsDisabled" TChecked="string"></SfRadioButton>
             </div>
         </div>
         <div class="row" style="padding-top: 8px">
             <div class="col-xs-7">
-                <SfRadioButton Label="Incoming and outgoing connections" @bind-Checked="stringChecked" Name="radio" Value="LinksConnected" ValueChange="OnCheckedItemChange"  @bind-Disabled="@disabled" TChecked="string"></SfRadioButton>
+                <SfRadioButton Label="Incoming and outgoing connections" @bind-Checked="IsRadiobuttoChecked" Name="radio" Value="LinksConnected" ValueChange="OnCheckedItemChange"  @bind-Disabled="@IsDisabled" TChecked="string"></SfRadioButton>
             </div>
         </div>
         <div class="row spacing">
             <div class="col-xs-7">
-                <SfRadioButton Label="Incoming nodes" Name="radio" @bind-Checked="stringChecked" Value="NodesInto" ValueChange="OnCheckedItemChange"  @bind-Disabled="@disabled" TChecked="string"></SfRadioButton>
+                <SfRadioButton Label="Incoming nodes" Name="radio" @bind-Checked="IsRadiobuttoChecked" Value="NodesInto" ValueChange="OnCheckedItemChange"  @bind-Disabled="@IsDisabled" TChecked="string"></SfRadioButton>
             </div>
         </div>
         <div class="row" style="padding-top: 8px">
             <div class="col-xs-7">
-                <SfRadioButton Label="Outgoing nodes" Name="radio" @bind-Checked="stringChecked" Value="NodesOutOf" ValueChange="OnCheckedItemChange"  @bind-Disabled="@disabled" TChecked="string"></SfRadioButton>
+                <SfRadioButton Label="Outgoing nodes" Name="radio" @bind-Checked="IsRadiobuttoChecked" Value="NodesOutOf" ValueChange="OnCheckedItemChange"  @bind-Disabled="@IsDisabled" TChecked="string"></SfRadioButton>
             </div>
         </div>
         <div class="row" style="padding-top: 8px">
             <div class="col-xs-7">
-                <SfRadioButton Label="Incoming and outgoing nodes" @bind-Checked="stringChecked" Name="radio" Value="NodesConnected" ValueChange="OnCheckedItemChange"  @bind-Disabled="@disabled" TChecked="string"></SfRadioButton>
+                <SfRadioButton Label="Incoming and outgoing nodes" @bind-Checked="IsRadiobuttoChecked" Name="radio" Value="NodesConnected" ValueChange="OnCheckedItemChange"  @bind-Disabled="@IsDisabled" TChecked="string"></SfRadioButton>
             </div>
         </div>
         <div class="row spacing">
             <div class="col-xs-7">
-                <SfRadioButton Label="Flow of execution" Name="radio" @bind-Checked="stringChecked" Value="NodesReachable" ValueChange="OnCheckedItemChange"  @bind-Disabled="@disabled" TChecked="string"></SfRadioButton>
+                <SfRadioButton Label="Flow of execution" Name="radio" @bind-Checked="IsRadiobuttoChecked" Value="NodesReachable" ValueChange="OnCheckedItemChange"  @bind-Disabled="@IsDisabled" TChecked="string"></SfRadioButton>
             </div>
         </div>
     </div>
@@ -106,57 +102,55 @@
 
 @code
 {
-
-    private int connectorCount;
+    private int DiagramConnectorCount { get; set; }
     private string currentButton = "NodesReachable";
-    private string stringChecked = "NodesReachable";
-    private bool disabled = false;
-    private List<Connector> highLightedConnector = new List<Connector>();
-    private List<Node> highLightedNode = new List<Node>();
-    private List<Connector> reachableConnectors = new List<Connector>();
+    private string IsRadiobuttoChecked { get; set; } = "NodesReachable";
+    private bool IsDisabled { get; set; } = false;
+    private List<Connector> HighLightedConnector { get; set; } = new List<Connector>();
+    private List<Node> HighLightedNode { get; set; } = new List<Node>();
+    private List<Connector> ReachableConnectors { get; set; } = new List<Connector>();
 
-    public SnapConstraints Constraints = SnapConstraints.None;
+    public SnapConstraints Constraints { get; set; } = SnapConstraints.None;
 
     // Reference to diagram
-    public SfDiagramComponent Diagram;
+    public SfDiagramComponent DiagramInstance { get; set; }
     // Defines diagram's nodes collection
-    public DiagramObjectCollection<Node> NodeCollection { get; set; }
+    public DiagramObjectCollection<Node> DiagramNodes { get; set; }
     // Defines diagram's connector collection
-    public DiagramObjectCollection<Connector> ConnectorCollection { get; set; }
+    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; }
 
     private void OnCreated()
     {
-        Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[2] });
+        DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[2] });
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        Diagram.FitToPage(mobileoptions);
+        DiagramInstance.FitToPage(mobileoptions);
     }
     /// <summary>
     /// Initializing the objects
     /// </summary>
     protected override void OnInitialized()
     {
-
         InitDiagramModel();
     }
     private async Task OnSelectionChanged(SelectionChangedEventArgs args)
     {
-        if (Diagram != null)
+        if (DiagramInstance != null)
         {
-            if (Diagram.SelectionSettings.Nodes.Count > 0 || Diagram.SelectionSettings.Connectors.Count > 0)
+            if (DiagramInstance.SelectionSettings.Nodes.Count > 0 || DiagramInstance.SelectionSettings.Connectors.Count > 0)
             {
-                disabled = false;
+                IsDisabled = false;
             }
             else
             {
-                disabled = true;
+                IsDisabled = true;
             }
             await ApplyChanges(currentButton);
         }
     }
     private void InitDiagramModel()
     {
-        NodeCollection = new DiagramObjectCollection<Node>();
-        ConnectorCollection = new DiagramObjectCollection<Connector>();
+        DiagramNodes = new DiagramObjectCollection<Node>();
+        DiagramConnectors = new DiagramObjectCollection<Connector>();
 
         CreateNode("node1", 100, 125, NodeFlowShapes.Terminator, "Begin");
         CreateNode("node2", 300, 125, NodeFlowShapes.Process, "Specify collection");
@@ -205,14 +199,14 @@
         {
             diagramNode.Height = 60;
         }
-        NodeCollection.Add(diagramNode);
+        DiagramNodes.Add(diagramNode);
     }
 
     private void CreateConnector(string sourceId, string targetId, string label = default(string), OrthogonalSegment segment = null)
     {
         Connector diagramConnector = new Connector()
         {
-            ID = string.Format("connector{0}", ++connectorCount),
+            ID = string.Format("connector{0}", ++DiagramConnectorCount),
             SourceID = sourceId,
             TargetID = targetId,
             Style = new ShapeStyle() { StrokeWidth = 2, StrokeColor = "#8D8D8D" },
@@ -240,7 +234,7 @@
             diagramConnector.Type = ConnectorSegmentType.Orthogonal;
             diagramConnector.Segments = new DiagramObjectCollection<ConnectorSegment>() { segment };
         }
-        ConnectorCollection.Add(diagramConnector);
+        DiagramConnectors.Add(diagramConnector);
     }
 
     private async Task OnCheckedItemChange(ChangeArgs<string> args)
@@ -251,7 +245,7 @@
 
     public async Task ApplyChanges(string selectedButton)
     {
-        Diagram.BeginUpdate();
+        DiagramInstance.BeginUpdate();
         UnHighLight();
         switch (selectedButton)
         {
@@ -279,14 +273,14 @@
                 await ChildrenFlow();
                 break;
         }
-        await Diagram.EndUpdateAsync();
+        await DiagramInstance.EndUpdateAsync();
     }
 
     public void LinkedConnector(bool isOutEdge)
     {
-        if (Diagram.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
-            Node nodeId = this.Diagram.SelectionSettings.Nodes[0];
+            Node nodeId = this.DiagramInstance.SelectionSettings.Nodes[0];
             List<string> inEdges = nodeId.InEdges;
             List<string> outEdge = nodeId.OutEdges;
             List<string> edges = new List<string>();
@@ -307,9 +301,9 @@
 
             foreach (string edge in edges)
             {
-                IDiagramObject obj = Diagram.GetObject(edge);
+                IDiagramObject obj = DiagramInstance.GetObject(edge);
                 Connector connector = obj as Connector;
-                highLightedConnector.Add(connector);
+                HighLightedConnector.Add(connector);
                 if (connector != null)
                 {
                     connector.Style.StrokeColor = "#1413F8";
@@ -322,9 +316,9 @@
 
     public void LinkedNode(bool isOutEdge)
     {
-        if (Diagram.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
-            Node nodeId = this.Diagram.SelectionSettings.Nodes[0];
+            Node nodeId = this.DiagramInstance.SelectionSettings.Nodes[0];
             List<string> inEdges = nodeId.InEdges;
             List<string> outEdge = nodeId.OutEdges;
             List<string> edges = new List<string>();
@@ -343,17 +337,17 @@
                 }
             }
 
-            //string[] edges = await Diagram.GetEdges(nodeId, isOutEdge);
+            //string[] edges = await DiagramInstance.GetEdges(nodeId, isOutEdge);
             foreach (string edge in edges)
             {
-                IDiagramObject obj = Diagram.GetObject(edge);
+                IDiagramObject obj = DiagramInstance.GetObject(edge);
                 Connector connector = obj as Connector;
                 Node node = null;
                 if (isOutEdge)
                 {
                     if (connector != null)
                     {
-                        IDiagramObject obj1 = Diagram.GetObject(connector.TargetID);
+                        IDiagramObject obj1 = DiagramInstance.GetObject(connector.TargetID);
                         Node objj = obj1 as Node;
                         node = objj;
                     }
@@ -362,13 +356,13 @@
                 {
                     if (connector != null)
                     {
-                        IDiagramObject obj1 = Diagram.GetObject(connector.SourceID) as IDiagramObject;
+                        IDiagramObject obj1 = DiagramInstance.GetObject(connector.SourceID) as IDiagramObject;
                         Node objj = obj1 as Node;
                         node = objj;
                     }
                 }
 
-                highLightedNode.Add(node);
+                HighLightedNode.Add(node);
                 if (node != null) node.Style.StrokeColor = "#1413F8";
             }
         }
@@ -376,28 +370,28 @@
 
     public async Task ChildrenFlow()
     {
-        if (Diagram.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
-            string nodeId = this.Diagram.SelectionSettings.Nodes[0].ID;
+            string nodeId = this.DiagramInstance.SelectionSettings.Nodes[0].ID;
             await FindReachable(nodeId);
-            if (reachableConnectors.Count > 0)
+            if (ReachableConnectors.Count > 0)
             {
-                foreach (Connector connector in reachableConnectors)
+                foreach (Connector connector in ReachableConnectors)
                 {
-                    highLightedConnector.Add(connector);
+                    HighLightedConnector.Add(connector);
                     connector.Style.StrokeColor = "#1413F8";
                     connector.TargetDecorator.Style.StrokeColor = "#1413F8";
                     connector.TargetDecorator.Style.Fill = "#1413F8";
                 }
 
-                reachableConnectors.Clear();
+                ReachableConnectors.Clear();
             }
         }
     }
 
     public async Task<List<Connector>> FindReachable(string nodeId)
     {
-        IDiagramObject node = Diagram.GetObject(nodeId);
+        IDiagramObject node = DiagramInstance.GetObject(nodeId);
         if (node is Node nodes)
         {
             List<string> outEdge = nodes.OutEdges;
@@ -409,71 +403,71 @@
 
             foreach (string edge in edges)
             {
-                IDiagramObject obj = Diagram.GetObject(edge);
+                IDiagramObject obj = DiagramInstance.GetObject(edge);
                 Connector connector = obj as Connector;
-                if (reachableConnectors.Contains(connector))
+                if (ReachableConnectors.Contains(connector))
                 {
                     continue;
                 }
 
                 if (connector != null && (connector.Annotations == null || connector.Annotations.Count == 0 || connector.Annotations[0].Content != "No"))
                 {
-                    reachableConnectors.Add(connector);
+                    ReachableConnectors.Add(connector);
                     await FindReachable(connector.TargetID);
                 }
             }
         }
-        return reachableConnectors;
+        return ReachableConnectors;
     }
 
     public void UnHighLight()
     {
-        foreach (Node node in highLightedNode)
+        foreach (Node node in HighLightedNode)
         {
             node.Style.StrokeColor = "#E8DFB6";
         }
 
-        foreach (Connector connector in highLightedConnector)
+        foreach (Connector connector in HighLightedConnector)
         {
             connector.Style.StrokeColor = "#8D8D8D";
             connector.TargetDecorator.Style.StrokeColor = "#8D8D8D";
             connector.TargetDecorator.Style.Fill = "#8D8D8D";
         }
 
-        highLightedNode.Clear();
-        highLightedConnector.Clear();
+        HighLightedNode.Clear();
+        HighLightedConnector.Clear();
     }
 
     @*Hidden:Lines*@
     public void Dispose()
     {
         currentButton = null;
-        stringChecked = null;
-        if (highLightedConnector != null)
+        IsRadiobuttoChecked = null;
+        if (HighLightedConnector != null)
         {
-            highLightedConnector.Clear();
-            highLightedConnector = null;
+            HighLightedConnector.Clear();
+            HighLightedConnector = null;
         }
-        if (highLightedNode != null)
+        if (HighLightedNode != null)
         {
-            highLightedNode.Clear();
-            highLightedNode = null;
+            HighLightedNode.Clear();
+            HighLightedNode = null;
         }
-        if (reachableConnectors != null)
+        if (ReachableConnectors != null)
         {
-            reachableConnectors.Clear();
-            reachableConnectors = null;
+            ReachableConnectors.Clear();
+            ReachableConnectors = null;
         }
-        Diagram = null;
-        if (NodeCollection != null)
+        DiagramInstance = null;
+        if (DiagramNodes != null)
         {
-            NodeCollection.Clear();
-            NodeCollection = null;
+            DiagramNodes.Clear();
+            DiagramNodes = null;
         }
-        if (ConnectorCollection != null)
+        if (DiagramConnectors != null)
         {
-            ConnectorCollection.Clear();
-            ConnectorCollection = null;
+            DiagramConnectors.Clear();
+            DiagramConnectors = null;
         }
     }
     @*End:Hidden*@

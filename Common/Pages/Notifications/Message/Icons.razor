@@ -5,9 +5,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -21,16 +18,20 @@
 
 <div class="col-lg-8 control-section msg-icon-section sb-property-border">
     <div class="content-section">
-        <SfButton Content="Show Default Message" CssClass="@defaultBtnClass" OnClick="@defaultClick"></SfButton>
-        <SfMessage ShowIcon="@defaultIcon" Closed="@defaultClosed" ShowCloseIcon="@defaultCloseIcon" @bind-Visible="@defaultVisible">Editing is restricted</SfMessage>
-        <SfButton Content="Show Info Message" CssClass="@infoBtnClass" OnClick="@infoClick"></SfButton>
-        <SfMessage Severity="MessageSeverity.Info" ShowIcon="@infoIcon" ShowCloseIcon="@infoCloseIcon" Closed="@infoClosed" @bind-Visible="@infoVisible">Please read the comments carefully</SfMessage>
-        <SfButton Content="Show Success Message" CssClass="@successBtnClass" OnClick="@successClick"></SfButton>
-        <SfMessage Severity="MessageSeverity.Success" ShowIcon="@successIcon" ShowCloseIcon="@successCloseIcon" Closed="@successClosed" @bind-Visible="@successVisible">Your message has been sent successfully</SfMessage>
-        <SfButton Content="Show Warning Message" CssClass="@warningBtnClass" OnClick="@warningClick"></SfButton>
-        <SfMessage Severity="MessageSeverity.Warning" ShowIcon="@warningIcon" ShowCloseIcon="@warningCloseIcon" Closed="warningClosed" @bind-Visible="@warningVisible">There was a problem with your network connection</SfMessage>
-        <SfButton Content="Show Error Message" CssClass="@errorBtnClass" OnClick="@errorClick"></SfButton>
-        <SfMessage Severity="MessageSeverity.Error" ShowIcon="@errorIcon" ShowCloseIcon="@errorCloseIcon" Closed="@errorClosed" @bind-Visible="@errorVisible">A problem occurred while submitting your data</SfMessage>
+        <SfButton Content="Show Default Message" CssClass="@DefaultButtonCssClass" OnClick="@ShowDefaultMessage"></SfButton>
+        <SfMessage ShowIcon="@ShowDefaultMessageIcon" Closed="@OnDefaultMessageClosed" ShowCloseIcon="@ShowDefaultCloseIcon" @bind-Visible="@IsDefaultMessageVisible">Editing is restricted</SfMessage>
+
+        <SfButton Content="Show Info Message" CssClass="@InfoButtonCssClass" OnClick="@ShowInfoMessage"></SfButton>
+        <SfMessage Severity="MessageSeverity.Info" ShowIcon="@ShowInfoMessageIcon" ShowCloseIcon="@ShowInfoCloseIcon" Closed="@OnInfoMessageClosed" @bind-Visible="@IsInfoMessageVisible">Please read the comments carefully</SfMessage>
+
+        <SfButton Content="Show Success Message" CssClass="@SuccessButtonCssClass" OnClick="@ShowSuccessMessage"></SfButton>
+        <SfMessage Severity="MessageSeverity.Success" ShowIcon="@ShowSuccessMessageIcon" ShowCloseIcon="@ShowSuccessCloseIcon" Closed="@OnSuccessMessageClosed" @bind-Visible="@IsSuccessMessageVisible">Your message has been sent successfully</SfMessage>
+
+        <SfButton Content="Show Warning Message" CssClass="@WarningButtonCssClass" OnClick="@ShowWarningMessage"></SfButton>
+        <SfMessage Severity="MessageSeverity.Warning" ShowIcon="@ShowWarningMessageIcon" ShowCloseIcon="@ShowWarningCloseIcon" Closed="@OnWarningMessageClosed" @bind-Visible="@IsWarningMessageVisible">There was a problem with your network connection</SfMessage>
+
+        <SfButton Content="Show Error Message" CssClass="@ErrorButtonCssClass" OnClick="@ShowErrorMessage"></SfButton>
+        <SfMessage Severity="MessageSeverity.Error" ShowIcon="@ShowErrorMessageIcon" ShowCloseIcon="@ShowErrorCloseIcon" Closed="@OnErrorMessageClosed" @bind-Visible="@IsErrorMessageVisible">A problem occurred while submitting your data</SfMessage>
     </div>
 </div>
 
@@ -40,149 +41,98 @@
         <div class="property-panel-content">
             <table id="property" title="Properties" class="property-panel-table">
                 <tbody>
-                    <tr>
-                        <td>
-                            <SfCheckBox Label="Severity Icon" Name="severity-icons" Value="severityicon"
-                                 @bind-Checked="severityChecked" ValueChange="severityIconChange" TChecked="bool"></SfCheckBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <SfCheckBox Label="Close Icon" Name="close-icons" Value="close-icon"
-                                 @bind-Checked="closeIconChecked" ValueChange="@closeIconChange" TChecked="bool"></SfCheckBox>
-                        </td>
-                    </tr>
+                <tr>
+                    <td>
+                        <SfCheckBox Label="Severity Icon" Name="severity-icons" Value="severityicon" @bind-Checked="@IsSeverityIconChecked" ValueChange="@OnSeverityIconChange" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <SfCheckBox Label="Close Icon" Name="close-icons" Value="close-icon" @bind-Checked="@IsCloseIconChecked" ValueChange="@OnCloseIconChange" TChecked="bool"></SfCheckBox>
+                    </td>
+                </tr>
                 </tbody>
             </table>
         </div>
     </div>
-
 </div>
 
 @code {
-
-    private bool defaultIcon = true;
-    private bool successIcon = true;
-    private bool warningIcon = true;
-    private bool infoIcon = true;
-    private bool errorIcon = true;
-
-    private bool defaultVisible = true;
-    private bool successVisible = true;
-    private bool warningVisible = true;
-    private bool errorVisible = true;
-    private bool infoVisible = true;
-
-    private bool defaultCloseIcon = true;
-    private bool successCloseIcon = true;
-    private bool warningCloseIcon = true;
-    private bool infoCloseIcon = true;
-    private bool errorCloseIcon = true;
-
-    private bool severityChecked = true;
-    private bool closeIconChecked = true;
-
-    private string defaultBtnClass = "e-outline e-primary msg-hidden";
-    private string infoBtnClass = "e-outline e-primary e-info msg-hidden";
-    private string successBtnClass = "e-outline e-primary e-success msg-hidden";
-    private string warningBtnClass = "e-outline e-primary e-warning msg-hidden";
-    private string errorBtnClass = "e-outline e-primary e-error msg-hidden";
     
-
-    private void defaultClick()
+    private bool ShowDefaultMessageIcon { get; set; } = true;
+    private bool ShowInfoMessageIcon { get; set; } = true;
+    private bool ShowSuccessMessageIcon { get; set; } = true;
+    private bool ShowWarningMessageIcon { get; set; } = true;
+    private bool ShowErrorMessageIcon { get; set; } = true;
+    private bool IsDefaultMessageVisible { get; set; } = true;
+    private bool IsInfoMessageVisible { get; set; } = true;
+    private bool IsSuccessMessageVisible { get; set; } = true;
+    private bool IsWarningMessageVisible { get; set; } = true;
+    private bool IsErrorMessageVisible { get; set; } = true;
+    private bool ShowDefaultCloseIcon { get; set; } = true;
+    private bool ShowInfoCloseIcon { get; set; } = true;
+    private bool ShowSuccessCloseIcon { get; set; } = true;
+    private bool ShowWarningCloseIcon { get; set; } = true;
+    private bool ShowErrorCloseIcon { get; set; } = true;
+    private bool IsSeverityIconChecked { get; set; } = true;
+    private bool IsCloseIconChecked { get; set; } = true;
+    private string DefaultButtonCssClass { get; set; } = "e-outline e-primary msg-hidden";
+    private string InfoButtonCssClass { get; set; } = "e-outline e-primary e-info msg-hidden";
+    private string SuccessButtonCssClass { get; set; } = "e-outline e-primary e-success msg-hidden";
+    private string WarningButtonCssClass { get; set; } = "e-outline e-primary e-warning msg-hidden";
+    private string ErrorButtonCssClass { get; set; } = "e-outline e-primary e-error msg-hidden";
+    private void OnDefaultMessageClosed() => DefaultButtonCssClass = "e-outline e-primary";
+    private void OnInfoMessageClosed() => InfoButtonCssClass = "e-outline e-primary e-info";
+    private void OnSuccessMessageClosed() => SuccessButtonCssClass = "e-outline e-primary e-success";
+    private void OnWarningMessageClosed() => WarningButtonCssClass = "e-outline e-primary e-warning";
+    private void OnErrorMessageClosed() => ErrorButtonCssClass = "e-outline e-primary e-error";
+    private void ShowDefaultMessage()
     {
-        this.defaultVisible = true;
-        this.defaultBtnClass = "e-outline e-primary msg-hidden";
+        IsDefaultMessageVisible = true;
+        DefaultButtonCssClass = "e-outline e-primary msg-hidden";
+    }
+    private void ShowInfoMessage()
+    {
+        IsInfoMessageVisible = true;
+        InfoButtonCssClass = "e-outline e-primary e-info msg-hidden";
+    }
+    private void ShowSuccessMessage()
+    {
+        IsSuccessMessageVisible = true;
+        SuccessButtonCssClass = "e-outline e-primary e-success msg-hidden";
+    }
+    private void ShowWarningMessage()
+    {
+        IsWarningMessageVisible = true;
+        WarningButtonCssClass = "e-outline e-primary e-warning msg-hidden";
+    }
+    private void ShowErrorMessage()
+    {
+        IsErrorMessageVisible = true;
+        ErrorButtonCssClass = "e-outline e-primary e-error msg-hidden";
     }
 
-    private void defaultClosed()
+// Checkbox change handlers
+    private void OnSeverityIconChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
-        this.defaultBtnClass = "e-outline e-primary";
+        bool isChecked = args.Checked;
+        ShowDefaultMessageIcon = isChecked;
+        ShowInfoMessageIcon = isChecked;
+        ShowSuccessMessageIcon = isChecked;
+        ShowWarningMessageIcon = isChecked;
+        ShowErrorMessageIcon = isChecked;
     }
 
-    private void infoClick()
+    private void OnCloseIconChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
-        this.infoVisible = true;
-        this.infoBtnClass = "e-outline e-primary e-info msg-hidden";
+        bool isChecked = args.Checked;
+        ShowDefaultCloseIcon = isChecked;
+        ShowInfoCloseIcon = isChecked;
+        ShowSuccessCloseIcon = isChecked;
+        ShowWarningCloseIcon = isChecked;
+        ShowErrorCloseIcon = isChecked;
     }
 
-    private void infoClosed()
-    {
-        this.infoBtnClass = "e-outline e-primary e-info";
-    }
-
-    private void successClick()
-    {
-        this.successVisible = true;
-        this.successBtnClass = "e-outline e-primary e-success msg-hidden";
-    }
-
-    private void successClosed()
-    {
-        this.successBtnClass = "e-outline e-primary e-success";
-    }
-
-    private void warningClick()
-    {
-        this.warningVisible = true;
-        this.warningBtnClass = "e-outline e-primary e-warning msg-hidden";
-    }
-
-    private void warningClosed()
-    {
-        this.warningBtnClass = "e-outline e-primary e-warning";
-    }
-
-    private void errorClick()
-    {
-        this.errorVisible = true;
-        this.errorBtnClass = "e-outline e-primary e-error msg-hidden";
-    }
-
-    private void errorClosed()
-    {
-        this.errorBtnClass = "e-outline e-primary e-error";
-    }
-
-    private void severityIconChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        if (args.Checked)
-        {
-            this.defaultIcon = true;
-            this.successIcon = true;
-            this.warningIcon = true;
-            this.infoIcon = true;
-            this.errorIcon = true;
-        }
-        else
-        {
-            this.defaultIcon = false;
-            this.successIcon = false;
-            this.warningIcon = false;
-            this.infoIcon = false;
-            this.errorIcon = false;
-        }
-    }
-
-    private void closeIconChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
-    {
-        if (args.Checked)
-        {
-            this.defaultCloseIcon = true;
-            this.successCloseIcon = true;
-            this.warningCloseIcon = true;
-            this.infoCloseIcon = true;
-            this.errorCloseIcon = true;
-        }
-        else
-        {
-            this.defaultCloseIcon = false;
-            this.successCloseIcon = false;
-            this.warningCloseIcon = false;
-            this.infoCloseIcon = false;
-            this.errorCloseIcon = false;
-        }
-    }
 }
 
 <style>

@@ -6,9 +6,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -38,14 +35,14 @@
     <div class="control-wrapper">
         @if (string.IsNullOrEmpty(Message))
         {
-            <EditForm Model="@model" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+            <EditForm Model="@_model" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
                 <DataAnnotationsValidator/>
                 <div>
                     <label class="example-label">Select an employee</label>
-                    <SfDropDownList Placeholder="e.g. Andrew Fuller" @bind-Value="@model.FirstName" DataSource="@Data">
+                    <SfDropDownList Placeholder="e.g. Andrew Fuller" @bind-Value="@_model.FirstName" DataSource="@Data">
                         <DropDownListFieldSettings Value="FirstName" Text="FirstName"/>
                     </SfDropDownList>
-                    <ValidationMessage For="()=>model.FirstName"/>
+                    <ValidationMessage For="()=>_model.FirstName"/>
                 </div>            
                 <div class="submit-btn">
                     <SfButton type="submit" IsPrimary="true">Submit</SfButton>
@@ -88,13 +85,12 @@
 @code {
     private string Message = string.Empty;
     
-
-    async void OnValidSubmit()
+    private async void OnValidSubmit()
     {
         Message = "Form Submitted Successfully!";
         await Task.Delay(2000);
         Message = string.Empty;
-        model.FirstName = null;
+        _model.FirstName = null;
         StateHasChanged();
     }
 
@@ -103,7 +99,7 @@
         Message = string.Empty;
     }
 
-    private EmployeeData model = new EmployeeData();
+    private EmployeeData _model = new EmployeeData();
     public class EmployeeData
     {
         [Required(ErrorMessage = "The Employee field is required.")]

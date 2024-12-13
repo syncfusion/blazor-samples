@@ -7,9 +7,6 @@
 @using Syncfusion.Blazor.Kanban
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -31,9 +28,9 @@
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
-    <SfKanban KeyField="Status" DataSource="@cardData" ConstraintType="@(IsSwimlaneEnable ? ConstraintType.Swimlane : ConstraintType.Column)">
+    <SfKanban KeyField="Status" DataSource="@_cardData" ConstraintType="@(IsSwimlaneEnable ? ConstraintType.Swimlane : ConstraintType.Column)">
         <KanbanColumns>
-            @foreach (ColumnModel item in columnData)
+            @foreach (ColumnModel item in _columnData)
             {
                 <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="true" ShowItemCount="true" 
                             MinCount="@item.MinCount" MaxCount="@item.MaxCount"/>
@@ -128,13 +125,13 @@
     private string ColumnConstraintValue = "Column";
     private List<string> ColumnConstraints = new List<string>() { "Column", "Swimlane" };
     private List<string> KanbanColumns = new List<string>() { "To Do", "In Progress", "Testing", "Done" };
-    
-    private List<KanbanDataModel> cardData = new KanbanDataModel().GetTasks();
-    private List<ColumnModel> columnData = new List<ColumnModel>() {
-        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" }, MinCount = 6, MaxCount = 8 },
-        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "In Progress" }, MinCount = 2, MaxCount = 0 },
-        new ColumnModel(){ HeaderText= "Testing", KeyField= new List<string>() { "Testing" }, MinCount = 2, MaxCount = 5 },
-        new ColumnModel(){ HeaderText= "Done", KeyField=new List<string>() { "Close" }, MinCount = 0, MaxCount = 4 }
+    private List<KanbanDataModel> _cardData = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> _columnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "To Do", KeyField = new List<string>() { "Open" }, MinCount = 6, MaxCount = 8 },
+        new ColumnModel() { HeaderText = "In Progress", KeyField = new List<string>() { "In Progress" }, MinCount = 2, MaxCount = 0 },
+        new ColumnModel() { HeaderText = "Testing", KeyField = new List<string>() { "Testing" }, MinCount = 2, MaxCount = 5 },
+        new ColumnModel() { HeaderText = "Done", KeyField = new List<string>() { "Close" }, MinCount = 0, MaxCount = 4 }
     };
 
     private void ColumnValueUpdate(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
@@ -148,7 +145,7 @@
         else
         {
             this.ColumnDataValue = args.Value;
-            ColumnModel ColumnData = columnData.Where(e => e.HeaderText == this.ColumnDataValue).FirstOrDefault();
+            ColumnModel ColumnData = _columnData.Where(e => e.HeaderText == this.ColumnDataValue).FirstOrDefault();
             this.ColumnMinCount = ColumnData.MinCount;
             this.ColumnMaxCount = ColumnData.MaxCount;
         }
@@ -156,8 +153,9 @@
 
     private void OnColumnValidationUpdate()
     {
-        if (this.ColumnDataValue != null) {
-            ColumnModel ColumnData = columnData.Where(e => e.HeaderText == this.ColumnDataValue).FirstOrDefault();
+        if (this.ColumnDataValue != null)
+        {
+            ColumnModel ColumnData = _columnData.Where(e => e.HeaderText == this.ColumnDataValue).FirstOrDefault();
             ColumnData.MinCount = (int)this.ColumnMinCount;
             ColumnData.MaxCount = (int)this.ColumnMaxCount;
             this.ColumnKeyValue = null;

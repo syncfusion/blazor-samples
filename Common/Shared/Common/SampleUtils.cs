@@ -186,14 +186,23 @@ namespace BlazorDemos.Shared
         /// </summary>
 
         public static List<ListData> BlazorPlatform = new List<ListData> {
-        #if !SERVER
-            new ListData { ID = "server", Text = "Server" },
-        #endif
-        #if !WEBAPP
-            new ListData { ID = "webapp", Text = "WebApp" },
-        #endif
-        #if !WASM
-            new ListData { ID = "wasm", Text = "WASM" }
+        #if !NET6_0
+            #if !SERVER
+                        new ListData { ID = "server", Text = "Server" },
+            #endif
+            #if !WEBAPP
+                        new ListData { ID = "webapp", Text = "WebApp" },
+            #endif
+            #if !WASM
+                        new ListData { ID = "wasm", Text = "WASM" }
+            #endif
+        #else
+            #if !SERVER
+                        new ListData { ID = "server", Text = "Server" },
+            #endif
+            #if !WASM
+                        new ListData { ID = "wasm", Text = "WASM" }
+            #endif
         #endif
         };
 
@@ -227,7 +236,7 @@ namespace BlazorDemos.Shared
         {
             var uri = new Uri(url);
             string themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
-            themeName = themeName != null ? themeName : "fluent2";
+            themeName = themeName != null ? themeName : "tailwind3";
             themeName = themeName.Equals("bootstrap5") ? "bootstrap5.3" : themeName.Equals("bootstrap5-dark") ? "bootstrap5.3-dark" : themeName;
             return themeName;
         }
@@ -238,7 +247,8 @@ namespace BlazorDemos.Shared
             new DropDownData { ID = "fluent", Text = "Fluent" },
             new DropDownData { ID = "fluent2", Text = "Fluent 2" },
             new DropDownData { ID = "bootstrap5.3", Text = "Bootstrap 5" },
-            new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
+            new DropDownData { ID = "tailwind3", Text = "Tailwind CSS" },
+            //new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
 #if DEBUG || STAGING
       //      new DropDownData { ID = "material-dark", Text = "Material Dark" },
 #endif

@@ -1,13 +1,10 @@
 ﻿@page "/carousel/templates"
 
 @using Syncfusion.Blazor.Navigations
-@using Syncfusion.Blazor.Cards
 @using Syncfusion.Blazor.Buttons
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@inject NavigationManager UriHelper
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -31,31 +28,14 @@
         <div class="carousel-sample">
             <SfCarousel AnimationEffect="CarouselAnimationEffect.Fade" CssClass="templateCarousel">
                 <ChildContent>
-                    <CarouselItem>
-                        <figure class="img-container">
-                            <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/cardinal.png")" alt="cardinal" style="height:100%;width:100%;" />
-                        </figure>
-                    </CarouselItem>
-                    <CarouselItem>
-                        <figure class="img-container">
-                            <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/hunei.png")" alt="hunei" style="height:100%;width:100%;" />
-                        </figure>
-                    </CarouselItem>
-                    <CarouselItem>
-                        <figure class="img-container">
-                            <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/costa-rica.png")" alt="costa-rica" style="height:100%;width:100%;" />
-                        </figure>
-                    </CarouselItem>
-                    <CarouselItem>
-                        <figure class="img-container">
-                            <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/kaohsiung.png")" alt="kaohsiung" style="height:100%;width:100%;" />
-                        </figure>
-                    </CarouselItem>
-                    <CarouselItem>
-                        <figure class="img-container">
-                            <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/bee-eater.png")" alt="bee-eater" style="height:100%;width:100%;" />
-                        </figure>
-                    </CarouselItem>
+                    @foreach (var item in CarouselItems)
+                    {
+                        <CarouselItem>
+                            <figure class="img-container">
+                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/{item.ImageName}")" alt="@item.AltText" style="height:100%;width:100%;" />
+                            </figure>
+                        </CarouselItem>
+                    }
                 </ChildContent>
                 <PreviousButtonTemplate>
                     <SfButton CssClass="e-flat e-outline nav-btn" title="Previous">
@@ -73,7 +53,7 @@
                 </NextButtonTemplate>
                 <IndicatorsTemplate>
                     <div class="indicator">
-                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/" + indicatorImage[context.Index] + ".png")" alt="image" style="height:100%;width:100%;" />
+                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/carousel/" + IndicatorImage[context.Index] + ".png")" alt="image" style="height:100%;width:100%;" />
                     </div>
                 </IndicatorsTemplate>
             </SfCarousel>
@@ -82,8 +62,22 @@
 </div>
 
 @code{
-    private List<string> indicatorImage = new List<string>() { "cardinal", "hunei", "costa-rica", "kaohsiung", "bee-eater" };
-    
+    private List<string> IndicatorImage = new List<string>() { "cardinal", "hunei", "costa-rica", "kaohsiung", "bee-eater" };
+
+    private List<CarouselItemModel> CarouselItems = new List<CarouselItemModel>()
+    {
+        new CarouselItemModel { ImageName = "cardinal.png", AltText = "cardinal" },
+        new CarouselItemModel { ImageName = "hunei.png", AltText = "hunei" },
+        new CarouselItemModel { ImageName = "costa-rica.png", AltText = "costa-rica" },
+        new CarouselItemModel { ImageName = "kaohsiung.png", AltText = "kaohsiung" },
+        new CarouselItemModel { ImageName = "bee-eater.png", AltText = "bee-eater" }
+    };
+
+    public class CarouselItemModel
+    {
+        public string ImageName { get; set; }
+        public string AltText { get; set; }
+    }
 }
 
 <style>

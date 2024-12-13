@@ -6,9 +6,6 @@
 @*Hidden:Lines*@
 @using ej2_blazor_dateonlytimeonlydata
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 
@@ -22,16 +19,16 @@
     </ul>
 </SampleDescription>
 <ActionDescription>
-    <p><a aria-label="Navigate to the class reference for tree grid edit settings" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridEditSettings.html'>TreeGridEditSettings</a> can be used to configure CRUD operations in Tree Grid. It also has various modes for manipulating the datasource. The available modes are,</p>
-      <ul><li><code>EditMode.Row </code></li>
-          <li><code>EditMode.Cell</code></li>
-          <li><code>EditMode.Dialog</code></li>
-          <li><code>EditMode.Batch</code></li>
-       </ul>
-     <p>Row mode is enabled for editing by default in this demo. You can begin editing any row by double-clicking it or by clicking the toolbar's Edit button; the currently selected row will be changed to the edited state. You can edit the row values and save the results to the datasource.</p>
-    <p>More information about edit modes in tree grid can be found in the <a aria-label="Navigate to the documentation for in-line editing in the tree grid component" target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/editing/row-editing'> documentation</a> section.</p>
+    <p><a aria-label="Navigate to the class reference for tree grid edit settings" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridEditSettings.html">TreeGridEditSettings</a> can be used to configure CRUD operations in Tree Grid. It also has various modes for manipulating the datasource. The available modes are,</p>
+    <ul>
+        <li><code>EditMode.Row</code></li>
+        <li><code>EditMode.Cell</code></li>
+        <li><code>EditMode.Dialog</code></li>
+        <li><code>EditMode.Batch</code></li>
+    </ul>
+    <p>Row mode is enabled for editing by default in this demo. You can begin editing any row by double-clicking it or by clicking the toolbar's Edit button; the currently selected row will be changed to the edited state. You can edit the row values and save the results to the datasource.</p>
+    <p>More information about edit modes in tree grid can be found in the <a aria-label="Navigate to the documentation for in-line editing in the tree grid component" target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/editing/row-editing">documentation</a> section.</p>
 </ActionDescription>
-
 
 <div class="col-lg-9 control-section">
     <div class="content-wrapper">
@@ -59,7 +56,7 @@
         <tr style="height: 50px">
             <td class="left-side" style="width: 35% !important; padding: 6px 6px 6px 6px">Edit Mode</td>
             <td>
-                <SfDropDownList TValue="string" TItem="DropDownData" @ref="DropDown" DataSource="@DropDownEditmode" @bind-Value="@EditMode" >
+                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@DropDownEditmode" @bind-Value="@EditMode" >
                     <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ModeChange"></DropDownListEvents>
                     <DropDownListFieldSettings Text="Name" Value="ID"></DropDownListFieldSettings>
                 </SfDropDownList>
@@ -68,54 +65,52 @@
     </table>
  </div>
 
-        @code{
-
-
-        SfDropDownList<string, DropDownData> DropDown;
+@code{
 
     private List<DateOnlyTimeOnlyData> TreeData { get; set; }
 
-        private string EditMode { get; set; } = "Cell Editing" ;
+    private string EditMode { get; set; } = "Cell Editing";
 
-        private Syncfusion.Blazor.TreeGrid.EditMode GridEditingmode { get; set; }
+    private Syncfusion.Blazor.TreeGrid.EditMode GridEditingmode { get; set; }
 
-        private List<string> ToolbarItems { get; set; }
+    private List<string> ToolbarItems { get; set; }
 
-        private List<DropDownData> DropDownEditmode = new List<DropDownData>();
+    private List<DropDownData> DropDownEditmode { get; set; } = new List<DropDownData>();
 
-        protected override void OnInitialized()
+    protected override void OnInitialized()
+    {
+        ToolbarItems = new List<string>() { "Add", "Delete", "Update", "Cancel" };
+        TreeData = DateOnlyTimeOnlyData.GetWrapData().ToList();
+        DropDownEditmode.Add(new DropDownData() { ID = "Cell Editing", Name = "Cell Editing" });
+        DropDownEditmode.Add(new DropDownData() { ID = "Row Editing", Name = "Row Editing" });
+    }
+
+    public class DropDownData
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
+    }
+
+    public void ModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+
+    {
+        if (args.Value == "Cell Editing")
         {
-
-
-
-            this.ToolbarItems = new List<string>() { "Add", "Delete", "Update", "Cancel" };
-        this.TreeData = DateOnlyTimeOnlyData.GetWrapData().ToList();
-            this.DropDownEditmode.Add(new DropDownData() {ID="Cell Editing", Name="Cell Editing"});
-            this.DropDownEditmode.Add(new DropDownData() {ID="Row Editing", Name="Row Editing"});
+            ToolbarItems = new List<string>() { "Add", "Delete", "Update", "Cancel" };
+            GridEditingmode = Syncfusion.Blazor.TreeGrid.EditMode.Cell;
         }
 
-        public class DropDownData {
-            public string ID { get; set; }
-            public string Name { get; set; }
-        }
-
-        public void ModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
-
+        if (args.Value == "Row Editing")
         {
-            if(args.Value == "Cell Editing")
-            {
-                ToolbarItems = new List<string>() { "Add", "Delete", "Update", "Cancel" };
-                GridEditingmode = Syncfusion.Blazor.TreeGrid.EditMode.Cell;
-            }
-            if(args.Value == "Row Editing")
-            {
-                ToolbarItems = new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" };
-                GridEditingmode = Syncfusion.Blazor.TreeGrid.EditMode.Row;
-            }
-        }
-        public class TreeEditModes
-        {
-            public string ID { get; set; }
-            public string Name { get; set; }
+            ToolbarItems = new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" };
+            GridEditingmode = Syncfusion.Blazor.TreeGrid.EditMode.Row;
         }
     }
+
+    public class TreeEditModes
+    {
+        public string ID { get; set; }
+        public string Name { get; set; }
+    }
+
+}

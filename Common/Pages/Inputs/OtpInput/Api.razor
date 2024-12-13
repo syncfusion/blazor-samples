@@ -6,9 +6,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -32,16 +29,16 @@
 
 <div class="col-lg-8 control-section sb-property-border">
     <div class="api-otp-wrapper">
-        <SfToast ID="toast_default" @ref="ToastObj" Title="Entered OTP value" Content="@ToastContent" Timeout="3000">
+        <SfToast ID="ToastComponent" @ref="ToastComponentRef" Title="Entered OTP value" Content="@OtpToastContent" Timeout="3000">
             <ToastPosition X="Right"></ToastPosition>
         </SfToast>
         <div id="otp-container">
             <div class="form-container">
                 <span class="otp-header"> Enter verification code </span>
-                <SfOtpInput StylingMode="@StyleMode" Disabled=@Disabled @bind-Value="@otpValue" OnInput="@handleOtpChange" Length=@Length Separator="@Seperator" Placeholder="@PlaceHolder" CssClass="@CssClass"></SfOtpInput>
+                <SfOtpInput StylingMode="@OtpStylingMode" Disabled="@IsOtpDisabled" @bind-Value="@OtpValue" OnInput="@OnOtpInputChange" Length="@OtpLength" Separator="@OtpSeparator" Placeholder="@OtpPlaceholder" CssClass="@OtpCssClass"></SfOtpInput>
                 <div class="otp-actions">
-                    <button class="e-btn" type="button" disabled="@disableResetBtn" @onclick="clearOTP"> Clear </button>
-                    <button class="e-btn e-primary" type="button" disabled="@disableVerifyBtn" @onclick="verifyOTP"> Verify </button>
+                    <button class="e-btn" type="button" disabled="@IsResetButtonDisabled" @onclick="ClearOtp"> Clear </button>
+                    <button class="e-btn e-primary" type="button" disabled="@IsVerifyButtonDisabled" @onclick="VerifyOtp"> Verify </button>
                 </div>
             </div>
         </div>
@@ -53,126 +50,138 @@
         <div class="property-panel-content">
             <table id="property" title="Properties">
                 <tbody>
-                    <tr>
-                        <td class="property-styles">Styling Mode</td>
-                        <td>
-                            <SfDropDownList TValue="string" TItem="DropDownModel" DataSource="@StyleListData" @bind-Value="@DefaultValue" PopupHeight="200px">
-                                <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
-                                <DropDownListEvents TValue="string" TItem="DropDownModel" ValueChange="@ChangeStyle" />
-                            </SfDropDownList>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="property-styles">Validation Status</td>
-                        <td>
-                            <SfDropDownList TValue="string" TItem="DropDownModel" DataSource="@ValidationData" @bind-Value="@ValidationValue" PopupHeight="200px">
-                                <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
-                                <DropDownListEvents TValue="string" TItem="DropDownModel" ValueChange="@Validation" />
-                            </SfDropDownList>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="plcaeholder" class="property-styles"> Placeholder </label></td>
-                        <td>
-                            <SfTextBox CssClass="e-underline" @bind-Value="@PlaceHolder" maxlength="@textBoxLength" Type=InputType.Text Input="@InputHandler"></SfTextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="separator" class="property-styles"> Separator </label></td>
-                        <td><SfTextBox CssClass="e-underline" @bind-Value="@Seperator" maxlength="1" Type=InputType.Text Input="@ChangeSeperator"></SfTextBox></td>
-                    </tr>
-                    <tr>
-                        <td><label for="length" class="property-styles"> Length </label></td>
-                        <td>
-                            <SfNumericTextBox TValue="int" Min=1 Max=6 Format="0" @bind-Value=@NumericValue>
-                                <NumericTextBoxEvents TValue="int" ValueChange="ValueChangeHandler"></NumericTextBoxEvents>
-                            </SfNumericTextBox>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td><label for="disabled" class="property-styles"> Disabled </label></td>
-                        <td> <SfSwitch ValueChange="@Change" TChecked="bool?"></SfSwitch> </td>
-                    </tr>
+                <tr>
+                    <td class="property-styles">Styling Mode</td>
+                    <td>
+                        <SfDropDownList TValue="string" TItem="DropDownOptionModel" DataSource="@StylingModeOptions" @bind-Value="@SelectedStylingMode" PopupHeight="200px">
+                            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" TItem="DropDownOptionModel" ValueChange="@OnStylingModeChange" />
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td class="property-styles">Validation Status</td>
+                    <td>
+                        <SfDropDownList TValue="string" TItem="DropDownOptionModel" DataSource="@ValidationOptions" @bind-Value="@SelectedValidationStatus" PopupHeight="200px">
+                            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" TItem="DropDownOptionModel" ValueChange="@OnValidationStatusChange" />
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="plcaeholder" class="property-styles"> Placeholder </label></td>
+                    <td>
+                        <SfTextBox CssClass="e-underline" @bind-Value="@OtpPlaceholder" maxlength="@MaxTextBoxLength" Type=InputType.Text Input="@OnPlaceholderInput"></SfTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="separator" class="property-styles"> Separator </label></td>
+                    <td><SfTextBox CssClass="e-underline" @bind-Value="@OtpSeparator" maxlength="1" Type=InputType.Text Input="@OnSeparatorInput"></SfTextBox></td>
+                </tr>
+                <tr>
+                    <td><label for="length" class="property-styles"> Length </label></td>
+                    <td>
+                        <SfNumericTextBox TValue="int" Min=1 Max=6 Format="0" @bind-Value=@OtpLength>
+                            <NumericTextBoxEvents TValue="int" ValueChange="OnOtpLengthChange"></NumericTextBoxEvents>
+                        </SfNumericTextBox>
+                    </td>
+                </tr>
+                <tr>
+                    <td><label for="disabled" class="property-styles"> Disabled </label></td>
+                    <td> <SfSwitch ValueChange="@OnDisabledToggle" TChecked="bool?"></SfSwitch> </td>
+                </tr>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-@code {
-    private SfToast ToastObj;
-    private string otpValue = "";
-    private string ToastContent { get; set; } = "";
-    private string CssClass;
-    private string DefaultValue { get; set; } = "Outlined";
-    private string ValidationValue { get; set; } = "None";
-    private bool Disabled { get; set; } = false;
-    private string PlaceHolder { get; set; } = "x";
-    private string Seperator { get; set; } = "-";
-    private int Length { get; set; } = 4;
-    private int NumericValue { get; set; } = 4;
-    private int textBoxLength { get; set; } = 4;
-    private OtpInputStyle StyleMode { get; set; } = OtpInputStyle.Outlined;
-    private bool disableResetBtn { get; set; } = true;
-    private bool disableVerifyBtn { get; set; } = true;
 
-    public class DropDownModel
+@code {
+    private SfToast ToastComponentRef;
+    public string OtpValue { get; set; } = "";
+    public string OtpToastContent { get; set; } = "";
+    public string OtpCssClass { get; set; }
+    public string SelectedStylingMode { get; set; } = "Outlined";
+    public string SelectedValidationStatus { get; set; } = "None";
+    public bool IsOtpDisabled { get; set; } = false;
+    public string OtpPlaceholder { get; set; } = "x";
+    public string OtpSeparator { get; set; } = "-";
+    public int OtpLength { get; set; } = 4;
+    public int MaxTextBoxLength { get; set; } = 4;
+    public OtpInputStyle OtpStylingMode { get; set; } = OtpInputStyle.Outlined;
+    public bool IsResetButtonDisabled { get; set; } = true;
+    public bool IsVerifyButtonDisabled { get; set; } = true;
+
+    public class DropDownOptionModel
     {
         public string Text { get; set; }
         public string Value { get; set; }
     }
-    private List<DropDownModel> StyleListData = new List<DropDownModel>()
+
+    private List<DropDownOptionModel> StylingModeOptions = new List<DropDownOptionModel>()
     {
-        new DropDownModel { Text = "Outlined", Value = "Outlined" },
-        new DropDownModel { Text = "Underlined", Value = "Underlined" },
-        new DropDownModel { Text = "Filled", Value = "Filled" }
+        new DropDownOptionModel { Text = "Outlined", Value = "Outlined" },
+        new DropDownOptionModel { Text = "Underlined", Value = "Underlined" },
+        new DropDownOptionModel { Text = "Filled", Value = "Filled" }
     };
-    private List<DropDownModel> ValidationData = new List<DropDownModel>()
+
+    private List<DropDownOptionModel> ValidationOptions = new List<DropDownOptionModel>()
     {
-        new DropDownModel { Text = "None", Value = "None" },
-        new DropDownModel { Text = "Success", Value = "success" },
-        new DropDownModel { Text = "Warning", Value = "warning" },
-        new DropDownModel { Text = "Error", Value = "error" }
+        new DropDownOptionModel { Text = "None", Value = "None" },
+        new DropDownOptionModel { Text = "Success", Value = "success" },
+        new DropDownOptionModel { Text = "Warning", Value = "warning" },
+        new DropDownOptionModel { Text = "Error", Value = "error" }
     };
-    private void ChangeStyle(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownModel> args)
+
+    private void OnStylingModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownOptionModel> args)
     {
-        StyleMode = (OtpInputStyle)Enum.Parse(typeof(OtpInputStyle), args.Value.ToString());
+        OtpStylingMode = (OtpInputStyle)Enum.Parse(typeof(OtpInputStyle), args.Value.ToString());
     }
-    private void Validation(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownModel> args)
+
+    private void OnValidationStatusChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownOptionModel> args)
     {
-        CssClass = args.Value == "None" ? "" : "e-" + args.Value.ToString();
+        OtpCssClass = args.Value == "None" ? "" : "e-" + args.Value.ToString();
     }
-    private void Change(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+
+    private void OnDisabledToggle(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
     {
-        Disabled = (bool)args.Checked;
+        IsOtpDisabled = args.Checked ?? false;
     }
-    private void InputHandler(InputEventArgs args)
+
+    private void OnPlaceholderInput(InputEventArgs args)
     {
-        PlaceHolder = args.Value.ToString();
+        OtpPlaceholder = args.Value.ToString();
     }
-    private void ChangeSeperator(InputEventArgs args)
+
+    private void OnSeparatorInput(InputEventArgs args)
     {
-        Seperator = args.Value.ToString();
+        OtpSeparator = args.Value.ToString();
     }
-    private void ValueChangeHandler(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+
+    private void OnOtpLengthChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
     {
-        textBoxLength = Length = args.Value;
+        MaxTextBoxLength = OtpLength = args.Value;
     }
-    private void handleOtpChange(OtpInputEventArgs args)
+
+    private void OnOtpInputChange(OtpInputEventArgs args)
     {
-        ToastContent = otpValue;
+        OtpToastContent = OtpValue;
         var otpLength = args.Value.Length;
-        disableVerifyBtn = Length != otpLength;
-        disableResetBtn = otpLength == 0;
+        IsVerifyButtonDisabled = OtpLength != otpLength;
+        IsResetButtonDisabled = otpLength == 0;
     }
-    private void clearOTP()
+
+    private void ClearOtp()
     {
-        otpValue = "";
-        disableResetBtn = disableVerifyBtn = true;
+        OtpValue = "";
+        IsResetButtonDisabled = IsVerifyButtonDisabled = true;
     }
-    private async Task verifyOTP()
+
+    private async Task VerifyOtp()
     {
-        await this.ToastObj.ShowAsync();
+        await ToastComponentRef.ShowAsync();
     }
+
 }
 <style>
     .api-otp-wrapper {
@@ -181,7 +190,7 @@
         justify-content: center;
         padding-top: 20px;
         padding-bottom: 20px;
-        min-height: 350px;
+        min-height: 400px;
     }
 
     #otp-container {

@@ -34,8 +34,8 @@
 
 
 <div class="control-section"> 
-    <SfPdfViewer2 DocumentPath="@DocumentPath" Height="640px" Width="100%">
-    <PdfViewerEvents DownloadEnd="@DownloadEndEvent"></PdfViewerEvents>
+    <SfPdfViewer2 @ref="@Viewer" DocumentPath="@DocumentPath" Height="640px" Width="100%">
+    <PdfViewerEvents DownloadEnd="@DownloadEndEvent" ExportSucceed="@ExportSuccessEvent"></PdfViewerEvents>
     </SfPdfViewer2>
 </div>
 
@@ -44,8 +44,9 @@
     //Hidden:Lines
     private string canonicalURL { get; set; }
     //End:Hidden
-
+    private SfPdfViewer2 Viewer { get; set; }
     private string DocumentPath { get; set; } = "";
+    private bool exportSuccess { get; set; } = false;
     protected override void OnInitialized()
     {
         //Hidden:Lines
@@ -88,5 +89,30 @@
          byte[] bytes = Convert.FromBase64String(bas64string);
          SaveService saveService = new();
          saveService.SaveAndView(downloadEndEvent.FileName, "application/pdf", new MemoryStream(bytes));
+    }
+
+    private async void ExportSuccessEvent(ExportSuccessEventArgs exportSuccessEvent)
+    {
+        if (!exportSuccess)
+        {
+            exportSuccess = true;
+            Stream exportStream = new MemoryStream();
+            string type = exportSuccessEvent.FileName.EndsWith("xfdf") ? "xfdf" : "json";
+            if (type == "xfdf")
+            {
+                exportStream = await Viewer.ExportAnnotationAsStreamAsync(AnnotationDataFormat.Xfdf);
+            }
+            else
+            {
+                exportStream = await Viewer.ExportAnnotationAsStreamAsync(AnnotationDataFormat.Json);
+            }
+            exportSuccess = false;
+            exportStream.Position = 0;
+            MemoryStream newMemoryStream = new MemoryStream();
+            exportStream.CopyTo(newMemoryStream);
+            newMemoryStream.Position = 0;
+            SaveService saveService = new();
+            saveService.SaveAndView(exportSuccessEvent.FileName, "application/" + type, newMemoryStream);
+        }
     }
 }

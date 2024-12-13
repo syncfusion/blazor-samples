@@ -5,9 +5,6 @@
 @using Syncfusion.Blazor.Inputs
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -18,7 +15,7 @@
 </ActionDescription>
 
 <div class="col-lg-9 control-section">
-    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" StartHour="@scheduleStartHour" EndHour="@scheduleEndHour" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" StartHour="@_scheduleStartHour" EndHour="@_scheduleEndHour" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
         <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
         <ScheduleViews>
             <ScheduleView Option="View.Day"></ScheduleView>
@@ -26,7 +23,7 @@
             <ScheduleView MaxEventsPerRow="12" Option="View.TimelineDay"></ScheduleView>
             <ScheduleView MaxEventsPerRow="12" Option="View.TimelineWeek"></ScheduleView>
         </ScheduleViews>
-        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleEventSettings DataSource="@EventDataSource"></ScheduleEventSettings>
     </SfSchedule>
 </div>
 <div class="col-lg-3 property-section">
@@ -61,19 +58,19 @@
 @code{
     public View CurrentView { get; set; } = View.Week;
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 16);
-    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetEmployeeEventData();
-    private string scheduleStartHour = "08:00";
-    private string scheduleEndHour = "20:00";
+    private List<ScheduleData.AppointmentData> EventDataSource = new ScheduleData().GetEmployeeEventData();
+    private string _scheduleStartHour = "08:00";
+    private string _scheduleEndHour = "20:00";
     private DateTime? StartTime { get; set; } = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 8, 0, 0);
     private DateTime? EndTime { get; set; } = new DateTime(DateTime.Today.Year, DateTime.Today.Month, DateTime.Today.Day, 20, 0, 0);
     
     public void OnStartHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
     {
-        this.scheduleStartHour = args.Text;
+        this._scheduleStartHour = args.Text;
     }
     public void OnEndHourChange(Syncfusion.Blazor.Calendars.ChangeEventArgs<DateTime?> args)
     {
-        this.scheduleEndHour = args.Text;
+        this._scheduleEndHour = args.Text;
     }
     public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
     {

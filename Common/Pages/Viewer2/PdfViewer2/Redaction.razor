@@ -2,17 +2,16 @@
 
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.SfPdfViewer
-@using Syncfusion.Blazor.SplitButtons
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
 @using Syncfusion.Drawing
 @using Syncfusion.Pdf
 @using Syncfusion.Pdf.Graphics
 @using Syncfusion.Pdf.Interactive
 @using Syncfusion.Pdf.Parsing
 @using Syncfusion.Pdf.Redaction
-@using Syncfusion.Blazor.Popups
 @using System.IO
 @inject IJSRuntime JSRuntime
 @*Hidden:Lines*@
@@ -23,34 +22,39 @@
     <p> The PDF viewer facilitates the permanent removal of sensitive or confidential data from PDF files. Simplifying the redaction process, Syncfusion’s <a target='_blank' href='https://www.syncfusion.com/document-processing/pdf-framework/net/pdf-library' aria-label="Navigate to the Redaction Documendation in PDF library">.NET PDF library</a> includes features for seamless implementation. </p>
 </SampleDescription>
 <ActionDescription>
-   
-   
-   <p> This example showcases the implementation of redaction using rectangle annotation, leveraging the Redaction feature in <a target='_blank' href='https://help.syncfusion.com/file-formats/pdf/working-with-redaction' aria-label="Navigate to the Redaction Documendation by pdf viewer Library">File formats</a>.</p>
-   <br />
-   <p>
-Various types of redactions are demonstrated: </p>
- <br />
-   <ul>
+    <p>This example showcases the implementation of redaction using rectangle annotation, leveraging the Redaction feature in <a target="_blank" href="https://help.syncfusion.com/file-formats/pdf/working-with-redaction" aria-label="Navigate to the Redaction Documentation by PDF Viewer Library">File formats</a>.</p>
+    <br />
+    <p>Various types of redactions are demonstrated:</p>
+    <br />
+    <ul>
         <li>Displaying text over the redacted area</li>
         <li>Adding an image to the redacted area</li>
         <li>Drawing patterns on the redacted area</li>
         <li>Blacking out the redacted area</li>
         <li>Whitening out the redacted area</li>
-   </ul>
- <br />
-<p> Upon selecting areas on a page or across different pages with different redaction options, users can click the `Redact button`. This action redacts the document and reloads it into the PDF Viewer. The redacted document can then be saved or downloaded. </p>
+    </ul>
+    <br />
+    <p>Upon selecting areas on a page or across different pages with different redaction options, users can click the <code>Redact button</code>. This action redacts the document and reloads it into the PDF Viewer. The redacted document can then be saved or downloaded.</p>
 
-@*WASM:Block*@
-@{ #if WASM }
-    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation' aria-label="Navigate to the documentation for Text markup annotations in SfPdfViewer component" > documentation section</a>.</p>
-@{ #endif }
-@*End:WASM*@
+    @*WASM:Block*@ 
+    @{ 
+#if WASM 
+    }
+    <p>More information about the SfPdfViewer can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation" aria-label="Navigate to the documentation for Text markup annotations in SfPdfViewer component">documentation section</a>.</p>
+    @{
+#endif 
+    }
+    @*End:WASM*@
 
-@*Server:Block*@
-@{ #if !(WASM) }
-    <p>More information about the SfPdfViewer can be found in this<a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation' aria-label="Navigate to the documentation for Text markup annotations in SfPdfViewer component" > documentation section</a>.</p>
-@{ #endif }
-@*End:Server*@
+    @*Server:Block*@ 
+    @{
+#if !(WASM)
+    }
+    <p>More information about the SfPdfViewer can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation" aria-label="Navigate to the documentation for Text markup annotations in SfPdfViewer component">documentation section</a>.</p>
+    @{
+#endif 
+    }
+    @*End:Server*@ 
 </ActionDescription>
 
 <div class="control-section"id="panel">
@@ -91,9 +95,9 @@ Various types of redactions are demonstrated: </p>
                 <ToolbarItem><Template><span class="page-container">@CurrentPageNumber &nbsp;/&nbsp; @TotalPageNumber</span></Template></ToolbarItem>
                 <ToolbarItem TabIndex="9" PrefixIcon="e-icon e-chevron-right" Disabled="IsNextPageExist" CssClass="e-pv-next-container"></ToolbarItem>
                 <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
-                <ToolbarItem TabIndex="10" Id="zoom-input"><Template><SfDropDownList TValue="string" TItem="string" DataSource="@ZoomValues" @bind-Value="@ZoomValue" Placeholder="@ZoomValue" PopupWidth="100px" ShowClearButton="false">
-                   <DropDownListEvents TItem="string" TValue="string" ValueChange="@ZoomValueChange"/>
-                   </SfDropDownList></Template></ToolbarItem>
+                <ToolbarItem TabIndex="10" Id="zoom-input" Type="ItemType.Input"><Template><SfComboBox TValue="string" TItem="string" DataSource="@ZoomValues" @bind-Value="@ZoomValue" Placeholder="@ZoomValue" PopupWidth="100px" ShowClearButton="false">
+                   <ComboBoxEvents TItem="string" TValue="string" OnValueSelect="@ZoomValueSelected" ValueChange="@ZoomValueChange"/>
+                   </SfComboBox></Template></ToolbarItem>
                 <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
             </ToolbarItems>
         </SfToolbar>
@@ -109,7 +113,7 @@ Various types of redactions are demonstrated: </p>
              <Content>
                  <div class="drop-area-wrap">
                     <SfUploader AutoUpload="true" DropArea=".drop-area-wrap" SequentialUpload="false" AllowedExtensions=".png, .jpg, .jpeg" >
-                       <UploaderEvents ValueChange="ImageChane" ></UploaderEvents>
+                       <UploaderEvents ValueChange="ImageChange" ></UploaderEvents>
                     </SfUploader>
                      <div class="upload-footer">(Only JPG and PNG images will be accepted)</div>
                      </div>
@@ -146,12 +150,12 @@ Various types of redactions are demonstrated: </p>
     </SfDialog>
     }
    @*End:Hidden*@
-   <div id="pdfviewer_section"> 
-       <SfPdfViewer2 @ref="Viewer" DocumentPath="@DocumentPath" EnableToolbar="false" EnableAnnotationToolbar="false" ContextMenuSettings="@contextMenu"  EnableNavigationToolbar="false" EnableCommentPanel="false" Width="100%" Height="640px" DownloadFileName="Redact"
+   <div id="pdfviewer_section">
+       <SfPdfViewer2 @ref="PdfViewerInstance" DocumentPath="@DocumentPath" EnableToolbar="false" EnableAnnotationToolbar="false" ContextMenuSettings="@contextMenu"  EnableNavigationToolbar="false" EnableCommentPanel="false" Width="100%" Height="640px" DownloadFileName="Redact"
          RectangleSettings="@RectangleAnnoSettings" CustomStampSettings="@CustomStampSettings">
          <PdfViewerCustomStampSettings CustomStamps="@CustomStamps" Author="Image"></PdfViewerCustomStampSettings>
          <PdfViewerAnnotationSettings Author="Image"></PdfViewerAnnotationSettings>
-         <PdfViewerEvents DocumentLoaded="@DocumentLoaded" PageChanged="@OnPageChanged" AnnotationAdded="@OnAddAnnotation" AnnotationSelected="OnAnnotationSelect" AnnotationRemoved="@OnRemoveAnnotation"></PdfViewerEvents>  
+         <PdfViewerEvents DocumentLoaded="@DocumentLoaded" ZoomChanged="@ZoomChanged" PageChanged="@OnPageChanged" AnnotationAdded="@OnAddAnnotation" AnnotationSelected="OnAnnotationSelect" AnnotationRemoved="@OnRemoveAnnotation"></PdfViewerEvents>  
      </SfPdfViewer2>
    </div>
 </div>
@@ -381,15 +385,16 @@ Various types of redactions are demonstrated: </p>
     .e-pv-secondary-toolbar .e-btn .e-btn-icon.e-icon-left {
         margin-left: 0;
     }
-
+    .e-pv-secondary-toolbar .e-input-group .e-input-group-icon,.e-pv-secondary-toolbar .e-input-group.e-control-wrapper .e-input-group-icon {
+        border-color: transparent;
+    }
 </style>
 @*End:Hidden*@
 @code {
     PdfViewerContextMenuSettings contextMenu = new PdfViewerContextMenuSettings();
-
-    SfPdfViewer2 Viewer;
-    private string DocumentPath { get; set; } = "";
-    private bool IsImageSelected = true;
+    SfPdfViewer2 PdfViewerInstance;
+    private string DocumentPath { get; set; } = string.Empty;
+    private bool IsImageSelected { get; set; } = true;
     protected override void OnInitialized()
     {
 
@@ -413,13 +418,13 @@ Various types of redactions are demonstrated: </p>
     }
     @*Hidden:Lines*@
     SfUploader uploadFiles;
-
     private bool IsPreviousPageExist { get; set; } = true;
     private bool IsNextPageExist { get; set; }
-    private string[] ZoomValues = { "10%","25%","50%","75%","100%", "200%", "400%"};
-    private string ZoomValue = "100%";
-    private string RedactionText = "Redacted";
-    private int RedactionCount = 0;
+    private string[] ZoomValues { get; set; } = { "10%","25%","50%","75%","100%", "200%", "400%"};
+    private string ZoomValue { get; set; } = "100%";
+    private bool IsZoomValueSelected = false;
+    private string RedactionText { get; set; } = "Redacted";
+    private int RedactionCount { get; set; } = 0;
     private List<ImageDetails> Images = new List<ImageDetails>();
     @*End:Hidden*@
     private int TotalPageNumber { get; set; } = 1;
@@ -429,7 +434,7 @@ Various types of redactions are demonstrated: </p>
     private PdfViewerCustomStampSettings CustomStampSettings = new PdfViewerCustomStampSettings();
     List<PdfViewerCustomStamp> CustomStamps;
     Syncfusion.Blazor.SfPdfViewer.PdfAnnotation annotation = new Syncfusion.Blazor.SfPdfViewer.PdfAnnotation();
-    private string CustomStampSource = "";
+    private string CustomStampSource = string.Empty;
 
     //Method for handle the Toolbar items click events
     private async Task ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
@@ -479,12 +484,12 @@ Various types of redactions are demonstrated: </p>
                 // Case when the 'Previous' button is clicked
                 case "e-pv-previous-container":
                     // Go to the previous page
-                    await Viewer.GoToPreviousPageAsync();
+                    await PdfViewerInstance.GoToPreviousPageAsync();
                     break;
                 // Case when the 'Next' button is clicked
                 case "e-pv-next-container":
                     // Go to the next page
-                    await Viewer.GoToNextPageAsync();
+                    await PdfViewerInstance.GoToNextPageAsync();
                     break;
             }
             StateHasChanged();
@@ -495,7 +500,7 @@ Various types of redactions are demonstrated: </p>
     private async Task ApplyRedaction()
     {
         // Get the document from the viewer
-        byte[] byteArray = await Viewer.GetDocumentAsync();
+        byte[] byteArray = await PdfViewerInstance.GetDocumentAsync();
         PdfLoadedDocument loadedDocument = new PdfLoadedDocument(byteArray);
         // Iterate over each page in the document
         foreach (PdfLoadedPage loadedPage in loadedDocument.Pages)
@@ -572,7 +577,7 @@ Various types of redactions are demonstrated: </p>
                     //Get the Annotation details in the pdf viewer
                     Syncfusion.Blazor.SfPdfViewer.PdfAnnotation NewAnnotation = new Syncfusion.Blazor.SfPdfViewer.PdfAnnotation();
                     List<Syncfusion.Blazor.SfPdfViewer.PdfAnnotation> pdfAnnotationList = new List<Syncfusion.Blazor.SfPdfViewer.PdfAnnotation>();
-                    pdfAnnotationList = await Viewer.GetAnnotationsAsync();
+                    pdfAnnotationList = await PdfViewerInstance.GetAnnotationsAsync();
                     int selectedAnnotationIndex = pdfAnnotationList.FindIndex(item => item.Id == annotation.Name);
                     if(selectedAnnotationIndex != -1)
                     {
@@ -619,7 +624,7 @@ Various types of redactions are demonstrated: </p>
         byteArray = stream.ToArray();
         var base64String = "data:application/pdf;base64," + Convert.ToBase64String(byteArray);
         // Load the document into the viewer
-        await Viewer.LoadAsync(base64String);
+        await PdfViewerInstance.LoadAsync(base64String);
         // Resetting the Redaction count
         RedactionCount = 0;
         stream.Dispose();
@@ -674,16 +679,32 @@ Various types of redactions are demonstrated: </p>
     //Method for download the document 
     private async Task DownloadDocument()
     {
-        await Viewer.DownloadAsync();
+        await PdfViewerInstance.DownloadAsync();
     }
     //Method for the Zoom the pdf viewer document
     private async Task ZoomValueChange(ChangeEventArgs<string, string> args)
     {
         if(args.Value != null || args.PreviousItem != null)
         {
-            int zoom=Convert.ToInt32(args.Value.ToString().Replace("%", ""));
-            await Viewer.ZoomAsync(zoom);
+            if (IsZoomValueSelected) 
+            {
+                int zoom=Convert.ToInt32(args.Value.ToString().Replace("%", ""));
+                await PdfViewerInstance.ZoomAsync(zoom);
+                IsZoomValueSelected = false;
+            }
         }
+    }
+
+    //Method for handle the Zoom change
+    private void ZoomChanged(ZoomChangeEventArgs args)
+    {
+	    ZoomValue = args.CurrentZoomValue.ToString() + "%";
+    }
+
+    //Method for set the true value to the when the zoom drop down is opened
+    private void ZoomValueSelected()
+    {
+        IsZoomValueSelected = true;
     }
 
     //Method for add the rectangle for the text redaction
@@ -698,7 +719,7 @@ Various types of redactions are demonstrated: </p>
         StateHasChanged();
         await ResetMode();
         //Set the mode for the Redaction rectangle with white color annotation
-        await Viewer.SetAnnotationModeAsync(AnnotationType.Rectangle);
+        await PdfViewerInstance.SetAnnotationModeAsync(AnnotationType.Rectangle);
     }
     //Method for the Add the Image redaction
     private async Task AddStamp()
@@ -712,7 +733,7 @@ Various types of redactions are demonstrated: </p>
         StateHasChanged();
         await ResetMode();
         //Set the mode for the stamp annotation annotation
-        await Viewer.SetAnnotationModeAsync(AnnotationType.Stamp);
+        await PdfViewerInstance.SetAnnotationModeAsync(AnnotationType.Stamp);
     }
     //Method for the Add the pattern redaction
     private async Task AddPattern()
@@ -726,7 +747,7 @@ Various types of redactions are demonstrated: </p>
         StateHasChanged();
         await ResetMode();
         //Set the mode for the redaction rectangle with black color annotation
-        await Viewer.SetAnnotationModeAsync(AnnotationType.Rectangle);
+        await PdfViewerInstance.SetAnnotationModeAsync(AnnotationType.Rectangle);
     }
     //Method for the Add the Redaction rectangle with out the color Annotation
     private async Task AddBlackOut()
@@ -740,7 +761,7 @@ Various types of redactions are demonstrated: </p>
         StateHasChanged();
         await ResetMode();
         //Set the mode for the redaction rectangle with black color annotation
-        await Viewer.SetAnnotationModeAsync(AnnotationType.Rectangle);
+        await PdfViewerInstance.SetAnnotationModeAsync(AnnotationType.Rectangle);
     }
     //Method for the Add the redaction rectangle with color Annotation
     private async Task AddWhiteOut()
@@ -754,19 +775,19 @@ Various types of redactions are demonstrated: </p>
         StateHasChanged();
         await ResetMode();
         //Set the mode for the REdaction rectangle with white color annotation
-        await Viewer.SetAnnotationModeAsync(AnnotationType.Rectangle);
+        await PdfViewerInstance.SetAnnotationModeAsync(AnnotationType.Rectangle);
     }
     //Method for reset the annotation mode
     private async Task ResetMode()
     {
         //Set the mode for the none
-        await Viewer.SetAnnotationModeAsync(AnnotationType.None);
+        await PdfViewerInstance.SetAnnotationModeAsync(AnnotationType.None);
     }
     //Method for update the page number 
     private void DocumentLoaded(LoadEventArgs args)
     {
-        TotalPageNumber = Viewer.PageCount;
-        CurrentPageNumber = Viewer.CurrentPageNumber;
+        TotalPageNumber = PdfViewerInstance.PageCount;
+        CurrentPageNumber = PdfViewerInstance.CurrentPageNumber;
         ZoomValue = "100%";
         IsPreviousPageExist = true;
         IsNextPageExist = false;
@@ -775,7 +796,7 @@ Various types of redactions are demonstrated: </p>
     private  async Task OnAddAnnotation(AnnotationAddEventArgs args)
     {
         List<Syncfusion.Blazor.SfPdfViewer.PdfAnnotation> pdfAnnotationList = new List<Syncfusion.Blazor.SfPdfViewer.PdfAnnotation>();
-        pdfAnnotationList = await Viewer.GetAnnotationsAsync();
+        pdfAnnotationList = await PdfViewerInstance.GetAnnotationsAsync();
         int selectedAnnotationIndex = pdfAnnotationList.FindIndex(item => item.Id == args.AnnotationId);
         if(selectedAnnotationIndex != -1)
         {
@@ -799,7 +820,7 @@ Various types of redactions are demonstrated: </p>
     {
         List<Syncfusion.Blazor.SfPdfViewer.PdfAnnotation> pdfAnnotationList = new List<Syncfusion.Blazor.SfPdfViewer.PdfAnnotation>();
         //Get the details about the annotations in the pdf viewer
-        pdfAnnotationList = await Viewer.GetAnnotationsAsync();
+        pdfAnnotationList = await PdfViewerInstance.GetAnnotationsAsync();
         int selectedAnnotationIndex = pdfAnnotationList.FindIndex(item => item.Id == annotationSelectEventArgs.AnnotationId);
         if (selectedAnnotationIndex != -1)
         {
@@ -832,7 +853,7 @@ Various types of redactions are demonstrated: </p>
     {
         RedactionCount = 0;
         string docBase64 = args.FileData.RawFile.ToString();
-        await Viewer.LoadAsync(docBase64, null);
+        await PdfViewerInstance.LoadAsync(docBase64, null);
         await uploadFiles.ClearAllAsync();
         byte[] byteArray = Convert.FromBase64String(docBase64.Replace("data:application/pdf;base64,", ""));
         PdfLoadedDocument loadedDocument = new PdfLoadedDocument(byteArray);
@@ -918,7 +939,7 @@ Various types of redactions are demonstrated: </p>
 
     }
     //Method for load the custom image
-    private async Task ImageChane(UploadChangeEventArgs action)
+    private async Task ImageChange(UploadChangeEventArgs action)
     {
         IsImageSelected = false;
         string base64 = action.Files[0].File.ToString();

@@ -1,13 +1,9 @@
 ﻿@page "/rich-text-editor/overview"
 @using Syncfusion.Blazor.RichTextEditor
-@using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.DropDowns
-@inject IJSRuntime JS
+
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -59,7 +55,7 @@
                     </div>
                 </ItemTemplate>
                 <DisplayTemplate>
-                    <a href=mailto:@((context as PersonData).Email) title=@((context as PersonData).Email)> @((context as PersonData).Name)</a>
+                    <a href=mailto:@((context as PersonData).Email) title=@((context as PersonData).Email)> @@@((context as PersonData).Name)</a>
                 </DisplayTemplate>
                 <ChildContent>
                     <MentionFieldSettings Text="Name"></MentionFieldSettings>
@@ -157,6 +153,7 @@
     .bootstrap5\.3-dark .cm-s-default .cm-tag,
     .material-dark .cm-s-default .cm-tag,
     .tailwind-dark .cm-s-default .cm-tag,
+    .tailwind3-dark .cm-s-default .cm-tag,
     .highcontrast .cm-s-default .cm-tag {
         color: #00ff00;
     }
@@ -165,7 +162,8 @@
     .bootstrap5-dark .cm-s-default .cm-string,
     .bootstrap5\.3-dark .cm-s-default .cm-string,
     .material-dark .cm-s-default .cm-string,
-    .tailwind-dark .cm-s-default .cm-string {
+    .tailwind-dark .cm-s-default .cm-string,
+    .tailwind3-dark .cm-s-default .cm-string {
         color: blue;
     }
 
@@ -178,6 +176,7 @@
     .bootstrap5\.3-dark .cm-s-default .cm-attribute,
     .material-dark .cm-s-default .cm-attribute,
     .tailwind-dark .cm-s-default .cm-attribute,
+    .tailwind3-dark .cm-s-default .cm-attribute,
     .highcontrast .cm-s-default .cm-attribute {
         color: #f00;
     }
@@ -186,7 +185,8 @@
     .bootstrap5-dark .CodeMirror,
     .bootstrap5\.3-dark .CodeMirror,
     .material-dark .CodeMirror,
-    .tailwind-dark .CodeMirror {
+    .tailwind-dark .CodeMirror,
+    .tailwind3-dark .CodeMirror {
      background: #303030;
     }
 
@@ -204,9 +204,10 @@
     .bootstrap5\.3-dark .e-richtexteditor .e-rte-content .e-content pre,
     .material-dark .e-richtexteditor .e-rte-content .e-content pre,
     .tailwind-dark .e-richtexteditor .e-rte-content .e-content pre,
+    .tailwind3-dark .e-richtexteditor .e-rte-content .e-content pre,
     .highcontrast .e-richtexteditor .e-rte-content .e-content pre,
     .fluent-dark .e-richtexteditor .e-rte-content .e-content pre,
-    .material3-dark .e-richtexteditor .e-rte-content .e-content pre,
+    .material3-dark .e-richtexteditor .e-rte-content .e-content pre
     {
         padding: 10px;
         background: #303030;
@@ -218,23 +219,18 @@
             text-decoration: underline;
         }
 
-            a[href^="javascript:"]:after, a[href^="#"]:after {
-                content: "";
-            }
+        a[href^="javascript:"]:after, a[href^="#"]:after {
+            content: "";
+        }
 
-            a[href]:after {
-                content: "";
-            }
-    }
-
-    .sb-content div#navigation-btn,
-    .sb-content .sb-toolbar-splitter {
-        z-index: 0
+        a[href]:after {
+            content: "";
+        }
     }
 </style>
 
 @code {
-    SfRichTextEditor EditorRef;
+    private SfRichTextEditor EditorRef;
     private string SaveURL = "http://localhost:63028/api/RichTextEditor/SaveFile";
     private string Path = "http://localhost:63028/RichTextEditor/";
     private string PlaceHolderText = "Type something or use @ to tag a user...";
@@ -305,20 +301,22 @@
         public string Color { get; set; }
         public string BgColor { get; set; }
     }
-    List<PersonData> EmailData = new List<PersonData> {
-        new PersonData() { Name= "Selma Rose", Initial= "SR", Email= "selma@gmail.com", Color= "#FAFDFF", BgColor= "#01579B" },
-        new PersonData() { Name= "Maria", Initial= "MA", Email= "maria@gmail.com", Color= "#004378", BgColor= "#ADDBFF" },
-        new PersonData() { Name= "Russo Kay", Initial= "RK", Email= "russo@gmail.com", Color= "#F9DEDC", BgColor= "#8C1D18" },
-        new PersonData() { Name= "Robert", Initial= "RO", Email= "robert@gmail.com", Color= "#FFD6F7", BgColor= "#37003A" },
-        new PersonData() { Name= "Camden Kate", Initial= "CK", Email= "camden@gmail.com", Color= "#FFFFFF", BgColor= "#464ECF" },
-        new PersonData() { Name= "Garth", Initial= "GA", Email= "garth@gmail.com", Color= "#FFFFFF", BgColor= "#008861" },
-        new PersonData() { Name= "Andrew James", Initial= "AJ", Email= "james@gmail.com", Color= "#FFFFFF", BgColor= "#53CA17" },
-        new PersonData() { Name= "Olivia", Initial= "OL", Email= "olivia@gmail.com", Color= "#FFFFFF", BgColor= "#8C1D18" },
-        new PersonData() { Name= "Sophia", Initial= "SO", Email= "sophia@gmail.com", Color= "#000000", BgColor= "#D0BCFF" },
-        new PersonData() { Name= "Margaret", Initial= "MA", Email= "margaret@gmail.com", Color= "#000000", BgColor= "#F2B8B5" },
-        new PersonData() { Name= "Ursula Ann", Initial= "UA", Email= "ursula@gmail.com", Color= "#000000", BgColor= "#47ACFB" },
-        new PersonData() { Name= "Laura Grace", Initial= "LG", Email= "laura@gmail.com", Color= "#000000", BgColor= "#FFE088" },
-        new PersonData() { Name= "Albert", Initial= "AL", Email= "albert@gmail.com", Color= "#FFFFFF", BgColor= "#00335B" },
-        new PersonData() { Name= "William", Initial= "WA", Email= "william@gmail.com", Color= "#FFFFFF", BgColor= "#163E02" }
+
+    private List<PersonData> EmailData = new List<PersonData>
+    {
+        new PersonData() { Name = "Selma Rose", Initial = "SR", Email = "selma@gmail.com", Color = "#FAFDFF", BgColor = "#01579B" },
+        new PersonData() { Name = "Maria", Initial = "MA", Email = "maria@gmail.com", Color = "#004378", BgColor = "#ADDBFF" },
+        new PersonData() { Name = "Russo Kay", Initial = "RK", Email = "russo@gmail.com", Color = "#F9DEDC", BgColor = "#8C1D18" },
+        new PersonData() { Name = "Robert", Initial = "RO", Email = "robert@gmail.com", Color = "#FFD6F7", BgColor = "#37003A" },
+        new PersonData() { Name = "Camden Kate", Initial = "CK", Email = "camden@gmail.com", Color = "#FFFFFF", BgColor = "#464ECF" },
+        new PersonData() { Name = "Garth", Initial = "GA", Email = "garth@gmail.com", Color = "#FFFFFF", BgColor = "#008861" },
+        new PersonData() { Name = "Andrew James", Initial = "AJ", Email = "james@gmail.com", Color = "#FFFFFF", BgColor = "#53CA17" },
+        new PersonData() { Name = "Olivia", Initial = "OL", Email = "olivia@gmail.com", Color = "#FFFFFF", BgColor = "#8C1D18" },
+        new PersonData() { Name = "Sophia", Initial = "SO", Email = "sophia@gmail.com", Color = "#000000", BgColor = "#D0BCFF" },
+        new PersonData() { Name = "Margaret", Initial = "MA", Email = "margaret@gmail.com", Color = "#000000", BgColor = "#F2B8B5" },
+        new PersonData() { Name = "Ursula Ann", Initial = "UA", Email = "ursula@gmail.com", Color = "#000000", BgColor = "#47ACFB" },
+        new PersonData() { Name = "Laura Grace", Initial = "LG", Email = "laura@gmail.com", Color = "#000000", BgColor = "#FFE088" },
+        new PersonData() { Name = "Albert", Initial = "AL", Email = "albert@gmail.com", Color = "#FFFFFF", BgColor = "#00335B" },
+        new PersonData() { Name = "William", Initial = "WA", Email = "william@gmail.com", Color = "#FFFFFF", BgColor = "#163E02" }
     };
 }

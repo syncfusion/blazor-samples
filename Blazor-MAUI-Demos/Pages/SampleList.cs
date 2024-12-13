@@ -27,7 +27,7 @@ namespace Blazor_MAUI_Demos
                 Name = "Pivot Table",
                 Category = "Grids",
                 Directory = "PivotView/PivotTable",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 Samples = PivotTable,
                 ControllerName = "PivotTable",
                 DemoPath = "pivot-table/default-functionalities"
@@ -234,24 +234,23 @@ namespace Blazor_MAUI_Demos
                 DemoPath = "image-editor/default-functionalities",
                 ComponentIconName = "image_editor"
             });
-            SampleBrowser.SampleList.Add(new SampleList
-            {
-                Name = "Word Processor",
-                Category = "File Viewers & Editors",
-                Directory = "DocumentEditor/DocumentEditor",
-                Samples = DocumentEditor,
-                Type = SampleType.Updated,
-                ControllerName = "DocumentEditor",
-                CustomDocLink = "document-editor/getting-started/features",
-                DemoPath = "document-editor/default-functionalities",
-            });
+            //SampleBrowser.SampleList.Add(new SampleList
+            //{
+            //    Name = "Word Processor",
+            //    Category = "File Viewers & Editors",
+            //    Directory = "DocumentEditor/DocumentEditor",
+            //    Samples = DocumentEditor,
+            //    Type = SampleType.Updated,
+            //    ControllerName = "DocumentEditor",
+            //    CustomDocLink = "document-editor/getting-started/features",
+            //    DemoPath = "document-editor/default-functionalities",
+            //});
             SampleBrowser.SampleList.Add(new SampleList
             {
                 Name = "PDF Viewer (NextGen)",
                 Category = "File Viewers & Editors",
                 Directory = "Viewer2/PdfViewer2",
                 Samples = PDFViewer2,
-                Type = SampleType.Updated,
                 ControllerName = "PdfViewer2",
                 CustomDocLink = "pdfviewer-2/getting-started",
                 DemoPath = "pdf-viewer-2/default-functionalities",

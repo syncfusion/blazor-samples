@@ -1,26 +1,22 @@
 ﻿@page "/pivot-table/heatmap"
 
 @using Syncfusion.Blazor.PivotView
-@using System.Diagnostics
-@using BlazorDemos
+
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
     <p>In this sample, we show you how to visualize the bound data by making the pivot table cells look like a heatmap.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>The Pivot Table provides custom styles for each cell's display using the cell template. Using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewTemplates.html#Syncfusion_Blazor_PivotView_PivotViewTemplates_CellTemplate' aria-label="Class reference of CellTemplate property in PivotView"> CellTemplate </a> tag in this sample, we are representing the product-specific monthly sales revenue of the goods sold by an online retailer in a year in the form of a heatmap-like appearance. Each pivot table cell was customized by calculating the lowest and highest values via the  <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_EnginePopulated' aria-label="Class reference of EnginePopulated event in PivotView"> EnginePopulated </a> event and applying a color scheme based on their range.</p>
-    <p>More information on the cell template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/row-and-column/#cell-template' aria-label="Blazor PivotTable CellTemplate documentation" >documentation section</a>.</p>
+    <p>The Pivot Table provides custom styles for each cell's display using the cell template. Using the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewTemplates.html#Syncfusion_Blazor_PivotView_PivotViewTemplates_CellTemplate" aria-label="Class reference of CellTemplate property in PivotView"> CellTemplate </a> tag in this sample, we are representing the product-specific monthly sales revenue of the goods sold by an online retailer in a year in the form of a heatmap-like appearance. Each pivot table cell was customized by calculating the lowest and highest values via the  <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_EnginePopulated" aria-label="Class reference of EnginePopulated event in PivotView"> EnginePopulated </a> event and applying a color scheme based on their range.</p>
+    <p>More information on the cell template can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/row-and-column/#cell-template" aria-label="Blazor PivotTable CellTemplate documentation" >documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section">
     <div class="content-wrapper">
-        <SfPivotView @ref="@pivot" TValue="ProductSales" Width="100%" Height="500" ShowTooltip=false>
+        <SfPivotView @ref="@_pivotref" TValue="ProductSales" Width="100%" Height="500" ShowTooltip=false>
             <PivotViewTemplates>
                 <CellTemplate>
                     @{
@@ -31,7 +27,7 @@
                             {
                                 if (!data.IsGrandSum)
                                 {
-                                    pivot.PivotValues[data.RowIndex][data.ColIndex].CssClass = CellColour(data.Value);
+                                    _pivotref.PivotValues[data.RowIndex][data.ColIndex].CssClass = CellColour(data.Value);
                                     data.FormattedText = ConvertValue(data.Value);
                                 }
                                 @data.FormattedText
@@ -44,14 +40,13 @@
                     }
                 </CellTemplate>
             </PivotViewTemplates>
-            <PivotViewDataSourceSettings TValue="ProductSales" DataSource="data" ShowColumnSubTotals="false">
+            <PivotViewDataSourceSettings TValue="ProductSales" DataSource="_pivotDataSource" ShowColumnSubTotals="false">
                 <PivotViewColumns>
                     <PivotViewColumn Name="ProductType" ExpandAll="true"></PivotViewColumn>
                     <PivotViewColumn Name="Product"></PivotViewColumn>
                 </PivotViewColumns>
                 <PivotViewRows>
                     <PivotViewRow Name="Year"></PivotViewRow>
-
                 </PivotViewRows>
                 <PivotViewValues>
                     <PivotViewValue Name="SoldAmount" Caption="Sold Amount"></PivotViewValue>
@@ -204,17 +199,14 @@
 </style>
 
 @code {
-    
-    private SfPivotView<ProductSales> pivot;
-    private List<ProductSales> data;
-    private Stopwatch stopWatch = new Stopwatch();
-    private List<string> colourScheme = new List<string> { "range1", "range2", "range3", "range4", "range5", "range6", "range7", "range8", "range9", "range10", "range11", "range12", "range13", "range14" };
-    private double? maxValue = 0;
-    private double? minValue = 0;
+    private SfPivotView<ProductSales> _pivotref;
+    private List<ProductSales> _pivotDataSource;
+    private List<string> _colourScheme = new List<string> { "range1", "range2", "range3", "range4", "range5", "range6", "range7", "range8", "range9", "range10", "range11", "range12", "range13", "range14" };
+    private double? _maxValue = 0;
+    private double? _minValue = 0;
     protected override void OnInitialized()
     {
-        
-        data = ProductSales.GetSalesData;
+        _pivotDataSource = ProductSales.GetSalesData;
     }
     private string ConvertValue(double? value)
     {
@@ -224,11 +216,11 @@
     }
     private string CellColour(double? value)
     {
-        double? percentage = (maxValue - minValue) / colourScheme.Count;
-        decimal actualValue = Convert.ToDecimal((value - minValue) / percentage);
+        double? percentage = (_maxValue - _minValue) / _colourScheme.Count;
+        decimal actualValue = Convert.ToDecimal((value - _minValue) / percentage);
         int colourIndex = Convert.ToInt32(Math.Round(actualValue));
-        colourIndex = colourIndex > colourScheme.Count - 1 ? colourScheme.Count - 1 : colourIndex;
-        return colourScheme[colourIndex];
+        colourIndex = colourIndex > _colourScheme.Count - 1 ? _colourScheme.Count - 1 : colourIndex;
+        return _colourScheme[colourIndex];
     }
     private void EnginePopulated(EnginePopulatedEventArgs args)
     {
@@ -241,13 +233,13 @@
                     var cellData = args.PivotValues[i][j];
                     if (cellData.Axis == "value" && !cellData.IsGrandSum)
                     {
-                        minValue = (minValue < cellData.Value && minValue != 0) ? minValue : cellData.Value;
-                        maxValue = (maxValue > cellData.Value) ? maxValue : cellData.Value;
+                        _minValue = (_minValue < cellData.Value && _minValue != 0) ? _minValue : cellData.Value;
+                        _maxValue = (_maxValue > cellData.Value) ? _maxValue : cellData.Value;
                     }
                 }
             }
         }
-        minValue = minValue - 1000;
-        maxValue = maxValue + 1000;
+        _minValue = _minValue - 1000;
+        _maxValue = _maxValue + 1000;
     }
 }

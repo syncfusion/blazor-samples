@@ -1,0 +1,234 @@
+﻿@page "/chat-ui/api"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the properties available in the Chat UI component, showcasing how various features can be customized through the property pane. It highlights the flexibility of the component, allowing users to adjust timestamps, headers, footers, time breaks, and more.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this sample, the following APIs and properties are demonstrated for customization:</p>
+    <ul>
+        <li><code>TimestampFormat</code>: Allows users to change the timestamp format by selecting an option from the property pane.</li>
+        <li><code>ShowTimestamp</code>: Controls whether the timestamp is displayed in the chat, toggled via the property pane <code>ShowTimestamp</code> property.</li>
+        <li><code>ShowTimeBreak</code>: Enables or disables the display of time breaks in the chat interface.</li>
+        <li><code>ShowHeader</code>: Lets users toggle the visibility of the chat header.</li>
+        <li><code>ShowFooter</code>: Toggles the visibility of the chat footer.</li>
+        <li><code>TypingUsers</code>: Allows users to manage the list of users who are typing, updated through the multi-select options in the property pane.</li>
+    </ul>
+    <p>
+        These properties can be adjusted via the property pane for a highly flexible and customizable chat experience.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="api-chatui">
+        <SfChatUI ID="chatui" @ref="ApiChatUI"
+            User="CurrentUser"
+            Messages="apiChatMessages"
+            ShowTimeBreak="ShowTimebreak"
+            ShowFooter="ShowFooter"
+            ShowHeader="ShowHeader"
+            ShowTimestamp="ShowTimestamp"
+            AutoScrollToBottom="AutoScrollToBottom"
+            TimestampFormat="@TimestampFormat"
+            HeaderIconCss="chat_header_icon"
+            HeaderText="Design Community">
+        </SfChatUI>
+    </div>
+</div>
+
+<div class="col-lg-4 property-section chat-property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" title="Properties">
+                <tbody>
+                    <tr>
+                        <td>
+                            <div>Timestamp format</div>
+                        </td>
+                        <td style="padding-left: 20px">
+                            <div>
+                                <SfDropDownList Placeholder="Format" Width="180px" TValue="string" TItem="TimeStampFormatValue" DataSource="@TimeStampFormatValueList" Value="TimestampFormat">
+                                    <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="string" TItem="TimeStampFormatValue" ValueChange="UpdateTimestamplFormat"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>Show timestamp</div>
+                        </td>
+                        <td style="padding-left: 20px">
+                            <div style="padding-left: 0;padding-top: 0">
+                                <SfSwitch id="chatTimestamp" Checked="@ShowTimestamp" TChecked="bool?" ValueChange="@(args => ValueChanged(args, "ShowTimestamp"))" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>Show timebreak</div>
+                        </td>
+                        <td style="padding-left: 20px">
+                            <div style="padding-left: 0;padding-top: 0">
+                                <SfSwitch id="chatTimebreak" Checked="@ShowTimebreak" TChecked="bool?" ValueChange="@(args => ValueChanged(args, "ShowTimebreak"))" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>Show header</div>
+                        </td>
+                        <td style="padding-left: 20px">
+                            <div style="padding-left: 0;padding-top: 0">
+                                <SfSwitch id="chatHeader" Checked="@ShowHeader" TChecked="bool?" ValueChange="@(args => ValueChanged(args, "ShowHeader"))" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>Show footer</div>
+                        </td>
+                        <td style="padding-left: 20px">
+                            <div style="padding-left: 0;padding-top: 0">
+                                <SfSwitch id="chatFooter" Checked="@ShowFooter" TChecked="bool?" ValueChange="@(args => ValueChanged(args, "ShowFooter"))" />
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div>Typing users</div>
+                        </td>
+                        <td style="padding-left: 20px">
+                            <div style="padding-left: 0;padding-top: 0">
+                                <SfMultiSelect TValue="string" TItem="UserValue" DataSource="@UsersList" Placeholder="Typing users...">
+                                    <MultiSelectFieldSettings Text="Value" Value="Value"></MultiSelectFieldSettings>
+                                    <MultiSelectEvents TValue="string" TItem="UserValue" OnValueSelect="@OnTypingUserSelected" OnValueRemove="@OnTypingUserRemoved"></MultiSelectEvents>
+                                </SfMultiSelect>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .api-chatui {
+        height: 500px;
+        width: 60%;
+        margin: 0 auto;
+    }
+
+    .api-chatui .e-header-icon.chat_header_icon {
+        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/public-event.png"));
+        background-color: unset;
+    }
+
+    .chat-property-section .property-panel-content td {
+        padding: 10px 0px;
+    }
+
+    .chat-property-section .e-multiselect,
+    .chat-property-section .e-multi-select-wrapper {
+        padding-left: 0;
+        padding-top: 0;
+    }
+
+    @@media only screen and (max-width: 850px) {
+        .api-chatui {
+            width: 80%;
+        }
+    }
+</style>
+
+
+@code {
+    private SfChatUI ApiChatUI = new SfChatUI();
+    private UserModel CurrentUser = new ChatMessagesData().GetSpecificUser("admin", "Alice", null, null);
+    private string TimestampFormat = "MM/dd hh:mm tt";
+    private bool ShowTimestamp = true;
+    private bool ShowTimebreak = true;
+    private bool ShowHeader = true;
+    private bool ShowFooter = true;
+    private bool AutoScrollToBottom = false;
+    private List<ChatMessage> apiChatMessages = new ChatMessagesData().GetApiChatMessages();
+    private void ValueChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args, string PropertyName)
+    {
+        switch (PropertyName)
+        {
+            case "ShowTimestamp":
+                ShowTimestamp = args.Checked ?? false;
+                break;
+            case "ShowTimebreak":
+                ShowTimebreak = args.Checked ?? false;
+                break;
+            case "ShowHeader":
+                ShowHeader = args.Checked ?? false;
+                break;
+            case "ShowFooter":
+                ShowFooter = args.Checked ?? false;
+                break;
+            case "AutoScrollToBottom":
+                AutoScrollToBottom = args.Checked ?? false;
+                break;
+        }
+    }
+
+    public class UserValue
+    {
+        public string Value { get; set; }
+    }
+
+    public class TimeStampFormatValue: UserValue { }
+
+    private List<TimeStampFormatValue> TimeStampFormatValueList = new List<TimeStampFormatValue>
+    {
+        new TimeStampFormatValue() { Value="MM/dd hh:mm tt" },
+        new TimeStampFormatValue() { Value="dd/MM/yy hh:mm tt" },
+        new TimeStampFormatValue() { Value="hh:mm tt" },
+        new TimeStampFormatValue() { Value="MMMM hh:mm tt" }
+    };
+
+    private List<UserValue> UsersList = new List<UserValue>
+    {
+        new UserValue() { Value="Michale" },
+        new UserValue() { Value="Laura" },
+        new UserValue() { Value="Charlie" }
+    };
+    private List<string> selectingUsers = new List<string> { "Laura", "Charlie" };
+    private void OnTypingUserSelected(SelectEventArgs<UserValue> args)
+    {
+        UserModel user = new UserModel()
+        {
+            User = args.ItemData.Value,
+            AvatarBgColor = "#bacbe4"
+        };
+        if (selectingUsers.Contains(args.ItemData.Value)) {
+            user.AvatarBgColor = args.ItemData.Value == "Charlie" ? "#e6cdde" : "#dec287";
+            user.AvatarUrl = $"{SampleService.WebAssetsPath}images/chat-ui/{args.ItemData.Value.ToLower()}.png";
+        }
+        ApiChatUI.TypingUsers.Add(user);
+    }
+    private void UpdateTimestamplFormat(ChangeEventArgs<string, TimeStampFormatValue> args)
+    {
+        TimestampFormat = args.Value;
+    }
+    private void OnTypingUserRemoved(RemoveEventArgs<UserValue> args)
+    {
+        ApiChatUI.TypingUsers = ApiChatUI.TypingUsers.Where(user => user.User != args.ItemData.Value).ToList();
+    }
+}

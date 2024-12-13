@@ -5,9 +5,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -16,13 +13,13 @@
     </p>
 </SampleDescription>
 <ActionDescription>
-    <p>In the demo, <code>ItemTemplate</code> property is used to render <code>Menu</code> component as Breadcrumb items. 
+    <p>In the demo, the <code>ItemTemplate</code> property is used to render the <code>Menu</code> component as Breadcrumb items.
         Click the right arrow icon to view and navigate to the next level items.
     </p>
-    <p><b>See also</b></p>
+    <p><b>See also:</b></p>
     <ul>
-       <li><a href='https://blazor.syncfusion.com/documentation/breadcrumb/getting-started/' target='_blank' aria-label="Getting started with Blazor Breadcrumb">Getting started with Blazor Breadcrumb</a></li>
-       <li><a href='https://blazor.syncfusion.com/documentation/breadcrumb/templates' target='_blank' aria-label="Blazor Breadcrumb - Template">Blazor Breadcrumb - Template</a></li>
+        <li><a href="https://blazor.syncfusion.com/documentation/breadcrumb/getting-started/" target="_blank" aria-label="Getting started with Blazor Breadcrumb">Getting started with Blazor Breadcrumb</a></li>
+        <li><a href="https://blazor.syncfusion.com/documentation/breadcrumb/templates" target="_blank" aria-label="Blazor Breadcrumb - Template">Blazor Breadcrumb - Template</a></li>
     </ul>
 </ActionDescription>
 
@@ -31,14 +28,14 @@
         <div class="row material2">
             <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                 <h5 style="display: inline-block">File Manager like Breadcrumb</h5>
-                <SfButton class="e-small reset-btn" @onclick="ResetBtnClickHandler">Reset State</SfButton>
+                <SfButton class="e-small reset-btn" @onclick="ResetState  ">Reset State</SfButton>
             </div>
         </div>
         <div class="row material2">
             <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12">
                 <SfBreadcrumb class="e-custom-breadcrumb">
                     <BreadcrumbItems>
-                        @foreach (var item in breadcrumbItems)
+                        @foreach (var item in BreadcrumbItemList )
                         {
                             <BreadcrumbItem IconCss="@item.IconCss" Text="@item.Text"></BreadcrumbItem>
                         }
@@ -61,7 +58,7 @@
                             <div style="display: flex;">
                                 @{if (context.PreviousItem.Text != "LastItem")
                                     {
-                                        var items = getItems(@context.PreviousItem.Text, false);
+                                        var items = GetAddressBarItems (@context.PreviousItem.Text, false);
                                         if (items != null && items.Count > 0)
                                         {
                                             <SfMenu TValue="MenuItem" ShowItemOnClick="true">
@@ -75,7 +72,7 @@
                                                         </MenuItems>
                                                     </MenuItem>
                                                 </MenuItems>
-                                                <MenuEvents TValue="MenuItem" ItemSelected="@((MenuEventArgs<MenuItem> args) => { SubMenuItemSelected(args, context.PreviousItem.Text); })"></MenuEvents>
+                                                <MenuEvents TValue="MenuItem" ItemSelected="@((MenuEventArgs<MenuItem> args) => { OnSubMenuItemSelected (args, context.PreviousItem.Text); })"></MenuEvents>
                                             </SfMenu>
                                         }
                                     }
@@ -91,7 +88,7 @@
 
 @code {
     
-    private List<BreadcrumbItemModel> breadcrumbItems = new List<BreadcrumbItemModel>() {
+    public List<BreadcrumbItemModel> BreadcrumbItemList  = new List<BreadcrumbItemModel>() {
         new BreadcrumbItemModel { IconCss = "e-bicons e-picture" },
         new BreadcrumbItemModel { Text = "This PC" },
         new BreadcrumbItemModel { Text = "Local Disk (C:)" },
@@ -102,74 +99,74 @@
 
     private void MenuItemSelected(MenuEventArgs<MenuItem> args)
     {
-        for (var i = 0; i < breadcrumbItems.Count; i++)
+        for (var i = 0; i < BreadcrumbItemList .Count; i++)
         {
-            if (breadcrumbItems[i].Text == args.Item.Text)
+            if (BreadcrumbItemList [i].Text == args.Item.Text)
             {
-                breadcrumbItems = breadcrumbItems.GetRange(0, i + 1);
-                breadcrumbItems[0].IconCss = "e-bicons e-" + getItems(args.Item.Text, true)[0].Type;
+                BreadcrumbItemList  = BreadcrumbItemList .GetRange(0, i + 1);
+                BreadcrumbItemList [0].IconCss = "e-bicons e-" + GetAddressBarItems (args.Item.Text, true)[0].Type;
                 break;
             }
         }
-        breadcrumbItems.Add(new BreadcrumbItemModel { Text = "LastItem" });
+        BreadcrumbItemList .Add(new BreadcrumbItemModel { Text = "LastItem" });
     }
 
-    private void SubMenuItemSelected(MenuEventArgs<MenuItem> args, string text)
+    private void OnSubMenuItemSelected (MenuEventArgs<MenuItem> args, string text)
     {
-        if (args.Item.Text != "")
+        if (!string.IsNullOrEmpty(args.Item.Text))
         {
-            List<AddressBarItemModel> mItems = getItems(text, false);
-            List<BreadcrumbItemModel> bItems = breadcrumbItems;
-            for (var i = 0; i < mItems.Count; i++)
+            List<AddressBarItemModel> subItems   = GetAddressBarItems (text, false);
+            List<BreadcrumbItemModel> selectedItems    = BreadcrumbItemList ;
+            for (var i = 0; i < subItems  .Count; i++)
             {
-                for (var j = 0; j < breadcrumbItems.Count; j++)
+                for (var j = 0; j < BreadcrumbItemList .Count; j++)
                 {
-                    if (mItems[i].Text == breadcrumbItems[j].Text)
+                    if (subItems  [i].Text == BreadcrumbItemList [j].Text)
                     {
-                        bItems = breadcrumbItems.GetRange(0, j);
+                        selectedItems    = BreadcrumbItemList .GetRange(0, j);
                     }
                 }
             }
-            bItems[0].IconCss = "e-bicons e-" + args.Item.Id;
-            bItems.Add(new BreadcrumbItemModel { Text = args.Item.Text });
-            bItems.Add(new BreadcrumbItemModel { Text = "LastItem" });
-            breadcrumbItems = bItems;
+            selectedItems   [0].IconCss = "e-bicons e-" + args.Item.Id;
+            selectedItems   .Add(new BreadcrumbItemModel { Text = args.Item.Text });
+            selectedItems   .Add(new BreadcrumbItemModel { Text = "LastItem" });
+            BreadcrumbItemList  = selectedItems   ;
         }
     }
 
-    private List<AddressBarItemModel> getItems(string text, bool needParent)
+    private List<AddressBarItemModel> GetAddressBarItems (string text, bool needParent)
     {
-        List<AddressBarItemModel> mItems = items;
+        List<AddressBarItemModel> subItems   = AddressBarItems;
         bool isBreaked = false;
         if (text == null)
         {
-            mItems = getSubMenuItems(mItems);
+            subItems   = GetSubMenuItems  (subItems  );
         }
         else
         {
-            for (var i = 1; i < breadcrumbItems.Count; i++)
+            for (var i = 1; i < BreadcrumbItemList .Count; i++)
             {
-                for (var j = 0; j < mItems.Count; j++)
+                for (var j = 0; j < subItems  .Count; j++)
                 {
-                    if (mItems[j].Text == breadcrumbItems[i].Text)
+                    if (subItems  [j].Text == BreadcrumbItemList [i].Text)
                     {
-                        if (mItems[j].Text == text)
+                        if (subItems  [j].Text == text)
                         {
                             if (needParent)
                             {
-                                mItems = new List<AddressBarItemModel>() { mItems[j] };
+                                subItems   = new List<AddressBarItemModel>() { subItems  [j] };
                             }
                             else
                             {
-                                mItems = getSubMenuItems(mItems[j].Items);
+                                subItems   = GetSubMenuItems  (subItems  [j].Items);
                             }
                             isBreaked = true;
                         }
                         else
                         {
-                            mItems = mItems[j].Items;
+                            subItems   = subItems  [j].Items;
                             j = 0;
-                            if (mItems == null)
+                            if (subItems   == null)
                             {
                                 isBreaked = true;
                             }
@@ -183,24 +180,24 @@
                 }
             }
         }
-        return (mItems == items ? null : mItems);
+        return (subItems   == AddressBarItems ? null : subItems  );
     }
 
-    private List<AddressBarItemModel> getSubMenuItems(List<AddressBarItemModel> mItems)
+    private List<AddressBarItemModel> GetSubMenuItems  (List<AddressBarItemModel> parentSubItems  )
     {
         List<AddressBarItemModel> subItems = new List<AddressBarItemModel>();
-        if (mItems != null)
+        if (parentSubItems   != null)
         {
-            for (var i = 0; i < mItems.Count; i++)
+            for (var i = 0; i < parentSubItems  .Count; i++)
             {
-                subItems.Add(new AddressBarItemModel { Text = mItems[i].Text, Type = mItems[i].Type });
+                subItems.Add(new AddressBarItemModel { Text = parentSubItems  [i].Text, Type = parentSubItems  [i].Type });
             }
         }
         return subItems;
     }
 
 
-    List<AddressBarItemModel> items = new List<AddressBarItemModel>() {
+    public List<AddressBarItemModel> AddressBarItems { get; set; } = new List<AddressBarItemModel>() {
         new AddressBarItemModel {
             Text = "OneDrive", Type = "onedrive",
             Items = new List<AddressBarItemModel>() {
@@ -292,9 +289,9 @@
     };
 
     // To refresh the Breadcrumb control state when reset button clicked
-    private void ResetBtnClickHandler()
+    private void ResetState  ()
     {
-        breadcrumbItems = new List<BreadcrumbItemModel>() {
+        BreadcrumbItemList  = new List<BreadcrumbItemModel>() {
         new BreadcrumbItemModel { IconCss = "e-bicons e-picture" },
         new BreadcrumbItemModel { Text = "This PC" },
         new BreadcrumbItemModel { Text = "Local Disk (C:)" },

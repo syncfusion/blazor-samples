@@ -57,10 +57,8 @@ namespace Blazor_MAUI_Demos
                 Category = "Getting Started",
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/connectors",
-                Type = SampleType.Updated,
                 FileName = "ConnectorSample.razor",
                 HeaderText="Example of Connectors in Blazor Diagram Component",
-                NotificationDescription = new string[]{ @"Segment thumb shape customization has been included in the Connector sample. Users can now modify the connector segment shape by selecting different shapes from the available options(e.g., ""Rectangle"",""Square"",""Ellipse"").This sample lets you easily change the look of connector segments." },
             },
             new Sample
             {
@@ -88,8 +86,6 @@ namespace Blazor_MAUI_Demos
                 Url = "diagramcomponent/ports",
                 FileName = "Ports.razor",
                 HeaderText="Example of Ports in Blazor Diagram Component",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The ConnectionDirection for Port option has been included in the Ports sample. Users can now specify the connection direction for the incoming and outgoing connectors of the port. When a specific direction is set, the connector will establish a connection to the port only in that direction." },
             },
             new Sample
             {
@@ -99,7 +95,6 @@ namespace Blazor_MAUI_Demos
                 Url = "diagramcomponent/rulers",
                 FileName = "Rulers.razor",
                 HeaderText="Example of Rulers in Blazor Diagram Component",
-                NotificationDescription = new string[]{ @"Added a demo to demonstrate adding rulers to the Diagram Component. This sample emphasizes how to visualize and customize ruler which is used to measure and position diagram elements." },
             },
             new Sample
             {
@@ -135,7 +130,6 @@ namespace Blazor_MAUI_Demos
                 Directory = "DiagramComponent/DiagramComponent",
                 Url = "diagramcomponent/tooltip",
                 FileName = "TooltipSample.razor",
-                Type = SampleType.New,
                 HeaderText="Example of Tooltip in Blazor Diagram Component",
              },
               new Sample
@@ -218,8 +212,6 @@ namespace Blazor_MAUI_Demos
                 Url = "diagramcomponent/Snapping",
                 FileName = "Snapping.razor",
                 HeaderText="Example of Snapping in Blazor Diagram Component",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The SnapLineStyle option has been included in the Snapping sample. Now users can customize the style of snap line." },
             },
              new Sample
             {
@@ -229,8 +221,6 @@ namespace Blazor_MAUI_Demos
                 Url = "diagramcomponent/scrollsettings",
                 FileName = "Scrolling.razor",
                 HeaderText="Example of Scrolling in Blazor Diagram Component",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"The ScrollPadding option has been included in the Scrolling sample. Users can now specify the spacing between diagram elements and the edges of the viewport. For example, if the user sets the right padding value to 50 pixels, the scroll padding region will start 50 pixels from the inner edge of the right viewport edge." },
             },
             //new Sample
             //{
@@ -258,8 +248,6 @@ namespace Blazor_MAUI_Demos
                 Url = "diagramcomponent/flowchart-layout",
                 FileName = "FlowchartLayout.razor",
                 HeaderText="Example of Flowchart Layout in Blazor Diagram Component",
-                Type= SampleType.New,
-                NotificationDescription=new string[]{ @"Added a demo to demonstrate flow chart layout in Diagram Component. This layout organizes nodes based on the relationships between parent and child nodes." }
             },
             new Sample
             {
@@ -288,7 +276,7 @@ namespace Blazor_MAUI_Demos
                 FileName = "HierarchicalTree.razor",
                 HeaderText="Hierarchical Tree Example using Blazor Diagram Component",
             },
-             new Sample
+            new Sample
             {
                 Name = "Complex Hierarchical Tree",
                 Category = "Automatic Layouts",
@@ -297,7 +285,7 @@ namespace Blazor_MAUI_Demos
                 FileName = "ComplexHierarchicalTree.razor",
                 HeaderText="ComplexHierarchical Tree Example using Blazor Diagram Component",
             },
-             new Sample
+            new Sample
             {
                 Name = "Radial Tree",
                 Category = "Automatic Layouts",
@@ -305,6 +293,17 @@ namespace Blazor_MAUI_Demos
                 Url = "diagramcomponent/radialtree",
                 FileName = "RadialTree.razor",
                 HeaderText="Radial Tree Example using Blazor Diagram Component",
+            },
+            new Sample
+            {
+                Name = "PERT Chart",
+                Category = "Automatic Layouts",
+                Directory = "DiagramComponent/DiagramComponent",
+                Url = "diagramcomponent/pertchart",
+                FileName = "PERTChart.razor",
+                HeaderText="PERT Chart Example using Blazor Diagram Component",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample demonstrates how to create a PERT chart from an external data source using a complex hierarchical layout."},
             },
             new Sample
             {

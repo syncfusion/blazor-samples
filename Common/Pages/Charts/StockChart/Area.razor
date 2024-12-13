@@ -25,16 +25,16 @@
     </p>
 </ActionDescription>
 
-@if (DataSource == null)
+@if (StockData == null)
 {
     <div class="stockchartloader"></div>
 }
 else
 {
-    <div class="@loadClass"></div>
-    <div class="@loadDiv">
-        <SfStockChart Title="AAPL Stock Price" IndicatorType="@Indicators" TrendlineType="@TrendLines" Theme="@theme">
-            <StockChartEvents OnLoaded="@ChartLoaded"></StockChartEvents>
+    <div class="@LoaderClass"></div>
+    <div class="@ChartContainerClass">
+        <SfStockChart Title="AAPL Stock Price" IndicatorType="@SelectedIndicators" TrendlineType="@SelectedTrendlines" Theme="@CurrentTheme">
+            <StockChartEvents OnLoaded="@OnChartLoaded"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -46,7 +46,7 @@ else
             </StockChartPrimaryYAxis>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@DataSource" XName="x" YName="high" Type="ChartSeriesType.Area" Opacity="0.5" Name="google">
+                <StockChartSeries DataSource="@StockData" XName="x" YName="high" Type="ChartSeriesType.Area" Opacity="0.5" Name="AAPL">
                 </StockChartSeries>
             </StockChartSeriesCollection>
             <StockChartChartArea>
@@ -54,6 +54,7 @@ else
             </StockChartChartArea>
         </SfStockChart>
     </div>
+    
     <style>
         .stockchartloader {
             border: 6px solid #f3f3f3;
@@ -68,7 +69,7 @@ else
             animation: loader 2s linear infinite;
         }
 
-        .stockchartdiv {
+        .stock-chart-container {
             visibility: hidden;
         }
 
@@ -77,7 +78,7 @@ else
         }
 
         div[id*="_selector_Secondary_Element"] {
-            transform: translate(0px, @translateY) !important;
+            transform: translate(0px, @TranslateY) !important;
         }
 
         .e-tbar-btn {
@@ -85,25 +86,21 @@ else
         }
     </style>
 }
+
 @code {
 
-    List<TechnicalIndicators> Indicators = new List<TechnicalIndicators>() { };
-    List<TrendlineTypes> TrendLines = new List<TrendlineTypes>() { };
-    private ChartData[] DataSource;
-    string loadClass = "stockchartloader";
-    string loadDiv = "stockchartdiv";
-    string translateY = "-5px";
-    
+    private List<TechnicalIndicators> SelectedIndicators { get; set; } = new List<TechnicalIndicators>();
+    private List<TrendlineTypes> SelectedTrendlines { get; set; } = new List<TrendlineTypes>();
+    private ChartData[] StockData { get; set; }
+    private string LoaderClass { get; set; } = "stockchartloader";
+    private string ChartContainerClass { get; set; } = "stock-chart-container";
+    private string TranslateY { get; set; } = "-5px";
+    private Theme CurrentTheme { get; set; } = Theme.Bootstrap4;
+
     protected override async Task OnInitializedAsync()
     {
-        BeforeRender();
-        DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/aapl.json");
-        //Hidden:Lines
-        if (theme == Theme.Material3 || theme == Theme.Material3Dark || theme == Theme.Bootstrap4 || theme == Theme.Material || theme == Theme.MaterialDark)
-        {
-            translateY = "-7px";
-        }
-        //End:Hidden
+        SetThemeSpecificProperties();
+        StockData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/aapl.json");
     }
 
     public class ChartData
@@ -116,16 +113,22 @@ else
         public double volume { get; set; }
     }
 
-    void ChartLoaded(StockChartEventArgs args)
+    private void OnChartLoaded(StockChartEventArgs args)
     {
-        loadClass = "";
-        loadDiv = "";
+        LoaderClass = string.Empty;
+        ChartContainerClass = string.Empty;
         StateHasChanged();
     }
 
-    Theme theme = Theme.Bootstrap4;
-    void BeforeRender()
+    private void SetThemeSpecificProperties()
     {
-        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+
+        if (CurrentTheme == Theme.Material3 || CurrentTheme == Theme.Material3Dark || 
+            CurrentTheme == Theme.Bootstrap4 || CurrentTheme == Theme.Material || 
+            CurrentTheme == Theme.MaterialDark)
+        {
+            TranslateY = "-7px";
+        }
     }
 }

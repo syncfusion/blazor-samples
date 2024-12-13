@@ -68,7 +68,7 @@ namespace BlazorDemos.Shared
 #if (DEBUG || STAGING)
             stylePath = "_content/Syncfusion.Blazor.Themes/";
 #else
-            stylePath = "https://cdn.syncfusion.com/blazor/24.1.41/styles/";
+            stylePath = "https://cdn.syncfusion.com/blazor/27.1.48/styles/";
 #endif
         }
     }

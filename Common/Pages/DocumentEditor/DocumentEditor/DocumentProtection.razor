@@ -7,9 +7,6 @@
 @using BlazorSamples.DocumentData;
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -22,7 +19,7 @@
    <p>User can add the user in dropdown who have editing permission in document by using addItem method.</p>
    <p>The range that is enabled for the current user is highlighted.</p>
    <p> You can disable the highlighting or customize its color using the corresponding demo’s elements.</p>
-   <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank"" href="https://blazor.syncfusion.com/documentation/document-editor/restrict-editing/" aria-label="Blazor DocumentEditor RestrictEditing documentation">documentation section. 
+   <p style="display: block"> More information about the document editor features can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/document-editor/restrict-editing/" aria-label="Blazor DocumentEditor RestrictEditing documentation">documentation section. 
    </a></p>
 </ActionDescription>
 
@@ -41,7 +38,7 @@
                 </div>
             </div>
             <div>
-                <SfDocumentEditorContainer @ref="container" CurrentUser="@currentUser" UserColor="@userColor" ShowPropertiesPane="@showPropertiesPane" Height="590px" RestrictEditing="@ReadOnly" DocumentEditorSettings="settings">
+                <SfDocumentEditorContainer @ref="Container" CurrentUser="@CurrentUser" UserColor="@UserColor" ShowPropertiesPane="@ShowPropertiesPane" Height="590px" RestrictEditing="@ReadOnly" DocumentEditorSettings="Settings">
                     <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange"></DocumentEditorContainerEvents>
                 </SfDocumentEditorContainer>
             </div>
@@ -56,8 +53,8 @@
                 <b>Current User</b>
             </div>
             <div class="control-label">
-                <SfDropDownList @ref="dropDown" TItem="UserFields" TValue="string" PopupHeight="230px" @bind-Index="@index" Placeholder="Select a user" DataSource="@User">
-                    <DropDownListFieldSettings Text="Text" Value="ID"></DropDownListFieldSettings>
+                <SfDropDownList @ref="_dropDown" TItem="UserFields" TValue="string" PopupHeight="230px" @bind-Index="@Index" Placeholder="Select a user" DataSource="@User">
+                    <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
                     <DropDownListEvents TValue="string" TItem="UserFields" ValueChange="OnUserChange"/>
                 </SfDropDownList>
             </div>
@@ -70,49 +67,43 @@
 </div>
 
 @code {
-
-    private int? index { get; set; } =0;
+    private int? Index { get; set; } = 0;
     internal string DocumentName { get; set; }
-    internal bool ReadOnly { get; set;  }
-
-    string currentUser = "engineer@mycompany.com";
-
-    string userColor = "#FFFF00";
-
-    bool showPropertiesPane = false;
-
-    SfDocumentEditorContainer container;
-    DocumentEditorSettingsModel settings = new DocumentEditorSettingsModel() { ShowRuler = true};
-
-    SfDropDownList<string, UserFields> dropDown;
+    internal bool ReadOnly { get; set; }
+    private string CurrentUser = "engineer@mycompany.com";
+    private string UserColor = "#FFFF00";
+    private bool ShowPropertiesPane = false;
+    private SfDocumentEditorContainer Container;
+    private DocumentEditorSettingsModel Settings = new DocumentEditorSettingsModel() { ShowRuler = true};
+    private SfDropDownList<string, UserFields> _dropDown;
     
-
     public class UserFields
     {
-        public string ID { get; set; }
+        public string Id { get; set; }
         public string Text { get; set; }
     }
 
-    private List<UserFields> User = new List<UserFields>() {
-        new UserFields(){ ID= "User1", Text= "engineer@mycompany.com" },
-        new UserFields(){ ID= "User2", Text= "manager@mycompany.com" },
-     };
+    private List<UserFields> User = new List<UserFields>()
+    {
+        new UserFields() { Id = "User1", Text = "engineer@mycompany.com" },
+        new UserFields() { Id = "User2", Text = "manager@mycompany.com" },
+    };
 
     public void OnExport(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.SaveAsync(DocumentName, FormatType.Docx);
     }
 
     public void Print(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.PrintAsync();
     }
 
     public async void OnCreated(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         if (documentEditor != null)
         {
             await documentEditor.OpenAsync(Data.DocumentProtection);
@@ -127,7 +118,7 @@
 
     public void OnDocumentChange()
     {
-        string name = container.DocumentEditor.DocumentName;
+        string name = Container.DocumentEditor.DocumentName;
         if (name != "")
         {
             DocumentName = name;
@@ -136,11 +127,11 @@
 
     public void OnUserChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, UserFields> args)
     {
-        currentUser = args.ItemData?.Text;
+        CurrentUser = args.ItemData?.Text;
     }
     public void ChangeUserColor(ColorPickerEventArgs args)
     {
-        userColor = args.CurrentValue.Hex;
+        UserColor = args.CurrentValue.Hex;
     }
 }
 

@@ -1,20 +1,10 @@
 @page "/image-editor/profile"
 
-@using BlazorDemos.Shared;
 @using Syncfusion.Blazor.ImageEditor
 @using Syncfusion.Blazor.Popups
-@using Syncfusion.Blazor.Navigations
-@using System.Text;
-
 @inject IJSRuntime jsRuntime
-@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
-
+@inject NavigationManager UriHelper
 @inherits SampleBaseComponent;
-@*Hidden:Lines*@
-@inject NavigationManager NavigationManager
-
-
-@*End:Hidden*@
 
 <SampleDescription>
     <p>The Image Editor component provides built-in support to rotate an image using the rotate method and support to crop an image using the select and crop methods.</p>
@@ -39,52 +29,50 @@
     <div class="e-profile e-img-editor-sample e-hide">
         <div class="e-custom-wrapper">
             <canvas id="img-canvas" style="max-width: 200px; max-height: 200px;"></canvas>
-            <img alt="img" id="custom-img" crossorigin="anonymous" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/image-editor/profile.png")" style="display: none;" @onload="onLoad" />
-		    <span id="custom-edit" class="e-custom-edit" contenteditable="false" @onclick="Edit">
+            <img alt="Profile Image" id="custom-img" crossorigin="anonymous" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/image-editor/profile.png")" style="display: none;" @onload="OnImageLoad" />
+            <span id="custom-edit" class="e-custom-edit" contenteditable="false" @onclick="OpenImageEditor">
                 <span class="e-custom-icon e-image-editor-icons" contenteditable="false"></span>
 		    </span>
         </div>
     </div>
 
-    <SfDialog Header="Edit Profile Image" Target="#target" @bind-Visible="Visibility" ShowCloseIcon="true" Width="600px" Height="500px">
-        <DialogEvents Opened="dialogOpened" Closed="dialogClosed"></DialogEvents>
+    <SfDialog Header="Edit Profile Image" Target="#target" @bind-Visible="IsDialogVisible" ShowCloseIcon="true" Width="600px" Height="500px">
+        <DialogEvents Opened="OnDialogOpened" Closed="OnDialogClosed"></DialogEvents>
         <DialogTemplates>
             <Content>
                 <div class="dialogContent">
-                    @if (isOpened)
+                    @if (IsImageEditorOpened)
                     {
-                        <SfImageEditor @ref="Image" Toolbar="@toolbar">
-                            <ImageEditorEvents FileOpened="FileOpened" Created="Created"></ImageEditorEvents>
-                        </SfImageEditor>
+                    <SfImageEditor @ref="ImageEditorInstance" Toolbar="@ImageEditorToolbar">
+                        <ImageEditorEvents FileOpened="OnFileOpened" Created="OnEditorCreated"></ImageEditorEvents>
+                    </SfImageEditor>
                     }
                 </div>
             </Content>
         </DialogTemplates>
         <DialogButtons>
-            <DialogButton Content="Open" CssClass="e-custom-img-btn e-img-custom-open" OnClick="OpenBtnClick"></DialogButton>
-            <DialogButton Content="Reset" CssClass="e-custom-img-btn e-img-custom-reset" OnClick="ResetBtnClick"></DialogButton>
-            <DialogButton Content="Rotate" CssClass="e-custom-img-btn e-img-custom-rotate" OnClick="RotateBtnClick"></DialogButton>
-            <DialogButton Content="Apply" CssClass="e-custom-img-btn e-img-custom-apply" IsPrimary="true" OnClick="ApplyBtnClick"></DialogButton>
+            <DialogButton Content="Open" CssClass="e-custom-img-btn e-img-custom-open" OnClick="OnOpenButtonClick"></DialogButton>
+            <DialogButton Content="Reset" CssClass="e-custom-img-btn e-img-custom-reset" OnClick="OnResetButtonClick"></DialogButton>
+            <DialogButton Content="Rotate" CssClass="e-custom-img-btn e-img-custom-rotate" OnClick="OnRotateButtonClick"></DialogButton>
+            <DialogButton Content="Apply" CssClass="e-custom-img-btn e-img-custom-apply" IsPrimary="true" OnClick="OnApplyButtonClick"></DialogButton>
         </DialogButtons>
     </SfDialog>
 </div>
 
 @code {
-    
-    private DotNetObjectReference<Profile>? objRef;
+    private DotNetObjectReference<Profile>? DotNetRef { get; set; }
 
     protected override void OnInitialized()
     {
-	
-        objRef = DotNetObjectReference.Create(this);
+        DotNetRef = DotNetObjectReference.Create(this);
     }
 
-    SfImageEditor Image;
-    private List<ImageEditorToolbarItemModel> toolbar = new List<ImageEditorToolbarItemModel>() { };
-    private bool Visibility { get; set; } = false;
-    private string dataUrl;
-    private bool isOpened { get; set; }
-    
+    private SfImageEditor ImageEditorInstance { get; set; }
+    private List<ImageEditorToolbarItemModel> ImageEditorToolbar { get; set; } = new List<ImageEditorToolbarItemModel>();
+    private bool IsDialogVisible { get; set; } = false;
+    private string ImageDataUrl { get; set; }
+    private bool IsImageEditorOpened { get; set; }
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         if (firstRender)
@@ -93,73 +81,74 @@
         }
     }
 
-    private async Task onLoad()
+    private async Task OnImageLoad()
     {
-        await jsRuntime.InvokeAsync<bool>("canvasInterop.imageLoaded", objRef);
+        await jsRuntime.InvokeAsync<bool>("canvasInterop.imageLoaded", DotNetRef);
     }
 
-    private async void Edit()
+    private async void OpenImageEditor()
     {
-        this.Visibility = true;
-        dataUrl = await jsRuntime.InvokeAsync<string>("canvasInterop.getImageSource");
+        IsDialogVisible = true;
+        ImageDataUrl = await jsRuntime.InvokeAsync<string>("canvasInterop.getImageSource");
     }
 
-    private async Task dialogOpened(Syncfusion.Blazor.Popups.OpenEventArgs args)
+    private async Task OnDialogOpened(Syncfusion.Blazor.Popups.OpenEventArgs args)
     {
-        if (!isOpened)
+        if (!IsImageEditorOpened)
         {
-            isOpened = true;
+            IsImageEditorOpened = true;
             StateHasChanged();
         }
     }
 
-    private async Task dialogClosed(Syncfusion.Blazor.Popups.CloseEventArgs args)
+    private async Task OnDialogClosed(Syncfusion.Blazor.Popups.CloseEventArgs args)
     {
-        isOpened = false;
+        IsImageEditorOpened = false;
     }
 
-    private async Task Created()
+    private async Task OnEditorCreated()
     {
-        await Image.OpenAsync(dataUrl);
-    }
-	    
-    private async Task FileOpened()
-    {
-        await Image.SelectAsync("circle");
+        await ImageEditorInstance.OpenAsync(ImageDataUrl);
     }
 
-    private async void OpenBtnClick()
+    private async Task OnFileOpened()
+    {
+        await ImageEditorInstance.SelectAsync("circle");
+    }
+
+    private async void OnOpenButtonClick()
     {
         await jsRuntime.InvokeAsync<bool>("canvasInterop.fileSelect");
     }
 
-    private async void ResetBtnClick()
+    private async void OnResetButtonClick()
     {
-        await Image.ResetAsync();
-        await Image.SelectAsync("circle");
+        await ImageEditorInstance.ResetAsync();
+        await ImageEditorInstance.SelectAsync("circle");
     }
 
-    private async void ApplyBtnClick()
+    private async void OnApplyButtonClick()
     {
-        await Image.CropAsync();
+        await ImageEditorInstance.CropAsync();
         await jsRuntime.InvokeAsync<bool>("canvasInterop.applyImage");
-        Visibility = false;
-        isOpened = false;
+        IsDialogVisible = false;
+        IsImageEditorOpened = false;
         StateHasChanged();
     }
 
-    private async void RotateBtnClick()
+    private async void OnRotateButtonClick()
     {
-        await Image.RotateAsync(90);
+        await ImageEditorInstance.RotateAsync(90);
     }
 
     [JSInvokable]
-    public async void FileSelected(string URL)
+    public async void FileSelected(string imageUrl)
     {
-        await Image.OpenAsync(URL);
+        await ImageEditorInstance.OpenAsync(imageUrl);
         await Task.Delay(100);
-        await Image.SelectAsync("circle");
+        await ImageEditorInstance.SelectAsync("circle");
     }
+
 }
 	 
   @*

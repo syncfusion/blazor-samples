@@ -1,6 +1,5 @@
 ﻿@page "/toast/position"
 
-@using Syncfusion.Blazor
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
@@ -8,9 +7,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -40,12 +36,12 @@
                     <tr>
                         <td>
                             <div style="padding:25px 0 0 0;">
-                                <SfRadioButton Label="Position" Name="toastPos" Value="Position" @bind-Checked="@Checked2" ValueChange="@CheckboxChange" TChecked="string"></SfRadioButton>
+                                <SfRadioButton Label="Position" Name="toastPos" Value="Position" @bind-Checked="@PositionChecked" ValueChange="@OnPositionValueChange" TChecked="string"></SfRadioButton>
                             </div>
                         </td>
                         <td>
                             <div style="padding:25px 0 0 0;">
-                                <SfRadioButton Label="Custom" Name="toastPos" Value="Custom" @bind-Checked="@checkedCustom" ValueChange="@CheckboxChange1" TChecked="string"></SfRadioButton>
+                                <SfRadioButton Label="Custom" Name="toastPos" Value="Custom" @bind-Checked="@CheckedCustom" ValueChange="@OnCustomValueChange" TChecked="string"></SfRadioButton>
                             </div>
                         </td>
                     </tr>
@@ -56,21 +52,22 @@
                                 <form id="formId" class="form-horizontal">
                                     <label>X Position</label>
                                     <div class="e-row">
-                                        <SfTextBox @ref="TextboxObj" @bind-Value="@Defaultvalue" Placeholder="Please enter digits only." ValueChange="@HideToast" Focus="@HideToast"></SfTextBox>
+                                        <SfTextBox @ref="TextboxObj" @bind-Value="@DefaultXValue" Placeholder="Please enter digits only." ValueChange="@HideToast" Focus="@HideToast"></SfTextBox>
                                     </div>
                                     <label>Y Position</label>
                                     <div class="e-row">
-                                        <SfTextBox @ref="TextboxObj2" @bind-Value="@Defaultvalue1" Placeholder="Please enter digits only." ValueChange="@HideToast" Focus="@HideToast"></SfTextBox>
+                                        <SfTextBox @ref="TextboxObj2" @bind-Value="@DefaultYValue" Placeholder="Please enter digits only." ValueChange="@HideToast" Focus="@HideToast"></SfTextBox>
                                     </div>
                                 </form>
                             </td> 
                         }
-                        else {
+                        else
+                        {
                             <td id="dropdownChoose" colspan="1">
                                 <div id="dropdown" style="padding:14px;">
                                     <SfDropDownList @ref="DropdownObj" TItem="Positions" ID="position" TValue="string" Placeholder="Select a position" PopupHeight="200px" DataSource="@Positioning">
                                         <DropDownListEvents TValue="string" TItem="Positions" ValueChange="@OnChangeHandler"></DropDownListEvents>
-                                        <DropDownListFieldSettings Text="text" Value="value"></DropDownListFieldSettings>
+                                        <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
                                     </SfDropDownList>
                                 </div>
                             </td>
@@ -79,19 +76,19 @@
                     <tr>
                         <td>
                             <div style="padding:25px 0 0 0;">
-                                <SfRadioButton id="radio1" Label="Target" Name="toast" Value="Target" @bind-Checked="@targetChecked" ValueChange="@CheckboxChange2" TChecked="string"></SfRadioButton>
+                                <SfRadioButton id="radio1" Label="Target" Name="toast" Value="Target" @bind-Checked="@TargetChecked" ValueChange="@OnTargetValueChange" TChecked="string"></SfRadioButton>
                             </div>
                         </td>
                         <td>
                             <div style="padding:25px 0 0 0;">
-                                <SfRadioButton id="radio2" Label="Global" Name="toast" Value="Global" @bind-Checked="@Checked" ValueChange="@CheckboxChange3" TChecked="string"></SfRadioButton>
+                                <SfRadioButton id="radio2" Label="Global" Name="toast" Value="Global" @bind-Checked="@CheckedGlobal" ValueChange="@OnGlobalValueChange" TChecked="string"></SfRadioButton>
                             </div>
                         </td>
                     </tr>
                 </tbody>
             </table>
             <div id="toast_btn" style="padding-top: 25px; text-align: center;">
-                <button class="e-btn e-control" id="show_Toast" style="margin-right: 15px" @onclick="@OnBtnClicked"> Show Toasts </button>
+                <button class="e-btn e-control" id="show_Toast" style="margin-right: 15px" @onclick="@OnButtonClicked"> Show Toasts </button>
                 <button class="e-btn e-control" id="hideTosat" @onclick="@HideToast"> Hide All </button>
             </div>
         </div>
@@ -153,43 +150,44 @@
     }
 </style>
 @code {
-    SfToast ToastObj;
-    SfTextBox TextboxObj;
-    SfTextBox TextboxObj2;
-    SfDropDownList<string, Positions> DropdownObj;
+    private SfToast ToastObj;
+    private SfTextBox TextboxObj;
+    private SfTextBox TextboxObj2;
+    private SfDropDownList<string, Positions> DropdownObj;
     private string ToastTarget { get; set; }
     private string Xvalue { get; set; } = "50";
     private string Yvalue { get; set; } = "50";
-    private string Defaultvalue { get; set; } = "50";
-    private string Defaultvalue1 { get; set; } = "50";
+    private string DefaultXValue { get; set; } = "50";
+    private string DefaultYValue { get; set; } = "50";
     private bool CustomFlag { get; set; } = true;
     private bool TextboxEnabled { get; set; } = true;
     private bool DropdownEnable { get; set; } = false;
     private string ToastWidth { get; set; }
     private string ToastContent { get; set; } = "You have a friend request yet to accept";
     private string ToastTitle { get; set; } = "Matt sent you a friend request";
-    private string Checked { get; set; } = "Global";
-    private string Checked2 { get; set; } = "Position";
+    private string CheckedGlobal { get; set; } = "Global";
+    private string PositionChecked { get; set; } = "Position";
     private string PositionX { get; set; } = "Left";
-    private string checkedCustom { get; set; } = "Custom";
-    private string targetChecked { get; set; } = "Target";
+    private string CheckedCustom { get; set; } = "Custom";
+    private string TargetChecked { get; set; } = "Target";
     private string PositionY { get; set; } = "Top";
     
     public class Positions
     {
-        public string value { get; set; }
-        public string text { get; set; }
+        public string Value { get; set; }
+        public string Text { get; set; }
     }
+
     private List<Positions> Positioning = new List<Positions>()
-{
-        new Positions(){ value= "topleft", text= "Top Left" },
-        new Positions(){ value= "topright", text= "Top Right" },
-        new Positions(){ value= "topcenter", text= "Top Center" },
-        new Positions(){ value= "topfullwidth", text= "Top Full Width" },
-        new Positions(){ value= "bottomleft", text= "Bottom Left" },
-        new Positions(){ value= "bottomright", text= "Bottom Right" },
-        new Positions(){ value= "bottomcenter", text= "Bottom Center" },
-        new Positions(){ value= "bottomfullwidth", text= "Bottom Full Width" }
+    {
+        new Positions() { Value = "topleft", Text = "Top Left" },
+        new Positions() { Value = "topright", Text = "Top Right" },
+        new Positions() { Value = "topcenter", Text = "Top Center" },
+        new Positions() { Value = "topfullwidth", Text = "Top Full Width" },
+        new Positions() { Value = "bottomleft", Text = "Bottom Left" },
+        new Positions() { Value = "bottomright", Text = "Bottom Right" },
+        new Positions() { Value = "bottomcenter", Text = "Bottom Center" },
+        new Positions() { Value = "bottomfullwidth", Text = "Bottom Full Width" }
     };
     private async Task HideToast()
     {
@@ -222,7 +220,7 @@
         this.PositionY = this.Yvalue;
         this.StateHasChanged();
     }
-    private async Task OnBtnClicked()
+    private async Task OnButtonClicked()
     {
         if (this.CustomFlag)
         {
@@ -234,7 +232,7 @@
             await this.ToastObj.ShowAsync();
         }
     }
-    private async Task CheckboxChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
+    private async Task OnPositionValueChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
     {
         await this.HideToast();
         this.CustomFlag = false;
@@ -244,7 +242,7 @@
         this.Yvalue = this.PositionY;
         this.StateHasChanged();
     }
-    private async Task CheckboxChange1(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
+    private async Task OnCustomValueChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
     {
         await this.HideToast();
         this.CustomFlag = true;
@@ -252,13 +250,13 @@
         this.DropdownEnable = false;
         this.StateHasChanged();
     }
-    private async Task CheckboxChange2(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
+    private async Task OnTargetValueChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
     {
         await this.HideToast();
         this.ToastTarget = "#toast_pos_target";
         this.StateHasChanged();
     }
-    private async Task CheckboxChange3(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
+    private async Task OnGlobalValueChange(Syncfusion.Blazor.Buttons.ChangeArgs<string> arg)
     {
         await this.HideToast();
         this.ToastTarget = "body";

@@ -42,46 +42,43 @@ else
 
     private async Task GetSourceData(int index)
     {
-#if (WASM || WEBAPP)
         await InvokeAsync(async () =>
         {
-    #if NET6_0 
-        #if WASM
-            string projectPath = "Blazor_WASM_Common_NET6";
-        #endif
-    #elif NET8_0 
-        #if WASM
-            string projectPath = "Blazor_WASM_Common_NET8";
+         #if NET6_0 
+            #if WASM
+                string projectPath = "Blazor_WASM_Common_NET6";
+            #else
+                 string projectPath = "Blazor_Server_Common_NET6";
+            #endif
+        #elif NET8_0 
+            #if WASM
+                string projectPath = "Blazor_WASM_Common_NET8";
+            #elif SERVER
+                string projectPath = "Blazor_Server_Common_NET8";
+            #else
+                string projectPath = "Blazor_WebApp_Common_NET8";
+            #endif
         #else
-            string projectPath = "Blazor_WebApp_Common_NET8";
+            #if WASM
+                string projectPath = "Blazor_WASM_Common_NET9";
+            #elif SERVER
+                string projectPath = "Blazor_Server_Common_NET9";
+            #else
+                string projectPath = "Blazor_WebApp_Common_NET9";
+            #endif
         #endif
-    #else
-        #if WASM
-            string projectPath = "Blazor_WASM_Common_NET9";
-        #else
-            string projectPath = "Blazor_WebApp_Common_NET9";
-        #endif
-    #endif
             sourceCode = string.Empty;
             fileName = string.Empty;
             string directory = SampleService.SampleInfo.Directory;
             if (SampleService.SampleInfo.SourceFiles.Count > index && SampleService.SampleInfo.Directory != null)
             {
                 fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
-                try
+                if (!(SampleService.SampleInfo.Directory.Split("/")[0].Equals("DocumentProcessing")))
                 {
                     directory = Path.GetExtension(fileName).Equals(".razor") ? directory : directory.Split("/")[0];
-                    sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
                 }
-                catch
-                {
-                    if (directory.LastIndexOf("/") > 0)
-                    {
-                        directory = directory.Substring(0, directory.LastIndexOf("/"));
-                    }
-
-                    sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
-                }
+                sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
+                
             }
             else
             {
@@ -91,39 +88,7 @@ else
             pageTitle = this.PageTitleContent(sourceCode);
             sourceCode = this.FormatSourceCode(sourceCode);
         });
-#else
-        await InvokeAsync(() =>
-        {
-            sourceCode = string.Empty;
-            fileName = string.Empty;
-            string directory = SampleService.SampleInfo.Directory;
-            string filePath = Path.GetDirectoryName(System.AppDomain.CurrentDomain.BaseDirectory);
-            if (SampleService.SampleInfo.SourceFiles.Count > index && SampleService.SampleInfo.Directory != null)
-            {
-                fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
-                try
-                {
-                    sourceCode = System.IO.File.ReadAllText(filePath + "/Pages/" + directory + "/" + fileName);
-                }
-                catch
-                {
-                    if (directory.LastIndexOf("/") > 0)
-                    {
-                        directory = directory.Substring(0, directory.LastIndexOf("/"));
-                    }
 
-                    sourceCode = System.IO.File.ReadAllText(filePath + "/Pages/" + directory + "/" + fileName);
-                }
-            }
-            else
-            {
-                fileName = SampleService.SampleInfo.FileName;
-                sourceCode = System.IO.File.ReadAllText(filePath + "/Pages/" + directory + "/" + fileName);
-            }
-            pageTitle = this.PageTitleContent(sourceCode);
-            sourceCode = this.FormatSourceCode(sourceCode);
-        });
-#endif
         await Task.Delay(1000);
         this.isSourceCodeRequired = true;
     }

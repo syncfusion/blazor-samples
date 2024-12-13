@@ -27,16 +27,19 @@
     <div class="content-wrapper">
         <div class="row">
             <div class="e-dddata">
-                <SfDropDownList TItem="DDData" TValue="string" PopupHeight="230px" Width="240px" @bind-Index="@index" DataSource="@DLData">
-                    <DropDownListEvents TItem="DDData" TValue="string" ValueChange="Changedata" Closed="DropdownClose"></DropDownListEvents>
-                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
-                </SfDropDownList>
+                <div class="dropdown-wrapper">
+                    <SfDropDownList TItem="DDData" TValue="string" PopupHeight="230px" Width="240px" @bind-Index="@index" DataSource="@DLData">
+                        <DropDownListEvents TItem="DDData" TValue="string" ValueChange="Changedata" Closed="DropdownClose"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                    <SfSpinner @ref="spinnerObj"></SfSpinner>
+                </div>
                 <div id="performance" style="float:right;padding:5px">
                     Time taken = @timeElapsed
                 </div>
             </div>
 
-            <div id="Pivot" style="padding:0 10px">
+            <div id="Pivot" style="padding:0 10px" class="@(isLoading ? "disabled" : "")">
                 <SfPivotView TValue="PivotLargeData" Width="100%" Height="300" EnableVirtualization="true" ShowTooltip=false>
                  <PivotViewVirtualScrollSettings AllowSinglePage="true"></PivotViewVirtualScrollSettings>
                     <PivotViewDataSourceSettings TValue="PivotLargeData" DataSource="data" EnableSorting="false" DataSourceChanged="@DataSourceChanged">
@@ -64,7 +67,6 @@
                 </SfPivotView>
             </div>
         </div>
-        <SfSpinner @ref="@spinnerObj"></SfSpinner>
     </div>
 </div>
 
@@ -81,6 +83,16 @@
         pointer-events: none;
     }
 
+    .dropdown-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    #Pivot.disabled {
+        pointer-events: none;
+        opacity: 0.5;
+    }
+
     @@media only screen and (max-width: 450px) {
         #performance {
             float: revert !important;
@@ -93,6 +105,7 @@
     private List<PivotLargeData> data { get; set; }
     private SfSpinner spinnerObj;
     private bool disableButton = false;
+    private bool isLoading = false;
     private Stopwatch stopWatch = new Stopwatch();
     private string timeElapsed = "0 sec";
     private int? index { get; set; } = 0;
@@ -116,8 +129,9 @@
     }
     public async Task Changedata(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DDData> args)
     {
-        if (previousIndex != index && (index == 2 || previousIndex == 2))
+        if (previousIndex != index)
         {
+            isLoading = true;
             await spinnerObj.ShowAsync();
         }
         Value = Int32.Parse(args.Value);
@@ -138,6 +152,7 @@
         stopWatch.Stop();
         TimeSpan TimeTaken = stopWatch.Elapsed;
         timeElapsed = String.Format("{0:00}:{1:00} seconds", TimeTaken.Seconds, TimeTaken.Milliseconds / 100);
+        isLoading = false;
         await spinnerObj.HideAsync();
     }
     public class DDData

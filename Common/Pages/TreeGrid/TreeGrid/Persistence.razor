@@ -1,34 +1,26 @@
 @page "/tree-grid/persistence"
 
 @using Syncfusion.Blazor.TreeGrid
-@using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Navigations
-@inject IJSRuntime JsInterop
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@using BlazorDemos
 @using ej2_blazor_wrapdata
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>This example demonstrates the Persist State in Blazor Tree Grid Component. Explore <a aria-label="Navigate to explore the tree grid component" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-tree-grid'>here </a>for more details.</p>
+    <p>This example demonstrates the Persist State in the Blazor Tree Grid Component. Explore <a aria-label="Navigate to explore the tree grid component" target="_blank" href="https://www.syncfusion.com/blazor-components/blazor-tree-grid">here</a> for more details.</p>
 </SampleDescription>
+
 <ActionDescription>
-    <p>
-        In this example, you can see how to save Tree Grid state, reset the current state and refresh Tree Grid with original state, load Tree Grid with already saved state.
-        Following are the Tree Grid properties persisted in local storage.
-        <ul>
-            <li>Sorting </li>
-            <li>Filtering </li>
-            <li>Column (resizing, reorder, show/hide columns) </li>
-            <li>Searching </li>
-            <li>TreeColumnIndex </li>
-        </ul>
-    </p>
-    <p>More information on the state management can be found in this <a aria-label="Navigate to the documentation for state management in the tree grid component" target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/state-management/'>documentation</a> section.</p>
+    <p>In this example, you can see how to save the Tree Grid state, reset the current state, refresh the Tree Grid with the original state, and load the Tree Grid with an already saved state. The following are the Tree Grid properties persisted in local storage:</p>
+    <ul>
+        <li>Sorting</li>
+        <li>Filtering</li>
+        <li>Column (resizing, reorder, show/hide columns)</li>
+        <li>Searching</li>
+        <li>TreeColumnIndex</li>
+    </ul>
+    <p>More information on state management can be found in this <a aria-label="Navigate to the documentation for state management in the tree grid component" target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/state-management/">documentation</a> section.</p>
 </ActionDescription>
 
 <style>
@@ -138,7 +130,7 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfTreeGrid ID="TreeGridOne" @ref="TreeGrid" DataSource="@TreeData" Height="312" IdMapping="TaskId" ParentIdMapping="ParentId" ShowColumnChooser="true" TreeColumnIndex="1" EnablePersistence="true" AllowPaging="true" AllowFiltering="true"
+            <SfTreeGrid ID="TreeGridOne" @ref="TreeGridInstance" DataSource="@TreeData" Height="312" IdMapping="TaskId" ParentIdMapping="ParentId" ShowColumnChooser="true" TreeColumnIndex="1" EnablePersistence="true" AllowPaging="true" AllowFiltering="true"
                 AllowSorting="true" AllowReordering="true" AllowResizing="true" Toolbar="ToolbarItems">
                 <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
                 <TreeGridEvents TValue="WrapData" OnToolbarClick="ToolBarClick"></TreeGridEvents>
@@ -157,8 +149,7 @@
 </div>
 
 @code {
-
-    public SfTreeGrid<WrapData> TreeGrid;
+    public SfTreeGrid<WrapData> TreeGridInstance { get; set; }
 #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
     private List<Object> ToolbarItems = new List<Object>
         {
@@ -169,25 +160,24 @@
         };
 #pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     private List<WrapData> TreeData { get; set; }
-    public string SavedPersistence { get; set; } = "";
+    public string SavedPersistence { get; set; } = String.Empty;
     public async Task ToolBarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
     {
         if (args.Item.Text == "Save state")
         {
-            SavedPersistence = await this.TreeGrid.GetPersistDataAsync();
+            SavedPersistence = await this.TreeGridInstance.GetPersistDataAsync();
         }
          if (args.Item.Text == "Reset state")
         {
-            await this.TreeGrid.ResetPersistDataAsync();
+            await TreeGridInstance.ResetPersistDataAsync();
         }
         if (args.Item.Text == "Load state")
         {
-            await this.TreeGrid.SetPersistDataAsync(SavedPersistence);
+            await TreeGridInstance.SetPersistDataAsync(SavedPersistence);
         }
     }
     protected override void OnInitialized()
     {
-
-        this.TreeData = WrapData.GetWrapData().ToList();
+        TreeData = WrapData.GetWrapData().ToList();
     }
 }

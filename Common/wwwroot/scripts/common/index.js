@@ -1,7 +1,7 @@
 var isScrolled = false; 
 var isUpdatedDevice = false;
 var isTouchEnabled = false;
-const DEFAULT_THEME = 'fluent2';
+const DEFAULT_THEME = 'tailwind3';
 var dotnetTooltipRef;
 var currentURL;
 window.sfBlazorSB = {
@@ -115,6 +115,10 @@ window.sfBlazorSB = {
               liElement.classList.add('sf-search-hover');
             }
             dotnetRef.invokeMethodAsync('UpdateKeyboardInteraction');
+            var item = document.getElementsByClassName('sf-search-hover');
+            if (item.length > 0) {
+                item[0].scrollIntoView({ behavior: "smooth", block: "nearest" });
+            }
             break;
         }
       }
@@ -203,6 +207,15 @@ function OnDragStopCall(dragEventArgs) {
       var text = dragEventArgs.draggedNodeData.text;
       return { Id: id, Text: text };
   }
+}
+
+function isSelectorFromPoint(left, top, selector) {
+    var targetElement = document.elementFromPoint(left, top);
+    if (targetElement != null) {
+        var closest = targetElement.closest("." + selector) ? true : false;
+        return closest;
+    }
+    return false;
 }
 
 var resizevalue = true;
@@ -359,6 +372,22 @@ document.addEventListener("keydown", function (e) {
 
 window.addEventListener('load', function () {
 
+    const Theme_integrity = {
+        "material3" : "sha384-P6zhSzNCSpZ2fXYaBw41sRJS5i8ys9cnDOw3IM5xai8auKFvd1Bvm4+5J4V/mGQ0",
+        "material3-dark": "sha384-VdDAFg30AEKCAIKlBkxZ4nozm4TAEBBdE4D1o+ufQdnS8/bvGYyPSxdNr5z7xnRV",
+        "fluent": "sha384-GITa1XWIFWoZpomL5pP/L49KnvRv4zQxKtpYtJJurL1Qbsv1K74t4ICuipaB++IE",
+        "fluent-dark":"sha384-xvQFD2gPmxm3XCXDUCxH9+PTBnWa+Jg8XEO5/Uj0NxxdZZHPV9Un/lqTr3MFyeiK",
+        "fluent2": "sha384-wwx/wkfkugAYS1p8AhlzxJp2DaI/bM9AzJEMJpssRdDdEjW0GJmugo+9pQsfSFtH",
+        "fluent2-dark": "sha384-9xEB+TijTR0r72TJpLiDEJ2jWx8xz9G+q6UyZfZ5Jbg4mwkTgzKeuuHupjZXAYnS",
+        "bootstrap5.3": "sha384-M3uzTXLjbiGvxr/+Jv/qf1AbJX6eXpAwMP5UV8MO4o2uTjawmhzDYTzrjaNY359N",
+        "bootstrap5.3-dark": "sha384-7Jcz2KF5x0EoMuiuOM62Aq2GWBRyHwJkNem3/+srKEZ3RhbfqJjE7DzGcckaow31",
+        "tailwind": "sha384-2PClT36mZOJJANif7K+S0PyJekY4a18sFJGvuJCLEECF+rYD7XEcL0lN2ld87T4d",
+        "tailwind-dark": "sha384-9sAG0Yq8wu0SZbfmNIqH3DR+ImK0k3m2a0pFsIvazG+XvWMud2kxlFw5fJn2KS1C",
+        "highcontrast": "sha384-p80ERM5BibxvsqrOzZqL7StKRqxeXQCBNKhmQY4Ua5/GhrA1iO6dX1Bllc4GVLiF",
+        "fluent2-highcontrast": "sha384-PjhVi53JYUezDd+ffataBbXMeXqEN+V0twJEppXce4/aNy+5msLkyQQjMWvJ7Fg+"
+    };
+
+
   //To replace theme in Link Tag for WASM and MAUI
     let ThemeEle = document.getElementById('theme');
     if (ThemeEle) {
@@ -368,8 +397,8 @@ window.addEventListener('load', function () {
             if (url.length > 1) {
                 if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
                     ThemeEle.removeAttribute('integrity');
-                    ThemeEle.href = 'https://cdn.syncfusion.com/blazor/24.1.41/styles/' + theme + '.css';
-                    ThemeEle.setAttribute('integrity', "sha384-q6lWA6UTLwy+yJ8/tmgzgBh/VgNOIwgsTLRkVjwB9NLOfVCgS3UOlZlgIPpWCE/R");
+                    ThemeEle.href = 'https://cdn.syncfusion.com/blazor/27.1.48/styles/' + theme + '.css';
+                   ThemeEle.setAttribute('integrity', Theme_integrity[theme]);
                 }
                 else {
                     ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + theme + '.css';
@@ -389,7 +418,11 @@ window.addEventListener('load', function () {
     themeName = location.search.replace("?theme=", "");
     }
     themeName = themeName === "bootstrap5" ? "bootstrap5.3" : themeName === "bootstrap5-dark" ? "bootstrap5.3-dark" : themeName;
+    var sfPreferenceMode = localStorage.getItem("sfPreferenceMode");
     document.body.classList.add(themeName);
+    if (sfPreferenceMode === "touch") {
+        document.body.classList.add("e-bigger");
+    }
     // Call the function to update button text on page load
    
 });
@@ -463,6 +496,8 @@ function onInsertEmotSlashRemove() {
     beforeApplyFormat(null, false);
 }
 
+
+
 function loadPdf2Script() {
     return new Promise(function (resolve, reject) {
         let script = document.createElement('script');
@@ -499,14 +534,14 @@ function created() {
 }
 
 function changeFocus() {
-    const activeElement = document.activeElement;
-    if (activeElement) {
-        activeElement.blur();
-    }
-    var pdfViewerContainer = document.getElementById('pdfviewer_section');
-    if (pdfViewerContainer) {
-        pdfViewerContainer.focus();
-    }
+        const activeElement = document.activeElement;
+        if (activeElement) {
+            activeElement.blur();
+        }
+        var pdfViewerContainer = document.getElementById('pdfviewer_section');
+        if (pdfViewerContainer) {
+            pdfViewerContainer.focus();
+        }
 }
 
 function createdBrowsebutton() {
@@ -708,7 +743,7 @@ var updatedURL;
 var currentURL;
 
 function updateThemeURL() {
-    const themeParameter = "fluent2";
+    const themeParameter = "tailwind3";
     currentURL = window.location.href;
     if (!currentURL.includes("?")) {
         // URL does not contain a query string
@@ -885,6 +920,17 @@ function created() {
     document.getElementById('pdfviewer_open').addEventListener('click', function () {
         document.querySelector('.e-upload-browse-btn').click()
     })
+}
+
+function mapSearchValue(viewerId) {
+    var customSearchInput = document.getElementById('textbox');
+    var pdfViewerSearchInput = document.getElementById(viewerId + '_search_input');
+
+    if (customSearchInput !== null && pdfViewerSearchInput !== null) {
+        customSearchInput.addEventListener('input', () => {
+            pdfViewerSearchInput.value = customSearchInput.value;
+        });
+    }
 }
 
 //SmartRedact scripts - AIPdfviewer

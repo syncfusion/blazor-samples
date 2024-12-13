@@ -6,18 +6,14 @@
 @inherits SampleBaseComponent
 @implements IDisposable
 @*End:Hidden*@
-@*Hidden:Lines*@
-@inject NavigationManager NavigationManager
 
-
-@*End:Hidden*@
 @*Hidden:Lines*@
 <SampleDescription>
-    <p>This sample illustrates how to generate a hierarchical tree from an external data source.</p>
+    <p>This sample illustrates how to generate a hierarchical tree structure from an external data source using the Syncfusion Blazor Diagram component.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example explains how to generate a hierarchical tree from external data sources. You can customize the spacing between the objects in the tree by using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing' aria-label="HorizontalSpacing">HorizontalSpacing</a></code> and <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing' aria-label="">VerticalSpacing</a></code> properties of <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html' aria-label="Layout">Layout</a></code>. You can use the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation' aria-label="Orientation">Orientation</a></code> property of Layout to change the orientation.</p>
-    <p>To change the orientation of the tree, click the templates that are added to the property panel.</p>
+    <p>This example demonstrates how to generate a hierarchical tree from an external data source. Customize the spacing between nodes using the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_HorizontalSpacing" aria-label="HorizontalSpacing">HorizontalSpacing</a></code> and <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_VerticalSpacing" aria-label="VerticalSpacing">VerticalSpacing</a></code> properties of the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html" aria-label="Layout">Layout</a></code> class. Use the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Layout.html#Syncfusion_Blazor_Diagram_Layout_Orientation" aria-label="Orientation">Orientation</a></code> property to adjust the orientation of the tree.</p>
+    <p>To change the orientation of the tree layout dynamically, click the templates provided in the property panel.</p>
 </ActionDescription>
 <style>
 
@@ -76,19 +72,15 @@
         float: left;
         width: 120px;
     }
-
-    .sb-property-border {
-        border-right: 1px solid #D7D7D7;
-    }
 </style>
 @*End:Hidden*@
 <div class="col-lg-9 control-section sb-property-border">
     <div class="content-wrapper">
         <SfDiagramComponent Width="100%" Height="810px" ConnectorCreating="@OnConnectorCreating" NodeCreating="@OnNodeCreating" InteractionController="@DiagramInteractions.ZoomPan">
-            <ScrollSettings @bind-ScrollLimit="@scrollLimit"></ScrollSettings>
+            <ScrollSettings @bind-ScrollLimit="@ScrollLimit"></ScrollSettings>
             <DataSourceSettings ID="EmployeeID" ParentID="ParentID" DataSource="DataSource"> </DataSourceSettings>
-            <Layout @bind-Type="Type" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@OrientationType" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@HorizontalAlignment" @bind-VerticalAlignment="@VerticalAlignment" GetLayoutInfo="GetLayoutInfo">
-                <LayoutMargin @bind-Top="@Top" @bind-Bottom="@Bottom" @bind-Right="@Right" @bind-Left="@Left"></LayoutMargin>
+            <Layout @bind-Type="DiagramLayoutType" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-Orientation="@LayoutOrientationType" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@HorizontalAlignment" @bind-VerticalAlignment="@VerticalAlignment" GetLayoutInfo="GetLayoutInfo">
+                <LayoutMargin @bind-Top="@MarginTop" @bind-Bottom="@MarginBottom" @bind-Right="@MarginRight" @bind-Left="@MarginLeft"></LayoutMargin>
             </Layout>
             <SnapSettings Constraints="@SnapConstraints.None"></SnapSettings>
             <DiagramTemplates>
@@ -289,25 +281,24 @@
 
 @code
 {
-    private const string selecteditem = "image-pattern-style e-selected-style";
-    private const string unselecteditem = "image-pattern-style";
-    ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Diagram;
-    public SfDiagramComponent Diagram;
+    private const string SelectedItemClass = "image-pattern-style e-selected-style";
+    private const string UnselecteditemClass = "image-pattern-style";
+    ScrollLimitMode ScrollLimit { get; set; } = ScrollLimitMode.Diagram;
     public int? HValue { get; set; } = 60;
     public int? VValue { get; set; } = 60;
-    public LayoutType Type = LayoutType.HierarchicalTree;
-    public LayoutOrientation OrientationType = LayoutOrientation.TopToBottom;
-    public HorizontalAlignment HorizontalAlignment = HorizontalAlignment.Auto;
-    public VerticalAlignment VerticalAlignment = VerticalAlignment.Auto;
-    public int HorizontalSpacing = 60;
-    public int VerticalSpacing = 60;
-    public double Top = 50;
-    public double Bottom = 50;
-    public double Right = 50;
-    public double Left = 50;
+    public LayoutType DiagramLayoutType { get; set; } = LayoutType.HierarchicalTree;
+    public LayoutOrientation LayoutOrientationType { get; set; } = LayoutOrientation.TopToBottom;
+    public HorizontalAlignment HorizontalAlignment { get; set; } = HorizontalAlignment.Auto;
+    public VerticalAlignment VerticalAlignment { get; set; } = VerticalAlignment.Auto;
+    public int HorizontalSpacing { get; set; } = 60;
+    public int VerticalSpacing { get; set; } = 60;
+    public double MarginTop { get; set; } = 50;
+    public double MarginBottom { get; set; } = 50;
+    public double MarginRight { get; set; } = 50;
+    public double MarginLeft { get; set; } = 50;
     
 
-    Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", selecteditem }, { "bottomToTop", unselecteditem }, { "leftToRight", unselecteditem }, { "rightToLeft", unselecteditem } };
+    Dictionary<string, string> dict = new Dictionary<string, string>() { { "topToBottom", SelectedItemClass }, { "bottomToTop", UnselecteditemClass }, { "leftToRight", UnselecteditemClass }, { "rightToLeft", UnselecteditemClass } };
 
     private void OnConnectorCreating(IDiagramObject connector)
     {
@@ -336,7 +327,7 @@
     private void OnNodeCreating(IDiagramObject obj)
     {
         Node node = obj as Node;
-        node.Width = 190;
+        node.Width = 210;
         node.Height = 104;
         node.Shape = new Shape()
         { Type = Syncfusion.Blazor.Diagram.NodeShapes.HTML };
@@ -378,11 +369,11 @@
             var key = dict.Keys.ElementAt(i);
             if (dict.ContainsKey(id) && key == id)
             {
-                value = selecteditem;
+                value = SelectedItemClass;
             }
             else
             {
-                value = unselecteditem;
+                value = UnselecteditemClass;
             }
             dict.Remove(key);
             dict.Add(key, value);
@@ -407,22 +398,22 @@
     private void ToptoBottomClick()
     {
         UpdateSelection("topToBottom");
-        OrientationType = LayoutOrientation.TopToBottom;
+        LayoutOrientationType = LayoutOrientation.TopToBottom;
     }
     private void LefttoRightClick()
     {
         UpdateSelection("leftToRight");
-        OrientationType = LayoutOrientation.LeftToRight;
+        LayoutOrientationType = LayoutOrientation.LeftToRight;
     }
     private void RighttoLeftClick()
     {
         UpdateSelection("rightToLeft");
-        OrientationType = LayoutOrientation.RightToLeft;
+        LayoutOrientationType = LayoutOrientation.RightToLeft;
     }
     private void BottomtoTopClick()
     {
         UpdateSelection("bottomToTop");
-        OrientationType = LayoutOrientation.BottomToTop;
+        LayoutOrientationType = LayoutOrientation.BottomToTop;
     }
 
     @*Hidden:Lines*@

@@ -530,7 +530,6 @@ namespace BlazorDemos
                 Category = "Import and Export",
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-html",
-                Type = SampleType.Updated,
                 FileName = "WordToHTML.razor",
                 MetaDescription = "This sample demonstrates how to convert a Word document to HTML using .NET Word Library (DocIO).",
                 SourceFiles = new List<SourceCollection>()
@@ -553,7 +552,6 @@ namespace BlazorDemos
                 Category = "Import and Export",
                 Directory = "DocumentProcessing/Word",
                 Url = "word/html-to-word",
-                Type = SampleType.Updated,
                 FileName = "HTMLToWord.razor",
                 MetaDescription = "This sample demonstrates how to convert the HTML to a Word document using .NET Word Library (DocIO).",
                 NotificationDescription = new string[]
@@ -1765,7 +1763,6 @@ namespace BlazorDemos
                 Category = "Conversions",
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/excel-to-pdf-ua",
-                Type = SampleType.New,
                 NotificationDescription = new string[]
                 {
                     @"Converting Excel documents to PDF with PDF/UA standard compliance is now supported. This ensures that users who rely on accessibility tools can effectively read the content of these PDF documents."
@@ -2511,7 +2508,7 @@ namespace BlazorDemos
                 Directory="DocumentProcessing/PDF",
                 MetaDescription="This sample demonstrates the creation of different type of annotations such as ink, free text, pop up, text markup annotation and more. The Essential PDF supports 20+ annotations with create, edit, and delete support.",
                 Url="pdf/annotations",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -2526,7 +2523,7 @@ namespace BlazorDemos
                     }
                 }
                },
-#if !WEBAPP && !NET9_0
+#if !WEBAPP
               new Sample
               {
                   Name = "Compress Existing PDF",

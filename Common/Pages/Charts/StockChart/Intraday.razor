@@ -10,15 +10,16 @@
 
 @*End:Hidden*@
 
-@if (DataSource == null)
+@if (StockChartData == null)
 {
-    <div class="stockchartloader"></div> }
+    <div class="stockchart-loader"></div> 
+}
 else
 {
-    <div class="@loadClass"></div>
-    <div class="@loadDiv">
-        <SfStockChart Title="AAPL Stock Price" Theme="@theme" SeriesType="@Nullseries" TrendlineType="@Nulltrendline" IndicatorType="@Nullindicator" ExportType="@Nullexport">
-            <StockChartEvents OnLoaded="@ChartLoaded"></StockChartEvents>
+    <div class="@LoaderClass"></div>
+    <div class="@ChartContainerClass">
+        <SfStockChart Title="AAPL Stock Price" Theme="@CurrentTheme" SeriesType="@EmptySeriesList" TrendlineType="@EmptyTrendlineList" IndicatorType="@EmptyIndicatorList" ExportType="@EmptyExportTypeList">
+            <StockChartEvents OnLoaded="@OnChartLoaded"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -31,7 +32,7 @@ else
             <StockChartTooltipSettings Enable="false"></StockChartTooltipSettings>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Spline" YName="high"></StockChartSeries>
+                <StockChartSeries DataSource="@StockChartData" Type="ChartSeriesType.Spline" YName="High"></StockChartSeries>
             </StockChartSeriesCollection>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
@@ -46,7 +47,7 @@ else
         </SfStockChart>
     </div>
     <style>
-        .stockchartloader {
+        .stockchart-loader {
             border: 6px solid #f3f3f3;
             border-top: 6px solid #7a0fff;
             width: 40px;
@@ -59,7 +60,7 @@ else
             animation: loader 2s linear infinite;
         }
 
-        .stockchartdiv {
+        .stockchart-container {
             visibility: hidden;
         }
 
@@ -68,7 +69,7 @@ else
         }
 
         div[id*="_selector_Secondary_Element"] {
-            transform: translate(0px, @translateY) !important;
+            transform: translate(0px, @TranslateY) !important;
         }
 
         .e-tbar-btn {
@@ -77,78 +78,64 @@ else
     </style>
 }
 
-@code{ 
+@code {
 
-    Random random = new Random();
-    public int Value = 80;
-    public List<ChartSeriesType> Nullseries = new List<ChartSeriesType>() { };
-    public List<TrendlineTypes> Nulltrendline = new List<TrendlineTypes>() { };
-    public List<TechnicalIndicators> Nullindicator = new List<TechnicalIndicators>() { };
-    public List<ExportType> Nullexport = new List<ExportType>() { };
-    private List<ChartData> DataSource;
-    string translateY = "-5px";
-    
+    private Random RandomGenerator = new Random();
+    public int StockPriceValue { get; set; } = 80;
+    public List<ChartSeriesType> EmptySeriesList { get; set; } = new List<ChartSeriesType>();
+    public List<TrendlineTypes> EmptyTrendlineList { get; set; } = new List<TrendlineTypes>();
+    public List<TechnicalIndicators> EmptyIndicatorList { get; set; } = new List<TechnicalIndicators>();
+    public List<ExportType> EmptyExportTypeList { get; set; } = new List<ExportType>();
+    private List<StockData> StockChartData { get; set; }
+    private string TranslateY { get; set; } = "-5px";
 
     protected override async Task OnInitializedAsync()
     {
-        BeforeRender();
-        await Task.Run(() =>
-        {
-            DataSource = this.GetData();
-        });
-        //Hidden:Lines
-        if (theme == Theme.Material3 || theme == Theme.Material3Dark || theme == Theme.Bootstrap4 || theme == Theme.Material || theme == Theme.MaterialDark)
-        {
-            translateY = "-7px";
-        }
-        //End:Hidden
+        SetTheme();
+        StockChartData = await Task.Run(() => GenerateStockData());
     }
 
-    List<ChartData> GetData()
+    private List<StockData> GenerateStockData()
     {
-        List<ChartData> data = new List<ChartData>();
+        var dataList = new List<StockData>();
         for (int i = 1; i < 1440; i++)
         {
-            if (random.Next(-10, 10) > .5)
+            StockPriceValue += RandomGenerator.Next(-10, 10) > 0.5 ? RandomGenerator.Next(5, 10) : -RandomGenerator.Next(5, 10);
+            dataList.Add(new StockData
             {
-                this.Value += random.Next(5, 10);
-            }
-            else
-            {
-                this.Value -= random.Next(5, 10);
-            }
-            data.Add(new ChartData
-            {
-                date = new DateTime(2000, 1, 1).AddHours(0).AddMinutes(i),
-                high = this.Value
+                Date = new DateTime(2000, 1, 1).AddMinutes(i),
+                High = StockPriceValue
             });
         }
-        return data;
+        return dataList;
     }
 
-    public class ChartData
+    public class StockData
     {
-        public DateTime date { get; set; }
-        public double open { get; set; }
-        public double low { get; set; }
-        public double close { get; set; }
-        public double high { get; set; }
-        public double volume { get; set; }
-        public double value;
+        public DateTime Date { get; set; }
+        public double High { get; set; }
     }
 
-    string loadClass = "stockchartloader";
-    string loadDiv = "stockchartdiv";
-    void ChartLoaded(StockChartEventArgs args)
+    private string LoaderClass { get; set; } = "stockchart-loader";
+    private string ChartContainerClass { get; set; } = "stockchart-container";
+
+    private void OnChartLoaded(StockChartEventArgs args)
     {
-        loadClass = "";
-        loadDiv = "";
+        LoaderClass = string.Empty;
+        ChartContainerClass = string.Empty;
         StateHasChanged();
     }
 
-    Theme theme = Theme.Bootstrap4;
-    void BeforeRender()
+    private Theme CurrentTheme { get; set; } = Theme.Bootstrap4;
+
+    private void SetTheme()
     {
-        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-    } 
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (CurrentTheme == Theme.Material3 || CurrentTheme == Theme.Material3Dark ||
+            CurrentTheme == Theme.Bootstrap4 || CurrentTheme == Theme.Material ||
+            CurrentTheme == Theme.MaterialDark)
+        {
+            TranslateY = "-7px";
+        }
+    }
 }

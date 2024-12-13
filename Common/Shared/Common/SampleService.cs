@@ -194,37 +194,44 @@ namespace BlazorDemos.Shared
         {
             var Navigation_Url = SampleUtils.IsHomePage(UriHelper) ?  UriHelper.BaseUri + "datagrid/overview/" : UriHelper.Uri;
 #if DEBUG || STAGING
-            #if NET8_0
-                #if SERVER
-                         Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net8/demos", "wasm/net8/demos") :  Navigation_Url.Replace("net8/demos", "webapp/demos");
-                #endif
-                #if WEBAPP
-                         Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/net8/demos") : Navigation_Url.Replace("webapp/demos", "net8/demos");
-                #endif
-                #if WASM
-                        Navigation_Url =  id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/net8/demos", "net8/demos") : Navigation_Url.Replace("wasm/net8/demos", "webapp/demos");
-                #endif
-            #else
-                #if SERVER
-                         Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net6/demos", "wasm/net6/demos") : Navigation_Url.Replace("net6/demos", "webapp/net6/demos");
-                #endif
-                #if WEBAPP
-                         Navigation_Url =  id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/net6/demos") : Navigation_Url.Replace("webapp/demos", "net6/demos");
-                #endif
-                #if WASM
-                        Navigation_Url = id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/net6/demos", "net6/demos") : Navigation_Url.Replace("wasm/net6/demos", "webapp/demos");
-                #endif
-            #endif       
- #else
-            #if SERVER
-                   Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("demos", "wasm/demos") : Navigation_Url.Replace("demos", "webapp/demos");
-            #endif
-            #if WEBAPP
-                   Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/demos") : Navigation_Url.Replace("webapp/demos", "demos");
-            #endif
-            #if WASM
-                  Navigation_Url = id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/demos", "demos") : Navigation_Url.Replace("wasm/demos", "webapp/demos");
-            #endif
+    #if NET6_0
+        #if SERVER
+            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url.Replace("net6/demos", "wasm/net6/demos");
+        #endif
+        #if WASM
+            Navigation_Url = id == "wasm" ? Navigation_Url : Navigation_Url.Replace("wasm/net6/demos", "net6/demos");
+        #endif
+    #elif NET8_0
+        #if SERVER
+            Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net8/demos", "wasm/net8/demos") :  Navigation_Url.Replace("net8/demos", "webapp/demos");
+        #endif
+        #if WEBAPP
+            Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/net8/demos") : Navigation_Url.Replace("webapp/demos", "net8/demos");
+        #endif
+        #if WASM
+            Navigation_Url =  id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/net8/demos", "net8/demos") : Navigation_Url.Replace("wasm/net8/demos", "webapp/demos");
+        #endif
+    #else
+        #if SERVER
+            Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net9/demos", "wasm/net9/demos") : Navigation_Url.Replace("net9/demos", "webapp/net9/demos");
+        #endif
+        #if WEBAPP
+            Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/net9/demos", "wasm/net9/demos") : Navigation_Url.Replace("webapp/net9/demos", "net9/demos");
+        #endif
+        #if WASM
+            Navigation_Url =  id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/net9/demos", "net9/demos") : Navigation_Url.Replace("wasm/net9/demos", "webapp/net9/demos");
+        #endif
+    #endif
+#else
+    #if SERVER
+        Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("demos", "wasm/demos") : Navigation_Url.Replace("demos", "webapp/demos");
+    #endif
+    #if WEBAPP
+        Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/demos") : Navigation_Url.Replace("webapp/demos", "demos");
+    #endif
+    #if WASM
+        Navigation_Url = id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/demos", "demos") : Navigation_Url.Replace("wasm/demos", "webapp/demos");
+    #endif
 #endif
             await JsRuntime.InvokeVoidAsync("open", Navigation_Url, "_blank");
         }
@@ -306,7 +313,7 @@ namespace BlazorDemos.Shared
                         this.CurrentSampleUrl = this.SampleInfo.Url;
                         var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
                         {
-                            ["theme"] = "fluent2"
+                            ["theme"] = "tailwind3"
                         });
                         urlHelper.NavigateTo(newUri);
                     }

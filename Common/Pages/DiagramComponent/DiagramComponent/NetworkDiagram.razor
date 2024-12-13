@@ -2,24 +2,20 @@
 
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Diagram.SymbolPalette
-
 @using shapes = Syncfusion.Blazor.Diagram.NodeShapes
-
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @implements IDisposable
 @inject NavigationManager NavigationManager
-
-
 <SampleDescription>
     <p>
-        This sample visualizes the graphical layout of a network diagram using Diagram's <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.NodeShapes.html#Syncfusion_Blazor_Diagram_Shapes_SVG' aria-label="SVG">SVG</a> nodes feature.
+        This sample visualizes the graphical layout of a network diagram using the Diagram's <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.NodeShapes.html#Syncfusion_Blazor_Diagram_Shapes_SVG" aria-label="SVG">SVG</a> nodes feature.
     </p>
 </SampleDescription>
 <ActionDescription>
-   <p>
-        This example shows how to host <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.NodeShapes.html#Syncfusion_Blazor_Diagram_Shapes_SVG' aria-label="SVG">SVG</a> content inside a node. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_Shape' aria-label="Shape"> Shape</a> property of the node can be used to host SVG content inside it.
-   </p>
+    <p>
+        This example demonstrates how to host <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.NodeShapes.html#Syncfusion_Blazor_Diagram_Shapes_SVG" aria-label="SVG">SVG</a> content within a node. The <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_Shape" aria-label="Shape">Shape</a> property of the node is utilized to embed SVG content.
+    </p>
 </ActionDescription>
 @*End:Hidden*@
 
@@ -159,7 +155,7 @@
         </div>
         @*End:Hidden*@
         <div id="palette-space" class="sb-mobile-palette">
-            <SfSymbolPaletteComponent @ref="@PaletteInstance" Height="687px" Palettes="@palettes" SymbolDragPreviewSize="@SymbolPreview" SymbolHeight="75" SymbolWidth="75" SymbolMargin="@SymbolMargin">
+            <SfSymbolPaletteComponent @ref="@PaletteInstance" Height="687px" Palettes="@DiagramPalettes" SymbolDragPreviewSize="@SymbolPreview" SymbolHeight="75" SymbolWidth="75" SymbolMargin="@SymbolMargin">
                 <SymbolPaletteTemplates>
                     <NodeTemplate>
                         @{
@@ -249,7 +245,7 @@
         </div>
         <div id="diagram-space" class="sb-mobile-diagram">
             <div class="content-wrapper" style="border: 1px solid #D7D7D7">
-                <SfDiagramComponent @ref="@DInstance" Height="687px" DragDrop="@DragDrop" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
+                <SfDiagramComponent @ref="@DiagramInstance" Height="687px" DragDrop="@DragDrop" Nodes="@DiagramNodes" Connectors="@DiagramConnectors" Created="OnCreated">
                     <DiagramTemplates>
                         <NodeTemplate>
                             @{
@@ -343,40 +339,38 @@
 
 
 @code{
-
-    
-    public DiagramSize SymbolPreview;
-    public SymbolMargin SymbolMargin = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
-    public SfDiagramComponent DInstance;
-    public SfSymbolPaletteComponent PaletteInstance;
+    public DiagramSize SymbolPreview { get; set; }
+    public SymbolMargin SymbolMargin { get; set; } = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
+    public SfDiagramComponent DiagramInstance { get; set; }
+    public SfSymbolPaletteComponent PaletteInstance { get; set; }
     public DiagramPoint sourcePoint;
     public DiagramPoint targetPoint;
     public DecoratorSettings targetDecorator;
 
     //Defines Diagram's Nodes collection
-    private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    private DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
 
     //Defines Diagram's Connectors collection
-    private DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    private DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
 
     //Define palettes collection
-    private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
+    private DiagramObjectCollection<Palette> DiagramPalettes { get; set; } = new DiagramObjectCollection<Palette>();
 
     // Defines palette's flow-shape collection
-    private DiagramObjectCollection<NodeBase> flowShapeSymbols = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase> FlowShapeSymbols { get; set; } = new DiagramObjectCollection<NodeBase>();
 
     // Defines interval values for GridLines
     public double[] GridLineIntervals { get; set; }
 
     // Defines palette's connector collection
-    private DiagramObjectCollection<NodeBase> connectorSymbols = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase> PaltteConnectors { get; set; } = new DiagramObjectCollection<NodeBase>();
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
         PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
         {
-            DInstance
+            DiagramInstance
         };
     }
     public string arrow;
@@ -400,8 +394,8 @@
     private void InitDiagramModel()
     {
         arrow = "M 0 26.4576 L 26.4576 0 L 26.4576 0 L 26.4576 17.46239 L 26.4576 17.46239 L 113.3856 17.46239 L 113.3856 17.46239 L 113.3856 35.45279 L 113.3856 35.45279 L 26.4576 35.45279 L 26.4576 35.45279 L 26.4576 52.91519 L 26.4576 52.91519 L 0 26.4576 Z";
-        nodes = new DiagramObjectCollection<Node>();
-        connectors = new DiagramObjectCollection<Connector>();
+        DiagramNodes = new DiagramObjectCollection<Node>();
+        DiagramConnectors = new DiagramObjectCollection<Connector>();
         ShapeAnnotation serverAnnotation = new ShapeAnnotation()
         {
             Content = "Server",
@@ -604,7 +598,7 @@
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        DInstance.FitToPage(mobileoptions);
+        DiagramInstance.FitToPage(mobileoptions);
     }
     private PointPort AddPort(string id, double x, double y)
     {
@@ -629,13 +623,13 @@
     // Create Nodes and Connectors for the Palette.
     private void InitPaletteModel()
     {
-        palettes = new DiagramObjectCollection<Palette>();
+        DiagramPalettes = new DiagramObjectCollection<Palette>();
         SymbolPreview = new DiagramSize
         {
             Width = 80,
             Height = 80
         };
-        flowShapeSymbols = new DiagramObjectCollection<NodeBase>();
+        FlowShapeSymbols = new DiagramObjectCollection<NodeBase>();
         CreatePaletteNode(shapes.SVG, "Server");
 
         CreatePaletteNode(shapes.SVG, "WorkStation");
@@ -659,15 +653,15 @@
         sourcePoint = new DiagramPoint() { X = 0, Y = 0 };
         targetPoint = new DiagramPoint() { X = 40, Y = 40 };
 
-        connectorSymbols = new DiagramObjectCollection<NodeBase>();
+        PaltteConnectors = new DiagramObjectCollection<NodeBase>();
         CreatePaletteConnector("StraightWithArrow", ConnectorSegmentType.Straight, DecoratorShape.Arrow);
         CreatePaletteConnector("OrthogonalWithArrow", ConnectorSegmentType.Orthogonal, DecoratorShape.Arrow);
 
-        palettes = new DiagramObjectCollection<Palette>()
+        DiagramPalettes = new DiagramObjectCollection<Palette>()
         {
             #pragma warning disable BL0005
-            new Palette() {Symbols = flowShapeSymbols, Title = "Network Shapes"},
-            new Palette() {Symbols = connectorSymbols, Title = "Connectors", IsExpanded = true},
+            new Palette() {Symbols = FlowShapeSymbols, Title = "Network Shapes"},
+            new Palette() {Symbols = PaltteConnectors, Title = "Connectors", IsExpanded = true},
             #pragma warning restore BL0005
         };
     }
@@ -701,7 +695,7 @@
             };
         }
 
-        flowShapeSymbols.Add(diagramNode);
+        FlowShapeSymbols.Add(diagramNode);
     }
     // Method is used to create a Connector for the diagram.
     private void CreateConnector(string id, string sourceid, string targetid, string sourcportid, string targetportid, ConnectorSegmentType connectorSegment, OrthogonalSegment segments = null)
@@ -729,7 +723,7 @@
                     segments
             };
         }
-        connectors.Add(connector);
+        DiagramConnectors.Add(connector);
     }
     private void CreateNode(string id, double offsetx, double offsety, ShapeAnnotation annotation = null, DiagramObjectCollection<PointPort> ports = null, Shape shape = null)
     {
@@ -846,7 +840,7 @@
             node.Annotations[0].Style.FontSize = 16;
         }
 
-        nodes.Add(node);
+        DiagramNodes.Add(node);
     }
     // Method is used to create a Connector for the palette.
     private void CreatePaletteConnector(string id, ConnectorSegmentType type, DecoratorShape decoratorShape)
@@ -865,7 +859,7 @@
         diagramConnector.Style.Fill = "#757575";
         diagramConnector.TargetDecorator = new DecoratorSettings() { Width = 8, Height = 8, Style = new ShapeStyle() { Fill = "#5C90DF", StrokeColor = "#5C90DF" } };
 
-        connectorSymbols.Add(diagramConnector);
+        PaltteConnectors.Add(diagramConnector);
     }
     [Inject]
     protected IJSRuntime jsRuntime { get; set; }
@@ -886,55 +880,55 @@
         {
             SymbolMargin = null;
         }
-        DInstance = null;
+        DiagramInstance = null;
         PaletteInstance = null;
-        if (nodes != null)
+        if (DiagramNodes != null)
         {
-            nodes.Clear();
-            nodes = null;
+            DiagramNodes.Clear();
+            DiagramNodes = null;
         }
-        if (connectors != null)
+        if (DiagramConnectors != null)
         {
-            connectors.Clear();
-            connectors = null;
+            DiagramConnectors.Clear();
+            DiagramConnectors = null;
         }
 
 #pragma warning disable BL0005
-        if (palettes != null)
+        if (DiagramPalettes != null)
         {
-            for (int i = 0; i < palettes.Count; i++)
+            for (int i = 0; i < DiagramPalettes.Count; i++)
             {
-                palettes[i].ID = null;
-                palettes[i].Title = null;
-                palettes[i].IconCss = null;
-                if (palettes[i].Symbols != null)
+                DiagramPalettes[i].ID = null;
+                DiagramPalettes[i].Title = null;
+                DiagramPalettes[i].IconCss = null;
+                if (DiagramPalettes[i].Symbols != null)
                 {
-                    for (int j = 0; j < palettes[i].Symbols.Count; j++)
+                    for (int j = 0; j < DiagramPalettes[i].Symbols.Count; j++)
                     {
-                        palettes[i].Symbols[j] = null;
+                        DiagramPalettes[i].Symbols[j] = null;
                     }
-                    palettes[i].Symbols.Clear();
-                    palettes[i].Symbols = null;
+                    DiagramPalettes[i].Symbols.Clear();
+                    DiagramPalettes[i].Symbols = null;
                 }
             }
-            palettes.Clear();
-            palettes = null;
+            DiagramPalettes.Clear();
+            DiagramPalettes = null;
         }
 #pragma warning restore BL0005
-        if (flowShapeSymbols != null)
+        if (FlowShapeSymbols != null)
         {
-            flowShapeSymbols.Clear();
-            flowShapeSymbols = null;
+            FlowShapeSymbols.Clear();
+            FlowShapeSymbols = null;
         }
         if (GridLineIntervals != null)
         {
             Array.Clear(GridLineIntervals, 0, GridLineIntervals.Length);
             GridLineIntervals = null;
         }
-        if (connectorSymbols != null)
+        if (PaltteConnectors != null)
         {
-            connectorSymbols.Clear();
-            connectorSymbols = null;
+            PaltteConnectors.Clear();
+            PaltteConnectors = null;
         }
     }
     @*End:Hidden*@

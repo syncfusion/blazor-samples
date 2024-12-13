@@ -2,20 +2,21 @@
 
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Diagram.SymbolPalette
-@using System.Collections.ObjectModel 
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @implements IDisposable
-@inject NavigationManager NavigationManager
-
-
 <SampleDescription>
     <p>This Blazor Diagram example visualizes the processing requests for book lending in a library.</p>
 </SampleDescription>
+
 <ActionDescription>
-    <p>This example shows how to create a simple BPMN diagram using the Diagram component. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html?&_ga=2.31229372.220667007.1679910873-428174700.1673441120#Syncfusion_Blazor_Diagram_SfDiagramComponent_Nodes' aria-label="Nodes">Nodes</a></code> property can be used to define different stages of a process. To define the flow among different stages, the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html?&_ga=2.97362204.220667007.1679910873-428174700.1673441120#Syncfusion_Blazor_Diagram_SfDiagramComponent_Connectors' aria-label="Connectors">Connectors</a></code> property can be used.</p>
-    <p>To build BPMN diagrams easily, a few shapes are predefined and added to a symbol palette. You can drag predefined shapes into the drawing area. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SymbolPalette.Palette.html#Syncfusion_Blazor_Diagram_SymbolPalette_Palette_Symbols' aria-label="Symbols">Symbols</a></code> property allows you to add predefined symbols to the palette.</p>
+    <p>
+        This example shows how to create a simple BPMN diagram using the Diagram component. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Nodes" aria-label="Nodes">Nodes</a></code> property can be used to define different stages of a process. To define the flow among different stages, the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_Connectors" aria-label="Connectors">Connectors</a></code> property can be used.
+    </p>
+    <p>
+        To build BPMN diagrams easily, a few shapes are predefined and added to a symbol palette. You can drag predefined shapes into the drawing area. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SymbolPalette.Palette.html#Syncfusion_Blazor_Diagram_SymbolPalette_Palette_Symbols" aria-label="Symbols">Symbols</a></code> property allows you to add predefined symbols to the palette.
+    </p>
 </ActionDescription>
 @*End:Hidden*@
 
@@ -150,12 +151,12 @@
             <div id="palette-icon" style="float: right;" role="button" @onclick="ShowHideSymbolPalette" class="e-ddb-icons1 e-toggle-palette"></div>
         </div>
         <div id="palette-space" class="sb-mobile-palette">
-            <SfSymbolPaletteComponent @ref="@PaletteInstance" Height="700px" Palettes="@palettes" SymbolHeight="60" SymbolWidth="60" SymbolMargin="@SymbolMargin">
+            <SfSymbolPaletteComponent @ref="@PaletteComponentRef" Height="700px" Palettes="@palettes" SymbolHeight="60" SymbolWidth="60" SymbolMargin="@SymbolMarginSettings">
             </SfSymbolPaletteComponent>
         </div>
         <div id="diagram-space" class="sb-mobile-diagram">
             <div class="content-wrapper" style="border: 1px solid #D7D7D7">
-                <SfDiagramComponent @ref="@Diagram" Connectors="@connectors" Created="OnCreated" DragDrop="@DragDrop" SelectionChanged="@OnSelectionChanged" Height="687px" GetCustomTool="@GetCustomTool" Nodes="@nodes" SelectionSettings="@selectionSettings" NodeCreating="OnNodeCreating" ConnectorCreating="OnConnectorCreating">
+                <SfDiagramComponent @ref="@DiagramComponentRef" Connectors="@DiagramConnectors" Created="OnCreated" DragDrop="@DragDrop" SelectionChanged="@OnSelectionChanged" Height="687px" GetCustomTool="@GetCustomTool" Nodes="@NodeCollection" SelectionSettings="@selectionSettings" NodeCreating="OnNodeCreating" ConnectorCreating="OnConnectorCreating">
                     <SnapSettings>
                         <HorizontalGridLines LineColor="#e0e0e0 " LineIntervals="@GridLineIntervals">
                         </HorizontalGridLines>
@@ -163,8 +164,8 @@
                         </VerticalGridLines>
                     </SnapSettings>
                     <ContextMenuSettings Show="true"
-                                         @bind-Items="@Items"
-                                         ContextMenuOpening="@BeforeOpen"
+                                         @bind-Items="@ContextMenuItems"
+                                         ContextMenuOpening="@ContextMenuOpen"
                                          ContextMenuItemClicked="@ItemClicked"></ContextMenuSettings>
                 </SfDiagramComponent>
             </div>
@@ -178,17 +179,16 @@
 @code{
     
     DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
-    FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.PageSettings };
-    public DiagramSize SymbolPreview;
-    public SymbolMargin SymbolMargin = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
-    public SfDiagramComponent Diagram;
-    public SfSymbolPaletteComponent PaletteInstance;
-    DiagramObjectCollection<UserHandle> handles = new DiagramObjectCollection<UserHandle>();
+    public DiagramSize SymbolPreviewSettings { get; set; }
+    public SymbolMargin SymbolMarginSettings = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
+    public SfDiagramComponent DiagramComponentRef { get; set; }
+    public SfSymbolPaletteComponent PaletteComponentRef { get; set; }
+    public DiagramObjectCollection<UserHandle> UserHandleCollection = new DiagramObjectCollection<UserHandle>();
     //Defines Diagram's nodes collection
-    private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node> NodeCollection = new DiagramObjectCollection<Node>();
 
     //Defines Diagram's connectors collection
-    private DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector> DiagramConnectors = new DiagramObjectCollection<Connector>();
 
     //Define palettes collection
     private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
@@ -196,22 +196,22 @@
     // Defines palette's flow-shape collection
     private DiagramObjectCollection<NodeBase> BPMNShapeSymbols = new DiagramObjectCollection<NodeBase>();
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
-    List<ContextMenuItem> Items;
+    protected IJSRuntime JsRuntime { get; set; }
+    public List<ContextMenuItem> ContextMenuItems { get; set; }
 
-    List<string> Event = new List<string>() { "EventType", "Trigger" };
-    List<string> GateWay = new List<string>() { "GateWayType" };
-    List<string> Message = new List<string>() { };
-    List<string> DataObject = new List<string>() { "Collection", "DataObjectType" };
-    List<string> DataStore = new List<string>() { };
-    List<string> Activity = new List<string>() { "ActivityType", "Loop", "Compensation", };
-    List<string> ActivityTask = new List<string>() { "Call", "TaskType", };
-    List<string> ActivityCollapsedSubProcess = new List<string>() { "AdHoc", "Boundary" };
-    List<string> ExpandedSubProcess = new List<string>() { "Loop", "AdHoc", "Compensation", "Boundary" };
-    List<string> TextAnnotation = new List<string>() { "Orientation" };
-    List<string> BpmnSequenceConnector = new List<string>() { "Sequence", "Message", "Association", "Condition" };
-    List<string> BpmnMessageConnector = new List<string>() { "Sequence", "Message", "Association", "Initiating" };
-    List<string> BpmnAssociationConnector = new List<string>() { "Sequence", "Message", "Association", "Direction" };
+    public List<string> Event = new List<string>() { "EventType", "Trigger" };
+    public List<string> BpmnGateWayType = new List<string>() { "GateWayType" };
+    public List<string> BpmnMessageData = new List<string>() { };
+    public List<string> BpmnDataObjectProperties = new List<string>() { "Collection", "DataObjectType" };
+    public List<string> BpmnDataStore = new List<string>() { };
+    public List<string> BpmnActivityProperties = new List<string>() { "ActivityType", "Loop", "Compensation", };
+    public List<string> BpmnTaskProperties = new List<string>() { "Call", "TaskType", };
+    public List<string> ActivityCollapsedSubProcess = new List<string>() { "AdHoc", "Boundary" };
+    public List<string> ExpandedSubProcess = new List<string>() { "Loop", "AdHoc", "Compensation", "Boundary" };
+    public List<string> BpmnTextAnnotation = new List<string>() { "Orientation" };
+    public List<string> BpmnSequenceConnector = new List<string>() { "Sequence", "Message", "Association", "Condition" };
+    public List<string> BpmnMessageConnector = new List<string>() { "Sequence", "Message", "Association", "Initiating" };
+    public List<string> BpmnAssociationConnector = new List<string>() { "Sequence", "Message", "Association", "Direction" };
 
     // Defines interval values for GridLines
     public double[] GridLineIntervals { get; set; }
@@ -223,9 +223,9 @@
         {
             UpdateHandle();
         }
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteComponentRef.Targets = new DiagramObjectCollection<SfDiagramComponent>
         {
-            Diagram
+            DiagramComponentRef
         };
     }
 
@@ -233,18 +233,18 @@
     {
         if (args.NewValue.Count > 0 && args.NewValue[0] is Node)
         {
-            Diagram.SelectionSettings.Constraints = Diagram.SelectionSettings.Constraints | SelectorConstraints.UserHandle;
+            DiagramComponentRef.SelectionSettings.Constraints = DiagramComponentRef.SelectionSettings.Constraints | SelectorConstraints.UserHandle;
         }
         else if (args.NewValue.Count > 0)
         {
-            Diagram.SelectionSettings.Constraints = Diagram.SelectionSettings.Constraints & ~SelectorConstraints.UserHandle;
+            DiagramComponentRef.SelectionSettings.Constraints = DiagramComponentRef.SelectionSettings.Constraints & ~SelectorConstraints.UserHandle;
         }
     }
 
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        Diagram.FitToPage(mobileoptions);
+        DiagramComponentRef.FitToPage(mobileoptions);
     }
 
     // Method to customize the tool
@@ -253,11 +253,11 @@
         InteractionControllerBase tool = null;
         if (id == "Draw")
         {
-            tool = new DrawTool(Diagram);
+            tool = new DrawTool(DiagramComponentRef);
         }
         else
         {
-            tool = new AddDeleteTool(Diagram);
+            tool = new AddDeleteTool(DiagramComponentRef);
         }
         return tool;
     }
@@ -336,7 +336,7 @@
     // Creates Context menu items.
     private void InitContextItems()
     {
-        Items = new List<ContextMenuItem>()
+        ContextMenuItems = new List<ContextMenuItem>()
         {
                 new ContextMenuItem()
                 {
@@ -755,7 +755,7 @@
                      new PointPort() { ID="port4", Visibility = PortVisibility.Hidden, Offset = new DiagramPoint() { X = 0.5, Y = 1}, Height = 20, Width = 20 }
                  },
             };
-        nodes.Add(node1);
+        NodeCollection.Add(node1);
 
         Node node2 = new Node()
             {
@@ -783,7 +783,7 @@
                             },
                 }
             };
-        nodes.Add(node2);
+        NodeCollection.Add(node2);
 
         Node node3 = new Node()
             {
@@ -811,7 +811,7 @@
                             },
                 },
             };
-        nodes.Add(node3);
+        NodeCollection.Add(node3);
 
         Node node4 = new Node()
             {
@@ -828,7 +828,7 @@
                      new PointPort() { ID="port4", Visibility = PortVisibility.Hidden, Offset = new DiagramPoint() { X = 0.5, Y = 1}, Height = 20, Width = 20 }
                  }
             };
-        nodes.Add(node4);
+        NodeCollection.Add(node4);
 
         Node node5 = new Node()
             {
@@ -856,7 +856,7 @@
                             },
                 }
             };
-        nodes.Add(node5);
+        NodeCollection.Add(node5);
 
         Node node6 = new Node()
             {
@@ -874,7 +874,7 @@
                  }
 
             };
-        nodes.Add(node6);
+        NodeCollection.Add(node6);
 
         Node node7 = new Node()
             {
@@ -903,7 +903,7 @@
                             },
                 }
             };
-        nodes.Add(node7);
+        NodeCollection.Add(node7);
 
         Node node8 = new Node()
             {
@@ -933,7 +933,7 @@
                 }
 
             };
-        nodes.Add(node8);
+        NodeCollection.Add(node8);
 
         Node node9 = new Node()
             {
@@ -963,7 +963,7 @@
                 }
 
             };
-        nodes.Add(node9);
+        NodeCollection.Add(node9);
 
         Node node10 = new Node()
             {
@@ -991,7 +991,7 @@
                             },
                 }
             };
-        nodes.Add(node10);
+        NodeCollection.Add(node10);
 
         Node node11 = new Node()
             {
@@ -1019,7 +1019,7 @@
                             },
                  }
             };
-        nodes.Add(node11);
+        NodeCollection.Add(node11);
 
         Node node12 = new Node()
             {
@@ -1049,7 +1049,7 @@
                 }
 
             };
-        nodes.Add(node12);
+        NodeCollection.Add(node12);
 
         Node node13 = new Node()
             {
@@ -1077,7 +1077,7 @@
                             },
                 }
             };
-        nodes.Add(node13);
+        NodeCollection.Add(node13);
 
         Node node14 = new Node()
             {
@@ -1105,7 +1105,7 @@
                             },
                 }
             };
-        nodes.Add(node14);
+        NodeCollection.Add(node14);
 
         Node node15 = new Node()
             {
@@ -1133,7 +1133,7 @@
                             },
                 }
             };
-        nodes.Add(node15);
+        NodeCollection.Add(node15);
 
         Node node16 = new Node()
             {
@@ -1150,211 +1150,215 @@
                      new PointPort() { ID="port4", Visibility = PortVisibility.Hidden, Offset = new DiagramPoint() { X = 0.5, Y = 1}, Height = 20, Width = 20 }
                  }
             };
-        nodes.Add(node16);
+        NodeCollection.Add(node16);
         Connector connector1 = new Connector() { ID = "connector1", SourceID = "node1", TargetID = "node2", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector1);
+        DiagramConnectors.Add(connector1);
         Connector connector2 = new Connector() { ID = "connector2", SourceID = "node2", TargetID = "node3", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector2);
+        DiagramConnectors.Add(connector2);
         Connector connector3 = new Connector() { ID = "connector3", SourceID = "node3", TargetID = "node4", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector3);
+        DiagramConnectors.Add(connector3);
         Connector connector4 = new Connector() { ID = "connector4", SourceID = "node4", TargetID = "node5", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow }, Annotations = new DiagramObjectCollection<PathAnnotation>() { new PathAnnotation() { Content = "Book is on Loan", Alignment = AnnotationAlignment.Center, Style = new TextStyle() { Fill = "White" }, Width = 60 } } };
-        connectors.Add(connector4);
+        DiagramConnectors.Add(connector4);
         Connector connector5 = new Connector() { ID = "connector5", SourceID = "node5", TargetID = "node6", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector5);
+        DiagramConnectors.Add(connector5);
         Connector connector6 = new Connector() { ID = "connector6", SourceID = "node6", TargetID = "node7", SourcePortID = "port2", TargetPortID = "port1", Type = ConnectorSegmentType.Orthogonal, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector6);
+        DiagramConnectors.Add(connector6);
         Connector connector7 = new Connector() { ID = "connector7", SourceID = "node6", TargetID = "node8", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector7);
+        DiagramConnectors.Add(connector7);
         Connector connector8 = new Connector() { ID = "connector8", SourceID = "node6", TargetID = "node9", SourcePortID = "port4", TargetPortID = "port1", Type = ConnectorSegmentType.Orthogonal, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector8);
+        DiagramConnectors.Add(connector8);
         Connector connector9 = new Connector() { ID = "connector9", SourceID = "node7", TargetID = "node10", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector9);
+        DiagramConnectors.Add(connector9);
         Connector connector10 = new Connector() { ID = "connector10", SourceID = "node10", TargetID = "node11", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector10);
+        DiagramConnectors.Add(connector10);
         Connector connector11 = new Connector() { ID = "connector11", SourceID = "node11", TargetID = "node12", SourcePortID = "port2", TargetPortID = "port3", Type = ConnectorSegmentType.Orthogonal, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector11);
+        DiagramConnectors.Add(connector11);
         Connector connector12 = new Connector() { ID = "connector12", SourceID = "node12", TargetID = "node4", SourcePortID = "port1", TargetPortID = "port2", Type = ConnectorSegmentType.Orthogonal, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector12);
+        DiagramConnectors.Add(connector12);
         Connector connector13 = new Connector() { ID = "connector13", SourceID = "node4", TargetID = "node13", SourcePortID = "port4", TargetPortID = "port1", Type = ConnectorSegmentType.Orthogonal, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow }, Annotations = new DiagramObjectCollection<PathAnnotation>() { new PathAnnotation() { Content = "Book is Available", Alignment = AnnotationAlignment.Center, Style = new TextStyle() { Fill = "White" }, Width = 60 } } };
-        connectors.Add(connector13);
+        DiagramConnectors.Add(connector13);
         Connector connector14 = new Connector() { ID = "connector14", SourceID = "node13", TargetID = "node14", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector14);
+        DiagramConnectors.Add(connector14);
         Connector connector15 = new Connector() { ID = "connector15", SourceID = "node8", TargetID = "node15", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector15);
+        DiagramConnectors.Add(connector15);
         Connector connector16 = new Connector() { ID = "connector16", SourceID = "node15", TargetID = "node16", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector16);
+        DiagramConnectors.Add(connector16);
         Connector connector17 = new Connector() { ID = "connector17", SourceID = "node14", TargetID = "node16", SourcePortID = "port3", TargetPortID = "port4", Type = ConnectorSegmentType.Orthogonal, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector17);
+        DiagramConnectors.Add(connector17);
         Connector connector18 = new Connector() { ID = "connector18", SourceID = "node9", TargetID = "node15", SourcePortID = "port3", TargetPortID = "port4", Type = ConnectorSegmentType.Orthogonal, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        connectors.Add(connector18);
+        DiagramConnectors.Add(connector18);
     }
     // Create Nodes and Connectors for the Palette.
     private void InitPaletteModel()
     {
         palettes = new DiagramObjectCollection<Palette>();
-        SymbolPreview = new DiagramSize
-            {
-                Width = 100,
-                Height = 100
-            };
+        SymbolPreviewSettings = new DiagramSize
+        {
+            Width = 100,
+            Height = 100
+        };
         BPMNShapeSymbols = new DiagramObjectCollection<NodeBase>();
         Node node1 = new Node()
-            {
-                ID = "Task",
-                Width = 96,
-                Height = 72,
-                Shape = new BpmnActivity() { ActivityType = BpmnActivityType.Task, TaskType = BpmnTaskType.None }
-            };
+        {
+            ID = "Task",
+            Width = 96,
+            Height = 72,
+            Shape = new BpmnActivity() { ActivityType = BpmnActivityType.Task, TaskType = BpmnTaskType.None }
+        };
         BPMNShapeSymbols.Add(node1);
         Node node2 = new Node()
-            {
-                ID = "Gateway",
-                Width = 96,
-                Height = 72,
-                Shape = new BpmnGateway() { GatewayType = BpmnGatewayType.None }
-            };
+        {
+            ID = "Gateway",
+            Width = 96,
+            Height = 72,
+            Shape = new BpmnGateway() { GatewayType = BpmnGatewayType.None }
+        };
         BPMNShapeSymbols.Add(node2);
         Node node3 = new Node()
+        {
+            ID = "IntermediateEvent",
+            Width = 30,
+            Height = 30,
+            Shape = new BpmnEvent() { EventType = BpmnEventType.Intermediate, Trigger = BpmnEventTrigger.None },
+            Tooltip = new DiagramTooltip()
             {
-                ID = "IntermediateEvent",
-                Width = 30,
-                Height = 30,
-                Shape = new BpmnEvent() { EventType = BpmnEventType.Intermediate, Trigger = BpmnEventTrigger.None },
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="Intermediate Event"
-                },
-                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
-            };
+                Content = "Intermediate Event"
+            },
+            Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(node3);
         Node node4 = new Node()
+        {
+            ID = "EndEvent",
+            Width = 30,
+            Height = 30,
+            Shape = new BpmnEvent() { EventType = BpmnEventType.End, Trigger = BpmnEventTrigger.None },
+            Tooltip = new DiagramTooltip()
             {
-                ID = "EndEvent",
-                Width = 30,
-                Height = 30,
-                Shape = new BpmnEvent() { EventType = BpmnEventType.End, Trigger = BpmnEventTrigger.None },
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="End Event"
-                },
-                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
-            };
+                Content = "End Event"
+            },
+            Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(node4);
         Node node5 = new Node()
+        {
+            ID = "StartEvent",
+            Width = 30,
+            Height = 30,
+            Shape = new BpmnEvent() { EventType = BpmnEventType.Start, Trigger = BpmnEventTrigger.None },
+            Tooltip = new DiagramTooltip()
             {
-                ID = "StartEvent",
-                Width = 30,
-                Height = 30,
-                Shape = new BpmnEvent() { EventType = BpmnEventType.Start, Trigger = BpmnEventTrigger.None },
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="Start Event"
-                },
-                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
-            };
+                Content = "Start Event"
+            },
+            Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(node5);
         Node node6 = new Node()
+        {
+            ID = "CollapsedSub-Process",
+            Width = 96,
+            Height = 72,
+            Shape = new BpmnActivity() { ActivityType = BpmnActivityType.CollapsedSubProcess },
+            Tooltip = new DiagramTooltip()
             {
-                ID = "CollapsedSub-Process",
-                Width = 96,
-                Height = 72,
-                Shape = new BpmnActivity() { ActivityType = BpmnActivityType.CollapsedSubProcess },
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="Collapsed Sub-Process"
-                },
-                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
-            };
+                Content = "Collapsed Sub-Process"
+            },
+            Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(node6);
         Node node7 = new Node()
+        {
+            ID = "ExpandedSub-Process",
+            Width = 96,
+            Height = 72,
+            Shape = new BpmnExpandedSubProcess(),
+            Tooltip = new DiagramTooltip()
             {
-                ID = "ExpandedSub-Process",
-                Width = 96,
-                Height = 72,
-                Shape = new BpmnExpandedSubProcess(),
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="Expanded Sub-Process"
-                },
-                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
-            };
+                Content = "Expanded Sub-Process"
+            },
+            Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(node7);
         Node node8 = new Node()
+        {
+            ID = "TextAnnotation",
+            Width = 96,
+            Height = 72,
+            Shape = new BpmnTextAnnotation(),
+            Tooltip = new DiagramTooltip()
             {
-                ID = "TextAnnotation",
-                Width = 96,
-                Height = 72,
-                Shape = new BpmnTextAnnotation(),
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="Text Annotation"
-                },
-                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
-            };
+                Content = "Text Annotation"
+            },
+            Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(node8);
         Connector connector1 = new Connector()
+        {
+            ID = "SequenceFlow",
+            SourcePoint = new DiagramPoint() { X = 0, Y = 0 },
+            TargetPoint = new DiagramPoint() { X = 60, Y = 60 },
+            Type = ConnectorSegmentType.Straight,
+            Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow },
+            Tooltip = new DiagramTooltip()
             {
-                ID = "SequenceFlow",
-                SourcePoint = new DiagramPoint() { X = 0, Y = 0 },
-                TargetPoint = new DiagramPoint() { X = 60, Y = 60 },
-                Type = ConnectorSegmentType.Straight,
-                Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow },
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="Sequence Flow"
-                },
-                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip
-            };
+                Content = "Sequence Flow"
+            },
+            Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(connector1);
         Connector connector2 = new Connector() { ID = "Association", SourcePoint = new DiagramPoint() { X = 0, Y = 0 }, TargetPoint = new DiagramPoint() { X = 60, Y = 60 }, Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.AssociationFlow }, };
         BPMNShapeSymbols.Add(connector2);
-        Connector connector3 = new Connector() { ID = "MessageFlow", SourcePoint = new DiagramPoint() { X = 0, Y = 0 }, TargetPoint = new DiagramPoint() { X = 60, Y = 60 }, Type = ConnectorSegmentType.Straight, TargetDecorator = new DecoratorSettings() {Style = new ShapeStyle() { Fill = "white"} },Style = new ShapeStyle() { StrokeDashArray = "5 5"},Tooltip = new DiagramTooltip()
-                {
-                    Content="Message Flow"
-                },
-                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip};
+        Connector connector3 = new Connector()
+        {
+            ID = "MessageFlow", SourcePoint = new DiagramPoint() { X = 0, Y = 0 }, TargetPoint = new DiagramPoint() { X = 60, Y = 60 }, Type = ConnectorSegmentType.Straight, TargetDecorator = new DecoratorSettings() { Style = new ShapeStyle() { Fill = "white" } }, Style = new ShapeStyle() { StrokeDashArray = "5 5" }, Tooltip = new DiagramTooltip()
+            {
+                Content = "Message Flow"
+            },
+            Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(connector3);
         Node node9 = new Node()
-            {
-                ID = "Message",
-                Width = 72,
-                Height = 48,
-                Shape = new BpmnMessage()
-            };
+        {
+            ID = "Message",
+            Width = 72,
+            Height = 48,
+            Shape = new BpmnMessage()
+        };
         BPMNShapeSymbols.Add(node9);
         Node node10 = new Node()
+        {
+            ID = "DataObject",
+            Width = 48,
+            Height = 62,
+            Shape = new BpmnDataObject() { IsCollectiveData = false, DataObjectType = BpmnDataObjectType.None },
+            Tooltip = new DiagramTooltip()
             {
-                ID = "DataObject",
-                Width = 48,
-                Height = 62,
-                Shape = new BpmnDataObject() { IsCollectiveData = false, DataObjectType = BpmnDataObjectType.None },
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="Data Object"
-                },
-                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
-            };
+                Content = "Data Object"
+            },
+            Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(node10);
         Node node11 = new Node()
+        {
+            ID = "DataStore",
+            Width = 96,
+            Height = 76,
+            Shape = new BpmnDataStore(),
+            Tooltip = new DiagramTooltip()
             {
-                ID = "DataStore",
-                Width = 96,
-                Height = 76,
-                Shape = new BpmnDataStore(),
-                Tooltip = new DiagramTooltip()
-                {
-                    Content="Data Store"
-                },
-                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
-            };
+                Content = "Data Store"
+            },
+            Constraints = NodeConstraints.Default | NodeConstraints.Tooltip
+        };
         BPMNShapeSymbols.Add(node11);
         palettes = new DiagramObjectCollection<Palette>()
         {
-            #pragma warning disable BL0005
-            new Palette() {Symbols = BPMNShapeSymbols, Title = "BPMN Shapes", ID = "BPMNShapes", IconCss = "e-ddb-icons e-flow"},
-            #pragma warning restore BL0005
+#pragma warning disable BL0005
+            new Palette() { Symbols = BPMNShapeSymbols, Title = "BPMN Shapes", ID = "BPMNShapes", IconCss = "e-ddb-icons e-flow" },
+#pragma warning restore BL0005
         };
     }
+
     private void DragDrop( DropEventArgs args)
     {
         if (args.Element != null && args.Element is Connector connector)
@@ -1418,11 +1422,6 @@
         }
         node.Constraints = node.Constraints |= NodeConstraints.AllowDrop;
     }
-    private void SymbolNodeCreating(IDiagramObject obj)
-    {
-        Node node = obj as Node;
-
-    }
     private void OnConnectorCreating(IDiagramObject obj)
     {
         Connector node = obj as Connector;
@@ -1436,9 +1435,9 @@
     {
         UserHandle deleteHandle = AddHandle("Delete", "delete", Direction.Bottom, 0.5);
         UserHandle drawHandle = AddHandle("Draw", "draw", Direction.Right, 0.5);
-        handles.Add(deleteHandle);
-        handles.Add(drawHandle);
-        selectionSettings.UserHandles = handles;
+        UserHandleCollection.Add(deleteHandle);
+        UserHandleCollection.Add(drawHandle);
+        selectionSettings.UserHandles = UserHandleCollection;
     }
 
     private UserHandle AddHandle(string name, string path, Direction direction, double offset)
@@ -1463,9 +1462,9 @@
     }
     private void ItemClicked(DiagramMenuClickEventArgs args)
     {
-        if (Diagram.SelectionSettings.Nodes.Count != 0 && Diagram.SelectionSettings.Connectors.Count == 0)
+        if (DiagramComponentRef.SelectionSettings.Nodes.Count != 0 && DiagramComponentRef.SelectionSettings.Connectors.Count == 0)
         {
-            Node node = Diagram.SelectionSettings.Nodes[0];
+            Node node = DiagramComponentRef.SelectionSettings.Nodes[0];
             if (args.Item.ID == "Loop")
             {
                 if (node.Shape is BpmnActivity bpmnActivity)
@@ -1924,9 +1923,9 @@
                 }
             }
         }
-        else if (Diagram.SelectionSettings.Nodes.Count == 0 && Diagram.SelectionSettings.Connectors.Count != 0)
+        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors.Count != 0)
         {
-            Connector connector = Diagram.SelectionSettings.Connectors[0];
+            Connector connector = DiagramComponentRef.SelectionSettings.Connectors[0];
             if (connector.Shape is BpmnFlow bpmnShape)
             { 
                 if (args.Item.ID == "bpmn_Sequence")
@@ -1989,11 +1988,11 @@
             }
         }
     }
-    private void BeforeOpen(DiagramMenuOpeningEventArgs args)
+    private void ContextMenuOpen(DiagramMenuOpeningEventArgs args)
     {
-        if (Diagram.SelectionSettings.Nodes.Count != 0 && Diagram.SelectionSettings.Connectors.Count == 0)
+        if (DiagramComponentRef.SelectionSettings.Nodes.Count != 0 && DiagramComponentRef.SelectionSettings.Connectors.Count == 0)
         {
-            Node node = Diagram.SelectionSettings.Nodes[0];
+            Node node = DiagramComponentRef.SelectionSettings.Nodes[0];
 
             if (node.Shape.Type == NodeShapes.Bpmn)
             {
@@ -2272,11 +2271,11 @@
                 {
                     foreach (var item in args.Items)
                     {
-                        if (item.ID.Split('_')[0] == "bpmn" && !GateWay.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && !BpmnGateWayType.Contains(item.ID.Split('_')[1]))
                         {
                             args.HiddenItems.Add(item.ID);
                         }
-                        if (item.ID.Split('_')[0] == "bpmn" && GateWay.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && BpmnGateWayType.Contains(item.ID.Split('_')[1]))
                         {
                             if (item.Text == "GateWay Type")
                             {
@@ -2404,11 +2403,11 @@
                 {
                     foreach (var item in args.Items)
                     {
-                        if (item.ID.Split('_')[0] == "bpmn" && !Message.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && !BpmnMessageData.Contains(item.ID.Split('_')[1]))
                         {
                             args.HiddenItems.Add(item.ID);
                         }
-                        if (item.ID.Split('_')[0] == "bpmn" && Message.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && BpmnMessageData.Contains(item.ID.Split('_')[1]))
                         {
                             args.HiddenItems.Add(item.ID);
                         }
@@ -2418,11 +2417,11 @@
                 {
                     foreach (var item in args.Items)
                     {
-                        if (item.ID.Split('_')[0] == "bpmn" && !DataObject.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && !BpmnDataObjectProperties.Contains(item.ID.Split('_')[1]))
                         {
                             args.HiddenItems.Add(item.ID);
                         }
-                        if (item.ID.Split('_')[0] == "bpmn" && DataObject.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && BpmnDataObjectProperties.Contains(item.ID.Split('_')[1]))
                         {
                             if (item.Text == "Collection")
                             {
@@ -2459,7 +2458,7 @@
                 {
                     foreach (var item in args.Items)
                     {
-                        if (item.ID.Split('_')[0] == "bpmn" && !DataStore.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && !BpmnDataStore.Contains(item.ID.Split('_')[1]))
                         {
                             args.HiddenItems.Add(item.ID);
                         }
@@ -2471,7 +2470,7 @@
                     {
                         if (bpmnActivity.ActivityType == BpmnActivityType.Task)
                         {
-                            if (item.ID.Split('_')[0] == "bpmn" && !(Activity.Contains(item.ID.Split('_')[1]) || ActivityTask.Contains(item.ID.Split('_')[1])))
+                            if (item.ID.Split('_')[0] == "bpmn" && !(BpmnActivityProperties.Contains(item.ID.Split('_')[1]) || BpmnTaskProperties.Contains(item.ID.Split('_')[1])))
                             {
                                 args.HiddenItems.Add(item.ID);
                             }
@@ -2619,7 +2618,7 @@
                         }
                         if (bpmnActivity.ActivityType == BpmnActivityType.CollapsedSubProcess)
                         {
-                            if (item.ID.Split('_')[0] == "bpmn" && !(Activity.Contains(item.ID.Split('_')[1]) || ActivityCollapsedSubProcess.Contains(item.ID.Split('_')[1])))
+                            if (item.ID.Split('_')[0] == "bpmn" && !(BpmnActivityProperties.Contains(item.ID.Split('_')[1]) || ActivityCollapsedSubProcess.Contains(item.ID.Split('_')[1])))
                             {
                                 args.HiddenItems.Add(item.ID);
                             }
@@ -2699,7 +2698,7 @@
                                 }
                             }
                         }
-                        if (item.ID.Split('_')[0] == "bpmn" && Activity.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && BpmnActivityProperties.Contains(item.ID.Split('_')[1]))
                         {
                             if (item.Text == "Loop")
                             {
@@ -2962,11 +2961,11 @@
                 {
                     foreach (var item in args.Items)
                     {
-                        if (item.ID.Split('_')[0] == "bpmn" && !TextAnnotation.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && !BpmnTextAnnotation.Contains(item.ID.Split('_')[1]))
                         {
                             args.HiddenItems.Add(item.ID);
                         }
-                        if (item.ID.Split('_')[0] == "bpmn" && TextAnnotation.Contains(item.ID.Split('_')[1]))
+                        if (item.ID.Split('_')[0] == "bpmn" && BpmnTextAnnotation.Contains(item.ID.Split('_')[1]))
                         {
                             if (item.Text == "Orientation")
                             {
@@ -3046,10 +3045,10 @@
                 }
             }
         }
-        else if (Diagram.SelectionSettings.Nodes.Count == 0 && Diagram.SelectionSettings.Connectors.Count != 0)
+        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors.Count != 0)
         {
-            Connector connector = Diagram.SelectionSettings.Connectors[0];
-            Node node = (Node)Diagram.GetObject(connector.TargetID);
+            Connector connector = DiagramComponentRef.SelectionSettings.Connectors[0];
+            Node node = (Node)DiagramComponentRef.GetObject(connector.TargetID);
             if (connector.Shape is BpmnFlow bpmnShape)
             {
                 foreach (var item in args.Items)
@@ -3246,7 +3245,7 @@
                 }
             }
         }
-        else if (Diagram.SelectionSettings.Nodes.Count == 0 && Diagram.SelectionSettings.Connectors.Count == 0)
+        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors.Count == 0)
         {
             foreach (var item in args.Items)
             {
@@ -3257,51 +3256,32 @@
             }
         }
     }
-    private void FillChange()
-    {
-        if (Diagram.SelectionSettings.Nodes.Count > 0)
-        {
-            foreach (Node node in Diagram.SelectionSettings.Nodes)
-            {
-                node.Style.Fill = "#a4e56d";
-            }
-        }
-    }
     string data;
-    private void Save()
-    {
-        data = Diagram.SaveDiagram();
-    }
-    private async Task Load()
-    {
-        await Diagram.LoadDiagramAsync(data);
-    }
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
-
+        await JsRuntime.InvokeAsync<object>("openPalette");
     }
     public void Dispose()
     {
-        if (SymbolPreview != null)
+        if (SymbolPreviewSettings != null)
         {
-            SymbolPreview = null;
+            SymbolPreviewSettings = null;
         }
-        if (SymbolMargin != null)
+        if (SymbolMarginSettings != null)
         {
-            SymbolMargin = null;
+            SymbolMarginSettings = null;
         }
-        Diagram = null;
-        PaletteInstance = null;
-        if (nodes != null)
+        DiagramComponentRef = null;
+        PaletteComponentRef = null;
+        if (NodeCollection != null)
         {
-            nodes.Clear();
-            nodes = null;
+            NodeCollection.Clear();
+            NodeCollection = null;
         }
-        if (connectors != null)
+        if (DiagramConnectors != null)
         {
-            connectors.Clear();
-            connectors = null;
+            DiagramConnectors.Clear();
+            DiagramConnectors = null;
         }
 #pragma warning disable BL0005
         if (palettes != null)
@@ -3335,9 +3315,9 @@
             Array.Clear(GridLineIntervals, 0, GridLineIntervals.Length);
             GridLineIntervals = null;
         }
-        if (Items != null)
+        if (ContextMenuItems != null)
         {
-            Items.Clear();
+            ContextMenuItems.Clear();
         }
     }
     @*End:Hidden*@

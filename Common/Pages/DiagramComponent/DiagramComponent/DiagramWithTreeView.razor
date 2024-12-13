@@ -3,18 +3,8 @@
 @using Syncfusion.Blazor.Diagram
 @using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Buttons
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
-@using Syncfusion.Blazor
-@using Syncfusion.Blazor.Layouts
 @using Syncfusion.Blazor.Navigations
 @using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
-@*Hidden:Lines*@
-@inject NavigationManager NavigationManager
-
-
-@*End:Hidden*@
-
-
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 <SampleDescription>
@@ -30,8 +20,8 @@
 <div class="control-section" style="padding-top:5px;margin-left:-10px">
     @*Hidden:Lines*@
     <div style="width: 100%;height: 10%;">
-        <SfButton OnClick="@Add" style="background-color:#cccccc;color:black;font-weight:normal;margin-top:4px;margin-left:4px;margin-bottom:5px" @bind-Disabled="add">Add Node</SfButton>
-        <SfButton OnClick="@Delete" style="background-color:#cccccc;color:black;font-weight:normal;margin-top:4px;margin-left:4px;margin-bottom:5px" @bind-Disabled="delete">Delete Node</SfButton>
+        <SfButton OnClick="@Add" style="background-color:#cccccc;color:black;font-weight:normal;margin-top:4px;margin-left:4px;margin-bottom:5px" @bind-Disabled="IsAddEnabled">Add Node</SfButton>
+        <SfButton OnClick="@Delete" style="background-color:#cccccc;color:black;font-weight:normal;margin-top:4px;margin-left:4px;margin-bottom:5px" @bind-Disabled="IsDeleteEnabled">Delete Node</SfButton>
         <div style="float:right;font-size:18px;font-weight:normal">
             @{
                 if (!isMobileDevice)
@@ -59,17 +49,17 @@
         @*End:Hidden*@
     <div style="width: 100%;height: 90%;padding-top: 2px">
             <div id="palette-space" class="sb-mobile-palette" style="border:1px solid lightgrey;overflow:auto;">
-            <SfTreeView @ref="dom" TValue="TreeItem" @bind-SelectedNodes="@selectedNodes" AllowEditing="true">
+            <SfTreeView @ref="TreeViewComponentInstance" TValue="TreeItem" @bind-SelectedNodes="@SelectedNodes" AllowEditing="true">
                 <TreeViewFieldsSettings Id="Id" DataSource="@treeviewnodes" Text="Name" ParentID="ParentId" HasChildren="HasChild" Expanded="Expanded" Selected="IsSelected"></TreeViewFieldsSettings>
                 <TreeViewEvents TValue="TreeItem" OnKeyPress="OnKeyPressHandler" NodeClicked="nodeClicked" NodeCollapsed="NodeCollapse" NodeExpanding="NodeExpand" NodeEdited="NodeEditing" ></TreeViewEvents>
             </SfTreeView>
         </div>
         <div id="diagram-space" class="sb-mobile-diagram" style="border:1px solid lightgrey;@(!isMobileDevice ? "margin-left:290px;margin-top:-732px": "")">
             <div class="content-wrapper">
-                <SfDiagramComponent @ref="diagram" KeyDown="@OnKeyDown" Constraints="@constraints" Height="730px" TextChanged="@textchange" NodeCreating="NodeCreating" ConnectorCreating="ConnectorCreating" Click="@OnClick" SelectionChanged="@SelectionChanged" Created="@OnCreated">
+                <SfDiagramComponent @ref="DiagramInstance" KeyDown="@OnKeyDown" Constraints="@Constraints" Height="730px" TextChanged="@textchange" NodeCreating="NodeCreating" ConnectorCreating="ConnectorCreating" Click="@OnClick" SelectionChanged="@SelectionChanged" Created="@OnCreated">
                     <DataSourceSettings DataSource="DataSource" ID="Id" ParentID="Manager"></DataSourceSettings>
-                    <Layout @bind-Type="type" @bind-HorizontalSpacing="@horizontalSpacing" @bind-FixedNode="@fixedNode" @bind-Orientation="@orientation" @bind-VerticalSpacing="@verticalSpacing" @bind-HorizontalAlignment="@horizontalAlignment" @bind-VerticalAlignment="@verticalAlignment">
-                        <LayoutMargin @bind-Top="@top" @bind-Bottom="@bottom" @bind-Right="@right" @bind-Left="@left"></LayoutMargin>
+                    <Layout @bind-Type="DiagramLayoutType" @bind-HorizontalSpacing="@HorizontalSpacing" @bind-FixedNode="@FixedNode" @bind-Orientation="@LayoutOrientation" @bind-VerticalSpacing="@VerticalSpacing" @bind-HorizontalAlignment="@LayoutHorizontalAlignment" @bind-VerticalAlignment="@LayoutVerticalAlignment">
+                        <LayoutMargin @bind-Top="@LayoutMarginTop" @bind-Bottom="@LayoutMarginBottom" @bind-Right="@LayoutMarginRight" @bind-Left="@LayoutMarginLeft"></LayoutMargin>
                     </Layout>
                     <SnapSettings Constraints=SnapConstraints.None>
                     </SnapSettings>
@@ -163,30 +153,28 @@
 
 @code
 {
-
-    private string[] selectedNodes;
-    private string[] expandNode = new string[] { "" };
-    SfTreeView<TreeItem> dom;
-    public SfDiagramComponent diagram;
-    double top = 50;
-    double bottom = 50;
-    double right = 50;
-    double left = 50;
-    bool add = true;
-    bool delete = true;
+    private string[] SelectedNodes { get; set; }
+    private SfTreeView<TreeItem> TreeViewComponentInstance { get; set; }
+    public SfDiagramComponent DiagramInstance { get; set; }
+    public double LayoutMarginTop { get; set; } = 50;
+    public double LayoutMarginBottom { get; set; } = 50;
+    public double LayoutMarginRight { get; set; } = 50;
+    public double LayoutMarginLeft { get; set; } = 50;
+    public bool IsAddEnabled { get; set; } = true;
+    public bool IsDeleteEnabled { get; set; } = true;
     //Defines diagram constraints
-    public DiagramConstraints constraints = DiagramConstraints.Default & ~DiagramConstraints.UndoRedo;
-    NodeBase selectedElement;
-    LayoutType type = LayoutType.OrganizationalChart;
-    LayoutOrientation orientation = LayoutOrientation.TopToBottom;
-    HorizontalAlignment horizontalAlignment = HorizontalAlignment.Auto;
-    VerticalAlignment verticalAlignment = VerticalAlignment.Auto;
-    int horizontalSpacing = 30;
-    int verticalSpacing = 30;
-    private string fixedNode = null;
+    public DiagramConstraints Constraints { get; set; } = DiagramConstraints.Default & ~DiagramConstraints.UndoRedo;
+    public NodeBase selectedElement;
+    public LayoutType DiagramLayoutType { get; set; } = LayoutType.OrganizationalChart;
+    public LayoutOrientation LayoutOrientation { get; set; } = LayoutOrientation.TopToBottom;
+    public HorizontalAlignment LayoutHorizontalAlignment { get; set; } = HorizontalAlignment.Auto;
+    public VerticalAlignment LayoutVerticalAlignment { get; set; } = VerticalAlignment.Auto;
+    public int HorizontalSpacing { get; set; } = 30;
+    public int VerticalSpacing { get; set; } = 30;
+    private string FixedNode { get; set; } = null;
     int id = 18;
     private List<string> array = new List<string>();
-    private String[] emptystring;
+    private String[] Emptystring { get; set; }
     int text = 8;
     public void OnKeyPressHandler(NodeKeyPressEventArgs args)
     {
@@ -214,7 +202,7 @@
             var node = selectedElement as Node;
             HierarchicalDetails deletenodes = node.Data as HierarchicalDetails;
             DataSource.Remove(deletenodes);
-            await diagram.RefreshDataSourceAsync();
+            await DiagramInstance.RefreshDataSourceAsync();
             int? id=0;
             bool isParent = false;
             for (int i = 0; i < treeviewnodes.Count; i++)
@@ -243,24 +231,24 @@
                     }
                 }
             }
-            emptystring = array.ToArray();
-            dom.RemoveNodes(emptystring);
+            Emptystring = array.ToArray();
+            TreeViewComponentInstance.RemoveNodes(Emptystring);
         }
     }
     private async Task Add()
     {
-        if (diagram.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
 
-            Node node = diagram.SelectionSettings.Nodes[0];
+            Node node = DiagramInstance.SelectionSettings.Nodes[0];
             HierarchicalDetails nodes = node.Data as HierarchicalDetails;
             DataSource.Add(new HierarchicalDetails() { Id = id.ToString(), Role = "Craft Personnel" + text, Manager = nodes.Id, });
-            await diagram.RefreshDataSourceAsync();
-            for (int i = 0; i < diagram.Nodes.Count; i++)
+            await DiagramInstance.RefreshDataSourceAsync();
+            for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
             {
-                if (diagram.Nodes[i].Annotations[0].Content == "Craft Personnel" + text)
+                if (DiagramInstance.Nodes[i].Annotations[0].Content == "Craft Personnel" + text)
                 {
-                    diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[i] });
+                    DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[i] });
 
                 }
             }
@@ -275,9 +263,9 @@
                     Addednode.Name = "Craft Personnel" + text;
                     Addednode.ParentId = treeviewnodes[i].Id;
                     album.Add(Addednode);
-                    dom.AddNodes(album);
+                    TreeViewComponentInstance.AddNodes(album);
                     treeviewnodes.Add(Addednode);
-                    selectedNodes = null;
+                    SelectedNodes = null;
 
                 }
                 if (nodes.Id == treeviewnodes[i].Id.ToString())
@@ -285,16 +273,16 @@
                     treeviewnodes[i].HasChild = true;
                     treeviewnodes[i].Expanded = true;
                     array.Add(treeviewnodes[i].Id.ToString());
-                    emptystring = array.ToArray();
-                    await dom.ExpandAllAsync(emptystring);
+                    Emptystring = array.ToArray();
+                    await TreeViewComponentInstance.ExpandAllAsync(Emptystring);
                 }
 
             }
-            for (int j = 0; j < diagram.Nodes.Count; j++)
+            for (int j = 0; j < DiagramInstance.Nodes.Count; j++)
             {
                 if (treeviewnodes[j].Name == "Craft Personnel" + text)
                 {
-                    selectedNodes = new string[] { treeviewnodes[j].Id.ToString() };
+                    SelectedNodes = new string[] { treeviewnodes[j].Id.ToString() };
                 }
             }
         }
@@ -305,25 +293,25 @@
     private async Task NodeEditing(NodeEditEventArgs args)
     {
         array.Clear();
-        for (int i = 0; i < diagram.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            if (args.OldText == diagram.Nodes[i].Annotations[0].Content)
+            if (args.OldText == DiagramInstance.Nodes[i].Annotations[0].Content)
             {
-                diagram.Nodes[i].Annotations[0].Content = args.NewText;
+                DiagramInstance.Nodes[i].Annotations[0].Content = args.NewText;
                 array.Add(args.NodeData.Id.ToString());
-                HierarchicalDetails nodes = diagram.Nodes[i].Data as HierarchicalDetails;
+                HierarchicalDetails nodes = DiagramInstance.Nodes[i].Data as HierarchicalDetails;
                 nodes.Role = args.NewText;
-                emptystring = array.ToArray();
-                await dom.ExpandAllAsync(emptystring);
+                Emptystring = array.ToArray();
+                await TreeViewComponentInstance.ExpandAllAsync(Emptystring);
                 break;
             }
         }
         args.NodeData.Text = args.NewText;
-        for (int i = 0; i < diagram.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            if (args.NodeData.Text == diagram.Nodes[i].Annotations[0].Content)
+            if (args.NodeData.Text == DiagramInstance.Nodes[i].Annotations[0].Content)
             {
-                diagram.Nodes[i].IsExpanded = true;
+                DiagramInstance.Nodes[i].IsExpanded = true;
                 break;
 
             }
@@ -351,15 +339,15 @@
     }
     private async void Delete()
     {
-        if (diagram.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
         {
             array.Clear();
-            var node = diagram.SelectionSettings.Nodes[0];
+            var node = DiagramInstance.SelectionSettings.Nodes[0];
             HierarchicalDetails deletenodes = node.Data as HierarchicalDetails;
             if (deletenodes.Id != "1")
             {
                 DataSource.Remove(deletenodes);
-                await diagram.RefreshDataSourceAsync();
+                await DiagramInstance.RefreshDataSourceAsync();
                 int? id = 0;
                 bool isParent = false;
                 for (int i = 0; i < treeviewnodes.Count; i++)
@@ -388,34 +376,34 @@
                         }
                     }
                 }
-                emptystring = array.ToArray();
-                dom.RemoveNodes(emptystring);
+                Emptystring = array.ToArray();
+                TreeViewComponentInstance.RemoveNodes(Emptystring);
             }
         }
         StateHasChanged();
     }
     private void SelectionChanged(SelectionChangedEventArgs args)
     {
-        if (diagram.SelectionSettings.Nodes.Count > 0 || diagram.SelectionSettings.Connectors.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes.Count > 0 || DiagramInstance.SelectionSettings.Connectors.Count > 0)
         {
-            add = false;
-            delete = false;
+            IsAddEnabled = false;
+            IsDeleteEnabled = false;
         }
         else
         {
-            add = true;
-            delete = true;
+            IsAddEnabled = true;
+            IsDeleteEnabled = true;
         }
     }
 
     public void NodeCollapse(NodeExpandEventArgs args)
     {
 
-        for (int i = 0; i < diagram.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            if (args.NodeData.Id == diagram.Nodes[i].ID)
+            if (args.NodeData.Id == DiagramInstance.Nodes[i].ID)
             {
-                diagram.Nodes[i].IsExpanded = false;
+                DiagramInstance.Nodes[i].IsExpanded = false;
                 break;
             }
         }
@@ -423,11 +411,11 @@
     public void NodeExpand(NodeExpandEventArgs args)
     {
 
-        for (int i = 0; i < diagram.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            if (args.NodeData.Text == diagram.Nodes[i].Annotations[0].Content && args.Name == "NodeExpanding")
+            if (args.NodeData.Text == DiagramInstance.Nodes[i].Annotations[0].Content && args.Name == "NodeExpanding")
             {
-                diagram.Nodes[i].IsExpanded = true;
+                DiagramInstance.Nodes[i].IsExpanded = true;
                 break;
             }
         }
@@ -435,11 +423,11 @@
     // Triggers when TreeView node is clicked
     public void nodeClicked(NodeClickEventArgs args)
     {
-        for (int i = 0; i < diagram.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            if (args.NodeData.Id == diagram.Nodes[i].ID)
+            if (args.NodeData.Id == DiagramInstance.Nodes[i].ID)
             {
-                diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[i] });
+                DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[i] });
             }
         }
 
@@ -458,27 +446,27 @@
                     if ((args.Element as Node).IsExpanded == true)
                     {
                         array.Add(treeviewnodes[i].Id.ToString());
-                        emptystring = array.ToArray();
+                        Emptystring = array.ToArray();
                         if (treeviewnodes[i].HasChild == false)
                         {
                             break;
                         }
                         else
                         {
-                            await dom.ExpandAllAsync(emptystring);
+                            await TreeViewComponentInstance.ExpandAllAsync(Emptystring);
                             break;
                         }
                     }
                     else
                     {
                         array.Add(treeviewnodes[i].Id.ToString());
-                        emptystring = array.ToArray();
-                        await dom.CollapseAllAsync(emptystring);
+                        Emptystring = array.ToArray();
+                        await TreeViewComponentInstance.CollapseAllAsync(Emptystring);
                         break;
                     }
                 }
             }
-            selectedNodes = null;
+            SelectedNodes = null;
             if (args.ActualObject is Node)
             {
                 for (int i = 0; i < treeviewnodes.Count; i++)
@@ -490,7 +478,7 @@
                     }
                     if (treeviewnodes[i].Id.ToString() == (args.ActualObject as Node).ID)
                     {
-                        selectedNodes = new string[] { treeviewnodes[i].Id.ToString() };
+                        SelectedNodes = new string[] { treeviewnodes[i].Id.ToString() };
                     }
                 }
             }

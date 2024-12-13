@@ -22,7 +22,6 @@ namespace BlazorDemos
                 Directory = "ImageEditor/ImageEditor",
                 Url = "image-editor/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                Type = SampleType.Updated,
                 NotificationDescription = new string[]{ @"The Image Editor component includes a redact feature that is useful for hiding sensitive information in images by covering or obscuring specific areas to make the information unreadable or unidentifiable." }
             },
             new Sample
@@ -32,6 +31,16 @@ namespace BlazorDemos
                 Directory = "ImageEditor/ImageEditor",
                 Url = "image-editor/profile",
                 FileName = "Profile.razor"
+            },
+            new Sample
+            {
+                Name = "File Restriction",
+                Category = "Image Editor",
+                Directory = "ImageEditor/ImageEditor",
+                Url = "image-editor/file-restrict",
+                FileName = "FileRestrict.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "This demo showcases the image file restriction feature of the Blazor Image Editor, which allows for customization of image extensions, size limits, and drag-and-drop functionality." }
             }
         };        
     }

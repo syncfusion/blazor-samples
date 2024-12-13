@@ -5,18 +5,15 @@
 @using ButtonEventArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 @*Hidden:Lines*@
 <SampleDescription>
-    <p>This sample visualizes how to draw nodes and connectors during runtime by clicking and dragging on the Diagram page interactively using the drawing tools.</p>
+    <p>This sample demonstrates how to draw nodes and connectors interactively during runtime by clicking and dragging on the Diagram page using drawing tools.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example shows how to draw shapes and connections interactively. In addition to that, rulers, gridlines, and snapping options are enabled to assist drawing. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_InteractionController' aria-label="InteractionController">InteractionController</a></code> property is used to enable drawing. Add <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramInteractions.html#Syncfusion_Blazor_Diagram_DiagramInteractions_DrawOnce' aria-label="DrawOnce">DrawOnce</a></code> or <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramInteractions.html#Syncfusion_Blazor_Diagram_DiagramInteractions_ContinuousDraw' aria-label="ContinuousDraw">ContinuousDraw</a></code> options to the InteractionController property. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_DrawingObject' aria-label="DrawingObject">DrawingObject</a></code> property is used to define a shape or connector to be drawn. </p>
-    <p>A few shape and connector templates are in the palette. To draw basic shapes and connectors, click the templates. A corner or point will be added to the polygon with each mouse left-click to reshape them. Drawings will be completed either on mouse right-click or double-click.</p>
+    <p>This example illustrates how to interactively draw shapes and connections. Rulers, gridlines, and snapping options are enabled to assist with drawing. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_InteractionController" aria-label="InteractionController">InteractionController</a></code> property is used to enable drawing, with <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramInteractions.html#Syncfusion_Blazor_Diagram_DiagramInteractions_DrawOnce" aria-label="DrawOnce">DrawOnce</a></code> or <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramInteractions.html#Syncfusion_Blazor_Diagram_DiagramInteractions_ContinuousDraw" aria-label="ContinuousDraw">ContinuousDraw</a></code> options for drawing modes. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.SfDiagramComponent.html#Syncfusion_Blazor_Diagram_SfDiagramComponent_DrawingObject" aria-label="DrawingObject">DrawingObject</a></code> property defines the shape or connector to be drawn.</p>
+    <p>Templates for various shapes and connectors are available in the palette. Click on a template to start drawing basic shapes and connectors. With each left-click, a corner or point is added to reshape polygons, and the drawing completes with a right-click or double-click.</p>
 </ActionDescription>
 @*End:Hidden*@
 
@@ -33,10 +30,6 @@
             border: 1px solid #D5D5D5;
             background-position: center;
             float: left;
-        }
-
-        .sb-property-border {
-            border-right: 1px solid #D7D7D7;
         }
 
         .property-panel-header {
@@ -214,7 +207,7 @@
     </style>
     @*End:Hidden*@
     <div id="diagram-space" class="content-wrapper">
-        <SfDiagramComponent Height="640px" @bind-DrawingObject="@drawingObject" InteractionController="Tools" @ref="@diagram" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
+        <SfDiagramComponent Height="640px" @bind-DrawingObject="@CurrentDrawingObject" InteractionController="DrawingTools" @ref="@DiagramInstance" Nodes="@DiagramNodes" Connectors="@DiagramConnectors" Created="OnCreated">
              <RulerSettings>
                     <HorizontalRuler>
                       </HorizontalRuler>
@@ -329,7 +322,7 @@
                 </div>
             </div>
         </div>
-        <SfCheckBox Label="Continuous Drawing" @bind-Checked="@checkbox" ValueChange="@UpdateDrawingTool" TChecked="bool" />
+        <SfCheckBox Label="Continuous Drawing" @bind-Checked="@IsContinuousDrawing" ValueChange="@UpdateDrawingTool" TChecked="bool" />
 
     </div>
 </div>
@@ -337,25 +330,24 @@
 @*End:Hidden*@
 @code{
     @*Hidden:Lines*@
-    
-    bool checkbox = true;
+    public bool IsContinuousDrawing { get; set; } = true;
     const string unselecteditem = "image-pattern-style";
     const string selectedItem = "image-pattern-style e-selected-style";
-    Dictionary<string, string> dictionary = new Dictionary<string, string>() { { "textnode", unselecteditem }, { "polyline", unselecteditem }, { "user", unselecteditem }, { "customnode", unselecteditem }, { "bezier", unselecteditem }, { "orthogonal", unselecteditem }, { "straight", unselecteditem }, { "star", unselecteditem }, { "ellipse", unselecteditem }, { "pentagon", unselecteditem }, { "hexagon", unselecteditem }, { "rectangle", selectedItem }, { "triangle", unselecteditem },{ "freehand", unselecteditem} };
+    public Dictionary<string, string> dictionary = new Dictionary<string, string>() { { "textnode", unselecteditem }, { "polyline", unselecteditem }, { "user", unselecteditem }, { "customnode", unselecteditem }, { "bezier", unselecteditem }, { "orthogonal", unselecteditem }, { "straight", unselecteditem }, { "star", unselecteditem }, { "ellipse", unselecteditem }, { "pentagon", unselecteditem }, { "hexagon", unselecteditem }, { "rectangle", selectedItem }, { "triangle", unselecteditem },{ "freehand", unselecteditem} };
     @*End:Hidden*@
-    DiagramInteractions Tools = DiagramInteractions.ContinuousDraw;
+    public DiagramInteractions DrawingTools = DiagramInteractions.ContinuousDraw;
 
     //Define drawing object
-    IDiagramObject drawingObject { get; set; }
+    public IDiagramObject CurrentDrawingObject { get; set; }
 
     //Refer to diagram
-    SfDiagramComponent diagram;
+    public SfDiagramComponent DiagramInstance;
 
     //Defines diagram's nodes collection
-    public DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node> DiagramNodes = new DiagramObjectCollection<Node>();
 
     //Defines diagram's connectors collection
-    public DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector> DiagramConnectors = new DiagramObjectCollection<Connector>();
 
     protected override void OnInitialized()
     {
@@ -364,7 +356,7 @@
         {
             Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Rectangle }
         };
-        drawingObject = node;
+        CurrentDrawingObject = node;
     }
     @*Hidden:Lines*@
     private void OnCreated()
@@ -372,16 +364,15 @@
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
         if (SampleService.IsDevice)
         {
-            diagram.FitToPage(mobileoptions);
-
+            DiagramInstance.FitToPage(mobileoptions);
         }
     }
     private void UpdateDrawingTool(ButtonEventArgs args)
     {
         if (args.Checked)
         {
-            Tools |= DiagramInteractions.ContinuousDraw;
-            Tools &= ~DiagramInteractions.DrawOnce;
+            DrawingTools |= DiagramInteractions.ContinuousDraw;
+            DrawingTools &= ~DiagramInteractions.DrawOnce;
             for (int i = 0; i < dictionary.Count; i++)
             {
                 if (dictionary.ElementAt(i).Value == selectedItem)
@@ -393,8 +384,8 @@
         }
         else
         {
-            Tools |= DiagramInteractions.DrawOnce;
-            Tools &= ~DiagramInteractions.ContinuousDraw;
+            DrawingTools |= DiagramInteractions.DrawOnce;
+            DrawingTools &= ~DiagramInteractions.ContinuousDraw;
         }
     }
 
@@ -426,14 +417,14 @@
                 {
                     Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Rectangle }
                 };
-                drawingObject = node;
+                CurrentDrawingObject = node;
                 break;
             case "user":
                 Node imageNode = new Node()
                 {
                     Shape = new ImageShape() { Type = shapes.Image, Source = SampleService.WebAssetsPath + "/images/diagram/drawing-tool/image.png" }
                 };
-                drawingObject = imageNode;
+                CurrentDrawingObject = imageNode;
                 break;
             case "customnode":
                 Node customNode = new Node()
@@ -443,62 +434,62 @@
                     Width = 200,
                     Shape = new Shape() { Type = shapes.HTML },
                 };
-                drawingObject = customNode;
+                CurrentDrawingObject = customNode;
                 break;
             case "ellipse":
                 Node ellipseNode = new Node()
                 {
                     Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Ellipse }
                 };
-                drawingObject = ellipseNode;
+                CurrentDrawingObject = ellipseNode;
                 break;
             case "star":
                 Node starNode = new Node()
                 {
                     Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Star }
                 };
-                drawingObject = starNode;
+                CurrentDrawingObject = starNode;
                 break;
             case "hexagon":
                 Node hexagonNode = new Node()
                 {
                     Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Hexagon }
                 };
-                drawingObject = hexagonNode;
+                CurrentDrawingObject = hexagonNode;
                 break;
             case "pentagon":
                 Node pentagonNode = new Node()
                 {
                     Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Pentagon }
                 };
-                drawingObject = pentagonNode;
+                CurrentDrawingObject = pentagonNode;
                 break;
             case "triangle":
                 Node triangleNode = new Node()
                 {
                     Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Triangle }
                 };
-                drawingObject = triangleNode;
+                CurrentDrawingObject = triangleNode;
                 break;
             case "straight":
                 Connector straightConnector = new Connector() { ID = "straightConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Straight };
-                drawingObject = straightConnector;
+                CurrentDrawingObject = straightConnector;
                 break;
             case "orthogonal":
                 Connector orthogonalConnector = new Connector() { ID = "orthogonalConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Orthogonal };
-                drawingObject = orthogonalConnector;
+                CurrentDrawingObject = orthogonalConnector;
                 break;
             case "bezier":
                 Connector bezierConnector = new Connector() { ID = "bezierConnector", SourcePoint = new DiagramPoint() { X = 100, Y = 10 }, TargetPoint = new DiagramPoint() { X = 200, Y = 100 }, Type = ConnectorSegmentType.Bezier };
-                drawingObject = bezierConnector;
+                CurrentDrawingObject = bezierConnector;
                 break;
             case "polyline":
                 Connector polylineConnector = new Connector() { ID = "polylineConnector", Type = ConnectorSegmentType.Polyline };
-                drawingObject = polylineConnector;
+                CurrentDrawingObject = polylineConnector;
                 break;
             case "freehand":
                 Connector freeHandConnector = new Connector() { ID = "freehandConnector", Type = ConnectorSegmentType.Freehand, Constraints = ConnectorConstraints.Default | ConnectorConstraints.DragSegmentThumb };
-                drawingObject = freeHandConnector;
+                CurrentDrawingObject = freeHandConnector;
                 break;
             case "textnode":
                 Node textNode = new Node()
@@ -506,7 +497,7 @@
                     ID = "textnode",
                     Shape = new TextShape() { Type = shapes.Text }
                 };
-                drawingObject = textNode;
+                CurrentDrawingObject = textNode;
                 break;
         }
         UpdateSelection(id);
@@ -515,15 +506,15 @@
     @*Hidden:Lines*@
     public void Dispose()
     {
-        if (nodes != null)
+        if (DiagramNodes != null)
         {
-            nodes.Clear();
-            nodes = null;
+            DiagramNodes.Clear();
+            DiagramNodes = null;
         }
-        if (connectors != null)
+        if (DiagramConnectors != null)
         {
-            connectors.Clear();
-            connectors = null;
+            DiagramConnectors.Clear();
+            DiagramConnectors = null;
         }
     }
     @*End:Hidden*@

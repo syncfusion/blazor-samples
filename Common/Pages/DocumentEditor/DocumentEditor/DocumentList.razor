@@ -2,19 +2,13 @@
 
 @using Syncfusion.Blazor.Popups;
 @using Syncfusion.Blazor.Buttons;
-@using Syncfusion.Blazor.Navigations;
 @using Syncfusion.Blazor.Grids;
 @using Syncfusion.Blazor.DocumentEditor;
 @using BlazorSamples.DocumentData;
 @using Syncfusion.Blazor.Spinner;
 
-
-@inject NavigationManager NavigationManager
-
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -34,7 +28,7 @@
 </ActionDescription>
 
 <div class="col-lg-12 control-section" id="target">
-    @if (gridVisible)
+    @if (GridVisible)
     {
         <SfGrid DataSource="@DataItem">
             <GridEvents CommandClicked="CommandClick" TValue="DocumentDetails"></GridEvents>
@@ -74,7 +68,7 @@
         </SfGrid>
     }
 
-    <SfDialog Width="90%"  Height="90%" IsModal="true"  @bind-Visible="@dialogVisible">
+    <SfDialog Width="90%"  Height="90%" IsModal="true"  @bind-Visible="@DialogVisible">
         <DialogTemplates>
             <Content>
                 <div>
@@ -89,15 +83,15 @@
                              <SfButton IconCss="e-icons e-print" CssClass="title-bar-btn" @onclick="Print">Print</SfButton>
                          </div>
                         <div style="float: right">
-                           @if (showDiv)
+                           @if (ShowDiv)
                            {
                             <SfButton IconCss="e-icons e-download" CssClass="title-bar-btn" @onclick="OnExport">Download</SfButton>
                            }
                         </div>
                     </div>
                     <div>
-                        <SfSpinner @bind-Visible="@ShowSpinner" @ref="spinner" ZIndex="1100" CssClass="e-spin-overlay"></SfSpinner>
-                        <SfDocumentEditorContainer @ref="container" ToolbarItems="@Items" RestrictEditing="@ReadOnly" Height="790px" ShowPropertiesPane="@ShowProperties">
+                        <SfSpinner @bind-Visible="@ShowSpinner" @ref="_spinner" ZIndex="1100" CssClass="e-spin-overlay"></SfSpinner>
+                        <SfDocumentEditorContainer @ref="Container" ToolbarItems="@Items" RestrictEditing="@ReadOnly" Height="790px" ShowPropertiesPane="@ShowProperties">
                             <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange"></DocumentEditorContainerEvents>
                         </SfDocumentEditorContainer>
                     </div>
@@ -111,77 +105,75 @@
 
 @code {
     private string CurrentUri;
-    bool showDiv = true;
-    bool gridVisible { get; set; } = true;
-    bool alertVisible { get; set; } = false;
-    bool dialogVisible { get; set; } = false;
-    private Syncfusion.Blazor.Theme Theme { get; set; }
+    private bool ShowDiv = true;
+    private bool GridVisible { get; set; } = true;
+    private bool DialogVisible { get; set; } = false;
     private string DocumentPath { get; set; } = "";
     private string HeaderText;
-    bool isReadOnlyMode { get; set; } = true;
-    bool isEditMode { get; set; } = true;
-    string[] Items = new string[] { };
+    private bool IsReadOnlyMode { get; set; } = true;
+    private bool IsEditMode { get; set; } = true;
+    private string[] Items = new string[] { };
     internal string DocumentName { get; set; }
     internal bool ReadOnly { get; set; }
     internal bool ShowProperties { get; set; } = false;
-    SfDocumentEditorContainer container;
+    private SfDocumentEditorContainer Container;
 
-    internal SfSpinner spinner;
+    internal SfSpinner _spinner;
     internal bool ShowSpinner { get; set; } = true;
 
     private async void OnOpen()
     {
-        this.gridVisible = false;
-        await container.ResizeAsync();
+        this.GridVisible = false;
+        await Container.ResizeAsync();
         StateHasChanged();
     }
 
     private void OnClose()
     {
-        this.dialogVisible = false;
-        this.gridVisible = true;
+        this.DialogVisible = false;
+        this.GridVisible = true;
     }
 
     private void OnBtnClick()
     {
-        this.dialogVisible = false;
+        this.DialogVisible = false;
     }
 
     private void OnClick()
     {
-        this.dialogVisible = true;
+        this.DialogVisible = true;
     }
 
     private void CommandClick(CommandClickEventArgs<DocumentDetails> args)
     {
         if (args.CommandColumn.ButtonOption.IconCss == "e-icons e-eye")
         {
-            this.dialogVisible = true;
+            this.DialogVisible = true;
             DocumentPath = args.RowData.FilePath.ToString();
             DocumentName = args.RowData.FileName.Replace(".docx", string.Empty);
-            isReadOnlyMode = true;
-            isEditMode = false;
-            showDiv = false;
+            IsReadOnlyMode = true;
+            IsEditMode = false;
+            ShowDiv = false;
         }
         else if (args.CommandColumn.ButtonOption.IconCss == "e-icons e-edit")
         {
-            this.dialogVisible = true;
+            this.DialogVisible = true;
             DocumentPath = args.RowData.FilePath.ToString();
             DocumentName = args.RowData.FileName.Replace(".docx", string.Empty);
-            isReadOnlyMode = false;
-            isEditMode = true;
-            showDiv = true;
+            IsReadOnlyMode = false;
+            IsEditMode = true;
+            ShowDiv = true;
         }
     }
 
     protected override void OnInitialized()
     {
         DataItem = Enumerable.Range(1, 5).Select(x => new DocumentDetails()
-            {
-                FileName = GetFileName(x),
-                Author = GetAuthorName(x),
-                FilePath = GetFilePath(x)
-            }).ToList();
+        {
+            FileName = GetFileName(x),
+            Author = GetAuthorName(x),
+            FilePath = GetFilePath(x)
+        }).ToList();
     }
 
     public List<DocumentDetails> DataItem { get; set; }
@@ -208,13 +200,14 @@
 
     private object GetFilePath(int index)
     {
-        object[] filepathlist = {
+        object[] filepathlist =
+        {
             Data.DefaultDocument,
-            Data.CharacterFormat,       
+            Data.CharacterFormat,
             Data.ParagraphFormat,
             Data.Styles,
             Data.WebLayout
-     };
+        };
         if (index >= 1 && index <= filepathlist.Length)
         {
             return filepathlist[index - 1];
@@ -231,32 +224,32 @@
 
     public void OnExport(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.SaveAsync(DocumentName, FormatType.Docx);
     }
 
     public void Print(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.PrintAsync();
     }
 
     public async void OnCreated(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
-        container.ResizeAsync();
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
+        Container.ResizeAsync();
         if (documentEditor != null)
         {
             await documentEditor.ResizeAsync();
             await documentEditor.OpenAsync(DocumentPath);
-            if (isReadOnlyMode)
+            if (IsReadOnlyMode)
             {
                 ReadOnly = true;
                 Items = new string[3] { "Open", "Separator", "Find" };
                 documentEditor.EnableContextMenu = false;
 
             }
-            else if (isEditMode)
+            else if (IsEditMode)
             {
                 ReadOnly = false;
                 Items = new string[30] { "New", "Open", "Separator", "Undo", "Redo", "Separator", "Image", "Table", "Hyperlink", "Bookmark", "TableOfContents", "Separator", "Header", "Footer", "PageSetup", "PageNumber", "Break", "InsertFootnote", "InsertEndnote", "Separator", "Find", "Separator", "Comments", "TrackChanges", "Separator", "LocalClipboard", "RestrictEditing", "Separator", "FormFields", "UpdateFields" };
@@ -269,12 +262,12 @@
                 await documentEditor.FitPageAsync(PageFitType.FitPageWidth);
             }
         }
-        await this.spinner.HideAsync();
+        await this._spinner.HideAsync();
     }
 
     public void OnDocumentChange()
     {
-        string name = container.DocumentEditor.DocumentName;
+        string name = Container.DocumentEditor.DocumentName;
         if (name != "")
         {
             DocumentName = name;
@@ -282,11 +275,7 @@
     }
 }
 
-
-
-
 <style>
-
     .control-section {
         padding-left: 10px;
     }
@@ -441,5 +430,4 @@
         cursor: pointer;
         margin-top: 6px;
     }
-
 </style>

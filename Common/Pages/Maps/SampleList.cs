@@ -146,6 +146,16 @@ namespace BlazorDemos
                 FileName = "OSMSublayer.razor",
                 Type = SampleType.None
             },
+            new Sample
+            {
+                Name = "OSM With Marker Clustering",
+                Category = "Online Map Providers",
+                Directory = "Maps/Maps",
+                Url = "maps/osm-with-marker-clustering",
+                FileName = "OSMWithMarkerClustering.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Added a demo to showcase the clustering of multiple marker groups separately in the Maps component. This sample demonstrates how to configure marker clustering when different marker clusters need to be rendered on the map." }
+            },
              new Sample
             {
                 Name = "OSM With Navigation Lines",

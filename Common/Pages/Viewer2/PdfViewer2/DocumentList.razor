@@ -1,13 +1,9 @@
 ﻿@page "/pdf-viewer-2/document-list"
 
 @using Syncfusion.Blazor.Popups;
-@using Syncfusion.Blazor.Buttons;
-@using Syncfusion.Blazor.Navigations;
 @using Syncfusion.Blazor.Grids;
 @using Syncfusion.Blazor.SfPdfViewer;
-
 @inject NavigationManager NavigationManager
-
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @*End:Hidden*@
@@ -16,22 +12,36 @@
    <p>This demonstration showcases the process of presenting a list of PDF documents in a grid layout and accessing the document for viewing or editing through the PDF Viewer within a dialog box.</p>
 </SampleDescription>
 <ActionDescription>
- 
-@*WASM:Block*@
-@{ #if (WASM) }
-    <p>More information on adding annotation programmatically can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application' aria-label="documentation section for View PDF files using PDF Viewer Component in the Blazor WASM app"> documentation section</a>.</p>
-@{ #endif }
-@*End:WASM*@
+    @*WASM:Block*@
+    @{
+    #if (WASM)
+    }
+    <p>More information on adding annotations programmatically can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application"
+           aria-label="documentation section for viewing PDF files using PDF Viewer Component in the Blazor WASM app">documentation section</a>.
+    </p>
+    @{
+    #endif
+    }
+    @*End:WASM*@
 
-@*Server:Block*@
-@{ #if !(WASM) }
-    <p>More information on adding annotation programmatically can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application' aria-label="documentation section for View PDF files using PDF Viewer Component in the Blazor Server app"> documentation section</a>.</p>
-@{ #endif }
-@*End:Server*@
+    @*Server:Block*@
+    @{
+    #if !(WASM)
+    }
+    <p>More information on adding annotations programmatically can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application"
+           aria-label="documentation section for viewing PDF files using PDF Viewer Component in the Blazor Server app">documentation section</a>.
+    </p>
+    @{
+    #endif
+    }
+    @*End:Server*@
 </ActionDescription>
 
+
 <div class="col-lg-12 control-section" id="target">
-    @*Hidden:Lines*@  
+    @* Hidden:Lines   *@
         <SfGrid DataSource="@DataItem">
         <GridEvents CommandClicked="CommandClick" TValue="Data"></GridEvents>
             <GridColumns>
@@ -68,14 +78,14 @@
             </GridColumns>
         </SfGrid>
 
-   @*End:Hidden*@
-    <SfDialog Header="@HeaderText" Width="90%" Height="90%" IsModal=true ShowCloseIcon="true" @bind-Visible="@dialogVisible">
+   @* End:Hidden *@
+    <SfDialog Header="@DialogHeader" Width="90%" Height="90%" IsModal=true ShowCloseIcon="true" @bind-Visible="@IsDialogVisible">
         <DialogTemplates>
             <Content>
-            @if(isDialogOpended)
+            @if(IsDialogOpened)
             {
                 <div>
-                    <SfPdfViewer2 @ref="viewer" DocumentPath="@DocumentPath" EnableTextSelection="@enableTextSelection" EnableStickyNotesAnnotation="@enableStickyNotesAnnotation" ToolbarSettings="@ToolbarSettings" AnnotationSettings="@annotationSettings" ContextMenuSettings="@ContextMenuSettings" Height="775px" Width="100%">
+                    <SfPdfViewer2 @ref="PdfViewerInstance" DocumentPath="@DocumentPath" EnableTextSelection="@IsTextSelectionEnabled" EnableStickyNotesAnnotation="@IsStickyNotesEnabled" EnableCommentPanel="@EnableCommentPanel" ToolbarSettings="@ToolbarSettings" AnnotationSettings="@AnnotationSettings" ContextMenuSettings="@ContextMenuSettings" Height="775px" Width="100%">
                     <PdfViewerEvents DocumentLoaded="@DocumentLoaded"></PdfViewerEvents>
                     </SfPdfViewer2>
                 </div>
@@ -87,46 +97,47 @@
 </div>
 
 @code {
-    SfPdfViewer2 viewer;
-    bool dialogVisible { get; set; } = false;
-    private string DocumentPath { get; set; } = "";
-    private string HeaderText;
-    bool enableStickyNotesAnnotation { get; set; } = true;
-    bool isDialogOpended { get; set; } = false;
-    PdfViewerAnnotationSettings annotationSettings;
-    PdfViewerToolbarSettings ToolbarSettings;
-    PdfViewerContextMenuSettings ContextMenuSettings;
-    bool enableTextSelection { get; set; } = false;
-    bool isReadOnlyMode { get; set; } = false;
+    SfPdfViewer2 PdfViewerInstance { get; set; }
+    bool IsDialogVisible { get; set; } = false;
+    private string DocumentPath { get; set; } = string.Empty;
+    private string DialogHeader { get; set; }
+    bool IsStickyNotesEnabled { get; set; } = true;
+    bool IsDialogOpened { get; set; } = false;
+    bool EnableCommentPanel { get; set; } = true;
+    PdfViewerAnnotationSettings AnnotationSettings { get; set; }
+    PdfViewerToolbarSettings ToolbarSettings { get; set; }
+    PdfViewerContextMenuSettings ContextMenuSettings { get; set; }
+    bool IsTextSelectionEnabled { get; set; } = false;
+    bool IsReadOnlyMode { get; set; } = false;
 
     private async Task DocumentLoaded(LoadEventArgs args)
     { 
-        if(isReadOnlyMode)
+        if(IsReadOnlyMode)
         {
-            List<FormField> fields = await viewer.RetrieveFormFieldsAsync();
+            List<FormField> fields = await PdfViewerInstance.RetrieveFormFieldsAsync();
             for (int i = 0; i < fields.Count(); i++)
             {
                 fields[i].IsReadOnly = true;
-                await viewer.UpdateFormFieldsAsync(fields[i]);      
+                await PdfViewerInstance.UpdateFormFieldsAsync(fields[i]);      
             } 
         }
     }
     private void OnOpen()
     {
-        isDialogOpended = true;
+        IsDialogOpened = true;
     }
 
     private void OnClose()
     {
-        isDialogOpended = false;
+        IsDialogOpened = false;
     }
     @*Hidden:Lines*@
     private void CommandClick(CommandClickEventArgs<Data> args)
     {
         if (args.CommandColumn.ButtonOption.IconCss == "e-icons e-eye")
         {
-            this.dialogVisible = true;
-            HeaderText = args.RowData.FileName;
+            this.IsDialogVisible = true;
+            DialogHeader = args.RowData.FileName;
             string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
 
     @*Server:Block*@
@@ -143,7 +154,7 @@
 #endif
     @*End:WebAssembly*@
 
-        annotationSettings = new PdfViewerAnnotationSettings()
+        AnnotationSettings = new PdfViewerAnnotationSettings()
         {
             IsLock = true
         };
@@ -169,14 +180,15 @@
              EnableContextMenu = false
         };
 
-        enableStickyNotesAnnotation = false;
-        enableTextSelection = false;
-        isReadOnlyMode = true;
+        IsStickyNotesEnabled = false;
+        IsTextSelectionEnabled = false;
+        EnableCommentPanel = false;
+        IsReadOnlyMode = true;
         }
         else if (args.CommandColumn.ButtonOption.IconCss == "e-icons e-edit")
         {
-             this.dialogVisible = true;
-             HeaderText = args.RowData.FileName;
+             this.IsDialogVisible = true;
+             DialogHeader = args.RowData.FileName;
         string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
 
       @*Server:Block*@
@@ -193,7 +205,7 @@
       #endif
       @*End:WebAssembly*@
 
-        annotationSettings = new PdfViewerAnnotationSettings()
+        AnnotationSettings = new PdfViewerAnnotationSettings()
         {
             IsLock = false
         };
@@ -225,9 +237,10 @@
         {
                  EnableContextMenu = true
         };
-        enableStickyNotesAnnotation = true;
-        enableTextSelection = true;
-        isReadOnlyMode = false;
+        IsStickyNotesEnabled = true;
+        IsTextSelectionEnabled = true;
+        EnableCommentPanel = true;
+        IsReadOnlyMode = false;
         }
     }
     
@@ -284,7 +297,7 @@
         public string Author { get; set; }
     }
 }
-@*Hidden:Lines*@
+@* Hidden:Lines*@
 <style>
 .file-name-container {
     display: flex;
@@ -307,4 +320,4 @@
     margin-top: 5px;
 }
 </style>
-@*End:Hidden*@
+@* End:Hidden *@

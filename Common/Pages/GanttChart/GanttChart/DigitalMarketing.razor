@@ -3,7 +3,7 @@
 @using Syncfusion.Blazor.Gantt
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.Charts
-
+@using System.Globalization
 @using blazor_gantt_digital_marketing_data
 @inject NavigationManager UriHelper
 @*Hidden:Lines*@
@@ -99,6 +99,7 @@
                     <TaskbarTemplate>
                         @{
                             var taskData = context as DigitalMarketingData.TaskInfoModel;
+                            DateOnly? startDate = taskData.StartDate.HasValue ? DateOnly.FromDateTime(taskData.StartDate.Value) : (DateOnly?)null;
                             if (taskData == null)
                             {
                                 return;
@@ -109,7 +110,7 @@
                                     <td>Activity</td><td> : @taskData.Activity</td>
                                 </tr>
                                 <tr>
-                                    <td>Date</td><td> : @(taskData.StartDate != null ? taskData.StartDate.Value.ToString("dd/MM/yyyy") : "")</td>
+                                    <td>Date</td><td> : @(startDate != null ? startDate.Value.ToString(CultureInfo.CurrentCulture) : "")</td>
                                 </tr>
                                 <tr>
                                     <td>Progress</td><td> : @taskData.Progress %</td>
@@ -121,7 +122,7 @@
                                     <td>Conversion Rate</td><td>: @(taskData.ConversionRate * 100) %</td>
                                 </tr>
                                 <tr>
-                                    <td>Revenue</td><td> : $ @taskData.Revenue</td>
+                                    <td>Revenue</td><td> : @taskData.Revenue.ToString("C", CultureInfo.CurrentCulture)</td>
                                 </tr>
                             </table>
                         }

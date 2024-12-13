@@ -3,19 +3,13 @@
 @using Syncfusion.Blazor.Buttons;
 @using BlazorSamples.DocumentData;
 @using Syncfusion.Blazor.DocumentEditor
-@using Syncfusion.Blazor.Inputs
 @using System.IO
-@using System.Text.Json
-@using Syncfusion.DocIORenderer
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Popups
 @using Syncfusion.Blazor.Spinner
 @inject SfDialogService DialogService
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -28,10 +22,9 @@
         <li>Document generated is mail merged by Syncfusion DocIO on the server-side.</li>
         <li>Merged document is opened in the DocumentEditor.</li>
     </ul>
-   <p style=""display: block""> More information about the document editor features can be found in this <a target=""_blank"" href="https://blazor.syncfusion.com/documentation/document-editor/" aria-label="Blazor DocumentEditor Overview documentation">documentation section. 
+   <p style="display: block"> More information about the document editor features can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/document-editor/" aria-label="Blazor DocumentEditor Overview documentation">documentation section. 
    </a></p>
 </ActionDescription>
-
 
 <div class="control-section">
     <div>
@@ -55,7 +48,7 @@
                 </SfTreeView>
             </div>
             <div style="width: 85%;">
-                <SfDocumentEditorContainer @ref="container" EnableToolbar=true ToolbarItems="@Items" Height="590px" RestrictEditing="@ReadOnly" ShowPropertiesPane="@ShowProperties" DocumentEditorSettings="settings">
+                <SfDocumentEditorContainer @ref="Container" EnableToolbar=true ToolbarItems="@Items" Height="590px" RestrictEditing="@ReadOnly" ShowPropertiesPane="@ShowProperties" DocumentEditorSettings="Settings">
                     <DocumentEditorContainerEvents Created="OnCreated" DocumentChanged="OnDocumentChange" OnToolbarClick="@OnToolbarClick"></DocumentEditorContainerEvents>
                     <SfSpinner @bind-Visible="@SpinnerVisible">
                     </SfSpinner>
@@ -71,27 +64,25 @@
     internal bool ReadOnly { get; set;  }
     internal bool ShowProperties { get; set; } = true;
     internal bool SpinnerVisible { get; set; } = false;
-    SfDocumentEditorContainer container;
-    DocumentEditorSettingsModel settings = new DocumentEditorSettingsModel() { ShowRuler = true};
-
-    List<Object> Items = new List<Object> { "New", "Open", "Separator", "Undo", "Redo", "Separator", new CustomToolbarItemModel() { Id = "insertField", PrefixIcon = "sf-icon-InsertMergeField", Text = "Insert Field" }, new CustomToolbarItemModel() { Id = "mergeDocument", PrefixIcon = "sf-icon-FinishMerge", Text = "Merge Document" }, "Image", "Table", "Hyperlink", "Bookmark", "TableOfContents", "Separator", "Header", "Footer", "PageSetup", "PageNumber", "Break", "InsertFootnote", "InsertEndnote", "Separator", "Find", "Separator", "Comments", "TrackChanges", "Separator", "LocalClipboard", "RestrictEditing", "Separator", "FormFields", "UpdateFields" };
-
-
+    private SfDocumentEditorContainer Container;
+    private DocumentEditorSettingsModel Settings = new DocumentEditorSettingsModel() { ShowRuler = true};
+    private List<Object> Items = new List<Object> { "New", "Open", "Separator", "Undo", "Redo", "Separator", new CustomToolbarItemModel() { Id = "insertField", PrefixIcon = "sf-icon-InsertMergeField", Text = "Insert Field" }, new CustomToolbarItemModel() { Id = "mergeDocument", PrefixIcon = "sf-icon-FinishMerge", Text = "Merge Document" }, "Image", "Table", "Hyperlink", "Bookmark", "TableOfContents", "Separator", "Header", "Footer", "PageSetup", "PageNumber", "Break", "InsertFootnote", "InsertEndnote", "Separator", "Find", "Separator", "Comments", "TrackChanges", "Separator", "LocalClipboard", "RestrictEditing", "Separator", "FormFields", "UpdateFields" };
+    
     public void OnExport(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.SaveAsync(DocumentName, FormatType.Docx);
     }
 
     public void Print(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         documentEditor.PrintAsync();
     }
 
     public async void OnCreated(object args)
     {
-        SfDocumentEditor documentEditor = container.DocumentEditor;
+        SfDocumentEditor documentEditor = Container.DocumentEditor;
         if (documentEditor != null)
         {
             await documentEditor.OpenAsync(Data.MailMerge);
@@ -107,7 +98,7 @@
 
     public void OnDocumentChange()
     {
-        string name = container.DocumentEditor.DocumentName;
+        string name = Container.DocumentEditor.DocumentName;
         if (name != "")
         {
             DocumentName = name;
@@ -131,8 +122,7 @@
 
     public async Task Merge()
     {
-        
-        SfDocumentEditor editor = container.DocumentEditor;
+        SfDocumentEditor editor = Container.DocumentEditor;
         string base64Data = await editor.SaveAsBlobAsync(FormatType.Docx);
         byte[] data = Convert.FromBase64String(base64Data);
         //To observe the memory go down, null out the reference of base64Data variable.
@@ -153,7 +143,7 @@
         WordDocument document1 = WordDocument.Load(stream, ImportFormatType.Docx);
         stream.Dispose();
         sfdtText = JsonSerializer.Serialize(document1);
-        await container.DocumentEditor.OpenAsync(sfdtText);
+        await Container.DocumentEditor.OpenAsync(sfdtText);
         document1.Dispose();
         doc.Dispose();
     }
@@ -164,7 +154,7 @@
         string fieldName = await DialogService.PromptAsync("Field Name:", "Merge Field");
         if (fieldName != null)
         {
-            await container.DocumentEditor.Editor.InsertFieldAsync("MERGEFIELD " + fieldName + " \\* MERGEFORMAT");
+            await Container.DocumentEditor.Editor.InsertFieldAsync("MERGEFIELD " + fieldName + " \\* MERGEFORMAT");
         }
     }
 
@@ -190,7 +180,7 @@
     }
     public class Customer
     {
-        public string CustomerID { get; set; }
+        public string CustomerId { get; set; }
         public string ProductName { get; set; }
         public string Quantity { get; set; }
         public string ShipName { get; set; }
@@ -210,7 +200,7 @@
         public string ExtendedPrice { get; set; }
         public Customer(string orderId, string discount, string shipAddress, string shipCity, string orderDate, string shipCountry, string productName, string quantity, string customerID, string shipName, string unitPrice, string subtotal, string freight, string total, string shipPostalCode, string extendedPrice, string requiredDate, string shippedDate)
         {
-            this.CustomerID = customerID;
+            this.CustomerId = customerID;
             this.ProductName = productName;
             this.Quantity = quantity;
             this.ShipName = shipName;
@@ -240,72 +230,71 @@
     public void OnNodeDraggedHandler(DragAndDropEventArgs args)
     {
        string fieldName = args.DraggedNodeData.Text;
-       container.DocumentEditor.Editor.InsertFieldAsync("MERGEFIELD " + fieldName + " \\* MERGEFORMAT");
+       Container.DocumentEditor.Editor.InsertFieldAsync("MERGEFIELD " + fieldName + " \\* MERGEFORMAT");
     }
 
-    List<MailItem> MyFolder = new List<MailItem>();
+    private List<MailItem> MyFolder = new List<MailItem>();
 
     protected override void OnInitialized()
     {
         base.OnInitialized();
         MyFolder.Add(new MailItem
-            {
-                Id = "1",
-                FolderName = "ProductName",
-            });
+        {
+            Id = "1",
+            FolderName = "ProductName",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "2",
-                FolderName = "ShipName",
-            });
+        {
+            Id = "2",
+            FolderName = "ShipName",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "3",
-                FolderName = "CustomerID",
-            });
+        {
+            Id = "3",
+            FolderName = "CustomerId",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "4",
-                FolderName = "Quantity",
-            });
+        {
+            Id = "4",
+            FolderName = "Quantity",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "5",
-                FolderName = "UnitPrice",
-            });
+        {
+            Id = "5",
+            FolderName = "UnitPrice",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "6",
-                FolderName = "Discount",
-            });
+        {
+            Id = "6",
+            FolderName = "Discount",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "7",
-                FolderName = "ShipAddress",
-            });
+        {
+            Id = "7",
+            FolderName = "ShipAddress",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "8",
-                FolderName = "ShipCity",
-            });
+        {
+            Id = "8",
+            FolderName = "ShipCity",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "9",
-                FolderName = "ShipCountry",
-            });
+        {
+            Id = "9",
+            FolderName = "ShipCountry",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "10",
-                FolderName = "OrderId",
-            });
+        {
+            Id = "10",
+            FolderName = "OrderId",
+        });
         MyFolder.Add(new MailItem
-            {
-                Id = "11",
-                FolderName = "OrderDate",
-            });
+        {
+            Id = "11",
+            FolderName = "OrderDate",
+        });
     }
 }
-
 
 <style>
     #edit_container {

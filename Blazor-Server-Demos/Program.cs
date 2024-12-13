@@ -22,11 +22,18 @@ using FileManagerAI.Services;
 using Microsoft.AspNetCore.Http;
 using Syncfusion.Licensing;
 using System;
+using System.Net.Http;
+using Microsoft.AspNetCore.Components;
 
 
 
 var licenseKey = "";
 var builder = WebApplication.CreateBuilder(args);
+builder.Services.AddScoped(sp =>
+{
+    NavigationManager UriHelper = sp.GetRequiredService<NavigationManager>();
+    return new HttpClient { BaseAddress = new Uri(UriHelper.BaseUri) };
+});
 // Add services to the container.
 #if NET8_0_OR_GREATER
 builder.Services.AddRazorComponents()

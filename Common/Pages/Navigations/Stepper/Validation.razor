@@ -18,16 +18,16 @@
 
 <div class="control-section">
     <div class="validation-stepper-section">
-        <SfStepper Linear=true ID="validation-stepper" @ref="validationStepper" StepChanging="@handleStepChange">
+        <SfStepper Linear=true ID="validation-stepper" @ref="SurveyStepper" StepChanging="@HandleStepChange">
             <StepperSteps>
-                <StepperStep @ref="stepperStep1" IconCss="sf-icon-survey-intro" Text="Survey Introduction"></StepperStep>
-                <StepperStep @ref="stepperStep2" IconCss="sf-icon-survey-feedback" Text="Feedback"></StepperStep>
-                <StepperStep @ref="stepperStep3" IconCss="sf-icon-survey-status" Text="Status"></StepperStep>
+                <StepperStep @ref="SurveyStepIntro" IconCss="sf-icon-survey-intro" Text="Survey Introduction"></StepperStep>
+                <StepperStep @ref="SurveyStepFeedback" IconCss="sf-icon-survey-feedback" Text="Feedback"></StepperStep>
+                <StepperStep @ref="SurveyStepConfirmation" IconCss="sf-icon-survey-status" Text="Status"></StepperStep>
             </StepperSteps>
         </SfStepper>
     </div>
     <div id="validation-step-content">
-        <div id="container0" class="step-content @container0">
+        <div id="intro-container" class="step-content @IntroContainerClass">
             <div id="agreement-text">
                 <p>
                     Welcome! This survey is an opportunity for you to share your opinions
@@ -35,213 +35,216 @@
                 </p>
             </div>
             <label style="margin-top: 15px;">Enter your email <span class="required">*</span></label>
-            <input class="e-input inputContainer" id="add-e-mail" @bind="email" placeholder="Enter here" @oninput="@onEmailInput" />
-            <div class="add-e-mail error-label" style="visibility: @emailLabel;">@emailErrorLabel</div>
-            <button style="margin-top: 20px;" class="e-btn nextStep stepperBtn" @onclick="@onNextStep">Next</button>
+            <input class="e-input inputContainer" id="add-e-mail" @bind="Email" placeholder="Enter here" @oninput="@OnEmailInput" />
+            <div class="add-e-mail error-label" style="visibility: @EmailErrorVisibility">@EmailErrorMessage</div>
+            <button style="margin-top: 20px;" class="e-btn nextStep stepperBtn" @onclick="@NextStep">Next</button>
         </div>
-        <div id="container1" class="step-content @container1">
+        <div id="feedback-container" class="step-content @FeedbackContainerClass">
             <div class='question-container'>
                 <div class="survey-question">
                     <p> Is this the first time you have visited this website? <span class="required">*</span></p>
                     <label>
-                        <input type="radio" class="inputContainer" name="service-usage" value="yes" checked="@newUser" @oninput="() => UpdateSelection(true)"> Yes
+                        <input type="radio" class="inputContainer" name="service-usage" value="yes" checked="@IsNewUser" @oninput="() => UpdateUserSelection(true)"> Yes
                     </label>
                     <label style='margin: 0px 10px'>
-                        <input type="radio" class="inputContainer" name="service-usage" value="no" checked="@oldUser" @oninput="() => UpdateSelection(true)"> No
+                        <input type="radio" class="inputContainer" name="service-usage" value="no" checked="@IsReturningUser" @oninput="() => UpdateUserSelection(false)"> No
                     </label>
                 </div>
                 <div class="feedback-section">
                     <p class="feedback-label">Anything else you'd like to share? <span class="required">*</span></p>
-                    <textarea id="feedback-text" class="inputContainer" @bind="feedback" placeholder="I have feedback on..." @oninput="@onInputChange" required></textarea>
-                    <div class="feedback-area error-label" style="height: 20px ;visibility: @feedbackLabel;">@feedbackContent</div>
+                    <textarea id="feedback-text" class="inputContainer" @bind="FeedbackText" placeholder="I have feedback on..." @oninput="@OnFeedbackInput" required></textarea>
+                    <div class="feedback-area error-label" style="height: 20px ;visibility: @FeedbackErrorVisibility;">@FeedbackErrorMessage</div>
                     <div style="display: flex;">
-                        <button style="margin-top: 20px; margin-right: 5%;" class="e-btn previousStep" @onclick="@onPreviousStep"> Previous </button>
-                        <button style="margin-top: 20px;" class="e-btn nextStep" @onclick="@onNextStep"> Submit Feedback </button>
+                        <button style="margin-top: 20px; margin-right: 5%;" class="e-btn previousStep" @onclick="@PreviousStep"> Previous </button>
+                        <button style="margin-top: 20px;" class="e-btn nextStep" @onclick="@NextStep"> Submit Feedback </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="container2" class="step-content @container2">
-            <div class='step-content @confirmContent'>
+        <div id="confirmation-container" class="step-content @ConfirmationContainerClass">
+            <div class='step-content @ConfirmStepClass'>
                 <div class='feedback-msg'><b>Please confirm to submit your feedback.</b></div><br />
-                <div class='feedback-msg' id='feedback-message'>@feedback</div>
-                <button style="margin-top: 20px; margin-right: 5%;" class="e-btn previousStep" @onclick="@onPreviousStep"> Previous </button>
-                <button style='margin-top: 20px; margin-right: 5%;' class='e-btn confirmbutton' id='confirm-button' @onclick='@onConfirm'>Confirm</button>
+                <div class='feedback-msg' id='feedback-message'>@FeedbackText</div>
+                <button style="margin-top: 20px; margin-right: 5%;" class="e-btn previousStep" @onclick="@PreviousStep"> Previous </button>
+                <button style='margin-top: 20px; margin-right: 5%;' class='e-btn confirmbutton' id='confirm-button' @onclick='@ConfirmSubmission'>Confirm</button>
             </div>
-            <div class="step-content @resetContent">
+            <div class="step-content @ResetStepClass">
                 <div class="success-message" id="success-message">Thanks! Feedback has been submitted successfully. </div>
-                <button style="margin-top: 20px; margin-right: 5%;" type="reset" class="e-btn e-hide" id="reset-button" @onclick="@onReset"> Reset </button>
+                <button style="margin-top: 20px; margin-right: 5%;" type="reset" class="e-btn e-hide" id="reset-button" @onclick="@ResetForm"> Reset </button>
             </div>
         </div>
     </div>
 </div>
 
 @code {
-    private SfStepper validationStepper;
-    private StepperStep stepperStep1;
-    private StepperStep stepperStep2;
-    private StepperStep stepperStep3;
-    private string emailErrorLabel = "";
-    private string feedbackContent = "";
-    private string email="";
-    private string feedback="";
-    private string emailLabel = "hidden";
-    private string feedbackLabel = "hidden";
-    private string container0 = "step-active";
-    private string container1 = "";
-    private string container2 = "";
-    private string confirmContent = "step-active";
-    private string resetContent = "";
-    private bool isFeedbackValid = false;
-    private bool isEmailValid = false;
-    private bool newUser = true;
-    private bool oldUser = true;
-    private bool isUserNavigatingReverse = false;
-    private bool isCurrentStepValid = false;
-    private bool ischecked;
+    private SfStepper SurveyStepper { get; set; }
+    private StepperStep SurveyStepIntro { get; set; }
+    private StepperStep SurveyStepFeedback { get; set; }
+    private StepperStep SurveyStepConfirmation { get; set; }
 
-    private void handleStepChange(StepperChangeEventArgs args)
+    private string EmailErrorMessage { get; set; } = "";
+    private string FeedbackErrorMessage { get; set; } = "";
+    private string Email { get; set; } = "";
+    private string FeedbackText { get; set; } = "";
+    private string EmailErrorVisibility { get; set; } = "hidden";
+    private string FeedbackErrorVisibility { get; set; } = "hidden";
+    private string IntroContainerClass { get; set; } = "step-active";
+    private string FeedbackContainerClass { get; set; } = "";
+    private string ConfirmationContainerClass { get; set; } = "";
+    private string ConfirmStepClass { get; set; } = "step-active";
+    private string ResetStepClass { get; set; } = "";
+    private bool IsFeedbackValid { get; set; } = false;
+    private bool IsEmailValid { get; set; } = false;
+    private bool IsNewUser { get; set; } = false;
+    private bool IsReturningUser { get; set; } = false;
+    private bool IsNavigatingBackwards { get; set; } = false;
+    private bool IsCurrentStepValid { get; set; } = false;
+    private bool IsUserSelectionMade { get; set; }
+
+    private void HandleStepChange(StepperChangeEventArgs args)
     {
-        isUserNavigatingReverse = args.ActiveStep < args.PreviousStep ? true : false;
-        if(!isUserNavigatingReverse)
+        IsNavigatingBackwards = args.ActiveStep < args.PreviousStep;
+        if (!IsNavigatingBackwards)
         {
-            setValidState(args);
+            ValidateCurrentStep(args);
         }
         else
         {
-            for(int i = args.ActiveStep; i <= args.PreviousStep; i++)
-            {
-                switch (i)
-                {
-                    case 0:
-                        stepperStep1.IsValid = null;
-                        break;
-                    case 1:
-                        stepperStep2.IsValid = null;
-                        break;
-                    case 2:
-                        stepperStep3.IsValid = null;
-                        break;
-                }
-            }
-            isCurrentStepValid = true;
+            ClearStepValidations(args.PreviousStep);
+            IsCurrentStepValid = true;
         }
-        if (isCurrentStepValid)
-        {
-            container0 = (args.ActiveStep == 0) ? "step-active" : "";
-            container1 = (args.ActiveStep == 1) ? "step-active" : "";
-            container2 = (args.ActiveStep == 2) ? "step-active" : "";
-        }
-    } 
 
-    private void setValidState (StepperChangeEventArgs args)
+        if (IsCurrentStepValid)
+        {
+            UpdateActiveStepClasses(args.ActiveStep);
+        }
+    }
+
+    private void ValidateCurrentStep(StepperChangeEventArgs args)
     {
-        int activeStep = validationStepper.ActiveStep;
-        switch (activeStep)
+        switch (SurveyStepper.ActiveStep)
         {
             case 0:
-                {
-                    validateEmail();
-                    isCurrentStepValid = !string.IsNullOrEmpty(email) && isEmailValid;
-                    stepperStep1.IsValid = isCurrentStepValid;
-                    break;
-                }
+                ValidateEmail();
+                IsCurrentStepValid = !string.IsNullOrEmpty(Email) && IsEmailValid;
+                SurveyStepIntro.IsValid = IsCurrentStepValid;
+                break;
             case 1:
-                {
-                    isCurrentStepValid = ischecked && isFeedbackValid;
-                    stepperStep2.IsValid = isCurrentStepValid;
-                    break;
-                }
+                IsCurrentStepValid = IsUserSelectionMade && IsFeedbackValid;
+                SurveyStepFeedback.IsValid = IsCurrentStepValid;
+                break;
             case 2:
-                {
-                    isCurrentStepValid = true;
-                    stepperStep3.IsValid = isCurrentStepValid;
-                    break;
-                }
+                IsCurrentStepValid = true;
+                SurveyStepConfirmation.IsValid = IsCurrentStepValid;
+                break;
         }
-        args.Cancel = !isCurrentStepValid;
+
+        args.Cancel = !IsCurrentStepValid;
     }
 
-    private void UpdateSelection(bool value)
+    private void UpdateUserSelection(bool isNewUser)
     {
-        ischecked = value;
+        IsUserSelectionMade = true;
+        IsNewUser = isNewUser;
+        IsReturningUser = !isNewUser;
     }
 
-    private async void onNextStep ()
+    private async void NextStep() => await SurveyStepper.NextStepAsync();
+    private async void PreviousStep() => await SurveyStepper.PreviousStepAsync();
+
+    private void ConfirmSubmission()
     {
-        await validationStepper.NextStepAsync();
-    }
-    private async void onPreviousStep()
-    {
-        await validationStepper.PreviousStepAsync();
-    }
-    private void onConfirm() 
-    {
-        confirmContent = "";
-        resetContent = "step-active";
-        stepperStep3.IsValid = true;
-        stepperStep3.Status = StepperStatus.Completed;
-    }
-    private async void onReset()
-    {
-        isCurrentStepValid = false;
-        await validationStepper.ResetAsync();
-        newUser = true;
-        oldUser = false;
-        feedback = "";
-        email = "";
-        confirmContent = "step-active";
-        resetContent = "";
-        feedbackLabel = "hidden";
-        emailLabel = "hidden";
-        stepperStep1.IsValid = null;
-        stepperStep2.IsValid = null;
-        stepperStep3.IsValid = null;
+        ConfirmStepClass = "";
+        ResetStepClass = "step-active";
+        SurveyStepConfirmation.IsValid = true;
+        SurveyStepConfirmation.Status = StepperStatus.Completed;
     }
 
-    private void onInputChange(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    private async void ResetForm()
     {
-        feedback = e.Value?.ToString();
-        if(feedback.Length == 0)
+        IsCurrentStepValid = false;
+        await SurveyStepper.ResetAsync();
+        IsNewUser = true;
+        IsReturningUser = false;
+        FeedbackText = "";
+        IsFeedbackValid = false;
+        Email = "";
+        ConfirmStepClass = "step-active";
+        ResetStepClass = "";
+        FeedbackErrorVisibility = "hidden";
+        EmailErrorVisibility = "hidden";
+        SurveyStepIntro.IsValid = null;
+        SurveyStepFeedback.IsValid = null;
+        SurveyStepConfirmation.IsValid = null;
+        StateHasChanged();
+    }
+
+    private void OnFeedbackInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        FeedbackText = e.Value?.ToString();
+        if (FeedbackText.Length == 0)
         {
-            feedbackContent = "Feedback cannot be empty.";
-            isFeedbackValid = false;
+            FeedbackErrorMessage = "Feedback cannot be empty.";
+            IsFeedbackValid = false;
         }
         else
         {
-            isFeedbackValid = feedback.Length > 15;
-            feedbackContent = isFeedbackValid ? "" : "Please enter at least 15 characters.";
-
+            IsFeedbackValid = FeedbackText.Length > 15;
+            FeedbackErrorMessage = IsFeedbackValid ? "" : "Please enter at least 15 characters.";
         }
-        feedbackLabel = isFeedbackValid ? "hidden" : "visible";
-    }
-    private void onEmailInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
-    {
-        email = e.Value?.ToString();
-        validateEmail();
 
+        FeedbackErrorVisibility = IsFeedbackValid ? "hidden" : "visible";
     }
-    private void validateEmail()
+
+    private void OnEmailInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
     {
-        if (string.IsNullOrEmpty(email))
+        Email = e.Value?.ToString();
+        ValidateEmail();
+    }
+
+    private void ValidateEmail()
+    {
+        if (string.IsNullOrEmpty(Email))
         {
-            emailErrorLabel = "Email should not be empty.";
+            EmailErrorMessage = "Email should not be empty.";
         }
-        else if (!isValidEmail(email))
+        else if (!IsValidEmail(Email))
         {
-            emailErrorLabel = "Enter a valid email address.";
+            EmailErrorMessage = "Enter a valid email address.";
         }
         else
         {
-            emailErrorLabel = "";
+            EmailErrorMessage = "";
         }
-        emailLabel = ((!(string.IsNullOrEmpty(email))) && isValidEmail(email)) ? "hidden" : "visible";
-        isEmailValid = isValidEmail(email);
+
+        EmailErrorVisibility = string.IsNullOrEmpty(EmailErrorMessage) ? "hidden" : "visible";
+        IsEmailValid = string.IsNullOrEmpty(EmailErrorMessage);
     }
-    private bool isValidEmail(string email)
+
+    private static bool IsValidEmail(string email) => Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+    private void ClearStepValidations(int previousStep)
     {
-        return Regex.IsMatch(email, @"^[A-Za-z0-9._%+-]{1,}@[A-Za-z0-9._%+-]{1,}$");
+        switch (previousStep)
+        {
+            case 0:
+                IsEmailValid = true;
+                EmailErrorVisibility = "hidden";
+                break;
+            case 1:
+                IsFeedbackValid = true;
+                FeedbackErrorVisibility = "hidden";
+                break;
+        }
     }
+
+    private void UpdateActiveStepClasses(int activeStep)
+    {
+        IntroContainerClass = activeStep == 0 ? "step-active" : "";
+        FeedbackContainerClass = activeStep == 1 ? "step-active" : "";
+        ConfirmationContainerClass = activeStep == 2 ? "step-active" : "";
+    }
+
 }
 
 <style>

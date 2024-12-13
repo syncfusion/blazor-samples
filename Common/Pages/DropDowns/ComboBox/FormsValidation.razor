@@ -6,9 +6,6 @@
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -39,14 +36,14 @@
     <div class="control-wrapper">
         @if (string.IsNullOrEmpty(Message))
         {
-            <EditForm Model="@model" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+            <EditForm Model="@_model" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
                 <DataAnnotationsValidator />
                 <div>
                     <label class="example-label">Select a country</label>
-                    <SfComboBox Placeholder="e.g. Australia" @bind-Value="@model.Name" DataSource="@Country" AllowCustom="false">
+                    <SfComboBox Placeholder="e.g. Australia" @bind-Value="@_model.Name" DataSource="@Country" AllowCustom="false">
                         <ComboBoxFieldSettings Value="Code" Text="Name" />
                     </SfComboBox>
-                    <ValidationMessage For="()=>model.Name" />
+                    <ValidationMessage For="()=>_model.Name" />
                 </div>
                 <div class="submit-btn">
                     <SfButton type="submit" IsPrimary="true">Submit</SfButton>
@@ -88,13 +85,12 @@
 @code{
     private string Message = string.Empty;
     
-
-    async void OnValidSubmit()
+    private async void OnValidSubmit()
     {
         Message = "Form Submitted Successfully!";
         await Task.Delay(2000);
         Message = string.Empty;
-        model.Name = null;
+        _model.Name = null;
         StateHasChanged();
     }
 
@@ -103,7 +99,7 @@
         Message = string.Empty;
     }
 
-    private Countries model = new Countries();
+    private Countries _model = new Countries();
     public class Countries
     {
         [Required(ErrorMessage = "The Country field is required.")]

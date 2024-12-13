@@ -72,15 +72,15 @@ namespace ThemeHelper
                     return Theme.Bootstrap;
                 }
             }
-            else if (navURL.IndexOf("tailwind") > -1)
+            else if (navURL.IndexOf("tailwind3") > -1)
             {
                 if (navURL.IndexOf("dark") > -1)
                 {
-                    return Theme.TailwindDark;
+                    return Theme.Tailwind3Dark;
                 }
                 else
                 {
-                    return Theme.Tailwind;
+                    return Theme.Tailwind3;
                 }
             }
             else if (navURL.IndexOf("fluent2") > -1)

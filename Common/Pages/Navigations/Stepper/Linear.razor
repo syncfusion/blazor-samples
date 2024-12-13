@@ -1,8 +1,8 @@
 @page "/stepper/linear-flow"
+@using Syncfusion.Blazor.Navigations
 
 @*Hidden:Lines*@
 
-@using Syncfusion.Blazor.Navigations
 @inherits SampleBaseComponent
 
 @*End:Hidden*@
@@ -18,13 +18,13 @@
 <div class="control-section">
     <div id="linear-stepper-section">
         <div class="e-btn-group">
-            <input type="radio" id="linear" name="Linear" value="true" @oninput="@(() => UpdateLinear(true))" checked />
+            <input type="radio" id="linear" name="StepperMode" value="true" @oninput="@(() => SetStepperMode(true))" checked />
             <label class="e-btn" for="linear">Linear</label>
-            <input type="radio" id="nonLinear" name="Linear" value="false" @oninput="@(() => UpdateLinear(false))" />
+            <input type="radio" id="nonLinear" name="StepperMode" value="false" @oninput="@(() => SetStepperMode(false))" />
             <label class="e-btn" for="nonLinear">Non-Linear</label>
         </div>
         <div class="linear-stepper-control">
-            <SfStepper @ref="linearStepper" ID="linear-stepper" StepChanged="(args)=>updateContent(args.ActiveStep)">
+            <SfStepper @ref="LinearStepperComponent" ID="linear-stepper" StepChanged="(args)=>UpdateStepContent(args.ActiveStep)">
                 <StepperSteps>
                     <StepperStep IconCss="sf-icon-form" Label="Project Setup"></StepperStep>
                     <StepperStep IconCss="sf-icon-tasksheet" Label="Task Planning"></StepperStep>
@@ -35,75 +35,82 @@
         </div>
     </div>
     <div id="linear-stepper-content">
-        @content
+        @StepContent
     </div>
     <div class="linear-stepper-options" style="display: inline-flex;">
-        @if (isPrevious)
+        @if (IsPrevious)
         {
-            <button id="previousStep" style="margin-right:15px;" @onclick="@updateBack" class="e-btn">Back</button>
+        <button id="previousStep" style="margin-right:15px;" @onclick="@GoToPreviousStep" class="e-btn">Back</button>
         }
-        @if (isNext)
+        @if (IsNext)
         {
-            <button id="nextStep" @onclick="@updateNext" class="e-btn">Next</button>
+        <button id="nextStep" @onclick="@GoToNextStep" class="e-btn">Next</button>
         }
     </div>
 </div>
 
 @code {
-    private bool isNext = true;
-    private bool isPrevious = false;
-    private SfStepper linearStepper;
-    private MarkupString content = new MarkupString("<b>Description:</b> <br/><br/> <ul><li>During this phase, the project's scope and objectives are clearly defined, along with the establishment of initial settings and parameters.</li><li>This step involves outlining the primary goals, deliverables, and the overall vision of the project to ensure a comprehensive understanding among all stakeholders.</li></ul>");
+    private bool IsNext { get; set; } = true;
+    private bool IsPrevious { get; set; } = false;
+    private SfStepper LinearStepperComponent { get; set; }
+
+    private MarkupString StepContent { get; set; } = new MarkupString(
+        "<b>Description:</b> <br/><br/>" +
+        "<ul><li>During this phase, the project's scope and objectives are clearly defined, along with the establishment of initial settings and parameters.</li>" +
+        "<li>This step involves outlining the primary goals, deliverables, and the overall vision of the project to ensure a comprehensive understanding among all stakeholders.</li></ul>");
 
     protected override void OnAfterRender(bool firstRender)
     {
         if (firstRender)
         {
-            linearStepper.Linear = true;
+            LinearStepperComponent.Linear = true;
         }
     }
 
-    private async void UpdateLinear(bool value)
+    private async void SetStepperMode(bool isLinear)
     {
-        linearStepper.Linear = value;
-        await linearStepper.ResetAsync();
-        updateContent(linearStepper.ActiveStep);
+        LinearStepperComponent.Linear = isLinear;
+        await LinearStepperComponent.ResetAsync();
+        UpdateStepContent(LinearStepperComponent.ActiveStep);
     }
 
-    private async void updateBack()
+    private async void GoToPreviousStep()
     {
-        await linearStepper.PreviousStepAsync();
-        updateContent(linearStepper.ActiveStep);
-
+        await LinearStepperComponent.PreviousStepAsync();
+        UpdateStepContent(LinearStepperComponent.ActiveStep);
     }
 
-    private async void updateNext()
+    private async void GoToNextStep()
     {
-        await linearStepper.NextStepAsync();
-        updateContent(linearStepper.ActiveStep);
+        await LinearStepperComponent.NextStepAsync();
+        UpdateStepContent(LinearStepperComponent.ActiveStep);
     }
 
-    private void updateContent (int args)
+    private void UpdateStepContent(int activeStep)
     {
-        isNext = args < 3;
-        isPrevious = args > 0;
-        switch (args)
+        IsNext = activeStep < 3;
+        IsPrevious = activeStep > 0;
+
+        StepContent = activeStep switch
         {
-          case 0:
-              content = new MarkupString("<b>Description:</b> <br/><br/> <ul><li>During this phase, the project's scope and objectives are clearly defined, along with the establishment of initial settings and parameters.</li><li>This step involves outlining the primary goals, deliverables, and the overall vision of the project to ensure a comprehensive understanding among all stakeholders.</li></ul>");
-              break;
-          case 1:
-              content = new MarkupString("<b>Description:</b> <br/><br/> <ul><li>Task planning involves creating a comprehensive roadmap that outlines specific tasks, sets achievable milestones, and allocates responsibilities among team members. </li><li>This phase requires a detailed breakdown of the project's requirements, resources, and a strategic timeline to ensure a systematic and efficient execution of tasks.</li></ul>");
-              break;
-          case 2:
-              content = new MarkupString("<b>Description:</b> <br/><br/> <ul><li>In this phase, project managers closely monitor the progress of individual tasks, track the overall project's advancement, and regularly update task statuses.</li><li>Continuous assessment of the project's timeline and potential challenges allows for timely adjustments, ensuring that the project stays on course and within the predefined parameters.</li></ul>");
-              break;
-          case 3:
-              content = new MarkupString("<b>Description:</b> <br/><br/> <ul><li>The final phase focuses on the comprehensive evaluation of the project's success, completion of all deliverables, and documentation of lessons learned. </li><li>Analyzing the outcomes and documenting the experiences gained during the project's lifecycle are crucial for improving future project management processes and enhancing overall organizational efficiency.</li>");
-              break;
-          default:
-              break;
-      }
+            0 => new MarkupString(
+                "<b>Description:</b> <br/><br/>" +
+                "<ul><li>During this phase, the project's scope and objectives are clearly defined, along with the establishment of initial settings and parameters.</li>" +
+                "<li>This step involves outlining the primary goals, deliverables, and the overall vision of the project to ensure a comprehensive understanding among all stakeholders.</li></ul>"),
+            1 => new MarkupString(
+                "<b>Description:</b> <br/><br/>" +
+                "<ul><li>Task planning involves creating a comprehensive roadmap that outlines specific tasks, sets achievable milestones, and allocates responsibilities among team members. </li>" +
+                "<li>This phase requires a detailed breakdown of the project's requirements, resources, and a strategic timeline to ensure a systematic and efficient execution of tasks.</li></ul>"),
+            2 => new MarkupString(
+                "<b>Description:</b> <br/><br/>" +
+                "<ul><li>In this phase, project managers closely monitor the progress of individual tasks, track the overall project's advancement, and regularly update task statuses.</li>" +
+                "<li>Continuous assessment of the project's timeline and potential challenges allows for timely adjustments, ensuring that the project stays on course and within the predefined parameters.</li></ul>"),
+            3 => new MarkupString(
+                "<b>Description:</b> <br/><br/>" +
+                "<ul><li>The final phase focuses on the comprehensive evaluation of the project's success, completion of all deliverables, and documentation of lessons learned. </li>" +
+                "<li>Analyzing the outcomes and documenting the experiences gained during the project's lifecycle are crucial for improving future project management processes and enhancing overall organizational efficiency.</li></ul>"),
+            _ => StepContent
+        };
     }
 
 }

@@ -4,9 +4,6 @@
 @using Syncfusion.Blazor.Schedule
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -39,14 +36,14 @@
     <div class="schedule-demo-heading">Cheapest one way fares from Barcelona to Los Angeles</div>
     <SfSchedule @ref="@ScheduleObj" TValue="EventData" Width="100%" Height="650px" @bind-SelectedDate="@CurrentDate" MinDate=@(new DateTime(DateTime.Today.Year, 3, 1)) MaxDate=@(new DateTime(DateTime.Today.Year, 5, 31)) Readonly="true">
         <ScheduleResources>
-            <ScheduleResource TValue="int[]" TItem="AirlinesData" DataSource="@airlineData" Field="AirlineId" Title="Airline" Name="Airlines" TextField="Text" IdField="Id" AllowMultiple="true"></ScheduleResource>
+            <ScheduleResource TValue="int[]" TItem="AirlinesData" DataSource="@_airlineData" Field="AirlineId" Title="Airline" Name="Airlines" TextField="Text" IdField="Id" AllowMultiple="true"></ScheduleResource>
         </ScheduleResources>
         <ScheduleViews>
             <ScheduleView Option="View.Month">
                 <CellHeaderTemplate>
                     @{
                         @(((context as TemplateContext).Date.Day == 1 && (context as TemplateContext).Date == DateTime.Today.Date) ? (context as TemplateContext).Date.ToString("MMM d") : (context as TemplateContext).Date.ToString("dd"));
-                        if ((context as TemplateContext).Date == lowestFareDate.Date && dataSource.Count > 0)
+                        if ((context as TemplateContext).Date == _lowestFareDate.Date && EventDataSource.Count > 0)
                         {
                             <span class="best-price">Best Price</span>
                         }
@@ -66,7 +63,7 @@
             </ScheduleView>
         </ScheduleViews>
         <ScheduleEvents TValue="EventData" OnPopupOpen="@OnPopupOpen"></ScheduleEvents>
-        <ScheduleEventSettings DataSource="@dataSource" EnableTooltip="true">
+        <ScheduleEventSettings DataSource="@EventDataSource" EnableTooltip="true">
             <TooltipTemplate>
                 @{
                     <div class="event-tooltip">
@@ -100,17 +97,17 @@
                 <tbody>
                     <tr style="height: 50px">
                         <td style="width: 100%">
-                            <SfCheckBox TChecked="bool" @bind-Checked="@airways1Checked" Label="Airways 1" Value="@airways1" ValueChange="@OnChange" CssClass="e-resource e-airways-1"></SfCheckBox>
+                            <SfCheckBox TChecked="bool" @bind-Checked="@_airways1Checked" Label="Airways 1" Value="@_airways1" ValueChange="@OnChange" CssClass="e-resource e-airways-1"></SfCheckBox>
                         </td>
                     </tr>
                     <tr style="height: 50px">
                         <td style="width: 100%">
-                            <SfCheckBox TChecked="bool" @bind-Checked="@airways2Checked" Label="Airways 2" Value="@airways2" ValueChange="@OnChange" CssClass="e-resource e-airways-2"></SfCheckBox>
+                            <SfCheckBox TChecked="bool" @bind-Checked="@_airways2Checked" Label="Airways 2" Value="@_airways2" ValueChange="@OnChange" CssClass="e-resource e-airways-2"></SfCheckBox>
                         </td>
                     </tr>
                     <tr style="height: 50px">
                         <td style="width: 100%">
-                            <SfCheckBox TChecked="bool" @bind-Checked="@airways3Checked" Label="Airways 3" Value="@airways3" ValueChange="@OnChange" CssClass="e-resource e-airways-3"></SfCheckBox>
+                            <SfCheckBox TChecked="bool" @bind-Checked="@_airways3Checked" Label="Airways 3" Value="@_airways3" ValueChange="@OnChange" CssClass="e-resource e-airways-3"></SfCheckBox>
                         </td>
                     </tr>
                 </tbody>
@@ -122,22 +119,22 @@
 @code{
     SfSchedule<EventData> ScheduleObj;
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 3, 1);
-    private DateTime lowestFareDate { get; set; }
-    private bool airways1Checked { get; set; } = true;
-    private bool airways2Checked { get; set; } = true;
-    private bool airways3Checked { get; set; } = true;
+    private DateTime _lowestFareDate { get; set; }
+    private bool _airways1Checked { get; set; } = true;
+    private bool _airways2Checked { get; set; } = true;
+    private bool _airways3Checked { get; set; } = true;
 
-    private string airways1 { get; set; } = "1";
-    private string airways2 { get; set; } = "2";
-    private string airways3 { get; set; } = "3";
+    private string _airways1 { get; set; } = "1";
+    private string _airways2 { get; set; } = "2";
+    private string _airways3 { get; set; } = "3";
     
-
-    List<EventData> dataSource = new List<EventData>();
-    List<EventData> eventCollections = new List<EventData>();
-    List<AirlinesData> airlineData = new List<AirlinesData> {
-        new AirlinesData { Id = 1, Text = "Airways 1"},
-        new AirlinesData { Id = 2, Text = "Airways 2"},
-        new AirlinesData { Id = 3, Text = "Airways 3"}
+    private List<EventData> EventDataSource = new List<EventData>();
+    private List<EventData> _eventCollections = new List<EventData>();
+    private List<AirlinesData> _airlineData = new List<AirlinesData>
+    {
+        new AirlinesData { Id = 1, Text = "Airways 1" },
+        new AirlinesData { Id = 2, Text = "Airways 2" },
+        new AirlinesData { Id = 3, Text = "Airways 3" }
     };
 
     private string getAirWaysName(int airlineId)
@@ -154,15 +151,15 @@
     {
         List<int> selectedResource = new List<int>();
         List<EventData> filteredData = new List<EventData>();
-        if (airways1Checked) { selectedResource.Add(0); }
-        if (airways2Checked) { selectedResource.Add(1); }
-        if (airways3Checked) { selectedResource.Add(2); }
+        if (_airways1Checked) { selectedResource.Add(0); }
+        if (_airways2Checked) { selectedResource.Add(1); }
+        if (_airways3Checked) { selectedResource.Add(2); }
         foreach (int resource in selectedResource)
         {
-            List<EventData> data = eventCollections.Where(x => airlineData[resource].Id == x.AirlineId).ToList();
+            List<EventData> data = _eventCollections.Where(x => _airlineData[resource].Id == x.AirlineId).ToList();
             filteredData = filteredData.Concat(data).ToList();
         }
-        dataSource = filteredData = FilterByFare(filteredData);
+        EventDataSource = filteredData = FilterByFare(filteredData);
     }
 
     public void OnPopupOpen(PopupOpenEventArgs<EventData> args)
@@ -201,7 +198,7 @@
             }
             day += 1;
         }
-        eventCollections = collections;
+        _eventCollections = collections;
         List<EventData> filterCollection = FilterByFare(collections);
         return filterCollection;
     }
@@ -225,14 +222,13 @@
                 finalData.Add(perDayData.First());
             }
         }
-        lowestFareDate = finalData.OrderBy(x => x.Fare).First().StartTime;
+        _lowestFareDate = finalData.OrderBy(x => x.Fare).First().StartTime;
         return finalData;
     }
 
     protected override void OnInitialized()
     {
-        
-        dataSource = GenerateEvents();
+        EventDataSource = GenerateEvents();
     }
 
     public class EventData
@@ -301,6 +297,7 @@
     .bootstrap5-dark .e-schedule .e-appointment .template-wrap,
     .bootstrap5\.3-dark .e-schedule .e-appointment .template-wrap,
     .tailwind-dark .e-schedule .e-appointment .template-wrap,
+    .tailwind3-dark .e-schedule .e-appointment .template-wrap,
     .bootstrap-dark .e-schedule .e-appointment .template-wrap,
     .fabric-dark .e-schedule .e-appointment .template-wrap,
     .material-dark .e-schedule .e-appointment .template-wrap,
@@ -323,6 +320,7 @@
     .bootstrap5-dark .e-schedule .best-price:not(.e-work-cells),
     .bootstrap5\.3-dark .e-schedule .best-price:not(.e-work-cells),
     .tailwind-dark .e-schedule .best-price:not(.e-work-cells),
+    .tailwind3-dark .e-schedule .best-price:not(.e-work-cells),
     .bootstrap-dark .e-schedule .best-price:not(.e-work-cells),
     .fabric-dark .e-schedule .best-price:not(.e-work-cells),
     .material-dark .e-schedule .best-price:not(.e-work-cells),
@@ -510,6 +508,7 @@
     }
 
     .tailwind-dark .e-schedule .airway-name,
+    .tailwind3-dark .e-schedule .airway-name,
     .bootstrap-dark .e-schedule .airway-name,
     .material-dark .property-panel-section {
         color: #fff;

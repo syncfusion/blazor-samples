@@ -176,10 +176,14 @@ namespace Blazor_MAUI_Demos.Shared
                 string[] splittedUrl = url.Split("?theme=");
                 url = splittedUrl[0];
             }
+#if NET6_0 || NET7_0
             url = UriHelper.GetUriWithQueryParameters(url, new Dictionary<string, object>
             {
                 ["theme"] = themeName
             });
+#else
+            url += "?theme=" + themeName;
+#endif
             return url;
         }
 
@@ -191,7 +195,7 @@ namespace Blazor_MAUI_Demos.Shared
         {
             var uri = new Uri(url);
             string themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
-            themeName = themeName != null ? themeName : "fluent";
+            themeName = themeName != null ? themeName : "tailwind3";
             return themeName;
         }
 
@@ -201,10 +205,12 @@ namespace Blazor_MAUI_Demos.Shared
             new DropDownData { ID = "material3-dark", Text = "Material 3 Dark" },
             new DropDownData { ID = "fluent", Text = "Fluent" },
             new DropDownData { ID = "fluent-dark", Text = "Fluent Dark" },
+            new DropDownData { ID = "fluent2", Text = "Fluent 2" },
+            new DropDownData { ID = "fluent2-dark", Text = "Fluent 2 Dark" },
             new DropDownData { ID = "bootstrap5", Text = "Bootstrap v5" },
             new DropDownData { ID = "bootstrap5-dark", Text = "Bootstrap v5 Dark" },
-            new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
-            new DropDownData { ID = "tailwind-dark", Text = "Tailwind CSS Dark" },
+            new DropDownData { ID = "tailwind3", Text = "Tailwind CSS" },
+            new DropDownData { ID = "tailwind3-dark", Text = "Tailwind CSS Dark" },
             //new DropDownData { ID = "material", Text = "Material" },
 #if DEBUG || STAGING
             //new DropDownData { ID = "material-dark", Text = "Material Dark" },
@@ -216,7 +222,8 @@ namespace Blazor_MAUI_Demos.Shared
             //new DropDownData { ID = "fabric", Text = "Fabric" },
             //new DropDownData { ID = "fabric-dark", Text = "Fabric Dark" },
 #endif
-            new DropDownData { ID = "highcontrast", Text = "High Contrast" }
+            new DropDownData { ID = "highcontrast", Text = "High Contrast" },
+            new DropDownData { ID = "fluent2-highcontrast", Text = "Fluent 2 High Contrast" }
         };
 
         /// <summary>

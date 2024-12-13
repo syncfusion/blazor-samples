@@ -18,8 +18,7 @@ namespace BlazorDemos
                 Category = "Smart Paste",
                 Directory = "AISamples/SmartPaste",
                 Url = "ai-smartpaste/annotations",
-                FileName = "SmartPasteWithAnnotations.razor",
-                NotificationDescription = new string[]{ @" This demo shows the smart paste AI feature that includes data annotations." }
+                FileName = "SmartPasteWithAnnotations.razor"
             }
         };
     }

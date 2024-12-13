@@ -7,7 +7,6 @@
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -15,38 +14,38 @@
 </SampleDescription>
 <ActionDescription>
     <p>In this example, you can see range navigator with empty points. <code>AreaSeries</code> is used to represent the data.</p>
-       <p>
-        <code>Tooltip</code> is enabled  to show the selected data range, while the selected range is changed.
-    </p>
-     <p>More information about the range navigator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/getting-started' aria-label="documentation section" >documentation section</a>.</p>
+    <p><code>Tooltip</code> is enabled to show the selected data range, while the selected range is changed.</p>
+    <p>More information about the range navigator can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/range-selector/getting-started" aria-label="documentation section">documentation section</a>.</p>
 </ActionDescription>
 
-@if (EmptyData == null)
+@if (StockChartData == null)
 {
     <div class="stockchartloader"></div>
 }
 else
 {
     <div class="control-section" align="center">
-        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;">AAPL 2012-17</h4>
+        <h4 style="font-family: Segoe UI; font-weight: 500; font-size: 15px;">AAPL 2012-17</h4>
         <div>
-            <SfRangeNavigator @bind-Value="@Value" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Theme="@theme">
-                <RangeNavigatorEvents Changed="onRangeChanged"></RangeNavigatorEvents>
+            <SfRangeNavigator @bind-Value="@SelectedRange" LabelPosition="AxisPosition.Outside" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" Theme="@CurrentTheme">
+                <RangeNavigatorEvents Changed="OnRangeChanged"></RangeNavigatorEvents>
                 <RangeNavigatorMajorGridLines Width="0"></RangeNavigatorMajorGridLines>
                 <RangeNavigatorMajorTickLines Width="0"></RangeNavigatorMajorTickLines>
                 <RangeNavigatorBorder Width="0"></RangeNavigatorBorder>
                 <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
                 <RangeNavigatorSeriesCollection>
-                    <RangeNavigatorSeries Fill="@FillColor" DataSource="@EmptyData" Width="2" XName="x" Type="RangeNavigatorType.Area" YName="open">
-                        <RangeNavigatorSeriesBorder Width="2" Color="@BorderColor"></RangeNavigatorSeriesBorder>
+                    <RangeNavigatorSeries Fill="@AreaFillColor" DataSource="@StockChartData" Width="2" XName="x" Type="RangeNavigatorType.Area" YName="open">
+                        <RangeNavigatorSeriesBorder Width="2" Color="@AreaBorderColor"></RangeNavigatorSeriesBorder>
                     </RangeNavigatorSeries>
                 </RangeNavigatorSeriesCollection>
             </SfRangeNavigator>
         </div>
         <div>
-            <SfChart Theme="@theme">
-                <ChartArea><ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder></ChartArea>
-                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZF" ZoomPosition="@ZP">
+            <SfChart Theme="@CurrentTheme">
+                <ChartArea>
+                    <ChartAreaBorder Width="0" Color="transparent"></ChartAreaBorder>
+                </ChartArea>
+                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ZoomFactor="@ZoomFactor" ZoomPosition="@ZoomPosition">
                     <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
                     <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
                 </ChartPrimaryXAxis>
@@ -55,8 +54,8 @@ else
                     <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
                 </ChartPrimaryYAxis>
                 <ChartSeriesCollection>
-                    <ChartSeries Fill="@FillColor" DataSource="@EmptyData" XName="x" YName="open" Name="Sales" Width="2" Type="ChartSeriesType.Area">
-                        <ChartSeriesBorder Width="2" Color="@BorderColor"></ChartSeriesBorder>
+                    <ChartSeries Fill="@AreaFillColor" DataSource="@StockChartData" XName="x" YName="open" Name="Sales" Width="2" Type="ChartSeriesType.Area">
+                        <ChartSeriesBorder Width="2" Color="@AreaBorderColor"></ChartSeriesBorder>
                     </ChartSeries>
                 </ChartSeriesCollection>
                 <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
@@ -65,221 +64,158 @@ else
         </div>
     </div>
 }
+
 @code{
-    
-    double ZF = 1;
-    double ZP = 0;
-    private ChartData[] EmptyData;
-    string BorderColor;
-    string FillColor;
-    string valueUrl = "url";
-    private Theme theme { get; set; }
+    // Properties with clear and meaningful names
+    public double ZoomFactor { get; set; } = 1;
+    public double ZoomPosition { get; set; } = 0;
+    public ChartData[] StockChartData { get; set; }
+    public string AreaBorderColor { get; set; }
+    public string AreaFillColor { get; set; }
+    public string GradientUrl { get; set; } = "url";
+    public Theme CurrentTheme { get; set; }
+    public object SelectedRange { get; set; } = new object[] { new DateTime(2013, 12, 27), new DateTime(2015, 03, 23) };
+
+    // Load data and apply null checks
     protected override async Task OnInitializedAsync()
     {
-	    EmptyData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/chart-data.json");
-		int max = 250;
-		for (int i = 0; i <= max; i++)
+        StockChartData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/chart-data.json");
+        
+        for (int i = 46; i < StockChartData.Length; i += 50)
         {
-                if (i > 45 && 50 > i)
-                {
-                    EmptyData[i].open = null;
-                }
-                else if (i > 95 && 100 > i)
-                {
-                    EmptyData[i].open = null;
-                }
-                else if (i > 145 && 150 > i)
-                {
-                    EmptyData[i].open = null;
-                }
-                else if (i > 195 && 200 > i)
-                {
-                    EmptyData[i].open = null;
-                }
-                else if (i > 245 && 250 > i)
-                {
-                    EmptyData[i].open = null;
-                }
-            }
+            StockChartData[i].open = null;
+        }
+    }
 
-    }
-    public class ChartData
+    // Event handler for range selection
+    public void OnRangeChanged(ChangedEventArgs args)
     {
-        public DateTime x { get; set; }
-        public Nullable<Double> open { get; set; }
-    }
-    private object Value = new object[] { new DateTime(2013, 12, 27), new DateTime(2015, 03, 23) };
-    public void onRangeChanged(ChangedEventArgs args)
-    {
-        ZF = args.ZoomFactor;
-        ZP = args.ZoomPosition;
+        ZoomFactor = args.ZoomFactor;
+        ZoomPosition = args.ZoomPosition;
         StateHasChanged();
     }
 
-    string CurrentUri;
+    // Set theme based on URL
     protected override void OnInitialized()
     {
-        
-        CurrentUri = NavigationManager.Uri;
-        if (CurrentUri.IndexOf("material3") > -1)
+        var CurrentUri = NavigationManager.Uri;
+
+        if (CurrentUri.Contains("material3"))
         {
-            if (CurrentUri.IndexOf("dark") > -1)
+            if (CurrentUri.Contains("dark"))
             {
-                theme = Theme.Material3Dark;
-                BorderColor = "#4EAAFF";
-                FillColor = String.Concat(valueUrl, "(#material3-dark-gradient-chart)");
+                SetTheme(Theme.Material3Dark, "#4EAAFF", "#material3-dark-gradient-chart");
             }
             else
             {
-                theme = Theme.Material3;
-                BorderColor = "#6355C7";
-                FillColor = String.Concat(valueUrl, "(#material3-gradient-chart)");
+                SetTheme(Theme.Material3, "#6355C7", "#material3-gradient-chart");
             }
         }
-        else if (CurrentUri.IndexOf("material") > -1)
+        else if (CurrentUri.Contains("material"))
         {
-            if (CurrentUri.IndexOf("dark") > -1)
+            if (CurrentUri.Contains("dark"))
             {
-                theme = Theme.MaterialDark;
-                BorderColor = "#9ECB08";
-                FillColor = String.Concat(valueUrl, "(#materialdark-gradient-chart)");
+                SetTheme(Theme.MaterialDark, "#9ECB08", "#materialdark-gradient-chart");
             }
             else
             {
-                theme = Theme.Material;
-                BorderColor = "#00bdae";
-                FillColor = String.Concat(valueUrl, "(#material-gradient-chart)");
+                SetTheme(Theme.Material, "#00bdae", "#material-gradient-chart");
             }
-            
         }
-        else if (CurrentUri.IndexOf("fabric") > -1)
+        else if (CurrentUri.Contains("fabric"))
         {
-            if (CurrentUri.IndexOf("dark") > -1)
+            SetTheme(Theme.Fabric, "#4472c4", "#fabric-gradient-chart");
+        }
+        else if (CurrentUri.Contains("bootstrap5"))
+        {
+            if (CurrentUri.Contains("dark"))
             {
-                theme = Theme.FabricDark;
-                BorderColor = "#4472c4";
+                SetTheme(Theme.Bootstrap5Dark, "#FD7E14", "#bootstrap5dark-gradient-chart");
             }
             else
             {
-                theme = Theme.Fabric;
-                BorderColor = "#4472c4";
+                SetTheme(Theme.Bootstrap5, "#FD7E14", "#bootstrap5-gradient-chart");
             }
-            FillColor = String.Concat(valueUrl, "(#fabric-gradient-chart)");
         }
-        else if (CurrentUri.IndexOf("bootstrap5") > -1)
+        else if (CurrentUri.Contains("fluent2"))
         {
-            if (CurrentUri.IndexOf("dark") > -1)
+            if (CurrentUri.Contains("highcontrast"))
             {
-                theme = Theme.Bootstrap5Dark;
-                BorderColor = "#FD7E14";
-                FillColor = String.Concat(valueUrl, "(#bootstrap5dark-gradient-chart)");
+                SetTheme(Theme.Fluent2HighContrast, "#9BB449", "#fluent2highcontrast-gradient-chart");
+            }
+            else if (CurrentUri.Contains("dark"))
+            {
+                SetTheme(Theme.Fluent2Dark, "#9BB449", "#fluent2dark-gradient-chart");
             }
             else
             {
-                theme = Theme.Bootstrap5;
-                BorderColor = "#FD7E14";
-                FillColor = String.Concat(valueUrl, "(#bootstrap5-gradient-chart)");
+                SetTheme(Theme.Fluent2, "#6200EE", "#fluent2-gradient-chart");
             }
         }
-        else if (CurrentUri.IndexOf("fluent2") > -1)
+        else if (CurrentUri.Contains("fluent"))
         {
-            if (CurrentUri.IndexOf("highcontrast") > -1)
+            if (CurrentUri.Contains("dark"))
             {
-                theme = Theme.Fluent2HighContrast;
-                BorderColor = "#9BB449";
-                FillColor = String.Concat(valueUrl, "(#fluent2highcontrast-gradient-chart)");
-            }
-            else if (CurrentUri.IndexOf("dark") > -1)
-            {
-                theme = Theme.Fluent2Dark;
-                BorderColor = "#9BB449";
-                FillColor = String.Concat(valueUrl, "(#fluent2dark-gradient-chart)");
+                SetTheme(Theme.FluentDark, "#1AC9E6", "#fluentdark-gradient-chart");
             }
             else
             {
-                theme = Theme.Fluent2;
-                BorderColor = "#6200EE";
-                FillColor = String.Concat(valueUrl, "(#fluent2-gradient-chart)");
+                SetTheme(Theme.Fluent, "#1AC9E6", "#fluent-gradient-chart");
             }
         }
-        else if (CurrentUri.IndexOf("fluent") > -1)
+        else if (CurrentUri.Contains("bootstrap4"))
         {
-            if (CurrentUri.IndexOf("dark") > -1)
+            SetTheme(Theme.Bootstrap4, "#a16ee5", "#bootstrap4-gradient-chart");
+        }
+        else if (CurrentUri.Contains("bootstrap"))
+        {
+            if (CurrentUri.Contains("dark"))
             {
-                theme = Theme.FluentDark;
-                BorderColor = "#1AC9E6";
-                FillColor = String.Concat(valueUrl, "(#fluentdark-gradient-chart)");
+                SetTheme(Theme.BootstrapDark, "#a16ee5", "#bootstrapdark-gradient-chart");
             }
             else
             {
-                theme = Theme.Fluent;
-                BorderColor = "#1AC9E6";
-                FillColor = String.Concat(valueUrl, "(#fluent-gradient-chart)");
+                SetTheme(Theme.Bootstrap, "#a16ee5", "#bootstrap-gradient-chart");
             }
         }
-        else if (CurrentUri.IndexOf("bootstrap4") > -1)
+        else if (CurrentUri.Contains("highcontrast"))
         {
-            theme = Theme.Bootstrap4;
-            BorderColor = "#a16ee5";
-            FillColor = String.Concat(valueUrl, "(#bootstrap4-gradient-chart)");
+            SetTheme(Theme.HighContrast, "#79ECE4", "#highcontrast-gradient-chart");
         }
-        else if (CurrentUri.IndexOf("bootstrap") > -1)
+        else if (CurrentUri.Contains("tailwind3"))
         {
-            if (CurrentUri.IndexOf("dark") > -1)
+            if (CurrentUri.Contains("dark"))
             {
-                theme = Theme.BootstrapDark;
-                BorderColor = "#a16ee5";
+                SetTheme(Theme.Tailwind3Dark, "#8029F1", "#tailwind3-gradient-chart");
             }
             else
             {
-                theme = Theme.Bootstrap;
-                BorderColor = "#a16ee5";
+                SetTheme(Theme.Tailwind3, "#2F4074", "#tailwind3-gradient-chart");
             }
-            FillColor = String.Concat(valueUrl, "(#bootstrap-gradient-chart)");
-        }
-        else if (CurrentUri.IndexOf("highcontrast") > -1)
-        {
-            theme = Theme.HighContrast;
-            BorderColor = "#79ECE4";
-            FillColor = String.Concat(valueUrl, "(#highcontrast-gradient-chart)");
-        }
-        else if (CurrentUri.IndexOf("material3") > -1)
-        {
-            if (CurrentUri.IndexOf("dark") > -1)
-            {
-                theme = Theme.Material3Dark;
-                BorderColor = "#4EAAFF";
-                FillColor = String.Concat(valueUrl, "(#material3dark-gradient-chart)");
-            }
-            else
-            {
-                theme = Theme.Material3;
-                BorderColor = "#6355C7";
-                FillColor = String.Concat(valueUrl, "(#material3-gradient-chart)");
-            }
-        }
-        else if (CurrentUri.IndexOf("tailwind") > -1)
-        {
-            if (CurrentUri.IndexOf("dark") > -1)
-            {
-                theme = Theme.TailwindDark;
-                BorderColor = "#8B5CF6";
-            }
-            else
-            {
-                theme = Theme.Tailwind;
-                BorderColor = "#5A61F6";
-            }
-            FillColor = String.Concat(valueUrl, "(#tailwind-gradient-chart)");
         }
         else
         {
-            theme = Theme.Bootstrap4;
-            BorderColor = "#a16ee5";
-            FillColor = String.Concat(valueUrl, "(#bootstrap4-gradient-chart)");
+            SetTheme(Theme.Bootstrap4, "#a16ee5", "#bootstrap4-gradient-chart");
         }
     }
+
+// Helper method to set the theme, border color, and fill color
+private void SetTheme(Theme theme, string borderColor, string gradientId)
+{
+    CurrentTheme = theme;
+    AreaBorderColor = borderColor;
+    AreaFillColor = $"{GradientUrl}({gradientId})";
 }
+
+
+    // Data model class
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double? open { get; set; }
+    }
+}
+
 <style>
     #control-container {
         padding: 0px !important;
@@ -342,7 +278,19 @@ else
     }
 
     #tailwind-gradient-chart stop {
-        stop-color: #4F46E5;
+        stop-color: #2F4074;
+    }
+
+    #tailwinddark-gradient-chart stop {
+        stop-color: #8029F1;
+    }
+
+    #tailwind3-gradient-chart stop {
+        stop-color: #2F4074; // used same color as tailwind
+    }
+
+    #tailwind3dark-gradient-chart stop {
+        stop-color: #8029F1; // used same color as tailwind dark
     }
 
     #fluent2-gradient-chart stop {
@@ -400,6 +348,18 @@ else
             <stop offset="1"></stop>
         </linearGradient>
         <linearGradient id="tailwind-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwinddark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwind3-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwind3dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
             <stop offset="0"></stop>
             <stop offset="1"></stop>
         </linearGradient>

@@ -5,7 +5,6 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
-using System.IO.Compression;
 using Syncfusion.Blazor.FileManager;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +16,8 @@ namespace BlazorDemos.Pages.FileManager
 {
     public class FileManagerService
     {
-        List<FileManagerDirectoryContent> CopyFiles = new List<FileManagerDirectoryContent>();
-
-        List<FileManagerDirectoryContent> Data = new List<FileManagerDirectoryContent>();
+        public List<FileManagerDirectoryContent> CopyFiles = new List<FileManagerDirectoryContent>();
+        public List<FileManagerDirectoryContent> Data = new List<FileManagerDirectoryContent>();
 
         public FileManagerService()
         {

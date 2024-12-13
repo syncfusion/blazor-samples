@@ -2,10 +2,8 @@
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Lists
-@inherits SampleBaseComponent 
 @*Hidden:Lines*@
-@inject NavigationManager NavigationManager
-
+@inherits SampleBaseComponent
 
 @*End:Hidden*@
 <SampleDescription>
@@ -22,24 +20,24 @@
 <div class="control-section">
     <div class="row skeleton-animation">
         <div>
-            <SfButton id="reloadSkeleton" IsPrimary="true" Content="Reload" OnClick="@ReloadClick"></SfButton>
+            <SfButton id="reloadSkeleton" IsPrimary="true" Content="Reload" OnClick="@OnReloadClick"></SfButton>
         </div>
         <div class="col-sm-6">
             <h5>Fade Effect</h5>
             <br />
-            @if (isDataLoaded)
-                {
-                <div id="skeletondatacard"  class="e-card" style="display:block;">
-                    <div class="cardProfile">
-                        <div class="@data.cardProfileImage"></div>
-                    </div>
-                    <div class="cardinfo">
-                        <label id="name" style="font-size: 15px;">@data.cardname</label><br />
-                        <label id="time" style="font-weight:normal;">@data.cardtime</label>
-                    </div>
-                    <div class="cardContent">
-                        <div class="@data.cardPostImage"></div>
-                    </div>
+            @if (IsDataLoaded)
+            {
+            <div id="skeletondatacard" class="e-card" style="display:block;">
+                <div class="cardProfile">
+                    <div class="@SkeletonData.ProfileImage"></div>
+                </div>
+                <div class="cardinfo">
+                    <label id="name" style="font-size: 15px;">@SkeletonData.Name</label><br />
+                    <label id="time" style="font-weight:normal;">@SkeletonData.Time</label>
+                </div>
+                <div class="cardContent">
+                    <div class="@SkeletonData.PostImage"></div>
+                </div>
 
                     <div class="cardoptions">
                         <div id="cardLeftOptn" style="min-width:20%;">
@@ -76,21 +74,21 @@
             <h5>Pulse Effect</h5>
             <br />
             <div class="skeleton-listcard e-card">
-            @if (isDataLoaded)
-                {                
-                <SfListView ID="skeleton-listview" DataSource="@data.ListData" CssClass="e-list-template" Height="420px"
-                        SortOrder="Syncfusion.Blazor.Lists.SortOrder.Ascending">
+                @if (IsDataLoaded)
+                {
+                <SfListView ID="skeleton-listview" DataSource="@SkeletonData.ListItems" CssClass="e-list-template" Height="420px"
+                            SortOrder="Syncfusion.Blazor.Lists.SortOrder.Ascending">
                     <ListViewFieldSettings TValue="ContactList" Id="Id" Text="Text"></ListViewFieldSettings>
                     <ListViewTemplates TValue="ContactList">
                         <Template>
                             <div class="e-list-wrapper e-list-multi-line e-list-avatar">
-                                @if (((context as ContactList).Avatar) != "")
+                                @if (!string.IsNullOrEmpty(((context as ContactList).Avatar)))
                                 {
                                 <span class="e-avatar e-avatar-circle">@((context as ContactList).Avatar)</span>
                                 }
-                            else
+                                else
                                 {
-                                <span class="@((context as ContactList).Pic) e-avatar e-avatar-circle"> </span>
+                                <span class="@((context as ContactList).Pic) e-avatar e-avatar-circle"></span>
                                 }
                             <span class="e-list-item-header">@((context as ContactList).Text)</span>
                             <span class="e-list-content">@((context as ContactList).Contact)</span>
@@ -99,7 +97,7 @@
                 </ListViewTemplates>
             </SfListView>
                 }
-            else
+                else
                 {
                 <ul id="skeleton-list">
                     @for (int i = 0; i < 8; i++)
@@ -121,57 +119,56 @@
 
 @code {
 
-    
-    public class SkeletonData
+    public class SkeletonDataModel
     {
-        public List<ContactList> ListData { get; set; }
-        public string cardProfileImage { get; set; }
-        public string cardPostImage { get; set; }
-        public string cardname { get; set; }
-        public string cardtime { get; set; }
-
+        public List<ContactList> ListItems { get; set; } = new List<ContactList>();
+        public string ProfileImage { get; set; }
+        public string PostImage { get; set; }
+        public string Name { get; set; }
+        public string Time { get; set; }
     }
-    private SkeletonData data;
-    private bool isDataLoaded;
-    private async void LoadData()
+
+    private SkeletonDataModel SkeletonData { get; set; }
+    private bool IsDataLoaded { get; set; }
+
+    private async void LoadDataAsync()
     {
-        data = await GetData();
-        isDataLoaded = true;
+        SkeletonData = await FetchDataAsync();
+        IsDataLoaded = true;
         StateHasChanged();
     }
-    private async Task<SkeletonData> GetData()
+
+    private async Task<SkeletonDataModel> FetchDataAsync()
     {
         await Task.Delay(3000);
-        SkeletonData value = new SkeletonData()
-                {
-                cardProfileImage = "image profile-image e-avatar",
-                cardname = "Laura Callahan",
-                cardtime = DateTime.Now.ToLongDateString(),
-                cardPostImage = "image post-image",
-                ListData = ContactList.GetAllRecords(),
-                };
-        return value;
+        return new SkeletonDataModel
+        {
+            ProfileImage = "image profile-image e-avatar",
+            Name = "Laura Callahan",
+            Time = DateTime.Now.ToLongDateString(),
+            PostImage = "image post-image",
+            ListItems = ContactList.GetAllRecords()
+        };
     }
 
-
-
-    private void ReloadClick()
+    private void OnReloadClick()
     {
-        isDataLoaded = false;
-        data = new SkeletonData();
+        IsDataLoaded = false;
+        SkeletonData = new SkeletonDataModel();
         StateHasChanged();
-        LoadData();
+        LoadDataAsync();
     }
 
     protected override void OnAfterRender(bool firstRender)
     {
-        base.OnAfterRender(firstRender);
         if (firstRender)
-            {
-            LoadData();
-            }
+        {
+            LoadDataAsync();
         }
+    }
+
 }
+
 <style>
     .skeleton-animation .col-sm-6 {
         padding: 30px;

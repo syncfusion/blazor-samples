@@ -19,7 +19,7 @@ namespace Blazor_MAUI_Demos
             {
                 Name = "Default Functionalities",
                 Category = "PDF Viewer (NextGen)",
-                Directory = "Viewer2/PdfViewer2",              
+                Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/default-functionalities",
                 FileName = "DefaultFunctionalities.razor"
             },
@@ -27,7 +27,7 @@ namespace Blazor_MAUI_Demos
             {
                 Name = "Custom Toolbar",
                 Category = "PDF Viewer (NextGen)",
-                Directory = "Viewer2/PdfViewer2",             
+                Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/custom-toolbar",
                 FileName = "CustomToolbar.razor",
             },
@@ -35,16 +35,15 @@ namespace Blazor_MAUI_Demos
             {
                 Name = "Primary Toolbar Customization",
                 Category = "PDF Viewer (NextGen)",
-                Directory = "Viewer2/PdfViewer2",             
+                Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/primary-toolbar-customization",
                 FileName = "PrimaryToolbarCustomization.razor",
-                Type=SampleType.New
             },
             new Sample
             {
                 Name = "Form Filling",
                 Category = "PDF Viewer (NextGen)",
-                Directory = "Viewer2/PdfViewer2",              
+                Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/form-filling",
                 FileName = "FormFilling.razor"
             },
@@ -53,14 +52,14 @@ namespace Blazor_MAUI_Demos
                 Name = "Annotations",
                 Category = "PDF Viewer (NextGen)",
                 Directory = "Viewer2/PdfViewer2",
-                Url = "pdf-viewer-2/annotations-toolbar",              
+                Url = "pdf-viewer-2/annotations-toolbar",
                 FileName = "AnnotationsToolbar.razor",
             },
             new Sample
             {
                 Name = "Handwritten Signature",
                 Category = "PDF Viewer (NextGen)",
-                Directory = "Viewer2/PdfViewer2",              
+                Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/handwritten-signature",
                 FileName = "HandwrittenSignature.razor"
             }
@@ -72,7 +71,7 @@ namespace Blazor_MAUI_Demos
                 Category = "PDF Viewer (NextGen)",
                 Directory = "Viewer2/PdfViewer2",
                 Url = "pdf-viewer-2/invisible-digital-signature",
-                FileName = "InvisibleDigitalSignature.razor",             
+                FileName = "InvisibleDigitalSignature.razor",
             },
 #endif
         };

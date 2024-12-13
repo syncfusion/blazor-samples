@@ -2,28 +2,20 @@
 
 @using Syncfusion.Blazor.TreeGrid
 @using Syncfusion.Blazor.Grids
-@using Syncfusion.Blazor.Data
-@using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
-@using Syncfusion.Blazor
 @*Hidden:Lines*@
-@using BlazorDemos
 @using ej2_blazor_selfdata
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
     <p>This sample demonstrates dynamic show/hide columns feature of Tree Grid. Click the toggle switch in this demo to change the visibility of columns.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>The Tree Grid column can be shown/hidden dynamically using the <a aria-label="Navigate to the ShowColumnAsync method reference for tree grid column" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_ShowColumnAsync_System_String_System_String_'>ShowColumnsAsync</a> and <a aria-label="Navigate to the HideColumnAsync property reference for tree column" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_HideColumnAsync_System_String_System_String_'>HideColumnsAsync</a> methods of Tree Grid.</p>
-    <p>The <a aria-label="Navigate to the visible property reference for tree grid column" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html#Syncfusion_Blazor_TreeGrid_TreeGridColumn_Visible'>TreeGridColumn->Visible</a> property decides the visibility of a column. To hide a column at the initial rendering, set the <code>TreeGridColumn->Visible</code> property to false.</p>
-    <p>More information on the show hide column can be found in this <a aria-label="Navigate to the documentation for show or hide columns by external button" target='_blank' href='https://blazor.syncfusion.com/documentation/treegrid/columns/columns#show-or-hide-columns-by-external-button'>documentation section</a>.</p>
+    <p>The Tree Grid column can be shown or hidden dynamically using the <a aria-label="Navigate to the ShowColumnAsync method reference for tree grid column" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_ShowColumnAsync_System_String_System_String_">ShowColumnsAsync</a> and <a aria-label="Navigate to the HideColumnAsync property reference for tree column" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_HideColumnAsync_System_String_System_String_">HideColumnsAsync</a> methods of Tree Grid.</p>
+    <p>The <a aria-label="Navigate to the visible property reference for tree grid column" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html#Syncfusion_Blazor_TreeGrid_TreeGridColumn_Visible">TreeGridColumn->Visible</a> property decides the visibility of a column. To hide a column at the initial rendering, set the <code>TreeGridColumn->Visible</code> property to false.</p>
+    <p>More information on showing or hiding columns can be found in this <a aria-label="Navigate to the documentation for show or hide columns by external button" target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/columns/columns#show-or-hide-columns-by-external-button">documentation section</a>.</p>
 </ActionDescription>
-
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
@@ -37,7 +29,7 @@
                 <label class="showhide" style="padding: 10px 5px 10px 40px"> Duration </label>
                 <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { Change("Duration", args); })" @bind-Checked="@Check2" TChecked="bool"></SfSwitch>
             </div>
-            <SfTreeGrid DataSource="@TreeGridData" @ref="TreeGrid" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" Height="312">
+            <SfTreeGrid DataSource="@TreeGridData" @ref="TreeGridInstance" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" Height="312">
                 <TreeGridColumns>
                     <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
                     <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="170"></TreeGridColumn>
@@ -76,26 +68,25 @@
 
 @code{
 
-    SfTreeGrid<SelfReferenceData> TreeGrid;
-
-
+    public SfTreeGrid<SelfReferenceData> TreeGridInstance { get; set; }
+    
     public List<SelfReferenceData> TreeGridData { get; set; }
+    
     private Boolean Check = true, Check1 = true, Check2 = true;
 
     public async void Change(string Name, Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
         if (args.Checked)
         {
-            await this.TreeGrid.ShowColumnAsync(Name);
+            await TreeGridInstance.ShowColumnAsync(Name);
         }
         else
         {
-            await this.TreeGrid.HideColumnAsync(Name);
+            await TreeGridInstance.HideColumnAsync(Name);
         }
     }
     protected override void OnInitialized()
     {
-
-        this.TreeGridData = SelfReferenceData.GetTree().Take(50).ToList();
+        TreeGridData = SelfReferenceData.GetTree().Take(50).ToList();
     }
 }

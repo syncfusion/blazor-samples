@@ -329,7 +329,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             secondPage.Annotations.Add(polygonCloud);
 
             PdfPage thirdPage = document.Pages.Add();
-#if !(WASM && NET9_0)
+
             PdfRedactionAnnotation redactionAnnotation = new PdfRedactionAnnotation();
             redactionAnnotation.Bounds = new RectangleF(40, 610, 100, 55);
             redactionAnnotation.Text = "Redaction Annotation";
@@ -343,7 +343,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
             redactionAnnotation.SetAppearance(true);
             secondPage.Graphics.DrawString("Redaction Annotation", font, brush, new PointF(40, 580));
             secondPage.Annotations.Add(redactionAnnotation);
-#endif
+		
             //Creates a new RubberStamp annotation
             PdfRubberStampAnnotation rubberStampAnnotation = new PdfRubberStampAnnotation(new RectangleF(30, 70, 100, 50));
             rubberStampAnnotation.Text = "Rubber Stamp Annotation";
@@ -414,10 +414,9 @@ namespace BlazorDemos.Data.FileFormats.PDF
                 PdfLoadedDocument lDoc = new PdfLoadedDocument(SourceStream);
                 foreach (PdfLoadedPage lpage in lDoc.Pages)
                 {
-#if !(WASM && NET9_0)
                     //Flatten the redaction annotation
                     lDoc.Redact();
-#endif
+
                     //Flatten all the annotations.
                     lpage.Annotations.Flatten = true;
                 }

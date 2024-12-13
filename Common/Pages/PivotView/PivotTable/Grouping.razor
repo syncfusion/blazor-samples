@@ -4,12 +4,9 @@
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
-@using BlazorDemos
+
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -21,7 +18,7 @@
         selecting the appropriate option from the <b>Group Date by</b> drop-down list. Also, numbers can be grouped by
         entering the appropriate value in the <b>Group Product ID by</b> giving a range number in the the numeric text box.
     </p>
-    <p>Grouping can be applied through code-behind using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewGroupSetting.html' aria-label="Class reference of PivotViewGroupSetting">PivotViewGroupSetting</a> in the pivot table along with the following properties:</p>
+    <p>Grouping can be applied through code-behind using the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewGroupSetting.html" aria-label="Class reference of PivotViewGroupSetting">PivotViewGroupSetting</a> in the pivot table along with the following properties:</p>
     <table>
         <tr>
             <td style='vertical-align: top;padding: 10px 0; width: 130px'><code>Name</code></td>
@@ -45,7 +42,7 @@
         </tr>
     </table>
     <br />
-    <p>More information on the grouping feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/pivot-table/grouping/' aria-label="Blazor PivotTable Grouping documentation" >documentation section</a>.</p>
+    <p>More information on the grouping feature can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/grouping/" aria-label="Blazor PivotTable Grouping documentation" >documentation section</a>.</p>
 </ActionDescription>
 
 <div class="col-lg-9 control-section sb-property-border">
@@ -159,62 +156,62 @@
 
 @code{
     @*Hidden:Lines*@
-    #pragma warning disable BL0005
+#pragma warning disable BL0005
     @*End:Hidden*@
 
-    
-    SfPivotView<GroupData> Pivot;
-    SfNumericTextBox<double?> NumberGroup;
-
+    private SfPivotView<GroupData> Pivot;
+    private SfNumericTextBox<double?> NumberGroup;
     public string[] SelectedGroup { get; set; } = new string[] { "Years", "Months", "Days" };
+    public List<PivotViewGroupSetting> Groups = new List<PivotViewGroupSetting>();
 
-        public List<PivotViewGroupSetting> Groups = new List<PivotViewGroupSetting>();
-
-        public List<DateGroup> GroupInterval = new List<DateGroup> {
+    public List<DateGroup> GroupInterval = new List<DateGroup>
+    {
         DateGroup.Years, DateGroup.Months, DateGroup.Days
     };
 
-        public List<GroupData> Data { get; set; }
+    public List<GroupData> Data { get; set; }
 
-        protected override void OnInitialized()
+    protected override void OnInitialized()
+    {
+        this.Data = GroupData.GetGroupData();
+    }
+
+    public void OnGroupUpdate(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        List<PivotViewGroupSetting> groupSettings = new List<PivotViewGroupSetting>();
+        if (this.SelectedGroup?.Length > 0)
         {
-            
-            this.Data = GroupData.GetGroupData();
+            List<DateGroup> dateGroup = new List<DateGroup>();
+            foreach (string selectedValue in this.SelectedGroup)
+            {
+                dateGroup.Add((DateGroup)Enum.Parse(typeof(DateGroup), selectedValue, true));
+            }
+
+            groupSettings.Add(new PivotViewGroupSetting() { Name = "TimeLine", Type = GroupType.Date, GroupInterval = dateGroup });
         }
 
-        public void OnGroupUpdate(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+        if (this.NumberGroup.Value > 1)
         {
-            List<PivotViewGroupSetting> groupSettings = new List<PivotViewGroupSetting>();
-            if (this.SelectedGroup?.Length > 0)
-            {
-                List<DateGroup> dateGroup = new List<DateGroup>();
-                foreach (string selectedValue in this.SelectedGroup)
-                {
-                    dateGroup.Add((DateGroup)Enum.Parse(typeof(DateGroup), selectedValue, true));
-                }
-                groupSettings.Add(new PivotViewGroupSetting() { Name = "TimeLine", Type = GroupType.Date, GroupInterval = dateGroup });
-            }
-            if (this.NumberGroup.Value > 1)
-            {
-                groupSettings.Add(new PivotViewGroupSetting() { Name = "Id", Type = GroupType.Number, RangeInterval = Convert.ToDouble(this.NumberGroup.Value), StartingAt = "1001", EndingAt = "1020" });
-            }
-            Pivot.DataSourceSettings.GroupSettings = groupSettings;
+            groupSettings.Add(new PivotViewGroupSetting() { Name = "Id", Type = GroupType.Number, RangeInterval = Convert.ToDouble(this.NumberGroup.Value), StartingAt = "1001", EndingAt = "1020" });
+        }
+
+        Pivot.DataSourceSettings.GroupSettings = groupSettings;
     }
     @*Hidden:Lines*@
     #pragma warning restore BL0005
     @*End:Hidden*@
 
-    List<DropDownData> DateGroups =
-                    new List<DropDownData>() {
-            new DropDownData { Name = "Years", Value = "Years" },
-            new DropDownData { Name = "Quarters", Value = "Quarters" },
-            new DropDownData { Name = "Months", Value = "Months" },
-            new DropDownData { Name = "Days", Value = "Days" }
-            };
+    private List<DropDownData> DateGroups = new List<DropDownData>()
+    {
+        new DropDownData { Name = "Years", Value = "Years" },
+        new DropDownData { Name = "Quarters", Value = "Quarters" },
+        new DropDownData { Name = "Months", Value = "Months" },
+        new DropDownData { Name = "Days", Value = "Days" }
+    };
 
-                public class DropDownData
-                {
-                    public string Name { get; set; }
-                    public string Value { get; set; }
-                }
+    public class DropDownData
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+    }
 }

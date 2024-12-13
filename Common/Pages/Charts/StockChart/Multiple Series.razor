@@ -25,15 +25,16 @@
     </p>
 </ActionDescription>
 
-@if (DataSource == null)
+@if (GoogleStockData == null || AlphabetStockData == null)
 {
-    <div class="stockchartloader"></div> }
+    <div class="stock-chart-loader"></div> 
+}
 else
 {
-    <div class="@loadClass"></div>
-    <div class="@loadDiv">
-        <SfStockChart Title="Multiple Series" IndicatorType="@Indicators" Theme="@theme" SeriesType="@SeriesType">
-            <StockChartEvents OnLoaded="@ChartLoaded"></StockChartEvents>
+    <div class="@LoaderClass"></div>
+    <div class="@ChartContainerClass">
+        <SfStockChart Title="Multiple Series" IndicatorType="@IndicatorList" Theme="@CurrentTheme" SeriesType="@AvailableSeriesTypes">
+            <StockChartEvents OnLoaded="@OnChartLoaded"></StockChartEvents>
             <StockChartPrimaryXAxis>
                 <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
                 <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
@@ -45,8 +46,8 @@ else
             </StockChartPrimaryYAxis>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@DataSource" Type="ChartSeriesType.Spline" XName="x" YName="close" Name="GOOG"></StockChartSeries>
-                <StockChartSeries DataSource="@DataSource2" Type="ChartSeriesType.Spline" XName="x" YName="close" Name="GOOGL"></StockChartSeries>
+                <StockChartSeries DataSource="@GoogleStockData" Type="ChartSeriesType.Spline" XName="x" YName="close" Name="GOOG"></StockChartSeries>
+                <StockChartSeries DataSource="@AlphabetStockData" Type="ChartSeriesType.Spline" XName="x" YName="close" Name="GOOGL"></StockChartSeries>
             </StockChartSeriesCollection>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
@@ -55,7 +56,7 @@ else
         </SfStockChart>
     </div>
     <style>
-        .stockchartloader {
+        .stock-chart-loader {
             border: 6px solid #f3f3f3;
             border-top: 6px solid #7a0fff;
             width: 40px;
@@ -68,7 +69,7 @@ else
             animation: loader 2s linear infinite;
         }
 
-        .stockchartdiv {
+        .stockchart-container {
             visibility: hidden;
         }
 
@@ -77,14 +78,14 @@ else
         }
 
         div[id*="_selector_Secondary_Element"] {
-            transform: translate(0px, @translateY) !important;
+            transform: translate(0px, @TranslateY) !important;
         }
 
         .e-tbar-btn {
             border-color: transparent !important;
         }
 
-        @if(this.theme == Theme.Fluent2HighContrast)
+        @if(this.CurrentTheme == Theme.Fluent2HighContrast)
         {
             <text>
                 g[id*="_stockChart_chart_chart_legend_g"] {
@@ -94,24 +95,17 @@ else
         }
     </style>
 }
-@code{ 
-    
-    private ChartData[] DataSource;
+@code
+{
+    private ChartData[] GoogleStockData { get; set; }
+    private ChartData[] AlphabetStockData { get; set; }
+    private string TranslateY { get; set; } = "-5px";
 
-    private ChartData[] DataSource2;
-    string translateY = "-5px";
-    
     protected override async Task OnInitializedAsync()
     {
-        BeforeRender();
-        DataSource = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/goog.json");
-        DataSource2 = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/googl.json");
-        //Hidden:Lines
-        if (theme == Theme.Material3 || theme == Theme.Material3Dark || theme == Theme.Bootstrap4 || theme == Theme.Material || theme == Theme.MaterialDark)
-        {
-            translateY = "-7px";
-        }
-        //End:Hidden
+        SetTheme();
+        GoogleStockData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/goog.json");
+        AlphabetStockData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/googl.json");
     }
 
     public class ChartData
@@ -124,20 +118,38 @@ else
         public double volume { get; set; }
     }
 
-    string loadClass = "stockchartloader";
-    string loadDiv = "stockchartdiv";
-    List<TechnicalIndicators> Indicators = new List<TechnicalIndicators>() { };
-    public List<ChartSeriesType> SeriesType = new List<ChartSeriesType>() { ChartSeriesType.Line, ChartSeriesType.Hilo, ChartSeriesType.HiloOpenClose, ChartSeriesType.Candle, ChartSeriesType.Spline };
-    void ChartLoaded(StockChartEventArgs args)
+    private string LoaderClass { get; set; } = "stockchart-loader";
+    private string ChartContainerClass { get; set; } = "stockchart-container";
+    private List<TechnicalIndicators> IndicatorList { get; set; } = new List<TechnicalIndicators>();
+    public List<ChartSeriesType> AvailableSeriesTypes { get; set; } = new List<ChartSeriesType>
     {
-        loadClass = "";
-        loadDiv = "";
+        ChartSeriesType.Line,
+        ChartSeriesType.Hilo,
+        ChartSeriesType.HiloOpenClose,
+        ChartSeriesType.Candle,
+        ChartSeriesType.Spline
+    };
+
+    private void OnChartLoaded(StockChartEventArgs args)
+    {
+        LoaderClass = string.Empty;
+        ChartContainerClass = string.Empty;
         StateHasChanged();
     }
 
-    Theme theme = Theme.Bootstrap4;
-    void BeforeRender()
+    private Theme CurrentTheme { get; set; } = Theme.Bootstrap4;
+
+    private void SetTheme()
     {
-        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-    } 
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (CurrentTheme == Theme.Material3 || 
+            CurrentTheme == Theme.Material3Dark || 
+            CurrentTheme == Theme.Bootstrap4 || 
+            CurrentTheme == Theme.Material || 
+            CurrentTheme == Theme.MaterialDark)
+        {
+            TranslateY = "-7px";
+        }
+    }
+    
 }

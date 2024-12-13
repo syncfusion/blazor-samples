@@ -39,6 +39,10 @@ namespace PointRender
         internal static List<string> TailwindDarkColors { get; set; } = new List<string>()
         { "#8B5CF6", "#22D3EE", "#F87171", "#4ADE80", "#E879F9", "#FCD34D", "#F97316", "#2DD4BF", "#F472B6",
           "#10B981"};
+        internal static List<string> Tailwind3Colors { get; set; } = new List<string>()
+        { "#2F4074", "#03B4B4", "#0D72DE", "#FF5733", "#D63384", "#F39C12", "#EF291F", "#91C822"};
+        internal static List<string> Tailwind3DarkColors { get; set; } = new List<string>()
+        { "#8029F1", "#1ABC9C", "#0D72DE", "#FF5733", "#D63384", "#F39C12", "#EF291F", "#91C822"};
         internal static List<string> Material3Colors { get; set; } = new List<string>()
         { "#6355C7", "#00AEE0", "#FFB400", "#F7523F", "#963C70", "#FD7400", "#4BE0BC", "#2196F5", "#DE3D8A",
           "#162F88"};

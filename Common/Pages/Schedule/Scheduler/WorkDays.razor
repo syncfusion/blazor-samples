@@ -6,9 +6,6 @@
 @using Syncfusion.Blazor.Inputs
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -45,7 +42,7 @@
 </div>
 
 <div class="col-lg-12 control-section">
-    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate" WorkDays="@workingDays" FirstDayOfWeek="@firstDay" ShowWeekend="@IsShowWeekend">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Width="100%" Height="650px" @bind-CurrentView="@CurrentView" @bind-SelectedDate="@CurrentDate" WorkDays="@_workingDays" FirstDayOfWeek="@_firstDay" ShowWeekend="@IsShowWeekend">
         <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
         <ScheduleViews>
             <ScheduleView Option="View.Day"></ScheduleView>
@@ -53,7 +50,7 @@
             <ScheduleView Option="View.WorkWeek"></ScheduleView>
             <ScheduleView Option="View.Month"></ScheduleView>
         </ScheduleViews>
-        <ScheduleEventSettings DataSource="@dataSource"></ScheduleEventSettings>
+        <ScheduleEventSettings DataSource="@EventDataSource"></ScheduleEventSettings>
     </SfSchedule>
 </div>
 
@@ -61,33 +58,36 @@
     private int? WorkIndex { get; set; } = 0;
     private int? DayIndex { get; set; } = 1;
     private bool IsShowWeekend { get; set; } = false;
-    private List<ScheduleData.AppointmentData> dataSource = new ScheduleData().GetEmployeeEventData();
+    private List<ScheduleData.AppointmentData> EventDataSource = new ScheduleData().GetEmployeeEventData();
     public View CurrentView { get; set; } = View.Week;
     private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 16);
-    private int[] workingDays = new int[] { 1, 3, 5 };
-    private int firstDay = 1;
+    private int[] _workingDays = new int[] { 1, 3, 5 };
+    private int _firstDay = 1;
     
     public void OnChange(ChangeEventArgs<string, DropDownData> args)
     {
         var numbers = (args.Value).Split(',').Select(Int32.Parse).ToArray();
-        workingDays = numbers;
+        _workingDays = numbers;
     }
     public void OnDayChange(ChangeEventArgs<string, DropDownData> args)
     {
-        firstDay = Convert.ToInt32(args.Value);
+        _firstDay = Convert.ToInt32(args.Value);
     }
     public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
     {
         args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
     }
-    List<DropDownData> WorkDaysData { get; set; } = new List<DropDownData>()
-{
+
+    private List<DropDownData> WorkDaysData { get; set; } = new List<DropDownData>()
+    {
         new DropDownData { Name = "Mon, Wed, Fri", Value = "1,3,5" },
         new DropDownData { Name = "Mon, Tue, Wed, Thu, Fri", Value = "1,2,3,4,5" },
         new DropDownData { Name = "Tue, Wed, Thu, Fri", Value = "2,3,4,5" },
         new DropDownData { Name = "Thu, Fri, Sat, Mon, Tue", Value = "4,5,6,1,2" }
     };
-    List<DropDownData> FirstDayOfWeek { get; set; } = new List<DropDownData>() {
+
+    private List<DropDownData> FirstDayOfWeek { get; set; } = new List<DropDownData>()
+    {
         new DropDownData { Name = "Sunday", Value = "0" },
         new DropDownData { Name = "Monday", Value = "1" },
         new DropDownData { Name = "Tuesday", Value = "2" },

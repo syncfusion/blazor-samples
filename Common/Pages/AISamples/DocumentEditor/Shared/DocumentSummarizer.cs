@@ -6,7 +6,7 @@
 // applicable laws. 
 #endregion
 using SmartComponents.LocalEmbeddings;
-using OpenAI.Chat;
+using Microsoft.Extensions.AI;
 using Syncfusion.Blazor.SmartComponents;
 using System;
 using System.Collections.Generic;
@@ -46,7 +46,7 @@ namespace BlazorDemos.Pages.AISamples.DocumentEditor.Shared
             ChatParameters chatParameters = new ChatParameters();
             chatParameters.Messages = new()
             {
-                new SystemChatMessage(systemPrompt)
+                new ChatMessage(ChatRole.System,systemPrompt)
             };
             if (isSummary)
             {
@@ -54,7 +54,7 @@ namespace BlazorDemos.Pages.AISamples.DocumentEditor.Shared
                 List<string> embed = PageEmbeddings.Keys.Take(PageEmbeddings.Keys.Count).ToList();
                 foreach (var chunk in embed)
                 {
-                    chatParameters.Messages.Add(new UserChatMessage(chunk));
+                    chatParameters.Messages.Add(new ChatMessage(ChatRole.User, chunk));
                     var result = await OpenAIService.GetChatResponseAsync(chatParameters);
                     summaryResults.Add(result.ToString());
                     chatParameters.Messages.RemoveAt(chatParameters.Messages.Count - 1);
@@ -63,7 +63,7 @@ namespace BlazorDemos.Pages.AISamples.DocumentEditor.Shared
             }
             else
             {
-                chatParameters.Messages.Add(new UserChatMessage(message));
+                chatParameters.Messages.Add(new ChatMessage(ChatRole.User, message));
                 var result = await OpenAIService.GetChatResponseAsync(chatParameters);
                 return result.ToString();
             }

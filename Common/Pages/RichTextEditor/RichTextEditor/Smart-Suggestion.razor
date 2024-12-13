@@ -1,17 +1,11 @@
 @page "/rich-text-editor/smart-suggestion"
 
-@using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.Popups
-@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.RichTextEditor
 @using Syncfusion.Blazor.DropDowns
-@inject IJSRuntime JS
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -20,8 +14,8 @@
 <ActionDescription>
     <p>The @@mention component is integrated into the Rich Text Editor and shows the suggestion list when the slash (/) key is pressed in an editor and applies suggested formats. To achieve this, the sample is customized for the Mention and Rich Text Editor.</p>
     <ul>
-        <li>Prevent the @@mention default selection action by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.MentionValueSelectingEventArgs-1.html#Syncfusion_Blazor_DropDowns_MentionValueSelectingEventArgs_1_Cancel' aria-label="Class reference of Cancel property in Rich Text Editor">args.Cancel</a> as <code>true</code> at the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.SfMention-1.html#Syncfusion_Blazor_DropDowns_SfMention_1_ValueSelecting' aria-label="Class reference of ValueSelecting event in Rich Text Editor">ValueSelecting</a> event.</li>
-        <li>Get the command name from the Mention component, select an event, and pass it to the public method <a target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_ExecuteCommandAsync_Syncfusion_Blazor_RichTextEditor_CommandName_" aria-label="Class reference of ExecuteCommandAsync property in Rich Text Editor">ExecuteCommandAsync</a> to perform the specified formats on the selected text in an editor.</li>
+        <li>Prevent the @@mention default selection action by setting the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.MentionValueSelectingEventArgs-1.html#Syncfusion_Blazor_DropDowns_MentionValueSelectingEventArgs_1_Cancel" aria-label="Class reference of Cancel property in Rich Text Editor">args.Cancel</a> as <code>true</code> at the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.SfMention-1.html#Syncfusion_Blazor_DropDowns_SfMention_1_ValueSelecting" aria-label="Class reference of ValueSelecting event in Rich Text Editor">ValueSelecting</a> event.</li>
+        <li>Get the command name from the Mention component, select an event, and pass it to the public method <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.SfRichTextEditor.html#Syncfusion_Blazor_RichTextEditor_SfRichTextEditor_ExecuteCommandAsync_Syncfusion_Blazor_RichTextEditor_CommandName_" aria-label="Class reference of ExecuteCommandAsync property in Rich Text Editor">ExecuteCommandAsync</a> to perform the specified formats on the selected text in an editor.</li>
     </ul>
     <p> The following formats are shown in the mention suggestion list; apply them in an editor.</p>
     <ul>
@@ -31,7 +25,7 @@
     </ul>
 </ActionDescription>
 <div class="control-section" id="mention-inline-integration">
-    <SfRichTextEditor ID="mentionFormatIntegration" @ref="rteObj" Placeholder="Type '/' and choose format" @bind-Value="@RteValue">
+    <SfRichTextEditor ID="mentionFormatIntegration" @ref="RteObj" Placeholder="Type '/' and choose format" @bind-Value="@RteValue">
      <RichTextEditorToolbarSettings Items="@Tools" />
     </SfRichTextEditor>
    
@@ -54,24 +48,24 @@
                 <MentionFieldSettings Text="FormatName" GroupBy="FormatType"></MentionFieldSettings>
             </ChildContent>
         </SfMention>
-    <SfDialog @bind-Visible="@dialogVisible" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="50%" Target="#mention-inline-integration">
+    <SfDialog @bind-Visible="@DialogVisible" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="50%" Target="#mention-inline-integration">
     <DialogTemplates>
         <Header> Insert Emoticons </Header>
         <Content>
             <div id="rteEmoticons-smiley">
-                @for (int i = 0; i < this.smileyList.Count; i++)
+                @for (int i = 0; i < this.SmileyList.Count; i++)
                 {
                     int index = i;
-                    if (currentIndex == i)
+                    if (CurrentIndex == i)
                     {
-                        <div class="char_block @activeClass" title="@this.smileyList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index , 0))">
-                            @((MarkupString)this.smileyList.Keys.ToList()[index])
+                        <div class="char_block @ActiveClass" title="@this.SmileyList.Values.ToList()[index]" @onclick="@(e => OnIconClick(index , 0))">
+                            @((MarkupString)this.SmileyList.Keys.ToList()[index])
                         </div>
                     }
                     else
                     {
-                    <div class="char_block" title="@this.smileyList.Values.ToList()[index]" @onclick="@(e => OnIconIconClick(index, 0))">
-                        @((MarkupString)this.smileyList.Keys.ToList()[index])
+                    <div class="char_block" title="@this.SmileyList.Values.ToList()[index]" @onclick="@(e => OnIconClick(index, 0))">
+                        @((MarkupString)this.SmileyList.Keys.ToList()[index])
                     </div>
                     }
                 }
@@ -79,7 +73,7 @@
         </Content>
     </DialogTemplates>
     <DialogButtons>
-        <DialogButton Content="Insert" IsPrimary="true" OnClick="OnInsert" Disabled="@disableInsertBtn" />
+        <DialogButton Content="Insert" IsPrimary="true" OnClick="OnInsert" Disabled="@DisableInsertButton" />
         <DialogButton Content="Cancel" OnClick="DialogOverlay" />
     </DialogButtons>
     <DialogEvents OnOverlayModalClick="DialogOverlay" Opened="OnOpen"/>
@@ -196,12 +190,14 @@
         border-color: #ffd939;
     }
 
-    .tailwind .char_block.e-active {
+    .tailwind .char_block.e-active,
+    .tailwind3 .char_block.e-active {
         outline: 1px solid #3730a3;
         border-color: #3730a3;
     }
 
-    .tailwind-dark .char_block.e-active {
+    .tailwind-dark .char_block.e-active,
+    .tailwind3-dark .char_block.e-active {
         outline: 1px solid #22d3ee;
         border-color: #22d3ee;
     }
@@ -262,14 +258,13 @@
 </style>
 
 @code {
-    
     private char FormatChar { get; set; } = '/';
     private string RteValue { get; set; }
-    SfRichTextEditor rteObj;
-    string activeClass = "e-active";
-    private bool dialogVisible { get; set; } = false;
-    private bool disableInsertBtn { get; set; } = true;
-    int currentIndex { get; set; } = -1;
+    private SfRichTextEditor RteObj;
+    private string ActiveClass = "e-active";
+    private bool DialogVisible { get; set; } = false;
+    private bool DisableInsertButton { get; set; } = true;
+    private int CurrentIndex { get; set; } = -1;
     [Inject]
     protected IJSRuntime JsRuntime { get; set; }
 
@@ -312,170 +307,175 @@
         new ToolbarItemModel() { Command = ToolbarCommand.Undo },
         new ToolbarItemModel() { Command = ToolbarCommand.Redo }
     };
-
-
-    public class FormatData{  
+    
+    public class FormatData
+    {
         public string FormatName { get; set; }
         public string Command { get; set; }
-        public string FormatType { get; set;}
-        public string Icon { get; set;}
-        public string Description{ get; set; }
+        public string FormatType { get; set; }
+        public string Icon { get; set; }
+        public string Description { get; set; }
     }
-    List<FormatData> EmailData = new List<FormatData> {
-        new FormatData{ FormatName= "Text", Command= "P", FormatType= "Basic blocks", Icon= "e-btn-icon e-text e-icons", Description= "Writing with paragraphs"},
-        new FormatData{ FormatName= "Quotation", Command= "BlockQuote", FormatType= "Basic blocks", Icon= "e-icons block-view", Description= "Insert a quote or citation"},
-        new FormatData { FormatName= "Heading 1", Command= "H1", FormatType= "Basic blocks", Icon= "e-icons h1-view", Description= "Use this for a top level heading" },
-        new FormatData { FormatName= "Heading 2", Command= "H2", FormatType= "Basic blocks", Icon= "e-icons h2-view", Description= "Use this for key sections" },
-        new FormatData { FormatName= "Heading 3", Command= "H3", FormatType= "Basic blocks", Icon= "e-icons h3-view", Description= "Use this for sub sections and group headings" },
-        new FormatData { FormatName= "Heading 4", Command= "H4", FormatType= "Basic blocks", Icon= "e-icons h4-view", Description= "Use this for deep headings" },
-        new FormatData { FormatName= "Numbered list", Command= "OL", FormatType= "Basic blocks", Icon= "e-icons e-list-ordered icon", Description= "Create an ordered list" },
-        new FormatData { FormatName= "Bulleted list", Command= "UL", FormatType= "Basic blocks", Icon= "e-icons e-list-unordered icon", Description= "Create an unordered list" },
-        new FormatData { FormatName= "Table", Command= "CreateTable", FormatType= "Basic blocks", Icon= "e-icons e-table icon", Description= "Insert a table" },
-        new FormatData { FormatName= "Emoji", Command= "Emoji", FormatType= "Inline", Icon= "e-icons emoji", Description= "Use emojis to express ideas and emoticons" },
-        new FormatData { FormatName= "Image", Command= "Image", FormatType= "Media", Icon= "e-icons e-image icon", Description= "Add image to your page" },
-        new FormatData { FormatName= "Audio", Command= "Audio", FormatType= "Media", Icon= "e-icons e-audio icon", Description= "Add audio to your page" },
-        new FormatData { FormatName= "Video", Command= "Video", FormatType= "Media", Icon= "e-icons e-video icon", Description= "Add video to your page"}
-      };
 
-    private async Task OnValueSelectingHandler(MentionValueSelectingEventArgs<FormatData> args) {
+    private List<FormatData> EmailData = new List<FormatData>
+    {
+        new FormatData { FormatName = "Text", Command = "P", FormatType = "Basic blocks", Icon = "e-btn-icon e-text e-icons", Description = "Writing with paragraphs" },
+        new FormatData { FormatName = "Quotation", Command = "BlockQuote", FormatType = "Basic blocks", Icon = "e-icons block-view", Description = "Insert a quote or citation" },
+        new FormatData { FormatName = "Heading 1", Command = "H1", FormatType = "Basic blocks", Icon = "e-icons h1-view", Description = "Use this for a top level heading" },
+        new FormatData { FormatName = "Heading 2", Command = "H2", FormatType = "Basic blocks", Icon = "e-icons h2-view", Description = "Use this for key sections" },
+        new FormatData { FormatName = "Heading 3", Command = "H3", FormatType = "Basic blocks", Icon = "e-icons h3-view", Description = "Use this for sub sections and group headings" },
+        new FormatData { FormatName = "Heading 4", Command = "H4", FormatType = "Basic blocks", Icon = "e-icons h4-view", Description = "Use this for deep headings" },
+        new FormatData { FormatName = "Numbered list", Command = "OL", FormatType = "Basic blocks", Icon = "e-icons e-list-ordered icon", Description = "Create an ordered list" },
+        new FormatData { FormatName = "Bulleted list", Command = "UL", FormatType = "Basic blocks", Icon = "e-icons e-list-unordered icon", Description = "Create an unordered list" },
+        new FormatData { FormatName = "Table", Command = "CreateTable", FormatType = "Basic blocks", Icon = "e-icons e-table icon", Description = "Insert a table" },
+        new FormatData { FormatName = "Emoji", Command = "Emoji", FormatType = "Inline", Icon = "e-icons emoji", Description = "Use emojis to express ideas and emoticons" },
+        new FormatData { FormatName = "Image", Command = "Image", FormatType = "Media", Icon = "e-icons e-image icon", Description = "Add image to your page" },
+        new FormatData { FormatName = "Audio", Command = "Audio", FormatType = "Media", Icon = "e-icons e-audio icon", Description = "Add audio to your page" },
+        new FormatData { FormatName = "Video", Command = "Video", FormatType = "Media", Icon = "e-icons e-video icon", Description = "Add video to your page" }
+    };
+
+    private async Task OnValueSelectingHandler(MentionValueSelectingEventArgs<FormatData> args)
+    {
         args.Cancel = true;
-        await this.rteObj.FocusIn();
-        await this.rteObj.RestoreSelectionAsync();
+        await this.RteObj.FocusIn();
+        await this.RteObj.RestoreSelectionAsync();
         var command = args.ItemData.Command;
         var formatType = args.ItemData.FormatType;
         if (formatType != "Inline")
         {
-            beforeApplyFormat();
+            BeforeApplyFormat();
         }
+
         switch (command)
         {
             case "OL":
-                await this.rteObj.ExecuteCommandAsync(CommandName.InsertOrderedList);
+                await this.RteObj.ExecuteCommandAsync(CommandName.InsertOrderedList);
                 break;
             case "UL":
-                await this.rteObj.ExecuteCommandAsync(CommandName.InsertUnorderedList);
+                await this.RteObj.ExecuteCommandAsync(CommandName.InsertUnorderedList);
                 break;
             case "CreateTable":
             case "Image":
             case "Audio":
             case "Video":
-                await this.rteObj.ShowDialogAsync(command == "CreateTable"? DialogType.InsertTable : command =="Image"? DialogType.InsertImage : command =="Audio"? DialogType.InsertAudio : DialogType.InsertVideo);
+                await this.RteObj.ShowDialogAsync(command == "CreateTable" ? DialogType.InsertTable : command == "Image" ? DialogType.InsertImage : command == "Audio" ? DialogType.InsertAudio : DialogType.InsertVideo);
                 break;
             case "Emoji":
-                this.dialogVisible = true;
-                await this.rteObj.SaveSelectionAsync();
+                this.DialogVisible = true;
+                await this.RteObj.SaveSelectionAsync();
                 break;
             default:
-                await this.rteObj.ExecuteCommandAsync(CommandName.FormatBlock, args.ItemData.Command);
+                await this.RteObj.ExecuteCommandAsync(CommandName.FormatBlock, args.ItemData.Command);
                 break;
         }
-
     }
 
     private async Task OnOpen()
     {        
-        this.currentIndex = 0;
-        this.disableInsertBtn = false;
+        this.CurrentIndex = 0;
+        this.DisableInsertButton = false;
     }
 
-    public async Task OnOpeningHandler(MentionOpeningEventArgs args) {
-        await this.rteObj.SaveSelectionAsync();
-    }
-
-    public async Task beforeApplyFormat()
+    public async Task OnOpeningHandler(MentionOpeningEventArgs args)
     {
-        await JsRuntime.InvokeVoidAsync("beforeApplyFormat", "mentionFormatIntegration", true);
+        await this.RteObj.SaveSelectionAsync();
     }
-    
-    public async Task OnFilteringHandler(MentionFilteringEventArgs<FormatData> args){
-        await this.rteObj.SaveSelectionAsync();
-    }
-    Dictionary<string, string> smileyList = new Dictionary<string, string>()
-    {
-        {"&#128512;" ,"Grinning face"},
-        {"&#128513;","Grinning face with smiling eyes" },
-        {"&#128514;" ,"Face with tears of joy"},
-        {"&#128515;","Smiling face with open mouth"},
-        {"&#128516;" ,"Smiling face with open mouth and smiling eyes"},
-        {"&#128517;","Smiling face with open mouth and cold sweat" },
-        {"&#128518;" ,"Smiling face with open mouth and tightly-closed eyes"},
-        {"&#128519;","Smiling face with halo" },
-        {"&#128520;" ,"Smiling face with hornsSmiling face with horns"},
-        {"&#128521;","Winking face" },
-        {"&#128522;" ,"Smiling face with smiling eyes"},
-        {"&#128523;","Face savouring delicious food"},
-        {"&#128524;" ,"Relieved face"},
-        {"&#128525;","Smiling face with heart-shaped eyes" },
-        {"&#128526;" ,"Smiling face with sunglasses"},
-        {"&#128527;","Smirking face" },
-        {"&#128528;" ,"Neutral face"},
-        {"&#128529;","Expressionless face" },
-        {"&#128530;" ,"Unamused face"},
-        {"&#128531;","Face with cold sweat" },
-        {"&#128532;" ,"Pensive face"},
-        {"&#128533;","Confused face" },
-        {"&#128534;" ,"Confounded face"},
-        {"&#128535;","Kissing face" },
-        {"&#128536;" ,"Face throwing a kiss"},
-        {"&#128537;","Kissing face with smiling eyes" },
-        {"&#128538;" ,"Kissing face with closed eyes"},
-        {"&#128539;","Face with stuck-out tongue" },
-        {"&#128540;" ,"Face with stuck-out tongue and winking eye"},
-        {"&#128541;","Face with stuck-out tongue and tightly-closed eyes" },
-        {"&#128053", "Monkey Face"},
-        {"&#128018", "Monkey"},
-        {"&#129421", "Gorilla"},
-        {"&#128054", "Dog Face"},
-        {"&#128021", "Dog"},
-        {"&#128041", "Poodle"},
-        {"&#128058", "Wolf Face"},
-        {"&#129418", "Fox Face"},
-        {"&#128049", "Cat Face"},
-        {"&#128008", "Cat"},
-        {"&#129409", "Lion Face"},
-        {"&#128047", "Tiger Face"},
-        {"&#128005", "Tiger"},
-        {"&#128006", "Leopard"},
-        {"&#128052", "Horse Face"},
-        {"&#128014", "Horse"},
-        {"&#129412", "Unicorn Face"},
-        {"&#129420", "Deer"},
-        {"&#128046", "Cow Face"},
-        {"&#128002", "Ox"},
-        {"&#128003", "Water Buffalo"},
-        {"&#128004", "Cow"},
-        {"&#128055", "Pig Face"},
-        {"&#128022", "Pig"},
-        {"&#128023", "Boar"},
-        {"&#128061", "Pig Nose"},
-        {"&#128015", "Ram"},
-        {"&#128017", "Ewe"},
-        {"&#128016", "Goat"},
-        {"&#128042", "Camel"},
 
+    public async Task BeforeApplyFormat()
+    {
+        await JsRuntime.InvokeVoidAsync("BeforeApplyFormat", "mentionFormatIntegration", true);
+    }
+
+    public async Task OnFilteringHandler(MentionFilteringEventArgs<FormatData> args)
+    {
+        await this.RteObj.SaveSelectionAsync();
+    }
+
+    private Dictionary<string, string> SmileyList = new Dictionary<string, string>()
+    {
+        { "&#128512;", "Grinning face" },
+        { "&#128513;", "Grinning face with smiling eyes" },
+        { "&#128514;", "Face with tears of joy" },
+        { "&#128515;", "Smiling face with open mouth" },
+        { "&#128516;", "Smiling face with open mouth and smiling eyes" },
+        { "&#128517;", "Smiling face with open mouth and cold sweat" },
+        { "&#128518;", "Smiling face with open mouth and tightly-closed eyes" },
+        { "&#128519;", "Smiling face with halo" },
+        { "&#128520;", "Smiling face with hornsSmiling face with horns" },
+        { "&#128521;", "Winking face" },
+        { "&#128522;", "Smiling face with smiling eyes" },
+        { "&#128523;", "Face savouring delicious food" },
+        { "&#128524;", "Relieved face" },
+        { "&#128525;", "Smiling face with heart-shaped eyes" },
+        { "&#128526;", "Smiling face with sunglasses" },
+        { "&#128527;", "Smirking face" },
+        { "&#128528;", "Neutral face" },
+        { "&#128529;", "Expressionless face" },
+        { "&#128530;", "Unamused face" },
+        { "&#128531;", "Face with cold sweat" },
+        { "&#128532;", "Pensive face" },
+        { "&#128533;", "Confused face" },
+        { "&#128534;", "Confounded face" },
+        { "&#128535;", "Kissing face" },
+        { "&#128536;", "Face throwing a kiss" },
+        { "&#128537;", "Kissing face with smiling eyes" },
+        { "&#128538;", "Kissing face with closed eyes" },
+        { "&#128539;", "Face with stuck-out tongue" },
+        { "&#128540;", "Face with stuck-out tongue and winking eye" },
+        { "&#128541;", "Face with stuck-out tongue and tightly-closed eyes" },
+        { "&#128053", "Monkey Face" },
+        { "&#128018", "Monkey" },
+        { "&#129421", "Gorilla" },
+        { "&#128054", "Dog Face" },
+        { "&#128021", "Dog" },
+        { "&#128041", "Poodle" },
+        { "&#128058", "Wolf Face" },
+        { "&#129418", "Fox Face" },
+        { "&#128049", "Cat Face" },
+        { "&#128008", "Cat" },
+        { "&#129409", "Lion Face" },
+        { "&#128047", "Tiger Face" },
+        { "&#128005", "Tiger" },
+        { "&#128006", "Leopard" },
+        { "&#128052", "Horse Face" },
+        { "&#128014", "Horse" },
+        { "&#129412", "Unicorn Face" },
+        { "&#129420", "Deer" },
+        { "&#128046", "Cow Face" },
+        { "&#128002", "Ox" },
+        { "&#128003", "Water Buffalo" },
+        { "&#128004", "Cow" },
+        { "&#128055", "Pig Face" },
+        { "&#128022", "Pig" },
+        { "&#128023", "Boar" },
+        { "&#128061", "Pig Nose" },
+        { "&#128015", "Ram" },
+        { "&#128017", "Ewe" },
+        { "&#128016", "Goat" },
+        { "&#128042", "Camel" },
     };
 
     private async Task OnInsert()
     {
-        if (this.currentIndex > -1)
+        if (this.CurrentIndex > -1)
         {
-            string value = this.smileyList.Keys.ToList()[this.currentIndex];
-            await this.rteObj.RestoreSelectionAsync();
+            string value = this.SmileyList.Keys.ToList()[this.CurrentIndex];
+            await this.RteObj.RestoreSelectionAsync();
             await JsRuntime.InvokeVoidAsync("onInsertEmotSlashRemove");
-            await this.rteObj.ExecuteCommandAsync(CommandName.InsertHTML, value);
-            this.dialogVisible = false;
-            this.currentIndex = -1;
+            await this.RteObj.ExecuteCommandAsync(CommandName.InsertHTML, value);
+            this.DialogVisible = false;
+            this.CurrentIndex = -1;
         }
-        this.disableInsertBtn = true;
+        this.DisableInsertButton = true;
     }
     private void DialogOverlay()
     {
-        this.dialogVisible = false;
-        this.currentIndex = -1;
+        this.DialogVisible = false;
+        this.CurrentIndex = -1;
     }
-    private void OnIconIconClick(int index, int tabIndex)
+    private void OnIconClick(int index, int tabIndex)
     {
-        this.disableInsertBtn = false;
-        this.currentIndex = index;
+        this.DisableInsertButton = false;
+        this.CurrentIndex = index;
     }
 }

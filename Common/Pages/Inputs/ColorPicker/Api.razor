@@ -1,14 +1,10 @@
 ﻿@page "/color-picker/api"
 
 @using Syncfusion.Blazor.Inputs
-
 @using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor.Buttons
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
-@inject NavigationManager NavigationManager
-
-
 @*End:Hidden*@
 
 <SampleDescription>
@@ -30,76 +26,77 @@
     <div class="col-lg-8 control-section">
         <div id="colorpicker-control">
             <h4>Choose a color</h4>
-            <SfColorPicker @bind-Value="@inputValue" Mode="@mode" ModeSwitcher="@modeSwitch" ShowButtons="@showbuttons" Disabled="@disable"></SfColorPicker>
+            <SfColorPicker @bind-Value="@SelectedColor" Mode="@ColorPickerMode" ModeSwitcher="@IsModeSwitcherEnabled" ShowButtons="@IsButtonVisible" Disabled="@IsDisabled"></SfColorPicker>
         </div>
     </div>
     <div class="col-lg-4 property-section">
         <table id="property" title="Properties" style="width: 100%">
             <tbody>
-                <tr>
-                    <td style="width: 50%;padding-top:10px">
-                        <div>Value</div>
-                    </td>
-                    <td style="width: 50%;padding-top:10px">
-                        <div style="max-width: 200px">
-                            <SfTextBox ID="firstname" @bind-Value="@inputValue"></SfTextBox>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 50%;padding-top:10px">
-                        <div>Mode</div>
-                    </td>
-                    <td style="width: 50%;padding-top:10px">
-                        <div style="max-width: 200px">
-                            <SfDropDownList DataSource="@data" @bind-Value="@ddlMode" PopupHeight="200px" TValue="string" TItem="string">
-                                <DropDownListEvents ValueChange="@valueChanged" TValue="string" TItem="string"></DropDownListEvents>
-                            </SfDropDownList>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 50%;padding-top:15px">
-                        <div>Disable</div>
-                    </td>
-                    <td style="width: 50%;padding-top:15px">
-                        <SfCheckBox @bind-Checked="disable" TChecked="bool"></SfCheckBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 50%;padding-top:15px">
-                        <div>Show Buttons</div>
-                    </td>
-                    <td style="width: 50%;padding-top:15px">
-                        <SfCheckBox @bind-Checked="showbuttons" TChecked="bool"></SfCheckBox>
-                    </td>
-                </tr>
-                <tr>
-                    <td style="width: 50%;padding-top:15px">
-                        <div>Mode Switcher</div>
-                    </td>
-                    <td style="width: 50%;padding-top:15px">
-                        <SfCheckBox @bind-Checked="modeSwitch" TChecked="bool"></SfCheckBox>
-                    </td>
-                </tr>
+            <tr>
+                <td style="width: 50%;padding-top:10px">
+                    <div>Selected Color</div>
+                </td>
+                <td style="width: 50%;padding-top:10px">
+                    <div style="max-width: 200px">
+                        <SfTextBox ID="selectedColorTextBox" @bind-Value="@SelectedColor"></SfTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%;padding-top:10px">
+                    <div>Color Picker Mode</div>
+                </td>
+                <td style="width: 50%;padding-top:10px">
+                    <div style="max-width: 200px">
+                        <SfDropDownList DataSource="@ColorPickerModes" @bind-Value="@SelectedMode" PopupHeight="200px" TValue="string" TItem="string">
+                            <DropDownListEvents ValueChange="@OnColorPickerModeChanged" TValue="string" TItem="string"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%;padding-top:15px">
+                    <div>Disable Picker</div>
+                </td>
+                <td style="width: 50%;padding-top:15px">
+                    <SfCheckBox @bind-Checked="@IsDisabled" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%;padding-top:15px">
+                    <div>Show Buttons</div>
+                </td>
+                <td style="width: 50%;padding-top:15px">
+                    <SfCheckBox @bind-Checked="@IsButtonVisible" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr>
+                <td style="width: 50%;padding-top:15px">
+                    <div>Enable Mode Switcher</div>
+                </td>
+                <td style="width: 50%;padding-top:15px">
+                    <SfCheckBox @bind-Checked="@IsModeSwitcherEnabled" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
             </tbody>
         </table>
     </div>
 </div>
 
 @code {
-    private bool disable;
-    private bool modeSwitch = true;
-    private bool showbuttons = true;
-    private string inputValue = "#0db1e7";
-    private ColorPickerMode mode = ColorPickerMode.Picker;
-    private string ddlMode = "Picker";
-    
-    private void valueChanged(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    private bool IsDisabled { get; set; }
+    private bool IsModeSwitcherEnabled { get; set; } = true;
+    private bool IsButtonVisible { get; set; } = true;
+    private string SelectedColor { get; set; } = "#0db1e7";
+    private ColorPickerMode ColorPickerMode { get; set; } = ColorPickerMode.Picker;
+    private string SelectedMode { get; set; } = "Picker";
+    private string[] ColorPickerModes { get; set; } = new string[] { "Picker", "Palette" };
+
+    private void OnColorPickerModeChanged(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
     {
-        mode = args.Value == "Picker" ? ColorPickerMode.Picker : ColorPickerMode.Palette;
+        ColorPickerMode = args.Value == "Picker" ? ColorPickerMode.Picker : ColorPickerMode.Palette;
     }
-    private string[] data = new string[] { "Picker", "Palette" };
+
 }
 
 <style>
