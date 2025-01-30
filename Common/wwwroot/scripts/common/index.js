@@ -1,7 +1,7 @@
 var isScrolled = false; 
 var isUpdatedDevice = false;
 var isTouchEnabled = false;
-const DEFAULT_THEME = 'tailwind3';
+const DEFAULT_THEME = 'fluent2';
 var dotnetTooltipRef;
 var currentURL;
 window.sfBlazorSB = {
@@ -149,25 +149,32 @@ window.sfBlazorSB = {
     return json;
   },
   // End region - diagram methods
-  saveAsFile: function (filename, bytesBase64) {
-    if (window.navigator.msSaveBlob) {
-      //Download document in Edge browser
-      var data = window.atob(bytesBase64);
-      var bytes = new Uint8Array(data.length);
-      for (var i = 0; i < data.length;) {
-        bytes[i] = data.charCodeAt(i);
-      }
-      var blob = new Blob([bytes.buffer], { type: "application/octet-stream" });
-      window.navigator.msSaveBlob(blob, filename);
-    }
-    else {
-      var link = document.createElement('a');
-      link.download = filename;
-      link.href = "data:application/octet-stream;base64," + bytesBase64;
-      document.body.appendChild(link); // Needed for Firefox
-      link.click();
-      document.body.removeChild(link);
-    }
+//   saveAsFile: function (filename, bytesBase64) {
+//     if (window.navigator.msSaveBlob) {
+//       //Download document in Edge browser
+//       var data = window.atob(bytesBase64);
+//       var bytes = new Uint8Array(data.length);
+//       for (var i = 0; i < data.length;) {
+//         bytes[i] = data.charCodeAt(i);
+//       }
+//       var blob = new Blob([bytes.buffer], { type: "application/octet-stream" });
+//       window.navigator.msSaveBlob(blob, filename);
+//     }
+//     else {
+//       var link = document.createElement('a');
+//       link.download = filename;
+//       link.href = "data:application/octet-stream;base64," + bytesBase64;
+//       document.body.appendChild(link); // Needed for Firefox
+//       link.click();
+//       document.body.removeChild(link);
+//     }
+//   }
+  saveAsFile: function (filename, blobData) {
+    var blob = new Blob([blobData], { type: "application/octet-stream" });
+    var link = document.createElement('a');
+    link.download = filename;
+    link.href = window.URL.createObjectURL(blob);
+    document.body.appendChild(link); link.click();
   }
 };
 
@@ -743,7 +750,7 @@ var updatedURL;
 var currentURL;
 
 function updateThemeURL() {
-    const themeParameter = "tailwind3";
+    const themeParameter = "fluent2";
     currentURL = window.location.href;
     if (!currentURL.includes("?")) {
         // URL does not contain a query string

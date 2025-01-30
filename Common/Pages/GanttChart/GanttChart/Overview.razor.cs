@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2024.
-// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
+#region Copyright Syncfusion® Inc. 2001-2025.
+// Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -31,6 +31,8 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         private string TopPosition { get; set; } = "4px";
         private string LabelHeight { get; set; } = "38px";
         private int DefaultUnitWidth { get; set; } = 75;
+        private string MarginTop { get; set; } = "3px";
+        private string ManualTaskbarWidth { get; set; } = "11px";
         private SfGantt<OverviewData.TaskData> GanttInstance { get; set; }
         public List<OverviewData.TaskData> TaskCollection { get; set; }
         private DateTime VolumeOneReleaseDate { get; set; } = new DateTime(2022, 04, 04);
@@ -213,6 +215,8 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 MarginValue = "0px";
                 TopPosition = "4px";
                 LabelHeight = "38px";
+                MarginTop = "3px";
+                ManualTaskbarWidth = "11px";
             }
             else if (value == 50)
             {
@@ -221,6 +225,8 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 MarginValue = "0px";
                 TopPosition = "7px";
                 LabelHeight = "48px";
+                MarginTop = "5px";
+                ManualTaskbarWidth = "15px";
             }
             else if (value == 60)
             {
@@ -229,6 +235,8 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 MarginValue = "4px";
                 TopPosition = "10px";
                 LabelHeight = "58px";
+                MarginTop = "6px";
+                ManualTaskbarWidth = "19px";
             }
         }
 

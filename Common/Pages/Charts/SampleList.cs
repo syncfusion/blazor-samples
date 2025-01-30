@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2024.
-// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
+#region Copyright Syncfusion® Inc. 2001-2025.
+// Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -1647,7 +1647,7 @@ namespace BlazorDemos
                 Category = "Sankey",
                 Directory = "Charts/Sankey",
                 Url = "sankey/default",
-                FileName = "DefaultSankey.razor",
+                FileName = "DefaultSankeyChart.razor",
                 Type = SampleType.None,
                 NotificationDescription = new string[]{ @"Explore the basic features of a Sankey chart, including node and link customization, layout adjustment, and interactivity." }
             },

@@ -11,6 +11,7 @@
 @using blazor_orderdetails
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
+@using System.ComponentModel.DataAnnotations;
 
 
 @*End:Hidden*@
@@ -19,46 +20,48 @@
     <p>This sample shows how to edit a DataGrid using an external custom edit form. To edit a record, select the required row, make changes to the data, and then click Save.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>The Blazor DataGrid allows you to perform CRUD operations using an external edit form via editing methods.</p> 
+    <p>The Blazor DataGrid allows you to perform CRUD operations using an external edit form via editing methods.</p>
     <p>To edit grid records in this demo, external custom form editors are used. You can begin editing by selecting a row, and the currently selected row will be displayed on the external form, allowing you to change the row values and save the edited data to the datasource.</p>
     <p>More information about the Custom edit form can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/editing#custom-external-form-editing' aria-label="Navigate to the documentation for Custom external form editing in DataGrid component">documentation</a> section.</p>
 </ActionDescription>
 <div class="col-lg-12">
-    <EditForm Model="@SelectedData">
-        <DataAnnotationsValidator/>
+    <EditForm Model="@SelectedData" OnValidSubmit="Save">
+        <DataAnnotationsValidator />
         <div style="padding-top: 20px;">
             <div class="form-group col-md-6">
                 <SfNumericTextBox ID="OrderID" @bind-Value="@(SelectedData.OrderID)" Enabled="@Check" FloatLabelType="FloatLabelType.Always" Placeholder="Order ID"></SfNumericTextBox>
             </div>
             <div class="form-group col-md-6">
                 <SfTextBox ID="CustomerID" @bind-Value="@SelectedData.CustomerID" Enabled="@Enabled" Placeholder="Customer ID" FloatLabelType="FloatLabelType.Always"></SfTextBox>
-                 <ValidationMessage style="color: #dc3545; height: 0px" For="@(() => SelectedData.CustomerID)" />
+                <ValidationMessage style="color: #dc3545; height: 0px" For="@(() => SelectedData.CustomerID)" />
             </div>
             <div class="form-group col-md-6">
                 <SfDatePicker ID="OrderDate" @bind-Value="@SelectedData.OrderDate" Enabled="@Enabled" Placeholder="Order Date" FloatLabelType="FloatLabelType.Always"></SfDatePicker>
                 <ValidationMessage style="color: #dc3545; height: 0px;" For="@(() => SelectedData.OrderDate)" />
             </div>
             <div class="form-group col-md-6">
-                <SfNumericTextBox ID="Freight" TValue="double?" @bind-Value="@SelectedData.Freight" Enabled="@Enabled" Placeholder="Freight" FloatLabelType="FloatLabelType.Always"></SfNumericTextBox>
+                <SfNumericTextBox ID="Freight" Decimals="2" Format="C2" ValidateOnInput="true" TValue="double?" @bind-Value="@SelectedData.Freight" Enabled="@Enabled" Placeholder="Freight" FloatLabelType="FloatLabelType.Always"></SfNumericTextBox>
                 <ValidationMessage style="color: #dc3545; height:0px;" For="@(() => SelectedData.Freight)" />
             </div>
             <div class="form-group col-md-6">
                 <SfDropDownList ID="ShipCountry" @bind-Value="@SelectedData.ShipCountry" TItem="Country" Enabled="@Enabled" Placeholder="Ship Country" FloatLabelType="FloatLabelType.Always" TValue="string" DataSource="@Name">
-                <DropDownListFieldSettings Value="ShipCountry" Text="ShipCountry"></DropDownListFieldSettings>
+                    <DropDownListFieldSettings Value="ShipCountry" Text="ShipCountry"></DropDownListFieldSettings>
                 </SfDropDownList>
             </div>
             <div class="form-group col-md-6">
                 <SfTextBox ID="Ship Name" @bind-Value="@SelectedData.ShipName" Placeholder="Ship Name" Enabled="@Enabled" FloatLabelType="FloatLabelType.Always"></SfTextBox>
-            </div>
-             </div>
-         </EditForm>
-            <div class="temp">
-                <SfButton @onclick="Cancel" Disabled="@Disabled">Cancel</SfButton>
-            </div>
-            <div class="temp">
-                <SfButton @onclick="Save" Disabled="@Disabled">Save</SfButton>
+                <ValidationMessage style="color: #dc3545; height:0px;" For="@(() => SelectedData.ShipName)"  />
             </div>
         </div>
+       
+        <div class="temp">
+            <SfButton ButtonType="ButtonType.Submit" Disabled="@Disabled">Save</SfButton>
+        </div>
+    </EditForm>
+    <div class="temp">
+        <SfButton @onclick="Cancel" Disabled="@Disabled">Cancel</SfButton>
+    </div>
+</div>
 
 
 <div class="col-lg-12 control-section">
@@ -69,7 +72,7 @@
                 <GridColumns>
                     <GridColumn Field=@nameof(OrderDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true" TextAlign="TextAlign.Right" Width="140"></GridColumn>
                     <GridColumn Field=@nameof(OrderDetails.CustomerID) HeaderText="Customer ID" Width="140"></GridColumn>
-                    <GridColumn Field=@nameof(OrderDetails.Freight) Format="C2" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrderDetails.Freight) Format="C2" Type="ColumnType.Double" TextAlign="TextAlign.Right" Width="140"></GridColumn>
                     <GridColumn Field=@nameof(OrderDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="160"></GridColumn>
                     <GridColumn Field=@nameof(OrderDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
                     <GridColumn Field=@nameof(OrderDetails.ShipName) HeaderText="Ship Name" Width="150"></GridColumn>
@@ -79,16 +82,14 @@
     </div>
 </div>
 
-@code{
+@code {
     public List<OrderDetails> GridData { get; set; }
     private Boolean Check = false;
     private Boolean Disabled = true;
     private Boolean Enabled = false;
     
-
     protected override void OnInitialized()
     {
-        
         GridData = OrderDetails.GetAllRecords();
     }
 
@@ -113,9 +114,9 @@
     public async Task Save()
     {
         if ((SelectedData.OrderID != null) && (SelectedData.CustomerID != string.Empty) && (SelectedData.OrderDate != null) && (SelectedData.Freight != null))
-        {           
-           await this.Grid.SetRowDataAsync(SelectedData.OrderID, SelectedData);
-           await Cancel();
+        {
+            await this.Grid.SetRowDataAsync(SelectedData.OrderID, SelectedData);
+            await Cancel();
         }
     }
     public async Task Cancel()
@@ -135,7 +136,8 @@
           new Country() { ShipCountry= "Germany" },
           new Country() { ShipCountry= "Austria" },
           new Country() { ShipCountry= "Switzerland" },
-    };
+    };    
+
 }
 
 @*Hidden:Lines*@

@@ -1,6 +1,7 @@
 ﻿@page "/datagrid/command-column"
 
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
 @*Hidden:Lines*@
 @using BlazorDemos
 @using blazor_ordersdetails
@@ -36,7 +37,7 @@
                     <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" ValidationRules="@(new ValidationRules{ Required=true})" Width="100"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.Freight) ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" EditType="EditType.NumericEdit" Format="C2" TextAlign="TextAlign.Right" Width="140"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" EditType="EditType.DatePickerEdit" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="160"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" EditType="EditType.DropDownEdit" EditorSettings="@ShipCountryEditParams"  Width="150"></GridColumn>
                     <GridColumn HeaderText="Manage Records" Width="150">
                         <GridCommandColumns>
                             <GridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() {IconCss="e-icons e-edit", CssClass="e-flat" })"></GridCommandColumn>
@@ -54,7 +55,21 @@
 @code{
 
     public List<OrdersDetails> GridData { get; set; }
-
+    public IEditorSettings ShipCountryEditParams = new DropDownEditCellParams
+        {
+            Params = new DropDownListModel<object, object>()
+            {
+                DataSource = new List<OrdersDetails>()
+                {
+                    new OrdersDetails() { ShipCountry = "Denmark" },
+                    new OrdersDetails() { ShipCountry = "Brazil" },
+                    new OrdersDetails() { ShipCountry = "Germany" },
+                    new OrdersDetails() { ShipCountry = "Austria" },
+                    new OrdersDetails() { ShipCountry = "Switzerland" }
+                },
+                PopupWidth = "100%"
+            }
+        };
 
     protected override void OnInitialized()
     {

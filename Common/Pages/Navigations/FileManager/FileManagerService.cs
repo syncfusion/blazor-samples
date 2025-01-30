@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2024.
-// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
+#region Copyright Syncfusion® Inc. 2001-2025.
+// Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -608,9 +608,27 @@ namespace BlazorDemos.Pages.FileManager
         {
             FileManagerResponse<FileManagerDirectoryContent> response = new FileManagerResponse<FileManagerDirectoryContent>();
             char[] i = new Char[] { '*' };
-            FileManagerDirectoryContent[] searchFiles = Data.Select(x => x).Where(x => x.Name.ToLower().Contains(searchString.TrimStart(i).TrimEnd(i).ToLower())).Select(x => x).ToArray();
+            FileManagerDirectoryContent childItem = Data.FirstOrDefault(x => x.FilterPath == path);
+            if(childItem == null)
+            {
+                response.Files = new List<FileManagerDirectoryContent>();
+                return Task.FromResult(response);
+            }
+            List<FileManagerDirectoryContent> currentItems = GetAllChildItems(childItem.ParentId);
+            FileManagerDirectoryContent[] searchFiles = currentItems.Select(x => x).Where(x => x.Name.ToLower().Contains(searchString.TrimStart(i).TrimEnd(i).ToLower())).Select(x => x).ToArray();
             response.Files = searchFiles.ToList();
             return Task.FromResult(response);
+        }
+
+        private List<FileManagerDirectoryContent> GetAllChildItems(string parentId)
+        {
+            List<FileManagerDirectoryContent> children = Data.Where(item => item.ParentId == parentId).ToList();
+            List<FileManagerDirectoryContent> allChildren = new List<FileManagerDirectoryContent>(children);
+            foreach (var child in children)
+            {
+                allChildren.AddRange(GetAllChildItems(child.Id));
+            }
+            return allChildren;
         }
 
         public async Task<FileManagerResponse<FileManagerDirectoryContent>> RenameAsync(string path, string newName, FileManagerDirectoryContent fileDetails)

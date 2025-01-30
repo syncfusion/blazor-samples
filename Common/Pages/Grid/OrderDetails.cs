@@ -1,5 +1,5 @@
-#region Copyright Syncfusion Inc. 2001-2024.
-// Copyright Syncfusion Inc. 2001-2024. All rights reserved.
+#region Copyright Syncfusion® Inc. 2001-2025.
+// Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
 // licensing@syncfusion.com. Any infringement will be prosecuted under
@@ -20,7 +20,7 @@ namespace blazor_orderdetails
         {
 
         }
-        public OrderDetails(int OrderID, string CustomerId, int EmployeeId, double Freight,  DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress, double AdvanceAmount, double TotalAmount, long PhoneNumber)
+        public OrderDetails(int OrderID, string CustomerId, int EmployeeId, double Freight, DateTime OrderDate, string ShipCity, string ShipName, string ShipCountry, DateTime ShippedDate, string ShipAddress, double AdvanceAmount, double TotalAmount, long PhoneNumber)
         {
             this.OrderID = OrderID;
             this.CustomerID = CustomerId;
@@ -37,30 +37,42 @@ namespace blazor_orderdetails
             this.TotalAmount = TotalAmount;
             this.PhoneNumber = PhoneNumber;
         }
-       
+
         public static List<OrderDetails> GetAllRecords()
         {
             List<OrderDetails> order = new List<OrderDetails>();
             int code = 10000;
             for (int i = 1; i < 15; i++)
             {
-                order.Add(new OrderDetails(code + 1, "ALFKI", i + 0, Math.Round((2.3 * i), 2), new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6", Math.Round((double)(20* i), 2), Math.Round((double)(40*i), 2), 9982223864 ));
-                order.Add(new OrderDetails(code + 2, "ANATR", i + 2, Math.Round((3.3 * i), 2),  new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123", Math.Round((double)(30* i), 2), Math.Round((double)(60*i), 2), 9972236764));
-                order.Add(new OrderDetails(code + 3, "ANTON", i + 1, Math.Round((4.3 * i), 2), new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo", Math.Round((double)(25* i), 2), Math.Round((double)(50*i), 2), 9922388124));
-                order.Add(new OrderDetails(code + 4, "BLONP", i + 3, Math.Round((5.3 * i), 2),  new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7", Math.Round((double)(40* i), 2), Math.Round((double)(80*i), 2), 9922388904));
-                order.Add(new OrderDetails(code + 5, "BOLID", i + 4, Math.Round((6.3 * i), 2), new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S.", Math.Round((double)(45* i), 2), Math.Round((double)(90*i), 2), 9922377644));
+                order.Add(new OrderDetails(code + 1, "ALFKI", i + 0, Math.Round((2.3 * i), 2), new DateTime(1991, 05, 15), "Berlin", "Simons bistro", "Denmark", new DateTime(1996, 7, 16), "Kirchgasse 6", Math.Round((double)(20 * i), 2), Math.Round((double)(40 * i), 2), 9982223864));
+                order.Add(new OrderDetails(code + 2, "ANATR", i + 2, Math.Round((3.3 * i), 2), new DateTime(1990, 04, 04), "Madrid", "Queen Cozinha", "Brazil", new DateTime(1996, 9, 11), "Avda. Azteca 123", Math.Round((double)(30 * i), 2), Math.Round((double)(60 * i), 2), 9972236764));
+                order.Add(new OrderDetails(code + 3, "ANTON", i + 1, Math.Round((4.3 * i), 2), new DateTime(1957, 11, 30), "Cholchester", "Frankenversand", "Germany", new DateTime(1996, 10, 7), "Carrera 52 con Ave. Bolívar #65-98 Llano Largo", Math.Round((double)(25 * i), 2), Math.Round((double)(50 * i), 2), 9922388124));
+                order.Add(new OrderDetails(code + 4, "BLONP", i + 3, Math.Round((5.3 * i), 2), new DateTime(1930, 10, 22), "Marseille", "Ernst Handel", "Austria", new DateTime(1996, 12, 30), "Magazinweg 7", Math.Round((double)(40 * i), 2), Math.Round((double)(80 * i), 2), 9922388904));
+                order.Add(new OrderDetails(code + 5, "BOLID", i + 4, Math.Round((6.3 * i), 2), new DateTime(1953, 02, 18), "Tsawassen", "Hanari Carnes", "Switzerland", new DateTime(1997, 12, 3), "1029 - 12th Ave. S.", Math.Round((double)(45 * i), 2), Math.Round((double)(90 * i), 2), 9922377644));
                 code += 5;
             }
             return order;
         }
-       
+
         public int? OrderID { get; set; }
-        [Required(ErrorMessage = "Customer ID required")]
+
+
+        [Required(ErrorMessage = "Customer ID is required")]
+        [StringLength(8, MinimumLength = 3, ErrorMessage = "Customer ID length should between 3 and 8")]
         public string CustomerID { get; set; }
         public int? EmployeeID { get; set; }
+
+        [Required(ErrorMessage = "Freight is required")]
+        [Range(typeof(double), "1", "1000", ErrorMessage = "Freight should be between 1 and 1000")]
         public double? Freight { get; set; }
         public string ShipCity { get; set; }
+
+        [Required(ErrorMessage = "Order Date is required")]
         public DateTime? OrderDate { get; set; }
+
+        [Required(ErrorMessage = "Ship Name is required")]
+        [StringLength(255, MinimumLength = 5, ErrorMessage = "Ship Name length should between 5 and 255")]
+
         public string ShipName { get; set; }
         public string ShipCountry { get; set; }
         public DateTime? ShippedDate { get; set; }

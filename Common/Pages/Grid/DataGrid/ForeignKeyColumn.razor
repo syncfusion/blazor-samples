@@ -1,6 +1,7 @@
 ﻿@page "/datagrid/foreign-key-column"
 
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
 @using Syncfusion.Blazor
 @*Hidden:Lines*@
 @using blazor_ordersdetails
@@ -27,7 +28,7 @@
         <div class="row">
             <div class='e-mastertext'><b>Local Data</b></div>
             <SfGrid DataSource="@GridData" AllowPaging="true" AllowSorting="true" AllowFiltering="true" Toolbar="@(new List<string>() {"Add", "Edit", "Delete", "Update","Cancel","Search" })" >
-                <GridFilterSettings Type="FilterType.Menu"></GridFilterSettings>
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="5"></GridPageSettings>
                 <GridEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true"></GridEditSettings>
                 <GridColumns>
@@ -35,12 +36,12 @@
                     <GridForeignColumn Field=@nameof(OrdersDetails.EmployeeID) HeaderText="First Name" ForeignKeyValue="FirstName" ValidationRules="@(new ValidationRules{ Required=true})" ForeignDataSource="@Employees" Width="150"></GridForeignColumn>
                     <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" TextAlign="TextAlign.Right" Width="160"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" DefaultValue="DefaultShipCountry" Width="140" EditType="EditType.DropDownEdit"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" DefaultValue="DefaultShipCountry" Width="140" EditType="EditType.DropDownEdit" EditorSettings="@ShipCountryEditParams"></GridColumn>
                 </GridColumns>
             </SfGrid>
             <div class='e-mastertext'><b>Remote Data</b></div>
             <SfGrid DataSource="@GridData" AllowPaging="true" AllowFiltering="true" AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update","Cancel" })">
-                <GridFilterSettings Type="FilterType.Menu"></GridFilterSettings>
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                 <GridPageSettings PageSize="5"></GridPageSettings>
                 <GridEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true"></GridEditSettings>
                 <GridColumns>
@@ -51,7 +52,7 @@
                     </GridForeignColumn>
                     <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
                     <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="140" DefaultValue="DefaultShipCountry" EditType="EditType.DropDownEdit"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="140" DefaultValue="DefaultShipCountry" EditType="EditType.DropDownEdit" EditorSettings="@ShipCountryEditParams"></GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
@@ -74,6 +75,22 @@
     public List<OrdersDetails> GridData { get; set; }
     public List<EmployeeData> Employees { get; set; }
     public string DefaultShipCountry { get; set; } = "French";
+
+    public IEditorSettings ShipCountryEditParams = new DropDownEditCellParams
+        {
+            Params = new DropDownListModel<object, object>()
+            {
+                DataSource = new List<OrdersDetails>()
+                {
+                    new OrdersDetails() { ShipCountry = "USA" },
+                    new OrdersDetails() { ShipCountry = "UK" },
+                    new OrdersDetails() { ShipCountry = "London" },
+                    new OrdersDetails() { ShipCountry = "French" },
+                    new OrdersDetails() { ShipCountry = "Germany" }
+                },
+                PopupWidth = "100%"
+            }
+        };
     
     protected override void OnInitialized()
     {

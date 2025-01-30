@@ -2,6 +2,7 @@
 
 @using System.Dynamic
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
@@ -72,13 +73,13 @@
                             </GridAggregateColumn>
                         </GridAggregateColumns>
                     </GridAggregate>
-                   </GridAggregates>
+                </GridAggregates>
                 <GridColumns>
                     <GridColumn Field="OrderID" HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" Type="ColumnType.Integer" TextAlign="TextAlign.Right" Width="120"></GridColumn>
                     <GridColumn Field="CustomerID" HeaderText="Customer ID" Width="120" ValidationRules="@(new ValidationRules { Required=true})"></GridColumn>
                     <GridColumn Field="Freight" Format="C2" TextAlign="TextAlign.Right" AllowGrouping=false ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" Type="ColumnType.Decimal" Width="120"></GridColumn>
                     <GridColumn Field="OrderDate" HeaderText=" Order Date" ValidationRules="@(new ValidationRules{ Required=true})" Format="d" TextAlign="TextAlign.Right" Width="130" Type="ColumnType.Date"></GridColumn>
-                    <GridColumn Field="ShipCountry" HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
+                    <GridColumn Field="ShipCountry" HeaderText="Ship Country" EditorSettings="@ShipCountryEditParams" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
                     <GridColumn Field="Verified" HeaderText="Active" TextAlign="TextAlign.Right" DisplayAsCheckBox="true" DefaultValue="false" Width="150"></GridColumn>
                 </GridColumns>
             </SfGrid>
@@ -88,10 +89,32 @@
 @code {
     private List<string> ToolbarItems = new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" };
     public List<DynamicDictionary> Orders = new List<DynamicDictionary>() { };
-    
+
+    private List<string> DefaultShipCountrys = new List<string> { "USA", "UK" };
+    private List<DynamicDictionary> DropdownDataSource = new List<DynamicDictionary>(); 
+
+    private void InitializeDropdownDataSource()
+    {
+        DropdownDataSource = DefaultShipCountrys.Select(country =>
+        {
+            var d = new DynamicDictionary();
+            d["ShipCountry"] = country;
+            return d;
+        }).ToList();
+    }
+    public IEditorSettings ShipCountryEditParams => new DropDownEditCellParams
+        {
+            Params = new DropDownListModel<object, object>
+            {
+                DataSource = DropdownDataSource,
+                Text = "ShipCountry",
+                Value = "ShipCountry",
+                PopupWidth = "100%"
+            }
+        };
     protected override void OnInitialized()
     {
-        
+
         Orders = Enumerable.Range(1, 75).Select((x) =>
         {
             dynamic d = new DynamicDictionary();
@@ -103,6 +126,8 @@
             d.Verified = x % 3 == 0 ? true : false;
             return d;
         }).Cast<DynamicDictionary>().ToList<DynamicDictionary>();
+        InitializeDropdownDataSource();
+
     }
     public class DynamicDictionary : System.Dynamic.DynamicObject
     {
@@ -117,6 +142,11 @@
         {
             dictionary[binder.Name] = value;
             return true;
+        }
+        public object this[string key]
+        {
+            get => dictionary.ContainsKey(key) ? dictionary[key] : null;
+            set => dictionary[key] = value;
         }
 
         //The GetDynamicMemberNames method of DynamicObject class must be overridden and return the property names to perform data operation and editing while using DynamicObject.

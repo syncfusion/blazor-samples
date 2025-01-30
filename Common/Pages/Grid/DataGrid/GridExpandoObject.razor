@@ -2,6 +2,7 @@
 
 @using System.Dynamic
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
@@ -21,9 +22,9 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="@Orders" Height="400" AllowPaging="true" AllowGrouping="true" AllowFiltering="true" AllowSorting="true"  Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+            <SfGrid DataSource="@Orders" Height="400" AllowPaging="true" AllowGrouping="true" AllowFiltering="true" AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
                 <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Normal"></GridEditSettings>
-                <GridGroupSettings ShowGroupedColumn="true" ></GridGroupSettings>
+                <GridGroupSettings ShowGroupedColumn="true"></GridGroupSettings>
                 <GridAggregates>
                     <GridAggregate>
                         <GridAggregateColumns>
@@ -79,7 +80,7 @@
                     <GridColumn Field="CustomerID" HeaderText="Customer ID" Width="120" ValidationRules="@(new ValidationRules { Required=true})"></GridColumn>
                     <GridColumn Field="Freight" Format="C2" TextAlign="TextAlign.Right" AllowGrouping=false ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" Type="ColumnType.Double" Width="120"></GridColumn>
                     <GridColumn Field="OrderDate" HeaderText=" Order Date" ValidationRules="@(new ValidationRules{ Required=true})" Format="d" TextAlign="TextAlign.Right" Width="130" Type="ColumnType.Date"></GridColumn>
-                    <GridColumn Field="ShipCountry" HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="150"></GridColumn>
+                    <GridColumn Field="ShipCountry" HeaderText="Ship Country" EditType="EditType.DropDownEdit" EditorSettings="@ShipCountryEditParams" Width="150"></GridColumn>
                     <GridColumn Field="Verified" HeaderText="Active" TextAlign="TextAlign.Center" DisplayAsCheckBox="true" DefaultValue="false" Width="150"></GridColumn>
                 </GridColumns>
             </SfGrid>
@@ -88,13 +89,36 @@
 </div>
 
 
-@code{
+@code {
     public List<ExpandoObject> Orders { get; set; } = new List<ExpandoObject>();
-    
+
+    private List<string> DefaultShipCountrys = new List<string> { "USA", "UK" };
+    private List<ExpandoObject> DropdownDataSource = new List<ExpandoObject>();
+
+
+    private void InitializeDropdownDataSource()
+    {
+        DropdownDataSource = DefaultShipCountrys.Select(country =>
+        {
+            dynamic d = new ExpandoObject();
+            d.ShipCountry = country;
+            return d;
+        }).Cast<ExpandoObject>().ToList();
+    }
+
+    public IEditorSettings ShipCountryEditParams => new DropDownEditCellParams
+        {
+            Params = new DropDownListModel<object, object>
+            {
+                DataSource = DropdownDataSource,
+                Text = "ShipCountry",
+                Value = "ShipCountry",
+                PopupWidth = "100%"
+            }
+        };
 
     protected override void OnInitialized()
     {
-        
         Orders = Enumerable.Range(1, 75).Select((x) =>
         {
             dynamic d = new ExpandoObject();
@@ -106,5 +130,7 @@
             d.Verified = x % 3 == 0 ? true : false;
             return d;
         }).Cast<ExpandoObject>().ToList<ExpandoObject>();
+        InitializeDropdownDataSource();
+
     }
 }
