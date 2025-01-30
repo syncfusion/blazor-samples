@@ -1,0 +1,98 @@
+﻿@page "/gantt-chart/criticalpath"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using ej2_blazor_ganttdata
+
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>The critical path is a series of tasks (or sometimes only a single task) that controls the calculated finish date of the project. If a task in a critical path is delayed, then the entire project will be delayed.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, how to render a Gantt chart with critical path. The default timeline view week-day mode is applied to Gantt chart. The dependency lines are enabled in this example to represent the execution order or the hierarchy between the phases.</p>
+    <p>The critical path can be enabled in Gantt by using the built-in toolbar button or <a aria-label="Navigate to the EnableCriticalPath property reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_EnableCriticalPath">EnableCriticalPath</a> property.</p>
+    <p>Any CRUD operations trigger in this demonstration causes critical path validation to be verified, after which the taskbar and connector lines are highlighted.</p>
+    <p>More information on the critical path can be found in this <a aria-label="Navigate to the documentation for critical path in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/criticalpath">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt ID="Gantt" DataSource="@TaskCollection" Height="450px" EnableCriticalPath="@EnableCriticalPath"
+                     EnableContextMenu="true" Width="100%" HighlightWeekends="true" AllowSelection="true"
+                     GridLines="GridLine.Both" TreeColumnIndex="1">
+                <SfToolbar ID="Gantt_Gantt_Toolbar">
+                    <ToolbarItems>
+                        <ToolbarItem Type="ItemType.Input">
+                            <Template>
+                                <div class="e-gantt-toolbar-template">
+                                    <SfCheckBox Label="Critical Path" @bind-Checked="IsCriticalPathEnabled" @onchange="OnCriticalPathToggle"></SfCheckBox>
+                                </div>
+                            </Template>
+                        </ToolbarItem>
+                    </ToolbarItems>
+                </SfToolbar>
+
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration"
+                                 Progress="Progress" Dependency="Predecessor" ParentID="ParentId">
+                </GanttTaskFields>
+
+                <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"
+                                   AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true">
+                </GanttEditSettings>
+
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" Width="100"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Job Name" Width="250"
+                                 ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+                    <GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+                </GanttColumns>
+
+                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="40%"></GanttSplitterSettings>
+                <GanttCriticalPathSettings SlackValue="1"></GanttCriticalPathSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code {
+    public SfGantt<GanttData.TaskData> Gantt { get; set; }
+    private List<GanttData.TaskData> TaskCollection { get; set; }
+    private bool EnableCriticalPath { get; set; } = true;
+    public bool IsCriticalPathEnabled { get; set; } = true;
+
+    protected override void OnInitialized()
+    {
+        TaskCollection = GanttData.EditingData().ToList();
+    }
+
+    private void OnCriticalPathToggle(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        EnableCriticalPath = IsCriticalPathEnabled;
+    }
+
+}
+<style>
+    .e-toolbar {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-style: solid;
+        border-width: 1px 1px 0;
+    }
+
+    .material3 .e-gantt-toolbar-template,
+    .material3-dark .e-gantt-toolbar-template
+    {
+        padding: 7px;
+    }
+</style>

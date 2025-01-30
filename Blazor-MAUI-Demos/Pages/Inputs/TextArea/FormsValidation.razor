@@ -1,0 +1,89 @@
+@page "/TextArea/FormsValidation"
+
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<div class="control-section col-lg-12">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+            <EditForm Model="@annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">                
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <label>Add your Comments</label>
+                    <div class="example-content">
+                        <SfTextArea @bind-Value="@annotation.Name" FloatLabelType="FloatLabelType.Auto" Placeholder="Comments" 
+                        ColumnCount="31"></SfTextArea>
+                        <ValidationMessage For="@(() => annotation.Name)" />
+                    </div>                    
+                </div>
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 30px 0px 0px;
+    }
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+    .example-content {
+        padding: 0px 0px 15px 0px;
+    }
+    .example-content:last-child {
+        padding: 0px 0px 15px 0px;
+    }
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+    }
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+</style>
+@code {
+    private string Message = string.Empty;
+    private Annotation annotation = new Annotation();
+    async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        annotation.Name = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+    public class Annotation
+    {
+        
+        [Required(ErrorMessage = "The name field is required.")]
+        [MaxLength(20, ErrorMessage = "The comments field should not contain more than 20 characters.")]
+        [MinLength(10, ErrorMessage = "The comments field must contain at least 10 characters.")]
+        public string Name { get; set; }
+    }
+}

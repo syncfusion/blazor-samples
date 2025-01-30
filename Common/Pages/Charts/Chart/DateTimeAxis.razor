@@ -1,0 +1,85 @@
+﻿@page "/chart/date-time-axis"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows the date-time axis in a chart with a weather report for the year 2016.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The date-time axis uses a date-time scale and displays date-time values as the axis labels. To use a date-time axis, set the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxis.html#Syncfusion_Blazor_Charts_ChartAxis_ValueType' aria-label="Navigate to the ValueType property reference for chart axis">ValueType</a> in axis to <b>DateTime</b>.</p>
+    <p>More information about the DateTime axis can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/date-time-axis#datetime-axis' aria-label="Navigate to the documentation for DateTime axis in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Alaska Weather Statistics - 2016" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis LabelFormat="MMM d" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="-20" Maximum="30" Interval="10" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelFormat="{value}°C">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Period" YName="MaxTemp" Opacity="1" Name="Warmest" Width="2" Type="ChartSeriesType.Line">
+                <ChartMarker Visible="true" Height="8" Width="8" IsFilled="true" Shape="ChartShape.Pentagon">
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Top">
+                        <ChartDataLabelFont Size="@(SampleService.IsDevice ? "9px" : "12px")"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" XName="Period" YName="MinTemp" Opacity="1" Name="Coldest" Width="2" Type="ChartSeriesType.Line">
+                <ChartMarker Visible="true" Height="8" Width="8" IsFilled="true" Shape="ChartShape.Diamond">
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Top">
+                        <ChartDataLabelFont Size="@(SampleService.IsDevice ? "9px" : "12px")"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<DateTimeData> ChartPoints { get; set; } = new List<DateTimeData>
+    {
+        new DateTimeData { Period = new DateTime(2016, 3, 07), MaxTemp = 6.3, MinTemp = -5.3},
+        new DateTimeData { Period = new DateTime(2016, 4, 15), MaxTemp = 13.3, MinTemp = 1.0 },
+        new DateTimeData { Period = new DateTime(2016, 5, 10), MaxTemp = 18.0, MinTemp = 6.9 },
+        new DateTimeData { Period = new DateTime(2016, 6, 17), MaxTemp = 19.8, MinTemp = 9.4 },
+        new DateTimeData { Period = new DateTime(2016, 7, 13), MaxTemp = 18.1, MinTemp = 7.6 },
+        new DateTimeData { Period = new DateTime(2016, 8, 11), MaxTemp = 13.1, MinTemp = 2.6 },
+        new DateTimeData { Period = new DateTime(2016, 9, 16), MaxTemp = 4.1, MinTemp = -4.9 }
+    };
+
+    protected override void OnInitialized()
+    {
+
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    public class DateTimeData
+    {
+        public DateTime Period { get; set; }
+        public double MaxTemp { get; set; }
+        public double MinTemp { get; set; }
+    }
+}

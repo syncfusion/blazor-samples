@@ -1,0 +1,102 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+	<!--SWASM - Standalone WASM-->
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<DefineConstants>$(DefineConstants);WASM;STAGING</DefineConstants>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<RootNamespace>BlazorDemos</RootNamespace>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>RELEASE;NET8_0;WASM</DefineConstants>
+		<ConfigurationValue>Release</ConfigurationValue>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+     	<DefineConstants>DEBUG;NET8_0;WASM</DefineConstants>
+		<ConfigurationValue>Debug</ConfigurationValue>
+  	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(ISSTAGING)' != ''">
+		<DefineConstants>$(DefineConstants);ISSTAGING</DefineConstants>
+	  </PropertyGroup>
+	
+	<Target Name="RemoveStaticFiles" AfterTargets="AfterPublish">
+		<PropertyGroup>
+			<Files>$(PublishDir)\wwwroot\_content</Files>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<Directories Include="$(Files)\**"
+				Exclude="$(Files)\**\syncfusion-blazor.min.js;$(Files)\**\syncfusion-blazor-sfpdfviewer.min.js;$(Files)\**\pdfium.js;$(Files)\**\pdfium.wasm;
+			$(Files)\**\syncfusion-blazor-documenteditor.min.js;$(Files)\Syncfusion.Blazor.Themes\**;$(Files)\Blazor_WASM_Common_NET8\**;
+			$(Files)\**\syncfusion-blazor-base.min.js;$(Files)\**\syncfusion-blazor-extended.min.js;$(Files)\**\data.min.js;$(Files)\**\diagrams.min.js;" />
+		</ItemGroup>
+
+		<Delete Files="@(Directories)" ContinueOnError="true" />
+	</Target>
+
+	<ItemGroup>
+		<!--<PackageReference
+		Include="Microsoft.AspNet.Mvc" Version="5.2.9" />-->
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
+			Version="8.0.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.2.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.2.5" />
+		<PackageReference Include="System.Net.Http.Json" Version="8.0.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.2.7" />
+		<PackageReference Include="SkiaSharp.Views.Blazor" Version="3.116.1" />
+	</ItemGroup>
+
+	<!-- Updated packages to latest secure versions to address known vulnerabilities in Microsoft.AspNetCore dependencies. -->
+	<ItemGroup>
+		<PackageReference Include="System.Private.Uri" Version="4.3.2" />
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.2" />
+		<PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Markdig" Version="0.23.0" />
+	</ItemGroup>
+
+	<Target Name="ProductionBuild" BeforeTargets="BeforeBuild">
+		<Delete Files="wwwroot/version.js" />
+		<WriteLinesToFile File="wwwroot/version.js" Lines='export const data={"version":"net8.0","configuration":"$(ConfigurationValue)"}' />
+	</Target>
+
+	<ItemGroup>
+		<Compile Remove="bin\**" />
+		<Content Remove="bin\**" />
+		<None Remove="bin\**" />
+		<Compile Remove="obj\**" />
+		<Content Remove="bin\**" />
+		<None Remove="obj\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Common\Blazor_WASM_Common_NET8.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Pages\DocumentProcessing\Excel\EncryptAndDecryptService.cs" />
+		<Compile Remove="Pages\DocumentProcessing\Excel\FormulasService.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Pages\DocumentProcessing\Excel\EncryptAndDecrypt.razor" />
+		<Content Remove="Pages\DocumentProcessing\Excel\Formulas.razor" />
+	</ItemGroup>
+	<Target Name="CopyWebConfig" AfterTargets="Publish">
+		<Copy SourceFiles="web.config" DestinationFolder="$(PublishDir)" />
+	</Target>
+	<PropertyGroup>
+		<WasmNativeStrip>true</WasmNativeStrip>
+		<WasmBuildNative>true</WasmBuildNative>
+	</PropertyGroup>
+</Project>

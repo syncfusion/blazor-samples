@@ -1,0 +1,107 @@
+﻿@page "/chart/tooltip-template"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+   This sample visualizes USA wheat production data with the default line series in the chart. Data points are enhanced with a background image and a tooltip template.
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure a background image and the tooltip template for the chart. You can use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfChart.html#Syncfusion_Blazor_Charts_SfChart_BackgroundImage' aria-label="Navigate to the BackgroundImage property reference for chart component">BackgroundImage</a> property to configure the background for the chart and the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartTooltipSettings.html#Syncfusion_Blazor_Charts_ChartTooltipSettings_Template' aria-label="Navigate to the Template property reference for chart tooltip settings">Template</a> property in <code>ChartTooltipSettings</code> to customize the tooltip UI.</p>
+    <p>More information about the tooltip template can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/tool-tip' aria-label="Navigate to the documentation for tooltip in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="USA Wheat Production" BackgroundImage="@(SampleService.WebAssetsPath + "images/chart/wheat.png")" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+  
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" LabelFormat="y"
+                           IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLabelStyle Color="white"></ChartAxisLabelStyle>
+            <ChartAxisLineStyle Color="#EFEFEF" Width="3"></ChartAxisLineStyle>
+             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis RangePadding="ChartRangePadding.None" Title="Billion Bushels">
+            <ChartAxisLabelStyle Color="white"></ChartAxisLabelStyle>
+            <ChartAxisMajorGridLines Color="#EFEFEF" Width="2"></ChartAxisMajorGridLines>
+            <ChartAxisTitleStyle Color="white"></ChartAxisTitleStyle>
+             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true">
+            <Template>
+                @{
+                    var data = context as ChartTooltipInfo;
+                    <div>
+                        <table style="width:100%;  border: 1px solid black;" class="table-borderless">
+                            <tr>
+                                <th rowspan="2" style="background-color: #C1272D">
+                                    <img src="@(SampleService.WebAssetsPath + "images/chart/grain.png")" />
+                                </th>
+                                <td style="height: 25px; width: 50px; background-color: #C1272D; font-size: 14px; color: #E7C554; font-weight: bold; padding-left: 5px">@data.X</td>
+                            </tr>
+                            <tr>
+                                <td style="height: 25px; width: 50px; background-color: #C1272D; font-size: 18px; color: #FFFFFF; font-weight: bold; padding-left: 5px">@data.Y@Unit</td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+            </Template>
+        </ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ConsumerDetails" XName="Year" Width="2" Fill="#333333"
+                         YName="Productivity" Type="ChartSeriesType.Line">
+                <ChartMarker Visible="true" Width="7" Height="7" Fill="#C1272D">
+                    <ChartMarkerBorder Color="#333333" Width="2"></ChartMarkerBorder>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+    
+    public string Unit { get; set; } = "B";
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<ChartData> ConsumerDetails { get; set; } = new List<ChartData>
+    {
+        new ChartData { Year = 2002, Productivity = 1.61 },
+        new ChartData { Year = 2003, Productivity = 2.34 },
+        new ChartData { Year = 2004, Productivity = 2.16 },
+        new ChartData { Year = 2005, Productivity = 2.10 },
+        new ChartData { Year = 2006, Productivity = 1.81 },
+        new ChartData { Year = 2007, Productivity = 2.05 },
+        new ChartData { Year = 2008, Productivity = 2.50 },
+        new ChartData { Year = 2009, Productivity = 2.22 },
+        new ChartData { Year = 2010, Productivity = 2.21 },
+        new ChartData { Year = 2011, Productivity = 2.00 },
+        new ChartData { Year = 2012, Productivity = 1.70 },
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    public class ChartData
+    {
+        public double Year { get; set; }
+        public double Productivity { get; set; }
+    }
+
+}

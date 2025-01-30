@@ -1,0 +1,111 @@
+@page "/word/hello-world"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+ <p style="font-size:16px">This sample demonstrates how to create a simple Word document with text, image and table using Essential DocIO.</p>   
+</SampleDescription>
+<ActionDescription>
+  <p ><ul style="font-size:16px"><li>With the help of DocIO, you can create document with few lines of code.</li>
+  <li>Create Word document from Scratch.</li><li> Open the existing Word document from file system or stream, modify and save it back.</li>
+  <li> Transverse through the document, manipulate content and formatting with the help of intuitive document object model</li>
+  <li>Save the Word document to a local file, stream, or stream it to the client browser.</li></ul></p><p style="font-size:16px">More information about the basics of DocIO can be found in this <a href="https://help.syncfusion.com/file-formats/docio/getting-started" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+
+    <table>
+        <tr>
+            <td>
+                <h5 class="row" style="font-size:16px">Save As:</h5>
+            </td>
+            <td>
+                <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                    <SfRadioButton Label="DOC" Name="DOC" Value=@("DOC") @bind-Checked="@documentType"></SfRadioButton>
+                </div>
+            </td>
+            <td>
+                <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                    <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                </div>
+            </td>
+            <td>
+                <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                    <SfRadioButton Label="WordML" Name="WordML" Value=@("WordML") @bind-Checked="@documentType"></SfRadioButton>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div id="button-control">
+                    <div class="row">
+                        <div>
+                            <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        HelloWorldService service = new HelloWorldService(fileData);
+        documentStream = service.CreateWordDocument(documentType);
+        service.Close();
+        if (documentType == "DOC")
+            await JS.SaveAs("Sample.doc", documentStream.ToArray());
+        else if (documentType == "WordML")
+            await JS.SaveAs("Sample.xml", documentStream.ToArray());
+        else
+            await JS.SaveAs("Sample.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "images/word/adventure-cycle.png");
+            fileData.Add("adventure-cycle.png", new MemoryStream(data));
+            data = await Http.GetByteArrayAsync(fileDataPath + "images/word/mountain-300.png");
+            fileData.Add("mountain-300.png", new MemoryStream(data));
+            data = await Http.GetByteArrayAsync(fileDataPath + "images/word/road-550-w.png");
+            fileData.Add("road-550-w.png", new MemoryStream(data));
+            data = await Http.GetByteArrayAsync(fileDataPath + "images/word/mountain-200.png");
+            fileData.Add("mountain-200.png", new MemoryStream(data));
+        }
+    }
+}

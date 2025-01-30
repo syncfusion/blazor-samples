@@ -1,0 +1,99 @@
+﻿@page "/chart/range-step-area"
+
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@inherits SampleBaseComponent;
+@inject HttpClient Http
+@using System.IO
+@using System.Net.Http.Json
+@*Hidden:Lines*@
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This Blazor Range Step Area Chart example visualizes minimum and maximum temperatures of different days with default range step area series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the range step area chart. This chart is used to display continuous data points by connecting them through vertical and horizontal lines that vary between high and low values over a certain time period.</p>
+    <p>More information about the range step area series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/range-step-area' aria-label="Navigate to the documentation for range-step-area in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Temperature Variation by Month" Width="@Width" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartTooltipSettings Enable="true" Format="Temperature : <b>${point.low} - ${point.high}</b>" Shared="true"></ChartTooltipSettings>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Format="dd MMM">
+            <ChartAxisMajorGridLines Width="0"/>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}˚C" Interval="5" Minimum="-5" Maximum="25">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"/>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="X" High="High" Low="Low" Fill="@Fill" Opacity="0.2" Type="ChartSeriesType.RangeStepArea">
+                <ChartMarker Visible="false"></ChartMarker>
+                <ChartSeriesBorder Width="2" Color="@BorderColor"></ChartSeriesBorder>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"/>
+    </SfChart>
+</div>
+ 
+
+@code{
+    
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public string Fill { get; set; }
+    public string BorderColor { get; set; }
+    public EdgeLabelPlacement EdgeLabelPlacement { get; set; } = EdgeLabelPlacement.Hide;
+    public ChartData[] ChartPoints { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        ChartPoints = new ChartData[] { };
+        ChartPoints = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/chart/range-data.json");
+
+    }
+    
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        SetTheme();
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+            EdgeLabelPlacement = EdgeLabelPlacement.Shift;
+        }
+    }
+    private void SetTheme()
+    {
+        switch (Theme)
+        {
+            case Theme.Fluent:
+                Fill = "#1AC9E6";
+                BorderColor = "#1AC9E6";
+                break;
+            case Theme.Bootstrap5:
+                Fill = "#6355C7";
+                BorderColor = "#6355C7";
+                break;
+        }
+    }
+    
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+    }
+}
+

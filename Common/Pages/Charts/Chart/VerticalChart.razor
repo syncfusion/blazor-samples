@@ -1,0 +1,87 @@
+﻿@page "/chart/vertical-chart"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using System.Collections.ObjectModel
+@using System.Timers
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates a sales versus profit margin analysis using a vertical chart by changing the orientation of the x-axis to vertical and the y-axis to horizontal.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure a vertical chart. Use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfChart.html#Syncfusion_Blazor_Charts_SfChart_IsTransposed' aria-label="IsTransposed">IsTransposed</a> property to render the chart vertically.</p>
+    <p>More information about the vertical chart can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/vertical-chart' aria-label="documentation section" >documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align="center">
+    <SfChart IsTransposed="true" Title="Sales Vs Profit Margin" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Sales in Billion"  Minimum=11000 Maximum=15000 Interval=1000 EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartAxes>
+            <ChartAxis Minimum="0" Maximum="4" Interval="0.5" OpposedPosition="true" Name="yAxis2" Title="Profit(In Percentage)" LabelFormat="{value}%" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartAxis>
+        </ChartAxes>
+        <ChartSeriesCollection> 
+            <ChartSeries DataSource="@chartPoints" XName="Year" YName="column" Name="Sales" Width="2" Type="ChartSeriesType.Column">
+            </ChartSeries>
+             <ChartSeries DataSource="@chartPoints" YAxisName="yAxis2" Name="Profit Margin" XName="Year" YName="series" Width="2" Type="ChartSeriesType.Line">
+                  <ChartMarker IsFilled="true" Visible="true" Height="7" Width="7"></ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="false" Position="LegendPosition.Right">
+        </ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "75%";
+    public List<Data> chartPoints { get; set; } = new List<Data>
+    {
+        new Data { Year="2016", column=13600, series=0.5},
+        new Data { Year="2017", column=12900, series=1.5},
+        new Data { Year="2018", column=12500, series=3.5},
+        new Data { Year="2019", column=14500, series=1.5},
+        new Data { Year="2020", column=14500, series=3},
+        new Data { Year="2021", column=12000, series=2.5},
+
+    };
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+    public class Data
+    {
+        public double column { get; set; }
+        public double series { get; set; }
+        public string Year{ get; set; }
+    }
+
+}

@@ -1,0 +1,67 @@
+﻿@page "/excel/excel-to-tsv"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject HttpClient Http
+@using System.IO;
+
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@using BlazorDemos.Data.FileFormats.XlsIO
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to convert Excel to TSV using XlsIO.</p>
+</SampleDescription>
+
+
+<div class="control-section">
+    <p style="font-weight:normal">Click the "Convert to TSV" button to convert excel document to TSV file. Please note that the Microsoft Excel or an Excel viewer is required to view the Excel document.</p>
+
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="ExcelToTSVXlsIO">Convert To TSV</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    //Hidden:Lines
+
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+
+    //End:Hidden
+
+    /// <summary>
+    /// Download the Excel document created from CSV file
+    /// </summary>
+    public async Task ExcelToTSVXlsIO()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/excel-to-tsv-template.xlsx");
+        fileData.Add("excel-to-tsv-template.xlsx", new MemoryStream(data));
+        ExcelToTSVService service = new ExcelToTSVService(fileData);
+        excelStream = service.ExcelToTSVXlsIO(fileDataPath + "data/xlsio/excel-to-tsv-template.xlsx");
+        service.Close();
+        await JS.SaveAs("ExcelToTSV.tsv", excelStream.ToArray());
+    }
+}

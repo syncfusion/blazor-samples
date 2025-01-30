@@ -1,0 +1,134 @@
+﻿@page "/stock-chart/inversed-area"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@using ThemeHelper
+@using System.Net.Http.Json
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample uses area series and inversed axis to visualize stock data. The crosshair display information about the data and period.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure stock chart to visualize the stock data with inversed axis and it can be inversed by setting <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.StockChartCommonAxis.html#Syncfusion_Blazor_Charts_StockChartCommonAxis_IsInversed" aria-label="IsInversed">IsInversed</a> property as <b>true</b>.</p>
+    <p>
+        <code>Crosshair</code> is enabled in this example. To see the crosshair in action, hover the chart or tap on touch enabled devices.
+    </p>
+    <p>
+        More information about the axis can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/stock-chart/axis-types" aria-label="documentation section" >documentation section</a>.
+    </p>
+</ActionDescription>
+
+@if (StockChartData == null)
+{
+    <div class="stockchart-loader"></div> 
+}
+else
+{
+    <div class="@LoaderClass"></div>
+    <div class="@ChartContainerClass">
+        <SfStockChart Title="AAPL Stock Price" IndicatorType="@IndicatorList" Theme="@CurrentTheme" TrendlineType="@TrendlineList">
+            <StockChartEvents OnLoaded="@OnChartLoaded"></StockChartEvents>
+            <StockChartPrimaryXAxis>
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis Interval="40" IsInversed="true">
+                <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                <StockChartAxisMajorTickLines Width="0" Color="transparent"></StockChartAxisMajorTickLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryYAxis>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@StockChartData" XName="x" YName="high" Type="ChartSeriesType.Area" Opacity="0.5" Name="google"></StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+        </SfStockChart>
+    </div>
+    <style>
+        .stockchart-loader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stockchart-container {
+            visibility: hidden;
+        }
+
+        div[id*="_stockChart_rangeSelector_leftTooltip"], div[id*="_stockChart_rangeSelector_rightTooltip"] {
+            top: 10px !important;
+        }
+
+        div[id*="_selector_Secondary_Element"] {
+            transform: translate(0px, @TranslateY) !important;
+        }
+
+        .e-tbar-btn {
+            border-color: transparent !important;
+        }
+    </style>
+}
+@code
+{
+    private List<TechnicalIndicators> IndicatorList { get; set; } = new List<TechnicalIndicators>();
+    private List<TrendlineTypes> TrendlineList { get; set; } = new List<TrendlineTypes>();
+    private ChartData[] StockChartData { get; set; }
+    public string TranslateY { get; set; } = "-5px";
+    
+    protected override async Task OnInitializedAsync()
+    {
+        SetTheme();
+        StockChartData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/googl.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+    }
+
+    private string LoaderClass { get; set; } = "stockchart-loader";
+    private string ChartContainerClass { get; set; } = "stockchart-container";
+
+    private void OnChartLoaded(StockChartEventArgs args)
+    {
+        LoaderClass = string.Empty;
+        ChartContainerClass = string.Empty;
+        StateHasChanged();
+    }
+
+    private Theme CurrentTheme { get; set; } = Theme.Bootstrap4;
+
+    private void SetTheme()
+    {
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (CurrentTheme == Theme.Material3 || 
+            CurrentTheme == Theme.Material3Dark || 
+            CurrentTheme == Theme.Bootstrap4 || 
+            CurrentTheme == Theme.Material || 
+            CurrentTheme == Theme.MaterialDark)
+        {
+            TranslateY = "-7px";
+        }
+    }
+}

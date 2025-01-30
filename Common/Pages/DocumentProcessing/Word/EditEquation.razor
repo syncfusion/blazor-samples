@@ -1,0 +1,118 @@
+@page "/word/edit-equation"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to modify a mathematical equation in a Word document using Essential DocIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">DocIO allows you to modify a mathematical equation in the Word document.</p>
+                <p style="font-size:16px">	<ul style="font-size:16px"><li>You can modify the text in the equation field.</li>
+				<li>You can change the format of an equation. </li> 
+			</ul>
+		</p><p style="font-size:16px">More information about the headers and footers can be found in this <a href="https://help.syncfusion.com/file-formats/docio/working-with-mathematical-equation#modify-existing-equation" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="control-section">
+    @*Server:Block*@
+    @{ #if !(WASM) && !WEBAPP }
+	<p style="font-size:16px">Click the button to view the generated Word document or PDF. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document and PDF viewer is required to view the resultant PDF.</p>
+	@{ #endif }
+    @*End:Server*@
+    @*WebAssembly:Block*@
+    @{ #if (WASM) || WEBAPP }
+        <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+    @{ #endif }
+    @*End:WebAssembly*@
+
+        <table>
+            @*Server:Block*@
+            @{ #if !(WASM) && !WEBAPP }
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:16px">Save As:</h5>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="PDF" Name="PDF" Value=@("PDF") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+            </tr>
+            @{ #endif }
+            @*End:Server*@
+            <tr>
+                <td colspan="4">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async void GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        EditEquationService service = new EditEquationService(fileData);
+        documentStream = service.EditEquation(documentType);
+        service.Close();
+        if (documentType == "DOCX")
+            await JS.SaveAs("EditEquation.docx", documentStream.ToArray());
+@*Server:Block*@
+#if !(WASM) && !WEBAPP
+        else if (documentType == "PDF")
+            await JS.SaveAs("EditEquation.pdf", documentStream.ToArray());     
+#endif
+@*End:Server*@
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/word/mathematical-equation.docx");
+            fileData.Add("mathematical-equation.docx", new MemoryStream(data));
+        }
+    }
+}

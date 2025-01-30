@@ -1,0 +1,372 @@
+﻿@page "/chart/annotation"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using System.IO
+@using System.Net.Http.Json
+
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p> This sample illustrates speed data for the Interlagos circuit. In area-based series, data points can be annotated using symbols.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the annotation feature in charts. An annotation can hold any HTML element as its content. In this example, an area chart depicting speed data for the Interlagos circuit has the circuit session data as its annotation content.</p>
+    <p><a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/tool-tip' aria-label="Navigate to the documentation for Tooltip in chart component">Tooltip</a> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.
+        More information about the annotations can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-annotations' aria-label="Navigate to documentation for chart-annotations">documentation section</a>.
+    </p>
+</ActionDescription>
+
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+         <linearGradient id="dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>
+
+@if (ChartPoints != null)
+{
+    <div class="control-section" align='center'>
+        <SfChart Title="Speed Data Plot for Interlagos Circuit" Theme="@Theme">
+            <ChartEvents OnAxisLabelRender="ChartAxisLabelRender" Loaded="ChartLoaded"></ChartEvents>
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <ChartPrimaryXAxis Title="Distance" LabelFormat="N2">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Speed (KM/H)" Minimum="50" Maximum="400">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ChartPoints" XName="Distance" Fill="@FillColor" YName="Speed" Type="ChartSeriesType.Area">
+                    <ChartMarker Height="7" Width="7" Fill="rgb(247, 206, 105,0.7)"></ChartMarker>
+                    <ChartSeriesBorder Width="2.5" Color="#000000">
+                    </ChartSeriesBorder>
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartAnnotations>
+			@if(@Visible) {
+                <ChartAnnotation CoordinateUnits="Units.Point" X=0.360 Y=80>
+                    <ContentTemplate>
+                            <div class='first-box-bottom' style="font-family: @FontFamily">Senna S</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+                <ChartAnnotation CoordinateUnits="Units.Point" X=1.400 Y=130>
+                    <ContentTemplate>
+                        <div class='second-box-bottom' style="font-family: @FontFamily">Descida do Lego</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+                <ChartAnnotation CoordinateUnits="Units.Point" X=2.100 Y=200>
+                    <ContentTemplate>
+                        <div class='third-box-bottom' style="font-family: @FontFamily">Ferradura</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+                <ChartAnnotation CoordinateUnits="Units.Point" X=0.555 Y=170>
+                    <ContentTemplate>
+                            <div class='box-left' style="font-family: @FontFamily">Curva do Sol</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+                <ChartAnnotation CoordinateUnits="Units.Point" X=0.700 Y=292>
+                    <ContentTemplate>
+                        <div class='box-top-left' style="font-family: @FontFamily">Reta Oposta</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+                <ChartAnnotation CoordinateUnits="Units.Point" X=2.750 Y=80>
+                    <ContentTemplate>
+                            <div class='box-bottom' style="font-family: @FontFamily">Bico de Pato</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+                <ChartAnnotation CoordinateUnits="Units.Point" X=3.136 Y=284>
+                    <ContentTemplate>
+                            <div class='box-top' style="font-family: @FontFamily">Mergulho</div>
+                    </ContentTemplate>
+                </ChartAnnotation>
+                @if(!SampleService.IsDevice)
+                    {
+                        <ChartAnnotation CoordinateUnits="Units.Point" X=3.270 Y=98>
+                            <ContentTemplate>
+                                <div class='third-box-bottom' style="font-family: @FontFamily">Junção</div>
+                            </ContentTemplate>
+                        </ChartAnnotation>
+                        <ChartAnnotation CoordinateUnits="Units.Point" X=3.800 Y=312>
+                            <ContentTemplate>
+                                <div class='box-top' style="font-family: @FontFamily">Subida dos <br /> Boxes</div>
+                            </ContentTemplate>
+                        </ChartAnnotation>
+                        <ChartAnnotation CoordinateUnits="Units.Point" X=1.65 Y=300>
+                            <ContentTemplate>
+                                <div style="font-family: @FontFamily">Max, accelertion <br /> 5.00 g at 5th gear</div>
+                            </ContentTemplate>
+                        </ChartAnnotation>
+                        <ChartAnnotation CoordinateUnits="Units.Point" X=2.60 Y=250>
+                            <ContentTemplate>
+                                <div style="font-family: @FontFamily">Max, accelertion <br /> 4.58 g at 5th gear</div>
+                            </ContentTemplate>
+                        </ChartAnnotation>
+                    }
+		    }
+            </ChartAnnotations>
+            <ChartTooltipSettings Enable=true Shared=true Header="" EnableMarker=false Format="Distance: ${point.x} KM <br> ${point.y} KM/H" Fill="white" Opacity="1">
+                <ChartTooltipBorder Color="rgb(247, 206, 105)" Width="2"></ChartTooltipBorder>
+                <ChartTooltipTextStyle Color="black"></ChartTooltipTextStyle>
+            </ChartTooltipSettings>
+        </SfChart>
+    </div>
+}
+<style>
+    #dark-gradient-chart stop {
+        stop-color: rgb(247, 206, 105);
+    }
+    #gradient-chart stop {
+        stop-color: rgb(247, 206, 105, 0.5);
+    }
+    .chart-gradient stop[offset="0"] {
+        stop-opacity: 0.9;
+    }
+    .chart-gradient stop[offset="1"] {
+        stop-opacity: 0.3;
+    }
+
+    div[id*=_Annotation_3] {
+        transform: translate(0%, -50%) !important;
+    }
+    ellipse[id*=_Trackball_0] {
+        fill: rgb(247, 206, 105) !important;
+        stroke: rgb(247, 206, 105,0.5) !important;
+    }
+
+    ellipse[id*=_Trackball_1] {
+        fill: rgb(247, 206, 105) !important;
+        stroke-width: 1 !important;
+        stroke: white !important;
+    }
+    .box-bottom, .first-box-bottom, .second-box-bottom,.third-box-bottom, .box-left {
+        position: relative;
+        background: @InsideColor;
+        border: 1.5px solid black;
+        padding: 2px 3px 2px 3px;
+        border-radius: 0.2em;
+        font-size: 12px;
+        color: @OutsideColor;
+    }
+    .box-bottom:after, .box-bottom:before, .first-box-bottom:after, .first-box-bottom:before,
+    .second-box-bottom:after, .second-box-bottom:before, .third-box-bottom:after, .third-box-bottom:before {
+        bottom: 100%;
+        border: solid transparent;
+        content: "";
+        position: absolute;
+    }
+    .box-bottom:after {
+        border-color: transparent;
+        border-bottom-color: @InsideColor;
+        border-width: 6.2px;
+        left: 50%;
+        margin-left: -6.1px;
+        margin-bottom: -1px;
+    }
+    .box-bottom:before {
+        border-color: transparent;
+        border-bottom-color: black;
+        border-width: 7px;
+        left: 50%;
+        margin-left: -7px;
+        margin-bottom: 0.5px;
+    }
+
+    .first-box-bottom:after {
+        border-color: transparent;
+        border-bottom-color: @InsideColor;
+        border-width: 6.2px;
+        left: 50%;
+        margin-left: -6.1px;
+        margin-bottom: -1px;
+    }
+    .first-box-bottom:before {
+        border-color: transparent;
+        border-bottom-color: black;
+        border-width: 7px;
+        left: 50%;
+        margin-left: -7px;
+        margin-bottom: 0.5px;
+    }
+    .second-box-bottom:after {
+        border-color: transparent;
+        border-bottom-color: @InsideColor;
+        border-width: 6.2px;
+        left: 50%;
+        margin-left: -6.3px;
+        margin-bottom: -1px;
+    }
+    .second-box-bottom:before {
+        border-color: transparent;
+        border-bottom-color: black;
+        border-width: 7px;
+        left: 50%;
+        margin-left: -7px;
+        margin-bottom: 0.5px;
+    }
+    .third-box-bottom:after {
+        border-color: transparent;
+        border-bottom-color: @InsideColor;
+        border-width: 6px;
+        left: 50%;
+        margin-left: -6px;
+        margin-bottom: -1px;
+    }
+    .third-box-bottom:before {
+        border-color: transparent;
+        border-bottom-color: black;
+        border-width: 6px;
+        left: 50%;
+        margin-left: -6px;
+        margin-bottom: 1px;
+    }
+    .box-left:after, .box-left:before {
+        right: 100%;
+        top: 18%;
+        border: solid transparent;
+        content: "";
+        position: absolute;
+    }
+    .box-left:after {
+        border-color: transparent;
+        border-right-color: @InsideColor;
+        border-width: 6.5px;
+        margin-right: -1px;
+    }
+    .box-left:before {
+        border-color: transparent;
+        border-right-color: black;
+        border-width: 6.2px;
+        margin-right: 1px;
+    }
+     .box-top, .box-top-left {
+        position: relative;
+        background: @OutsideColor;
+        color: white;
+        border: 1.5px solid black;
+        padding: 2px 3px 2px 3px;
+        border-radius: 0.2em;
+        font-size: 12px;
+        color: @FontColor;
+    }
+    .box-top:after, .box-top:before, .box-top-left:after, .box-top-left:before {
+        top: 100%;
+        border: solid transparent;
+        content: "";
+        position: absolute;
+    }
+    .box-top:after {
+        border-color: transparent;
+        border-top-color: @OutsideColor;
+        border-width: 7.5px;
+        right: 50%;
+        margin-right: -7.5px;
+        margin-top: -1.5px;
+    }
+    .box-top:before {
+        border-color: transparent;
+        border-top-color: @OutsideColor;
+        border-width: 8px;
+        right: 50%;
+        margin-right: -8px;
+    }
+    .box-top-left:after {
+        border-color: transparent;
+        border-top-color: @OutsideColor;
+        border-width: 7.5px;
+        right: 20%;
+        margin-right: -7.5px;
+        margin-bottom: -1.5px;
+    }
+    .box-top-left:before {
+        border-color: transparent;
+        border-top-color: @OutsideColor;
+        border-width: 8px;
+        right: 20%;
+        margin-right: -8px;
+    }
+</style>
+@code{
+
+    private Theme Theme { get; set; }
+    public string FillColor {get; set;}
+    public string InsideColor { get; set; }
+    public string FontColor {  get;  set; }
+    public string OutsideColor {  get;  set; }
+	public bool Visible { get; set; } = false;
+    public string FontFamily { get; set; }
+    public AnnotationData[] ChartPoints { get; set; }
+
+    public List<AnnotationData> LinePoints = new List<AnnotationData>()
+        {
+            new AnnotationData() { Distance = 1.70, Speed = 258 },
+            new AnnotationData() { Distance = 1.62, Speed = 275 },
+            new AnnotationData() { Distance = 0.7, Speed = null },
+            new AnnotationData() { Distance = 2.95, Speed = 225 },
+            new AnnotationData() { Distance = 2.75, Speed = 250 },
+        };
+
+    public async void ChartLoaded(LoadedEventArgs args)
+    {
+        Visible = true;
+        await Task.Delay(1000);
+        StateHasChanged();
+    }
+    protected override async Task OnInitializedAsync()
+    {
+	    ChartPoints = new AnnotationData[] { };
+        ChartPoints = await Http.GetFromJsonAsync<AnnotationData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/chart/annotation-data.json");
+    }
+
+    protected override void OnInitialized()
+    {
+
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        bool IsDarkTheme = Theme.ToString().Contains("Dark", StringComparison.InvariantCulture) || Theme == Theme.HighContrast;
+        FillColor = IsDarkTheme ? "url(#dark-gradient-chart)" : "url(#gradient-chart)";
+        InsideColor = IsDarkTheme ? "black" : "#fdf7e7";
+        OutsideColor = IsDarkTheme ? "#fdf7e7" : "black";
+        FontColor = IsDarkTheme ?  "Black": "#fdf7e7";
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+
+    }
+
+    public void ChartAxisLabelRender(AxisLabelRenderEventArgs args)
+    {
+        if (args.Axis.Name == "PrimaryXAxis")
+        {
+            args.Text = args.Text + " KM";
+        }
+    }
+
+    public class AnnotationData
+    {
+        public Nullable<double> Distance { get; set; }
+        public Nullable<double> Speed { get; set; }
+    }
+}
