@@ -1,9 +1,5 @@
 import {data} from './version.js';
-if (data.version == "net6.0") {
-    var path = "_content/Blazor_WASM_Common_NET6";
-    var isolatedCss = "Blazor_WASM_Demos_NET6.styles.css";
-}
-else if (data.version == "net8.0") {
+if (data.version == "net8.0") {
     var path = "_content/Blazor_WASM_Common_NET8";
     var isolatedCss = "Blazor_WASM_Demos_NET8.styles.css";
 }
@@ -12,7 +8,7 @@ else {
     var isolatedCss = "Blazor_WASM_Demos_NET9.styles.css";
 }
 
-const homepagepath = ["/" ,"/wasm/demos/", "/development/wasm/net6/demos/", "/development/wasm/net8/demos/","/development/wasm/net9/demos/", "/release/wasm/net6/demos/","/release/wasm/net9/demos/", "/release/wasm/net8/demos/", "/hotfix/wasm/net6/demos/", "/hotfix/wasm/net8/demos/","/hotfix/wasm/net9/demos/"];
+const homepagepath = ["/" ,"/wasm/demos/", "/development/wasm/net8/demos/","/development/wasm/net9/demos/","/release/wasm/net9/demos/", "/release/wasm/net8/demos/",  "/hotfix/wasm/net8/demos/","/hotfix/wasm/net9/demos/"];
 
 
 function dynamicResources() {
@@ -92,6 +88,8 @@ function samplePageAssets() {
             '/scripts/common/index.min.js',
             '/scripts/image-editor.min.js',
             '/styles/common/dark-theme.min.css',
+            '/scripts/ribbon.js',
+            '/scripts/speechtotext.js',
         ];
     } else {
         assetFiles = [
@@ -106,6 +104,8 @@ function samplePageAssets() {
             '/scripts/common/index.js',
             '/scripts/image-editor.js',
             '/styles/common/dark-theme.css',
+            '/scripts/ribbon.js',
+            '/scripts/speechtotext.js',
         ]; }
     assetFiles.forEach((file) => {
         loadAssets(path + file);

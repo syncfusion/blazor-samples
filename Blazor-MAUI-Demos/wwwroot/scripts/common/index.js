@@ -504,6 +504,17 @@ function created() {
     })
 }
 
+function mapSearchValue(viewerId) {
+    var customSearchInput = document.getElementById('textbox');
+    var pdfViewerSearchInput = document.getElementById(viewerId + '_search_input');
+
+    if (customSearchInput !== null && pdfViewerSearchInput !== null) {
+        customSearchInput.addEventListener('input', () => {
+            pdfViewerSearchInput.value = customSearchInput.value;
+        });
+    }
+}
+
 //For diagram component
 function CommonKeyboardCommands_newDiagram() {
     var origin = window.location.origin;
@@ -726,6 +737,24 @@ function toggleDarkMode() {
         localStorage.removeItem('ThemeMode');
     }
 }
+
+// Checks if dark mode is enabled
+function isDarkMode() {
+    var element = document.body;
+    if (element.classList.contains('dark-mode')) {
+        return true;
+    }
+    return false;
+};
+
+// Checks if the settings popup on the demo page is open  
+function isSettingsPopUpOpen() {
+    var element = document.getElementById('settingsDiv');
+    if(element !== null){
+        return element.classList.contains('preference-settings');
+    }
+    return false;
+};
 
 //Method for toggle property section
 function togglePropertySection() {

@@ -25,11 +25,9 @@
         The Natural Language Querying feature enables users to input queries in plain language, which the system then interprets to automatically generate the appropriate database queries. This simplifies the process of data retrieval, allowing users to obtain insights without needing to understand complex query syntax.
     </p>
 </ActionDescription>
-@*Hidden:Lines*@
-@{#if (SHOW_GIF_IMAGES)}
-<img src="@NavigationManager.ToAbsoluteUri($" {SampleService.WebAssetsPath}images/smartcomponents/querybuilder/natural-languagequery.gif")" style="width:100%; height:100%;" />
 
-@{#else}
+@*Hidden:Lines*@
+<AIToastNotification></AIToastNotification>
 @*End:Hidden*@
 
 <div id="control-section">
@@ -57,7 +55,6 @@
                             <QueryBuilderColumn Field="address" Label="Address" Type="Syncfusion.Blazor.QueryBuilder.ColumnType.Boolean"></QueryBuilderColumn>
                             <QueryBuilderColumn Field="city" Label="City" Type="Syncfusion.Blazor.QueryBuilder.ColumnType.String"></QueryBuilderColumn>
                             <QueryBuilderColumn Field="state" Label="State" Type="Syncfusion.Blazor.QueryBuilder.ColumnType.String"></QueryBuilderColumn>
-                            <QueryBuilderColumn Field="zipcode" Label="ZipCode" Type="Syncfusion.Blazor.QueryBuilder.ColumnType.String"></QueryBuilderColumn>
                             <QueryBuilderColumn Field="credits" Label="Credits" Type="Syncfusion.Blazor.QueryBuilder.ColumnType.Number"></QueryBuilderColumn>
                         </QueryBuilderColumns>
                     </SfQueryBuilder>
@@ -75,21 +72,18 @@
             <SfSpinner @bind-Visible="@VisibleProperty"></SfSpinner>
             <GridEvents Created="GridCreated" TValue="User"></GridEvents>
             <GridColumns>
-                <GridColumn Field=@nameof(User.id) HeaderText="ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                <GridColumn Field=@nameof(User.id) HeaderText="ID" TextAlign="TextAlign.Right" Width="60"></GridColumn>
                 <GridColumn Field=@nameof(User.name) HeaderText="Name" Width="150"></GridColumn>
-                <GridColumn Field=@nameof(User.email) HeaderText="Email" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                <GridColumn Field=@nameof(User.email) HeaderText="Email" TextAlign="TextAlign.Right" Width="80"></GridColumn>
                 <GridColumn Field=@nameof(User.address) HeaderText="Address" Width="150"></GridColumn>
                 <GridColumn Field=@nameof(User.city) HeaderText="City" Width="150"></GridColumn>
                 <GridColumn Field=@nameof(User.state) HeaderText="State" Width="150"></GridColumn>
-                <GridColumn Field=@nameof(User.zipcode) HeaderText="ZipCode" Width="150"></GridColumn>
-                <GridColumn Field=@nameof(User.credits) HeaderText="Credits" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                <GridColumn Field=@nameof(User.credits) HeaderText="Credits" ></GridColumn>
             </GridColumns>
         </SfGrid>
     </div>
 </div>
-@*Hidden:Lines*@
-@{#endif}
-@*End:Hidden*@
+
 @code {
     public bool VisibleProperty = false;
     public class User
@@ -100,7 +94,6 @@
         public string address { get; set; }
         public string city { get; set; }
         public string state { get; set; }
-        public string zipcode { get; set; }
         public int credits { get; set; }
     }
     private static readonly string[] Names = { "John", "Jane", "Bob", "Alice", "Tom", "Sally", "Jim", "Mary", "Peter", "Nancy" };
@@ -122,20 +115,18 @@
             var address = $"{random.Next(10000)} {Streets[random.Next(Streets.Length)]}";
             var city = Cities[random.Next(Cities.Length)];
             var state = States[random.Next(States.Length)];
-            var zipcode = $"{random.Next(10000, 99999)}";
             var credits = random.Next(2001);
 
             users.Add(new User
-                {
-                    id = id,
-                    name = name,
-                    email = email,
-                    address = address,
-                    city = city,
-                    state = state,
-                    zipcode = zipcode,
-                    credits = credits
-                });
+            {
+                id = id,
+                name = name,
+                email = email,
+                address = address,
+                city = city,
+                state = state,
+                credits = credits
+            });
         }
 
         return users;
@@ -165,7 +156,7 @@
 
         string value = result.Split("WHERE ")[1].Split(";\n")[0];
         value = value.Replace("\n", " ");
-        value = value.Replace(";","");
+        value = value.Replace(";", "");
         QueryBuilderObj.SetRulesFromSql(value);
         GridData = QueryBuilderObj.GetFilteredRecords().ToList().AsEnumerable<User>();
         StateHasChanged();
@@ -180,10 +171,13 @@
         border-radius: 4px;
     }
 
-        #container .e-tab {
-            margin-top: 16px;
-        }
+    #container .e-tab {
+        margin-top: 16px;
+    }
 
+    .e-tab .e-content {
+        padding: 16px;
+    }
     #text-area {
         width: 100%;
         height: 100px;
@@ -193,10 +187,6 @@
         border: 1px solid #ccc;
         border-radius: 4px;
         resize: none;
-    }
-
-    .e-tab .e-content {
-        padding: 16px;
     }
 
     .e-text {

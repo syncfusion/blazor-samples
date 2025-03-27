@@ -88,7 +88,7 @@
         </ToolbarItems>
     </SfToolbar>
 
-    <SfTooltip OpensOn="Click" Target="#searchicon" ID="Tooltip" @ref="Sftooltip" Position="Position.LeftBottom" OnClose="SearchClose">
+    <SfTooltip OpensOn="Custom" IsSticky="true" Opened="TooltipOpen" Closed="TooltipClosed" Target="#searchicon" ID="Tooltip" @ref="Sftooltip" Position="Position.LeftBottom" OnClose="SearchClose">
    <TooltipTemplates>
        <Content>
            <div class="div">
@@ -179,6 +179,7 @@
     public int CurrentPageNumber = 0;
     public bool IsChecked { get; set; } = false;
     public string Text = "";
+    private bool isToolTipOpened = false;
     #endregion
 
     //Hidden:Lines
@@ -213,6 +214,7 @@
     public async void SearchClose()
     {
         await Viewer.CancelTextSearchAsync();
+        Text = "";
     }
 
     //Triggers when match case checkbox is clicked.
@@ -316,11 +318,25 @@
         }
     }
 
+    private async Task TooltipOpen()
+    {
+        await JSRuntime.InvokeVoidAsync("mapSearchValue", Viewer.ID);
+        isToolTipOpened = true;
+    }
+    private void TooltipClosed()
+    {
+        isToolTipOpened = false;
+    }
+
     //This method will get invoked while clicking the toolbar items.
     public async void ToolbarClick(ClickEventArgs args)
     {
         if (args.Item != null)
         {
+            if(isToolTipOpened)
+            {
+                await Sftooltip.CloseAsync();
+            }
             switch (args.Item.CssClass)
             {
                 case "e-pv-previous-page-navigation-container":
@@ -352,6 +368,17 @@
                 case "e-pv-fit-page-container":
                     //Fit page the PDF document being loaded in the PDFViewer2.
                     await Viewer.FitToPageAsync();
+                    break;
+                case "e-pv-search-text-container":
+                    if(isToolTipOpened)
+                    {
+                        await Sftooltip.CloseAsync();
+                    }
+                    else
+                    {
+                        await Sftooltip.OpenAsync();
+                    }
+                    isToolTipOpened = !isToolTipOpened;
                     break;
             }
         }

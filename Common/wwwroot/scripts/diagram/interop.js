@@ -38,6 +38,7 @@ triggerDownload: function triggerDownload(type, fileName, url) {
     anchorElement.click();
 }
 
+
 function saveDiagram(data, filename) {
     if (window.navigator.msSaveBlob) {
         let blob = new Blob([data], { type: 'data:text/json;charset=utf-8,' });

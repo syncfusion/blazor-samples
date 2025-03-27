@@ -3,7 +3,7 @@
 @using Syncfusion.Blazor
 @using ThemeHelper
 @using Syncfusion.Blazor.Charts
-
+@using System.Globalization
 @inject NavigationManager NavigationManager
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
@@ -12,52 +12,39 @@
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/column-chart' aria-label="Navigate to explore the Blazor column chart visualizes">Blazor Column Chart</a> example visualizes the medal count from the Rio Olympics with the default column series in the chart.</p>
+    <p> This Blazor column chart example visualizes the production of Walnuts and Almonds for different countries in 2023.</p>
 </SampleDescription>
 <ActionDescription>
     <p>
-        In this example, you can see how to render and configure a column chart. The column chart is used to compare the frequency, count, total, or average of data in different categories.
+        In this example, you can see how to render and configure a column chart. A column chart is used to compare the frequency, count, total, or average of data across different categories.
     </p>
-    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see it in action, hover over a data point or tap on it on touch-enabled devices. The <code>EnableHighlight</code> property in the tooltip allows the corresponding series to be highlighted when a data point is hovered over.</p>
     <p>More information about the column series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/column' aria-label="Navigate to the documentation for column chart">documentation section</a>.</p>
 </ActionDescription>
 
 <div class="control-section" align='center'>
-    <SfChart Title="Olympic Medal Counts - RIO" Width="@Width" Theme="@Theme">
+    <SfChart Title="Walnuts and Almonds Estimated Production for 2023" SubTitle="Source: fas.usda.gov" Width="@Width" Theme="@Theme">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartEvents OnAxisLabelRender="AxisLabelRender"></ChartEvents>
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="@Label" LabelRotation="@Rotation">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Medal Count" Maximum="50" Interval="10">
+        <ChartPrimaryYAxis Title="Metric Tons" Interval="40000">
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries TooltipMappingName="MappingName" DataSource="@ChartPoints" XName="Country" YName="GoldMedal" Name="Gold" ColumnSpacing="0.1" Type="ChartSeriesType.Column">
-                <ChartMarker>
-                    <ChartDataLabel Visible="false" Position="LabelPosition.Top">
-                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
-                    </ChartDataLabel>
-                </ChartMarker>
+            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="Walnuts" Name="Walnuts" ColumnSpacing="0.4" Type="ChartSeriesType.Column" CornerRadius="@(new ChartCornerRadius { TopLeft = 4, TopRight = 4})" LegendShape="LegendShape.Rectangle">
             </ChartSeries>
-            <ChartSeries TooltipMappingName="MappingName" DataSource="@ChartPoints" XName="Country" YName="SilverMedal" Name="Silver" ColumnSpacing="0.1" Type="ChartSeriesType.Column">
-                <ChartMarker>
-                    <ChartDataLabel Visible="false" Position="LabelPosition.Top">
-                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
-                    </ChartDataLabel>
-                </ChartMarker>
-            </ChartSeries>
-            <ChartSeries TooltipMappingName="MappingName" DataSource="@ChartPoints" XName="Country" YName="BronzeMedal" Name="Bronze" ColumnSpacing="0.1" Type="ChartSeriesType.Column">
-                <ChartMarker>
-                    <ChartDataLabel Visible="false" Position="LabelPosition.Top">
-                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
-                    </ChartDataLabel>
-                </ChartMarker>
+            <ChartSeries DataSource="@ChartPoints" XName="Country" YName="Almonds" Name="Almonds" ColumnSpacing="0.4" Type="ChartSeriesType.Column" CornerRadius="@(new ChartCornerRadius { TopLeft = 4, TopRight = 4})" LegendShape="LegendShape.Rectangle">
             </ChartSeries>
         </ChartSeriesCollection>
-        <ChartLegendSettings Visible="true" EnableHighlight="true"></ChartLegendSettings>
-        <ChartTooltipSettings Header="<b>${point.tooltip}</b>" Enable="true" Shared="true"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="true" EnableHighlight="true" ShapeWidth="9" ShapeHeight="9"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Header="<b>${point.x}</b>" EnableHighlight="true"></ChartTooltipSettings>
     </SfChart>
 </div>
 
@@ -70,17 +57,11 @@
     public LabelIntersectAction Label { get; set; } = LabelIntersectAction.Trim;
     public List<ColumnChartData> ChartPoints { get; set; } = new List<ColumnChartData>
     {
-        new ColumnChartData { Country = "GBR", GoldMedal = 27, SilverMedal = 23, BronzeMedal = 17, MappingName = "Great Britain" },
-        new ColumnChartData { Country = "CHN", GoldMedal = 26, SilverMedal = 18, BronzeMedal = 26, MappingName = "China" },
-        new ColumnChartData { Country = "AUS", GoldMedal = 8, SilverMedal = 11, BronzeMedal = 10, MappingName = "Australia" },
-        new ColumnChartData { Country = "RUS", GoldMedal = 19, SilverMedal = 17, BronzeMedal = 20, MappingName = "Russia" },
-        new ColumnChartData { Country = "GER", GoldMedal = 17, SilverMedal = 10, BronzeMedal = 15, MappingName = "Germany" },
-        new ColumnChartData { Country = "UA", GoldMedal = 2, SilverMedal = 5, BronzeMedal = 24, MappingName = "Ukraine" },       
-        new ColumnChartData { Country = "ES", GoldMedal = 7, SilverMedal = 4, BronzeMedal = 6, MappingName = "Spain" },
-        new ColumnChartData { Country = "UZB", GoldMedal = 4, SilverMedal = 2, BronzeMedal = 7, MappingName = "Uzbekistan" },
-        new ColumnChartData { Country = "JPN", GoldMedal = 12, SilverMedal = 8, BronzeMedal = 21, MappingName = "Japan" },
-        new ColumnChartData { Country = "NL", GoldMedal = 8, SilverMedal = 7, BronzeMedal = 4, MappingName = "NetherLand" },
-        new ColumnChartData { Country = "USA", GoldMedal = 46, SilverMedal = 37, BronzeMedal = 38, MappingName = "United States" },
+        new ColumnChartData { Country = "Chile", Walnuts = 175000, Almonds = 11300 },
+        new ColumnChartData { Country = "European Union", Walnuts = 140000, Almonds = 135000 },
+        new ColumnChartData { Country = "Turkey", Walnuts = 67000, Almonds = 24000 },
+        new ColumnChartData { Country = "India", Walnuts = 33000, Almonds = 4200 },
+        new ColumnChartData { Country = "Australia", Walnuts = 12000, Almonds = 154000 }
     };
 
     protected override void OnInitialized()
@@ -98,10 +79,25 @@
     public class ColumnChartData
     {
         public string Country { get; set; }
-        public double GoldMedal { get; set; }
-        public double SilverMedal { get; set; }
-        public double BronzeMedal { get; set; }
-        public string MappingName { get; set; }
+        public double Walnuts { get; set; }
+        public double Almonds { get; set; }
     }
 
+    public void AxisLabelRender(AxisLabelRenderEventArgs args)
+    {
+        if (double.TryParse(args.Text.Replace(",", ""), out double value))
+        {
+            if (args.Value >= 1000)
+            {
+                args.Text = (value / 1000).ToString("0.#") + "K";
+            }
+        }
+    }
+
+    public void TooltipRender(TooltipRenderEventArgs args)
+    {
+        double pointYValue = Convert.ToDouble(args.Data.PointY);
+        string value = pointYValue.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+        args.Text = $"{args.Data.SeriesName} : <b>{value}</b>";
+    }
 }

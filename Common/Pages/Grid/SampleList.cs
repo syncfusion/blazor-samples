@@ -119,6 +119,19 @@ namespace BlazorDemos
                 FileName = "RemoteData.razor",
                 Type = SampleType.None
             },
+             new Sample
+            {
+                Name = "Flexible Data",
+                Category = "Data Binding",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/flexible-data",
+                FileName = "FlexibleData.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Bind data from various remote services to Syncfusion Blazor DataGrid using SfDataManager with ODataV4Adaptor, URLAdaptor, or WebApiAdaptor. Easily switch data sources, enable paging and virtualization."
+                },
+            },
             new Sample
             {
                 Name = "Custom Binding",
@@ -285,12 +298,13 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Column Resizing",
+                Name = "AutoFit and Resizing",
                 Category = "Columns",
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/column-resize",
                 FileName = "Columnresize.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] { @"Updated the sample by enabling the AutoFit feature, allowing DataGrid to render with specific column width instead of occupying the entire table width." },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -313,6 +327,7 @@ namespace BlazorDemos
                 Url = "datagrid/column-menu",
                 FileName = "Columnmenu.razor",
                 Type = SampleType.None,
+		IsHideInMobile = true,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -448,6 +463,16 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Fixed Columns",
+                Category = "Columns",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/fixed-column",
+                FileName = "FixedColumn.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "Fixed column functionality is now available in DataGrid, allowing users to lock columns at the start of the Grid." }
+            },
+            new Sample
+            {
                 Name = "Row Template",
                 Category = "Rows",
                 Directory = "Grid/DataGrid",
@@ -475,7 +500,8 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/detail-template",
                 FileName = "GridDetailTemplate.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+                NotificationDescription = new string[] { @"Updated the sample by enabling the Frozen feature alongside the detail template in Blazor DataGrid." },
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1416,5 +1442,6 @@ namespace BlazorDemos
             //     NotificationDescription = new string[] { @"This example shows how to add or remove the frozen columns by moving the frozen line into the desired column position." }
             // },
         };
+       
     }
 }

@@ -86,6 +86,8 @@ function samplePageAssets() {
             '/scripts/image-editor.min.js',
             '/scripts/richtexteditor.min.js',
             '/styles/common/dark-theme.min.css',
+            '/scripts/ribbon.js',
+            '/scripts/speechtotext.js',
         ];
     } else {
         assetFiles = [
@@ -101,6 +103,8 @@ function samplePageAssets() {
             '/scripts/image-editor.js',
             '/scripts/richtexteditor.js',
             '/styles/common/dark-theme.css',
+            '/scripts/ribbon.js',
+            '/scripts/speechtotext.js',
         ]; }
     assetFiles.forEach((file) => {
         loadAssets(path + file);

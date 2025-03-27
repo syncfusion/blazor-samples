@@ -414,7 +414,9 @@ namespace BlazorDemos
                 Category = "Customization",
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/custom-bar",
-                FileName = "CustomBar.razor"
+                FileName = "CustomBar.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"This demo demonstrates how to add color segments to the Blazor Range Slider to highlight different value ranges. Simply set a start and end point for each color, making it easier to visualize and understand the data at a glance." }
             },          
                   new Sample
             {
@@ -521,7 +523,42 @@ namespace BlazorDemos
                 FileName = "Api.razor"
             }
         };
-  }
+        public List<Sample> SpeechToText { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "SpeechToText",
+                Directory = "Inputs/SpeechToText",
+                Url = "speech-to-text/default-functionalities",
+                FileName = "Default.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the basic functionality of the SpeechToText component, highlighting its integration and usage with basic configurations."
+                }
+            },
+            new Sample
+            {
+                Name = "Use Case",
+                Category = "Integration",
+                Directory = "Inputs/SpeechToText",
+                Url = "speech-to-text/use-case",
+                FileName = "UseCase.razor",
+                NotificationDescription = new string[] {
+                    @"Illustrates the implementation of a SpeechToText component with real-time transcription, user management, and dynamic spoken message display."
+                }
+            },
+            new Sample
+            {
+                Name = "AI AssistView",
+                Category = "Integration",
+                Directory = "Inputs/SpeechToText",
+                Url = "speech-to-text/integration",
+                FileName = "Integration.razor",
+                NotificationDescription = new string[] {
+                    @"Demonstrates how to utilize the SpeechToText component in a real-time application, which captures and transcribes spoken input into text which are displayed in the editable area"
+                }
+            }
+        };
+    }
 
    
 

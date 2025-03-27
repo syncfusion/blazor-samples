@@ -39,7 +39,6 @@ namespace BlazorDemos
                 Directory = "ImageEditor/ImageEditor",
                 Url = "image-editor/file-restrict",
                 FileName = "FileRestrict.razor",
-                Type = SampleType.New,
                 NotificationDescription = new string[]{ "This demo showcases the image file restriction feature of the Blazor Image Editor, which allows for customization of image extensions, size limits, and drag-and-drop functionality." }
             }
         };        

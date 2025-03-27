@@ -50,7 +50,13 @@ namespace blazor_gantt_digital_marketing_data
             public double ConversionRate { get; set; }
             public double Revenue { get; set; }
         }
-        internal static List<TaskInfoModel> DigitalMarketCollection => new List<TaskInfoModel>() 
+        internal class HolidayModel
+        {
+            public int Id { get; set; }
+            public string HolidayName { get; set; }
+            public DateTime Date { get; set; }
+        }
+        internal static List<TaskInfoModel> DigitalMarketCollection => new List<TaskInfoModel>()
         {
             new TaskInfoModel { Id = 1, Activity = "SEO", Progress = 50, Impressions = 210000, ConversionRate = 0.375, Revenue = 26000.0 },
             new TaskInfoModel { Id = 2, Activity = "Keyword Research & On-Page SEO", Progress = 95, ParentId = 1, AudienceReach = "Organic Reach: 10,000", Improvement = "+10%", Impressions = 95000, ConversionRate = 0.375, Revenue = 12000.0 },
@@ -92,6 +98,14 @@ namespace blazor_gantt_digital_marketing_data
             new TaskInfoModel { Id = 38, Activity = "Campaign Performance", StartDate = new DateTime(2024, 12, 1), Duration = "12 days", Progress = 100, ParentId = 37, Metrics = "Campaigns Evaluated: 5", AudienceReach = "ROI: 20%", Improvement = "+15%", Impressions = 18000, ConversionRate = 0.3, Revenue = 3000.0 },
             new TaskInfoModel { Id = 39, Activity = "ROI Analysis", StartDate = new DateTime(2024, 12, 13), Duration = "8 days", Progress = 90, ParentId = 37, Predecessor = "38", Metrics = "ROI Calculated: 5", AudienceReach = "ROI: 20%", Improvement = "+15%", Impressions = 9000, ConversionRate = 0.28, Revenue = 2000.0 },
             new TaskInfoModel { Id = 40, Activity = "Strategy Adjustment", StartDate = new DateTime(2024, 12, 21), Duration = "7 days", Progress = 80, ParentId = 37, Predecessor = "39", Metrics = "Strategies Adjusted: 3", AudienceReach = "ROI: 20%", Improvement = "+15%", Impressions = 10000, ConversionRate = 0.26, Revenue = 2000.0 }
+        };
+
+        internal static List<HolidayModel> HolidayCollection = new List<HolidayModel>()
+        {
+           new HolidayModel(){ Id = 10, HolidayName = "Labor Day", Date = new DateTime(2024, 09, 02) },
+           new HolidayModel(){ Id = 11, HolidayName = "Fall Break", Date = new DateTime(2024, 10, 14) },
+           new HolidayModel(){ Id = 12, HolidayName = "Thanksgiving Break", Date = new DateTime(2024, 11, 28) },
+           new HolidayModel(){ Id = 13, HolidayName = "Winter Break Start", Date = new DateTime(2024, 12, 18) },      
         };
     }
 }

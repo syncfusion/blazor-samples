@@ -94,8 +94,7 @@ namespace BlazorDemos
                 Directory = "Calendars/Calendar",
                 Url = "Calendar/Islamic-Calendar",
                 FileName = "IslamicCalendar.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ "This demo showcases the Islamic Calendar and provides options to navigate through different view levels, such as Month, Year, and Decade." }
+                Type = SampleType.None
             }
         };
 
@@ -197,9 +196,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DatePicker",
                 Url = "DatePicker/Islamic-DatePicker",
                 FileName = "IslamicDatePicker.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ "This demo showcases the Islamic Calendar and provides options to navigate through different view levels, such as Month, Year, and Decade." }
-
+                Type = SampleType.None
             }
         };
 
@@ -292,9 +289,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Islamic-DateTimePicker",
                 FileName = "IslamicDateTimePicker.razor",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ "This demo showcases the Islamic Calendar and provides options to navigate through different view levels, such as Month, Year, and Decade." }
-
+                Type = SampleType.None
             },
         };
 

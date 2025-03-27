@@ -44,13 +44,7 @@ else
     {
         await InvokeAsync(async () =>
         {
-         #if NET6_0 
-            #if WASM
-                string projectPath = "Blazor_WASM_Common_NET6";
-            #else
-                 string projectPath = "Blazor_Server_Common_NET6";
-            #endif
-        #elif NET8_0 
+         #if NET8_0 
             #if WASM
                 string projectPath = "Blazor_WASM_Common_NET8";
             #elif SERVER
@@ -73,10 +67,9 @@ else
             if (SampleService.SampleInfo.SourceFiles.Count > index && SampleService.SampleInfo.Directory != null)
             {
                 fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
-                if (!(SampleService.SampleInfo.Directory.Split("/")[0].Equals("DocumentProcessing")))
-                {
-                    directory = Path.GetExtension(fileName).Equals(".razor") ? directory : directory.Split("/")[0];
-                }
+                var filePath = $"_content/{projectPath}/scripts/Pages/{directory}/{fileName}.txt";
+                var response = await Http.SendAsync(new HttpRequestMessage(HttpMethod.Head, filePath));
+                directory = response.IsSuccessStatusCode ? directory : directory.Split("/")[0];
                 sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
                 
             }

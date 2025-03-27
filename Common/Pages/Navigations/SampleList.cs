@@ -850,10 +850,7 @@ namespace BlazorDemos
                 Category = "Ribbon",
                 Directory = "Navigations/Ribbon",
                 Url = "ribbon/default-functionalities",
-                FileName = "DefaultFunctionalities.razor",
-                NotificationDescription = new string[] {
-                    @"Demonstrates the basic rendering of the Ribbon component in classic mode, with all built-in items displayed."
-                }
+                FileName = "DefaultFunctionalities.razor"
             },
             new Sample
             {
@@ -861,10 +858,7 @@ namespace BlazorDemos
                 Category = "Ribbon",
                 Directory = "Navigations/Ribbon",
                 Url = "ribbon/simplified",
-                FileName = "Simplified.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the simplified mode rendering of the Ribbon component, offering a compact UI with all built-in items."
-                }
+                FileName = "Simplified.razor"
             },
             new Sample
             {
@@ -872,9 +866,18 @@ namespace BlazorDemos
                 Category = "Ribbon",
                 Directory = "Navigations/Ribbon",
                 Url = "ribbon/backstage",
-                FileName = "Backstage.razor",
+                FileName = "Backstage.razor"
+            },
+            new Sample
+            {
+                Name = "Contextual Tabs",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/contextual",
+                FileName = "ContextualTabs.razor",
+                Type = SampleType.New,
                 NotificationDescription = new string[] {
-                    @"Displays the Ribbon backstage view, designed to show additional information and options."
+                    @"Highlights the contextual tab of the Ribbon, showcasing the dynamic rendering of tabs."
                 }
             },
             new Sample
@@ -883,9 +886,18 @@ namespace BlazorDemos
                 Category = "Ribbon",
                 Directory = "Navigations/Ribbon",
                 Url = "ribbon/resize",
-                FileName = "Resize.razor",
+                FileName = "Resize.razor"
+            },
+            new Sample
+            {
+                Name = "Ribbon KeyTips",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/keytip",
+                FileName = "KeyTips.razor",
+                Type = SampleType.New,
                 NotificationDescription = new string[] {
-                    @"Illustrates the Ribbon's responsive support, with items adjusting to optimized layouts as the slider value changes."
+                    @"Demonstrates the KeyTips functionality in the Ribbon, allowing users to quick access ribbon items using keyboard actions."
                 }
             },
             new Sample
@@ -894,10 +906,7 @@ namespace BlazorDemos
                 Category = "Ribbon",
                 Directory = "Navigations/Ribbon",
                 Url = "ribbon/gallery",
-                FileName = "Gallery.razor",
-                NotificationDescription = new string[] {
-                    @"Highlights the gallery view of the Ribbon, showcasing a collection of related items."
-                }
+                FileName = "Gallery.razor"
             }
         };
     }

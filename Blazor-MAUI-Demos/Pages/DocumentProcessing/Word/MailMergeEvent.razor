@@ -1,0 +1,193 @@
+@page "/word/mail-merge-event"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using Blazor_MAUI_Demos.Pages.DocumentProcessing.Word
+@using Blazor_MAUI_Demos.Services
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to format the Mail merged data using Mail merge events of Essential DocIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">DocIO provides event support for text and image merge fields. With these events, you can format the text and the image merged in the Word document during mail merge.</p>
+                <p><ul style="font-size:16px"><li>Using event support, you can generate report with each record in new page by inserting page break.</li>
+                <li>You can perform mail merge for a group of merge fields by defining group start and end fields in the template document.</li></ul></p>
+                <p style="font-size:16px">Using event support, you can generate report with each record in new page by inserting page break.</p>
+                <p style="font-size:16px">More information about the Mail merge event can be found in this <a href="https://help.syncfusion.com/file-formats/docio/working-with-mailmerge#event-support-for-mail-merge" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="control-section">
+        <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+
+        <table>
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:16px">Save As:</h5>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOC" Name="DOC" Value=@("DOC") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="WordML" Name="WordML" Value=@("WordML") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        MailMergeEventService service = new MailMergeEventService(fileData);
+        documentStream = service.MailMergeEvent(documentType, "Generate Document");
+        service.Close();		
+        documentStream.Position = 0;
+		SaveService saveService = new();
+        if (documentStream != null)
+        {
+            if (documentType == "DOC")
+				saveService.SaveAndView("Sample.doc", "application/msword", documentStream);
+            else if (documentType == "WordML")
+				saveService.SaveAndView("Sample.xml", "application/msword", documentStream);
+            else
+				saveService.SaveAndView("Sample.docx", "application/msword", documentStream);
+        }
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        MailMergeEventService service = new MailMergeEventService(fileData);
+        documentStream = service.MailMergeEvent(documentType, "View Template");
+        documentStream.Position = 0;
+        SaveService saveService = new();
+		saveService.SaveAndView("MailMergeEventTemplate.doc", "application/msword", documentStream);
+        service.Close();
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            MemoryStream memoryStream;
+            string basePath = "Blazor_MAUI_Demos.wwwroot.data.word.mail-merge-event-template.doc";
+            Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("mail-merge-event-template.doc", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.data.word.product.xml";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("product.xml", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.data.word.product-price-list.xml";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("product-price-list.xml", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.apple-juice.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("apple-juice.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.cherry.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("cherry.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.cone.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("cone.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.grape-juice.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("grape-juice.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.hot-soup.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("hot-soup.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.strawberry.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("strawberry.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.tender-coconut.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("tender-coconut.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.vennila.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("vennila.png", new MemoryStream(memoryStream.ToArray()));
+            DocumentStream.Dispose();
+        }
+    }
+}

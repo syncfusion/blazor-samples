@@ -29,62 +29,66 @@
 </ActionDescription>
 
 @*Hidden:Lines*@
-@{#if (SHOW_GIF_IMAGES)}
-<img src="@NavigationManager.ToAbsoluteUri($" {SampleService.WebAssetsPath}images/smartcomponents/grid/anomaly-detection.gif")" style="width:100%; height:100%;" />
-
-@{#else}
+<AIToastNotification></AIToastNotification>
 @*End:Hidden*@
 
-<div id="container">
-<SfSpinner Visible="@spinnerVisibility" CssClass="e-spin-overlay">
-</SfSpinner>
-
-<SfGrid @ref=Grid TValue="MachineData" DataSource="@machineDataList" EnableHover=false EnableStickyHeader=true AllowTextWrap=true RowHeight=75 Height="450">
-     <GridTemplates>
-        <ToolbarTemplate>
-            <SfToolbar>
-                <ToolbarEvents Clicked="ToolbarClickHandler"></ToolbarEvents>
-                <ToolbarItems>
-                        <ToolbarItem Id="Anomaly">
-                        <Template>
-                            <div>
-                                <SfButton Content="Detect Anomaly Data" IsPrimary="true"></SfButton>
-                            </div>
-                        </Template>
-                    </ToolbarItem>
-                </ToolbarItems>
-            </SfToolbar>
-        </ToolbarTemplate>
-    </GridTemplates>
-    <GridEvents QueryCellInfo="CustomizeCell" TValue="MachineData"></GridEvents>
-    <GridColumns>
-        <GridColumn Field=@nameof(MachineData.MachineID) IsPrimaryKey=true HeaderText="Machine ID" Width="65"></GridColumn>
-        <GridColumn Field=@nameof(MachineData.Temperature) HeaderText="Temperature (C)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
-        <GridColumn Field=@nameof(MachineData.Pressure) HeaderText="Pressure (psi)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
-        <GridColumn Field=@nameof(MachineData.Voltage) HeaderText="Voltage (V)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
-        <GridColumn Field=@nameof(MachineData.MotorSpeed) HeaderText="Motor Speed (rpm)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
-        <GridColumn Field=@nameof(MachineData.ProductionRate) HeaderText="Production Rate (units/hr)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
-        <GridColumn Field=@nameof(MachineData.AnomalyDescription) HeaderText="Anomaly Description" Visible=@anomalyColumnVisibility Width="170"></GridColumn>
-    </GridColumns>
-</SfGrid>
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <SfGrid @ref=Grid TValue="MachineData" DataSource="@machineDataList" EnableHover=false EnableStickyHeader=true AllowTextWrap=true Height="450">
+            <GridTemplates>
+                <ToolbarTemplate>
+                    <SfToolbar>
+                        <ToolbarEvents Clicked="ToolbarClickHandler"></ToolbarEvents>
+                        <ToolbarItems>
+                                <ToolbarItem Id="Anomaly">
+                                <Template>
+                                    <div>
+                                        <SfButton Content="Detect Anomaly Data" IsPrimary="true"></SfButton>
+                                    </div>
+                                </Template>
+                            </ToolbarItem>
+                        </ToolbarItems>
+                    </SfToolbar>
+                </ToolbarTemplate>
+            </GridTemplates>
+            <GridEvents QueryCellInfo="CustomizeCell" TValue="MachineData"></GridEvents>
+            <GridColumns>
+                <GridColumn Field=@nameof(MachineData.MachineID) IsPrimaryKey=true HeaderText="Machine ID" Width="40"></GridColumn>
+                <GridColumn Field=@nameof(MachineData.Temperature) HeaderText="Temperature (C)" TextAlign="TextAlign.Right" Width="40"></GridColumn>
+                <GridColumn Field=@nameof(MachineData.Pressure) HeaderText="Pressure (psi)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
+                <GridColumn Field=@nameof(MachineData.Voltage) HeaderText="Voltage (V)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
+                <GridColumn Field=@nameof(MachineData.MotorSpeed) HeaderText="Motor Speed (rpm)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
+                <GridColumn Field=@nameof(MachineData.ProductionRate) HeaderText="Production Rate (units/hr)" TextAlign="TextAlign.Right" Width="60"></GridColumn>
+                <GridColumn Field=@nameof(MachineData.AnomalyDescription) HeaderText="Anomaly Description" Visible=@anomalyColumnVisibility Width="170"></GridColumn>
+            </GridColumns>
+            <SfSpinner Visible="@spinnerVisibility"></SfSpinner>
+        </SfGrid>
+    </div>
 </div>
 
 <style>
     .anomaly-cell {
-        background-color: #B8595A;
+        background-color: #c2410c;
         color: white !important;
     }
 
-    .normal-cell {
-        background-color: #AAF38C;
+    .e-grid .e-rowcell.anomaly-cell:not(.e-editedbatchcell):not(.e-updatedtd) {
+        color: #c2410c;
     }
-</style>
-@*Hidden:Lines*@
-@{#endif}
-@*End:Hidden*@
 
-@code
-{
+    .e-tbar-btn {
+        border: 1px double !important;
+        border-color: gray !important;
+    }
+
+    .normal-cell {
+        background-color: #15803d;
+        color: white !important;
+    }
+
+</style>
+
+@code{
     SfGrid<MachineData> Grid { get; set; }
     private List<MachineData> machineDataList = new List<MachineData>();
     private List<MachineData> AIgeneratedData = new List<MachineData>();
@@ -95,11 +99,11 @@
     {
         if (AIgeneratedData != null && AIgeneratedData.Count > 0)
         {
-            if (AIgeneratedData.Where(e => (!string.IsNullOrEmpty(e.AnomalyFieldName)) &&  (e.AnomalyFieldName.Equals(args.Column.Field, StringComparison.Ordinal) && e.MachineID.Equals(args.Data.MachineID))).Any())
+            if (AIgeneratedData.Where(e => (!string.IsNullOrEmpty(e.AnomalyFieldName)) && (e.AnomalyFieldName.Equals(args.Column.Field, StringComparison.Ordinal) && e.MachineID.Equals(args.Data.MachineID))).Any())
             {
                 args.Cell.AddClass(new string[] { "anomaly-cell" });
             }
-            else if(args.Column.Field.Equals("AnomalyDescription", StringComparison.Ordinal))
+            else if (args.Column.Field.Equals("AnomalyDescription", StringComparison.Ordinal))
             {
                 string defaultDescription = machineDataList[0].AnomalyDescription;
                 string anomalyDescription = args.Data.AnomalyDescription;
@@ -177,128 +181,108 @@
     {
         string description = "The factors that supporting the Production rate is relevant to the count produced, hence the row data is marked as normal data.";
         machineDataList = new List<MachineData>
+    {
+        new MachineData
         {
-            new MachineData
-            {
-                MachineID = "M001",
-                Temperature = 85,
-                Pressure = 120,
-                Voltage = 220,
-                MotorSpeed = 1500,
-                ProductionRate = 100,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M002",
-                Temperature = 788,
-                Pressure = 115,
-                Voltage = 230,
-                MotorSpeed = 1520,
-                ProductionRate = 105,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M003",
-                Temperature = 90,
-                Pressure = 118,
-                Voltage = 225,
-                MotorSpeed = 1480,
-                ProductionRate = 95,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M004",
-                Temperature = 87,
-                Pressure = 122,
-                Voltage = 228,
-                MotorSpeed = 1515,
-                ProductionRate = 110,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M005",
-                Temperature = 92,
-                Pressure = 116,
-                Voltage = 222,
-                MotorSpeed = 21475,
-                ProductionRate = 980,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M006",
-                Temperature = 85,
-                Pressure = 119,
-                Voltage = 220,
-                MotorSpeed = 1490,
-                ProductionRate = 102,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M007",
-                Temperature = 88,
-                Pressure = 114,
-                Voltage = 230,
-                MotorSpeed = 1500,
-                ProductionRate = 104,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M008",
-                Temperature = 90,
-                Pressure = 1120,
-                Voltage = 225,
-                MotorSpeed = 1470,
-                ProductionRate = 89,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M009",
-                Temperature = 87,
-                Pressure = 121,
-                Voltage = 228,
-                MotorSpeed = 1505,
-                ProductionRate = 108,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M010",
-                Temperature = 92,
-                Pressure = 117,
-                Voltage = 222,
-                MotorSpeed = 1480,
-                ProductionRate = 100,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M011",
-                Temperature = 86,
-                Pressure = 118,
-                Voltage = 2221,
-                MotorSpeed = 1925,
-                ProductionRate = 103,
-                AnomalyDescription = description,
-            },
-            new MachineData
-            {
-                MachineID = "M012",
-                Temperature = 89,
-                Pressure = 116,
-                Voltage = 229,
-                MotorSpeed = 1510,
-                ProductionRate = 107,
-                AnomalyDescription = description,
-            },
-        };
+            MachineID = "M001",
+            Temperature = 85,
+            Pressure = 120,
+            Voltage = 220,
+            MotorSpeed = 1500,
+            ProductionRate = 100,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M002",
+            Temperature = 788,
+            Pressure = 115,
+            Voltage = 230,
+            MotorSpeed = 1520,
+            ProductionRate = 105,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M003",
+            Temperature = 90,
+            Pressure = 118,
+            Voltage = 225,
+            MotorSpeed = 1480,
+            ProductionRate = 95,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M004",
+            Temperature = 87,
+            Pressure = 122,
+            Voltage = 228,
+            MotorSpeed = 1515,
+            ProductionRate = 110,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M005",
+            Temperature = 92,
+            Pressure = 116,
+            Voltage = 222,
+            MotorSpeed = 21475,
+            ProductionRate = 980,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M006",
+            Temperature = 85,
+            Pressure = 119,
+            Voltage = 220,
+            MotorSpeed = 1490,
+            ProductionRate = 102,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M007",
+            Temperature = 88,
+            Pressure = 114,
+            Voltage = 230,
+            MotorSpeed = 1500,
+            ProductionRate = 104,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M008",
+            Temperature = 90,
+            Pressure = 1120,
+            Voltage = 225,
+            MotorSpeed = 1470,
+            ProductionRate = 89,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M009",
+            Temperature = 87,
+            Pressure = 121,
+            Voltage = 228,
+            MotorSpeed = 1505,
+            ProductionRate = 108,
+            AnomalyDescription = description,
+        },
+        new MachineData
+        {
+            MachineID = "M010",
+            Temperature = 92,
+            Pressure = 117,
+            Voltage = 222,
+            MotorSpeed = 1480,
+            ProductionRate = 100,
+            AnomalyDescription = description,
+        },
+    };
     }
 
     public class MachineData

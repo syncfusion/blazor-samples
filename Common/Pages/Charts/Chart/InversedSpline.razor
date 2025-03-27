@@ -12,25 +12,33 @@
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>This sample shows the music album sales with the spline series by inverting X and Y axes. Data points are enhanced by a marker and tooltip.</p>
+    <p>This sample showcases an inversed spline chart depicting stock market capitalization as a percentage of GDP by country, with enhanced interactivity through markers and tooltips.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this example, you can see how to render and configure the spline type charts. A Spline chart uses a curved line to connect points in a data series . <code>Markers</code> are used to represent individual data and its values.</p>
-    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>In this example, you can see how to render and configure inversed spline type charts using the <code>isTransposed</code> property. A spline chart uses a curved line to connect points in a data series.  
+    <code>ChartMarkers</code> are used to represent individual data points and their values.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see a tooltip in action, hover over or tap on the chart.</p>
 </ActionDescription>
 
 <div class="control-section" align='center'>
-    <SfChart Title="Music Album Sales" IsTransposed="true" Width="@Width" Theme="@Theme">
-        <ChartArea><ChartAreaBorder Width="1"></ChartAreaBorder></ChartArea>
-        <ChartPrimaryXAxis Title="Years" Minimum="2000" Maximum="2016" ValueType="Syncfusion.Blazor.Charts.ValueType.Double" Interval="4" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+    <SfChart Title="Stock Market Capitalization as a Percentage of GDP by Country" SubTitle="Source: wikipedia.org" IsTransposed="true" Width="@Width" Theme="@Theme">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
             <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Sales (In Millions)" Minimum="0" Maximum="25" Interval="5" LabelFormat="{value}M" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+        <ChartPrimaryYAxis Title="Capitalization Ratio (% of GDP)" Interval="40" LabelFormat="{value}%" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
-        <ChartTooltipSettings Header="<b>Album Sale</b>" Enable="true" Shared="true" Format="${point.x}: <b>${point.y}</b>"></ChartTooltipSettings>
+        <ChartTooltipSettings Header="<b>Stock Market Cap</b>" Enable="true" Format="${point.x}: <b>${point.y}</b>" ShowNearestTooltip="true"></ChartTooltipSettings>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartPoints" XName="Month" Width="2"
-                         Opacity="1" YName="FR_Temperature" Type="ChartSeriesType.Spline">
+            <ChartSeries DataSource="@InversedData" XName="Country" YName="Y" Width="2" Type="ChartSeriesType.Spline">
                 <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true">
                 </ChartMarker>
             </ChartSeries>
@@ -43,19 +51,26 @@
     
     private Theme Theme { get; set; }
     public string Width { get; set; } = "90%";
-    public List<InversedLineChartData> ChartPoints { get; set; } = new List<InversedLineChartData>
+    public List<Data> InversedData = new List<Data>
     {
-        new InversedLineChartData { Month = 2000, LDN_Temperature = -1, FR_Temperature = 10 },
-        new InversedLineChartData { Month = 2002, LDN_Temperature = -1, FR_Temperature = 7 },
-        new InversedLineChartData { Month = 2004, LDN_Temperature = 25, FR_Temperature = 13 },
-        new InversedLineChartData { Month = 2005, LDN_Temperature = 31, FR_Temperature = 16 },
-        new InversedLineChartData { Month = 2007, LDN_Temperature = 14, FR_Temperature = 11 },
-        new InversedLineChartData { Month = 2010, LDN_Temperature = 8, FR_Temperature = 10 },
-        new InversedLineChartData { Month = 2011, LDN_Temperature = 8, FR_Temperature = 15 },
-        new InversedLineChartData { Month = 2013, LDN_Temperature = 8, FR_Temperature = 20 },
-        new InversedLineChartData { Month = 2014, LDN_Temperature = 8, FR_Temperature = 17 },
-        new InversedLineChartData { Month = 2015, LDN_Temperature = 8, FR_Temperature = 5 }
+        new Data { Country = "United States", Y = 194.55 },
+        new Data { Country = "Japan", Y = 146.2 },
+        new Data { Country = "China", Y = 65.1 },
+        new Data { Country = "France", Y = 84.9 },
+        new Data { Country = "India", Y = 140.1 },
+        new Data { Country = "Canada", Y = 160.7 },
+        new Data { Country = "Brazil", Y = 68.4 },
+        new Data { Country = "United Kingdom", Y = 100.2 },
+        new Data { Country = "Sweden", Y = 162 },
+        new Data { Country = "Netherlands", Y = 132.3 },
+        new Data { Country = "Bangladesh", Y = 27.7 }
     };
+
+    public class Data
+    {
+        public string Country { get; set; } 
+        public double Y { get; set; }
+    }
 
     protected override void OnInitialized()
     {
@@ -65,13 +80,6 @@
         {
             Width = "100%";
         }
-    }
-
-    public class InversedLineChartData
-    {
-        public double Month { get; set; }
-        public double LDN_Temperature { get; set; }
-        public double FR_Temperature { get; set; }
     }
 	
 }

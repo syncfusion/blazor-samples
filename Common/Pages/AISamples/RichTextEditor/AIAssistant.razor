@@ -25,7 +25,7 @@
 
 
 <ActionDescription>
-     <p>In this sample, the Rich Text Editor content can be selected, and the AI Assistant dropdown menu can be opened to use the following AI features:</p>
+    <p>In this sample, the Rich Text Editor content can be selected, and the AI Assistant dropdown menu can be opened to use the following AI features:</p>
     <ul>
         <li><strong>Rephrase:</strong> Selecting this option will offer alternative phrasings for sentences to improve clarity.</li>
         <li><strong>Correct Grammar:</strong> Selecting this option will correct the grammar for the selected content.</li>
@@ -37,17 +37,16 @@
 </ActionDescription>
 
 @*Hidden:Lines*@
-@{#if (SHOW_GIF_IMAGES)}
-<img src="@NavigationManager.ToAbsoluteUri($" {SampleService.WebAssetsPath}images/smartcomponents/richtexteditor/ai-assistant.gif")" style="width:100%; height:100%;" />
-@{#else}
+<AIToastNotification></AIToastNotification>
 @*End:Hidden*@
+
 <div class="control-section" id="rteSection">
-    <SfRichTextEditor Height="500px" @ref="rteObj" @bind-Value="@Value" SaveInterval="0" AutoSaveOnIdle="true">
+    <SfRichTextEditor Height="500px" Width="100%" @ref="rteObj" @bind-Value="@Value" SaveInterval="0" AutoSaveOnIdle="true">
         <RichTextEditorToolbarSettings Items="@Tools">
             <RichTextEditorCustomToolbarItems>
                 <RichTextEditorCustomToolbarItem Name="AIAssistant">
                     <Template>
-                        <SfDropDownButton CssClass="menubutton e-tbar-btn e-tbar-btn-text" Content="AI Assistant" Disabled="@enabelAIAssitantButton">
+                        <SfDropDownButton CssClass="menubutton e-tbar-btn e-tbar-btn-text" IconCss="e-icons e-ai-chat e-btn-icon e-icon-left" Content="AI Assistant" Disabled="@enabelAIAssitantButton">
                             <DropDownButtonEvents ItemSelected="AIQuerySelectedMenu" />
                             <DropDownMenuItems>
                                 <DropDownMenuItem Text="Rephrase"></DropDownMenuItem>
@@ -55,7 +54,6 @@
                                 <DropDownMenuItem Text="Summarize"></DropDownMenuItem>
                                 <DropDownMenuItem Text="Elaborate"></DropDownMenuItem>
                                 <DropDownMenuItem Text="Translate"></DropDownMenuItem>
-                                <DropDownMenuItem Text="Sentiment Analysis"></DropDownMenuItem>
                             </DropDownMenuItems>
                         </SfDropDownButton>
                     </Template>
@@ -75,7 +73,7 @@
 <div class="scroll-restricted">
     <SfDialog @bind-Visible="@dialogVisible" AllowPrerender="true" CssClass="e-rte-elements custom-dialog" ZIndex="1000" ShowCloseIcon="true" IsModal="true" Width="80%" Height="100%" Target="#rteSection">
         <DialogTemplates>
-            <Header> AI Assistant </Header>
+            <Header> <span class="e-icons e-ai-chat e-btn-icon e-icon-left"></span> AI Assistant </Header>
             <Content>             
                 <div class="custom-row-0">
                     <div class="col-12 col-md-3 d-flex justify-content-start align-items-center">
@@ -182,23 +180,21 @@
 <SfToast @ref="ToastObj" ID="toast_type" Target="@ToastTarget" ShowCloseButton="true">
     <ToastPosition X="Right" Y="Top" />
 </SfToast>
-@*Hidden:Lines*@
-@{#endif}
-@*End:Hidden*@
+
 @code {
     SfToast ToastObj;
     private string ToastTarget { get; set; } = "#scroll-restricted";
     SfRichTextEditor rteObj;
     SfRichTextEditor leftRteChildObj;
     SfRichTextEditor rightRteChildObj;
-    private string Value { get; set; } = "<h2><span>Integrate AI with the Editor</span></h2><p>Integrate the AI assistant into the rich text editor by capturing the content from the editor, sending it to the AI service, and displaying the results or suggestions back in the editor.</p><h3>Summarize</h3><p>This function condenses the selected content into a brief summary, capturing the main points succinctly.</p><h3>Elaborate</h3><p>This function expands the selected content, adding additional details and context.</p><h3>Rephrase</h3><p>This function rewrites the selected content to convey the same meaning using different words or structures. It also enables rephrase options and disables language selection.</p><h3>Correct Grammar</h3><p>This function reviews and corrects the grammar of the selected content, ensuring it adheres to standard grammatical rules.</p><h3>Translate</h3><p>This function translates the selected content into the specified language, enabling language selection and disabling rephrase options.</p>";
+    private string Value { get; set; } = "<h5><span>Integrate AI with the Editor</span></h5><p>Integrate the AI assistant into the rich text editor by capturing the content from the editor, sending it to the AI service, and displaying the results or suggestions back in the editor.</p><h6>Summarize</h6><p>This function condenses the selected content into a brief summary, capturing the main points succinctly.</p><h6>Elaborate</h6><p>This function expands the selected content, adding additional details and context.</p><h6>Rephrase</h6><p>This function rewrites the selected content to convey the same meaning using different words or structures. It also enables rephrase options and disables language selection.</p><h6>Correct Grammar</h6><p>This function reviews and corrects the grammar of the selected content, ensuring it adheres to standard grammatical rules.</p><h6>Translate</h6><p>This function translates the selected content into the specified language, enabling language selection and disabling rephrase options.</p>";
     private bool dialogVisible { get; set; }
     private bool enabelAIAssitantButton { get; set; } = false;
     private bool enabelRegenerateContentButton { get; set; } = false;
     private bool enabelContentButton { get; set; } = true;
     private string promptQuery = string.Empty;
     private string subQuery = string.Empty;
-    private string[] chipValue = {"Standard"};
+    private string[] chipValue = new[] { "Standard" };
     private string translatelanguage = "EN";
     private string dropVal { get; set; } = "Rephrase";
     private bool enableRephraseChips { get; set; } = true;
@@ -235,161 +231,160 @@
 
     private async Task DialogueOpen(string selectedQuery)
     {
-        dialogVisible = true;
-        dropVal = QueryList.FirstOrDefault(q => q.Text.Equals(selectedQuery, StringComparison.OrdinalIgnoreCase))?.ID;        
         var selectionText = await rteObj.GetSelectedHtmlAsync();
-        if (!string.IsNullOrEmpty(selectionText)) {
+        if (!string.IsNullOrEmpty(selectionText))
+        {
+            dialogVisible = true;
+            dropVal = QueryList.FirstOrDefault(q => q.Text.Equals(selectedQuery, StringComparison.OrdinalIgnoreCase))?.ID;
             promptQuery = selectionText;
-        } else {
-            await this.rteObj.SelectAllAsync();
-            selectionText = await rteObj.GetXhtmlAsync();
-            promptQuery = selectionText;
+            await this.rteObj.SaveSelectionAsync();
+            await this.leftRteChildObj.RefreshUIAsync();
+            await UpdateAISuggestionsData(selectedQuery);
         }
-        await this.rteObj.SaveSelectionAsync();
-        await this.leftRteChildObj.RefreshUIAsync();
-        await UpdateAISugesstionsData(selectedQuery);
+        else
+        {
+            await this.ToastObj.ShowAsync(new ToastModel { ContentTemplate = @GetTemplate(true), ShowCloseButton = true, Timeout = 0 });
+        }
     }
 
     private async Task SelectedChipsChanged(SelectionChangedEventArgs args)
     {
-        if (chipValue.Length == 0 && args != null && args.RemovedItems.Length > 0) {
-            chipValue = new[] { args.RemovedItems[0] };
-        }
-        await UpdateAISugesstionsData("Rephrase");
-    }
-
-    private async Task AITranslateDropdownList(ChangeEventArgs<string, Languages> args)
-    {
-        await UpdateAISugesstionsData("Translate");
-    }
-
-    private async Task AIQuerySelectedDropdownList(ChangeEventArgs<string, SubQuery> args)
-    {
-        if (!string.IsNullOrEmpty(dropVal))
+        if (chipValue.Length == 0 && args != null && args.RemovedItems.Length > 0)
         {
-            chipValue = new []{"Standard"};
-            translatelanguage = "EN";
-            var selectedQuery = QueryList.FirstOrDefault(q => q.ID.Equals(dropVal, StringComparison.OrdinalIgnoreCase))?.Text;
-            await UpdateAISugesstionsData(selectedQuery);
+            chipValue = new [] { args.RemovedItems[0] };
         }
-    }
-
-    private async Task UpdateAISugesstionsData(string selectedQuery)
-    {
-        enableRephraseChips = false;
-        enableLanguageList = false;
-        isSentimentCheck = false;
-        switch (selectedQuery)
-        {
-            case "Summarize":
-                subQuery = "Summarize the upcoming sentence shortly.";
-                break;
-            case "Elaborate":
-                subQuery = "Elaborate on the upcoming sentence.";
-                break;
-            case "Rephrase":
-                enableRephraseChips = true;
-                enableLanguageList = false;
-                subQuery = $"{chipValue[0]} rephrase the upcoming sentence.";
-                break;
-            case "Correct Grammar":
-                subQuery = "Correct the grammar of the upcoming sentence.";
-                break;
-            case "Translate":
-                enableLanguageList = true;
-                enableRephraseChips = false;
-                subQuery = $"Translate the upcoming sentence to {translatelanguage}.";
-                break;
-            case "Sentiment Analysis":
-                isSentimentCheck = true;
-                subQuery = "Analyze the sentiment and grammar of the following paragraphs and provide the expression score with an emoji followed by the sentiment in the format: \"😊 Neutral\". \n\nNOTE: Avoid any additional text or explanation:";
-                break;
+            await UpdateAISuggestionsData("Rephrase");
         }
 
-        UpdateAISugesstionsData();
-    }
-
-    private async Task RegenerateContent()
-    {
-        UpdateAISugesstionsData();
-    }
-
-    private async Task ReplaceContent()
-    {
-        ExecuteCommandOption executeCommandOption = new ExecuteCommandOption();
-        executeCommandOption.Undo = true;
-        await this.rteObj.RestoreSelectionAsync();
-        Value = AIResult;
-        await CloseDialog();
-    }
-
-    private async Task CopyContent()
-    {
-        await JSRuntime.InvokeVoidAsync("copyToClipboard", Markdig.Markdown.ToPlainText(AIResult, pipeline));
-    }
-
-    private async Task CloseDialog()
-    {
-        dialogVisible = false;
-        promptQuery = string.Empty;
-        AIResult = string.Empty;
-        chipValue = new[] {"Standard"};
-        dropVal = "Query1";
-        enableRephraseChips = true;
-        enableLanguageList = false;
-        sentiment = "";
-        apiResultData = "";
-    }
-
-    private async Task UpdateAISugesstionsData()
-    {
-        try
+        private async Task AITranslateDropdownList(ChangeEventArgs<string, Languages> args)
         {
-            if (!string.IsNullOrEmpty(promptQuery))
+            await UpdateAISuggestionsData("Translate");
+        }
+
+        private async Task AIQuerySelectedDropdownList(ChangeEventArgs<string, SubQuery> args)
+        {
+            if (!string.IsNullOrEmpty(dropVal))
             {
-                enabelRegenerateContentButton = isContentGenerating = enabelContentButton = true;
-                string systemMessage = subQuery.Contains("emoji followed by the sentiment in the format") ? "You are a helpful assistant. Please respond in string format." : "NOTE: Return same html format just do changes content only. don't change html formats."; 
-                apiResultData = await semanticKernelAI.GetCompletionAsync(subQuery + promptQuery,false,false,systemMessage);
-                isContentGenerating = false;
-                sentiment = isSentimentCheck ? apiResultData.Replace("\"", "").Replace("'", "") : "";
-                AIResult = isSentimentCheck ? promptQuery : apiResultData;
-                noResultsFound = string.IsNullOrEmpty(AIResult) || string.IsNullOrEmpty(promptQuery);
-                enabelRegenerateContentButton = enabelContentButton = noResultsFound;
-                await InvokeAsync(StateHasChanged);
+                chipValue = new[] { "Standard" };
+                translatelanguage = "EN";
+                var selectedQuery = QueryList.FirstOrDefault(q => q.ID.Equals(dropVal, StringComparison.OrdinalIgnoreCase))?.Text;
+                await UpdateAISuggestionsData(selectedQuery);
             }
-        } catch {
-            await this.ToastObj.ShowAsync(new ToastModel { ContentTemplate = @GetTemplate(), ShowCloseButton = true, Timeout = 0 });
         }
-    }
-    private RenderFragment GetTemplate() => builder =>
-    {
-        builder.OpenElement(0, "div");
-        builder.AddContent(1, "An error occurred during the AI process, Please try again.");
-        builder.CloseElement();
-    };
-    public class SubQuery
-    {
-        public string ID { get; set; }
-        public string Text { get; set; }
-    }
 
-    public class Languages
-    {
-        public string ID { get; set; }
-        public string Text { get; set; }
-    }
+        private async Task UpdateAISuggestionsData(string selectedQuery)
+        {
+            enableRephraseChips = false;
+            enableLanguageList = false;
+            isSentimentCheck = false;
+            switch (selectedQuery)
+            {
+                case "Summarize":
+                    subQuery = "Briefly summarize the following text in a short and concise manner.";
+                    break;
+                case "Elaborate":
+                    subQuery = "Elaborate/Expand on the following text, providing more detail and context.";
+                    break;
+                case "Rephrase":
+                    enableRephraseChips = true;
+                    enableLanguageList = false;
+                    subQuery = $"Rephrase the following text in a {chipValue[0]} [tone/style], ensuring clarity and maintaining the original meaning.";
+                    break;
+                case "Correct Grammar":
+                    subQuery = "Correct any grammatical errors in the following text, ensuring it is clear and well-structured.";
+                    break;
+                case "Translate":
+                    enableLanguageList = true;
+                    enableRephraseChips = false;
+                    subQuery = $"Translate the following text into {translatelanguage}, preserving the original meaning and tone.";
+                    break;
+            }
 
-    public List<SubQuery> QueryList = new List<SubQuery>
+            UpdateAISuggestionsData();
+        }
+
+        private async Task RegenerateContent()
+        {
+            UpdateAISuggestionsData();
+        }
+
+        private async Task ReplaceContent()
+        {
+            ExecuteCommandOption executeCommandOption = new ExecuteCommandOption();
+            executeCommandOption.Undo = true;
+            await this.rteObj.RestoreSelectionAsync();
+            await this.rteObj.ExecuteCommandAsync(CommandName.InsertHTML, this.apiResultData, executeCommandOption);
+            await CloseDialog();
+        }
+
+        private async Task CopyContent()
+        {
+            await JSRuntime.InvokeVoidAsync("copyToClipboard", Markdig.Markdown.ToPlainText(AIResult, pipeline));
+        }
+
+        private async Task CloseDialog()
+        {
+            dialogVisible = false;
+            promptQuery = string.Empty;
+            AIResult = string.Empty;
+            chipValue = new[] { "Standard" };
+            dropVal = "Query1";
+            enableRephraseChips = true;
+            enableLanguageList = false;
+            sentiment = "";
+            apiResultData = "";
+        }
+
+        private async Task UpdateAISuggestionsData()
+        {
+            try
+            {
+                if (!string.IsNullOrEmpty(promptQuery))
+                {
+                    enabelRegenerateContentButton = isContentGenerating = enabelContentButton = true;
+                    string systemPrompt = subQuery.Contains("emoji followed by the sentiment in the format") ? "You are a helpful assistant. Please respond in string format." : "NOTE:Please retain the existing HTML structure and modify the content only. Ensure that the response adheres to the specified formatting.";
+                    apiResultData = await semanticKernelAI.GetCompletionAsync(promptQuery, false, false, (subQuery + systemPrompt));
+                    isContentGenerating = false;
+                    sentiment = isSentimentCheck ? apiResultData.Replace("\"", "").Replace("'", "") : "";
+                    AIResult = isSentimentCheck ? promptQuery : apiResultData;
+                    noResultsFound = string.IsNullOrEmpty(AIResult) || string.IsNullOrEmpty(promptQuery);
+                    enabelRegenerateContentButton = enabelContentButton = noResultsFound;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
+            catch
+            {
+                await this.ToastObj.ShowAsync(new ToastModel { ContentTemplate = @GetTemplate(), ShowCloseButton = true, Timeout = 0 });
+            }
+        }
+        private RenderFragment GetTemplate(bool hasTextSelection = false) => builder =>
+        {
+            builder.OpenElement(0, "div");
+            builder.AddContent(1, hasTextSelection ? "Please select the content to perform the AI operation." : "An error occurred during the AI process, Please try again.");
+            builder.CloseElement();
+        };
+        public class SubQuery
+        {
+            public string ID { get; set; }
+            public string Text { get; set; }
+        }
+
+        public class Languages
+        {
+            public string ID { get; set; }
+            public string Text { get; set; }
+        }
+
+        public List<SubQuery> QueryList = new List<SubQuery>
     {
         new SubQuery { ID = "Rephrase", Text = "Rephrase" },
         new SubQuery { ID = "Grammar", Text = "Correct Grammar" },
         new SubQuery { ID = "Summarize", Text = "Summarize" },
         new SubQuery { ID = "Elaborate", Text = "Elaborate" },
-        new SubQuery { ID = "Translate", Text = "Translate" },
-        new SubQuery { ID = "SentimentAnalysis", Text = "Sentiment Analysis"},
+        new SubQuery { ID = "Translate", Text = "Translate" }
     };
 
-    public List<Languages> LanguageList = new List<Languages>
+        public List<Languages> LanguageList = new List<Languages>
     {
         new Languages { ID = "EN", Text = "English" },
         new Languages { ID = "ZH", Text = "Chinese (Simplified)" },
@@ -408,7 +403,7 @@
         new Languages { ID = "TR", Text = "Turkish" }
     };
 
-    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+        private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
     {
         new ToolbarItemModel() { Name = "AIAssistant", TooltipText = "AI Assistant" },
         new ToolbarItemModel() { Name = "Rephrase", TooltipText = "Rephrase" },
@@ -436,136 +431,159 @@
     };
 }
 <style>
-.custom-row-0 {
-    border-bottom: 1px solid #ddd;
-    padding: 12px 24px 12px 24px;
-    flex-shrink: inherit;
-}
-.custom-row-1 {
-    padding-left: 12px !important;
-    padding-right: 12px !important;
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
-    height: 100%;
-}
-.custom-row-0,.custom-row-1,.custom-row-2 {
-    display: flex;
-    flex-wrap: wrap;
-}
-.cuscol, .cuscol-0, .cuscol-1, .cuscol-2, .cuscol-01 {
-    padding: 0.5rem;
-}
-.no-results-found {
-    text-align: center;
-    margin-top: 2rem;
-}
-.no-results-found img {
-    display: block;
-    margin: 0 auto;
-}
-.e-custom {
-    margin-right: 0.5rem;
-    border-radius: 25px !important;
-}
-.skeleton-rectangle {
-    border-radius: 4px;
-}
-.cuscol-noresult {
-    padding-bottom: 150px !important;
-}
-@@media (max-width: 767px) {
-    .cuscol-0, .cuscol-1, .cuscol-2 {
-        justify-content: center;
-    }    
-    .custom-row-0, .custom-row-1, .custom-row-2 {
-        flex-direction: column;
+    .e-custom {
+        margin-right: 0.5rem;
+        border-radius: 25px !important;
     }
-    .cuscol-1 {
-        border-right: none !important;
-        border-bottom: 1px solid #ced4da !important;
+
+    .skeleton-rectangle {
+        border-radius: 4px;
     }
-    .cuscol-0 {
+
+    @@media (max-width: 767px) {
+        .cuscol-0, .cuscol-1, .cuscol-2 {
+            justify-content: center;
+        }
+
+        .custom-row-0, .custom-row-1, .custom-row-2 {
+            flex-direction: column;
+        }
+
+        .cuscol-1 {
             border-right: none !important;
-    }
-    .h-100 {
-           height: auto !important;
-    }
-    .custom-dialog .e-dialog .e-dlg-content {
-        overflow-y: auto !important;
-    }
-    .custom-dialog .e-dialog .e-dlg-content .e-richtexteditor {
-        height: 100px !important;
-    }
-    .cuscol-noresult {
-        padding-bottom: 20px !important;
-    }    
-    .e-chip-list {
-        padding: 5px !important;
-    }
-    .cuscol{
-        padding-right: 0.2rem !important;
-        width: auto !important;
-    }
-    .custom-row-1 {
+            border-bottom: 1px solid #ced4da !important;
+        }
+
+        .cuscol-0 {
+            border-right: none !important;
+        }
+
+        .h-100 {
             height: auto !important;
+        }
+
+        .custom-dialog .e-dialog .e-dlg-content {
+            overflow-y: auto !important;
+        }
+
+            .custom-dialog .e-dialog .e-dlg-content .e-richtexteditor {
+                height: 100px !important;
+            }
+
+        .cuscol-noresult {
+            padding-bottom: 20px !important;
+        }
+
+        .e-chip-list {
+            padding: 5px !important;
+        }
+
+        .cuscol {
+            padding-right: 0.2rem !important;
+            width: auto !important;
+        }
+
+        .custom-row-1 {
+            height: auto !important;
+        }
     }
-}   
-.cuscol-1, .cuscol-2 {
-    padding: 20px;
-}
-.h-100 {
-    height: 100%;
-}    
-.w-100 {
-    width: 100%;
-}
-.cuscol-0 {
-    border-right: 1px solid #ced4da;
-}
-.cuscol-1 {
-    border-right: 1px solid #ced4da;
-    display: flex;
-    flex-direction: column !important;
-}
-.cuscol-2 {
-    display: flex;
-    flex-direction: column !important;
-}
-.custom-dialog .e-dialog .e-dlg-content {
-    padding: 0px !important;
-    overflow-y: hidden;
-}
-.custom-dialog .e-dialog .e-dlg-header-content + .e-dlg-content{
-    padding-top: 0px !important;
-}
-.custom-dialog .e-dialog .e-footer-content{
-    padding: 0px !important;
-}
 
-.custom-dialog .e-dialog .e-dlg-content .e-richtexteditor.e-rte-tb-expand .e-rte-content, .e-richtexteditor.e-rte-tb-expand .e-source-content {
-    border: 0;
-    border-bottom: 1px solid #dee2e6;
-    border-top:0px solid #dee2e6 !important;
-}
+    .cuscol-1, .cuscol-2 {
+        padding: 20px;
+    }
 
-.menubutton.e-btn.e-active, .e-css.e-btn.e-active {
-    background: #565e64;
-    border-color: #51585e;
-    color: #fff !important;
-}
+    .h-100 {
+        height: 100%;
+    }
 
-.menubutton.e-btn:hover, .e-css.e-btn:hover {
-    background: #5c636a;
-    border-color: #565e64;
-    box-shadow: none;
-    color: black !important
-}
+    .w-100 {
+        width: 100%;
+    }
 
-.menubutton.e-tbar-btn.e-tbar-btn-text {
-    font-size: 14px !important;
-}
+    .custom-dialog .e-dialog .e-dlg-content {
+        padding: 0px !important;
+        overflow-y: hidden;
+    }
 
-.sentiment {
-    color: #000 !important;
-}
+    .custom-dialog .e-dialog .e-dlg-header-content + .e-dlg-content {
+        padding-top: 0px !important;
+    }
+
+    .custom-dialog .e-dialog .e-footer-content {
+        padding: 0px !important;
+    }
+
+    .custom-dialog .e-dialog .e-dlg-content .e-richtexteditor.e-rte-tb-expand .e-rte-content, .e-richtexteditor.e-rte-tb-expand .e-source-content {
+        border: 0;
+        border-bottom: 1px solid #dee2e6;
+        border-top: 0px solid #dee2e6 !important;
+    }
+
+    .menubutton.e-tbar-btn.e-tbar-btn-text {
+        font-size: 14px !important;
+    }
+
+    .e-ai-chat::before {
+        padding: 6px;
+    }
+    .custom-row-0 {
+        border-bottom: 1px solid #ddd;
+        padding: 12px 24px 12px 24px;
+        flex-shrink: inherit;
+    }
+
+    .custom-row-1 {
+        padding-left: 12px !important;
+        padding-right: 12px !important;
+        padding-top: 0px !important;
+        padding-bottom: 0px !important;
+        height: 100%;
+    }
+
+    .custom-row-0, .custom-row-1, .custom-row-2 {
+        display: flex;
+        flex-wrap: wrap;
+    }
+
+    .cuscol, .cuscol-0, .cuscol-1, .cuscol-2, .cuscol-01 {
+        padding: 0.5rem;
+    }
+
+    .no-results-found {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .no-results-found img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .cuscol-noresult {
+        padding-bottom: 150px !important;
+    }
+
+    .cuscol-0 {
+        border-right: 1px solid #ced4da;
+    }
+
+    .cuscol-1 {
+        border-right: 1px solid #ced4da;
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .cuscol-2 {
+        display: flex;
+        flex-direction: column !important;
+    }
+
+    .sentiment {
+        color: #000 !important;
+    }
+
+    .justify-content-end{
+        display: flex;
+        justify-content: flex-end !important;
+    }
 </style>

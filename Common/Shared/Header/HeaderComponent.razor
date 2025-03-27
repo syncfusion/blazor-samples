@@ -33,12 +33,10 @@
             </div>
          @{#endif}
     </div>
-     @if (!SampleService.IsDevice)
-     {
-        <div class='sb-header-item sb-table-cell' id="sb-index-search-container" style="padding-right:20px">
-            <SearchComponent></SearchComponent>
-        </div>
-      }
+    <div class='sb-header-item sb-table-cell' id="sb-index-search-container" style="padding-right:20px">
+        <SearchComponent></SearchComponent>
+    </div>
+
     <div class='sb-header-right sb-right sb-table'>
         <div class="sb-header-item sb-table-cell">
             <div id="header-theme-switcher" tabindex="0" title='Change theme of sample browser'>
@@ -81,14 +79,12 @@
                 <span id="themeSwitch" tabindex="0" >Dark</span>
             </div>
         </div>
-        <div class="sb-header-splitter sb-download-splitter" style="margin:0px 3px 0px 5px;"></div>
-	   @if (SampleService.IsDevice){
-           <div class='sb-header-item sb-table-cell sb-search-container'>
-              <div class="@searchClass" role="button" tabindex="0" aria-label="toggle sample search" title="Toggle sample search" @onclick="@OnSearchRender">
-                  <span class="sb-settings sb-icons sb-icon-search"></span>
-              </div>
-           </div>
-       }
+        <div class="sb-header-splitter sb-download-splitter"></div>
+        <div class='sb-header-item sb-table-cell sb-search-container'>
+            <div class="@searchClass" role="button" tabindex="0" aria-label="toggle sample search" title="Toggle sample search" @onclick="@OnSearchRender">
+                <span class="sb-settings sb-icons sb-icon-search"></span>
+            </div>
+        </div>
 
         <div class='sb-header-item sb-table-cell sb-settings-container'>
             <div class='@preferenceClass' role="button" tabindex="0" aria-label="toggle settings menu" title="Toggle sample browser preferences" @onclick="@OnPreferenceClick">
@@ -110,14 +106,25 @@
                 </button>
             </a>
         </div>
-        <div class="sb-header-splitter sb-download-splitter sb-free-trial"></div>
-        <div class='sb-header-item sb-table-cell sb-download-container sb-free-trial'>
-            <a href='https://www.syncfusion.com/downloads/blazor?tag=es-seo-blazor-demos-static-menu-trial' target="_blank" rel="noopener" aria-label="FREE TRIAL">
-                <button id='download-now' class='sb-download-btn'>
-                    <span class='sb-download-text'>FREE TRIAL</span>
-                </button>
-            </a>
+
+        <div class="sb-header-splitter sb-download-splitter"></div>
+        <div class='sb-header-item sb-table-cell sb-doc-container'>
+        <a href=@SampleService.DocumentLink target="_blank" rel="noopener" aria-label="Explore in Documentation">
+            <button class='sb-doc-btn'>
+                <div class="sb-icons sf-sb-icon-docs" title="Documentation"></div>
+            </button>
+        </a>
         </div>
+        @if(!(SampleUtils.IsLocalSample(UriHelper.Uri))){
+            <div class="sb-header-splitter sb-download-splitter sb-free-trial"></div>
+            <div class='sb-header-item sb-table-cell sb-download-container sb-free-trial'>
+                <a href='https://www.syncfusion.com/downloads/blazor?tag=es-seo-blazor-demos-static-menu-trial' target="_blank" rel="noopener" aria-label="FREE TRIAL">
+                    <button id='download-now' class='sb-download-btn'>
+                        <span class='sb-download-text'>FREE TRIAL</span>
+                    </button>
+                </a>
+            </div>
+        }
         <div class="sb-header-item sb-table-cell sb-header-settings sb-icons" @onclick="@OnRightToggleClick" @onclick:stopPropagation="true" role="button" aria-label="Sample Browser's Preferences"></div>
     </div>
 </div>
@@ -348,6 +355,19 @@
         isPreferenceClicked = false;
     }
 
+#if SERVER || WEBAPP
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        searchClass = SampleUtils.HEADER_SEARCH_CLASS;
+        preferenceClass = SampleUtils.HEADER_PREFERENCES_CLASS;
+        overlayClass = "sb-notification-overlay" + SampleUtils.HIDDEN;
+        notificationlist = await new NotificationList().GetNotificationDataAsync();
+        componentnotificationlist = await new NotificationList().GetComponentNotificationDataAsync();
+        notificationClass = SampleUtils.NOTIFICATION_POPUP_CLASS + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
+    }
+#else
     protected override void OnInitialized()
     {
         base.OnInitialized();
@@ -359,6 +379,8 @@
         componentnotificationlist = new NotificationList().GetComponentNotificationData();
         notificationClass = SampleUtils.NOTIFICATION_POPUP_CLASS + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
     }
+#endif
+
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -366,6 +388,8 @@
         if (firstRender)
         {
             await this.JsRuntime.InvokeVoidAsync("updateButtonTheme");
+            SampleService.UpdateFooter(UriHelper.Uri);
+            StateHasChanged();
         }
     }
 

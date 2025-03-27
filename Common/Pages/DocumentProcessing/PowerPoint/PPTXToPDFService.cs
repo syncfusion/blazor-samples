@@ -27,13 +27,15 @@ namespace BlazorDemos.Data.DocumentProcessing.PowerPoint
         /// Create a simple Presentation document
         /// </summary>
         /// <returns>Return the created Presentation document as stream</returns>
-        public MemoryStream PDFConversion()
+        public MemoryStream PDFConversion(bool preserveFormFields)
         {
             //Open the existing presentation
             IPresentation presentation = Syncfusion.Presentation.Presentation.Open(fileDataValue["template.pptx"]);           
             
             PresentationToPdfConverterSettings settings = new PresentationToPdfConverterSettings();
-
+            //Enables a flag to preserve form fields by converting shapes with names starting with 'FormField_' into editable text form fields in the PDF.
+            if (preserveFormFields)
+                settings.PreserveFormFields = true;
             //Convert the PowerPoint document to PDF document.
             PdfDocument pdfDocument = PresentationToPdfConverter.Convert(presentation,settings);
 			

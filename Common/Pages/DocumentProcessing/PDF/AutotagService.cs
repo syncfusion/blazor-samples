@@ -26,7 +26,7 @@ namespace BlazorDemos.Data.FileFormats.PDF
         /// Create a simple PDF document
         /// </summary>
         /// <returns>Return the created PDF document as stream</returns>
-        public MemoryStream CreatePdfDocument()
+        public MemoryStream CreatePdfDocument(string accessibilityLevel)
         {
             #region content string
             string toc = "\r\n What can I do with C#? ..................................................................................................................................... 3 \r\n \r\n What is .NET? .................................................................................................................................................... 3 \r\n \r\n Writing, Running, and Deploying a C# Program .............................................................................................. 3 \r\n \r\n Starting a New Program..................................................................................................................................... 3";
@@ -40,10 +40,19 @@ namespace BlazorDemos.Data.FileFormats.PDF
             //Create a new PDF document.
 
             PdfDocument document = new PdfDocument();
+            if (accessibilityLevel == "WTPDF")
+            {
+                document = new PdfDocument(PdfConformanceLevel.Pdf_A4);
+                document.FileStructure.Version = PdfVersion.Version2_0;
 
+            }
+            else if (accessibilityLevel == "PDF_UA_2")
+            {
+                document.FileStructure.Version = PdfVersion.Version2_0;
+            }
             //Auto Tag the document 
 
-             document.AutoTag = true;
+            document.AutoTag = true;
             document.DocumentInformation.Title = "AutoTag";
             #region page1
             //Add a page to the document.

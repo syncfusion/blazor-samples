@@ -26,141 +26,173 @@
     <p>This sample uses the <code>data-smartpaste-description</code> attribute to customize field descriptions. By default, Smart Paste automatically identifies and describes form fields based on labels, names, or nearby text. You can override these descriptions by setting <code>data-smartpaste-description</code> for specific fields, which helps the backend model provide more accurate form auto-filling.</p>
 
 </ActionDescription>
-
 @*Hidden:Lines*@
-@{#if (SHOW_GIF_IMAGES)}
-<img src="@NavigationManager.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/smartcomponents/smartpaste/smartpaste-withannotations.gif")" style="width:100%; height:100%;"/>
-
-@{#else}
+<AIToastNotification></AIToastNotification>
 @*End:Hidden*@
-<div class="col-lg-8 control-section sb-property-border">
-    <div class="control-wrapper">
-        <SfDataForm ID="bugReport"
-                    Model="@BugRptModel"
-                    ColumnCount="2"
-                    ColumnSpacing="20px"
-                    ButtonsAlignment="FormButtonsAlignment.Right">
-            <FormValidator>
-                <DataAnnotationsValidator></DataAnnotationsValidator>
-            </FormValidator>
 
-            <FormItems>
-                <FormItem Field="@nameof(BugRptModel.BugName)" ColumnSpan="2" Placeholder="What's the bug ?"></FormItem>
-                <FormItem Field="@nameof(BugRptModel.Reporter)" ColumnSpan="1" Placeholder="">
-                    <Template>
-                        <label class="e-form-label">Reporter</label>
-                        <SfTextBox HtmlAttributes="reporterNameAttr"
-                                   @bind-Value="@BugRptModel.Reporter"
-                                   Placeholder="Who is the reporter ?"
-                                   name="reporter-name" />
-                    </Template>
-                </FormItem>
-                <FormItem Field="@nameof(BugRptModel.SubmittedDate)" ColumnSpan="1">
-                    <Template>
-                        <label class="e-form-label">Submitted Date</label>
-                        <SfTextBox HtmlAttributes="submittedDataAttr"
-                                   @bind-Value="@BugRptModel.SubmittedDate"
-                                   Placeholder="When it is reported ?"
-                                   name="submitted-date" />
-                    </Template>
-                </FormItem>
-                <FormItem Field="@nameof(BugRptModel.BugDescription)" ColumnSpan="2" EditorType="FormEditorType.TextArea" Placeholder="Describe a little about the bug." />
-                <FormItem Field="@nameof(BugRptModel.ReproSteps)" ColumnSpan="2">
-                    <Template>
-                        <label class="e-form-label">Repro Steps</label>
-                        <SfTextArea HtmlAttributes="reproStepsAttr"
-                                    @bind-Value="@BugRptModel.ReproSteps"
-                                    Placeholder="Enter the repro steps here.."
-                                    RowCount="3" />
-                    </Template>
-                </FormItem>
-                <FormItem Field="@nameof(BugRptModel.BugPriority)" ColumnSpan="2">
-                    <Template>
-                        <label class="e-form-label">Bug Priority</label>
-                        <SfTextBox HtmlAttributes="bugPriorityAttr"
-                                   @bind-Value="@BugRptModel.BugPriority"
-                                   Placeholder="Priority of the bug"
-                                   name="bug-priority" />
-                    </Template>
-                </FormItem>
-            </FormItems>
+<div class="bug-form-container">
+    <h6 style="text-align:center;">Bug Report Form</h6>
+    <SfDataForm ID="bugReport"
+                Model="@BugRptModel"
+                ColumnCount="2"
+                ColumnSpacing="20px"
+                ButtonsAlignment="FormButtonsAlignment.Right">
+        <FormValidator>
+            <DataAnnotationsValidator></DataAnnotationsValidator>
+        </FormValidator>
 
-            <FormButtons>
-                <SfButton IconCss="e-icons e-reset" Content="Reset" OnClick="HandleFormReset"></SfButton>
-                <SfSmartPasteButton Content="Smart Paste" IconCss="e-icons e-paste">
-                </SfSmartPasteButton>
-            </FormButtons>
-        </SfDataForm>
+        <FormItems>
+            <FormItem Field="@nameof(BugRptModel.BugName)" ColumnSpan="1">
+                <Template>
+                    <label class="e-form-label">Bug Name</label>
+                    <SfTextBox HtmlAttributes="bugNameAttr"
+                                @bind-Value="@BugRptModel.BugName"
+                                Placeholder="What's the bug ?"
+                                ID="bug-name" />
+                </Template>
+            </FormItem>
+            <FormItem Field="@nameof(BugRptModel.BugPriority)" ColumnSpan="1">
+                <Template>
+                    <label class="e-form-label">Bug Priority</label>
+                    <SfComboBox HtmlAttributes="bugPriorityAttr"
+                                DataSource="@priorityLists"
+                                @bind-Value="@BugRptModel.BugPriority"
+                                ID="bug-priority"
+                                Placeholder="Set priority"
+                                @onchange=HandlePriorityChange />
+                </Template>
+            </FormItem>
+            <FormItem Field="@nameof(BugRptModel.BugDescription)" ColumnSpan="2" >
+                <Template>
+                    <label class="e-form-label">Bug Description</label>
+                    <SfTextArea Placeholder="Describe a little about the bug." />
+                </Template>
+            </FormItem>
+            <FormItem Field="@nameof(BugRptModel.Reporter)" ColumnSpan="1" Placeholder="">
+                <Template>
+                    <label class="e-form-label">Reporter</label>
+                    <SfTextBox HtmlAttributes="reporterNameAttr"
+                                @bind-Value="@BugRptModel.Reporter"
+                                Placeholder="Who is the reporter ?"
+                                ID="reporter-name" />
+                </Template>
+            </FormItem>
+            <FormItem Field="@nameof(BugRptModel.SubmittedDate)" ColumnSpan="1">
+                <Template>
+                    <label class="e-form-label">Submitted Date</label>
+                    <SfTextBox HtmlAttributes="submittedDataAttr"
+                                @bind-Value="@BugRptModel.SubmittedDate"
+                                Placeholder="When it is reported ?"
+                                ID="submitted-date" />
+                </Template>
+            </FormItem>
+            <FormItem Field="@nameof(BugRptModel.ReproSteps)" ColumnSpan="2">
+                <Template>
+                    <label class="e-form-label">Repro Steps</label>
+                    <SfTextArea ID="repro-steps"
+                                HtmlAttributes="reproStepsAttr"
+                                @bind-Value="@BugRptModel.ReproSteps"
+                                Placeholder="Enter the repro steps here.."
+                                RowCount="2" />
+                </Template>
+            </FormItem>
+        </FormItems>
 
-    </div>
+        <FormButtons>
+            <SfButton IconCss="e-icons e-reset" Content="Reset" OnClick="HandleFormReset"></SfButton>
+            <SfSmartPasteButton IsPrimary="true" Content="Smart Paste" IconCss="e-icons e-paste" OnClick="HandleSmartPasteClick">
+            </SfSmartPasteButton>
+        </FormButtons>
+    </SfDataForm>
+    <SfSpinner Visible="@visible"></SfSpinner>
 </div>
-
-<div class="col-lg-4 property-section">
-    <div class="property-panel-section">
-        <div class="property-panel-content">
-            <h4> Choose a preset below </h4>
-            <div class="chip-container">
-                @*Initialize the Choice Chips component*@
-                <SfChip ID="chip-choice" Selection="SelectionType.Single" SelectedChips=@ChoiceSelected>
-                    <ChipItems>
-                        <ChipEvents OnClick="@HandlePresetChange"></ChipEvents>
-                        @foreach (DataPreset bug in BugPresets)
-                        {
-                            <ChipItem Text="@bug.Text"></ChipItem>
-                        }
-                    </ChipItems>
-                </SfChip>
+  
+<div class="sample-data-section">
+    <h6 style ="text-align:center;"> Sample content </h6>
+    <div class="content-flexed">
+        @foreach (var (bug, index) in BugReports.Select((bug, index) => (bug, index)))
+        {
+            <div class="content-body" data-index="@index">
+                <div class="copy-container" style="float: right">
+                    <SfButton aria-label="content-copy-button" IconCss="@(copyBtnIconIndex == index ? checkIcon : copyIcon)"
+                                CssClass="custom-copy-icon"
+                                IsPrimary="true"
+                                OnClick="@(() => CopyToClipboard(index))">
+                    </SfButton>
+                </div>
+                @bug
             </div>
-            <div class="bug-report">@currentBugReport</div>
-            <SfButton IconCss=@copyBtnIcon Content="@copyBtnContent" OnClick="CopyToClipboard"></SfButton>
-        </div>
+        }
     </div>
 </div>
+
 <style>
-    .property-panel-content {
-        margin: 20px 0px;
+    .bug-form-container, .sample-data-section {
+      width: 100%;
+      margin: 30px auto;
     }
 
-    .property-panel-content .bug-report {
-        padding: 10px;
-        margin: 15px 0px;
-        background-color: #f3f3f3;
-        border: 1px solid #ddd;
-        border-radius: 5px;
-        line-height: 1.5;
+    .sample-data-section .content-flexed {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 14px;
     }
 
-    .mobile .control-wrapper {
-        max-width: 100%;
+    .sample-data-section .content-body {
+        line-height: 28px;
+        font-size: 14px;
+        max-width: 49%;
+        border-radius: 10px;
+        padding: 20px;
+        border: 2px solid rgb(229 231 235 / var(--border-opacity));
+        --border-opacity: 1;      
     }
 
-    .control-wrapper {
-        max-width: 470px;
-        margin: 0 auto;
-        padding: 0px 0px 0px;
+    .e-btn.e-icon-btn.custom-copy-icon {
+        padding: 4px;
+        font-size: 10px;
     }
 
-    .control-header {
-        text-align: center;
+    .e-btn.custom-copy-icon:focus {
+      box-shadow: none;
+    }
+
+    .bug-form-container {
+        position: relative;
+        border-radius: 20px;
+        padding: 15px;
+        border: 2px solid rgb(229 231 235 / var(--border-opacity));
+        --border-opacity: 1;
+        max-width: 600px;
+    }
+
+    .bug-report {
+      padding: 10px;
+      margin: 15px 0px;
+      background-color: #f3f3f3;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      line-height: 1.5;
     }
 </style>
-@*Hidden:Lines*@
-@{#endif}
-@*End:Hidden*@
 
 @code {
     private BugReportModel BugRptModel = new BugReportModel();
-    // Specfies the selected chips value in the Choice Chips.
-    private string[] ChoiceSelected = { CommonData.BugPresets[0].Text };
 
-    private string copyBtnContent = "Copy";
-    private string copyBtnIcon = "e-icons e-copy";
-    private int dropdownValue = 0;
-    private string currentBugReport;
+    private string copyIcon = "e-icons e-copy";
+    private string checkIcon = "e-icons e-check";
+    private int copyBtnIconIndex = -1;
+    private string defaultPriority = "medium";
+    private string[] priorityLists = { "Low", "Medium", "High" };
+    private bool visible = false;
 
-    private List<DataPreset> BugPresets => CommonData.BugPresets;
     private List<string> BugReports => CommonData.BugReports;
 
+
+    Dictionary<string, object> bugNameAttr = new Dictionary<string, object>()
+    {
+        { "data-smartpaste-description", "Extract the core purpose of the bug data and use it as the value for Bug name field" }
+    };
     Dictionary<string, object> reporterNameAttr = new Dictionary<string, object>()
     {
         { "data-smartpaste-description", "Name must follow the format: Initial Firstname Lastname" }
@@ -179,29 +211,23 @@
         { "data-smartpaste-description", "Only allowed values are Low, Medium and High" }
     };
 
-    protected override void OnInitialized()
+    private async Task CopyToClipboard(int index)
     {
-        currentBugReport = BugReports[0];
+        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", BugReports[index]);
+        copyBtnIconIndex = index;
     }
-
-    private async Task CopyToClipboard()
-    {
-        await JSRuntime.InvokeVoidAsync("navigator.clipboard.writeText", currentBugReport);
-        copyBtnContent = "Copied";
-        copyBtnIcon = "e-icons e-check";
-    }
-
     private void HandleFormReset()
     {
         BugRptModel = new BugReportModel();
     }
-
-    private void HandlePresetChange(ChipEventArgs args)
+    private void HandleSmartPasteClick(MouseEventArgs args)
     {
-        currentBugReport = BugReports[args.Index];
-        ChoiceSelected[0] = args.Text;
-        copyBtnContent = "Copy";
-        copyBtnIcon = "e-icons e-copy";
-        StateHasChanged();
+        visible = true;
+    }
+    private void HandlePriorityChange(ChangeEventArgs args)
+    {
+        string value = args.Value.ToString();
+        BugRptModel.BugPriority = value;
+        visible = false;
     }
 }

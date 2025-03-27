@@ -9,103 +9,107 @@
 @using Syncfusion.Blazor.Navigations
 @using PopupsOpenEventArgs = Syncfusion.Blazor.Popups.OpenEventArgs
 @using Syncfusion.Blazor.Layouts
-@using SmartComponents.LocalEmbeddings;
+@using SmartComponents.LocalEmbeddings
 @using BlazorDemos.Service
+
 @inject AzureAIService OpenAIService
+@inject LocalEmbedder embedder
 
 <div id="ai-assist">
     <SfDialog @ref="Dialog" Height="auto" MinHeight="auto" Width="50%" Target="#ai-assist" ShowCloseIcon="true" IsModal="true" @bind-Visible="@IsVisibleDialog">
-    <DialogEvents Opened="@onOpen"></DialogEvents>
-            <DialogTemplates>
-                <Header>
-                    <h3>@HeaderValue</h3>
-                </Header>
-                    <Content>
-                        <div class="e-de-parent">
-                            <SfSplitter Height="auto" Orientation="Syncfusion.Blazor.Layouts.Orientation.Vertical">
-                                <SplitterPanes>
-                                    <SplitterPane Size="auto" Collapsible="true" Visible="@IsVisibleSplitter">
-                                        <ContentTemplate>
-                                            <div style="height: auto; display: flex; flex-direction: column; justify-content: space-between;">
-                                                <div style="padding: 5px; overflow-y: auto; flex-grow: 1;">@EditorInputValue</div>
-                                                <div style="padding-bottom: 0px;">
-                                                    <SfToolbar Width="100%">
-                                                        <ToolbarItems>
-                                                            <ToolbarItem Type="ItemType.Spacer"></ToolbarItem>
-                                                            <ToolbarItem TooltipText="Move to the previous paragraph" PrefixIcon="e-icons e-chevron-left-small" OnClick="@MoveToPrevious"></ToolbarItem>
-                                                            <ToolbarItem TooltipText="Move to the next paragraph" PrefixIcon="e-icons e-chevron-right-small" OnClick="@MoveToNext"></ToolbarItem>
-                                                            <ToolbarItem Type="ItemType.Spacer"></ToolbarItem>
-                                                        </ToolbarItems>
-                                                    </SfToolbar>
-                                                </div>
-                                            </div>
-                                        </ContentTemplate>
-                                    </SplitterPane>
-                                    <SplitterPane Size="auto" Collapsible="true">
-                                        <ContentTemplate>
-                                             <div id="e-de-editableDiv" contenteditable="true" @onfocus="OnFocus" @onblur="OnBlur" @oninput="InputChange"></div>
-                                        </ContentTemplate>
-                                    </SplitterPane>
-                                </SplitterPanes>
-                            </SfSplitter>
-                        <div id="e-de-fm-toolbar">
-                        @if(IsVisibleToolBar) {
-                        <SfToolbar Height="auto" Width="100%">
-                            <ToolbarItems>
-                                <ToolbarItem TooltipText="Show the previous suggestion" PrefixIcon="e-icons e-chevron-left-small" Disabled="@HideSecIcon" Visible="@ShowPryItem" OnClick="@GetPreSug"></ToolbarItem>
-                                <ToolbarItem  Align="ItemAlign.Left" CssClass="page-count" Visible="@ShowPryItem">
-                                    <Template>
-                                        <SfNumericTextBox Max="100" Min="0" Width="40px" ShowSpinButton=false Value="@CurrentPage" CssClass="e-de-nt-style"></SfNumericTextBox>
-                                        <span class="total-page"> of @NumPage</span>
-                                    </Template>
-                                </ToolbarItem>
-                                <ToolbarItem TooltipText="Show the next suggestion" PrefixIcon="e-icons e-chevron-right-small" Disabled="@HideSecIcon" Visible="@ShowPryItem" OnClick="@GetNxtSug"></ToolbarItem>
-                                <ToolbarItem PrefixIcon="e-icons e-chevron-down-small" Type="ItemType.Input" Visible="@ShowTrnsPryyItem">
-                                    <Template>
-                                        <SfComboBox Width="160px" TValue="string" TItem="Adjust" @bind-Value="@TranslateValue" DataSource="@TranslateList" Readonly="false" PopupWidth="160px" ShowClearButton="false">
-                                            <ComboBoxFieldSettings Value="Text"/>
-                                        </SfComboBox>
-                                    </Template>
-                                </ToolbarItem>
-                                <ToolbarItem TooltipText="Show menu to modify the format of the response" PrefixIcon="e-icons e-settings" OnClick="@OnItemStgClick" Visible="@ShowPryItem"></ToolbarItem>
-                                <ToolbarItem TooltipText="Close" PrefixIcon="e-icons e-close" OnClick="@OnItemCancelClick" Visible="@ShowSecnyItem"></ToolbarItem>
-                                <ToolbarItem TooltipText="Set the tone" PrefixIcon="e-icons e-chevron-down-small" Type="ItemType.Input" Visible="@ShowSecnyItem">
-                                    <Template>
-                                        <SfComboBox Width="125px" TValue="string" TItem="Adjust" @bind-Value="@ToneValue" DataSource="@ToneList" Readonly="false" PopupWidth="125px" ShowClearButton="false">
-                                            <ComboBoxFieldSettings Value="Text"/>
-                                        </SfComboBox>
-                                    </Template>
-                                </ToolbarItem>
-                                <ToolbarItem TooltipText="Set the format" PrefixIcon="e-icons e-chevron-down-small" Type="ItemType.Input" Visible="@ShowSecnyItem">
-                                    <Template>
-                                        <SfComboBox Width="200px" TValue="string" TItem="Adjust" @bind-Value="@FormatValue" DataSource="@FormatList" Readonly="false" PopupWidth="200px" ShowClearButton="false">
-                                            <ComboBoxFieldSettings Value="Text"/>
-                                        </SfComboBox>
-                                    </Template>
-                                </ToolbarItem>
-                                <ToolbarItem TooltipText="Set the length"  PrefixIcon="e-icons e-chevron-down-small" Type="ItemType.Input" Visible="@ShowSecnyItem">
-                                    <Template>
-                                        <SfComboBox Width="100px" TValue="string" TItem="Adjust" @bind-Value="@LengthValue" DataSource="@LengthList" Readonly="false" PopupWidth="110px" ShowClearButton="false">
-                                            <ComboBoxFieldSettings Value="Text"/>
-                                        </SfComboBox>
-                                    </Template>
-                                </ToolbarItem>
-                                <ToolbarItem TooltipText="@TooltipTextSec" Disabled="@HideIcon" Visible="@ShowSecnyItem">
-                                    <Template>
-                                        <SfButton CssClass="e-control e-btn" @onclick="@ReGenerate">Rewrite</SfButton>
-                                    </Template>
-                                </ToolbarItem>
-                                <ToolbarItem TooltipText="@TooltipText" Text="Translate" Visible="@ShowTrnsPryyItem" OnClick="@Translate"></ToolbarItem>
-                                <ToolbarItem Type="ItemType.Spacer"></ToolbarItem>
-                                <ToolbarItem TooltipText="@TooltipText" Disabled="@HideIcon" Visible="@ShowPryItem">
-                                    <Template>
-                                        <SfButton CssClass="e-control e-btn" @onclick="@OnReGenerate">@ActionText</SfButton>
-                                    </Template>
-                                </ToolbarItem>
-                            </ToolbarItems>
-                        </SfToolbar>
+        <DialogEvents Opened="@onOpen"></DialogEvents>
+        <DialogTemplates>
+            <Header>
+                <h3>@HeaderValue</h3>
+            </Header>
+            <Content>
+                <div class="e-de-parent">
+                    <SfSplitter Height="auto" Orientation="Syncfusion.Blazor.Layouts.Orientation.Vertical">
+                        <SplitterPanes>
+                            <SplitterPane Size="auto" Collapsible="true" Visible="@IsVisibleSplitter">
+                                <ContentTemplate>
+                                    <div style="height: auto; display: flex; flex-direction: column; justify-content: space-between;">
+                                        <div style="padding: 5px; overflow-y: auto; flex-grow: 1;">@EditorInputValue</div>
+                                        <div style="padding-bottom: 0px;">
+                                            <SfToolbar Width="100%">
+                                                <ToolbarItems>
+                                                    <ToolbarItem Type="ItemType.Spacer"></ToolbarItem>
+                                                    <ToolbarItem TooltipText="Move to the previous paragraph" PrefixIcon="e-icons e-chevron-left-small" OnClick="@MoveToPrevious"></ToolbarItem>
+                                                    <ToolbarItem TooltipText="Move to the next paragraph" PrefixIcon="e-icons e-chevron-right-small" OnClick="@MoveToNext"></ToolbarItem>
+                                                    <ToolbarItem Type="ItemType.Spacer"></ToolbarItem>
+                                                </ToolbarItems>
+                                            </SfToolbar>
+                                        </div>
+                                    </div>
+                                </ContentTemplate>
+                            </SplitterPane>
+                            <SplitterPane Size="auto" Collapsible="true">
+                                <ContentTemplate>
+                                    <div id="e-de-editableDiv" contenteditable="true" @onfocus="OnFocus" @onblur="OnBlur" @oninput="InputChange"></div>
+                                </ContentTemplate>
+                            </SplitterPane>
+                        </SplitterPanes>
+                    </SfSplitter>
+                    <div id="e-de-fm-toolbar">
+                        @if (IsVisibleToolBar)
+                        {
+                            <SfToolbar Height="auto" Width="100%">
+                                <ToolbarItems>
+                                    <ToolbarItem TooltipText="Show the previous suggestion" PrefixIcon="e-icons e-chevron-left-small" Disabled="@HideSecIcon" Visible="@ShowPryItem" OnClick="@GetPreSug"></ToolbarItem>
+                                    <ToolbarItem Align="ItemAlign.Left" CssClass="page-count" Visible="@ShowPryItem">
+                                        <Template>
+                                            <SfNumericTextBox Max="100" Min="0" Width="40px" ShowSpinButton=false Value="@CurrentPage" CssClass="e-de-nt-style"></SfNumericTextBox>
+                                            <span class="total-page"> of @NumPage</span>
+                                        </Template>
+                                    </ToolbarItem>
+                                    <ToolbarItem TooltipText="Show the next suggestion" PrefixIcon="e-icons e-chevron-right-small" Disabled="@HideSecIcon" Visible="@ShowPryItem" OnClick="@GetNxtSug"></ToolbarItem>
+                                    <ToolbarItem PrefixIcon="e-icons e-chevron-down-small" Type="ItemType.Input" Visible="@ShowTrnsPryyItem">
+                                        <Template>
+                                            <SfComboBox Width="160px" TValue="string" TItem="Adjust" @bind-Value="@TranslateValue" DataSource="@TranslateList" Readonly="false" PopupWidth="160px" ShowClearButton="false">
+                                                <ComboBoxFieldSettings Value="Text" />
+                                            </SfComboBox>
+                                        </Template>
+                                    </ToolbarItem>
+                                    <ToolbarItem TooltipText="Show menu to modify the format of the response" PrefixIcon="e-icons e-settings" OnClick="@OnItemStgClick" Visible="@ShowPryItem"></ToolbarItem>
+                                    <ToolbarItem TooltipText="Close" PrefixIcon="e-icons e-close" OnClick="@OnItemCancelClick" Visible="@ShowSecnyItem"></ToolbarItem>
+                                    <ToolbarItem TooltipText="Set the tone" PrefixIcon="e-icons e-chevron-down-small" Type="ItemType.Input" Visible="@ShowSecnyItem">
+                                        <Template>
+                                            <SfComboBox Width="125px" TValue="string" TItem="Adjust" @bind-Value="@ToneValue" DataSource="@ToneList" Readonly="false" PopupWidth="125px" ShowClearButton="false">
+                                                <ComboBoxFieldSettings Value="Text" />
+                                            </SfComboBox>
+                                        </Template>
+                                    </ToolbarItem>
+                                    <ToolbarItem TooltipText="Set the format" PrefixIcon="e-icons e-chevron-down-small" Type="ItemType.Input" Visible="@ShowSecnyItem">
+                                        <Template>
+                                            <SfComboBox Width="200px" TValue="string" TItem="Adjust" @bind-Value="@FormatValue" DataSource="@FormatList" Readonly="false" PopupWidth="200px" ShowClearButton="false">
+                                                <ComboBoxFieldSettings Value="Text" />
+                                            </SfComboBox>
+                                        </Template>
+                                    </ToolbarItem>
+                                    <ToolbarItem TooltipText="Set the length" PrefixIcon="e-icons e-chevron-down-small" Type="ItemType.Input" Visible="@ShowSecnyItem">
+                                        <Template>
+                                            <SfComboBox Width="100px" TValue="string" TItem="Adjust" @bind-Value="@LengthValue" DataSource="@LengthList" Readonly="false" PopupWidth="110px" ShowClearButton="false">
+                                                <ComboBoxFieldSettings Value="Text" />
+                                            </SfComboBox>
+                                        </Template>
+                                    </ToolbarItem>
+                                    <ToolbarItem TooltipText="@TooltipTextSec" Disabled="@HideIcon" Visible="@ShowSecnyItem">
+                                        <Template>
+                                            <SfButton CssClass="e-control e-btn" @onclick="@ReGenerate">Rewrite</SfButton>
+                                        </Template>
+                                    </ToolbarItem>
+                                    <ToolbarItem TooltipText="@TooltipText" Text="Translate" Visible="@ShowTrnsPryyItem" OnClick="@Translate"></ToolbarItem>
+                                    <ToolbarItem Type="ItemType.Spacer"></ToolbarItem>
+                                    <ToolbarItem TooltipText="@TooltipText" Disabled="@HideIcon" Visible="@ShowPryItem">
+                                        <Template>
+                                            <SfButton CssClass="e-control e-btn" @onclick="@OnReGenerate">@ActionText</SfButton>
+                                        </Template>
+                                    </ToolbarItem>
+                                </ToolbarItems>
+                            </SfToolbar>
                         }
-                        @if(IsVisibleChips) {
+                        @if (IsVisibleChips)
+                        {
                             <div style="display: flex; justify-content: space-between;">
                                 <div style="width: 35%;">
                                     <SfMultiSelect TItem="Grammer" AllowFiltering="true" TValue="string[]" Placeholder="e.g. Spelling Errors" ShowSelectAll=true Mode="VisualMode.CheckBox" DataSource="@Grammers" EnableSelectionOrder="true" ShowDropDownIcon="true" FilterBarPlaceholder="Search grammar suggestion">
@@ -118,55 +122,37 @@
                                 </div>
                             </div>
                         }
-                        </div>
-                        <div>
-                            <SfSpinner @bind-Visible="@IsVisibleSpinner" />
-                        </div>
-                        </div>
-                    </Content>
-                <FooterTemplate>
-                    <SfButton CssClass="e-control e-btn e-primary" Disabled="@HideSecIcon" @onclick="@OnInsert">@ReplaceButtonText</SfButton>
-                    <SfButton CssClass="e-control e-btn" @onclick="@OnCancel">Cancel</SfButton>
-                </FooterTemplate>
-                </DialogTemplates>
-        </SfDialog>
+                    </div>
+                    <div>
+                        <SfSpinner @bind-Visible="@IsVisibleSpinner" />
+                    </div>
+                </div>
+            </Content>
+            <FooterTemplate>
+                <SfButton CssClass="e-control e-btn e-primary" Disabled="@HideSecIcon" @onclick="@OnInsert">@ReplaceButtonText</SfButton>
+                <SfButton CssClass="e-control e-btn" @onclick="@OnCancel">Cancel</SfButton>
+            </FooterTemplate>
+        </DialogTemplates>
+    </SfDialog>
 </div>
 
 <style>
     .e-de-nt-style {
         padding-left: 7.5px;
     }
-    .total-page {
-        padding-left: 4px;
-        cursor: default;
-        font-size:14px;
-    }
+
     .e-de-navigate {
         padding: 0px;
     }
+
     .e-switch {
         height: 8%;
         width: 15%;
     }
-     .e-de-parent {
-        height: auto;
-        width: 100%;
-    }
-     #e-de-editableDiv {
-        width: 100%;
-        border: none;
-        overflow-y: auto;
-        padding: 5px;
-    }
-    #e-de-fm-toolbar {
-        height: auto;
-        width: 100%;
-        margin-top: 12px;
-        position: relative;
-    }
+
 </style>
 
-    @code {
+@code {
     public enum PopupTypeEnum
     {
         Generate,
@@ -213,7 +199,7 @@
     public int? CurrentPage { get; set; } = 0;
     private bool IsVisibleToolBar = true;
     private bool IsVisibleChips = false;
-    public string[] FilterSelected = {};
+    public string[] FilterSelected = { };
     private string DialogValue = string.Empty;
     private string SplitterHeight = "80%";
     private string SplitterPaneHeight = "100%";
@@ -246,7 +232,7 @@
 
     };
     public class Adjust
-    {  
+    {
         public string? ID { get; set; }
         public string? Text { get; set; }
     }
@@ -292,7 +278,8 @@
     private void ValueChangeHandler(MultiSelectChangeEventArgs<string[]> args)
     {
         string[] addedChipItem = args.Value;
-        if (addedChipItem != null && addedChipItem.Length > 0) {
+        if (addedChipItem != null && addedChipItem.Length > 0)
+        {
             this.FilterSelected = addedChipItem;
         }
     }
@@ -335,7 +322,8 @@
             }
         }
     }
-    private async Task GenerateContent() {
+    private async Task GenerateContent()
+    {
         this.ReplaceButtonText = "Insert";
         this.IsVisibleDialog = true;
         this.IsVisibleSpinner = true;
@@ -360,7 +348,8 @@
         this.IsVisibleSpinner = false;
         StateHasChanged();
     }
-    private async Task RewriteContent() {
+    private async Task RewriteContent()
+    {
         this.ReplaceButtonText = "Replace";
         this.IsVisibleDialog = true;
         this.IsVisibleSpinner = true;
@@ -372,7 +361,8 @@
         this.IsVisibleSpinner = false;
         StateHasChanged();
     }
-    private async Task TranslateContent() {
+    private async Task TranslateContent()
+    {
         this.ReplaceButtonText = "Replace";
         this.IsVisibleDialog = true;
         this.IsVisibleSpinner = true;
@@ -382,7 +372,8 @@
         await this.SetTextContent(this.InputText);
         this.IsVisibleSpinner = false;
     }
-    private async Task GrammarCheck() {
+    private async Task GrammarCheck()
+    {
         this.ReplaceButtonText = "Replace";
         this.IsVisibleDialog = true;
         this.IsVisibleSpinner = true;
@@ -394,14 +385,16 @@
         await this.SetTextContent(this.InputText);
         await this.OnGrammerCheck();
         this.IsVisibleSpinner = false;
-        if (JS != null) {
-                await JS.InvokeVoidAsync("setDialogDivHeight", "");
+        if (JS != null)
+        {
+            await JS.InvokeVoidAsync("setDialogDivHeight", "");
         }
         StateHasChanged();
     }
     private async Task SetDefValue(string type)
     {
-        if (JS != null) {
+        if (JS != null)
+        {
             await JS.InvokeVoidAsync("clearDivContent");
         }
         this.IsVisibleToolBar = true;
@@ -416,7 +409,8 @@
         this.ShowPryItem = true;
         this.ShowSecnyItem = false;
         this.TranslateValue = "French";
-        if (type == "gc") {
+        if (type == "gc")
+        {
             this.SplitterPaneHeight = "100%";
             this.ActionText = "Generate";
             this.TooltipText = "Generate the new content based on the provided text";
@@ -425,10 +419,13 @@
             this.IsRephraseContent = false;
             this.ShowTrnsPryyItem = false;
             this.HeaderValue = "Generate Content";
-            if (JS != null) {
+            if (JS != null)
+            {
                 await JS.InvokeVoidAsync("setDialogDivHeight", "Generate");
             }
-        } else if (type == "cr") {
+        }
+        else if (type == "cr")
+        {
             this.SplitterPaneHeight = "50%";
             this.ActionText = "Rewrite";
             this.TooltipText = "Replace the content into the document";
@@ -437,10 +434,13 @@
             this.IsContentGenerte = false;
             this.IsRephraseContent = true;
             this.ShowTrnsPryyItem = false;
-            if (JS != null) {
+            if (JS != null)
+            {
                 await JS.InvokeVoidAsync("setDialogDivHeight", "");
             }
-        } else if (type == "translate") {
+        }
+        else if (type == "translate")
+        {
             this.SplitterPaneHeight = "50%";
             this.TooltipText = "Translate the content to the selected language";
             this.HeaderValue = "AI Translate";
@@ -449,7 +449,8 @@
             this.ShowPryItem = false;
             this.ShowTrnsPryyItem = true;
             this.ShowSecnyItem = false;
-            if (JS != null) {
+            if (JS != null)
+            {
                 await JS.InvokeVoidAsync("setDialogDivHeight", "");
             }
         }
@@ -462,7 +463,8 @@
 
     private async Task OnFocus()
     {
-        if (JS != null) {
+        if (JS != null)
+        {
             await JS.InvokeVoidAsync("removePlaceholder", this.PlcHoldText);
         }
     }
@@ -472,61 +474,77 @@
     }
     private async Task OnBlur()
     {
-        if (JS != null) {
+        if (JS != null)
+        {
             await JS.InvokeVoidAsync("setPlaceholder", this.PlcHoldText);
         }
     }
-    private async Task GetPreSug() {
+    private async Task GetPreSug()
+    {
         int CurrentIndex = this.CROutList.IndexOf(this.CROutText);
-        if (CurrentIndex - 1 >= 0) {
+        if (CurrentIndex - 1 >= 0)
+        {
             this.CROutText = this.CROutList[CurrentIndex - 1];
         }
         await this.SetHtmlContent(this.CROutText);
         this.UpdateIndex();
     }
-    private async Task GetNxtSug() {
+    private async Task GetNxtSug()
+    {
         int CurrentIndex = this.CROutList.IndexOf(this.CROutText);
-        if (CurrentIndex + 1 < this.CROutList.Count) {
+        if (CurrentIndex + 1 < this.CROutList.Count)
+        {
             this.CROutText = this.CROutList[CurrentIndex + 1];
         }
         await this.SetHtmlContent(this.CROutText);
         this.UpdateIndex();
     }
-    private async Task MoveToNext() {
+    private async Task MoveToNext()
+    {
         await OnChange.InvokeAsync("MoveToNextPara");
         this.EditorInputValue = this.InputText;
     }
-    private async Task MoveToPrevious() {
+    private async Task MoveToPrevious()
+    {
         await OnChange.InvokeAsync("MoveToPreviousPara");
         this.EditorInputValue = this.InputText;
     }
-    private void UpdateIndex() {
+    private void UpdateIndex()
+    {
         this.CurrentPage = this.CROutList.IndexOf(this.CROutText) + 1;
         this.NumPage = this.CROutList.Count.ToString();
         StateHasChanged();
     }
-    public async Task<string> GetTextContent () {
-        if (JS != null) {
+    public async Task<string> GetTextContent()
+    {
+        if (JS != null)
+        {
             return await JS.InvokeAsync<string>("getTextContent");
         }
         return string.Empty;
     }
 
-    public async Task SetTextContent (string text) {
-        if (JS != null) {
+    public async Task SetTextContent(string text)
+    {
+        if (JS != null)
+        {
             await JS.InvokeVoidAsync("setTextContent", text);
         }
     }
 
-    public async Task<string> GetHtmlContent () {
-        if (JS != null) {
+    public async Task<string> GetHtmlContent()
+    {
+        if (JS != null)
+        {
             return await JS.InvokeAsync<string>("getHtmlContent");
         }
         return string.Empty;
     }
 
-    public async Task SetHtmlContent (string text) {
-        if (JS != null) {
+    public async Task SetHtmlContent(string text)
+    {
+        if (JS != null)
+        {
             await JS.InvokeVoidAsync("setHtmlContent", text);
         }
     }
@@ -540,66 +558,83 @@
         this.ShowPryItem = true;
         this.ShowSecnyItem = false;
     }
-    private async Task ReGenerate() {
+    private async Task ReGenerate()
+    {
         this.HideIcon = false;
         await this.OnRepharse();
     }
-    private async Task Translate() {
+    private async Task Translate()
+    {
         this.IsVisibleSpinner = true;
         string text = await this.GetTextContent();
-        if (text == "") {
+        if (text == "")
+        {
             return;
-        } 
+        }
         string SystemPrompt = $"You are a helpful assistant. Your task is to translate the provided text into `{this.TranslateValue}`. Always respond in proper HTML format, excluding <html> and <head> tags.";
         string Out = await RephraseText(SystemPrompt, text);
         await this.SetHtmlContent(Out);
         this.CROutText = Out;
-        if (this.CROutText == "") {
+        if (this.CROutText == "")
+        {
             this.HideSecIcon = true;
-        } else {
+        }
+        else
+        {
             this.HideSecIcon = false;
         }
         this.IsVisibleSpinner = false;
     }
-    private async Task OnReGenerate() {
+    private async Task OnReGenerate()
+    {
         this.HideIcon = false;
-        if (await this.OnRepharse()) {
+        if (await this.OnRepharse())
+        {
             this.ActionText = "Rewrite";
             this.TooltipText = "Insert the content into the document";
         }
     }
-    private async Task OnInsert() {
+    private async Task OnInsert()
+    {
         PreviousType = string.Empty;
         await OnChange.InvokeAsync(this.CROutText);
         this.CROutText = string.Empty;
         this.CROutList.Clear();
-        if (JS != null) {
+        if (JS != null)
+        {
             await JS.InvokeVoidAsync("clearDivContent");
         }
         this.IsVisibleDialog = false;
         StateHasChanged();
     }
-    private async Task<bool> OnRepharse() {
+    private async Task<bool> OnRepharse()
+    {
         this.IsVisibleSpinner = true;
         string text = await this.GetTextContent();
-        if (text == "") {
+        if (text == "")
+        {
             return false;
-        }    
+        }
         this.CRInText = text;
         this.CROutText = string.Empty;
         this.CROutList.Clear();
         string SystemPrompt = string.Empty;
-        if (this.IsRephraseContent) {
+        if (this.IsRephraseContent)
+        {
             SystemPrompt = $"You are a helpful assistant. Your task is to analyze the provided text and rephrase it. Please adjust the text to reflect a tone of '{this.ToneValue}', formatted in '{this.FormatValue}' style, and maintain a length of '{this.LengthValue}'. Always respond in proper HTML format, excluding <html>, <head>, and <body> tags.";
-        } else if (this.IsContentGenerte) {
+        }
+        else if (this.IsContentGenerte)
+        {
             this.IsContentGenerte = false;
             this.IsRephraseContent = true;
             SystemPrompt = $"You are a helpful assistant. Your task is to generate content based on the provided text. Please adjust the content to reflect a tone of '{this.ToneValue}', formatted in '{this.FormatValue}' style, and maintain a length of '{this.LengthValue}'. Always respond in proper HTML format, excluding <html>, <head>, and <body> tags.";
         }
         StateHasChanged();
-        for (int i = 0; i < 3; i++) {
+        for (int i = 0; i < 3; i++)
+        {
             string Out = await RephraseText(SystemPrompt, text);
-            if (!this.CROutList.Contains(Out)) {
+            if (!this.CROutList.Contains(Out))
+            {
                 this.CROutList.Add(Out);
             }
         }
@@ -607,94 +642,162 @@
         this.CROutText = this.CROutList[0];
         this.UpdateIndex();
         this.IsVisibleSpinner = false;
-        if (this.CROutList.Count == 0) {
+        if (this.CROutList.Count == 0)
+        {
             this.HideSecIcon = true;
-        } else {
+        }
+        else
+        {
             this.HideSecIcon = false;
         }
         return true;
     }
-    private async Task OnInsertTrnsText() {
+    private async Task OnInsertTrnsText()
+    {
         await this.OnInsert();
     }
-    private async Task OnReCheck() {
+    private async Task OnReCheck()
+    {
         await this.OnGrammerCheck();
     }
-    private async Task OnGrammerCheck() {
+    private async Task OnGrammerCheck()
+    {
         this.IsVisibleSpinner = true;
-        string SystemPrompt = string.Empty;
+        string systemPrompt = string.Empty;
         string value = string.Empty;
-        string text = await this.GetTextContent();
-        if (text == "") {
-            text = this.InputText;
+        string userPrompt = await this.GetTextContent();
+        if (userPrompt == "")
+        {
+            userPrompt = this.InputText;
         }
-        if (this.FilterSelected.Length > 0) {
-            foreach (var item in this.FilterSelected) {
+        if (this.FilterSelected.Length > 0)
+        {
+            foreach (var item in this.FilterSelected)
+            {
                 value += item + ", ";
             }
-            SystemPrompt = $"You are a helpful assistant. Your task is to analyze the provided text and perform the following grammar checks: {value}. Please ensure that the revised text reflects these corrections. Always respond in proper HTML format, but do not include <html>, <head>, or <body> tags.";
-        } else {
-            SystemPrompt = $"You are a helpful assistant. Your task is to analyze the provided text, check for and correct any grammatical errors, and rephrase it. Always respond in proper HTML format, but do not include <html>, <head>, or <body> tags.";
+            systemPrompt = $"You are a helpful assistant. Your task is to analyze the provided text and perform the following grammar checks: {value}. Please ensure that the revised text reflects these corrections. Always respond in proper HTML format, but do not include <html>, <head>, or <body> tags.";
         }
-        string Out = await OpenAIService.GetCompletionAsync(text, false, false, SystemPrompt);
+        else
+        {
+            systemPrompt = $"You are a helpful assistant. Your task is to analyze the provided text, check for and correct any grammatical errors, and rephrase it. Always respond in proper HTML format, but do not include <html>, <head>, or <body> tags.";
+        }
+        string Out = await OpenAIService.GetCompletionAsync(userPrompt, false, false, systemPrompt);
         this.CROutText = Out;
-        if (Out == "") {
+        if (Out == "")
+        {
             this.HideSecIcon = true;
-        } else {
+        }
+        else
+        {
             this.HideSecIcon = false;
         }
         await this.SetHtmlContent(Out);
         this.IsVisibleSpinner = false;
     }
-    private async Task OnCancel() {
+    private async Task OnCancel()
+    {
         PreviousType = string.Empty;
         this.IsVisibleDialog = false;
-        if (JS != null) {
+        if (JS != null)
+        {
             await JS.InvokeVoidAsync("clearDivContent");
         }
         StateHasChanged();
     }
-    public async Task Initialize(string[] chunks)
+    public async Task CreateEmbeddingChunks(string[] chunks)
     {
-
-        var embedder = new LocalEmbedder();
         PageEmbeddings = chunks.Select(x => KeyValuePair.Create(x, embedder.Embed(x))).ToDictionary(k => k.Key, v => v.Value);
-
     }
-    public async Task<string> GetResponseFromOpenAI(string SystemPrompt, string message)
+    public async Task<string> GetResponseFromOpenAI(string systemPrompt, string message)
     {
-        return await OpenAIService.GetCompletionAsync(message, false, false, SystemPrompt);
+        return await OpenAIService.GetCompletionAsync(message, false, false, systemPrompt);
     }
 
     public async Task LoadDocument(string document)
     {
         extractedText.Clear();
         extractedText.Add(document);
-        await this.Initialize(extractedText.ToArray());
-
+        await this.CreateEmbeddingChunks(extractedText.ToArray());
     }
 
     public async Task<string> GetDocumentSummary()
     {
-        var text = extractedText.Take(1);
-
-        return await OpenAIService.GetCompletionAsync(String.Join(" ", text),false, false,"You are a helpful assistant. Your task is to analyze the provided text and generate short summary. Always respond in proper HTML format, but do not include <html>, <head>, or <body> tags.");
+        var userPrompt = extractedText.Take(1);
+        string systemPrompt = "You are a helpful assistant. Your task is to analyze the provided text and generate short summary. Always respond in proper HTML format, but do not include <html>, <head>, or <body> tags.";
+        return await OpenAIService.GetCompletionAsync(String.Join(" ", userPrompt), false, false, systemPrompt);
     }
 
-    public async Task<string> RephraseText(string systemPrompt, string text)
+    public async Task<string> RephraseText(string systemPrompt, string userPrompt)
     {
-
-        return await OpenAIService.GetCompletionAsync(text, false, false, systemPrompt);
+        return await OpenAIService.GetCompletionAsync(userPrompt, false, false, systemPrompt);
     }
 
 
-    public async Task<string> GetAnswer(string SystemPrompt, string question)
+    public async Task<string> GetAnswer(string systemPrompt, string question)
     {
-        var embedder = new LocalEmbedder();
         var questionEmbedding = embedder.Embed(question);
         var results = LocalEmbedder.FindClosest(questionEmbedding, PageEmbeddings.Select(x => (x.Key, x.Value)), 2);
-        var answer = await OpenAIService.GetCompletionAsync(question, false, false, SystemPrompt + string.Join(" --- ", results));
+        var answer = await OpenAIService.GetCompletionAsync(question, false, false, systemPrompt + string.Join(" --- ", results));
         return answer;
     }
 
 }
+<script>
+    window.setDialogDivHeight = (element) => {
+        var qusElement = document.getElementById('e-de-qus-pane');
+        var ansElement = document.getElementById('e-de-editableDiv');
+        if (element === 'Generate' && ansElement) {
+            ansElement.style.height = '100px';
+        } else if (qusElement && ansElement) {
+            qusElement.style.height = '75px';
+            ansElement.style.height = '75px';
+        }
+    }
+    window.getTextContent = () => {
+        var element = document.getElementById('e-de-editableDiv');
+        if (element) {
+            return element.textContent ? element.textContent.trim() : '';
+        }
+    };
+    window.getHtmlContent = () => {
+        var element = document.getElementById('e-de-editableDiv');
+        if (element) {
+            return element.innerHTML;
+        }
+    };
+    window.setTextContent = (text) => {
+        var element = document.getElementById('e-de-editableDiv');
+        if (element) {
+            element.textContent = text;
+        }
+    };
+    window.setHtmlContent = (html) => {
+        var element = document.getElementById('e-de-editableDiv');
+        if (element) {
+            element.innerHTML = html;
+        }
+    };
+    window.clearDivContent = () => {
+        var element = document.getElementById('e-de-editableDiv');
+        if (element) {
+            element.innerHTML = '';
+        }
+    };
+    window.setPlaceholder = (placeholderText) => {
+        var element = document.getElementById('e-de-editableDiv');
+        if (element && element.innerText.trim() === '') {
+            element.innerText = placeholderText;
+            element.classList.add('placeHoldr');
+        }
+    };
+    window.removePlaceholder = (placeholderText) => {
+        var element = document.getElementById('e-de-editableDiv');
+        if (element) {
+            if (element.innerText === placeholderText) {
+                element.innerText = '';
+                element.classList.remove('placeHoldr');
+            }
+        }
+    };
+</script>

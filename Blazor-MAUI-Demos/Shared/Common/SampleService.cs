@@ -248,15 +248,11 @@ namespace Blazor_MAUI_Demos.Shared
                     }
                     this.ComponentName = controlInfo.Name;
                     this.CurrentSampleUrl = this.SampleInfo.Url;
-#if NET6_0 || NET7_0
                     var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
                     {
                         ["theme"] = "fluent"
                     });
                     urlHelper.NavigateTo(newUri);
-#else
-                    urlHelper.NavigateTo(SampleInfo.Url.ToLower() + "?theme=fluent");
-#endif
 
                 }
             }
@@ -311,5 +307,10 @@ namespace Blazor_MAUI_Demos.Shared
             }
         }
 
+        // To handle external link navigation in the iOS app
+        public async Task HandleClickAsync(string url)
+        {
+            await Browser.Default.OpenAsync(url, BrowserLaunchMode.SystemPreferred);
+        }
     }
 }

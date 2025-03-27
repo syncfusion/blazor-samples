@@ -12,6 +12,7 @@
 @using Syncfusion.Blazor.Data
 @using Syncfusion.Blazor.Lists
 @inject NavigationManager Navigation
+@inject IJSRuntime JSRunTime
 @inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
 @using ej2_blazor_ganttdata;
 @using global::Overview.Pages;
@@ -22,186 +23,243 @@
     <p>This sample shows an overview of the <a aria-label="Navigate to the explore Syncfusion Blazor gantt chart component" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-gantt-chart'>Blazor Gantt Chart</a> features that visualize the progress of each feature of the product towards its release and make it easier to monitor the scheduling of the dependent items.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example shows the three-quarter release planning of product features rendered in the Blazor Gantt chart. It tracks the quarterly release planning of product status, resources, and task scheduling.</p>
-    <p>Blazor Gantt Chart features such as <a aria-label="Navigate to the documentation for sorting in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/sorting'>Sorting</a>, <a aria-label="Navigate to the documentation for filtering in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/filtering'>Filtering</a>, <a aria-label="Navigate to the documentation for column resizing in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-resizing'>Column resizing</a>, <a aria-label="Navigate to the documentation for column menu in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-menu'>Column menu</a>, <a aria-label="Navigate to the documentation for taskbar template in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/templates#taskbar-template'>Taskbar template</a>, and so on are used in this demo.</p>
+    <p>This example showcases the e-commerce platform redesign project visualized in the Blazor Gantt Chart. It provides a clear roadmap for the redesign process, tracking key milestones, task progress, resource allocation, and deadlines. With this interactive timeline, teams can efficiently manage the entire revamp from initial planning to final deployment ensuring a seamless and successful transformation of the e-commerce platform.</p>
+    <p>Blazor Gantt Chart features such as <a aria-label="Navigate to the documentation for sorting in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/sorting'>Sorting</a>, <a aria-label="Navigate to the documentation for filtering in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/filtering'>Filtering</a>, <a aria-label="Navigate to the documentation for column resizing in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-resizing'>Column resizing</a>, <a aria-label="Navigate to the documentation for column menu in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-menu'>Column menu</a>, and so on are used in this demo.</p>
 </ActionDescription>
 
-<div class="col-lg-12 control-section">
-    <div class="content-wrapper">
-        <div class="row">
-            <div>
-            <SfGantt @ref="GanttInstance" RowHeight=RowHeightValue ID="GanttOverview" AllowExcelExport="true" AllowPdfExport="true" TaskbarHeight=TaskbarHeightValue DataSource="TaskCollection" TreeColumnIndex="1" ViewType="@SelectedViewType" Height="450px" Width="100%"
-                         GridLines="@gridlines" WorkWeek="@WorkWeekDays" WorkUnit="WorkUnit.Hour" HighlightWeekends="true" Toolbar="Toolbaritems"
-                         AllowFiltering="true" AllowResizing="true" AllowSorting="true" ShowColumnMenu="true" ScrollToTaskbarOnClick="true" AllowUnscheduledTasks="true" DurationUnit="@DurationValue" EnableRowHover="true" EnableCriticalPath="@IsCriticalPathEnabled" EnableContextMenu="true">
-                     @if(!ShowDependency)
-                     {
-                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
-                                 Duration="TimeLog" Progress="Progress" ParentID="ParentId">
-                        </GanttTaskFields>
-                    }
-                    else if(IsCustomSchedulingEnabled)
+<div class="col-lg-12 control-section e-gantt-overview-sample">
+    <div class="content-wrapper e-gantt-overview-sample-wrapper">
+        <div class="row e-gantt-overview-sample-row">
+                <SfGantt @ref="GanttInstance" ID="GanttOverview" DataSource="TaskCollection" Height="100%" Width="100%" ScrollToTaskbarOnClick="true" TreeColumnIndex="1" RowHeight="@RowHeightValue"
+                         TValue="OverviewData.TaskData" Toolbar="Toolbaritems" AllowExcelExport="true" AllowPdfExport="true" GridLines="@gridlines" EnableCriticalPath="@IsCriticalPathEnabled"
+                         WorkWeek="@WorkWeekDays" WorkUnit="WorkUnit.Hour" HighlightWeekends="true" DurationUnit="@DurationValue" EnableRowHover="true" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" AutoCalculateDateScheduling="true" EnablePredecessorValidation="true"
+                         ViewType="@SelectedViewType" AllowSorting="true" AllowFiltering="true" EnableContextMenu="true" AllowResizing="true">
+
+                    @if (!ShowDependency)
                     {
-                        <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
-                                         Duration="TimeLog" Dependency="Predecessor" Progress="Progress" ParentID="ParentId" Manual="IsManual">
+                        <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Progress="Progress" ParentID="ParentId" Notes="Notes">
                         </GanttTaskFields>
                     }
-                     else
-                     {
-                         <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Work="Work"
-                                 Duration="TimeLog" Dependency="Predecessor" Progress="Progress" ParentID="ParentId">
+                    else if (IsCustomSchedulingEnabled)
+                    {
+                        <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Progress="Progress" ParentID="ParentId" Dependency="Dependencies" Manual="IsManual" Notes="Notes">
                         </GanttTaskFields>
-                     }
-                    
-                    <GanttEditSettings AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
-                    <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit" TValue="OverviewData.TaskData" TResources="OverviewData.ResourceInfoModel"></GanttResource>
-                    <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="Id" TaskID="TaskId" ResourceID="ResourceId" Units="Unit" TValue="OverviewData.TaskData" TAssignment="OverviewData.AssignmentModel"></GanttAssignmentFields>
-                    <GanttSegmentFields DataSource="SegmentCollection" PrimaryKey="id" ForeignKey="TaskId" StartDate="StartDate" EndDate="EndDate" Duration="Duration" TValue="OverviewData.TaskData" TSegments="OverviewData.SegmentModel"></GanttSegmentFields>
+                    }
+                    else
+                    {
+                        <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Dependency="Dependencies" Progress="Progress" ParentID="ParentId" Notes="Notes">
+                        </GanttTaskFields>
+                    }
                     <GanttColumns>
-                        <GanttColumn Field="TaskId" Visible="false"></GanttColumn>
-                        <GanttColumn Field="TaskName" Width="250" HeaderText="Product Release" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" IsFrozen="true" Freeze="FreezeDirection.Left"></GanttColumn>
-                        <GanttResourceColumn HeaderText="Assignee" Width="130" AllowEditing ="false" AllowFiltering="false" AllowSorting="false" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip">
+                        <GanttColumn Field="Id" HeaderText="Task TaskId" Visible="false" />
+                        <GanttColumn Field="Task" HeaderText="Task Name" Width="280" ClipMode="ClipMode.EllipsisWithTooltip"/>
+
+                        <GanttColumn Field="Assignee" HeaderText="Assigned Person" ClipMode="ClipMode.EllipsisWithTooltip">
                             <Template>
                                 @{
-                                    var task = (context as OverviewData.TaskData);
-                                    var resource = GanttInstance.GetResources<OverviewData.ResourceInfoModel>(task);
-                                    string name = string.Empty;
-                                    if(resource != null && resource.Any())
+                                    var task = (OverviewData.TaskData)context;
+                                }
+                                <div class="assignee-column" style="display: flex; flex-direction: column; justify-content: center; height: 100%;">
+                                    <strong>@task.Assignee</strong>
+                                    <span style="font-size: smaller; color: gray;">@task.Department</span>
+                                </div>
+                            </Template>
+                        </GanttColumn>
+                        <GanttColumn Field="StartDate" HeaderText="Start Date" Width="100" ClipMode="ClipMode.EllipsisWithTooltip"/>
+                        <GanttColumn Field="EndDate" HeaderText="End Date" Width="100" ClipMode="ClipMode.EllipsisWithTooltip"/>
+                        <GanttColumn Field="Priority" HeaderText="Task Priority" ClipMode="ClipMode.EllipsisWithTooltip">
+                            <Template>
+                                @{
+                                    var employee = (context as OverviewData.TaskData);
+                                    if (employee.Priority == "Medium")
                                     {
-                                        name = resource[0].Name;
-                                        <div class="image">
-                                            <img style="height:25px; width:25px" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{name.Trim().Replace(" ","").ToLower()}.png")" aria-label="Profile Picture" />
-                                            <span>@name</span>
+                                        <div class="statustemp e-activecolor">
+                                            <span class="statustxt e-activecolor">@employee.Priority</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="statustemp e-inactivecolor">
+                                            <span class="statustxt e-inactivecolor">@employee.Priority</span>
                                         </div>
                                     }
                                 }
                             </Template>
-                        </GanttResourceColumn>
-                        <GanttColumn Field="Status" HeaderText="Status" MinWidth="100" Width="120" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left">
+                        </GanttColumn>
+                        <GanttColumn Field="Budget" HeaderText="Allocated Budget ($)" TextAlign="TextAlign.Right" Format="C2" ClipMode="ClipMode.EllipsisWithTooltip" Type="ColumnType.Double" />
+                        <GanttColumn Field="ActualCost" HeaderText="Spent Budget  ($)" TextAlign="TextAlign.Right" Format="C2" ClipMode="ClipMode.EllipsisWithTooltip" Type="ColumnType.Double" />
+                        <GanttColumn Field="Progress" HeaderText="Completion (%)" TextAlign="TextAlign.Right" ClipMode="ClipMode.EllipsisWithTooltip"/>
+                        <GanttColumn Field="Status" HeaderText="Status" Width="120" />
+                        <GanttColumn Field="Dependencies" HeaderText="Related Tasks" Width="100" ClipMode="ClipMode.EllipsisWithTooltip" />
+                        <GanttColumn Field="Risks" HeaderText="Risk Level" ClipMode="ClipMode.EllipsisWithTooltip">
                             <Template>
                                 @{
-                                    string statusString = (context as OverviewData.TaskData).Status;
-                                    if (!string.IsNullOrEmpty(statusString))
+                                    var employee = (context as OverviewData.TaskData);
+                                    if (employee.Risks == "Low")
                                     {
-                                        string statusStyle = GetStatusContentStyles(statusString);
-                                        <div><span style="@statusStyle">@statusString</span></div>
+                                        <div class="statustemp e-lowcolor">
+                                            <span class="statustxt e-lowcolor">@employee.Risks</span>
+                                        </div>
+                                    }
+                                    else if (employee.Risks == "Medium")
+                                    {
+                                        <div class="statustemp e-activecolor">
+                                            <span class="statustxt e-activecolor">@employee.Risks</span>
+                                        </div>
+                                    }
+                                    else
+                                    {
+                                        <div class="statustemp e-inactivecolor">
+                                            <span class="statustxt e-inactivecolor">@employee.Priority</span>
+                                        </div>
                                     }
                                 }
                             </Template>
                         </GanttColumn>
-                        <GanttColumn Field="Priority" HeaderText="Priority" MinWidth="80" Width="140" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Left">
-                            <Template>
+                        <GanttColumn Field="Category" HeaderText="Task Category" ClipMode="ClipMode.EllipsisWithTooltip" />
+                        <GanttColumn Field="Location" HeaderText="Work Location" ClipMode="ClipMode.EllipsisWithTooltip"/>
+                        <GanttColumn Field="TechStack" HeaderText="Technology Stack" ClipMode="ClipMode.EllipsisWithTooltip" />
+                        <GanttColumn Field="EstimatedStoryPoints" HeaderText="Story Points" ClipMode="ClipMode.EllipsisWithTooltip" Width="120px" TextAlign=TextAlign.Right Type="ColumnType.Integer" />
+                        <GanttColumn Field="Initiative" HeaderText="Initiative" ClipMode="ClipMode.EllipsisWithTooltip"/>
+                        <GanttColumn Field="PriorityLevel" HeaderText="Strategic Priority" ClipMode="ClipMode.EllipsisWithTooltip" />
+                    </GanttColumns>
+                    <GanttTimelineSettings>
+                        <GanttTopTierSettings Unit="TimelineViewMode.Month"></GanttTopTierSettings>
+                        <GanttBottomTierSettings Unit="TimelineViewMode.Day" Count="3"></GanttBottomTierSettings>
+                    </GanttTimelineSettings>
+                    <GanttSplitterSettings ColumnIndex="4"></GanttSplitterSettings>
+                    @if (IsTaskLabelsVisible)
+                    {
+                        <GanttLabelSettings TValue="OverviewData.TaskData">
+                            <RightLabelTemplate>
                                 @{
-                                    string priorityString = (context as OverviewData.TaskData).Priority;
-                                    if (!string.IsNullOrEmpty(priorityString))
+                                    var taskData = context as OverviewData.TaskData;
+                                    if (taskData.Assignee != null)
                                     {
-                                        string statusStyle = this.GetPriorityContentStyle(priorityString);
-                                        <div><span style="@statusStyle">@priorityString</span></div>
+                                        int randomIndex = 0;
+                                        if (taskData.Id % 2 == 0)
+                                        {
+                                            randomIndex = 0;
+                                        }
+                                        else if (taskData.Id % 3 == 0)
+                                        {
+                                            randomIndex = 1;
+                                        }
+                                        else if (taskData.Id % 2 != 0)
+                                        {
+                                            randomIndex = 2;
+                                        }
+                                        else if (taskData.Id % 3 != 0)
+                                        {
+                                            randomIndex = 3;
+                                        }
+                                        var randomItem = OverviewData.GetResources[randomIndex];
+
+                                        // Get the random name
+                                        string resourceName = randomItem.Name.Trim().Replace(" ", "").ToLower();
+                                        <div class="e-right-label-inner-div">
+                                            <img class="e-label image" role="presentation"
+                                                 src="@Navigation.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png")" alt="@resourceName" />
+
+                                        </div>
                                     }
                                 }
-                            </Template>
-                    </GanttColumn>
-                    <GanttColumn Field="Work" HeaderText="Planned Hours" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="180"></GanttColumn>
-                    <GanttColumn Field="TimeLog" HeaderText="Work Log" Width="140"></GanttColumn>
-                </GanttColumns>
-                @if (IsTaskLabelsVisible)
-                {
-                    <GanttLabelSettings TValue="OverviewData.TaskData" TaskLabel="Progress">
-                        <RightLabelTemplate>
-                            <div class="e-right-label-inner-div" style="height: @LabelHeight;left: 516px;">
-                                @{
-                                        var record = (context as OverviewData.TaskData);
-                                        var resources = GanttInstance.GetResources<OverviewData.ResourceInfoModel>(record);
-                                        if (resources != null && resources.Any())
-                                        {
-                                            <span class="e-label">@resources[0].Name</span>
-                                        }
-                                }
-                                
-                            </div>
-                        </RightLabelTemplate>
-                    </GanttLabelSettings>
-                }
-                else
-                {
-                    <GanttLabelSettings TValue="OverviewData.TaskData" TaskLabel="Progress"></GanttLabelSettings>
-                }
-                
-                <GanttEventMarkers>
-                    @if (IsEventMarkerVisible)
-                    {
-                        <GanttEventMarker Day="@VolumeOneReleaseDate" Label="Q-1 Release"
-                                          CssClass="e-custom-event-marker"></GanttEventMarker>
-                        <GanttEventMarker Day="@VolumeTwoReleaseDate" Label="Q-2 Release"
-                                          CssClass="e-custom-event-marker"></GanttEventMarker>
-                        <GanttEventMarker Day="@VolumeThreeReleaseDate" Label="Q-3 Release"
-                                          CssClass="e-custom-event-marker"></GanttEventMarker>
+                            </RightLabelTemplate>
+                            <TaskLabelTemplate>
+                                <div class="e-task-label-inner-div progress-label">
+                                    <span class="e-task-label">@((context as OverviewData.TaskData).Progress)%</span>
+                                </div>
+                            </TaskLabelTemplate>
+                        </GanttLabelSettings>
+                    }else{
+                        <GanttLabelSettings TValue="OverviewData.TaskData">
+                            <TaskLabelTemplate>
+                                <div class="e-task-label-inner-div progress-label">
+                                    <span class="e-task-label">@((context as OverviewData.TaskData).Progress)%</span>
+                                </div>
+                            </TaskLabelTemplate>
+                        </GanttLabelSettings>
                     }
-
-                </GanttEventMarkers>
-                         <GanttHolidays>
-                        <GanttHoliday From="@ChristmasStartDate" To="@ChristmasEndDate" Label="Christmas holidays"></GanttHoliday>
-                        <GanttHoliday From="@NewYearHoliday1" To="@NewYearHoliday2" Label="New year's' holiday"></GanttHoliday>
-                    </GanttHolidays>
-
-                    
+                    <GanttEventMarkers>
+                        @if (IsEventMarkerVisible)
+                        {
+                            <GanttEventMarker Day="@VolumeOneReleaseDate" Label="Kickoff Meeting"
+                                              CssClass="e-custom-event-marker"></GanttEventMarker>
+                            <GanttEventMarker Day="@VolumeTwoReleaseDate" Label="Design Phase Completed"
+                                              CssClass="e-custom-event-marker"></GanttEventMarker>
+                            <GanttEventMarker Day="@VolumeThreeReleaseDate" Label="Deployment"
+                                              CssClass="e-custom-event-marker"></GanttEventMarker>
+                        }
+                    </GanttEventMarkers>
+                    <GanttHolidays>
+                            @{
+                                foreach (var holiday in OverviewData.HolidayCollection)
+                                {
+                                    <GanttHoliday From="holiday.Date" To="holiday.Date" Label="@holiday.HolidayName"></GanttHoliday>
+                                }
+                            }
+                        </GanttHolidays>
+                    <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit" TValue="OverviewData.TaskData" TResources="OverviewData.ResourceInfoModel"></GanttResource>
+                    <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="Id" TaskID="TaskId" ResourceID="ResourceId" Units="Unit" TValue="OverviewData.TaskData" TAssignment="OverviewData.AssignmentModel"></GanttAssignmentFields>
+                    <GanttSegmentFields DataSource="SegmentCollection" PrimaryKey="id" ForeignKey="TaskId" StartDate="StartDate" EndDate="EndDate" Duration="Duration" TValue="OverviewData.TaskData" TSegments="OverviewData.SegmentModel"></GanttSegmentFields>
                     <GanttTimelineSettings TimelineUnitSize="@DefaultUnitWidth">
                         <GanttTopTierSettings Unit="TimelineViewMode.Month"></GanttTopTierSettings>
                         <GanttBottomTierSettings Unit="TimelineViewMode.Week" Format="dd"></GanttBottomTierSettings>
                     </GanttTimelineSettings>
-                    <GanttSplitterSettings Position="500px"> </GanttSplitterSettings>
-                    <GanttEvents OnToolbarClick="ToolbarClickHandler" TValue="OverviewData.TaskData"></GanttEvents>
+                    <GanttCriticalPathSettings SlackValue="7" ></GanttCriticalPathSettings>
+                    <GanttEvents OnToolbarClick="ToolbarClickHandler" RowSelected="RowSelectedHandler" PdfQueryTaskbarInfo="PdfQueryTaskbarInfoHandler" PdfQueryCellInfo="PdfQueryCellInforHandler" TValue="OverviewData.TaskData"></GanttEvents>
                 </SfGantt>
             </div>
             <div style="padding-left: 10px; padding-right: 20px;">
-                    @if (IsSideBar)
-                    {
-                    <SfSidebar class="default-sidebar" Width="260px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="IsSidebarToggled" >
-                            <ChildContent>
+                @if (IsSideBar)
+                {
+                    <SfSidebar class="default-sidebar" Width="260px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="IsSidebarToggled">
+                        <ChildContent>
 
-                            <SfListView DataSource="@ListViewData"  CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
-                                    <ListViewFieldSettings TValue="DataModel" Id="Id" Text="Text" GroupBy="Category" Tooltip="Text"></ListViewFieldSettings>
+                            <SfListView DataSource="@ListViewData" CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
+                                <ListViewFieldSettings TValue="DataModel" Id="Id" Text="Text" GroupBy="Category" Tooltip="Text"></ListViewFieldSettings>
                                 <ListViewEvents TValue="DataModel"></ListViewEvents>
-                                    <ListViewTemplates TValue="DataModel">
-                                       <HeaderTemplate>
-                                            <div class="header-title">
-                                                <div>
-                                                    @CurrentHeaderTitle
-                                                </div>
-                                                <span class="e-close" @onclick="@Close" style="cursor:pointer"></span>
+                                <ListViewTemplates TValue="DataModel">
+                                    <HeaderTemplate>
+                                        <div class="header-title">
+                                            <div>
+                                                @CurrentHeaderTitle
                                             </div>
-                                        </HeaderTemplate>
-                                        <GroupTemplate>
-                                            @{
-                                                var composedItemModel = context as Syncfusion.Blazor.Lists.ComposedItemModel<DataModel>;
-                                                var data = composedItemModel.Text;
-                                                <div>
-                                                    @if (data != "")
-                                                    {
-                                                        if (data == "Scheduling Settings")
-                                                        {
-                                                            <div class="list-header">Scheduling settings</div>
-                                                        }
-                                                        else if (data == "View settings")
-                                                        {
-                                                            <div class="list-header">View settings</div>
-                                                        }
-                                                        else if (data == "API properties")
-                                                        {
-                                                        <div class="list-header">API properties</div>
-                                                        }
-                                                     }
-                                                </div>
-                                            }
-                                        </GroupTemplate>
-                                        <Template>
-                                            @{
-                                                if (context.Text == "RowHeight")
+                                            <span class="e-close" @onclick="@Close" style="cursor:pointer"></span>
+                                        </div>
+                                    </HeaderTemplate>
+                                    <GroupTemplate>
+                                        @{
+                                            var composedItemModel = context as Syncfusion.Blazor.Lists.ComposedItemModel<DataModel>;
+                                            var data = composedItemModel.Text;
+                                            <div>
+                                                @if (data != "")
                                                 {
-                                                    <div>
+                                                    if (data == "Scheduling Settings")
+                                                    {
+                                                        <div class="list-header">Scheduling settings</div>
+                                                    }
+                                                    else if (data == "View settings")
+                                                    {
+                                                        <div class="list-header">View settings</div>
+                                                    }
+                                                    else if (data == "API properties")
+                                                    {
+                                                        <div class="list-header">API properties</div>
+                                                    }
+                                                }
+                                            </div>
+                                        }
+                                    </GroupTemplate>
+                                    <Template>
+                                        @{
+                                            if (context.Text == "RowHeight")
+                                            {
+                                                <div>
                                                     <label class="labels">Row height:</label>
                                                     <div style="padding-left: 12px;padding-right: 5px;margin-top: 7px;">
-                                                        <SfSlider Min="40" Max="60" Step="10" Type=SliderType.MinRange TValue="int" @bind-Value="@RowHeightValue">
-                                                            <SliderTicks Placement="Placement.Before" ></SliderTicks>
+                                                        <SfSlider Min="45" Max="65" Step="10" Type=SliderType.MinRange TValue="int" @bind-Value="@RowHeightValue">
+                                                            <SliderTicks Placement="Placement.Before"></SliderTicks>
                                                             <SliderEvents TValue="int" ValueChange="@(e => { rowheightchange(e.Value); })"></SliderEvents>
                                                         </SfSlider>
 
@@ -220,34 +278,34 @@
                                                 </div>
                                             }
                                             else if (context.Text == "Work Time Range")
-                                                {
+                                            {
                                                 <label class="labels">Duration unit:</label>
-                                                    <div>
-                                                        <SfDropDownList TValue="string" TItem="Duration"  Placeholder="@DurationUnitValue" @bind-Value="@DurationUnitValue" DataSource="@Duration1" PopupHeight="350px">
-                                                            <DropDownListEvents TItem="Duration" TValue="string" ValueChange="@ValueChangeHandler2"></DropDownListEvents>
-                                                            <DropDownListFieldSettings Text="Unit" Value="Unit"></DropDownListFieldSettings>
-                                                        </SfDropDownList>
-                                                    </div>
-                                                }
-                                                else if (context.Text == "TimeLine Cell Unit")
-                                                {
+                                                <div>
+                                                    <SfDropDownList TValue="string" TItem="Duration" Placeholder="@DurationUnitValue" @bind-Value="@DurationUnitValue" DataSource="@Duration1" PopupHeight="350px">
+                                                        <DropDownListEvents TItem="Duration" TValue="string" ValueChange="@ValueChangeHandler2"></DropDownListEvents>
+                                                        <DropDownListFieldSettings Text="Unit" Value="Unit"></DropDownListFieldSettings>
+                                                    </SfDropDownList>
+                                                </div>
+                                            }
+                                            else if (context.Text == "TimeLine Cell Unit")
+                                            {
                                                 <label class="labels">Timeline width:</label>
-                                                    <div>
-                                                        <SfNumericTextBox TValue="int?" Format="n0" Value="@DefaultUnitWidth" Min="10">
-                                                            <NumericTextBoxEvents TValue="int?" ValueChange="OnChange"></NumericTextBoxEvents>
-                                                        </SfNumericTextBox>
-                                                    </div>
-                                                }
-                                                if (context.Text == "View Type")
-                                                {
+                                                <div>
+                                                    <SfNumericTextBox TValue="int?" Format="n0" Value="@DefaultUnitWidth" Min="10">
+                                                        <NumericTextBoxEvents TValue="int?" ValueChange="OnChange"></NumericTextBoxEvents>
+                                                    </SfNumericTextBox>
+                                                </div>
+                                            }
+                                            if (context.Text == "View Type")
+                                            {
                                                 <label class="labels">View type:</label>
-                                                    <div>
+                                                <div>
                                                     <SfDropDownList TValue="string" TItem="ViewTypes" Placeholder="@SelectedViewTypes" @bind-Value="@SelectedViewTypes" DataSource="@Types" PopupHeight="350px">
-                                                            <DropDownListEvents TItem="ViewTypes" TValue="string" ValueChange="@GanttViewTypes"></DropDownListEvents>
-                                                            <DropDownListFieldSettings Text="Type" Value="Type"></DropDownListFieldSettings>
-                                                        </SfDropDownList>
-                                                    </div>
-                                                }
+                                                        <DropDownListEvents TItem="ViewTypes" TValue="string" ValueChange="@GanttViewTypes"></DropDownListEvents>
+                                                        <DropDownListFieldSettings Text="Type" Value="Type"></DropDownListFieldSettings>
+                                                    </SfDropDownList>
+                                                </div>
+                                            }
                                             else if (context.Text == "View Mode")
                                             {
                                                 <label class="labels">View mode:</label>
@@ -290,7 +348,7 @@
                                                 <div class="list-fields">
                                                     <label class="labels">Show task labels:</label>
                                                     <div>
-                                                        <SfSwitch ValueChange="ShowTaskLabels" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                        <SfSwitch ValueChange="ShowTaskLabels" TValue="bool?" @bind-Checked="IsTaskLabelsVisible" TChecked="bool"></SfSwitch>
                                                     </div>
                                                 </div>
                                             }
@@ -313,16 +371,15 @@
                                                 </div>
                                             }
                                         }
-                                        </Template>
-                                    </ListViewTemplates>
-                                </SfListView>
-                            </ChildContent>
+                                    </Template>
+                                </ListViewTemplates>
+                            </SfListView>
+                        </ChildContent>
                     </SfSidebar>
-                    }
-                </div>
-            </div>
+                }
         </div>
     </div>
+</div>
 
 @code {
 
@@ -333,32 +390,48 @@
     {
         // Updating the ListView datasource.
         UpdateDataModel();
-        ProjectStartDate = new DateTime(2021, 12, 19);
-        ProjectEndDate = new DateTime(2022, 07, 8);
+        ProjectStartDate = new DateTime(2025, 01, 25);
+        ProjectEndDate = new DateTime(2025, 11, 25);
         this.TaskCollection = OverviewData.DataCollection();
         this.ResourceCollection = OverviewData.GetResources;
         AssignmentCollection = OverviewData.GetAssignmentCollection();
         SegmentCollection = OverviewData.GetSegmentCollection();
         CurrentUri = Navigation.Uri;
         UpdateTheme(CurrentUri);
+        ConvertImageToBase64(Navigation, JSRunTime);
         Layout.Collapse();
     }
-   
+
 }
 
 <style>
-   
+
     body:not(.material3):not(.material3-dark) .e-ddl.e-input-group.e-control-wrapper .e-ddl-icon::before {
         content: '\e729';
         padding-top: 5px;
-        padding-right: 10px;
+    }
+
+    .e-gantt-overview-sample {
+        min-height: auto !important;
+        height: 100vh;
+    }
+
+    .e-gantt-overview-sample-wrapper {
+        height:100%;
+    }
+    .e-gantt-overview-sample-row{
+        height: 100%;
     }
     .e-tbar-btn-text {
         display: none;
     }
 
-    .highcontrast .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt .e-icons.e-btn-icon{
+    .highcontrast .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt .e-icons.e-btn-icon {
         padding: 4px !important;
+    }
+
+    .assignee-column{
+        line-height: 17px;
     }
 
     .e-task-label {
@@ -398,6 +471,7 @@
         content: '\e70c';
         font-size: 15px;
     }
+
     .material3 .e-close::before,
     .materia3l-dark .e-close::before,
     .material3 .e-close::before {
@@ -499,7 +573,7 @@
     .title {
         line-height: 24px;
         font-size: @FilterHeaderFontSize;
-        font-weight:@FilterHeaderFontWeight;
+        font-weight: @FilterHeaderFontWeight;
         margin-top: 0;
     }
 
@@ -545,7 +619,7 @@
         margin-top: -6px;
     }
 
-    .e-listview .e-list-group-item:first-child{
+    .e-listview .e-list-group-item:first-child {
         display: none;
     }
 
@@ -557,12 +631,13 @@
         font-weight: 500;
         letter-spacing: 0.10000000149011612px;
         text-align: center;
-        border-radius:20px;
+        border-radius: 20px;
     }
+
     .material3 .list-header,
     .material3-dark .list-header {
-        font-weight:600;
-        font-size:14px;
+        font-weight: 600;
+        font-size: 14px;
         padding-top: 2px;
     }
 
@@ -572,64 +647,68 @@
         justify-content: space-between;
         align-items: center;
     }
+
     .material3 .e-switch-wrapper,
     .material3-dark .e-switch-wrapper {
-        width:40px;
-        height:24px;
+        width: 40px;
+        height: 24px;
     }
 
     .labels {
         font-weight: 400;
         font-size: 14px;
     }
-    .e-sidebar{
+
+    .e-sidebar {
         overflow: hidden;
     }
 
-    .e-list-container {
-        overflow-y: auto !important; 
-        max-height: calc(450px - 57px); 
-    }
-    .e-sidebar.e-right.e-open {
-        transition-duration: 200ms;
+        .e-sidebar.e-right.e-open {
+            transition-duration: 200ms;
+        }
+
+        .e-sidebar.e-right.e-close {
+            transition-duration: 200ms;
+        }
+
+    .e-listview .e-list-item.e-focused {
+        background: none;
     }
 
-    .e-sidebar.e-right.e-close {
-        transition-duration: 200ms;
-    }
-
-    .e-listview .e-list-item.e-focused{
-        background:none;
-    }
-    .bootstrap5 .e-listview .e-list-item.e-focused{
+    .bootstrap5 .e-listview .e-list-item.e-focused {
         color: #212529;
     }
-    .highcontrast .e-listview .e-list-item.e-focused{
+
+    .highcontrast .e-listview .e-list-item.e-focused {
         color: #fff;
     }
+
     .bootstrap5 .e-listview .e-list-item,
-    .bootstrap5-dark .e-listview .e-list-item{
-        border:0px;
+    .bootstrap5-dark .e-listview .e-list-item {
+        border: 0px;
     }
 
     .e-bigger.bootstrap5 .e-listview .e-list-item,
     .e-bigger .bootstrap5-dark .e-listview .e-list-item {
         border: 0px;
     }
+
     .e-bigger .material3 .e-switch-wrapper,
     .e-bigger .material3-dark .e-switch-wrapper {
         width: 52px;
         height: 32px;
     }
-    .e-switch-wrapper{
+
+    .e-switch-wrapper {
         margin: 0 !important;
     }
 
-    .list-fields{
+    .list-fields {
         display: flex;
-        justify-content:space-between;
+        justify-content: space-between;
         align-items: center;
     }
+
     .e-bigger
     .title {
         line-height: 24px;
@@ -653,7 +732,7 @@
         border: 1px solid;
         line-height: initial;
         border-color: rgba(0, 0, 0, 0.12);
-    } 
+    }
     /* ListView border color customization */
     .highcontrast .groupedList.e-listview {
         border-color: #969696;
@@ -668,7 +747,7 @@
     }
 
     /* ListView template customization */
-     .groupedList.e-listview .e-list-header {
+    .groupedList.e-listview .e-list-header {
         color: #fff;
         height: 57px;
         background-color: #56697f;
@@ -706,7 +785,7 @@
         color: #fff;
     }
 
-     /* Dark theme related customization*/
+    /* Dark theme related customization*/
     .bootstrap5-dark .groupedList.e-listview .icon,
     .bootstrap-dark .groupedList.e-listview .icon,
     .highcontrast .groupedList.e-listview .icon,
@@ -743,8 +822,8 @@
         color: rgba(255,255,255,0.7);
     }
 
-    .groupedList .e-list-item:has(:hover){
-        background-color:transparent !important;
+    .groupedList .e-list-item:has(:hover) {
+        background-color: transparent !important;
     }
 
     .e-bigger .e-gantt .e-gantt-chart .e-gantt-manualparenttaskbar {
@@ -770,26 +849,88 @@
     .tailwind3.e-bigger .e-switch-wrapper .e-switch-handle.e-switch-active,
     .tailwind3-dark.e-bigger .e-switch-wrapper .e-switch-handle.e-switch-active {
         margin-left: -20px;
-        height: 16px ;
-        width: 16px ;
+        height: 16px;
+        width: 16px;
     }
 
     .tailwind3.e-bigger .e-switch-wrapper,
-    .tailwind3-dark.e-bigger .e-switch-wrapper{
-        height : 22px;
-        width  : 46px;
+    .tailwind3-dark.e-bigger .e-switch-wrapper {
+        height: 22px;
+        width: 46px;
     }
 
-    .tailwind3.e-bigger .e-switch-wrapper .e-switch-handle,
-    .tailwind3-dark.e-bigger .e-switch-wrapper .e-switch-handle{
-       height : 18px;
-       width : 18px;
-    }
-    .header-title{
-        display:flex;
+        .tailwind3.e-bigger .e-switch-wrapper .e-switch-handle,
+        .tailwind3-dark.e-bigger .e-switch-wrapper .e-switch-handle {
+            height: 18px;
+            width: 18px;
+        }
+
+    .header-title {
+        display: flex;
         justify-content: space-between;
         align-items: center;
         padding: 8px;
-        width:230px;
+        width: 230px;
     }
-    </style>
+
+    .statustemp.e-activecolor {
+        background-color: #ccffcc;
+        padding: 10px;
+        border-radius: 4px;
+        width: fit-content;
+    }
+
+    .statustxt.e-activecolor {
+        color: #003300;
+    }
+
+    .statustemp.e-lowcolor {
+        background-color: #86b7fe;
+        padding: 10px;
+        border-radius: 4px;
+        width: fit-content;
+    }
+
+    .statustxt.e-lowcolor {
+        color: #00008B;
+    }
+
+    .statustemp.e-inactivecolor {
+        background-color: #ffd7cc;
+        padding: 10px;
+        border-radius: 4px;
+        width: fit-content;
+    }
+
+    .statustxt.e-inactivecolor {
+        color: #8B0000;
+    }
+
+    .e-listview .e-list-container {
+        overflow-y: auto;
+        max-height: calc(100vh - 99px);
+        padding-right: 10px;
+    }
+
+    .image {
+        width: 100%;
+        height: 28px;
+    }
+
+    .e-right-label-inner-div {
+        margin-top: 4px;
+    }
+
+    .e-bigger .image {
+        width: 100%;
+        height: 32px;
+    }
+
+    .progress-label {
+        line-height: 26px;
+    }
+
+    .e-bigger .progress-label {
+        line-height: 30px;
+    }
+</style>

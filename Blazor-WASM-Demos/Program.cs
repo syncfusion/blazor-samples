@@ -36,14 +36,17 @@ builder.Services.AddMemoryCache();
 builder.Services.AddSingleton(typeof(ISyncfusionStringLocalizer), typeof(SyncfusionLocalizer));
 
 // Set the default culture of the application
-CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
-CultureInfo.DefaultThreadCurrentUICulture = new CultureInfo("en-US");
+var customCulture = new CultureInfo("en-US");
+// Create and set a custom culture
+customCulture.DateTimeFormat.ShortestDayNames = new string[] { "S", "M", "T", "W", "T", "F", "S" };
+CultureInfo.DefaultThreadCurrentCulture = customCulture;
+CultureInfo.DefaultThreadCurrentUICulture = customCulture;
 
 // Get the modified culture from culture switcher
 var host = builder.Build();
 var jsInterop = host.Services.GetRequiredService<IJSRuntime>();
 var result = await jsInterop.InvokeAsync<string>("cultureInfo.get");
-if (result != null)
+if (result != null && !result.Equals("en-US"))
 {
     // Set the culture from culture switcher
     var culture = new CultureInfo(result);
@@ -51,6 +54,5 @@ if (result != null)
     CultureInfo.DefaultThreadCurrentUICulture = culture;
 }
 #endregion
-
 
 await builder.Build().RunAsync();

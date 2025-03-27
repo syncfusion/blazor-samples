@@ -7,17 +7,15 @@
 #endregion
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
+using Syncfusion.Blazor.Diagram;
+using Syncfusion.Blazor.Inputs;
+using Syncfusion.Blazor.Navigations;
+using Syncfusion.Blazor.SplitButtons;
 using System;
-using System.Threading.Tasks;
 using System.Collections.ObjectModel;
 using System.Globalization;
-using Syncfusion.Blazor.Diagram;
-using System.Runtime.CompilerServices;
-using System.Security.Cryptography.X509Certificates;
-using System.Text.Json.Serialization;
-using System.Text.Json;
-using static TextToMindMapDiagram.TextToMindMap;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace TextToMindMapDiagram
 {
@@ -33,6 +31,132 @@ namespace TextToMindMapDiagram
         /// </remarks>
         [Inject]
         protected IJSRuntime? jsRuntime { get; set; } = null!;
+#pragma warning disable CS8618
+        /// <summary>
+        /// Represents the DiagramMain instance that serves as the parent.
+        /// </summary>
+        internal TextToMindMap Parent;
+        /// <summary>
+        /// The background color for the hide button.
+        /// </summary>
+        string HideButtonBackground = "#0078d4";
+        /// <summary>
+        /// The CSS class for the hide button.
+        /// </summary>
+        string HideButtonCss = "db-toolbar-hide-btn tb-property-open";
+        /// <summary>
+        /// The SfToolbar instance for the toolbar.
+        /// </summary>
+        SfToolbar Toolbar;
+        /// <summary>
+        /// The CSS class name for the toolbar container.
+        /// </summary>
+        string toolbarClassName { get; set; } = "db-toolbar-container";
+        /// <summary>
+        /// The CSS class name for adding a sibling tool bar item.
+        /// </summary>
+        string addSiblingCssName { get; set; } = "tb-item-start tb-item-sibling";
+        /// <summary>
+        /// The CSS class for the menu hide icon.
+        /// </summary>
+        string MenuHideIconCss = "sf-icon-Collapse tb-icons";
+        /// <summary>
+        /// Represents a toolbar item for undo functionality.
+        /// </summary>
+        ToolbarItem UndoItem;
+        /// <summary>
+        /// Represents a toolbar item for redo functionality.
+        /// </summary>
+        ToolbarItem RedoItem;
+        /// <summary>
+        /// Represents a toolbar item for zoom functionality.
+        /// </summary>
+        ToolbarItem ZoomItem;
+        /// <summary>
+        /// The SfDropDownButton instance for the zoom item dropdown.
+        /// </summary>
+        SfDropDownButton ZoomItemDropdown;
+
+        /// <summary>
+        /// Represents a toolbar item for pan functionality.
+        /// </summary>
+        ToolbarItem PanItem;
+        /// <summary>
+        /// Represents a toolbar item for pan functionality.
+        /// </summary>
+        ToolbarItem AddChid;
+        /// <summary>
+        /// Represents a toolbar item for adding a sibling.
+        /// </summary>
+        ToolbarItem AddSibling;
+        /// <summary>
+        /// Represents a toolbar item for adding multiple children.
+        /// </summary>
+        ToolbarItem AddMultipleChild;
+        /// <summary>
+        /// Represents a toolbar item for pointer functionality.
+        /// </summary>
+        ToolbarItem PointerItem;
+        /// <summary>
+        /// The CSS class for the pan item.
+        /// </summary>
+        public string PanItemCssClass = "tb-item-start tb-item-pan";
+        /// <summary>
+        /// The CSS class for the pointer item.
+        /// </summary>
+        public string PointerItemCssClass = "tb-item-middle tb-item-selected tb-item-pointer";
+        /// <summary>
+        /// Specifies whether the check box option is checked.
+        /// </summary>
+        public string stringChecked { get; set; } = "diagramView";
+        /// <summary>
+        /// The visibility setting for the mind map toolbar.
+        /// </summary>
+        public string MindmapToolbarVisibility { get; set; } = "block";
+        /// <summary>
+        /// The SfDropDownButton instance for the dropdown button.
+        /// </summary>
+        private SfDropDownButton dropdownBtn;
+        /// <summary>
+        /// The SfDropDownButton instance for the another dropdown button.
+        /// </summary>
+        private SfDropDownButton dropdownBtn1;
+        /// <summary>
+        /// The content of the ZoomItemDropdown.
+        /// </summary>
+        public string ZoomItemDropdownContent = "100%";
+        string showShortCut;
+#pragma warning restore CS8618
+        /// <summary>
+        /// Method invoked after each time the component has been rendered.
+        /// </summary>
+        protected override void OnAfterRender(bool firstRender)
+        {
+            ZoomItemDropdownContent = FormattableString.Invariant($"{Math.Round(Parent.CurrentZoom * 100)}") + "%";
+            base.OnAfterRender(firstRender);
+        }
+
+        /// <summary>
+        /// Opens/closes a DropDownButton popup based on current state of the DropDownButton.
+        /// </summary>
+        private void ClickHandler(BeforeOpenCloseEventArgs e)
+        {
+            dropdownBtn.Toggle();
+        }
+        /// <summary>
+        /// Opens/closes a DropDownButton popup based on current state of the DropDownButton.
+        /// </summary>
+        private void ClickHandler1(BeforeOpenCloseEventArgs e)
+        {
+            dropdownBtn1.Toggle();
+        }
+        /// <summary>
+        /// This method is used to update refresh the toolbar items.
+        /// </summary>
+        public void StateChanged()
+        {
+            StateHasChanged();
+        }
         #region events
         /// <summary>
         /// This is used to update the zoom in/ zoom out the diagram
@@ -120,24 +244,27 @@ namespace TextToMindMapDiagram
                 case "add sibling":
                     if (diagram.SelectionSettings != null && diagram.SelectionSettings.Nodes.Count > 0)
                     {
-                        diagram.StartGroupAction();
-                        string nodeParent = Convert.ToString(diagram.SelectionSettings.Nodes[0].AdditionalInfo["ParentId"]); 
+                        string nodeParent = Convert.ToString(diagram.SelectionSettings.Nodes[0].AdditionalInfo["ParentId"]);
                         string parentID = nodeParent;
                         Node parentNode = diagram.GetObject(parentID) as Node;
-                        BranchType branch = (BranchType)parentNode?.AdditionalInfo["Orientation"];
-                        BranchType nodeBranch = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"];
-                        if (branch == BranchType.SubRight || branch == BranchType.Right || (branch == BranchType.Root && nodeBranch == BranchType.Right))
+                        if (parentNode != null)
                         {
-                            await TextToMindMap.AddLeftChild(Parent.Diagram, true);
+                            diagram.StartGroupAction();
+                            BranchType branch = (BranchType)parentNode?.AdditionalInfo["Orientation"];
+                            BranchType nodeBranch = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"];
+                            if (branch == BranchType.SubRight || branch == BranchType.Right || (branch == BranchType.Root && nodeBranch == BranchType.Right))
+                            {
+                                await TextToMindMap.AddLeftChild(Parent.Diagram, true);
+                            }
+                            else
+                            {
+                                await TextToMindMap.AddRightChild(Parent.Diagram, true);
+                            }
+                            diagram.ClearSelection();
+                            diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[diagram.Nodes.Count - 1] });
+                            diagram.StartTextEdit(diagram.Nodes[diagram.Nodes.Count - 1]);
+                            diagram.EndGroupAction();
                         }
-                        else
-                        {
-                            await TextToMindMap.AddRightChild(Parent.Diagram, true);
-                        }
-                        diagram.ClearSelection();
-                        diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[diagram.Nodes.Count - 1] });
-                        diagram.StartTextEdit(diagram.Nodes[diagram.Nodes.Count - 1]);
-                        diagram.EndGroupAction();
                     }
                     break;
             }
@@ -154,7 +281,7 @@ namespace TextToMindMapDiagram
                     await removeSelectedToolbarItem(commandType).ConfigureAwait(true);
                 }
             }
-         
+
             //Parent.DiagramContent.StateChanged();
         }
         /// <summary>
@@ -200,7 +327,7 @@ namespace TextToMindMapDiagram
         {
 #pragma warning disable CA1307 // Specify StringComparison
 
-           
+
             if (tool != "pan tool" && PanItemCssClass.IndexOf("tb-item-selected") != -1)
             {
                 PanItemCssClass = PanItemCssClass.Replace(" tb-item-selected", "");
@@ -209,7 +336,7 @@ namespace TextToMindMapDiagram
             {
                 PointerItemCssClass = PointerItemCssClass.Replace(" tb-item-selected", "");
             }
-           
+
             StateHasChanged();
 #pragma warning restore CA1307 // Specify StringComparison
         }
@@ -217,7 +344,7 @@ namespace TextToMindMapDiagram
         /// <summary>
         /// This is used to remove the selected toolbar items.
         /// </summary>
-        
+
         public void SingleSelectionToolbarItems()
         {
             //bool diagram = Parent.DiagramContent.diagramSelected;
@@ -346,7 +473,7 @@ namespace TextToMindMapDiagram
                     toolbarClassName = toolbarClassName.Remove(20);
                 }
             }
-           
+
         }
         /// <summary>
         /// This is used to remove the toolbar items.
@@ -363,8 +490,8 @@ namespace TextToMindMapDiagram
             {
                 MenuHideIconCss = "sf-icon-Collapse tb-icons";
             }
-            if(jsRuntime!=null)
-               await jsRuntime.InvokeAsync<object>("hideMenubar").ConfigureAwait(true);
+            if (jsRuntime != null)
+                await jsRuntime.InvokeAsync<object>("hideMenubar").ConfigureAwait(true);
         }
 
         /// <summary>
@@ -375,7 +502,7 @@ namespace TextToMindMapDiagram
             if (jsRuntime != null)
             {
                 int adjustableHeight = Parent.MenubarRef.WindowMenuItems[0].IconCss == "sf-icon-Selection" ? 0 : 40;
-                Parent.height = (await jsRuntime.InvokeAsync<int>("UtilityMethods_hideElements", eventname, isNewClick).ConfigureAwait(true) + adjustableHeight).ToString() + "px"; 
+                Parent.height = (await jsRuntime.InvokeAsync<int>("UtilityMethods_hideElements", eventname, isNewClick).ConfigureAwait(true) + adjustableHeight).ToString() + "px";
                 Parent.StateChanged();
             }
         }

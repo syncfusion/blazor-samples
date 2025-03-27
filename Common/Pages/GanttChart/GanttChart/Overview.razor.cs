@@ -15,7 +15,12 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Syncfusion.Blazor.Grids;
-
+using System.IO;
+using System.Net;
+using Syncfusion.PdfExport;
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System.Linq;
 namespace BlazorDemos.Pages.GanttChart.GanttChart
 {
     public partial class Overview
@@ -24,7 +29,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         public SfSwitch<bool?> SidebarSwitch { get; set; }
         public bool IsSideBar { get; set; } = false;
         public bool Settings { get; set; } = true;
-        private int RowHeightValue { get; set; } = 40;
+        private int RowHeightValue { get; set; } = 45;
         private int TaskbarHeightValue { get; set; } = 24;
         private string TaskBarHeight { get; set; } = "24px";
         private string MarginValue { get; set; } = "0px";
@@ -35,13 +40,9 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         private string ManualTaskbarWidth { get; set; } = "11px";
         private SfGantt<OverviewData.TaskData> GanttInstance { get; set; }
         public List<OverviewData.TaskData> TaskCollection { get; set; }
-        private DateTime VolumeOneReleaseDate { get; set; } = new DateTime(2022, 04, 04);
-        private DateTime VolumeTwoReleaseDate { get; set; } = new DateTime(2022, 06, 30);
-        private DateTime VolumeThreeReleaseDate { get; set; } = new DateTime(2022, 09, 29);
-        private DateTime ChristmasStartDate { get; set; } = new DateTime(2021, 12, 25);
-        private DateTime ChristmasEndDate { get; set; } = new DateTime(2021, 12, 26);
-        private DateTime NewYearHoliday1 { get; set; } = new DateTime(2022, 01, 01);
-        private DateTime NewYearHoliday2 { get; set; } = new DateTime(2022, 01, 01);
+        private DateTime VolumeOneReleaseDate { get; set; } = new DateTime(2023, 08, 15);
+        private DateTime VolumeTwoReleaseDate { get; set; } = new DateTime(2023, 12, 04);
+        private DateTime VolumeThreeReleaseDate { get; set; } = new DateTime(2024, 06, 12);
         public Theme CurrentTheme { get; set; }
         public string CurrentUri { get; set; }
         public bool ShowDependency { get; set; } = true;
@@ -60,7 +61,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         public string DurationUnitValue { get; set; } = "Day";
         public Syncfusion.Blazor.Gantt.DurationUnit DurationValue { get; set; } = DurationUnit.Day;
         private bool IsEventMarkerVisible { get; set; } = false;
-        private bool IsTaskLabelsVisible { get; set; } = false;
+        private bool IsTaskLabelsVisible { get; set; } = true;
         public int CurrentValue { get; set; }
         public int PreviousValue { get; set; } = 11;
         public int BindValue { get; set; } = 11;
@@ -79,9 +80,10 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         private bool IsCriticalPathEnabled { get; set; }
         private DateTime? ProjectStartDate { get; set; }
         private DateTime? ProjectEndDate { get; set; }
-        public List<Object> Toolbaritems { get; set; } = new List<Object>() { "ExpandAll", "CollapseAll", "ZoomIn", "ZoomOut", "ZoomToFit", "Indent", "Outdent", "ExcelExport", new ToolbarItem() { TooltipText="PdfExport", Id = "PdfExport", PrefixIcon = "e-pdfexport" }, new ToolbarItem() { Text = "Settings", TooltipText = "Settings", Id = "Settings", PrefixIcon = "e-settings-icon", Align = ItemAlign.Right } };
+        public List<Object> Toolbaritems { get; set; } = new List<Object>() { "ExpandAll", "CollapseAll", "ZoomIn", "ZoomOut", "ZoomToFit", "Indent", "Outdent", "ExcelExport", new ToolbarItem() { TooltipText = "PdfExport", Id = "PdfExport", PrefixIcon = "e-pdfexport" }, new ToolbarItem() { Text = "Settings", TooltipText = "Settings", Id = "Settings", PrefixIcon = "e-settings-icon", Align = ItemAlign.Right } };
         // Specifies the ListView datasource.
         public List<DataModel> ListViewData { get; set; } = new List<DataModel>();
+        private Dictionary<string, string> pdfExportImage = new Dictionary<string, string>();
         // Specifies the model class for ListView datasource.
 
         public class DataModel
@@ -120,7 +122,6 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 gridlines = Syncfusion.Blazor.Gantt.GridLine.Vertical;
             }
             Settings = true;
-            GanttInstance.RefreshAsync();
         }
 
         private void EventMarkerEvent(ChangeEventArgs<bool?> args)
@@ -134,7 +135,6 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 IsEventMarkerVisible = false;
             }
             Settings = true;
-            GanttInstance.RefreshAsync();
         }
 
         private void ShowDependencies(ChangeEventArgs<bool> args)
@@ -148,10 +148,9 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 ShowDependency = false;
             }
             Settings = true;
-            GanttInstance.RefreshAsync();
         }
 
-        private void ShowTaskLabels(ChangeEventArgs<bool?> args)
+        private void ShowTaskLabels(ChangeEventArgs<bool> args)
         {
             if (args.Checked == true)
             {
@@ -162,7 +161,6 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 IsTaskLabelsVisible = false;
             }
             Settings = true;
-            GanttInstance.RefreshAsync();
         }
 
         private async Task CriticalPathEnable(ChangeEventArgs<bool?> args)
@@ -175,13 +173,11 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             }
             else
             {
-                ProjectStartDate = new DateTime(2021, 12, 19);
-                ProjectEndDate = new DateTime(2022, 07, 8);
+                ProjectStartDate = new DateTime(2025, 01, 25);
+                ProjectEndDate = new DateTime(2025, 11, 25);
                 IsCriticalPathEnabled = false;
             }
             Settings = true;
-
-            await GanttInstance.RefreshAsync();
             await Task.CompletedTask;
         }
 
@@ -196,48 +192,17 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 IsCustomSchedulingEnabled = false;
             }
             Settings = true;
-            await GanttInstance.RefreshAsync();
             await Task.CompletedTask;
         }
 
         public void OnChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
         {
-            DefaultUnitWidth = args.Value != null ? (int)args.Value : 33; 
+            DefaultUnitWidth = args.Value != null ? (int)args.Value : 33;
         }
 
         private void rowheightchange(int value)
         {
             RowHeightValue = value;
-            if (value == 40)
-            {
-                TaskbarHeightValue = 24;
-                TaskBarHeight = "24px";
-                MarginValue = "0px";
-                TopPosition = "4px";
-                LabelHeight = "38px";
-                MarginTop = "3px";
-                ManualTaskbarWidth = "11px";
-            }
-            else if (value == 50)
-            {
-                TaskbarHeightValue = 32;
-                TaskBarHeight = "32px";
-                MarginValue = "0px";
-                TopPosition = "7px";
-                LabelHeight = "48px";
-                MarginTop = "5px";
-                ManualTaskbarWidth = "15px";
-            }
-            else if (value == 60)
-            {
-                TaskbarHeightValue = 40;
-                TaskBarHeight = "40px";
-                MarginValue = "4px";
-                TopPosition = "10px";
-                LabelHeight = "58px";
-                MarginTop = "6px";
-                ManualTaskbarWidth = "19px";
-            }
         }
 
         public void Close()
@@ -314,7 +279,6 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 DurationValue = DurationUnit.Minute;
                 DurationUnitValue = DurationValue.ToString();
             }
-            await GanttInstance.RefreshAsync();
         }
 
         public class SplitterView
@@ -348,20 +312,46 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             }
             await GanttInstance.RefreshAsync();
         }
-
+        public async Task RowSelectedHandler()
+        {
+            IsSidebarToggled = !IsSidebarToggled;
+            IsSideBar = false;
+            await Task.CompletedTask;
+        }
         public async Task ToolbarClickHandler(ClickEventArgs args)
         {
             Syncfusion.Blazor.Grids.ExcelExportProperties ExportProperties = new Syncfusion.Blazor.Grids.ExcelExportProperties();
             Syncfusion.Blazor.Gantt.GanttPdfExportProperties PdfExportProperties = new Syncfusion.Blazor.Gantt.GanttPdfExportProperties();
             List<GridColumn> gridColumns = new List<GridColumn>() {
-            new GridColumn(){ Field = "TaskId", HeaderText = "Id" },
-            new GridColumn(){Field = "TaskName", HeaderText="Product Release"},
-            new GridColumn(){ Field = "Work", HeaderText = "Planned Hours" },
-            new GridColumn(){Field = "TimeLog", HeaderText="Work Log"}
+	            new GridColumn(){ Field = "Task", HeaderText = "Task Name", Width = "200"},
+	            new GridColumn(){ Field = "Assignee", HeaderText = "Assigned Person", Width = "200" },
+	            new GridColumn(){ Field = "Budget", HeaderText = "Allocated Budget ($)", Width="200", Format = "C2", TextAlign = TextAlign.Right},
+	            new GridColumn(){ Field = "ActualCost", HeaderText="Spent Budget ($)", Width = "180", Format = "C2", TextAlign = TextAlign.Right},
+	            new GridColumn(){ Field = "Progress", HeaderText = "Completion (%)" },
+            };
+            List<GanttColumn> ganttColumns = new List<GanttColumn>()
+            {
+                new GanttColumn() { Field = "Task", HeaderText = "Task Name", Width = "280" },
+                new GanttColumn() { Field = "Assignee", HeaderText = "Assigned Person", Width="200" }, // Template logic not directly transferable
+                new GanttColumn() { Field = "StartDate", HeaderText = "Start Date", Width = "100" },
+                new GanttColumn() { Field = "EndDate", HeaderText = "End Date", Width = "100" },
+                new GanttColumn() { Field = "Priority", HeaderText = "Task Priority" }, // Template logic not directly transferable
+                new GanttColumn() { Field = "Budget", HeaderText = "Allocated Budget ($)", Width="200", Format = "C2", TextAlign=TextAlign.Right },
+                new GanttColumn() { Field = "ActualCost", HeaderText = "Spent Budget ($)", Width="180", Format = "C2", TextAlign=TextAlign.Right },
+                new GanttColumn() { Field = "Progress", HeaderText = "Completion (%)", TextAlign=TextAlign.Right },
+                new GanttColumn() { Field = "Status", HeaderText = "Status", Width = "120" },
+                new GanttColumn() { Field = "Dependencies", HeaderText = "Related Tasks", Width = "140" },
+                new GanttColumn() { Field = "Risks", HeaderText = "Risk Level" }, // Template logic not directly transferable
+                new GanttColumn() { Field = "Category", HeaderText = "Task Category", Width="180" },
+                new GanttColumn() { Field = "Location", HeaderText = "Work Location" },
+                new GanttColumn() { Field = "TechStack", HeaderText = "Technology Stack", Width = "180" },
+                new GanttColumn() { Field = "EstimatedStoryPoints", HeaderText = "Story Points", Width = "150px", TextAlign=TextAlign.Right },
+                new GanttColumn() { Field = "Initiative", HeaderText = "Initiative" },
+                new GanttColumn() { Field = "PriorityLevel", HeaderText = "Strategic Priority", Width = "180" }
             };
             ExportProperties.Columns = gridColumns;
             PdfExportProperties.PageSize = Syncfusion.Blazor.Grids.PdfPageSize.Legal;
-            PdfExportProperties.Columns = GanttInstance.Columns;
+            PdfExportProperties.Columns = ganttColumns;
             if (args.Item.Id == "Settings")
             {
                 IsSidebarToggled = !IsSidebarToggled;
@@ -376,13 +366,105 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             {
                 await GanttInstance.ExportToCsvAsync(ExportProperties);
             }
-            if(args.Item.Id == "PdfExport")
+            if (args.Item.Id == "PdfExport")
             {
                 await GanttInstance.ExportToPdfAsync(PdfExportProperties);
             }
             await Task.CompletedTask;
         }
+        private async void PdfQueryTaskbarInfoHandler(PdfQueryTaskbarInfoEventArgs<OverviewData.TaskData> args)
+        {
+            args.LabelSettings.TaskbarLabelValue = $"{args.Data.Progress}%";
+            if (args.Data.Assignee != null)
+            {
+                int randomIndex = 0;
+                if (args.Data.Id % 2 == 0)
+                {
+                    randomIndex = 0;
+                }
+                else if (args.Data.Id % 3 == 0)
+                {
+                    randomIndex = 1;
+                }
+                else if (args.Data.Id % 2 != 0)
+                {
+                    randomIndex = 2;
+                }
+                else if (args.Data.Id % 3 != 0)
+                {
+                    randomIndex = 3;
+                }
+                var randomItem = OverviewData.GetResources[randomIndex];
 
+                string resourceName = randomItem.Name.Trim().Replace(" ", "").ToLower();
+                if (pdfExportImage.TryGetValue(resourceName, out string base64String))
+                {
+                    byte[] imageBytes = Convert.FromBase64String(base64String);
+                    using MemoryStream imageStream = new MemoryStream(imageBytes);
+                    PdfImage image = PdfImage.FromStream(imageStream);
+
+                    args.LabelSettings.RightLabel = new PdfElementStyle { Image = image };
+                }
+            }
+            await Task.CompletedTask;
+        }
+        private async void PdfQueryCellInforHandler(Syncfusion.Blazor.Gantt.PdfQueryCellInfoEventArgs<OverviewData.TaskData> args)
+        {
+            if (args.Column.Field == "Assignee")
+            {
+                string value = $"{args.Data.Assignee}\n {args.Data.Department}";
+
+                PdfStringFormat stringFormat = new PdfStringFormat()
+                {
+                    Alignment = PdfTextAlignment.Left, // Adjust as required
+                    LineAlignment = PdfVerticalAlignment.Top
+                };
+                args.Cell = new PdfGanttCell() { Value = value, CellStyle = new PdfElementStyle() { StringFormat = stringFormat } };
+            }
+            if (args.Column.Field == "Risks")
+            {
+                if (args.Data.Risks == "Low")
+                {
+                    args.Cell = new PdfGanttCell()
+                    {
+                        CellStyle = new PdfElementStyle() { Font = new PdfGridFont() { TextColor = "DodgerBlue", TextHighlightColor = "LightSkyBlue", FontSize = 1.32 } }
+                    };
+                }
+                else if (args.Data.Risks == "Medium")
+                {
+                    args.Cell = new PdfGanttCell()
+                    {
+                        CellStyle = new PdfElementStyle() { Font = new PdfGridFont() { TextColor = "LimeGreen", TextHighlightColor = "MintCream", FontSize = 1.32 } }
+                    };
+                }
+                else
+                {
+                    args.Cell = new PdfGanttCell()
+                    {
+                        CellStyle = new PdfElementStyle() { Font = new PdfGridFont() { TextColor = "Red", TextHighlightColor = "PeachPuff", FontSize = 1.32 } }
+                    };
+                }
+            }
+            else if(args.Column.Field == "Priority")
+            {
+                if (args.Data.Priority == "Medium")
+                {
+                    args.Cell = new PdfGanttCell()
+                    {
+                        CellStyle = new PdfElementStyle() { Font = new PdfGridFont() { TextColor = "LimeGreen", TextHighlightColor = "MintCream", FontSize = 1.32 } }
+                    };
+                }
+                else
+                {
+                    args.Cell = new PdfGanttCell()
+                    {
+                        CellStyle = new PdfElementStyle() { Font = new PdfGridFont() { TextColor = "Red", TextHighlightColor = "PeachPuff", FontSize = 1.32 } }
+                    };
+                }
+            }
+
+            await Task.CompletedTask;
+        }
         private string GetContentStyles(string type, string status)
         {
             var tailwind3Colors = new Dictionary<string, (string BackgroundColor, string TextColor)>
@@ -642,6 +724,33 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 FilterBackgroundColor = "linear-gradient(0deg, rgba(208, 188, 255, 0.05), rgba(208, 188, 255, 0.05)),rgba(255, 255, 255)";
                 LabelTextColor = "#404042";
                 FilterHeaderFontWeight = "400";
+            }
+        }
+
+        private async void ConvertImageToBase64(NavigationManager navigationManager, IJSRuntime jSRuntime)
+        {
+            var resourceNames = ResourceCollection
+        .Where(task => !string.IsNullOrEmpty(task.Name))
+        .Select(task => task.Name.Trim().Replace(" ", "").ToLower())
+        .Distinct() // Ensure uniqueness
+        .ToList();
+
+            foreach (var resourceName in resourceNames)
+            {
+                var filePath = navigationManager.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png").ToString();
+
+                try
+                {
+                    var base64String = await jSRuntime.InvokeAsync<string>("convertGanttImageBaseUrl", filePath);
+                    if (!string.IsNullOrEmpty(base64String))
+                    {
+                        pdfExportImage[resourceName] = base64String;
+                    }
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Error loading image {resourceName}: {ex.Message}");
+                }
             }
         }
     }

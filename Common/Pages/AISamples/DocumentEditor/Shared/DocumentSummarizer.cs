@@ -5,13 +5,13 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
-using SmartComponents.LocalEmbeddings;
 using Microsoft.Extensions.AI;
+using SmartComponents.LocalEmbeddings;
 using Syncfusion.Blazor.SmartComponents;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using System.Linq;
+using System.Threading.Tasks;
 
 namespace BlazorDemos.Pages.AISamples.DocumentEditor.Shared
 {

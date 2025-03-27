@@ -21,7 +21,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/default-functionalities",
-                FileName = "DefaultFunctionalities.razor"
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -29,7 +31,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/ean-13",
-                FileName = "Ean13.razor"
+                FileName = "Ean13.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -37,7 +41,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/code-32",
-                FileName = "Code32.razor"
+                FileName = "Code32.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -45,7 +51,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/code-39",
-                FileName = "Code39.razor"
+                FileName = "Code39.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -53,7 +61,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/extended-code-39",
-                FileName = "Code39Extension.razor"
+                FileName = "Code39Extension.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -61,7 +71,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/code-93",
-                FileName = "Code93.razor"
+                FileName = "Code93.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -69,7 +81,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/code-128",
-                FileName = "Code128.razor"
+                FileName = "Code128.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -77,7 +91,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/code-128a",
-                FileName = "Code128A.razor"
+                FileName = "Code128A.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -85,7 +101,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/code-128b",
-                FileName = "Code128B.razor"
+                FileName = "Code128B.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -93,7 +111,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/code-128c",
-                FileName = "Code128C.razor"
+                FileName = "Code128C.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -101,7 +121,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/codabar",
-                FileName = "Codabar.razor"
+                FileName = "Codabar.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },            
             new Sample
             {
@@ -109,7 +131,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/upc-a",
-                FileName = "UpcA.razor"
+                FileName = "UpcA.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly" }
             },
             new Sample
             {
@@ -117,7 +141,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/upc-e",
-                FileName = "UpcE.razor"
+                FileName = "UpcE.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Barcode customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -125,7 +151,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/qr-code",
-                FileName = "QRCode.razor"
+                FileName = "QRCode.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! QR Code customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -134,6 +162,8 @@ namespace BlazorDemos
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/qr-code-with-logo",
                 FileName = "QRCodeWithLogo.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! QR Code customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             },
             new Sample
             {
@@ -141,7 +171,9 @@ namespace BlazorDemos
                 Category = "Getting started",
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/data-matrix",
-                FileName = "DataMatrix.razor"
+                FileName = "DataMatrix.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Property panel updated! Data Matrix customization is now available. You can modify its style, adjust settings, and download it effortlessly." }
             }
         };
     }

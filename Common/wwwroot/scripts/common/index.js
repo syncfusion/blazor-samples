@@ -178,6 +178,33 @@ window.sfBlazorSB = {
   }
 };
 
+/** 
+ * Converts an image URL to a Base64 encoded string.
+ * This function is specifically used for embedding images into Gantt chart exports.
+ * @param {string} url - The URL of the image to convert.
+ * @returns {Promise<string|null>} - A promise that resolves to the Base64 encoded string of the image, or null if an error occurs.
+*/
+function convertGanttImageBaseUrl(url) {
+    return fetch(url)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Image not found");
+            }
+            return response.blob();
+        })
+        .then(blob => {
+            return new Promise((resolve, reject) => {
+                const reader = new FileReader();
+                reader.onloadend = () => resolve(reader.result.split(",")[1]); // Extract Base64 part
+                reader.onerror = () => reject("Error reading image");
+                reader.readAsDataURL(blob);
+            });
+        })
+        .catch(error => {
+            console.error("Error fetching image:", error);
+            return null;
+        });
+}
 
 function refreshTab(code, filename) {
   var highlightCodeInterval = setInterval(highlightSource, 0);
@@ -390,6 +417,8 @@ window.addEventListener('load', function () {
         "bootstrap5.3-dark": "sha384-7Jcz2KF5x0EoMuiuOM62Aq2GWBRyHwJkNem3/+srKEZ3RhbfqJjE7DzGcckaow31",
         "tailwind": "sha384-2PClT36mZOJJANif7K+S0PyJekY4a18sFJGvuJCLEECF+rYD7XEcL0lN2ld87T4d",
         "tailwind-dark": "sha384-9sAG0Yq8wu0SZbfmNIqH3DR+ImK0k3m2a0pFsIvazG+XvWMud2kxlFw5fJn2KS1C",
+        "tailwind3": "sha384-vjBU/oQxz4e8RWXlALtT5YurJVDkBXx1VjZIM0E1FsbbL0p0ApOYAyMN+tcStMf2",
+        "tailwind3-dark": "sha384-qvr0nSxeEHxKHuvLqM3EXbmzRqvnEenzwPn+xAYwVd+XePRNM/O7t8ZyThnMlWZ9",
         "highcontrast": "sha384-p80ERM5BibxvsqrOzZqL7StKRqxeXQCBNKhmQY4Ua5/GhrA1iO6dX1Bllc4GVLiF",
         "fluent2-highcontrast": "sha384-PjhVi53JYUezDd+ffataBbXMeXqEN+V0twJEppXce4/aNy+5msLkyQQjMWvJ7Fg+"
     };
@@ -1215,64 +1244,6 @@ window.preventTabDefault = function (textareaId, dotnetRef) {
 
 //Diagram scripts end 
 
-// Document Editor Scripts start
-
-window.setDialogDivHeight = (element) => {
-    var qusElement = document.getElementById('e-de-qus-pane');
-    var ansElement = document.getElementById('e-de-editableDiv');
-    if (element === 'Generate' && ansElement) {
-        ansElement.style.height = '100px';
-    } else if (qusElement && ansElement) {
-        qusElement.style.height = '75px';
-        ansElement.style.height = '75px';
-    }
-}
-window.getTextContent = () => {
-    var element = document.getElementById('e-de-editableDiv');
-    if (element) {
-        return element.textContent ? element.textContent.trim() : '';
-    }
-};
-window.getHtmlContent = () => {
-    var element = document.getElementById('e-de-editableDiv');
-    if (element) {
-        return element.innerHTML;
-    }
-};
-window.setTextContent = (text) => {
-    var element = document.getElementById('e-de-editableDiv');
-    if (element) {
-        element.textContent = text;
-    }
-};
-window.setHtmlContent = (html) => {
-    var element = document.getElementById('e-de-editableDiv');
-    if (element) {
-        element.innerHTML = html;
-    }
-};
- window.clearDivContent = () => {
-    var element = document.getElementById('e-de-editableDiv');
-    if (element) {
-        element.innerHTML = '';
-    }
-};
-window.setPlaceholder = (placeholderText) => {
-    var element = document.getElementById('e-de-editableDiv');
-    if (element && element.innerText.trim() === '') {
-        element.innerText = placeholderText;
-        element.classList.add('placeHoldr');
-    }
-};
-window.removePlaceholder = (placeholderText) => {
-    var element = document.getElementById('e-de-editableDiv');
-    if (element) {
-        if (element.innerText === placeholderText) {
-            element.innerText = '';
-            element.classList.remove('placeHoldr'); 
-        }
-    }
-};
 
 // Smart Editor AI Sample in Document Editor
 window.showElements = (ids) => {
@@ -1325,7 +1296,6 @@ window.copyToClipboard = function (content) {
     navigator.clipboard.write(data);
 }
 // Summarization sample script ends
-// Document Editor Script Ends
 
 // Rich Text Editor AI sample script starts
 
@@ -1375,4 +1345,23 @@ window.clickButton = function (buttonClass) {
     document.querySelector("." + buttonClass).click();
 }
 
+window.loadIndicator = function() {
+    const loadingIndicator = document.getElementsByClassName('loading-indicator');
+    // To remove loading indicator.
+    for (let l = 0; l < loadingIndicator.length; l++) {
+        (loadingIndicator[l]).style.display = 'none';
+    }
+    // To add tick mark.
+    const tick = document.getElementsByClassName('tick');
+    for (let l = 0; l < tick.length; l++) {
+        (tick[l]).style.display = 'flex';
+    }
+
+}
+
 // Scheduler AI sample script ends
+
+// Function to get the user agent string
+window.getUserAgent = function () {
+    return navigator.userAgent;
+};

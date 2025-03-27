@@ -31,8 +31,21 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Line Chart Example - Syncfusion Demos",
                 MetaDescription = "The Blazor Line Chart example visualizes the consumer price data using line series. Explore here for more details.",
                 HeaderText = "Blazor Line Chart Example",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Updated the line chart sample to display interactive tooltips that appear for the data points nearest to the mouse pointer." }               
             },
+            // new Sample
+            // {
+            //     Name = "Line Customization",
+            //     Category = "Line Charts",
+            //     Directory = "Charts/Chart",
+            //     Url = "chart/line-layout",
+            //     FileName = "LineLayout.razor",
+            //     MetaTitle = "Blazor Line Layout Chart Example - Syncfusion Demos",
+            //     MetaDescription = "The Blazor Line Layout Chart example visualizes annual milk production and monthly traffic data using default line series. Explore customization options and interactive features here.",
+            //     HeaderText = "Blazor Line Layout Chart Example",
+            //     Type = SampleType.New
+            // },
             new Sample
             {
                 Name = "Spline",
@@ -43,7 +56,8 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Spline Chart Example - Syncfusion Demos",
                 MetaDescription = "This example demonstrates the default functionalities of Blazor Spline Chart. Explore here for more details.",
                 HeaderText = "Blazor Spline Chart Example",
-                Type = SampleType.None
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Updated the spline chart sample with an interactive feature that highlights the entire background of a data point when hovering." }
             },
             new Sample
             {
@@ -66,6 +80,19 @@ namespace BlazorDemos
                 FileName = "DashedLine.razor",
                 HeaderText = "Blazor Dashed Line Chart Example.",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Custom Animation",
+                Category = "Line Charts",
+                Directory = "Charts/Chart",
+                Url = "chart/custom-animation",
+                FileName = "CustomAnimation.razor",
+		        MetaTitle = "Blazor Custom Animation Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Custom Animation Chart Example.",
+		        MetaDescription = "Blazor Custom Animation Chart example demonstrates how to render and configure a spline chart with custom animation effects, visualizing smooth data trends for almond yield across different countries.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Showcases a demo featuring a spline chart with multiple data series, incorporating smooth animations for enhanced visual representation. The chart includes a shared tooltip to improve user interaction, allowing for simultaneous data point comparisons across different series." }
             },
             new Sample
             {
@@ -259,7 +286,8 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Column Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Column Chart Example",
                 MetaDescription = "Blazor Column Chart example demonstrates how to compare frequency, count, total, or average of data in different categories with a vertical bar.",
-                Type = SampleType.None              
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]{ @"Updated the column chart by enabling series highlighting on the tooltip." }              
             },
             new Sample
             {
@@ -273,13 +301,29 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Rounded Column",
+                Name = "Column Rotated Labels",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "chart/rounded-column",
-                FileName = "RoundedColumn.razor",
-                HeaderText = "Blazor Rounded Column Chart Example.",
-                Type = SampleType.None
+                Url = "chart/column-rotated-labels",
+                FileName = "ColumnRotatedLabels.razor",
+                MetaTitle = "Blazor Column Rotated Labels Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Column Rotated Labels Chart Example.",
+                MetaDescription = "Blazor Column Rotated Labels Chart example demonstrates how to render and configure a column chart with rotated labels for analyzing the company's profits.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Presents a demo that showcases a column chart with distinct colors, rotated axis labels for improved readability, and data labels for enhanced clarity. The chart also includes tooltips for interactive data exploration." }
+            },
+            new Sample
+            {
+                Name = "Column Drilldown",
+                Category = "Bar Charts",
+                Directory = "Charts/Chart",
+                Url = "chart/column-drilldown",
+                FileName = "ColumnDrilldown.razor",
+                MetaTitle = "Blazor Column Drilldown Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Column Drilldown Chart Example.",
+                MetaDescription ="Blazor Column Drilldown Chart example demonstrates how to render and configure drilldown charts for analyzing population data by continent and country interactively.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Showcases a column chart with a clickable event feature. Clicking on a column or its x-axis label triggers an interactive event, revealing related data for the specific category, offering deeper insights and an enhanced user experience." }
             },
             new Sample
             {
@@ -305,12 +349,12 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Range Bar",
+                Name = "Inversed Range Column",
                 Category = "Bar Charts",
                 Directory = "Charts/Chart",
-                Url = "chart/range-bar",
-                FileName = "RangeBar.razor",
-                HeaderText = "Blazor Range Bar Chart Example.",
+                Url = "chart/inversed-range-column",
+                FileName = "InversedRangeColumn.razor",
+                HeaderText = "Blazor Inversed Range Column Chart Example.",
                 Type = SampleType.None
             },
             new Sample
@@ -323,6 +367,16 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Bar Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor Bar Chart Example",
                 MetaDescription = "Blazor Bar Chart example demonstrates how to compare frequency, count, total, or average of data in different categories with a horizontal bar.",
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Rounded Bar",
+                Category = "Bar Charts",
+                Directory = "Charts/Chart",
+                Url = "chart/rounded-bar",
+                FileName = "RoundedBar.razor",
+                HeaderText = "Blazor Rounded Bar Chart Example.",
                 Type = SampleType.None
             },
             new Sample
@@ -371,6 +425,18 @@ namespace BlazorDemos
                 MetaTitle = "Blazor 100% Stacked Bar Chart Example - Syncfusion Demos",
                 HeaderText = "Blazor 100% Stacked Bar Chart Example",
                 MetaDescription = "Blazor 100% Stacked Bar Chart example shows how to render and configure the 100% stacking bar type chart.",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Column Stacked And Grouped",
+                Category = "Bar Charts",
+                Directory = "Charts/Chart",
+                Url = "chart/column-stacked-and-grouped",
+                FileName = "ColumnStackedAndGrouped.razor",
+                MetaTitle = "Blazor Column Stacked And Grouped Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Column Stacked And Grouped Chart Example",
+                MetaDescription = "Blazor Column Stacked and Grouped Chart example demonstrates how to visualize coffee production data for Vietnam, India, Colombia, and Brazil interactively from 2021 to 2023 using tooltips and legends.",
                 Type = SampleType.None
             },
             new Sample
@@ -551,6 +617,19 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Horizontal Waterfall",
+                Category = "Other Types",
+                Directory = "Charts/Chart",
+                Url = "chart/horizontal-waterfall",
+                FileName = "HorizontalWaterfall.razor",
+                MetaTitle = "Blazor Horizontal Waterfall Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Horizontal Waterfall Chart Example.",
+                MetaDescription = "Blazor Horizontal Waterfall Chart example demonstrates how to render and configure a horizontal waterfall chart to visualize gradual changes in revenue or profit through increments and decrements.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Displays a horizontal waterfall chart to visualize revenue variations over time, with distinct colors representing increases, decreases, and total values. Data labels enhance readability, and interactive tooltips provide detailed insights when hovering over data points." }
+            },
+            new Sample
+            {
                 Name = "Histogram",
                 Category = "Other Types",
                 Directory = "Charts/Chart",
@@ -612,6 +691,19 @@ namespace BlazorDemos
                 FileName = "Pareto.razor",
                 HeaderText = "Blazor Pareto Chart Example.",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Combo Chart",
+                Category = "Other Types",
+                Directory = "Charts/Chart",
+                Url = "chart/combo-chart",
+                FileName = "ComboChart.razor",
+                MetaTitle = "Blazor Combo Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Combo Chart Example.",
+                MetaDescription = "Blazor chart example demonstrating how to render and configure a combo chart to visualize wages, benefits, and total compensation across worker sectors in September 2024, using column, line, and pie series for comparative analysis.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Introduces a combination chart featuring a doughnut chart alongside column and line series. This chart effectively represents data trends with annotations for clarity, while interactive tooltips enhance data exploration and understanding." }
             },
             new Sample
             {
@@ -928,6 +1020,19 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Multiple Panes",
+                Category = "Chart Axes",
+                Directory = "Charts/Chart",
+                Url = "chart/multiple-panes",
+                FileName = "MultiplePanes.razor",
+                MetaTitle = "Blazor Multiple Panes Chart Example - Syncfusion Demos",
+                HeaderText = "Blazor Multiple Panes Chart Example.",
+                MetaDescription = "Blazor chart example demonstrates how to render and configure a multiple panes chart for visualizing the annual weather in New York, comparing temperature and precipitation trends with multiple series.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"Introduces a chart with multiple panes, featuring range area, spline, and column series. The spline series is combined with the range area to provide better clarity of low and high values, while the column series offers a clear visual comparison. Data labels have been added for improved readability and precise value representation." }
+            },
+            new Sample
+            {
                 Name = "StripLine",
                 Category = "Chart Axes",
                 Directory = "Charts/Chart",
@@ -1074,7 +1179,7 @@ namespace BlazorDemos
                 Url = "chart/adaptive-layout",
                 FileName = "AdaptiveLayout.razor",
                 HeaderText = "Blazor Chart with Adaptive Layout Example.",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 NotificationDescription = new string[]{ @"This sample showcases how to dynamically adjust a chart's design and element positions to seamlessly fit different screen sizes." }
             },
             new Sample
@@ -1135,7 +1240,7 @@ namespace BlazorDemos
                 Url = "chart/crosshair",
                 FileName = "Crosshair.razor",
                 HeaderText = "Blazor Chart with Crosshair Example.",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 NotificationDescription = new string[]{ @"Enhanced the demo to snap the crosshair to the nearest data point instead of tracking the exact cursor position, ensuring a more accurate and professional focus on the data." }
             },
             new Sample
@@ -1531,7 +1636,7 @@ namespace BlazorDemos
                 Url = "stock-chart/stock-chart-spline-area",
                 FileName = "SplineArea.razor",
                 HeaderText = "Blazor Stock Chart with Spline Area Example.",
-                Type = SampleType.Updated,
+                Type = SampleType.None,
                 NotificationDescription = new string[]{ @"Enhanced the demo to snap the crosshair to the nearest data point instead of tracking the exact cursor position, ensuring a more accurate and professional focus on the data." }
             },
             new Sample

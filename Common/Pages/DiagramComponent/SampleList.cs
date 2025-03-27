@@ -107,6 +107,17 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Container",
+                Category = "Getting Started",
+                Directory = "DiagramComponent/DiagramComponent",
+                Url = "diagramcomponent/container",
+                FileName = "ContainerSample.razor",
+                HeaderText="Example of Containers in Blazor Diagram Component",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample demonstrates how to visualize the Azure Container Apps Environment using the built-in container shapes in Syncfusion Blazor Diagram."},
+            },
+            new Sample
+            {
                 Name = "Events",
                 Category = "Getting Started",
                 Directory = "DiagramComponent/DiagramComponent",
@@ -302,9 +313,6 @@ namespace BlazorDemos
                 Url = "diagramcomponent/pertchart",
                 FileName = "PERTChart.razor",
                 HeaderText="PERT Chart Example using Blazor Diagram Component",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"This sample demonstrates how to create a PERT chart from an external data source using a complex hierarchical layout."},
-
             },
             new Sample
             {
@@ -432,6 +440,18 @@ namespace BlazorDemos
                 Url = "diagramcomponent/fishbone-diagram",
                 FileName = "FishboneDiagram.razor",
                 HeaderText="Example of Fishbone Diagram in Blazor Diagram Component"
+            },
+              new Sample
+            {
+                Name = "Workflow Diagram",
+                Category = "Real-time Diagrams",
+                Directory = "DiagramComponent/DiagramComponent",
+                Url = "diagramcomponent/workflow-diagram",
+                FileName = "WorkflowDiagram.razor",
+                HeaderText="Example of Workflow Diagram in Blazor Diagram Component",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ @"This sample provides a visual representation of a streamlined Travel Request Approval workflow created with the Syncfusion Blazor Diagram. The diagram incorporates BPMN nodes, connectors, and annotations to represent various diagram elements."},
+
             },
             new Sample
             {

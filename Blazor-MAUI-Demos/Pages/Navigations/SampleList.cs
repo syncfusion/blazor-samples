@@ -522,15 +522,15 @@ namespace Blazor_MAUI_Demos
                 Url = "file-manager/azure",
                 FileName = "Azure.razor"
             },
-            new Sample
-            {
-                Name = "SQL Database Provider",
-                Category = "Cloud Service Providers",
-                Directory = "Navigations/FileManager",
-                Url = "file-manager/sql-server-provider",
-                Type = SampleType.None,
-                FileName = "SQL.razor"
-            },
+            // new Sample
+            // {
+            //     Name = "SQL Database Provider",
+            //     Category = "Cloud Service Providers",
+            //     Directory = "Navigations/FileManager",
+            //     Url = "file-manager/sql-server-provider",
+            //     Type = SampleType.None,
+            //     FileName = "SQL.razor"
+            // },
             // new Sample
             // {
             //     Name = "NodeJS File Provider",
@@ -774,7 +774,10 @@ namespace Blazor_MAUI_Demos
                 Category = "Ribbon",
                 Directory = "Navigations/Ribbon",
                 Url = "ribbon/default-functionalities",
-                FileName = "DefaultFunctionalities.razor"
+                FileName = "DefaultFunctionalities.razor",
+                NotificationDescription = new string[] {
+                    @"Demonstrates the basic rendering of the Ribbon component in classic mode, with all built-in items displayed."
+                }
             },
             new Sample
             {
@@ -782,7 +785,33 @@ namespace Blazor_MAUI_Demos
                 Category = "Ribbon",
                 Directory = "Navigations/Ribbon",
                 Url = "ribbon/simplified",
-                FileName = "Simplified.razor"
+                FileName = "Simplified.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the simplified mode rendering of the Ribbon component, offering a compact UI with all built-in items."
+                }
+            },
+            new Sample
+            {
+                Name = "Backstage",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/backstage",
+                FileName = "Backstage.razor",
+                NotificationDescription = new string[] {
+                    @"Displays the Ribbon backstage view, designed to show additional information and options."
+                }
+            },
+            new Sample
+            {
+                Name = "Contextual Tabs",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/contextual",
+                FileName = "ContextualTabs.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Highlights the contextual tab of the Ribbon, showcasing the dynamic rendering of tabs."
+                }
             },
             new Sample
             {
@@ -790,7 +819,33 @@ namespace Blazor_MAUI_Demos
                 Category = "Ribbon",
                 Directory = "Navigations/Ribbon",
                 Url = "ribbon/resize",
-                FileName = "Resize.razor"
+                FileName = "Resize.razor",
+                NotificationDescription = new string[] {
+                    @"Illustrates the Ribbon's responsive support, with items adjusting to optimized layouts as the slider value changes."
+                }
+            },
+            new Sample
+            {
+                Name = "Ribbon KeyTips",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/keytip",
+                FileName = "KeyTips.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {
+                    @"Demonstrates the KeyTips functionality in the Ribbon. Users can press specific keys or key combinations to perform actions."
+                }
+            },
+            new Sample
+            {
+                Name = "Ribbon Gallery",
+                Category = "Ribbon",
+                Directory = "Navigations/Ribbon",
+                Url = "ribbon/gallery",
+                FileName = "Gallery.razor",
+                NotificationDescription = new string[] {
+                    @"Highlights the gallery view of the Ribbon, showcasing a collection of related items."
+                }
             }
         };
     }

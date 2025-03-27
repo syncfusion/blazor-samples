@@ -40,7 +40,7 @@ namespace BlazorDemos
                         FileName="OverviewData.cs"
                     }
                 },
-                IsHideInMobile= true,
+                IsHideInMobile= true
             },
             new Sample
             {
@@ -85,6 +85,7 @@ namespace BlazorDemos
                         FileName="GanttData.cs"
                     }
                 },
+                Type = SampleType.None
             },
             new Sample
             {
@@ -212,7 +213,7 @@ namespace BlazorDemos
                 Category = "Use Case",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/education-scheduler",
-                Type = SampleType.New,
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -230,11 +231,7 @@ namespace BlazorDemos
                         Id="EducationScheduler",
                         FileName="EducationSchedulerData.cs"
                     }
-                },
-                NotificationDescription = new string[]
-                {
-                    @"The sample has been added to demonstrate the tracking progress and managing academic schedules in Gantt Chart."
-                },
+                }
             },
             new Sample
             {
@@ -243,7 +240,11 @@ namespace BlazorDemos
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/remote-data",
                 FileName="RemoteData.razor",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]
+                {
+                    @"This sample demonstrates how to bind data to the Gantt Chart using a remote service with dynamic record updates."
+                }
             },
             new Sample
             {
@@ -834,8 +835,12 @@ namespace BlazorDemos
                 Category = "Exporting",
                 Directory = "GanttChart/GanttChart",
                 Url = "gantt-chart/advanced-exporting",
-                Type = SampleType.None,
-                FileName = "AdvancedExporting.razor"
+                Type = SampleType.Updated,
+                FileName = "AdvancedExporting.razor",
+                NotificationDescription = new string[]
+                {
+                    @"This sample demonstrates exporting Gantt chart data to PDF, highlighting custom headers, footers, and taskbar/label customization."
+                },
             },
              new Sample
             {

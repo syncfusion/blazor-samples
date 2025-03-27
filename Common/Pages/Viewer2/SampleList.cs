@@ -87,6 +87,15 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Form Designer",
+                Category = "PDF Form",
+                Directory = "Viewer2/PdfViewer2",
+                Url = "pdf-viewer-2/form-designer",
+                FileName = "FormDesigner.razor",
+                Type = SampleType.New
+            },
+            new Sample
+            {
                 Name = "Annotations",
                 Category = "Annotation",
                 Directory = "Viewer2/PdfViewer2",

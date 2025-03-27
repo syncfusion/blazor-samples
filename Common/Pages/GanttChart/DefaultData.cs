@@ -30,6 +30,12 @@ namespace ej2_blazor_defaultdata
             public string TaskType { get; set; }
             public int? ParentId { get; set; }
         }
+
+        public class HolidayModel
+        {
+            public DateTime HolidayDate { get; set; }
+            public string HolidayName { get; set; }
+        }
         public static List<TaskData> ProjectNewData()
         {
             List<TaskData> Tasks = new List<TaskData>() {

@@ -23,7 +23,7 @@
 </ActionDescription>
 
 <div class="col-lg-12 control-section default-ribbon-section" id="ribbon_wrapper">
-    <div id="ribbonContainer" style="width: @(containerWidth)px;">
+    <div id="ribbonContainer" style="width: @(containerWidth);">
         <SfRibbon ID="ribbon" @ref="ribbonRef" Created="@GetContainerWidth" LauncherIconClick="LauncherIconClick">
             <RibbonFileMenuSettings Visible=true MenuItems="@fileMenuItems" ItemSelecting="@HandleFilemenuSelection"></RibbonFileMenuSettings>
             <RibbonTabs>
@@ -58,10 +58,10 @@
                                 <RibbonCollection>
                                     <RibbonItems>
                                         <RibbonItem Type=RibbonItemType.ComboBox>
-                                            <RibbonComboBoxSettings Index="3" AllowFiltering=true DataSource="@fontFamilyItems" Width="115px" PopupWidth="150px" FieldSettings="@fieldSetings" Selecting=@HandleComboBoxSelection></RibbonComboBoxSettings>
+                                            <RibbonComboBoxSettings @bind-Index="@fontFamIndex" AllowFiltering=true DataSource="@fontFamilyItems" Width="115px" PopupWidth="150px" FieldSettings="@fieldSetings" Selecting=@HandleComboBoxSelection></RibbonComboBoxSettings>
                                         </RibbonItem>
                                         <RibbonItem Type=RibbonItemType.ComboBox>
-                                            <RibbonComboBoxSettings Index="3" AllowFiltering=true DataSource="@fontSizeItems" Width="65px" PopupWidth="85px" FieldSettings="@fieldSetings" Selecting=@HandleComboBoxSelection></RibbonComboBoxSettings>
+                                            <RibbonComboBoxSettings @bind-Index="@fontSizeIndex" AllowFiltering=true DataSource="@fontSizeItems" Width="65px" PopupWidth="85px" FieldSettings="@fieldSetings" Selecting=@HandleComboBoxSelection></RibbonComboBoxSettings>
                                         </RibbonItem>
                                     </RibbonItems>
                                 </RibbonCollection>
@@ -76,7 +76,7 @@
                                         </RibbonItem>
                                         <RibbonItem Type=RibbonItemType.ColorPicker AllowedSizes="RibbonItemSize.Small"
                                                     DisplayOptions="@((DisplayMode)DisplayMode.Classic | DisplayMode.Simplified)">
-                                            <RibbonColorPickerSettings Value="#123456" ValueChange="@(args => UpdateContent(args.CurrentValue.Hex + "color"))"></RibbonColorPickerSettings>
+                                            <RibbonColorPickerSettings @bind-Value="@colorValue" ValueChange="@(args => UpdateContent(args.CurrentValue.Hex + "color"))"></RibbonColorPickerSettings>
                                         </RibbonItem>
                                     </RibbonItems>
                                 </RibbonCollection>
@@ -258,13 +258,13 @@
                                 <RibbonCollection>
                                     <RibbonItems>
                                         <RibbonItem Type=RibbonItemType.CheckBox>
-                                            <RibbonCheckBoxSettings Label="Ruler" Checked="false" ValueChange="@(() => UpdateContent("Ruler"))"></RibbonCheckBoxSettings>
+                                            <RibbonCheckBoxSettings Label="Ruler" ValueChange="@(() => UpdateContent("Ruler"))"></RibbonCheckBoxSettings>
                                         </RibbonItem>
                                         <RibbonItem Type=RibbonItemType.CheckBox>
-                                            <RibbonCheckBoxSettings Label="Gridlines" Checked="false" ValueChange="@(() => UpdateContent("Gridlines"))"></RibbonCheckBoxSettings>
+                                            <RibbonCheckBoxSettings Label="Gridlines" ValueChange="@(() => UpdateContent("Gridlines"))"></RibbonCheckBoxSettings>
                                         </RibbonItem>
                                         <RibbonItem Type=RibbonItemType.CheckBox>
-                                            <RibbonCheckBoxSettings Label="Navigation Pane" Checked="true" ValueChange="@(() => UpdateContent("Navigation Pane"))"></RibbonCheckBoxSettings>
+                                            <RibbonCheckBoxSettings Label="Navigation Pane" @bind-Checked="@checkedState" ValueChange="@(() => UpdateContent("Navigation Pane"))"></RibbonCheckBoxSettings>
                                         </RibbonItem>
                                     </RibbonItems>
                                 </RibbonCollection>
@@ -286,12 +286,12 @@
             </RibbonTabs>
         </SfRibbon>
         <div id="ribbonPlaceHolder">
-            <div style="width:100%; height:40px">
+            <div style="width:100%; height:40px" class="ribbonSliderWrapper">
                 <p class="displayText">Resize Ribbon</p>
                 <div id='ribbonSlider' style="width:200px; margin:0 15px">
                     @if(isRibbonCreated)
                     {
-                        <SfSlider Min="350" Max="@initialContainerWidth" @bind-Value="@containerWidth">
+                        <SfSlider Min="350" Max="@initialContainerWidth" @bind-Value="@sliderValue">
                             <SliderEvents TValue="double" OnChange="@OnChange"></SliderEvents>
                         </SfSlider>
                     }
@@ -319,8 +319,13 @@
     SfRibbon ribbonRef;
     private bool isRibbonCreated;
     private double initialContainerWidth;
-    private double containerWidth;
+    private double sliderValue;
+    private string containerWidth = "100%";
     bool isPasteDisabled = true;
+    private bool checkedState = true;
+    private string colorValue = "#123456";
+    private int? fontFamIndex = 3;
+    private int? fontSizeIndex = 3;
 
     private async Task EnablePaste(string text)
     {
@@ -332,18 +337,29 @@
 
     private async void HandleFilemenuSelection(FileMenuItemSelectEventArgs args)
     {
-        await UpdateContent("File -> " + args.Item.Text);
+        var id = args.Item.Id;
+        var text = args.Item.Text;
+        if (id == "word" || id == "word97" || id == "pdf")
+        {
+            await UpdateContent("File -> Save as -> " + text);
+        }
+        else
+        {
+            await UpdateContent("File -> " + text);
+        }
     }
     
     protected async Task GetContainerWidth()
     {
-        containerWidth = initialContainerWidth = await JS.InvokeAsync<double>("getElementWidth", "ribbon_wrapper");
+        sliderValue = initialContainerWidth = await JS.InvokeAsync<double>("getElementWidth", "ribbonContainer");
         isRibbonCreated = true;
         await InvokeAsync(StateHasChanged);
     }
 
     private async Task OnChange(SliderChangeEventArgs<double> args)
     {
+        containerWidth = args.Value + "px";
+        await InvokeAsync(StateHasChanged);
         await ribbonRef.RefreshLayoutAsync();
     }
 
@@ -581,6 +597,11 @@
             Text = "Save",
             IconCss = "e-icons e-save",
             Id = "save",
+            Items = new List<MenuItem>() {
+                new MenuItem { Text = "Microsoft Word (.docx)", IconCss = "sf-icon-word", Id = "word" },
+                new MenuItem { Text = "Microsoft Word 97-2003(.doc)", IconCss = "sf-icon-word", Id = "word97" },
+                new MenuItem { Text = "Download as PDF", IconCss = "e-icons e-export-pdf", Id = "pdf" }
+            }
         }
     };
 }
@@ -609,7 +630,7 @@
     }
 
     p.displayText {
-        margin: 0 0 0 15px;
+        margin: 0 15px;
         font-size: 18px;
         font-weight: 500;
         line-height: 1.1;
@@ -781,5 +802,9 @@
 
     .sf-icon-word:before {
         content: "\e70d";
+    }
+
+    #ribbonContainer .e-rtl + #ribbonPlaceHolder .ribbonSliderWrapper{
+        direction: rtl;
     }
 </style>

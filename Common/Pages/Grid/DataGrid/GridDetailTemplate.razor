@@ -1,6 +1,7 @@
 ﻿@page "/datagrid/detail-template"
 
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Charts
 @using Syncfusion.Blazor.Data
 @using Syncfusion.Blazor.Navigations
@@ -16,18 +17,24 @@
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>The DataGrid component with the detail template feature is demonstrated in this sample. To view detailed information about a row, click the expand button in each DataGrid row.</p>
+    <p>This sample demonstrates the Blazor DataGrid component with the detail template feature. To view detailed information about a row, click the expand button in each Blazor DataGrid row.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>When expanding or collapsing the detail content, the Blazor DataGrid Detail template feature displays additional information about a specific row. With the required content, the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridTemplates.html#Syncfusion_Blazor_Grids_GridTemplates_DetailTemplate' aria-label="Navigate to the DetailTemplate property reference for DataGrid templates">DetailTemplate</a> should be wrapped around the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridTemplates.html' aria-label="Navigate to the class reference for GridTemplates">GridTemplates</a> component. This expand row is used to visualize the statistical data hierarchy.</p>
-    <p>Employee information is displayed in the detail row with an image in this demo. Sales and report details are also displayed in the detail row within the Tab component.</p>
-    <p>More information about the Detail template feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/detail-template' aria-label="Navigate to the documentation for Detail Template in DataGrid component">documentation</a> section.</p>
+    <p>When expanding or collapsing the detail content, the Blazor DataGrid Detail Template feature displays additional information about a specific row. With the required content, the <a target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridTemplates.html#Syncfusion_Blazor_Grids_GridTemplates_DetailTemplate" aria-label="Navigate to the DetailTemplate property reference for DataGrid templates">DetailTemplate</a> should be wrapped around the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridTemplates.html" aria-label="Navigate to the class reference for GridTemplates">GridTemplates</a> component. This expanded row is used to visualizes the statistical data hierarchy.</p>
+    <p>Frozen columns are supported in the Detail template feature. In this demo, you can dynamically enable or disable the frozen column feature using a checkbox.</p>
+    <p>The row displays Employee information and an image. Sales and report details are also displayed in the detail row within the Tab component.</p>
+    <p>More information about the Detail template feature can be found in the <a target="_blank" href="https://blazor.syncfusion.com/documentation/datagrid/detail-template" aria-label="Navigate to the documentation for Detail Template in DataGrid component">documentation</a> section.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="@GridData">
+            <div class="e-switch-control">
+                <div>
+                    <SfCheckBox @bind-Checked="isChecked" LabelPosition="Syncfusion.Blazor.Buttons.LabelPosition.Before" Label="Enable Frozen Columns" @onchange="onChange"></SfCheckBox>
+                </div>
+            </div>
+            <SfGrid DataSource="@GridData" Height="450">
                 <GridTemplates>
                     <DetailTemplate>
                         @{
@@ -80,10 +87,12 @@
                                                 <SfGrid DataSource="@OrderData" AllowPaging="true" Query="@(new Query().Where("EmployeeID", "equal", employee.EmployeeID))">
                                                     <GridPageSettings PageSize="6"></GridPageSettings>
                                                     <GridColumns>
-                                                        <GridColumn Field=@nameof(EmployeeOrders.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="110"> </GridColumn>
-                                                        <GridColumn Field=@nameof(EmployeeOrders.CustomerID) HeaderText="Customer ID" Width="110"></GridColumn>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="80"> </GridColumn>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.CustomerID) HeaderText="Customer ID" Width="140"></GridColumn>
                                                         <GridColumn Field=@nameof(EmployeeOrders.Freight) HeaderText="Freight" TextAlign="TextAlign.Right" Width="90" Format="C2"></GridColumn>
-                                                        <GridColumn Field=@nameof(EmployeeOrders.ShipCity) HeaderText="Ship City" Width="110"></GridColumn>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.ShipName) HeaderText="ShipName" Width="250"></GridColumn>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.ShipCity) HeaderText="ShipCity" Width="110"></GridColumn>
+                                                        <GridColumn Field=@nameof(EmployeeOrders.ShipCountry) HeaderText="ShipCountry" Width="150"></GridColumn>
                                                     </GridColumns>
                                                 </SfGrid>
                                             </div>
@@ -114,9 +123,12 @@
                     </DetailTemplate>
                 </GridTemplates>
                 <GridColumns>
-                    <GridColumn Field=@nameof(Employee.FirstName) HeaderText="First Name" Width="110"> </GridColumn>
+                    <GridColumn Field=@nameof(Employee.FirstName) HeaderText="First Name" IsFrozen="@enableFrozen" Width="110"> </GridColumn>
                     <GridColumn Field=@nameof(Employee.LastName) HeaderText="Last Name" Width="110"></GridColumn>
-                    <GridColumn Field=@nameof(Employee.Title) Width="110"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.Title) Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.Phone) Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.Email) Width="300"></GridColumn>
+                    <GridColumn Field=@nameof(Employee.Address) Width="250"></GridColumn>
                     <GridColumn Field=@nameof(Employee.Country) Width="110"></GridColumn>
                 </GridColumns>
             </SfGrid>
@@ -128,8 +140,13 @@
 
     public List<Employee> GridData { get; set; }
     public List<EmployeeOrders> OrderData { get; set; }
+    private bool enableFrozen { get; set; }
+    private bool isChecked = false;
+    private void onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        enableFrozen = (bool)args.Value;
+    }
     
-
     protected override void OnInitialized()
     {
         
@@ -173,6 +190,30 @@
         font-size: medium;
         text-align: left;
     }
+
+    .e-checkbox-wrapper .e-checkbox + .e-label{
+        font-weight: bold;
+    }
+
+    .fluent2-highcontrast .e-switch-control,
+    .fluent2-dark .e-switch-control,
+    .fluent2 .e-switch-control{
+        padding-bottom: 20px;
+        margin-left: -10px;
+    }
+
+    .highcontrast .e-switch-control,
+    .fluent .e-switch-control,
+    .fluent-dark .e-switch-control,
+    .material3 .e-switch-control, 
+    .material3-dark .e-switch-control, 
+    .bootstrap5\.3 .e-switch-control,
+    .bootstrap5\.3-dark .e-switch-control,
+    .tailwind3 .e-switch-control,
+    .tailwind3-dark .e-switch-control{
+        padding-bottom: 20px;
+    }
+
 </style>
 @*End:Hidden*@
 

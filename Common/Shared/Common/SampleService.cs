@@ -107,7 +107,7 @@ namespace BlazorDemos.Shared
         /// </summary>
         public string DocScriptPath { get; set; }
         /// <summary>
-        /// Specifies the pdfviewer(NextGen) Script loaded or not.
+        /// Specifies the pdfviewer Script loaded or not.
         /// </summary>
         public bool IsPdfScript2Loaded { get; set; }
         /// <summary>
@@ -137,9 +137,7 @@ namespace BlazorDemos.Shared
 
         public static string AssetsPath =
 #if WASM
-    #if NET6_0
-            "_content/Blazor_WASM_Common_NET6/";
-    #elif NET8_0
+    #if NET8_0
             "_content/Blazor_WASM_Common_NET8/";
     #else
             "_content/Blazor_WASM_Common_NET9/";
@@ -151,9 +149,7 @@ namespace BlazorDemos.Shared
             "_content/Blazor_WebApp_Common_NET9/";
     #endif
 #else
-    #if NET6_0
-            "_content/Blazor_Server_Common_NET6/";
-    #elif NET8_0
+    #if NET8_0
             "_content/Blazor_Server_Common_NET8/";
     #else
             "_content/Blazor_Server_Common_NET9/";
@@ -194,14 +190,7 @@ namespace BlazorDemos.Shared
         {
             var Navigation_Url = SampleUtils.IsHomePage(UriHelper) ?  UriHelper.BaseUri + "datagrid/overview/" : UriHelper.Uri;
 #if DEBUG || STAGING
-    #if NET6_0
-        #if SERVER
-            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url.Replace("net6/demos", "wasm/net6/demos");
-        #endif
-        #if WASM
-            Navigation_Url = id == "wasm" ? Navigation_Url : Navigation_Url.Replace("wasm/net6/demos", "net6/demos");
-        #endif
-    #elif NET8_0
+    #if NET8_0
         #if SERVER
             Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net8/demos", "wasm/net8/demos") :  Navigation_Url.Replace("net8/demos", "webapp/demos");
         #endif

@@ -129,7 +129,6 @@ namespace BlazorDemos
                 Name = "Editable Dashboard",
                 Category = "Dashboard Layout",
                 Directory = "Layouts/DashboardLayout",
-		Type = SampleType.New,
                 Url = "dashboard-layout/editable-dashboard-layout",
                 FileName = "EditableDashboardLayout.razor",
 		NotificationDescription = new string[]{ "This demo showcases the editable Dashboard Layout which allows you to dynamically add panels with Blazor components rendered as predefined panel content." }

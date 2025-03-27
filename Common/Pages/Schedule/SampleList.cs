@@ -46,6 +46,16 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Event Calendar",
+                Category = "Product Use Case",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/event-calendar",
+                FileName = "EventCalendar.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "Introduced a comprehensive event calendar showcasing various event management features and intuitive user interactions." }
+            },
+            new Sample
+            {
                 Name = "Holiday Calendar",
                 Category = "Product Use Case",
                 Directory = "Schedule/Scheduler",
@@ -64,6 +74,27 @@ namespace BlazorDemos
                         FileName="ScheduleData.cs"
                     }
                 }
+            },
+            new Sample
+            {
+                Name = "Pagination Scheduler",
+                Category = "Product Use Case",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/pagination-scheduler",
+                FileName = "PaginationScheduler.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[]{ "Enhanced the Scheduler by adding pagination support, allowing for seamless and efficient navigation through large sets of resources." }
+            },
+            new Sample
+            {
+                Name = "Resource Filtering",
+                Category = "Product Use Case",
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/resource-filtering",
+                FileName = "ResourceFiltering.razor",
+                Type = SampleType.New,
+                IsHideInMobile = true,
+                NotificationDescription = new string[]{ "Implemented resource filtering functionality, allowing users to dynamically filter and display specific resources in the Scheduler." }
             },
             new Sample
             {
@@ -258,8 +289,6 @@ namespace BlazorDemos
                 Category = "Appointments",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/overlap-events",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Demonstrated how to effectively restrict overlapping appointments within the same time range, ensuring a clear and organized schedule view for improved time management and user experience." },
                 FileName = "OverlapEvents.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -344,8 +373,6 @@ namespace BlazorDemos
                 Category = "Drag and Drop",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/drag-between-schedulers",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Showcased the ability to drag and drop events seamlessly between multiple Scheduler instances, enabling effortless event transfer and enhancing scheduling flexibility across different Schedulers." },
                 IsHideInMobile = true,
                 FileName = "DragBetweenSchedulers.razor",
                 SourceFiles = new List<SourceCollection>()
@@ -368,8 +395,6 @@ namespace BlazorDemos
                 Category = "Drag and Drop",
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/grid-to-schedule",
-                Type = SampleType.New,
-                NotificationDescription = new string[] { @"Demonstrated the seamless integration of DataGrid and Scheduler components by enabling drag-and-drop functionality between them, allowing for efficient event creation and management across different data visualization formats." },
                 FileName = "GridToSchedule.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1227,6 +1252,29 @@ namespace BlazorDemos
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/recurrence-rules",
                 FileName = "RecurrenceEditorPopulateRule.razor"
+            },
+            new Sample
+            {
+                Name = "Clipboard",
+                Category = "Miscellaneous",
+                Type = SampleType.New,
+                Directory = "Schedule/Scheduler",
+                Url = "scheduler/clipboard",
+                FileName = "Clipboard.razor",
+                NotificationDescription = new string[]{ "Showcased the ability to cut, copy, and paste events seamlessly, enabling the addition and editing of events with ease." },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="Default",
+                        FileName="Clipboard.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="Data",
+                        FileName="ScheduleData.cs"
+                    }
+                }
             },
             new Sample
             {

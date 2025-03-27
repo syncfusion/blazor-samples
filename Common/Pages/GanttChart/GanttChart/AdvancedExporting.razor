@@ -4,6 +4,9 @@
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.PdfExport
 @using Syncfusion.Blazor.Grids
+@using System.IO
+@using System.Net
+@inject IJSRuntime JSRuntime
 @inject NavigationManager NavigationManager
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
@@ -20,13 +23,47 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGantt @ref="@ganttChartRef" DataSource="@ProjectTasks" EnableCriticalPath="true" AllowResizing="true" AllowPdfExport="true" AllowExcelExport="true" Width="100%" Height="450px" Toolbar="ToolbarItems" ProjectStartDate="@ProjectStartDate">
+            <SfGantt @ref="@ganttChartRef" DataSource="@ProjectTasks" EnableCriticalPath="true" AllowResizing="true" AllowPdfExport="true" AllowExcelExport="true" Width="100%" Height="700px" Toolbar="ToolbarItems" ProjectStartDate="@ProjectStartDate" 
+                     ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate"
-                 EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+                EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
                 </GanttTaskFields>
                 <GanttEditSettings AllowEditing="false" AllowAdding="false" AllowTaskbarEditing="false" AllowSchedulingOnDrag="true" Mode="Syncfusion.Blazor.Gantt.EditMode.Dialog"></GanttEditSettings>
                 <GanttSplitterSettings ColumnIndex="2"></GanttSplitterSettings>
-                <GanttLabelSettings LeftLabel="TaskName" TValue="TaskData"></GanttLabelSettings>
+                <GanttLabelSettings TValue="TaskData">
+                    <RightLabelTemplate>
+                        @{
+                            var taskData = context as TaskData;
+                            if (taskData.ResourceName != null)
+                            {
+                                var resourceName = taskData.ResourceName.Trim().Replace(" ", "").ToLower();
+                                <div class="e-right-label-inner-div">
+                                    <img class="e-label image" role="presentation"
+                                    src="@NavigationManager.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png")" alt="@resourceName"/>
+
+                                </div>
+                            }
+                        }
+                    </RightLabelTemplate>
+                    <LeftLabelTemplate>
+                        @{
+                            var taskItem = context as TaskData;
+                            if (taskItem.TaskId != 7)
+                            {
+                                <div class="e-left-label-inner-div" style="margin-top:7px;color:#1A3A5E;">
+                                    <span class="e-label">@taskItem.TaskName</span>
+                                </div>
+                            }
+                            else
+                            {
+                                <div class="e-left-label-inner-div" style="margin-top:7px;color:#8E2440">
+                                    <span class="e-label">Custom Label</span>
+                                </div>
+                            }
+                        }
+
+                    </LeftLabelTemplate>
+                </GanttLabelSettings>
                 <GanttColumns>
                     <GanttColumn Field="TaskId" HeaderText="Id"></GanttColumn>
                     <GanttColumn Field="TaskName" HeaderText="Name" Width="250"></GanttColumn>
@@ -37,18 +74,12 @@
                     <GanttColumn Field="Predecessor" HeaderText="Dependency" Width="105px"></GanttColumn>
                 </GanttColumns>
                 <GanttEventMarkers>
-                    <GanttEventMarker Day="new DateTime(2021, 04, 04)" Label="Project approval and kick-off"
-                    CssClass="e-custom-event-marker"></GanttEventMarker>
-                    <GanttEventMarker Day="new DateTime(2021, 04, 16)" Label="Branding product"
+                    <GanttEventMarker Day="new DateTime(2025, 04, 11)" Label="Branding product"
                     CssClass="e-custom-event-marker"></GanttEventMarker>
                 </GanttEventMarkers>
-                 <GanttHolidays>
-                    <GanttHoliday From="@Holiday1" To="@Holiday2" Label="Public holidays"
-                          CssClass="e-custom-holiday"></GanttHoliday>
-                    <GanttHoliday From="@Holiday3" To="@Holiday4" Label="Public holiday"
-                          CssClass="e-custom-holiday"></GanttHoliday>
-                 </GanttHolidays>
-                 <GanttEvents OnToolbarClick="ToolbarClickHandler" PdfQueryTaskbarInfo="PdfQueryTaskbarInfoHandler" QueryChartRowInfo="QueryChartRowInfo" TValue=TaskData></GanttEvents>
+
+                <GanttEvents OnToolbarClick="ToolbarClickHandler" PdfQueryTaskbarInfo="PdfQueryTaskbarInfoHandler" QueryChartRowInfo="QueryChartRowInfo" TValue=TaskData></GanttEvents>
+                <GanttCriticalPathSettings SlackValue="5"></GanttCriticalPathSettings>
             </SfGantt>
         </div>
     </div>
@@ -56,18 +87,42 @@
 @code {
 
     private List<TaskData> ProjectTasks { get; set; }
-    private DateTime Holiday1 { get; set; } = new DateTime(2021, 04, 11);
-    private DateTime Holiday2 { get; set; } = new DateTime(2021, 04, 12);
-    private DateTime Holiday3 { get; set; } = new DateTime(2021, 04, 01);
-    private DateTime Holiday4 { get; set; } = new DateTime(2021, 04, 01);
-    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 25);
+    private DateTime Holiday1 { get; set; } = new DateTime(2025, 03, 29);
+    private DateTime Holiday2 { get; set; } = new DateTime(2025, 03, 29);
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2025, 3, 25);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2025, 5, 18);
     private string HeaderText { get; set; } = "Product Development Lifecycle\nGantt Chart Report\nApril 2021 - May 2021";
     private string FooterText { get; set; } = $"© 2024 Syncfusion Inc. All Rights Reserved.\nGenerated on: {DateTime.Now:MMMM dd, yyyy h:mm tt}";
     private List<Object> ToolbarItems { get; set; } = new List<Object>() { new ToolbarItem() { Text = "PDF Export", TooltipText = "PDF Export", Id = "PdfExport", PrefixIcon = "e-pdfexport" } };
     private SfGantt<TaskData> ganttChartRef;
+    private Dictionary<string, string> pdfExportImage = new Dictionary<string, string>();
+
     protected override async Task OnInitializedAsync()
     {
         ProjectTasks = TaskCollection();
+        var resourceNames = ProjectTasks
+        .Where(task => !string.IsNullOrEmpty(task.ResourceName))  // Exclude empty/null values
+        .Select(task => task.ResourceName.Trim().Replace(" ", "").ToLower())  // Normalize names
+        .Distinct() // Ensure uniqueness
+        .ToList();
+
+        foreach (var resourceName in resourceNames)
+        {
+            var filePath = NavigationManager.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png").ToString();
+
+            try
+            {
+                var base64String = await JSRuntime.InvokeAsync<string>("convertGanttImageBaseUrl", filePath);
+                if (!string.IsNullOrEmpty(base64String))
+                {
+                    pdfExportImage[resourceName] = base64String;
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Error loading image {resourceName}: {ex.Message}");
+            }
+        }
         await Task.CompletedTask;
     }
 
@@ -82,6 +137,7 @@
         public string Predecessor { get; set; }
         public string Notes { get; set; }
         public int? ParentId { get; set; }
+        public string ResourceName { get; set; }
 
     }
     private async void ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
@@ -199,36 +255,59 @@
             args.TaskbarStyle.Color.CriticalPathProgressColor = new Syncfusion.PdfExport.PdfColor(176, 0, 138);
             args.TaskbarStyle.Color.CriticalPathTaskbarColor = new Syncfusion.PdfExport.PdfColor(255, 206, 244);
         }
+        if (args.Data.TaskId == 7)
+        {
+            args.LabelSettings.LeftLabelValue = "Custom Label";
+            args.LabelSettings.LeftLabel = new PdfElementStyle{ Font = new PdfGridFont { FontSize = 3.5, TextColor = "#8E2440"} }; // Deep burgundy
+        }
+        else
+        {
+            args.LabelSettings.LeftLabelValue = args.Data.TaskName;
+            args.LabelSettings.LeftLabel = new PdfElementStyle { Font = new PdfGridFont { FontSize = 3.5, TextColor = "#1A3A5E" } }; // Dark navy blue
+        }
+        if (!string.IsNullOrEmpty(args.Data.ResourceName))
+        {
+            var resourceName = args.Data.ResourceName.Trim().Replace(" ", "").ToLower();
+
+            if (pdfExportImage.TryGetValue(resourceName, out string base64String))
+            {
+                byte[] imageBytes = Convert.FromBase64String(base64String);
+                using MemoryStream imageStream = new MemoryStream(imageBytes);
+                PdfImage image = PdfImage.FromStream(imageStream);
+
+                args.LabelSettings.RightLabel = new PdfElementStyle { Image = image };
+            }
+        }
     }
 
     private static List<TaskData> TaskCollection()
     {
         List<TaskData> Tasks = new List<TaskData>()
         {
-            new TaskData() { TaskId = 1, TaskName = "Product concept", StartDate = new DateTime(2021, 04, 02), EndDate = new DateTime(2021, 04, 08), Duration = "5 days" },
-            new TaskData() { TaskId = 2, TaskName = "Defining the product usage", StartDate = new DateTime(2021, 04, 02), EndDate = new DateTime(2021, 04, 08), Duration = "3", Progress = 30, ParentId = 1 },
-            new TaskData() { TaskId = 3, TaskName = "Defining the target audience", StartDate = new DateTime(2021, 04, 02), EndDate = new DateTime(2021, 04, 04), Duration = "3", Progress = 40, ParentId = 1 },
-            new TaskData() { TaskId = 4, TaskName = "Prepare product sketch and notes", StartDate = new DateTime(2021, 04, 05), EndDate = new DateTime(2021, 04, 08), Duration = "2", Progress = 30, ParentId = 1, Predecessor = "2" },
-            new TaskData() { TaskId = 5, TaskName = "Concept approval", StartDate = new DateTime(2021, 04, 08), EndDate = new DateTime(2021, 04, 08), Duration = "0", Predecessor = "3,4" },
-            new TaskData() { TaskId = 6, TaskName = "Market research", StartDate = new DateTime(2021, 04, 09), EndDate = new DateTime(2021, 04, 18), Predecessor = "2", Duration = "4", Progress = 30 },
-            new TaskData() { TaskId = 7, TaskName = "Demand analysis", StartDate = new DateTime(2021, 04, 09), EndDate = new DateTime(2021, 04, 12), Duration = "4", Progress = 40, ParentId = 6 },
-            new TaskData() { TaskId = 8, TaskName = "Customer strength", StartDate = new DateTime(2021, 04, 09), EndDate = new DateTime(2021, 04, 12), Duration = "4", Progress = 30, ParentId = 7, Predecessor = "5" },
-            new TaskData() { TaskId = 9, TaskName = "Market opportunity analysis", StartDate = new DateTime(2021, 04, 09), EndDate = new DateTime(2021, 04, 012), Duration = "4", ParentId = 7, Predecessor = "5" },
-            new TaskData() { TaskId = 10, TaskName = "Competitor analysis", StartDate = new DateTime(2021, 04, 15), EndDate = new DateTime(2021, 04, 18), Duration = "4", Progress = 30, ParentId = 6, Predecessor = "7,8" },
-            new TaskData() { TaskId = 11, TaskName = "Product strength analysis", StartDate = new DateTime(2021, 04, 15), EndDate = new DateTime(2021, 04, 18), Duration = "4", Progress = 40, ParentId = 6, Predecessor = "9" },
-            new TaskData() { TaskId = 12, TaskName = "Research completed", StartDate = new DateTime(2021, 04, 18), EndDate = new DateTime(2021, 04, 18), Duration = "0", Progress = 30, ParentId = 6, Predecessor = "10" },
-            new TaskData() { TaskId = 13, TaskName = "Product design and development", StartDate = new DateTime(2021, 04, 19), EndDate = new DateTime(2021, 05, 16), Duration = "20", Predecessor = "6" },
-            new TaskData() { TaskId = 14, TaskName = "Functionality design", StartDate = new DateTime(2021, 04, 19), EndDate = new DateTime(2021, 04, 23), Duration = "3", Progress = 30, ParentId = 13, Predecessor = "12" },
-            new TaskData() { TaskId = 15, TaskName = "Quality design", StartDate = new DateTime(2021, 04, 19), EndDate = new DateTime(2021, 04, 23), Duration = "3", Progress = 40, ParentId = 13, Predecessor = "12" },
-            new TaskData() { TaskId = 16, TaskName = "Define reliability", StartDate = new DateTime(2021, 04, 24), EndDate = new DateTime(2021, 04, 25), Duration = "2", Progress = 30, ParentId = 13, Predecessor = "15" },
-            new TaskData() { TaskId = 17, TaskName = "Identifying raw materials", StartDate = new DateTime(2021, 04, 24), EndDate = new DateTime(2021, 04, 25), Duration = "2", ParentId = 13, Predecessor = "15" },
-            new TaskData() { TaskId = 18, TaskName = "Define cost plan", StartDate = new DateTime(2021, 04, 26), EndDate = new DateTime(2021, 04, 29), Duration = "2", Progress = 30, ParentId = 13, Predecessor = "17" },
-            new TaskData() { TaskId = 19, TaskName = "Manufacturing cost", StartDate = new DateTime(2021, 04, 26), EndDate = new DateTime(2021, 04, 29), Duration = "2", Progress = 40, ParentId = 18, Predecessor = "17" },
-            new TaskData() { TaskId = 20, TaskName = "Selling cost", StartDate = new DateTime(2021, 04, 26), EndDate = new DateTime(2021, 04, 29), Duration = "2", Progress = 30, ParentId = 18, Predecessor = "17" },
-            new TaskData() { TaskId = 21, TaskName = "Development of final design", StartDate = new DateTime(2021, 04, 30), EndDate = new DateTime(2021, 05, 08), Duration = "7", ParentId = 13 },
-            new TaskData() { TaskId = 22, TaskName = "Develop dimensions and design", StartDate = new DateTime(2021, 04, 30), EndDate = new DateTime(2021, 05, 01), Duration = "2", Progress = 30, ParentId = 21, Predecessor = "19,20" },
-            new TaskData() { TaskId = 23, TaskName = "Develop designs to meet industry", StartDate = new DateTime(2021, 05, 02), EndDate = new DateTime(2021, 05, 03), Duration = "2", Progress = 40, ParentId = 21, Predecessor = "22" },
-            new TaskData() { TaskId = 24, TaskName = "Include all the details", StartDate = new DateTime(2021, 05, 06), EndDate = new DateTime(2021, 05, 08), Duration = "3", Progress = 30, ParentId = 21, Predecessor = "23" },
+            new TaskData() { TaskId = 1, TaskName = "Product concept", StartDate = new DateTime(2025, 04, 02), EndDate = new DateTime(2025, 04, 08), Duration = "5 days" },
+            new TaskData() { TaskId = 2, TaskName = "Defining the product usage", StartDate = new DateTime(2025, 03, 29), EndDate = new DateTime(2025, 04, 08), Duration = "3", Progress = 30, ResourceName = "Rose Fuller", ParentId = 1 },
+            new TaskData() { TaskId = 3, TaskName = "Defining the target audience", StartDate = new DateTime(2025, 3, 29), EndDate = new DateTime(2025, 04, 04), Duration = "3", Progress = 40, ResourceName = "Margaret Buchanan", ParentId = 1 },
+            new TaskData() { TaskId = 4, TaskName = "Prepare product sketch and notes", StartDate = new DateTime(2025, 04, 05), EndDate = new DateTime(2025, 04, 08), Duration = "2", Progress = 30, ResourceName = "Fuller King", ParentId = 1, Predecessor = "2" },
+            new TaskData() { TaskId = 5, TaskName = "Concept approval", StartDate = new DateTime(2025, 04, 08), EndDate = new DateTime(2025, 04, 08), Duration = "0", Predecessor = "4" },
+            new TaskData() { TaskId = 6, TaskName = "Market research", StartDate = new DateTime(2025, 04, 09), EndDate = new DateTime(2025, 04, 18), Duration = "4", Progress = 30 },
+            new TaskData() { TaskId = 7, TaskName = "Demand analysis", StartDate = new DateTime(2025, 04, 09), EndDate = new DateTime(2025, 04, 12), Duration = "4", Progress = 40, ParentId = 6 },
+            new TaskData() { TaskId = 8, TaskName = "Customer strength", StartDate = new DateTime(2025, 04, 09), EndDate = new DateTime(2025, 04, 12), Duration = "4", Progress = 30, ResourceName = "Martin Tamer", ParentId = 7, Predecessor = "5" },
+            new TaskData() { TaskId = 9, TaskName = "Market opportunity analysis", StartDate = new DateTime(2025, 04, 09), EndDate = new DateTime(2025, 04, 12), Duration = "4", ResourceName = "Jack Davolio", ParentId = 7, Predecessor = "5" },
+            new TaskData() { TaskId = 10, TaskName = "Competitor analysis", StartDate = new DateTime(2025, 04, 15), EndDate = new DateTime(2025, 04, 18), Duration = "4", Progress = 30, ResourceName = "Margaret Buchanan", ParentId = 6 },
+            new TaskData() { TaskId = 11, TaskName = "Product strength analysis", StartDate = new DateTime(2025, 04, 15), EndDate = new DateTime(2025, 04, 18), Duration = "4", Progress = 40, ResourceName = "Jos", ParentId = 6, Predecessor = "9" },
+            new TaskData() { TaskId = 12, TaskName = "Research completed", StartDate = new DateTime(2025, 04, 18), EndDate = new DateTime(2025, 04, 18), Duration = "0", Progress = 30, ParentId = 6, Predecessor = "10" },
+            new TaskData() { TaskId = 13, TaskName = "Product design and development", StartDate = new DateTime(2025, 04, 19), EndDate = new DateTime(2025, 05, 16), Duration = "20", Predecessor = "6" },
+            new TaskData() { TaskId = 14, TaskName = "Functionality design", StartDate = new DateTime(2025, 04, 19), EndDate = new DateTime(2025, 04, 23), Duration = "3", Progress = 30, ResourceName = "Fuller King", ParentId = 13, Predecessor = "12" },
+            new TaskData() { TaskId = 15, TaskName = "Quality design", StartDate = new DateTime(2025, 04, 19), EndDate = new DateTime(2025, 04, 23), Duration = "4", Progress = 40, ResourceName = "Van Jack", ParentId = 13, Predecessor = "12" },
+            new TaskData() { TaskId = 16, TaskName = "Define reliability", StartDate = new DateTime(2025, 04, 24), EndDate = new DateTime(2025, 04, 25), Duration = "2", Progress = 30, ResourceName = "Margaret Buchanan", ParentId = 13, Predecessor = "15" },
+            new TaskData() { TaskId = 17, TaskName = "Identifying raw materials", StartDate = new DateTime(2025, 04, 24), EndDate = new DateTime(2025, 04, 25), Duration = "2", ResourceName = "Martin Tamer", ParentId = 13, Predecessor = "15" },
+            new TaskData() { TaskId = 18, TaskName = "Define cost plan", StartDate = new DateTime(2025, 04, 26), EndDate = new DateTime(2025, 04, 29), Duration = "2", Progress = 30, ParentId = 13, Predecessor = "17" },
+            new TaskData() { TaskId = 19, TaskName = "Manufacturing cost", StartDate = new DateTime(2025, 04, 26), EndDate = new DateTime(2025, 04, 29), Duration = "3", Progress = 40, ResourceName = "Jack Davolio", ParentId = 18, Predecessor = "17" },
+            new TaskData() { TaskId = 20, TaskName = "Selling cost", StartDate = new DateTime(2025, 04, 26), EndDate = new DateTime(2025, 04, 29), Duration = "3", Progress = 30, ResourceName = "Rose Fuller", ParentId = 18, Predecessor = "17" },
+            new TaskData() { TaskId = 21, TaskName = "Development of final design", StartDate = new DateTime(2025, 04, 30), EndDate = new DateTime(2025, 05, 08), Duration = "7", ParentId = 13 },
+            new TaskData() { TaskId = 22, TaskName = "Develop dimensions and design", StartDate = new DateTime(2025, 04, 30), EndDate = new DateTime(2025, 05, 01), Duration = "2", Progress = 30, ResourceName = "Jos", ParentId = 21, Predecessor = "19,20" },
+            new TaskData() { TaskId = 23, TaskName = "Develop designs to meet industry", StartDate = new DateTime(2025, 05, 02), EndDate = new DateTime(2025, 05, 03), Duration = "3", Progress = 40, ResourceName = "Kalin", ParentId = 21, Predecessor = "22" },
+            new TaskData() { TaskId = 24, TaskName = "Include all the details", StartDate = new DateTime(2025, 05, 06), EndDate = new DateTime(2025, 05, 08), Duration = "3", Progress = 30, ResourceName = "Fuller King", ParentId = 21, Predecessor = "23" },
         };
         return Tasks;
     }
@@ -249,5 +328,19 @@
 
     .progress-critical-dark .e-gantt-child-progressbar {
         background: #AC0688 !important;
+    }
+    .image{
+        width:100%;
+        height: 22px;
+    }
+    .e-bigger .image{
+        width:100%;
+        height:32px;
+    }
+    .e-left-label-inner-div{
+        height:22px;
+    }
+    .e-bigger .e-left-label-inner-div{
+        height:32px;
     }
 </style>

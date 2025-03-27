@@ -23,6 +23,10 @@ namespace Syncfusion.Blazor.InteractiveChatDemo
         {
             return new List<string> { "How do I set daily goals in my work day?", "Steps to publish a e-book with marketing strategy" };
         }
+        public List<string> GetStreamingSuggestionData()
+        {
+            return new List<string> {  "What are the main features of the AI AssistView component?", "What is Markdown and how is it used?" };
+        }
 
         public List<PromptResponseData> GetAllPromptResponseData()
         {
@@ -72,6 +76,57 @@ namespace Syncfusion.Blazor.InteractiveChatDemo
 
             return promptResponseData;
         }
+
+        public List<PromptResponseData> GetStreamingData()
+        {
+            List<PromptResponseData> streamingData = new List<PromptResponseData>
+            {
+                new PromptResponseData
+                {
+                    Prompt = "What are the main features of the AI AssistView component?",
+                    Response = "The AI AssistView component offers several powerful features that enhance user interaction:\n\n- **Customizable Views:** Allows for custom templates to be used for banners, prompts, responses, and suggestions.\n- **Streaming Responses:** Provides real-time feedback as data is processed, enhancing immediacy and user engagement.\n- **Interactive Toolbar:** Easily integrates custom toolbar items, such as buttons and inputs, enhancing functionality.\n- **Seamless Integration:** Connects with AI services to provide advanced processing and intelligent responses.",
+                    SuggestionData = new List<string> { "How can I customize the appearance of AI AssistView?", "What are the benefits of using Markdown?" }
+                },
+                new PromptResponseData
+                {
+                    Prompt = "How can I customize the appearance of AI AssistView?",
+                    Response = "Customizing AI AssistView enables you to tailor the look and functionality to suit specific needs:\n\n- **Template Customization:** Modify templates for prompts, responses, and more.\n- **CSS Styling:** Apply custom styles to align with your application’s visual theme.\n- **Theme Support:** Utilize built-in themes or create your own for consistent styling.\n- **Banner and Toolbar Configurations:** Adjust content and tools for personalized UI experiences.",
+                    SuggestionData = new List<string> { "What customization options are available in AI AssistView?", "What are the main features of the AI AssistView component?" }
+                },
+                new PromptResponseData
+                {
+                    Prompt = "What is Markdown and how is it used?",
+                    Response = "Markdown is a straightforward syntax used primarily for formatting text documents:\n\n- **Headers:** Create headings with `#`, `##`, `###` for different levels.\n- **Emphasis:** Use `*text*` for italic and `**text**` for bold.\n- **Links and Images:** `[Link](URL)`, `![Alt Text](ImageURL)` to include links and images.\n- **Lists and Code Blocks:** Use `-` for lists and triple backticks ``` for code blocks.\n\nMarkdown’s simplicity and readability make it ideal for writing documentation.",
+                    SuggestionData = new List<string> { "What are the benefits of using Markdown?", "What customization options are available in AI AssistView?" }
+                },
+                new PromptResponseData
+                {
+                    Prompt = "What customization options are available in AI AssistView?",
+                    Response = "AI AssistView provides extensive customization options for tailored user interactions:\n\n- **Templates:** Use `<PromptItemTemplate>`, `<ResponseItemTemplate>`, etc., for customized display.\n- **Custom Toolbar Items:** Add buttons and other controls via `AssistViewToolbar`.\n- **Dynamic Content:** Update content based on user actions or external events.\n- **Styling:** Full CSS support for styling individual components and layouts.",
+                    SuggestionData = new List<string>()
+                },
+                new PromptResponseData
+                {
+                    Prompt = "What are the benefits of using Markdown?",
+                    Response = "Markdown provides several benefits, especially in documentation and writing:\n\n- **Ease of Use:** Its syntax is simple and quick to learn, increasing productivity.\n- **Readability:** Plain text format ensures content is easy to read and edit.\n- **Flexibility:** Can be converted to HTML, PDF, and other formats easily.\n- **Collaboration:** Widely supported in various tools for collaborative writing and documentation.",
+                    SuggestionData = new List<string>()
+                },
+                new PromptResponseData
+                {
+                    Prompt = "Prime number checking C# example?",
+                    Response = "<pre><code class=\"csharp language-csharp\">using System;\n\nclass Program\n{\n    static bool IsPrime(int n)\n    {\n        if (n <= 1) return false;\n        for (int i = 2; i <= Math.Sqrt(n); i++)\n            if (n % i == 0) return false;\n        return true;\n    }\n\n    static void Main()\n    {\n        Console.WriteLine(IsPrime(11)); // True\n    }\n}\n</code></pre>",
+                    SuggestionData = new List<string>()
+                },
+                new PromptResponseData
+                {
+                    Prompt = "Generate Fibonacci sequence C# example?",
+                    Response = "<pre><code class=\"csharp language-csharp\">using System;\n\nclass Program\n{\n    static void Fibonacci(int n)\n    {\n        int a = 0, b = 1, c;\n        for (int i = 0; i < n; i++)\n        {\n            Console.Write(a + \" \");\n            c = a + b;\n            a = b;\n            b = c;\n        }\n    }\n\n    static void Main()\n    {\n        Fibonacci(10); // 0 1 1 2 3 5 8 13 21 34\n    }\n}\n</code></pre>",
+                    SuggestionData = new List<string>()
+                }
+            };
+            return streamingData;
+        }
+
 
         public List<PromptResponseData> GetTemplatePromptResponseData()
         {

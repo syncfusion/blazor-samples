@@ -1,6 +1,7 @@
 ﻿@page "/DateRangePicker/Preset-Ranges"
 
 @using Syncfusion.Blazor.Calendars
+@using System.Globalization
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
@@ -17,10 +18,10 @@
         <label class="example-label">Account statement</label>
         <SfDateRangePicker TValue="DateTime?" Placeholder="Choose a period" ShowClearButton="true" FullScreen="true">
             <DateRangePickerPresets>
-                <DateRangePickerPreset Label="This Week" Start="@WeekStart" End="@WeekEnd"></DateRangePickerPreset>
-                <DateRangePickerPreset Label="This Month" Start="@MonthStart" End="@MonthEnd"></DateRangePickerPreset>
-                <DateRangePickerPreset Label="Last Month" Start="@LastMonthStart" End="@LastMonthEnd"></DateRangePickerPreset>
-                <DateRangePickerPreset Label="Last Year" Start="@LastYearStart" End="@LastYearEnd"></DateRangePickerPreset>
+                <DateRangePickerPreset Label="@LabelThisWeek" Start="@WeekStart" End="@WeekEnd"></DateRangePickerPreset>
+                <DateRangePickerPreset Label="@LabelThisMonth" Start="@MonthStart" End="@MonthEnd"></DateRangePickerPreset>
+                <DateRangePickerPreset Label="@LabelLastMonth" Start="@LastMonthStart" End="@LastMonthEnd"></DateRangePickerPreset>
+                <DateRangePickerPreset Label="@LabelLastYear" Start="@LastYearStart" End="@LastYearEnd"></DateRangePickerPreset>
             </DateRangePickerPresets>
         </SfDateRangePicker>
     </div>
@@ -40,6 +41,11 @@
 </style>
 
 @code {
+    private string LabelThisWeek { get; set; } 
+    private string LabelThisMonth { get; set; } 
+    private string LabelLastMonth { get; set; } 
+    private string LabelLastYear { get; set; } 
+
     private DateTime LastMonth { get; set; }
     private DateTime WeekStart { get; set; }
     private DateTime WeekEnd { get; set; }
@@ -63,5 +69,31 @@
         LastMonthEnd = LastMonthStart.AddMonths(1).AddDays(-1);
         LastYearStart = new DateTime(DateTime.Now.Year - 1, 1, 1);
         LastYearEnd = new DateTime(DateTime.Now.Year - 1, 12, 31);
+
+        var CurrentCulture = CultureInfo.CurrentCulture;
+        UpdateLabels(CurrentCulture);
+    }
+
+    private void UpdateLabels(CultureInfo culture)
+    {
+        var labels = GetLocalizedLabels(culture);
+        LabelThisWeek = labels["ThisWeek"];
+        LabelThisMonth = labels["ThisMonth"];
+        LabelLastMonth = labels["LastMonth"];
+        LabelLastYear = labels["LastYear"];
+    }
+
+    private Dictionary<string, string> GetLocalizedLabels(CultureInfo culture)
+    {
+        var localizedLabels = new Dictionary<string, Dictionary<string, string>>
+            {
+                ["en"] = new Dictionary<string, string> { { "ThisWeek", "This Week" }, { "ThisMonth", "This Month" }, { "LastMonth", "Last Month" }, { "LastYear", "Last Year" } },
+                ["fr-CH"] = new Dictionary<string, string> { { "ThisWeek", "Cette semaine" }, { "ThisMonth", "Ce mois-ci" }, { "LastMonth", "Le mois dernier" }, { "LastYear", "L'année dernière" } },
+                ["de-DE"] = new Dictionary<string, string> { { "ThisWeek", "Diese Woche" }, { "ThisMonth", "Diesen Monat" }, { "LastMonth", "Letzter Monat" }, { "LastYear", "Letztes Jahr" } },
+                ["zh-CN"] = new Dictionary<string, string> { { "ThisWeek", "本周" }, { "ThisMonth", "本月" }, { "LastMonth", "上个月" }, { "LastYear", "去年" } }
+    
+            };
+    
+        return localizedLabels.TryGetValue(culture.Name, out var labels) ? labels : localizedLabels["en"];
     }
 }

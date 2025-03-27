@@ -24,7 +24,7 @@
             <label class="e-btn" for="nonLinear">Non-Linear</label>
         </div>
         <div class="linear-stepper-control">
-            <SfStepper @ref="LinearStepperComponent" ID="linear-stepper" StepChanged="(args)=>UpdateStepContent(args.ActiveStep)">
+            <SfStepper @ref="LinearStepperComponent" ID="linear-stepper" Linear="@linearMode" StepChanged="(args)=>UpdateStepContent(args.ActiveStep)">
                 <StepperSteps>
                     <StepperStep IconCss="sf-icon-form" Label="Project Setup"></StepperStep>
                     <StepperStep IconCss="sf-icon-tasksheet" Label="Task Planning"></StepperStep>
@@ -50,6 +50,7 @@
 </div>
 
 @code {
+    private bool linearMode { get; set; } = true;
     private bool IsNext { get; set; } = true;
     private bool IsPrevious { get; set; } = false;
     private SfStepper LinearStepperComponent { get; set; }
@@ -59,17 +60,9 @@
         "<ul><li>During this phase, the project's scope and objectives are clearly defined, along with the establishment of initial settings and parameters.</li>" +
         "<li>This step involves outlining the primary goals, deliverables, and the overall vision of the project to ensure a comprehensive understanding among all stakeholders.</li></ul>");
 
-    protected override void OnAfterRender(bool firstRender)
-    {
-        if (firstRender)
-        {
-            LinearStepperComponent.Linear = true;
-        }
-    }
-
     private async void SetStepperMode(bool isLinear)
     {
-        LinearStepperComponent.Linear = isLinear;
+        linearMode = isLinear;
         await LinearStepperComponent.ResetAsync();
         UpdateStepContent(LinearStepperComponent.ActiveStep);
     }

@@ -15,7 +15,9 @@
 @using System.Text.RegularExpressions;
 @using BlazorDemos.Model
 @using BlazorDemos.Service
-@inject AzureAIService semanticKernelAI
+@using SmartComponents.LocalEmbeddings
+@inject LocalEmbedder embedder;
+@inject AzureAIService openAIService
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
@@ -45,62 +47,155 @@
     </p>
 </ActionDescription>
 @*Hidden:Lines*@
-@{#if (SHOW_GIF_IMAGES)}
-<img src="@NavigationManager.ToAbsoluteUri($" {SampleService.WebAssetsPath}images/smartcomponents/pdf-viewer/summarize.gif")" style="width:100%; height:100%;" />
-@{#else}
+<AIToastNotification></AIToastNotification>
 @*End:Hidden*@
-<div class="control-section">
-    <div class="parent-container">
-        <div id="left">
-            <SfPdfViewer2 @ref="sfPdfViewer2" DocumentPath="https://cdn.syncfusion.com/content/pdf/pdf-succinctly.pdf">
-                <PdfViewerEvents DocumentLoaded="DocumentLoaded" DocumentUnloaded="DocumentUnLoaded"></PdfViewerEvents>
-            </SfPdfViewer2>
-            @if (isDocumentLoaded && !isPopupVisible)
-            {
-                <SfButton IconCss="e-icons e-aiassist-chat" Content="AI Assist View" CssClass="toggleButton" @onclick="toggleAssistView"></SfButton>
-            }
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="control-section">
+             <div class="summarize-container">
+                 <div id="left" style="width:@(isPopupVisible ?" 70%" : "100%" )">
+                     <SfPdfViewer2 id="pdf-viewer" @ref="sfPdfViewer2" DocumentPath="https://cdn.syncfusion.com/content/pdf/pdf-succinctly.pdf"
+                         ZoomMode="ZoomMode.FitToPage">
+                         <PdfViewerEvents DocumentLoaded="DocumentLoaded" DocumentUnloaded="DocumentUnLoaded"></PdfViewerEvents>
+                     </SfPdfViewer2>
+                     @if (isDocumentLoaded && !isPopupVisible)
+                     {
+                         <SfFab IconCss="e-icons e-ai-chat" OnClick="ToggleAssistView" Position="FabPosition.BottomRight" Target="#pdf-viewer"></SfFab>
+                     }
+                 </div>
+
+                 @if (isPopupVisible)
+                 {
+                 <div id="right" style="width:@(isPopupVisible ?" 30%" : "0%" )">
+                     <SfAIAssistView @ref="aIAssistView" Height="100%" Prompts="@_prompts"
+                         PromptPlaceholder="@_promptPlaceholder" PromptSuggestionsHeader="Suggested Prompts"
+                         PromptSuggestions="@_promptSuggestions" ResponseIconCss="e-icons e-aiassist-chat"
+                         PromptRequested="@OnPromptRequested" CssClass="custom-ai-assist">
+
+                         <AssistViews>
+                             <AssistView IconCss="e-icons e-aiassist-chat">
+                                 <BannerTemplate>
+                                     <div class="ai-assist-banner">
+                                         <div class="e-icons e-aiassist-chat"></div>
+                                         <h2>AI Assistant</h2>
+                                     </div>
+                                 </BannerTemplate>
+                                 <ChildContent>
+                                     <PromptToolbar ItemClicked="PromptToolbarItemClicked">
+                                     </PromptToolbar>
+
+                                     <ResponseToolbar ItemClicked="ResponseToolbarItemClicked">
+                                     </ResponseToolbar>
+                                 </ChildContent>
+                             </AssistView>
+                         </AssistViews>
+
+                         <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                             <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                             <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+                             <AssistViewToolbarItem IconCss="e-icons e-close"></AssistViewToolbarItem>
+                         </AssistViewToolbar>
+                     </SfAIAssistView>
+                 </div>
+                 }
+             </div>
         </div>
-
-        @if (isPopupVisible)
-        {
-            <div id="right">
-                <SfAIAssistView @ref="aIAssistView" Height="100%" Prompts="@_prompts" PromptPlaceholder="@_promptPlaceholder" PromptSuggestionsHeader="Suggested Prompts"
-                                PromptSuggestions="@_promptSuggestions" ResponseIconCss="e-icons e-aiassist-chat"
-                                PromptRequested="@OnPromptRequested" CssClass="custom-ai-assist">
-
-                    <AssistViews>
-                        <AssistView IconCss="e-icons e-aiassist-chat">
-                            <BannerTemplate>
-                                <div class="ai-assist-banner">
-                                    <div class="e-icons e-aiassist-chat"></div>
-                                    <h2>AI Assistance</h2>
-                                    <div class="ai-assist-banner-subtitle">Your everyday AI companion</div>
-                                </div>
-                            </BannerTemplate>
-                            <ChildContent>
-                                <PromptToolbar ItemClicked="PromptToolbarItemClicked">
-                                </PromptToolbar>
-
-                                <ResponseToolbar ItemClicked="ResponseToolbarItemClicked">
-                                </ResponseToolbar>
-                            </ChildContent>
-                        </AssistView>            
-                    </AssistViews>
-
-                    <AssistViewToolbar ItemClicked="ToolbarItemClicked">
-                        <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
-                        <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
-                        <AssistViewToolbarItem IconCss="e-icons e-close"></AssistViewToolbarItem>
-                    </AssistViewToolbar>
-                </SfAIAssistView>
-            </div>
-        }
     </div>
 </div>
-@*Hidden:Lines*@
-@{#endif}
-@*End:Hidden*@
-@code {
+
+<style>
+    #right .e-aiassistview .e-footer{
+        width: 100%;
+    }
+    .e-fab.e-btn.e-fab-right {
+        right: 75px !important;
+    }
+    .summarize-container {
+        display: flex;
+        width: 100%
+    }
+
+    #left {
+        transition: width 0.3s;
+        position: relative;
+    }
+
+    #right {
+        transition: width 0.3s;
+        height: 100% !important;
+        padding-left: 20px;
+    }
+
+    .assist-view-btn {
+        position: absolute !important;
+        bottom: 40px !important;
+        right: 40px !important;
+    }
+    .e-bigger .assist-view-btn {
+        bottom: 24px !important;
+    }
+
+    .e-aiassist-footer,
+    .e-aiassist-view-container {
+        width: 100% !important;
+    }
+    .custom-dialog .e-dlg-content {
+        padding: 0;
+    }
+
+    .custom-ai-assist {
+        border: none;
+    }
+
+    .ai-assist-banner {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 200px;
+        font-size: 18px;
+        align-items: center;
+        text-align: center;
+    }
+
+    .ai-assist-banner h2 {
+        margin: 0;
+    }
+
+    .ai-assist-banner .e-icons:before {
+        font-size: 40px;
+    }
+
+    .compose-view,
+    .output-view {
+        width: max(70%, 400px);
+        border: 1px solid lightgray;
+        padding: 15px;
+        margin: 15px auto 20px;
+        border-radius: 7px;
+    }
+
+    .custom-btn {
+        width: 100%;
+        border-radius: 50px;
+        margin: 20px 0;
+    }
+
+    #AnnotationToolbar .e-toolbar-item.e-template .e-dropdown-btn {
+        border: none !important;
+        box-shadow: none;
+    }
+
+    .db-menu-container .e-dropdown-btn {
+        border: none;
+        box-shadow: none;
+    }
+
+    .e-aiassist-view .e-aiassist-footer .e-aiassist-send {
+        bottom: 36% !important
+    }
+</style>
+
+@code{
     private static SfPdfViewer2 sfPdfViewer2;
     private SfAIAssistView aIAssistView;
     private bool isPopupVisible = false;
@@ -109,29 +204,36 @@
     private bool isSummarized = false;
     private bool isDocumentLoadedInAI = false;
     private bool refreshContainer = false;
-    private DocumentSummarizer documentSummarizer = new DocumentSummarizer();
+    private PDFViewerModel summarizer;
     private MemoryStream documentStream = new MemoryStream();
     private string _promptPlaceholder = "Type your prompt for assistance...";
 
+    protected override Task OnInitializedAsync()
+    {
+        summarizer = new PDFViewerModel(embedder, openAIService);
+        return base.OnInitializedAsync();
+    }
+
     private List<string> _promptSuggestions = new List<string>();
-    // {
-    //     "Who is the author?",
-    //     "How many pages in this document?",
-    //     "Summarize this PDF in 2 lines"
-    // };
+
     private void PromptToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
     {
         // handle your actions
     }
 
-    private void ResponseToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    private async Task ResponseToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
     {
-        // handle your actions
+        if (args.Item.IconCss == "e-icons e-aiassist-copy")
+        {
+            string pattern = @"<a[^>]*>(\d+)</a>";
+            string textToCopy = Regex.Replace(_prompts[args.DataIndex].Response, pattern, "$1");
+            await JsRuntime.InvokeVoidAsync("navigator.clipboard.writeText", textToCopy);
+        }
     }
 
     private List<AssistViewPrompt> _prompts = new List<AssistViewPrompt>();
 
-    private void toggleAssistView()
+    private void ToggleAssistView()
     {
         isPopupVisible = !isPopupVisible;
         refreshContainer = true;
@@ -141,23 +243,32 @@
     private async Task OnPromptRequested(AssistViewPromptRequestedEventArgs args)
     {
         await Task.Delay(2000);
+        string suggestions = string.Empty;
         //get the response from the AI for the prompt
         if (args.Prompt == "Summarize this document.")
         {
             args.Response = await SummaryPDF();
+            suggestions = await summarizer.GetSuggestions();
         }
         else
         {
-            args.Response = await documentSummarizer.GetAnswer(args.Prompt);
+            var response = await summarizer.GetAnswer(args.Prompt);
+            // Split by "suggestions"
+            string[] responseArray = response.Split(new[] { "suggestions" }, StringSplitOptions.None);
+            if (responseArray.Length > 1)
+            {
+                args.Response = responseArray[0];
+                suggestions = responseArray[1];
+            }
         }
+        _promptSuggestions = new List<string>(suggestions.Split('\n').Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => System.Text.RegularExpressions.Regex.Replace(s, @"^\d+\.\s*", "")));
         string pattern = @"\[(?:Page )?(\d+(?:,\s*\d+)*)\]";
-
         // Replace the pattern with an HTML anchor tag
         args.Response = Regex.Replace(args.Response, pattern, m =>
         {
             // Split the matched value by commas and optional spaces
             var pages = m.Groups[1].Value.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var links = string.Join(", ", pages.Select(page => $"<a href=\"#\" onclick=\"goToPage({page})\">{page}</a>"));
+            var links = string.Join(", ", pages.Select(page => $"<a href=\"pdfviewer/summarizer/#\" onclick=\"goToPage({page})\">{page}</a>"));
             return $"[{links}]";
         });
     }
@@ -187,14 +298,13 @@
         await base.OnAfterRenderAsync(firstRender);
         if (refreshContainer)
         {
+            await Task.Delay(300);
             await sfPdfViewer2.UpdateViewerContainerAsync();
             if (isPopupVisible && !isSummarized)
             {
                 isSummarized = true;
                 //Initial prompt for AI
                 await aIAssistView.ExecutePromptAsync("Summarize this document.");
-                string suggestions = await documentSummarizer.GetSuggestions();
-                _promptSuggestions = new List<string>(suggestions.Split('\n').Where(s => !string.IsNullOrWhiteSpace(s)));
                 StateHasChanged();
             }
             refreshContainer = false;
@@ -222,7 +332,7 @@
         }
     }
 
-    public  void DocumentLoaded(LoadEventArgs args)
+    public void DocumentLoaded(LoadEventArgs args)
     {
         isDocumentLoaded = true;
 
@@ -246,149 +356,26 @@
         isPopupVisible = false;
         _prompts?.Clear();
         _promptSuggestions?.Clear();
-        if (documentSummarizer is IDisposable disposableSummarizer)
+        if (summarizer is IDisposable disposableSummarizer)
         {
             disposableSummarizer.Dispose();
         }
         documentStream?.Dispose();
     }
-    
-  #region AI Query Methods
+
+    #region AI Query Methods
     private async Task<string> SummaryPDF()
     {
+        string systemPrompt = "You are a helpful assistant. Your task is to analyze the provided text and generate short summary.";
         if (!isDocumentLoadedInAI)
         {
             byte[] bytes = await sfPdfViewer2.GetDocumentAsync();
             documentStream = new MemoryStream(bytes);
-            documentSummarizer.InitializeOpenAI(semanticKernelAI);
-            await documentSummarizer.LoadDocument(documentStream, "application/pdf");
+            await summarizer.LoadDocument(documentStream, "application/pdf");
             isDocumentLoadedInAI = true;
         }
         //get the summary of the PDF
-        return await documentSummarizer.GetDocumentSummary();
+        return await summarizer.FetchResponseFromAIService(systemPrompt);
     }
-  #endregion
+    #endregion
 }
-<style>
-    body {
-        margin: 0;
-        font-family: Arial, sans-serif;
-    }
-
-    .parent-container {
-        display: flex;
-        height: 100vh;
-        width: 100%
-    }
-
-    #left {
-        width: 100%;
-        background-color: lightblue;
-        transition: width 0.5s;
-        position: relative;
-    }
-
-    #right {
-        width: 40% !important;
-        background-color: lightgreen;
-        transition: width 0.5s;
-        height: 100% !important;
-    }
-
-    .toggleButton {
-        position: absolute;
-        bottom: 3%;
-        right: 3%;
-        padding: 10px 20px !important;
-        background-color: darkblue !important;
-        color: white !important;
-        border: none !important;
-        cursor: pointer !important;
-        z-index:1001
-    }
-
-    .toggleButton:hover {
-        background-color: darkcyan;
-    }
-
-    .e-aiassist-footer,
-    .e-aiassist-view-container {
-        width: 100% !important;
-    }
-
-    html, body {
-        height: 100%;
-    }
-
-    .custom-dialog .e-dlg-content {
-        padding: 0;
-    }
-
-    .custom-ai-assist {
-        border: none;
-    }
-
-    .ai-assist-banner {
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-        height: 200px;
-        font-size: 18px;
-        align-items: center;
-        text-align: center;
-    }
-
-        .ai-assist-banner h2 {
-            margin: 0;
-        }
-
-        .ai-assist-banner .e-icons:before {
-            font-size: 40px;
-        }
-
-    .compose-view,
-    .output-view {
-        width: max(70%, 400px);
-        border: 1px solid lightgray;
-        padding: 15px;
-        margin: 15px auto 20px;
-        border-radius: 7px;
-    }
-
-    .custom-btn {
-        width: 100%;
-        border-radius: 50px;
-        margin: 20px 0;
-    }
-
-    .e-dropdown-btn {
-        border: none !important;
-        box-shadow: none;
-    }
-    .e-aiassist-view .e-aiassist-footer .e-aiassist-send {
-        bottom: 36% !important
-    }
-    @@media (max-width: 420px) {
-        .container {
-            flex-direction: column;
-        }
-
-        #left {
-            width: 100%;
-            height: 100vh;
-        }
-
-        #right {
-            position: absolute;
-            left: 0;
-            width: 100% !important;
-            height: 100vh;
-            z-index: 1001;
-        }
-
-        #right.open {
-            display: block;
-        }
-    }
-
-</style>

@@ -551,6 +551,42 @@ namespace Blazor_MAUI_Demos
                 }
             }
         };
+
+        public List<Sample> SpeechToText { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "SpeechToText",
+                Directory = "Inputs/SpeechToText",
+                Url = "speech-to-text/default-functionalities",
+                FileName = "Default.razor",
+                NotificationDescription = new string[] {
+                    @"Showcases the basic functionality of the SpeechToText component, highlighting its integration and usage with basic configurations."
+                }
+            },
+            new Sample
+            {
+                Name = "Use Case",
+                Category = "SpeechToText",
+                Directory = "Inputs/SpeechToText",
+                Url = "speech-to-text/use-case",
+                FileName = "UseCase.razor",
+                NotificationDescription = new string[] {
+                    @"Illustrates the implementation of a SpeechToText component with real-time transcription, user management, and dynamic spoken message display."
+                }
+            },
+            new Sample
+            {
+                Name = "AI AssistView",
+                Category = "Integration",
+                Directory = "Inputs/SpeechToText",
+                Url = "speech-to-text/integration",
+                FileName = "Integration.razor",
+                NotificationDescription = new string[] {
+                    @"Demonstrates how to utilize the SpeechToText component in a real-time application, which captures and transcribes spoken input into text which are displayed in the editable area"
+                }
+            }
+        };
   }
 
    

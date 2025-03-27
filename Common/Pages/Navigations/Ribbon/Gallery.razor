@@ -236,13 +236,13 @@
                                 <RibbonCollection>
                                     <RibbonItems>
                                         <RibbonItem Type=RibbonItemType.CheckBox>
-                                            <RibbonCheckBoxSettings Label="Ruler" Checked="false" ValueChange="@(() => UpdateContent("Ruler"))"></RibbonCheckBoxSettings>
+                                            <RibbonCheckBoxSettings Label="Ruler" ValueChange="@(() => UpdateContent("Ruler"))"></RibbonCheckBoxSettings>
                                         </RibbonItem>
                                         <RibbonItem Type=RibbonItemType.CheckBox>
-                                            <RibbonCheckBoxSettings Label="Gridlines" Checked="false" ValueChange="@(() => UpdateContent("Gridlines"))"></RibbonCheckBoxSettings>
+                                            <RibbonCheckBoxSettings Label="Gridlines" ValueChange="@(() => UpdateContent("Gridlines"))"></RibbonCheckBoxSettings>
                                         </RibbonItem>
                                         <RibbonItem Type=RibbonItemType.CheckBox>
-                                            <RibbonCheckBoxSettings Label="Navigation Pane" Checked="true" ValueChange="@(() => UpdateContent("Navigation Pane"))"></RibbonCheckBoxSettings>
+                                            <RibbonCheckBoxSettings Label="Navigation Pane" @bind-Checked="@checkedState" ValueChange="@(() => UpdateContent("Navigation Pane"))"></RibbonCheckBoxSettings>
                                         </RibbonItem>
                                     </RibbonItems>
                                 </RibbonCollection>
@@ -286,6 +286,7 @@
     SfRibbon ribbonRef;
     private int gallerySelectedItemIndex = 2;
     bool isPasteDisabled = true;
+    private bool checkedState = true;
 
     private async Task EnablePaste(string text)
     {
@@ -344,7 +345,16 @@
 
     private async void HandleFilemenuSelection(FileMenuItemSelectEventArgs args)
     {
-        await UpdateContent("File -> " + args.Item.Text);
+        var id = args.Item.Id;
+        var text = args.Item.Text;
+        if (id == "word" || id == "word97" || id == "pdf")
+        {
+            await UpdateContent("File -> Save as -> " + text);
+        }
+        else
+        {
+            await UpdateContent("File -> " + text);
+        }
     }
 
     private async Task UpdateContent(string text)
@@ -462,6 +472,11 @@
             Text = "Save",
             IconCss = "e-icons e-save",
             Id = "save",
+            Items = new List<MenuItem>() {
+                new MenuItem { Text = "Microsoft Word (.docx)", IconCss = "sf-icon-word", Id = "word" },
+                new MenuItem { Text = "Microsoft Word 97-2003(.doc)", IconCss = "sf-icon-word", Id = "word97" },
+                new MenuItem { Text = "Download as PDF", IconCss = "e-icons e-export-pdf", Id = "pdf" }
+            }
         }
     };
 }
@@ -488,7 +503,7 @@
         margin: 0;
     }
 
-    #ribbonPlaceHolder #toast .e-toast-content {
+    #ribbonPlaceHolder .e-toast-content {
         padding-right: 25px;
     }
 

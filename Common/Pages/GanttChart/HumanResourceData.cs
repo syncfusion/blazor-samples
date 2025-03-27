@@ -26,6 +26,13 @@ namespace blazor_gantt_human_resource_data
             public int Progress { get; set; } = 0;
         }
 
+        internal class HolidayModel
+        {
+            public int Id { get; set; }
+            public string HolidayName { get; set; }
+            public DateTime Date { get; set; }
+        }
+
         internal static List<RecruitmentPlanModel> RecruitmentHrCollection => new List<RecruitmentPlanModel>()
         {
             new RecruitmentPlanModel() { Id = 1, Subject = "Planning phase" },
@@ -105,6 +112,11 @@ namespace blazor_gantt_human_resource_data
             new RecruitmentPlanModel { Id = 21, ParentId = 20, Subject = "Collect Mid-Year Financial Data", StartTime = new DateTime(2024, 06, 01), Duration = 5, ResponsibleTeam = "Accounting HR Team" },
             new RecruitmentPlanModel { Id = 22, ParentId = 20, Subject = "Analyze Mid-Year Performance", StartTime = new DateTime(2024, 06, 06), Duration = 5, ResponsibleTeam = "Accounting HR Team" },
             new RecruitmentPlanModel { Id = 23, ParentId = 20, Subject = "Adjust Budget Projections", StartTime = new DateTime(2024, 06, 11), Duration = 5, ResponsibleTeam = "Accounting HR Team" }
+        };
+
+        internal static List<HolidayModel> HolidayCollection = new List<HolidayModel>()
+        {      
+           new HolidayModel(){ Id = 9, HolidayName = "Independence Day", Date = new DateTime(2024, 07, 04) },
         };
     }
 }

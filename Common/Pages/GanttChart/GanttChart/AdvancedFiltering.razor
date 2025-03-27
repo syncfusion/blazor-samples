@@ -30,37 +30,37 @@
         <div style="padding-left: 10px; padding-right: 20px;">
             @if (IsSidebarVisible)
             {
-            <SfSidebar Animate="false" class="default-sidebar" Width="65%" Type="SidebarType.Over" Target="#GanttAdvancedFilter" Position="SidebarPosition.Right" @bind-IsOpen="IsSidebarOpen">
-                <ChildContent>
-                    <div class="title-header">
-                        <div style="display: flex; justify-content: center; align-items: center; padding: 8px;" class="title">
-                            Advanced Filters
+                <SfSidebar Animate="false" class="default-sidebar" Width="65%" Type="SidebarType.Over" Target="#GanttAdvancedFilter" Position="SidebarPosition.Right" @bind-IsOpen="IsSidebarOpen">
+                    <ChildContent>
+                        <div class="title-header">
+                            <div style="display: flex; justify-content: center; align-items: center; padding: 8px;" class="title">
+                                Advanced Filters
+                            </div>
+                            <span id="close" class="e-close" @onclick="@CloseSidebar" style="position: absolute; top: 2%; right: 4%;"></span>
                         </div>
-                        <span id="close" class="e-close" @onclick="@CloseSidebar" style="position: absolute; top: 2%; right: 4%;"></span>
-                    </div>
-                    <div>
-                        <SfQueryBuilder @ref="QueryBuilder" DataSource="@QueryBuilderDataSource" AllowValidation="true" Width="100%">
-                            <QueryBuilderEvents TValue="ColumnDetail" RuleChanged="UpdateRule" Created="OnCreated"></QueryBuilderEvents>
-                            <QueryBuilderColumns>
-                                <QueryBuilderColumn Field="TaskId" Label="ID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number></QueryBuilderColumn>
-                                <QueryBuilderColumn Field="TaskName" Label="Task Name" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
-                                <QueryBuilderColumn Field="StartDate" Label="Start Date" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date></QueryBuilderColumn>
-                                <QueryBuilderColumn Field="Duration" Label="Duration" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
-                                <QueryBuilderColumn Field="EndDate" Label="End Date" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date></QueryBuilderColumn>
-                            </QueryBuilderColumns>
-                        </SfQueryBuilder>
-                    </div>
-                    <div style="padding: 2%; float: right;">
-                        <SfButton style="background: #0078d4; border-color: #0078d4; color: #fff;" @onclick="ApplyFilters">Apply</SfButton>
-                        <SfButton style="margin-left: 5px;" @onclick="ClearFilters">Clear</SfButton>
-                    </div>
-                </ChildContent>
-            </SfSidebar>
+                        <div>
+                            <SfQueryBuilder @ref="QueryBuilder" DataSource="@QueryBuilderDataSource" AllowValidation="true" Width="100%">
+                                <QueryBuilderEvents TValue="ColumnDetail" RuleChanged="UpdateRule" Created="OnCreated"></QueryBuilderEvents>
+                                <QueryBuilderColumns>
+                                    <QueryBuilderColumn Field="TaskId" Label="ID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number></QueryBuilderColumn>
+                                    <QueryBuilderColumn Field="TaskName" Label="Task Name" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                                    <QueryBuilderColumn Field="StartDate" Label="Start Date" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date></QueryBuilderColumn>
+                                    <QueryBuilderColumn Field="Duration" Label="Duration" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                                    <QueryBuilderColumn Field="EndDate" Label="End Date" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date></QueryBuilderColumn>
+                                </QueryBuilderColumns>
+                            </SfQueryBuilder>
+                        </div>
+                        <div style="padding: 2%; float: right;">
+                            <SfButton style="background: #0078d4; border-color: #0078d4; color: #fff;" @onclick="ApplyFilters">Apply</SfButton>
+                            <SfButton style="margin-left: 5px;" @onclick="ClearFilters">Clear</SfButton>
+                        </div>
+                    </ChildContent>
+                </SfSidebar>
             }
         </div>
 
         <SfGantt @ref="Gantt" ID="GanttAdvancedFilter" DataSource="@TaskCollection" AllowResizing="true" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate"
-                 Query="@SearchQuery" ScrollToTaskbarOnClick="true">
+                 Query="@SearchQuery" ScrollToTaskbarOnClick="true" Toolbar="@Toolbaritems">
             <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
                              Duration="Duration" ParentID="ParentId" Dependency="Predecessor"></GanttTaskFields>
             <GanttColumns>
@@ -72,16 +72,7 @@
             </GanttColumns>
             <GanttSplitterSettings Position="380px"></GanttSplitterSettings>
             <GanttLabelSettings LeftLabel="TaskName" TValue="FilterData.TaskData"></GanttLabelSettings>
-            <GanttEvents TValue="FilterData.TaskData" RowSelected="OnRowSelected"></GanttEvents>
-            <SfToolbar ID="GanttAdvancedFilter_Gantt_Toolbar">
-                <ToolbarItems>
-                    <ToolbarItem Align="ItemAlign.Right">
-                        <Template>
-                            <SfButton IconCss="e-filter-icon" @onclick="ToggleSidebar">Advanced Filters</SfButton>
-                        </Template>
-                    </ToolbarItem>
-                </ToolbarItems>
-            </SfToolbar>
+            <GanttEvents TValue="FilterData.TaskData" RowSelected="OnRowSelected" OnToolbarClick="ToolbarClickHandler"></GanttEvents>
         </SfGantt>
     </div>
 </div>
@@ -102,6 +93,8 @@
     private IEnumerable<ColumnDetail> QueryBuilderDataSource { get; set; } = new List<ColumnDetail>();
     private SfQueryBuilder<ColumnDetail> QueryBuilder { get; set; }
     private List<FilterData.TaskData> TaskCollection { get; set; }
+    
+    public List<Object> Toolbaritems { get; set; } = new List<Object>() { new ToolbarItem() { Text = "Advanced Filters", TooltipText = "Advanced Filters", Id = "Advanced_Filters", PrefixIcon = "e-filter-icon", Align = ItemAlign.Right } };
 
     protected override void OnInitialized()
     {
@@ -117,7 +110,14 @@
             IsSidebarVisible = false;
         }
     }
+    void ToolbarClickHandler(ClickEventArgs args)
+    {
+        if (args.Item.Text == "Advanced Filters")
+        {
+            ToggleSidebar();
+        }
 
+    }
     private void UpdateRule(Syncfusion.Blazor.QueryBuilder.RuleChangeEventArgs args)
     {
         PredicateValue = QueryBuilder.GetPredicate(args.Rule);
@@ -210,10 +210,6 @@
         margin-top: 0;
     }
 
-    .e-filterbutton {
-        padding-left: 20px;
-        padding-right: 20px;
-    }
 
     .material3 .e-sidebar-absolute, 
     .fluent .e-sidebar-absolute,

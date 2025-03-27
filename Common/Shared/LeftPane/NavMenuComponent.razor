@@ -11,12 +11,6 @@
     <TreeTemplate>
         <div>
             <span class="tree-text">@context.Name</span>
-            @if (context.InfoTooltip != null)
-            {
-                <SfTooltip Target="#infoTooltip" Content=@context.InfoTooltip>
-                    <span aria-label="Please find more information for PDF Viewer (NextGen)" id="infoTooltip" class="e-sample-info-icon sf-sb-icon-circle-info" role="button"></span>
-                </SfTooltip>
-            }
             @if (context.Type != SampleType.None)
             {
                 <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower()) tree tree-badge"></span>
@@ -147,7 +141,7 @@
 
     public void LoadDynamicResources(string componentName)
     {
-        if ((componentName.Equals("PDF Viewer (NextGen)") || componentName.Equals("PowerPoint (Presentation)")) && !SampleService.IsPdfScript2Loaded)
+        if ((componentName.Equals("PDF Viewer") || componentName.Equals("PowerPoint (Presentation)")) && !SampleService.IsPdfScript2Loaded)
         {
             SampleService.IsPdfScript2Loaded = true;
             var resources = new List<string> { SampleService.PdfScriptPath2 + "/syncfusion-blazor-sfpdfviewer.min.js" };
@@ -262,21 +256,53 @@
         this.ListRef.SelectItem(item);
     }
 
-    protected override void OnInitialized()
+    protected override void OnParametersSet()
     {
-        base.OnInitialized();
-        SampleBrowser.SampleUrls = new List<string>();
+        base.OnParametersSet();
+        // Set the list datasource.
+        this.ListDataSource = GetSampleDataSource();
+    }
 
-        // Gets the tree datasource.
-        this.TreeDataSource = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
         {
-            List<SampleList> sampleItems = samples.ToList();
-            List<SampleListType> childItems = new List<SampleListType>();
-            List<List<Sample>> listData = new List<List<Sample>>();
-            sampleItems.ForEach(item =>
+            this.SelectTreeNode(SampleService.ComponentName, SampleService.CurrentSampleUrl);
+        }
+        else
+        {
+            this.isCurrentComponent = false;
+        }
+        SampleService.MetaData?.Refresh();
+    }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            // Call the JavaScript function to get the user agent
+            string userAgent = await JsRuntime.InvokeAsync<string>("getUserAgent");
+            SampleBrowser.SampleUrls.Clear();
+#if SERVER || WEBAPP
+    await Task.Run(() =>
+    {
+#endif
+
+            // Gets the tree datasource.
+            this.TreeDataSource = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
             {
-                if(this.DeviceMode.Isdevice){
-                    listData = item.Samples.Where(sample=>!sample.IsHideInMobile).GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                List<SampleList> sampleItems = samples.ToList();
+                List<SampleListType> childItems = new List<SampleListType>();
+                List<List<Sample>> listData = new List<List<Sample>>();
+
+                sampleItems.ForEach(item =>
+            {
+                if (GetDeviceMode(userAgent) == "Mobile")
+                {
+                    listData = item.Samples.Where(sample => !sample.IsHideInMobile).GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
                 }
                 else
                 {
@@ -299,29 +325,12 @@
                     SampleService.Update(UriHelper);
                 }
             });
-            return new SampleListType() { SourceData = childItems, Name = sampleItems[0].Category };
-        }).ToList<SampleListType>();
-    }
-
-    protected override void OnParametersSet()
-    {
-        base.OnParametersSet();
-        // Set the list datasource.
-        this.ListDataSource = GetSampleDataSource();
-    }
-
-    protected override void OnAfterRender(bool firstRender)
-    {
-        base.OnAfterRender(firstRender);
-        if (firstRender)
-        {
-            this.SelectTreeNode(SampleService.ComponentName, SampleService.CurrentSampleUrl);
+                return new SampleListType() { SourceData = childItems, Name = sampleItems[0].Category };
+            }).ToList<SampleListType>();
+#if SERVER || WEBAPP
+    });
+#endif
         }
-        else
-        {
-            this.isCurrentComponent = false;
-        }
-        SampleService.MetaData?.Refresh();
     }
 
     public void Dispose()
@@ -336,7 +345,7 @@
     {
 
         // Load scripts based on the URL
-        if (componentName.Equals("PDF Viewer (NextGen)") && !SampleService.IsPdfScript2Loaded)
+        if (componentName.Equals("PDF Viewer") && !SampleService.IsPdfScript2Loaded)
         {
             // Load script for 'pdfviewer'
             SampleService.IsPdfScript2Loaded = true;
@@ -350,4 +359,20 @@
         }
     }
 #endif
+
+    public string GetDeviceMode(string userAgent)
+    {
+        if (userAgent.Contains("Mobile") && !userAgent.Contains("iPad"))
+        {
+            return "Mobile";
+        }
+        else if (userAgent.Contains("Tablet") || userAgent.Contains("iPad"))
+        {
+            return "Tablet";
+        }
+        else
+        {
+            return "Desktop";
+        }
+    }
 }

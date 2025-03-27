@@ -176,14 +176,10 @@ namespace Blazor_MAUI_Demos.Shared
                 string[] splittedUrl = url.Split("?theme=");
                 url = splittedUrl[0];
             }
-#if NET6_0 || NET7_0
             url = UriHelper.GetUriWithQueryParameters(url, new Dictionary<string, object>
             {
                 ["theme"] = themeName
             });
-#else
-            url += "?theme=" + themeName;
-#endif
             return url;
         }
 
@@ -243,7 +239,7 @@ namespace Blazor_MAUI_Demos.Shared
                 };
                 if (sampleService.ComponentName != null)
                 {
-                    if (sampleService.ComponentName.Equals("PDF Viewer (NextGen)") && !sampleService.IsPdfScriptLoaded)
+                    if (sampleService.ComponentName.Equals("PDF Viewer") && !sampleService.IsPdfScriptLoaded)
                     {
                         sampleService.IsPdfScriptLoaded = true;
                         resourceList.Add(sampleService.ViewerScriptPath);
@@ -333,6 +329,14 @@ namespace Blazor_MAUI_Demos.Shared
         public string Category { get; set; }
         public List<SearchResult> SampleList { get; set; }
         public bool IsMultiSearch { get; set; }
+        bool IsMobileMode = getDeviceMode();
+        public static bool getDeviceMode(){
+            if(DeviceInfo.Current.Platform == DevicePlatform.Android || DeviceInfo.Current.Platform == DevicePlatform.iOS)
+            {
+               return DeviceInfo.Current.Idiom == DeviceIdiom.Phone ? true : false;
+            }
+            return false;
+        }
         public List<SearchList> GetSearchList()
         {
             bool isButtonsAdded = false;
@@ -351,14 +355,23 @@ namespace Blazor_MAUI_Demos.Shared
                         continue;
                     }
                 }
-                var samples = sampleList[i].Samples;
-                var searchResult = new List<SearchResult>();
-                for (int j = 0; j < samples.Count; j++)
+
+                if (sampleList[i].IsHideFromDevice && IsMobileMode)
                 {
-                    var sample = samples[j];
-                    searchResult.Add(new SearchResult { SampleName = sample.Name, SamplePath = sample.Url });
+                    continue;
                 }
-                searchlist.Add(new SearchList { Category = sampleList[i].ControllerName, SampleList = searchResult });
+                else
+                {
+                    var samples = sampleList[i].Samples;
+                    var searchResult = new List<SearchResult>();
+                    for (int j = 0; j < samples.Count; j++)
+                    {
+                        var sample = samples[j];
+                        searchResult.Add(new SearchResult { SampleName = sample.Name, SamplePath = sample.Url });
+                    }
+                    searchlist.Add(new SearchList { Category = sampleList[i].ControllerName, SampleList = searchResult });
+                }
+
             }
             return searchlist;
         }

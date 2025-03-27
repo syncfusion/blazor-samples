@@ -16,54 +16,39 @@
 </SampleDescription>
 <ActionDescription>
     <p>
-        In this example, you can see how to render and configure the column chart. The column chart is used to compare the frequency, count, total, or average of data in different categories. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfChart.html#Syncfusion_Blazor_Charts_SfChart_EnableSideBySidePlacement' aria-label="Navigate to the EnableSideBySidePlacement property reference for chart component">EnableSideBySidePlacement</a> property is used to enable/disable side-by-side position. <code>DataLabel</code> is used to present details about individual data points.
+        In this example, you can see how to render and configure the column chart. The column chart is used to compare the frequency, count, total, or average of data in different categories
     </p>
     <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
 </ActionDescription>
 
 <div class="control-section" align='center'>
-    <SfChart Title="Fruit Consumption" EnableSideBySidePlacement="false" Width="@Width" Theme="@Theme">
+    <SfChart Title="Population Distribution of the Top 5 Most Populous Countries (2024)" SubTitle="Source: statisticstimes.com" EnableSideBySidePlacement="false" Width="@Width" Theme="@Theme">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
         <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartEvents OnAxisLabelRender="AxisLabelRender" SharedTooltipRender="SharedTooltipRender"></ChartEvents>
         <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
             <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
         </ChartPrimaryXAxis>
-        <ChartPrimaryYAxis Title="Fruits Count">
+        <ChartPrimaryYAxis Title="Population Count (in Millions)" Interval="300000000">
             <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
             <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
         </ChartPrimaryYAxis>
         <ChartSeriesCollection>
-            <ChartSeries DataSource="@ChartPoints" ColumnWidth="0.5" XName="ConsumerName" YName="TotalCount" Name="Total" Type="ChartSeriesType.Column">
-                <ChartMarker>
-                    <ChartDataLabel Visible="true" Alignment="@DataLabelAlignment" Name="DataLabelMappingName" EnableRotation="@Rotation" Angle="@AngleRotate" Position="LabelPosition.Top">
-                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
-                    </ChartDataLabel>
-                </ChartMarker>
+            <ChartSeries DataSource="@TotalData" ColumnWidth="0.5" XName="Country" YName="Population" Name="Total" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
             </ChartSeries>
-            <ChartSeries DataSource="@ChartPoints" ColumnWidth="0.4" XName="ConsumerName" YName="AppleCount" Name="Apple" Type="ChartSeriesType.Column">
-                <ChartMarker>
-                    <ChartDataLabel Visible="true" Position="LabelPosition.Top">
-                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
-                    </ChartDataLabel>
-                </ChartMarker>
+            <ChartSeries DataSource="@MaleData" ColumnWidth="0.3" XName="Country" YName="Male" Name="Male" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
             </ChartSeries>
-            <ChartSeries DataSource="@ChartPoints" ColumnWidth="0.3" XName="ConsumerName" YName="OrangeCount" Name="Orange" Type="ChartSeriesType.Column">
-                <ChartMarker>
-                    <ChartDataLabel Visible="true" Position="LabelPosition.Top">
-                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
-                    </ChartDataLabel>
-                </ChartMarker>
-            </ChartSeries>
-            <ChartSeries DataSource="@ChartPoints" ColumnWidth="0.2" XName="ConsumerName" YName="GrapesCount" Name="Grapes" Type="ChartSeriesType.Column">
-                <ChartMarker>
-                    <ChartDataLabel Visible="true" Position="LabelPosition.Top">
-                        <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
-                    </ChartDataLabel>
-                </ChartMarker>
+            <ChartSeries DataSource="@FemaleData" ColumnWidth="0.2" XName="Country" YName="Female" Name="Female" Type="ChartSeriesType.Column" LegendShape="LegendShape.Rectangle">
+                <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
             </ChartSeries>
         </ChartSeriesCollection>
         <ChartTooltipSettings Enable="true" Shared="true"></ChartTooltipSettings>
-        <ChartLegendSettings Visible="true"></ChartLegendSettings>
+        <ChartLegendSettings Visible="true" ShapeHeight="9" ShapeWidth="9"></ChartLegendSettings>
     </SfChart>
 </div>
 
@@ -72,16 +57,46 @@
     
     private Theme Theme { get; set; }
     public string Width { get; set; } = "90%";
-    public Alignment DataLabelAlignment { get; set; } = Alignment.Center;
     public double AngleRotate { get; set; } = 0;
     public bool Rotation { get; set; } = false;
-    public List<ColumnPlacementChartData> ChartPoints { get; set; } = new List<ColumnPlacementChartData>
+    public class PopulationData
     {
-      new ColumnPlacementChartData { ConsumerName = "Jamesh", TotalCount = 10, AppleCount = 5, OrangeCount = 4, GrapesCount = 1, DataLabelMappingName = "Total 10" },
-      new ColumnPlacementChartData { ConsumerName = "Michael", TotalCount = 9, AppleCount = 4, OrangeCount = 3, GrapesCount = 2, DataLabelMappingName = "Total 9" },
-      new ColumnPlacementChartData { ConsumerName = "John", TotalCount = 11, AppleCount = 5, OrangeCount = 4, GrapesCount = 2, DataLabelMappingName = "Total 11" },
-      new ColumnPlacementChartData { ConsumerName = "Jack", TotalCount = 8, AppleCount = 5, OrangeCount = 2, GrapesCount = 1, DataLabelMappingName = "Total 8" },
-      new ColumnPlacementChartData { ConsumerName = "Lucas", TotalCount = 10, AppleCount = 6, OrangeCount = 3, GrapesCount = 1, DataLabelMappingName = "Total 10" }
+        public string Country { get; set; }
+        public long Population { get; set; }
+    }
+
+    public class GenderData
+    {
+        public string Country { get; set; }
+        public long Male { get; set; }
+        public long Female { get; set; }
+    }
+
+    private List<PopulationData> TotalData = new List<PopulationData>
+    {
+        new PopulationData { Country = "India", Population = 1450935791 },
+        new PopulationData { Country = "China", Population = 1419321278 },
+        new PopulationData { Country = "USA", Population = 345426571 },
+        new PopulationData { Country = "Indonesia", Population = 283487931 },
+        new PopulationData { Country = "Pakistan", Population = 251269164 }
+    };
+
+    private List<GenderData> MaleData = new List<GenderData>
+    {
+        new GenderData { Country = "India", Male = 748323427 },
+        new GenderData { Country = "China", Male = 723023723 },
+        new GenderData { Country = "USA", Male = 173551527 },
+        new GenderData { Country = "Indonesia", Male = 142407931 },
+        new GenderData { Country = "Pakistan", Male = 127433405 }
+    };
+
+    private List<GenderData> FemaleData = new List<GenderData>
+    {
+        new GenderData { Country = "India", Female = 702612364 },
+        new GenderData { Country = "China", Female = 696297555 },
+        new GenderData { Country = "USA", Female = 171875044 },
+        new GenderData { Country = "Indonesia", Female = 141080014 },
+        new GenderData { Country = "Pakistan", Female = 123835758 }
     };
 
     protected override void OnInitialized()
@@ -92,19 +107,35 @@
         {
             AngleRotate = -90;
             Rotation = true;
-            DataLabelAlignment = Alignment.Near;
             Width = "100%";
         }
     }
-
-    public class ColumnPlacementChartData
+    
+    public void AxisLabelRender(AxisLabelRenderEventArgs args)
     {
-        public string ConsumerName { get; set; }
-        public double TotalCount { get; set; }
-        public double AppleCount { get; set; }
-        public double OrangeCount { get; set; }
-        public double GrapesCount { get; set; }
-        public string DataLabelMappingName { get; set; }
+        if (double.TryParse(args.Text.Replace(",", ""), out double value))
+        {
+            if (args.Value >= 1_000_000)
+            {
+                args.Text = (value / 1_000_000).ToString("0.#") + "M";
+            }
+        }
+    }
+
+    public void SharedTooltipRender(SharedTooltipRenderEventArgs args)
+    {
+        if (args.Data is List<PointInfo> dataList && dataList.Count > 0)
+        {
+            List<string> tooltipText = new List<string>();
+
+            foreach (var pointInfo in dataList)
+            {
+                double pointYValue = Convert.ToDouble(pointInfo.PointY);
+                string value = pointYValue.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+                tooltipText.Add($"{pointInfo.SeriesName}: <b>{value}</b>");
+            }
+            args.Text = tooltipText;
+        }
     }
 
 }

@@ -3,13 +3,14 @@
 @using Syncfusion.Blazor.Gantt
 @using Syncfusion.Blazor.Data
 @using Syncfusion.Blazor
+@using Syncfusion.Blazor.DropDowns
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @*End:Hidden*@
 
 <SampleDescription>
-    <p>This sample demonstrates the way of binding data to Gantt Chart with a remote service. The Gantt Chart data source is bound to remote data using the DataManager. The data in this sample shows the various phases of barley harvesting.</p>
+    <p>This sample demonstrates how to bind data to the Gantt Chart using a remote service. The Gantt Chart's data source connects to remote data via the DataManager, showcasing various phases in the software design and development lifecycle.</p>
 </SampleDescription>
 <ActionDescription>
     <p>
@@ -37,42 +38,119 @@
 <div class="control-section">
     <div class="row">
         <div class="col-md-12">
-            <SfGantt TValue="GanttRemoteData" TreeColumnIndex="1" Height="450px" Width="100%" AllowSelection="true" HighlightWeekends="true"
-                     GridLines="GridLine.Both" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate">
-                <SfDataManager Url="http://localhost:63028/api/GanttData" Adaptor="Adaptors.WebApiAdaptor" CrossDomain="true"></SfDataManager>
-                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate"
-                                 Duration="Duration" Progress="Progress" Dependency="Predecessor" Child="SubTasks">
+            <div style="padding-bottom: 10px;">
+                <span class="e-dddata">
+                    <SfDropDownList TItem="DropdownData" TValue="string" PopupHeight="230px" Width="240px" @bind-Index="@dropDownIndex" DataSource="@DLData" Placeholder="1000 Rows">
+                        <DropDownListEvents TItem="DropdownData" TValue="string" ValueChange="OnDataChange" Closed="DropdownClose"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </span>
+                <span style="padding-left: 20px; font-size: 15px">
+                    <b>Data initial load time: </b> @(LoadTime.ToString() + " milliseconds")
+                </span>
+            </div>
+            <SfGantt @ref="ganttInstance" TValue="TaskData" Height="700px" Width="100%" TreeColumnIndex="1" ProjectStartDate="new DateTime(2024, 12, 28)" ProjectEndDate="new DateTime(2025, 03, 19)" ScrollToTaskbarOnClick="true"
+                     EnablePredecessorValidation="false" AutoCalculateDateScheduling="false" EnableRowVirtualization="true" EnableTimelineVirtualization="true">
+                <SfDataManager Url=@adapatorUrl Adaptor="Adaptors.WebApiAdaptor"></SfDataManager>
+                <GanttTaskFields Id="Id"
+                                 Name="Name"
+                                 StartDate="StartDate"
+                                 EndDate="EndDate"
+                                 Progress="CompletionPercent"
+                                 ParentID="ParentTaskId"
+                                 Duration="DurationInDays"
+                                 Dependency="Dependency">
                 </GanttTaskFields>
                 <GanttColumns>
-                    <GanttColumn Field="TaskId" HeaderText="Task Id" Visible="false"></GanttColumn>
-                    <GanttColumn Field="TaskName" HeaderText="Task Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
-                    <GanttColumn Field="StartDate"></GanttColumn>
-                    <GanttColumn Field="Duration"></GanttColumn>
+                    <GanttColumn Field="Id" ></GanttColumn>
+                    <GanttColumn Field="Name" HeaderText="Project Activity" Width="280"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Planned Start Date"></GanttColumn>
+                    <GanttColumn Field="DurationInDays" HeaderText="Estimated Duration"></GanttColumn>
+                    <GanttColumn Field="CompletionPercent" HeaderText="Completion (%)"></GanttColumn>
                 </GanttColumns>
-                <GanttTimelineSettings TimelineUnitSize="300">
-                    <GanttTopTierSettings Unit="TimelineViewMode.Month" Format="MMMM yyyy"></GanttTopTierSettings>
-                    <GanttBottomTierSettings Unit="TimelineViewMode.Week" Format="dddd, dd MMMM"></GanttBottomTierSettings>
+                <GanttTimelineSettings TimelineViewMode="TimelineViewMode.Week">
+                    <GanttTopTierSettings Unit="TimelineViewMode.Week" Format="MMM, dd yyyy"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Day" Format="dd" ></GanttBottomTierSettings>
                 </GanttTimelineSettings>
-                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttRemoteData">
-                </GanttLabelSettings>
-                <GanttSplitterSettings Position="28%"> </GanttSplitterSettings>
+                <GanttLabelSettings TValue="TaskData" RightLabel="Name" TaskLabel="CompletionPercent"></GanttLabelSettings>
+                <GanttEvents Created="OnGanttCreated" OnActionComplete="ActionCompleteHandler" TValue="TaskData"></GanttEvents>
+                <GanttSplitterSettings ColumnIndex="2"></GanttSplitterSettings>
             </SfGantt>
         </div>
     </div>
 </div>
 
 @code{
-    private DateTime ProjectStartDate { get; set; }= new DateTime(2021, 2, 24);
-    private DateTime ProjectEndDate { get; set; }= new DateTime(2021, 12, 10);
-    
-    public class GanttRemoteData
+    private SfGantt<TaskData> ganttInstance;
+    private int? recordCount = 1000;
+    // Initialize URL in the code block to ensure it's updated dynamically
+    private string adapatorUrl => $"http://localhost:63028/api/GanttRemoteData?count={recordCount}";
+    private int? dropDownIndex = 0;
+    private int? previousDropDownIndex { get; set; } = 0;
+    public DateTime? StartLoadTime { get; private set; }
+    public DateTime? EndLoadTime { get; private set; }
+    public string LoadTime = string.Empty;
+    protected override void OnInitialized()
     {
-        public int TaskId { get; set; }
-        public string TaskName { get; set; }
+        StartLoadTime = DateTime.Now;
+    }
+    private void OnGanttCreated(object sender)
+    {
+        EndLoadTime = DateTime.Now;
+        TimeSpan ts = (TimeSpan)(EndLoadTime - StartLoadTime);
+        LoadTime = ts.TotalMilliseconds.ToString("F3");
+    }
+    public void ActionCompleteHandler(GanttActionEventArgs<TaskData> args)
+    {
+        if (args.RequestType == Syncfusion.Blazor.Gantt.Action.Refresh)
+        {
+            EndLoadTime = DateTime.Now;
+            TimeSpan ts = (TimeSpan)(EndLoadTime - StartLoadTime);
+            LoadTime = ts.TotalMilliseconds.ToString("F3");
+        }
+    }
+	private void DropdownClose(@Syncfusion.Blazor.DropDowns.ClosedEventArgs args)
+	{
+	    if (previousDropDownIndex != dropDownIndex)
+	    {
+	        StartLoadTime = DateTime.Now;
+	        previousDropDownIndex = dropDownIndex;
+	    }
+	}
+    public async Task OnDataChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownData> args)
+    {
+        recordCount = Int32.Parse(args.Value);
+        await ganttInstance.RefreshAsync();
+    }
+
+    public class DropdownData
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+
+    public List<DropdownData> DLData = new List<DropdownData>() {
+        new DropdownData(){ Text= "1,000 Rows", Value= "1000" },
+        new DropdownData(){ Text= "2,500 Rows", Value= "2500" },
+        new DropdownData(){ Text= "5,000 Rows", Value= "5000" },
+    };
+
+    public class TaskData
+    {
+        public int Id { get; set; }
+
+        public string Name { get; set; }
+
         public DateTime StartDate { get; set; }
-        public int? Duration { get; set; }
-        public int Progress { get; set; }
-        public string Predecessor { get; set; }
-        public List<GanttRemoteData> SubTasks { get; set; }
+
+        public DateTime EndDate { get; set; }
+
+        public int DurationInDays { get; set; }
+
+        public int CompletionPercent { get; set; }
+
+        public int? ParentTaskId { get; set; }
+
+        public string Dependency { get; set; }
     }
 }

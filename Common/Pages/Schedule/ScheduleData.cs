@@ -5135,6 +5135,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 1, 1),
                 EndTime = new DateTime(CurrentYear, 1, 2),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5144,6 +5145,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 1, 4),
                 EndTime = new DateTime(CurrentYear, 1, 5),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5153,6 +5155,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 1, 8),
                 EndTime = new DateTime(CurrentYear, 1, 9),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5162,6 +5165,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 1, 11),
                 EndTime = new DateTime(CurrentYear, 1, 12),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5171,6 +5175,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 1, 30),
                 EndTime = new DateTime(CurrentYear, 1, 31),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5180,6 +5185,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 2, 12),
                 EndTime = new DateTime(CurrentYear, 2, 13),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5189,6 +5195,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 2, 21),
                 EndTime = new DateTime(CurrentYear, 2, 22),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5198,6 +5205,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 2, 22),
                 EndTime = new DateTime(CurrentYear, 2, 23),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5207,6 +5215,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 1),
                 EndTime = new DateTime(CurrentYear, 3, 2),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5216,6 +5225,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 8),
                 EndTime = new DateTime(CurrentYear, 3, 9),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5225,6 +5235,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 14),
                 EndTime = new DateTime(CurrentYear, 3, 15),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5234,6 +5245,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 20),
                 EndTime = new DateTime(CurrentYear, 3, 21),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5243,6 +5255,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 21),
                 EndTime = new DateTime(CurrentYear, 3, 22),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5252,6 +5265,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 22),
                 EndTime = new DateTime(CurrentYear, 3, 23),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5261,6 +5275,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 23),
                 EndTime = new DateTime(CurrentYear, 3, 24),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5270,6 +5285,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 2),
                 EndTime = new DateTime(CurrentYear, 4, 3),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5279,6 +5295,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 7),
                 EndTime = new DateTime(CurrentYear, 4, 8),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5288,6 +5305,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 13),
                 EndTime = new DateTime(CurrentYear, 4, 14),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5297,6 +5315,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 21),
                 EndTime = new DateTime(CurrentYear, 4, 22),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5306,6 +5325,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 22),
                 EndTime = new DateTime(CurrentYear, 4, 23),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5315,6 +5335,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 23),
                 EndTime = new DateTime(CurrentYear, 4, 24),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5324,6 +5345,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 25),
                 EndTime = new DateTime(CurrentYear, 4, 26),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5333,6 +5355,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 3),
                 EndTime = new DateTime(CurrentYear, 5, 4),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5342,6 +5365,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 5),
                 EndTime = new DateTime(CurrentYear, 5, 5),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5351,6 +5375,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 8),
                 EndTime = new DateTime(CurrentYear, 5, 9),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5360,6 +5385,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 10),
                 EndTime = new DateTime(CurrentYear, 5, 11),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5369,6 +5395,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 12),
                 EndTime = new DateTime(CurrentYear, 5, 12),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5378,6 +5405,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 13),
                 EndTime = new DateTime(CurrentYear, 5, 14),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5387,6 +5415,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 15),
                 EndTime = new DateTime(CurrentYear, 5, 16),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5396,6 +5425,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 18),
                 EndTime = new DateTime(CurrentYear, 5, 19),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5405,6 +5435,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 23),
                 EndTime = new DateTime(CurrentYear, 5, 24),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5414,6 +5445,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 31),
                 EndTime = new DateTime(CurrentYear, 6, 1),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5423,6 +5455,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 6, 8),
                 EndTime = new DateTime(CurrentYear, 6, 9),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5432,6 +5465,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 6, 14),
                 EndTime = new DateTime(CurrentYear, 6, 15),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5441,6 +5475,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 6, 17),
                 EndTime = new DateTime(CurrentYear, 6, 18),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5450,6 +5485,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 6, 20),
                 EndTime = new DateTime(CurrentYear, 6, 21),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5459,6 +5495,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 6, 26),
                 EndTime = new DateTime(CurrentYear, 6, 27),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 4
             });
             holidayData.Add(new ResourceEventsData
@@ -5468,6 +5505,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 1),
                 EndTime = new DateTime(CurrentYear, 3, 2),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5477,6 +5515,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 4),
                 EndTime = new DateTime(CurrentYear, 3, 5),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5486,6 +5525,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 8),
                 EndTime = new DateTime(CurrentYear, 3, 9),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5495,6 +5535,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 11),
                 EndTime = new DateTime(CurrentYear, 3, 12),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5504,6 +5545,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 13),
                 EndTime = new DateTime(CurrentYear, 3, 14),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5513,6 +5555,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 18),
                 EndTime = new DateTime(CurrentYear, 3, 19),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5522,6 +5565,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 21),
                 EndTime = new DateTime(CurrentYear, 3, 22),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5531,6 +5575,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 24),
                 EndTime = new DateTime(CurrentYear, 3, 25),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5540,6 +5585,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 28),
                 EndTime = new DateTime(CurrentYear, 3, 29),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5549,6 +5595,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 30),
                 EndTime = new DateTime(CurrentYear, 3, 31),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5558,6 +5605,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 1),
                 EndTime = new DateTime(CurrentYear, 4, 2),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5567,6 +5615,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 3),
                 EndTime = new DateTime(CurrentYear, 4, 4),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5576,6 +5625,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 7),
                 EndTime = new DateTime(CurrentYear, 4, 8),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5585,6 +5635,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 12),
                 EndTime = new DateTime(CurrentYear, 4, 13),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5594,6 +5645,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 15),
                 EndTime = new DateTime(CurrentYear, 4, 16),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5603,6 +5655,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 18),
                 EndTime = new DateTime(CurrentYear, 4, 19),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5612,6 +5665,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 21),
                 EndTime = new DateTime(CurrentYear, 4, 22),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5621,6 +5675,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 24),
                 EndTime = new DateTime(CurrentYear, 4, 25),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5630,6 +5685,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 26),
                 EndTime = new DateTime(CurrentYear, 4, 27),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5639,6 +5695,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 29),
                 EndTime = new DateTime(CurrentYear, 4, 30),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5648,6 +5705,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 1),
                 EndTime = new DateTime(CurrentYear, 5, 2),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5657,6 +5715,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 3),
                 EndTime = new DateTime(CurrentYear, 5, 4),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5666,6 +5725,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 9),
                 EndTime = new DateTime(CurrentYear, 5, 10),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5675,6 +5735,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 13),
                 EndTime = new DateTime(CurrentYear, 5, 14),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5684,6 +5745,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 15),
                 EndTime = new DateTime(CurrentYear, 5, 16),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5693,6 +5755,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 18),
                 EndTime = new DateTime(CurrentYear, 5, 19),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5702,6 +5765,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 21),
                 EndTime = new DateTime(CurrentYear, 5, 22),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5711,6 +5775,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 24),
                 EndTime = new DateTime(CurrentYear, 5, 25),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5720,6 +5785,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 26),
                 EndTime = new DateTime(CurrentYear, 5, 27),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5729,6 +5795,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 29),
                 EndTime = new DateTime(CurrentYear, 5, 30),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 2
             });
             holidayData.Add(new ResourceEventsData
@@ -5738,6 +5805,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 1),
                 EndTime = new DateTime(CurrentYear, 3, 2),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5747,6 +5815,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 2),
                 EndTime = new DateTime(CurrentYear, 3, 3),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5756,6 +5825,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 5),
                 EndTime = new DateTime(CurrentYear, 3, 6),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5765,6 +5835,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 8),
                 EndTime = new DateTime(CurrentYear, 3, 9),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5774,6 +5845,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 10),
                 EndTime = new DateTime(CurrentYear, 3, 11),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5783,6 +5855,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 16),
                 EndTime = new DateTime(CurrentYear, 3, 17),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5792,6 +5865,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 26),
                 EndTime = new DateTime(CurrentYear, 3, 27),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5801,6 +5875,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 31),
                 EndTime = new DateTime(CurrentYear, 3, 1),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5810,6 +5885,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 2),
                 EndTime = new DateTime(CurrentYear, 4, 3),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5819,6 +5895,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 5),
                 EndTime = new DateTime(CurrentYear, 4, 6),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5828,6 +5905,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 10),
                 EndTime = new DateTime(CurrentYear, 4, 11),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5837,6 +5915,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 11),
                 EndTime = new DateTime(CurrentYear, 4, 12),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5846,6 +5925,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 14),
                 EndTime = new DateTime(CurrentYear, 4, 15),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5855,6 +5935,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 15),
                 EndTime = new DateTime(CurrentYear, 4, 16),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5864,6 +5945,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 20),
                 EndTime = new DateTime(CurrentYear, 4, 21),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5873,6 +5955,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 21),
                 EndTime = new DateTime(CurrentYear, 4, 22),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5882,6 +5965,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 23),
                 EndTime = new DateTime(CurrentYear, 4, 24),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5891,6 +5975,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 25),
                 EndTime = new DateTime(CurrentYear, 4, 26),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5900,6 +5985,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 27),
                 EndTime = new DateTime(CurrentYear, 4, 28),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5909,6 +5995,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 29),
                 EndTime = new DateTime(CurrentYear, 4, 30),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5918,6 +6005,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 2),
                 EndTime = new DateTime(CurrentYear, 5, 3),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5927,6 +6015,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 10),
                 EndTime = new DateTime(CurrentYear, 5, 11),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5936,6 +6025,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 15),
                 EndTime = new DateTime(CurrentYear, 5, 16),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5945,6 +6035,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 20),
                 EndTime = new DateTime(CurrentYear, 5, 21),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5954,6 +6045,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 25),
                 EndTime = new DateTime(CurrentYear, 5, 26),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 3
             });
             holidayData.Add(new ResourceEventsData
@@ -5963,6 +6055,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 1),
                 EndTime = new DateTime(CurrentYear, 3, 2),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -5972,6 +6065,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 4),
                 EndTime = new DateTime(CurrentYear, 3, 5),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -5981,6 +6075,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 8),
                 EndTime = new DateTime(CurrentYear, 3, 9),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -5990,6 +6085,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 11),
                 EndTime = new DateTime(CurrentYear, 3, 12),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -5999,6 +6095,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 13),
                 EndTime = new DateTime(CurrentYear, 3, 14),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6008,6 +6105,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 18),
                 EndTime = new DateTime(CurrentYear, 3, 19),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6017,6 +6115,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 21),
                 EndTime = new DateTime(CurrentYear, 3, 22),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6026,6 +6125,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 24),
                 EndTime = new DateTime(CurrentYear, 3, 25),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6035,6 +6135,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 28),
                 EndTime = new DateTime(CurrentYear, 3, 29),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6044,6 +6145,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 3, 30),
                 EndTime = new DateTime(CurrentYear, 3, 31),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6053,6 +6155,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 1),
                 EndTime = new DateTime(CurrentYear, 4, 2),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6062,6 +6165,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 3),
                 EndTime = new DateTime(CurrentYear, 4, 4),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6071,6 +6175,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 7),
                 EndTime = new DateTime(CurrentYear, 4, 8),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6080,6 +6185,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 12),
                 EndTime = new DateTime(CurrentYear, 4, 13),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6089,6 +6195,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 15),
                 EndTime = new DateTime(CurrentYear, 4, 16),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6098,6 +6205,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 18),
                 EndTime = new DateTime(CurrentYear, 4, 19),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6107,6 +6215,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 21),
                 EndTime = new DateTime(CurrentYear, 4, 22),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6116,6 +6225,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 24),
                 EndTime = new DateTime(CurrentYear, 4, 25),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6125,6 +6235,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 26),
                 EndTime = new DateTime(CurrentYear, 4, 27),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6134,6 +6245,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 4, 29),
                 EndTime = new DateTime(CurrentYear, 4, 30),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6143,6 +6255,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 1),
                 EndTime = new DateTime(CurrentYear, 5, 2),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6152,6 +6265,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 3),
                 EndTime = new DateTime(CurrentYear, 5, 4),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6161,6 +6275,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 9),
                 EndTime = new DateTime(CurrentYear, 5, 10),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6170,6 +6285,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 13),
                 EndTime = new DateTime(CurrentYear, 5, 14),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6179,6 +6295,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 15),
                 EndTime = new DateTime(CurrentYear, 5, 16),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6188,6 +6305,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 18),
                 EndTime = new DateTime(CurrentYear, 5, 19),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6197,6 +6315,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 21),
                 EndTime = new DateTime(CurrentYear, 5, 22),
                 IsAllDay = true,
+                IsPlanned = true,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6206,6 +6325,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 24),
                 EndTime = new DateTime(CurrentYear, 5, 25),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6215,6 +6335,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 26),
                 EndTime = new DateTime(CurrentYear, 5, 27),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             holidayData.Add(new ResourceEventsData
@@ -6224,6 +6345,7 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
                 StartTime = new DateTime(CurrentYear, 5, 29),
                 EndTime = new DateTime(CurrentYear, 5, 30),
                 IsAllDay = true,
+                IsPlanned = false,
                 CalendarId = 1
             });
             return holidayData;
@@ -7975,6 +8097,8 @@ namespace BlazorDemos.Pages.Schedule.Scheduler
         public class ResourceEventsData : AppointmentData
         {
             public int CalendarId { get; set; }
+            public bool IsPlanned { get; set; }
+            public int OwnerId { get; set; }
         }
         public class DoctorData : AppointmentData
         {

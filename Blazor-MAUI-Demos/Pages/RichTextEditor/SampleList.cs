@@ -21,7 +21,9 @@ namespace Blazor_MAUI_Demos
                 Category = "Rich Text Editor",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/overview",
-                FileName = "Overview.razor"
+                FileName = "Overview.razor",
+                NotificationDescription = new string[] { @"The Rich Text Editor overview sample has been updated to include the InlineCode feature. This enhancement allows users to format code snippets inline within the editor." },
+                Type = SampleType.Updated
             },
             new Sample
             {
@@ -37,7 +39,8 @@ namespace Blazor_MAUI_Demos
                 Category = "Rich Text Editor",
                 Directory = "RichTextEditor/RichTextEditor",
                 Url = "rich-text-editor/iframe-functionalities",
-                FileName = "Iframe-Functionalities.razor"
+                FileName = "Iframe-Functionalities.razor",
+                Type = SampleType.Updated
             },
             new Sample
             {

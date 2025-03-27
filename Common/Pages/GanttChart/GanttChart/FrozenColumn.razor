@@ -36,7 +36,7 @@
                      Toolbar="@(new List<string>() { "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll", "Indent", "Outdent" })"
                      AllowSelection="true" GridLines="Syncfusion.Blazor.Gantt.GridLine.Both"
                      TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate"
-                     FrozenColumns="@FrozenColumnCount">
+                     FrozenColumns="@FrozenColumnCount" ScrollToTaskbarOnClick="true">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration"
                                  Progress="Progress" Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
                 <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true"
@@ -51,7 +51,7 @@
                     <GanttColumn Field="Progress" HeaderText="Progress" Width="150" IsFrozen="@IsProgressFrozen" Freeze="@ProgressFreezeDirection"></GanttColumn>
                     <GanttColumn Field="Predecessor" HeaderText="Dependency" Width="150" IsFrozen="@IsDependencyFrozen" Freeze="@DependencyFreezeDirection"></GanttColumn>
                 </GanttColumns>
-                <GanttLabelSettings LeftLabel="TaskName" TValue="GanttData.TaskData"></GanttLabelSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TaskLabel="Progress" TValue="GanttData.TaskData"></GanttLabelSettings>
                 <GanttSplitterSettings Position="90%"></GanttSplitterSettings>
             </SfGantt>
         </div>
@@ -60,8 +60,8 @@
 
 @code {
     private SfGantt<GanttData.TaskData> Gantt;
-    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 25);
-    private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 28);
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2025, 3, 25);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2025, 9, 01);
     private List<GanttData.TaskData> TaskList { get; set; }
     private int FrozenColumnCount { get; set; } = 1;
 
@@ -91,7 +91,7 @@
         TaskList = GanttData.EditingData().ToList();
     }
 
-    public void OnRightFreezeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    public async void OnRightFreezeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
     {
         switch (args.Value)
         {
@@ -112,9 +112,10 @@
                 DurationFreezeDirection = FreezeDirection.Right;
                 break;
         }
+        await Gantt.RefreshAsync();
     }
 
-    public void OnLeftFreezeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    public async void OnLeftFreezeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
     {
         if (args.Value == "Job Name")
         {
@@ -127,6 +128,7 @@
             IsStartDateFrozen = true;
             StartDateFreezeDirection = FreezeDirection.Left;
         }
+        await Gantt.RefreshAsync();
     }
 
 }

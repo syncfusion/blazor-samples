@@ -59,6 +59,31 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Streaming Response",
+                Category = "AI AssistView",
+                Directory = "InteractiveChat/AIAssistView",
+                Type = SampleType.New,
+                Url = "ai-assistview/assist-streaming",
+                FileName = "StreamingResponse.razor",
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "StreamingResponse.razor",
+                        Id="StreamingResponse",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "PromptResponseData.cs",
+                        Id="PromptResponseData",
+                    }
+                },
+                NotificationDescription = new string[]{
+                    @" The Blazor AI AssistView component now supports streaming updates, which allows users to update real-time AI responses based on the prompts sent."
+                }
+            },
+            new Sample
+            {
                 Name = "Template",
                 Category = "AI AssistView",
                 Directory = "InteractiveChat/AIAssistView",
@@ -109,9 +134,6 @@ namespace BlazorDemos
                 Directory = "InteractiveChat/ChatUI",
                 Url = "chat-ui/default-functionalities",
                 FileName = "Default.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases the basic functionality of the Chat UI component, showcasing how to integrate and use it for chat interactions with simple configurations."
-                },
                 SourceFiles = new List<SourceCollection>
                 {
                     new SourceCollection
@@ -128,14 +150,33 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Load On-Demand",
+                Category = "Chat UI",
+                Directory = "InteractiveChat/ChatUI",
+                Url = "chat-ui/loadondemand",
+                FileName = "LoadOnDemand.razor",
+                Type = SampleType.New,
+                SourceFiles = new List<SourceCollection>
+                {
+                    new SourceCollection
+                    {
+                        FileName = "LoadOnDemand.razor",
+                        Id="LoadOnDemand",
+                    },
+                    new SourceCollection
+                    {
+                        FileName = "ChatMessagesData.cs",
+                        Id="ChatMessagesData",
+                    }
+                }
+            },
+            new Sample
+            {
                 Name = "Template",
                 Category = "Chat UI",
                 Directory = "InteractiveChat/ChatUI",
                 Url = "chat-ui/template",
                 FileName = "Template.razor",
-                NotificationDescription = new string[] {
-                    @"Highlights the template functionality in the Chat UI, allowing customization of chat message appearances, including different templates for messages, empty chats, and time breaks."
-                },
                 SourceFiles = new List<SourceCollection>
                 {
                     new SourceCollection
@@ -157,9 +198,6 @@ namespace BlazorDemos
                 Directory = "InteractiveChat/ChatUI",
                 Url = "chat-ui/api",
                 FileName = "Api.razor",
-                NotificationDescription = new string[] {
-                    @"Demonstrates how to customize the Chat UI component using its API, including properties like timestamp format, visibility of headers/footers, and time breaks."
-                },
                 SourceFiles = new List<SourceCollection>
                 {
                     new SourceCollection
@@ -181,9 +219,6 @@ namespace BlazorDemos
                 Directory = "InteractiveChat/ChatUI",
                 Url = "chat-ui/chat-integration",
                 FileName = "ChatIntegration.razor",
-                NotificationDescription = new string[] {
-                    @"Showcases how to design a chat application with a multi-user interface, where pre-loaded messages for different users are displayed and managed, along with dynamic message responses."
-                },
                 SourceFiles = new List<SourceCollection>
                 {
                     new SourceCollection

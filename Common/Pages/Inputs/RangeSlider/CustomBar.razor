@@ -14,6 +14,7 @@
         <li>Height - In this sample, the track height has been customized. Here, the thumb has to be adjusted based on the track height.</li>
         <li>Gradient color - In this sample, the track has been customized with a gradient color.</li>
         <li>Dynamic thumb and selection bar color - In this sample, the track and thumb have been customized to different colors for different intervals by using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SliderEvents-1.html#Syncfusion_Blazor_Inputs_SliderEvents_1_ValueChange" aria-label="Class reference of ValueChange event in Range Slider">ValueChange</a> event.</li>
+        <li>Range Slider track - In this sample, the <code>Start</code>, <code>End</code>, and <code>Color</code> values for different track segments are defined using the <code>ColorRange</code> child elements within the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Inputs.SliderColorRanges.html" aria-label="Class reference of SliderColorRanges in Range Slider">SliderColorRanges</a> tag of the Range Slider component.</li>
     </ul>
 </ActionDescription>
 
@@ -37,6 +38,17 @@
                 @*Initialize the Slider component*@
                 <SfSlider @bind-Value="@Value" TValue="int" ID="dynamic_color_slider" Type="SliderType.MinRange" CssClass="@DynamicColor">
                     <SliderEvents TValue="int" ValueChange="@(e => { OnChange(e.Value); })"></SliderEvents>
+                </SfSlider>
+            </div>
+            <div class="slider_container">
+                <label>Range Slider track color</label>
+                @*Initialize the Slider component*@
+                <SfSlider ID="sliderTracks" @ref="SliderObj" TValue="int[]" @bind-Value="@RangeValue" Type="SliderType.Range">
+                    <SliderEvents TValue="int[]" Created="Created"></SliderEvents>
+                    <SliderColorRanges>
+                        <ColorRange Start="0" End="50" Color="green"></ColorRange>
+                        <ColorRange Start="51" End="100" Color="red"></ColorRange>
+                    </SliderColorRanges>
                 </SfSlider>
             </div>
         </div>
@@ -68,6 +80,12 @@
         {
             DynamicColor = "e-slider-red";
         }
+    }
+
+    SfSlider<int[]> SliderObj;
+    public int[] RangeValue = { 30, 70 };
+    private async Task Created() {
+        await SliderObj.RepositionAsync();
     }
 }
 
@@ -214,3 +232,4 @@
         background-color: #c8c8c8;
     }
 </style>
+

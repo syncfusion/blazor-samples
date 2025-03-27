@@ -7,12 +7,12 @@ else {
 }
 const homepagepath = ["/demos/", "/development/net8/demos/", "/development/net9/demos/", "/release/net8/demos/", "/release/net9/demos/", "/hotfix/net8/demos/", "/hotfix/net9/demos/","/"];
 function dynamicResources() {
-    if (window.location.href.indexOf('pdf-viewer-2') != -1 || window.location.href.indexOf('powerpoint') != -1) {
+    if (window.location.href.indexOf('pdf-viewer-2') != -1 || window.location.href.indexOf('powerpoint') != -1 || window.location.href.indexOf('ai-pdfviewer-2') != -1) {
         let newScript = document.createElement('script');
         newScript.setAttribute('src', "_content/Syncfusion.Blazor.SfPdfViewer/scripts/syncfusion-blazor-sfpdfviewer.min.js");
         document.getElementsByClassName('dynamic-resources')[0].appendChild(newScript);
     }
-    if (window.location.href.indexOf('document-editor') != -1) {
+    if (window.location.href.indexOf('document-editor') != -1 || window.location.href.indexOf('ai-documenteditor') != -1) {
         let newScript = document.createElement('script');
         newScript.setAttribute('src', "_content/Syncfusion.Blazor.WordProcessor/scripts/syncfusion-blazor-documenteditor.min.js");
         document.getElementsByClassName('dynamic-resources')[0].appendChild(newScript);
@@ -84,6 +84,9 @@ function samplePageAssets() {
             '/scripts/image-editor.min.js',
             '/scripts/richtexteditor.min.js',
             '/styles/common/dark-theme.min.css',
+            '/scripts/ribbon.js',
+            '/scripts/speechtotext.js',
+            '/styles/diagram/syncfusion-blazor-icons.css', 
         ];
     } else {
         assetFiles = [
@@ -99,6 +102,9 @@ function samplePageAssets() {
             '/scripts/image-editor.js',
             '/scripts/richtexteditor.js',
             '/styles/common/dark-theme.css',
+            '/scripts/ribbon.js',
+            '/scripts/speechtotext.js',
+            '/styles/diagram/syncfusion-blazor-icons.css', 
         ]; }
     assetFiles.forEach((file) => {
         loadAssets(path + file);

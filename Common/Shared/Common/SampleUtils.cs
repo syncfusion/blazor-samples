@@ -11,6 +11,7 @@ using System.Web;
 using Syncfusion.Blazor.Navigations;
 using Microsoft.AspNetCore.Components;
 using System.Text.RegularExpressions;
+using System.Threading.Tasks;
 
 namespace BlazorDemos.Shared
 {
@@ -186,7 +187,6 @@ namespace BlazorDemos.Shared
         /// </summary>
 
         public static List<ListData> BlazorPlatform = new List<ListData> {
-        #if !NET6_0
             #if !SERVER
                         new ListData { ID = "server", Text = "Server" },
             #endif
@@ -196,14 +196,6 @@ namespace BlazorDemos.Shared
             #if !WASM
                         new ListData { ID = "wasm", Text = "WASM" }
             #endif
-        #else
-            #if !SERVER
-                        new ListData { ID = "server", Text = "Server" },
-            #endif
-            #if !WASM
-                        new ListData { ID = "wasm", Text = "WASM" }
-            #endif
-        #endif
         };
 
         /// <summary>
@@ -293,7 +285,7 @@ namespace BlazorDemos.Shared
                 };
                 if (sampleService.ComponentName != null)
                 {
-                    if (sampleService.ComponentName.Equals("PDF Viewer (NextGen)") && !sampleService.IsPdfScript2Loaded)
+                    if (sampleService.ComponentName.Equals("PDF Viewer") && !sampleService.IsPdfScript2Loaded)
                     {
                         sampleService.IsPdfScript2Loaded = true;
                         resourceList.Add(sampleService.ViewerScriptPath);
@@ -392,33 +384,43 @@ namespace BlazorDemos.Shared
         public string Category { get; set; }
         public List<SearchResult> SampleList { get; set; }
         public bool IsMultiSearch { get; set; }
+#if SERVER || WEBAPP
+        public async Task<List<SearchList>> GetSearchListAsync()
+#else
         public List<SearchList> GetSearchList()
+#endif
         {
             bool isButtonsAdded = false;
             var searchlist = new List<SearchList>();
             var sampleList = SampleBrowser.SampleList;
+#if SERVER || WEBAPP
+            await Task.Run(() => { 
+#endif
             for (int i = 0; i < sampleList.Count; i++)
-            {
-                if ((sampleList[i].Category == "Buttons" || sampleList[i].Category == "Inputs") && sampleList[i].ControllerName == "Buttons")
                 {
-                    if (!isButtonsAdded)
+                    if ((sampleList[i].Category == "Buttons" || sampleList[i].Category == "Inputs") && sampleList[i].ControllerName == "Buttons")
                     {
-                        isButtonsAdded = !isButtonsAdded;
+                        if (!isButtonsAdded)
+                        {
+                            isButtonsAdded = !isButtonsAdded;
+                        }
+                        else
+                        {
+                            continue;
+                        }
                     }
-                    else
+                    var samples = sampleList[i].Samples;
+                    var searchResult = new List<SearchResult>();
+                    for (int j = 0; j < samples.Count; j++)
                     {
-                        continue;
+                        var sample = samples[j];
+                        searchResult.Add(new SearchResult { SampleName = sample.Name, SamplePath = sample.Url });
                     }
+                    searchlist.Add(new SearchList { Category = sampleList[i].ControllerName, SampleList = searchResult });
                 }
-                var samples = sampleList[i].Samples;
-                var searchResult = new List<SearchResult>();
-                for (int j = 0; j < samples.Count; j++)
-                {
-                    var sample = samples[j];
-                    searchResult.Add(new SearchResult { SampleName = sample.Name, SamplePath = sample.Url });
-                }
-                searchlist.Add(new SearchList { Category = sampleList[i].ControllerName, SampleList = searchResult });
-            }
+#if SERVER || WEBAPP
+            });
+#endif
             return searchlist;
         }
     }
@@ -437,45 +439,65 @@ namespace BlazorDemos.Shared
         public string DefaultSamplePath { get; set; }
         public List<NotificationData> SampleList { get; set; }
         public string[] NotificationContent { get; set; }
+#if SERVER || WEBAPP
+        public async Task<List<NotificationList>> GetNotificationDataAsync()
+#else
         public List<NotificationList> GetNotificationData()
+#endif
         {
             var notificationlist = new List<NotificationList>();
             var sampleList = SampleBrowser.SampleList;
+#if SERVER || WEBAPP
+            await Task.Run(() => { 
+#endif
             for (int i = 0; i < sampleList.Count; i++)
-            {
-                var samples = sampleList[i].Samples;
-                var notificationResultData = new List<NotificationData>();
-                for (int j = 0; j < samples.Count; j++)
                 {
-                    var sample = samples[j];
-                    if (sample.Type.ToString() == "New" || sample.Type.ToString() == "Updated" || sampleList[i].IsPreview)
+                    var samples = sampleList[i].Samples;
+                    var notificationResultData = new List<NotificationData>();
+                    for (int j = 0; j < samples.Count; j++)
                     {
-                        if (sample.NotificationDescription != null)
+                        var sample = samples[j];
+                        if (sample.Type.ToString() == "New" || sample.Type.ToString() == "Updated" || sampleList[i].IsPreview)
                         {
-                            notificationResultData.Add(new NotificationData { SampleName = sample.Name, SampleUrl = sample.Url, NotificationContent = sample.NotificationDescription });
+                            if (sample.NotificationDescription != null)
+                            {
+                                notificationResultData.Add(new NotificationData { SampleName = sample.Name, SampleUrl = sample.Url, NotificationContent = sample.NotificationDescription });
+                            }
                         }
                     }
+                    if (notificationResultData.Count != 0)
+                    {
+                        notificationlist.Add(new NotificationList { Name = sampleList[i].Name, DefaultSamplePath = sampleList[i].DemoPath, SampleList = notificationResultData });
+                    }
                 }
-                if (notificationResultData.Count != 0)
-                {
-                    notificationlist.Add(new NotificationList { Name = sampleList[i].Name, DefaultSamplePath = sampleList[i].DemoPath, SampleList = notificationResultData });
-                }
-            }
+#if SERVER || WEBAPP
+            });
+#endif
             return notificationlist;
         }
 
+#if SERVER || WEBAPP
+        public async Task<List<NotificationList>> GetComponentNotificationDataAsync()
+#else
         public List<NotificationList> GetComponentNotificationData()
+#endif
         {
             var listcomponentnotification = new List<NotificationList>();
             var notificationResultData = new List<NotificationData>();
             var sampleList = SampleBrowser.SampleList;
+#if SERVER || WEBAPP
+            await Task.Run(() => { 
+#endif
             for (int i = 0; i < sampleList.Count; i++)
-            {
-                if (sampleList[i].NotificationDescription != null)
                 {
-                    listcomponentnotification.Add(new NotificationList { Name = sampleList[i].Name, DefaultSamplePath = sampleList[i].DemoPath, NotificationContent = sampleList[i].NotificationDescription });
+                    if (sampleList[i].NotificationDescription != null)
+                    {
+                        listcomponentnotification.Add(new NotificationList { Name = sampleList[i].Name, DefaultSamplePath = sampleList[i].DemoPath, NotificationContent = sampleList[i].NotificationDescription });
+                    }
                 }
-            }
+#if SERVER || WEBAPP
+            });
+#endif
             return listcomponentnotification;
         }
 
@@ -588,7 +610,7 @@ namespace BlazorDemos.Shared
                 components.Add(new PopularComponents("Charts", "charts", "chart/overview"));
                 components.Add(new PopularComponents("Scheduler", "scheduler", "scheduler/overview"));
                 components.Add(new PopularComponents("Diagram", "diagram", "diagramcomponent/flowchart"));
-                components.Add(new PopularComponents("Document Editor", "document-editor", "document-editor/default-functionalities"));
+                components.Add(new PopularComponents("Word Processor", "document-editor", "document-editor/default-functionalities"));
                 components.Add(new PopularComponents("PDF Viewer", "pdf-viewer", "pdf-viewer-2/default-functionalities"));
             }
             return components;

@@ -20,15 +20,6 @@ namespace BlazorDemos
                 Url = "ai-kanban/aitask-recommendation",
                 FileName = "AITaskRecommendation.razor",
                 NotificationDescription = new string[]{ @" This demo shows the anomaly detection AI feature in kanban" }
-            },
-             new Sample
-            {
-                Name = "Sentiment Analysis",
-                Category = "Kanban",
-                Directory = "AISamples/Kanban",
-                Url = "ai-kanban/sentiment-analysis",
-                FileName = "SentimentAnalysis.razor",
-                NotificationDescription = new string[]{ @" This demo shows the adaptive data structuring AI feature in Tree Grid." }
             }
         };
     }

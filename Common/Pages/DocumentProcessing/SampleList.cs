@@ -434,6 +434,56 @@ namespace BlazorDemos
                     }
                 }
             },
+            new Sample
+            {
+                Name = "Create SmartArt",
+                Category = "SmartArts",
+                Directory = "DocumentProcessing/Word",
+                Url = "word/create-smartart",
+                FileName = "CreateSmartArt.razor",
+                Type=SampleType.New,
+                MetaDescription = "This sample demonstrates how to create SmartArt graphics in the Blazor Word Library (DocIO). Explore here for more details.",
+                NotificationDescription = new string[]
+                {
+                    @"Added support for creating, editing, removing, and converting SmartArt graphics in Word documents (DOCX, DOTX, DOCM, and DOTM)."
+                },
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="CreateSmartArt",
+                        FileName="CreateSmartArt.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="CreateSmartArtService",
+                        FileName="CreateSmartArtService.cs"
+                    }
+                }
+            },
+            new Sample
+            {
+                Name = "Edit SmartArt",
+                Category = "SmartArts",
+                Directory = "DocumentProcessing/Word",
+                Url = "word/edit-smartart",
+                FileName = "EditSmartArt.razor",
+                Type=SampleType.New,
+                MetaDescription = "This sample demonstrates how to edit SmartArt graphics in the Blazor Word Library (DocIO). Explore here for more details.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="EditSmartArt",
+                        FileName="EditSmartArt.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="EditSmartArtService",
+                        FileName="EditSmartArtService.cs"
+                    }
+                }
+            },
 #if !(WASM) && !WEBAPP
             new Sample
             {
@@ -442,6 +492,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-pdf",
                 FileName = "WordToPDF.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample illustrates how to convert Word document to PDF using Essential DocIO and Essential PDF.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -464,6 +515,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-pdfa",
                 FileName = "WordToPDFA.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample illustrates how to set the Pdf conformance level while converting Word to PDF using Essential DocIO and Essential PDF.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -486,6 +538,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-pdfua",
                 FileName = "WordToPDFUA.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample illustrates how to preserve document structured tags in the converted PDF using Essential DocIO and Essential PDF.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -508,6 +561,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Word",
                 Url = "word/word-to-image",
                 FileName = "WordToImage.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample illustrates how to convert Word document to Image using Essential DocIO.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -870,6 +924,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-image",
                 FileName = "PPTXToImage.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to convert the PowerPoint slide to an image.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -892,6 +947,11 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-pdf",
                 FileName = "PPTXToPDF.razor",
+                Type = SampleType.Updated,
+                NotificationDescription = new string[]
+                {
+                    @"Added support for preserving shapes as editable text form fields during PowerPoint to PDF conversion."
+                },
                 MetaDescription = "This sample demonstrates how to convert a PowerPoint presentation to PDF.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -914,6 +974,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-pdfa",
                 FileName = "PPTXToPDFA.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to set the PDF conformance level while converting PowerPoint presentation to PDF.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -936,6 +997,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/PowerPoint",
                 Url = "powerpoint/pptx-to-pdfua",
                 FileName = "PPTXToPDFUA.razor",
+                Type = SampleType.Updated,
                 MetaDescription = "This sample demonstrates how to preserve document structured tags in the converted PDF.",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1742,7 +1804,7 @@ namespace BlazorDemos
                 Directory = "DocumentProcessing/Excel",
                 Url = "excel/excel-to-pdf",
                 MetaDescription = "This sample demonstrates the conversion of Excel documents to pdf file using Essential XlsIO.",
-                Type = SampleType.None,
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1768,6 +1830,7 @@ namespace BlazorDemos
                     @"Converting Excel documents to PDF with PDF/UA standard compliance is now supported. This ensures that users who rely on accessibility tools can effectively read the content of these PDF documents."
                 },
                 MetaDescription = "This sample demonstrates how to create macros using XlsIO.",
+                Type = SampleType.Updated,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -2286,9 +2349,9 @@ namespace BlazorDemos
                 Name= "Graphic Brushes",
                 Category="Graphics",
                 Directory="DocumentProcessing/PDF",
-                MetaDescription="This sample demonstrates drawing of shapes with different brushes such as solid, tiling, Linear gradient, Radial gradient and with different color spaces. such as Cal RGB, ICC, Exponential interpolation, pantone and indexed color space.",
+                MetaDescription="This sample demonstrates drawing of shapes with different brushes such as solid, tiling, hatch, Linear gradient, Radial gradient and with different color spaces. such as Cal RGB, ICC, Exponential interpolation, pantone and indexed color space.",
                 Url="pdf/graphics-brushes",
-                Type=SampleType.None,
+                Type=SampleType.Updated,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -2643,7 +2706,7 @@ namespace BlazorDemos
                 Directory="DocumentProcessing/PDF",
                 MetaDescription="This sample demonstrates how to create tagged PDF or accessible PDF from the scratch using auto tag feature.The auto tag feature will tag the document based on PDF element created in the document.",
                 Url="pdf/auto-tag",
-                Type=SampleType.None,
+                Type=SampleType.Updated,
                 SourceFiles=new List<SourceCollection>()
                 {
                     new SourceCollection

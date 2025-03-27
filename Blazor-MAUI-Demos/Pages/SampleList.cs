@@ -247,14 +247,13 @@ namespace Blazor_MAUI_Demos
             //});
             SampleBrowser.SampleList.Add(new SampleList
             {
-                Name = "PDF Viewer (NextGen)",
+                Name = "PDF Viewer",
                 Category = "File Viewers & Editors",
                 Directory = "Viewer2/PdfViewer2",
                 Samples = PDFViewer2,
                 ControllerName = "PdfViewer2",
                 CustomDocLink = "pdfviewer-2/getting-started",
                 DemoPath = "pdf-viewer-2/default-functionalities",
-                InfoTooltip = "This new Blazor PDF Viewer component is powered by WASM rendering engine which provides fast rendering of pages and improved performance. Also, there is no need of external Web service for processing the files and ease out the deployment complexity. It can be used in Blazor Server, WASM and hybrid applications without any changes.",
                 ComponentIconName = "pdfviewer",
                 NotificationDescription = new string[] { @"The PDF Viewer (Next-Gen) component has undergone development to align with industry standards and has now received the designation of being production-ready." }
             });
@@ -619,6 +618,37 @@ namespace Blazor_MAUI_Demos
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
+                Name = "Speech To Text",
+                Category = "Inputs",
+                Directory = "Inputs/SpeechToText",
+                Samples = SpeechToText,
+                ControllerName = "SpeechToText",
+                DemoPath = "speech-to-text/default-functionalities",
+                Type = SampleType.Preview,
+                IsPreview = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "AI AssistView",
+                Category = "Interactive Chat",
+                Directory = "InteractiveChat/AIAssistView",
+                Samples = AIAssistView,
+                ControllerName = "AIAssistView",
+                DemoPath = "ai-assistview/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Chat UI",
+                Category = "Interactive Chat",
+                Directory = "InteractiveChat/ChatUI",
+                Samples = ChatUI,
+                ControllerName = "ChatUI",
+                DemoPath = "chat-ui/default-functionalities",
+                Type = SampleType.Preview,
+                IsPreview = true
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
                 Name = "Accordion",
                 Category = "Navigation",
                 Directory = "Navigations/Accordion",
@@ -736,6 +766,16 @@ namespace Blazor_MAUI_Demos
                 Samples = Stepper,
                 ControllerName = "Stepper",
                 DemoPath = "stepper/default-functionalities"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Ribbon",
+                Category = "Navigation",
+                Directory = "Navigations/Ribbon",
+                Type = SampleType.Updated,
+                Samples = Ribbon,
+                ControllerName = "Ribbon",
+                DemoPath = "ribbon/default-functionalities"
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
@@ -913,6 +953,49 @@ namespace Blazor_MAUI_Demos
                 DemoPath = "data-form/default-functionalities",
                 Type = SampleType.None,
                 ComponentIconName = "data_form",
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Word (DocIO)",
+                Category = "Document Processing Libraries",
+                Directory = "DocumentProcessing/Word",
+                Type = SampleType.Updated,
+                Samples = DocIO,
+                ControllerName = "Word",
+                DemoPath = "word/hello-world",
+                ComponentIconName = "word"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "PowerPoint (Presentation)",
+                Category = "Document Processing Libraries",
+                Directory = "DocumentProcessing/PowerPoint",
+                Type = SampleType.Updated,
+                Samples = Presentation,
+                ControllerName = "PowerPoint",
+                DemoPath = "powerpoint/getting-started",
+                ComponentIconName = "powerpoint"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "PDF",
+                Category = "Document Processing Libraries",
+                Directory = "DocumentProcessing/PDF",
+                Type = SampleType.Updated,
+                Samples = PDF,
+                ControllerName = "PDF",
+                DemoPath = "pdf/hello-world"
+            });
+            SampleBrowser.SampleList.Add(new SampleList
+            {
+                Name = "Excel (XlsIO)",
+                Category = "Document Processing Libraries",
+                Directory = "DocumentProcessing/Excel",
+                Samples = XlsIO,
+                ControllerName = "Excel",
+                DemoPath = "excel/create-excel",
+                Type = SampleType.Updated,
+                ComponentIconName = "excel"
             });
         }
     }
