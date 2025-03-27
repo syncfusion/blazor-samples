@@ -1,0 +1,54 @@
+﻿@implements IDisposable
+
+@inject AzureAIService openAIService
+@using Syncfusion.Blazor.SfPdfViewer;
+@using Syncfusion.Blazor.Spinner;
+@using Syncfusion.Blazor.Navigations;
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Pdf.Graphics;
+@using Syncfusion.Pdf.Interactive;
+@using BlazorDemos.Service
+@using Syncfusion.Pdf.Parsing;
+@using System.IO;
+@using System.Text;
+
+<div class="sample-header">
+    @* App bar *@
+    <SfAppBar ColorMode="AppBarColor.Primary">
+        <span class="regular">Smart Fill</span>
+        <AppBarSpacer></AppBarSpacer>
+    </SfAppBar>
+</div>
+@* Spinner *@
+<div class="spinner-container" style="display:@displayBlurContainer">
+    <SfSpinner Size="50" @bind-Visible="@isSpinnerVisible"></SfSpinner>
+</div>
+
+@* Custom Toolbar *@
+<div style="display:none">
+    <SfUploader @ref="@uploadFiles" ID="UploadFiles" ShowFileList="false" AllowedExtensions=".pdf">
+        <UploaderEvents OnUploadStart="@FileUploadSelected" Created="CreatedHandler"></UploaderEvents>
+        <UploaderAsyncSettings SaveUrl="http://localhost:63028/api/FileUploader/Save" RemoveUrl="http://localhost:63028/api/FileUploader/Remove"></UploaderAsyncSettings>
+    </SfUploader>
+</div>
+<SfToolbar CssClass="custom-toolbar">
+    <ToolbarItems>
+        <ToolbarItem Text="Open File" PrefixIcon="e-icons e-folder-open" TabIndex="1" TooltipText="Open file" Id="pdfviewer_open" Align="ItemAlign.Left" CssClass="e-pv-open-document-container"></ToolbarItem>
+        <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
+        <ToolbarItem OnClick="@Download" TabIndex="1" Text="Save" PrefixIcon="e-icons e-download" Id="download" TooltipText="Save File" Align=@ItemAlign.Left></ToolbarItem>
+        <ToolbarItem OnClick="@Print" TabIndex="2" TooltipText="Print File" PrefixIcon="e-icons e-print" Text="Print" CssClass="e-pv-print-container"></ToolbarItem>
+        @if (isDocumentLoaded)
+        {
+            <SfButton IsPrimary="true" Disabled="@isSpinnerVisible" OnClick="@SmartFillClicked" CssClass="smart-fill-btn" tabindex="3" Content="@(IsMobileDevice? "": "Smart Form Fill")" IconCss="e-icons e-smart-paste"></SfButton>
+        }
+    </ToolbarItems>
+</SfToolbar>
+
+@* Pdf Viewer 2 *@
+<div style="overflow:auto;height:@ViewerHeight;">
+    <SfPdfViewer2 @ref="sfPdfViewer2" DocumentPath="@documentPath" Width="100%" Height="100%" EnableToolbar="false" EnableAnnotationToolbar="false" DownloadFileName="SmartFill.pdf" ZoomMode="ZoomMode.FitToPage">
+        <PdfViewerEvents DocumentLoaded="DocumentLoaded"></PdfViewerEvents>
+        <PdfViewerContextMenuSettings ContextMenuItems="contextMenuItems"></PdfViewerContextMenuSettings>
+    </SfPdfViewer2>
+</div>

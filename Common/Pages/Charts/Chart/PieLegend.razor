@@ -1,0 +1,94 @@
+﻿@page "/chart/pie-legend"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows statistics on expenditure made in a year using the donut chart with legends shown at the right side of the chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a doughnut chart with legends. You can use <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.AccumulationChartSeries.html#Syncfusion_Blazor_Charts_AccumulationChartSeries_Radius' aria-label="Navigate to the Radius property reference for accumulation chart series">Radius</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.AccumulationChartSeries.html#Syncfusion_Blazor_Charts_AccumulationChartSeries_InnerRadius' aria-label="Navigate to the InnerRadius property reference for accumulation chart series">InnerRadius</a> properties to render the doughnut. Here, the legend text is wrapped using the <code>TextWrap</code> property.</p>
+    <p>More information about the legend feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/legend' aria-label="Navigate to the documentation for legend in accumulation chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfAccumulationChart  EnableBorderOnMouseMove="false" Title="@Content" SelectionMode="AccumulationSelectionMode.Point" Theme="@Theme">
+        <AccumulationChartTooltipSettings Enable="false"></AccumulationChartTooltipSettings>
+         <AccumulationChartLegendSettings ToggleVisibility=false TextWrap="@TextWrap.Wrap" MaximumLabelWidth="80" Position="@position" Height="@Height" Width="@Width">
+            @if (SampleService.IsDevice)
+            {
+                <AccumulationChartLegendPageSettings ArrowSize="10">
+                    <AccumulationChartLegendPageSettingsTextStyle Size="15px"></AccumulationChartLegendPageSettingsTextStyle>
+                </AccumulationChartLegendPageSettings>
+            }
+         </AccumulationChartLegendSettings>
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@PieChartPoints" XName="ExpenseCategory" YName="ExpensePercentage" Name="Revenue" InnerRadius="40%">
+                <AccumulationDataLabelSettings Name="DataLabelMappingName" Visible="true">
+                    <AccumulationChartDataLabelFont Color="white"></AccumulationChartDataLabelFont>
+                </AccumulationDataLabelSettings>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+        @if(!SampleService.IsDevice)
+        {
+             <AccumulationChartAnnotations>
+            <AccumulationChartAnnotation Region="Regions.Series" X="50%" Y="50%">
+                <ContentTemplate>
+                    <div style="font-size:14px;font-weight:600" id="annotation">
+                       Browser<br> Market<br> Shares
+                    </div>
+                </ContentTemplate>
+            </AccumulationChartAnnotation>
+        </AccumulationChartAnnotations>
+        }
+    </SfAccumulationChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    private string Content { get; set; } = "";
+    public string Height { get; set; } = "30%";
+    public string Width { get; set; } = "25%";
+    public LegendPosition position { get; set; } = LegendPosition.Right;
+    public double MaxLabel { get; set; } = 100;
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
+    {
+         new PieData { ExpenseCategory =  "Chrome", ExpensePercentage = 57.28, DataLabelMappingName = "57.2%" },
+         new PieData { ExpenseCategory =  "Safari", ExpensePercentage = 4.73, DataLabelMappingName = "4.7%" },
+         new PieData { ExpenseCategory =  "QQ", ExpensePercentage = 5.96, DataLabelMappingName = "5.9%" },
+         new PieData { ExpenseCategory =  "UC Browser", ExpensePercentage = 4.37, DataLabelMappingName = "4.3%" },
+         new PieData { ExpenseCategory =  "Edge", ExpensePercentage = 7.48, DataLabelMappingName = "7.4%" },
+         new PieData { ExpenseCategory =  "Others", ExpensePercentage = 14.06, DataLabelMappingName = "14%" },
+         new PieData { ExpenseCategory =  "Internet Explorer", ExpensePercentage = 6.12, DataLabelMappingName = "6.1%" }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Content = "Browser Market Shares";
+            position = LegendPosition.Bottom;
+            Height = "14%";
+            Width = "80%";
+        }
+    }
+
+    public class PieData
+    {
+        public string ExpenseCategory { get; set; }
+        public double ExpensePercentage { get; set; }
+        public string DataLabelMappingName { get; set; }
+    }
+}

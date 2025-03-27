@@ -1,0 +1,131 @@
+﻿@page "/excel/import-html-table"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject HttpClient Http
+@using System.IO;
+
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+
+@using BlazorDemos.Data.FileFormats.XlsIO
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to import HTML table to worksheet using Essential XlsIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Essential XlsIO supports importing HTML tables into Excel worksheets. The ImportHtmlTable method loads an HTML file and imports all the tables in the file to the worksheet.</p>
+    <p style='display: block'><b>Features:</b></p>
+    <p style='display: block'>This sample demonstrates following features:</p>
+    <ul>
+        <li>Imports HTML table</li>
+        <li>Imports with table formatting</li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-weight:normal">Click the “Input Template” button to view the input HTML document. </p>
+    <p style="font-weight:normal">Click the “Import” button to view the output Excel document. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document</p>
+
+    <div class="checkbox-control">
+        <div class="row">
+            <SfCheckBox @bind-Checked=detectFormula Label="Import with Formula" TChecked="bool"></SfCheckBox>
+        </div>
+    </div>
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="InputTemplate">Input Template</SfButton>&nbsp;
+                    <SfButton @onclick="Convert">Import</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    string button = string.Empty;
+    bool detectFormula = false;
+    //Hidden:Lines
+    
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Convert the HTML document to Excel
+    /// </summary>
+    public async Task Convert()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/html-with-formula-to-excel.html");
+        fileData.Add("html-with-formula-to-excel.html", new MemoryStream(data));
+        data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/html-to-excel.html");
+        fileData.Add("html-to-excel.html", new MemoryStream(data));
+        ImportHTMLTableService service = new ImportHTMLTableService(fileData);
+        button = "Convert";
+        excelStream = service.ImportHTMLTableXlsIO(button, detectFormula);
+        service.Close();
+        if (detectFormula)
+        {
+            await JS.SaveAs("Import-HTML-Table-with-Formula.xlsx", excelStream.ToArray());
+        }
+        else
+        {
+            await JS.SaveAs("Import-HTML-Table.xlsx", excelStream.ToArray());
+        }
+    }
+    /// <summary>
+    /// Download the HTML document used for conversion
+    /// </summary>
+    public async Task InputTemplate()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/html-with-formula-to-excel.html");
+        fileData.Add("html-with-formula-to-excel.html", new MemoryStream(data));
+        data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/html-to-excel.html");
+        fileData.Add("html-to-excel.html", new MemoryStream(data));
+        ImportHTMLTableService service = new ImportHTMLTableService(fileData);
+        button = "Input Template";
+        excelStream = service.ImportHTMLTableXlsIO(button, detectFormula);
+        service.Close();
+        if (detectFormula)
+        {
+            await JS.SaveAs("Import-HTML-Table-with-Formula.html", excelStream.ToArray());
+        }
+        else
+        {
+            await JS.SaveAs("Import-HTML-Table.html", excelStream.ToArray());
+        }
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async void LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/html-with-formula-to-excel.html");
+            fileData.Add("html-with-formula-to-excel.html", new MemoryStream(data));
+            data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/html-to-excel.html");
+            fileData.Add("html-to-excel.html", new MemoryStream(data));
+        }
+    }
+}

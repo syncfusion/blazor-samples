@@ -1,0 +1,279 @@
+﻿@page "/diagramcomponent/uml-sequence"
+
+@using Syncfusion.Blazor.Diagram
+@using System.Collections.ObjectModel
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@implements IDisposable
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This sample illustrates an employees’ leave request sequence using a UML sequence diagram. The shapes for the sequence were designed with the Port feature for Diagram's nodes.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example shows how to create a UML sequence diagram using the <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_Ports' aria-label="Ports">Ports</a></code> feature for nodes. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Shape.html#Syncfusion_Blazor_Diagram_Shape_Type' aria-label="Type">Type</a></code> property of a shape allows you to define the type of <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.NodeShapes.html" aria-label="NodeShapes">NodeShapes</a></code>. The <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.BasicShape.html#Syncfusion_Blazor_Diagram_BasicShape_Shape' aria-label="Shape">Shape</a></code> property of a shape allows you to define the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.NodeBasicShapes.html" aria-label="NodeBasicShapes">NodeBasicShapes</a></code> of the node.</p> <br>
+</ActionDescription>
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+<SfDiagramComponent @ref="@Diagram" Nodes="@nodes" Connectors="@connectors" @bind-InteractionController="@diagramTools" Height="550px" Created="OnCreated">
+    <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+</SfDiagramComponent>
+</div>
+@code
+{
+    public SfDiagramComponent Diagram;
+    DiagramInteractions diagramTools =  DiagramInteractions.Default;
+
+    //Defines Diagram's nodes collection
+    private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    //Defines Diagram's connectors collection
+    private DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+
+    //Ports
+    private DiagramObjectCollection<PointPort> node5Ports;
+    private DiagramObjectCollection<PointPort> node6Ports;
+    private DiagramObjectCollection<PointPort> node7Ports;
+    private DiagramObjectCollection<PointPort> node26Ports;
+    
+
+    protected override void OnInitialized()
+    {
+        
+        diagramTools = DiagramInteractions.ZoomPan;
+
+        //ports for node
+        node5Ports = new DiagramObjectCollection<PointPort>();
+        node5Ports.Add(AddPorts("Port1", 0, 0.053));
+        node5Ports.Add(AddPorts("Port111", 1, 0.5));
+        node5Ports.Add(AddPorts("Port12", 1, 0.938));
+
+        node6Ports = new DiagramObjectCollection<PointPort>();
+        node6Ports.Add(AddPorts("Port2", 0, 0.5));
+
+        node7Ports = new DiagramObjectCollection<PointPort>();
+        node7Ports.Add(AddPorts("Port3", 0, 0.1));
+        node7Ports.Add(AddPorts("Port10", 0, 0.91));
+
+        node26Ports = new DiagramObjectCollection<PointPort>();
+        node26Ports.Add(AddPorts("Port11", 1, 0.049));
+        node26Ports.Add(AddPorts("Port7", 1, 0.97));
+
+        //Initialize nodes
+        CreateNode("Node1", 40, 100, 100, 50, "Employee");
+        CreateNode("Node2", 40, 100, 300, 50, "Team Lead");
+        CreateNode("Node3", 40, 100, 500, 50, "Dashboard");
+        CreateNode("Node4", 40, 100, 700, 50, "Manager");
+
+        //Node style
+        ShapeStyle nodeStyle = new ShapeStyle()
+        {
+            Fill = "#f7b62f",
+            StrokeColor = "#f7b62f"
+        };
+
+        CreateNode("Node5", 180, 10, 300, 250, style: nodeStyle, ports: node5Ports);
+        CreateNode("Node6", 25, 10, 500, 250, style: nodeStyle, ports: node6Ports);
+        CreateNode("Node7", 48, 10, 700, 348, style: nodeStyle, ports: node7Ports);
+        CreateNode("Node26", 240, 10, 100, 278, style: nodeStyle, ports: node26Ports);
+
+        //styles for connectors
+        ShapeStyle GetGrayLineStyle = new ShapeStyle() { Fill = "#969696", StrokeColor = "#969696", StrokeWidth = 1 };
+        ShapeStyle GetBlueLineStyle = new ShapeStyle() { Fill = "#0679b7", StrokeColor = "#0679b7", StrokeWidth = 2 };
+        ShapeStyle GetLineDashStyle = new ShapeStyle() { StrokeColor = "#0679b7", StrokeWidth = 2.5, StrokeDashArray = "4, 3" };
+
+        //Initialize connectors
+        CreateConnector("Connector3", "Node1", "Node26", annotationLabel: "c3", style: GetGrayLineStyle);
+        CreateConnector("Connector4", "Node2", "Node5", annotationLabel: "c4", style: GetGrayLineStyle);
+        CreateConnector("Connector5", "Node3", "Node6", annotationLabel: "c5", style: GetGrayLineStyle);
+        CreateConnector("Connector6", "Node4", "Node7", annotationLabel: "c6", style: GetGrayLineStyle);
+        CreateConnector("Connector1", "Node5", "Node6", "Port111", "Port2", annotationLabel: "Check Employee availability and task status", style: GetBlueLineStyle, annotationMargin: new DiagramThickness() { Left = 0, Top = 20, Right = 0, Bottom = 0});
+        CreateConnector("Connector2", "Node5", "Node7", "Port12", "Port3", annotationLabel: "Forward Leave Request", style: GetBlueLineStyle, annotationMargin: new DiagramThickness() { Left = 0, Top = 10, Right = 0, Bottom = 0});
+        CreateConnector("Connector7", "Node26", "Node5", "Port11", "Port1", annotationLabel: "Leave Request", style: GetBlueLineStyle, annotationMargin: new DiagramThickness() { Left = 0, Top = 10, Right = 0, Bottom = 0});
+        CreateConnector("Connector8", "", "Node26", "", "Port7", annotationLabel: "Leave Approval", style: GetLineDashStyle, annotationMargin: new DiagramThickness() { Left = 0, Top = 10, Right = 0, Bottom = 0 });
+        CreateConnector("Connector10", "Node7", "", "Port10", "", annotationLabel: "No Objection", style: GetLineDashStyle, annotationMargin: new DiagramThickness() { Left = 0, Top = 10, Right = 0, Bottom = 0 });
+        CreateConnector("Connector11", "Node26", "", annotationLabel: "c6", style: GetGrayLineStyle);
+        CreateConnector("Connector12", "Node5", "", annotationLabel: "c6", style: GetGrayLineStyle);
+        CreateConnector("Connector13", "Node6", "", annotationLabel: "c5", style: GetGrayLineStyle);
+        CreateConnector("Connector14", "Node7", "", annotationLabel: "c5", style: GetGrayLineStyle);
+    }
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram.FitToPage(mobileoptions);
+    }
+    //Create Nodes
+    private void CreateNode(string id, double height, double width, double offsetX, double offsetY, string label = null, ShapeStyle style = null, DiagramObjectCollection<PointPort> ports = null)
+    {
+        Node node = new Node()
+        {
+            ID = id,
+            OffsetX = offsetX,
+            OffsetY = offsetY,
+            Height = height,
+            Width = width,
+            Shape = new BasicShape()
+            {
+                Shape = NodeBasicShapes.Rectangle,
+                Type = NodeShapes.Basic,
+            }, 
+            Style = new ShapeStyle(){StrokeWidth = 0}, 
+        };
+        if(label != null)
+        {
+            node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation()
+                {
+                    Content = label,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Style = new TextStyle()
+                    {
+                        TextWrapping = TextWrap.Wrap,
+                        FontSize = 13,
+                        Bold = true,
+                        FontFamily = "Arial"
+                    }
+                }
+            };
+        }
+        if(style != null)
+        {
+            node.Style = style;
+        }
+        if(ports != null)
+        {
+            node.Ports = ports;
+        }
+        nodes.Add(node);
+    }
+
+    //Node ports
+    private PointPort AddPorts(string id, double x, double y)
+    {
+        return new PointPort()
+            {
+                ID = id, 
+                Height = 10,
+                Width = 10,
+                Offset = new DiagramPoint() { X = x, Y = y },
+                Style = new ShapeStyle()
+                {
+                    Fill = "black",
+                    StrokeColor = "black"
+                }
+            };
+    }
+
+    //Create Connector
+    private void CreateConnector(string id, string sourceID, string targetID, string sourcePortID = "", string targetPortID = "", string annotationLabel = "", DiagramThickness annotationMargin = null, ShapeStyle style = null)
+    {
+        Connector connector = new Connector()
+        {
+            ID = id,
+            SourceID = sourceID,
+            TargetID = targetID,
+            SourcePortID = sourcePortID,
+            TargetPortID = targetPortID,
+            Type = ConnectorSegmentType.Straight,
+            TargetDecorator = new DecoratorSettings()
+            {
+                Height = 10, Width = 10,
+                Style = new ShapeStyle()
+                {
+                    Fill = "SteelBlue",
+                    StrokeColor = "SteelBlue",
+                    StrokeWidth = 1
+                }
+            },
+            Annotations = new DiagramObjectCollection<PathAnnotation>()
+            {
+                new PathAnnotation()
+                {
+                    Content = annotationLabel,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    Width = 170,
+                    Style = new TextStyle()
+                    {
+                        TextWrapping = TextWrap.WrapWithOverflow,
+                        FontFamily = "Arial",
+                        FontSize = 11
+                    }
+                }
+            },
+        };
+        if (style != null)
+            connector.Style = style;
+        if(annotationMargin != null)
+        {
+            connector.Annotations[0].Margin = annotationMargin;
+        }
+        if ((annotationLabel == "c3") || (annotationLabel == "c4") || (annotationLabel == "c5") || (annotationLabel == "c6"))
+        {
+            connector.TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None };
+            connector.TargetDecorator.Style = null;
+            connector.Annotations[0].Visibility = false;
+        }
+        if(connector.ID == "Connector8")
+        {
+            connector.SourcePoint = new DiagramPoint() { X = 300, Y = 390 };
+        }
+        if(connector.ID == "Connector10")
+        {
+            connector.TargetPoint = new DiagramPoint() { X = 300, Y = 370 };
+        }
+        if(connector.ID =="Connector11")
+        {
+            connector.SourcePoint = new DiagramPoint() { X = 100, Y = 400 };
+            connector.TargetPoint = new DiagramPoint() { X = 100, Y = 500 };
+        }
+        if (connector.ID == "Connector12")
+        {
+            connector.SourcePoint = new DiagramPoint() { X = 300, Y = 320 };
+            connector.TargetPoint = new DiagramPoint() { X = 300, Y = 500 };
+        }
+        if (connector.ID == "Connector13")
+        {
+            connector.SourcePoint = new DiagramPoint() { X = 500, Y = 250 };
+            connector.TargetPoint = new DiagramPoint() { X = 500, Y = 500 };
+        }
+        if (connector.ID == "Connector14")
+        {
+            connector.SourcePoint = new DiagramPoint() { X = 700, Y = 380 };
+            connector.TargetPoint = new DiagramPoint() { X = 700, Y = 500 };
+        }
+        //update z-index
+        for(int i = 0; i <= 3; i++)
+        {
+            string connectorId = "Connector" + (i + 3);
+            if(connector.ID == connectorId)
+            {
+                connector.ZIndex = i;
+            }
+        }
+        connectors.Add(connector);
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+    }
+    @*End:Hidden*@
+}
+

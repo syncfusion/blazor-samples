@@ -1,0 +1,513 @@
+﻿@page "/ai-scheduler/smartscheduler"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Cards
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.DataForm
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.SmartComponents
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Notifications
+
+@using BlazorDemos.Service
+@using BlazorDemos.Model
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+    <p>This demo demonstrates how AI can be utilized to convert natural language context into scheduler events. It allows for seamless conversion of casual text into structured meeting appointments, enhancing user experience and efficiency.</p>
+    <p>To explore this and more Syncfusion Blazor Smart AI integrations locally, check out our <a target='_blank' href='https://github.com/syncfusion/smart-ai-samples/tree/master/blazor' aria-label="Navigate to explore the syncfusion Blazor AI Demos repository">GitHub repository</a>.</p>
+</SampleDescription>
+
+
+<ActionDescription>
+    <p>In this sample, we have integrated the Smart Paste Component with the Scheduler component to convert natural language content into scheduler events. By using the smart paste feature, users can populate the converted content into a custom dialog, which is then added to the Scheduler component.</p>
+</ActionDescription>
+
+@*Hidden:Lines*@
+<AIToastNotification></AIToastNotification>
+@*End:Hidden*@
+
+<div class="scheduler-ai-container">
+    <SfTab @ref="TabObj" >
+         <TabEvents Selected="OnTabChange"></TabEvents>
+         <TabAnimationSettings>
+        <TabAnimationPrevious Effect="AnimationEffect.None"></TabAnimationPrevious>
+        <TabAnimationNext Effect="AnimationEffect.None"></TabAnimationNext>
+    </TabAnimationSettings>
+    <TabItems>
+        <TabItem>
+            <ChildContent>
+                <TabHeader Text="Meeting Contents"></TabHeader>
+            </ChildContent>
+            <ContentTemplate> 
+    <div class="control-section">
+        <div class="row">
+        <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="margin-bottom: 15px; margin-top:15px">
+            <SfCard>
+                <CardHeader>
+                    <ChildContent>
+                        <div>Discussion on Ticket 429519 </div>
+                        <div class="schedule-button" title="Smart Schedule">
+                        <SfButton IconCss=@copyBtnIcon Content="@copyBtnContent" OnClick="() => CopyToClipboard(cardContent1)" ></SfButton>
+                        </div>
+                    </ChildContent>
+                </CardHeader>
+                <CardContent> 
+                     <ChildContent> 
+                         <div>
+                         <span>Hi John,</span><br /><br />
+                        <span>We have scheduled the meeting for tomorrow (24th Jan) at 12 PM IST at Mathura Towers
+                            and this meeting is scheduled to discuss the issue related to the ticket 429519 only. </span> 
+                          <span>For any other issues, please create a new ticket or update the respective tickets and 
+                              our technical team will follow up with the details in those tickets.</span> <br /><br />
+                            <p>
+                                "Note: Screen sharing is to see the issue at your end and debug directly, 
+                                if needed. We request you to contact your IT team and get prior approval/disable firewall settings to share the controls. 
+                                This will help to minimize the resolution time."
+                            </p><br />
+                            <span>Regards,</span> <br />
+                            <span>Sabitha</span>
+                         </div>
+                     </ChildContent>
+                </CardContent>
+            </SfCard>
+        </div>
+</div>
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="margin-bottom: 15px; margin-top:15px">
+                <SfCard>
+                    <CardHeader>
+                        <ChildContent>
+                            <div>Meeting to discuss on Ticket 603027</div>
+                            <div class="schedule-button" title="Smart Schedule">
+                                <SfButton IconCss=@copyBtnIcon Content="@copyBtnContent" OnClick="() => CopyToClipboard(cardContent2)"></SfButton>
+                            </div>
+                        </ChildContent>
+                    </CardHeader>
+                    <CardContent>
+                        <ChildContent>
+                            <div>
+                                <span>Hi Liji,</span><br /><br />
+                                <span>
+                                    We have scheduled the meeting for today at 3 PM IST in Chennai
+                                    and this meeting is scheduled to discuss the issue related to the ticket 603027 only.
+                                </span>
+                                <span>
+                                    For any other issues, please create a new ticket or
+                                    update the respective tickets and our technical team will follow up with the details in those tickets.
+                                </span> <br /><br />
+                                <br />
+                                <span>Regards,</span> <br />
+                                <span>Ram</span>
+                            </div>
+                        </ChildContent>
+                    </CardContent>
+                </SfCard>
+            </div>
+        </div>
+        <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="margin-bottom: 15px; margin-top:15px">
+                        <SfCard>
+                            <CardHeader>
+                                <ChildContent>
+                                    <div>Exciting Updates and Demo Invitation from Syncfusion</div>
+                                    <div class="schedule-button" title="Smart Schedule">
+                                    <SfButton IconCss=@copyBtnIcon Content="@copyBtnContent" OnClick="() => CopyToClipboard(cardContent3)" ></SfButton>
+                                    </div>
+                                </ChildContent>
+                            </CardHeader>
+                            <CardContent> 
+                                <ChildContent> 
+                                    <div>
+                                    <br />
+                                    <span>
+                                        <strong>You:</strong> Hi Alex, I hope you're doing well! I’m reaching out from Syncfusion Software Pvt Ltd.
+                                        We've recently made some exciting updates to our UI components and I'd love to share them with you.</span><br /><br />
+                                    <span><strong>Recipient:</strong> Hi Andrew, I'm doing well, thanks! What kind of updates have you made?</span><br /> <br />
+                                    <span>
+                                        <strong>You:</strong> We've enhanced key components such as the Scheduler, Carousel, Tab, Toolbar, Accordion, and Appbar. 
+                                        Additionally, we've improved accessibility to meet WCAG 2.2 standards and enhanced security with XSS prevention. 
+                                        These updates aim to provide a more robust and secure experience for our users.
+                                    </span><br /><br />
+                                        <span>
+                                        <strong>Recipient:</strong> That sounds fantastic! I’d be interested in seeing these updates in action.
+                                        </span><br /><br />
+                                        <span>
+                                        <strong>You:</strong> Wonderful! I’d love to schedule a demo to showcase these new features. Are you available for a session on Wednesday,
+                                                        August 7th at 11 AM, or Friday, August 9th at 2 PM? The demo will be held at our Morrisville office.
+                                        </span><br /><br />
+                                        <span>
+                                        <strong>Recipient:</strong> Friday, August 9th at 2 PM works for me.
+                                        </span><br /><br />
+                                        <span>
+                                        <strong>You:</strong> Perfect! I’ll send a calendar invite for Friday, August 9th at 2 PM at our Morrisville office.
+                                        </span><br /><br />
+                                        <span>
+                                        <strong>Recipient:</strong> Great, see you then!
+                                        </span><br /><br />
+                                        <span>
+                                        <strong>You:</strong> See you on Friday! Have a great day.
+                                        </span>
+                                    </div>
+                                </ChildContent>
+
+                            </CardContent>
+                        </SfCard>
+                    </div>
+            </div>
+    </div>
+</ContentTemplate>
+        </TabItem>
+        <TabItem >
+            <ChildContent>
+                <TabHeader Text="Schedule"></TabHeader>
+            </ChildContent>
+             <ContentTemplate> 
+                 <SfSchedule @ref="ScheduleObj" TValue=AppointmentData Height="750px">
+                      <ScheduleEvents TValue="AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+                      <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+                    <ScheduleViews>
+                        <ScheduleView Option="View.Day"></ScheduleView>
+                        <ScheduleView Option="View.Week"></ScheduleView>
+                        <ScheduleView Option="View.WorkWeek"></ScheduleView>
+                        <ScheduleView Option="View.Month"></ScheduleView>
+                        <ScheduleView Option="View.Agenda"></ScheduleView>
+                    </ScheduleViews>
+                </SfSchedule>
+             </ContentTemplate>
+        </TabItem>
+    </TabItems>
+</SfTab>
+</div>
+<div class="event-schedule-dialog">
+    <SfDialog Target="#target" Width="300px" ShowCloseIcon="true" @bind-Visible="Visibility" AllowPrerender="true" IsModal="true">
+        <DialogTemplates>
+            <Header> Event Scheduler </Header>
+            <Content> 
+            <SfDataForm ID="bugReport"
+                Model="@BugRptModel"
+                ColumnCount="2"
+                ColumnSpacing="20px"
+                ButtonsAlignment="FormButtonsAlignment.Right"
+                @ref="DataFormInstance">
+    <FormValidator>
+        <DataAnnotationsValidator></DataAnnotationsValidator>
+    </FormValidator>
+    <FormItems>
+        <FormItem Field="@nameof(BugRptModel.Subject)" ColumnSpan="1">
+            <Template>
+                <label class="e-form-label">Subject</label>
+                <SfTextBox  HtmlAttributes="subjectAttr" @bind-Value="BugRptModel.Subject"></SfTextBox>
+            </Template>
+        </FormItem>
+        <FormItem Field="@nameof(BugRptModel.Location)" ColumnSpan="1">
+            <Template>
+                <label class="e-form-label">Location</label>
+                <SfTextBox HtmlAttributes="locationAttr" @bind-Value="BugRptModel.Location"></SfTextBox>
+            </Template>
+        </FormItem>
+         <FormItem Field="@nameof(BugRptModel.StartTime)" ColumnSpan="1">
+            <Template>
+                <label class="e-form-label">StartTime</label>
+                 <SfDateTimePicker  Id="StartTime" Name="StartTime" Format="MM/dd/yyyy HH:mm" HtmlAttributes="startTimeAttr" @bind-Value="BugRptModel.StartTime"></SfDateTimePicker>
+            </Template>
+        </FormItem>
+        <FormItem Field="@nameof(BugRptModel.EndTime)" ColumnSpan="1">
+            <Template>
+                <label class="e-form-label">EndTime</label>
+                <SfDateTimePicker Id="EndTime" Name="EndTime" Format="MM/dd/yyyy HH:mm" HtmlAttributes="endTimeAttr" @bind-Value="BugRptModel.EndTime"></SfDateTimePicker>
+            </Template>
+        </FormItem> 
+        <FormItem Field="@nameof(BugRptModel.Description)" ColumnSpan="1">
+            <Template>
+                <label class="e-form-label">Description</label>
+                <SfTextBox Multiline="true" HtmlAttributes="descriptionAttr" @bind-Value="BugRptModel.Description"></SfTextBox>
+            </Template>
+        </FormItem>
+    </FormItems>
+
+    <FormButtons>
+        <SfSmartPasteButton @ref="smartButton" Content="Smart Paste" IconCss="e-icons e-paste" CssClass="smart-button">
+        </SfSmartPasteButton>
+        <SfButton Disabled="@AreFieldsPopulated" OnClick="SaveToScheduler"  IsPrimary="true">Save</SfButton>
+        <SfButton OnClick="CloseEditorDialog">Cancel</SfButton>
+    </FormButtons>
+
+</SfDataForm>     
+            </Content>
+        </DialogTemplates>
+        <DialogEvents Opened="@OpenedHandler" Closed="@ClosedHandler"></DialogEvents>
+    </SfDialog>
+</div>
+
+<SfToast ID="toast_default" @ref="ToastObj" Title="Meeting Details" Content="@ToastContent" Timeout="5000" Icon="e-meeting">
+        <ToastPosition X="@ToastPosition"></ToastPosition>
+    </SfToast>
+
+<style>
+    .scheduler-ai-container .e-card .e-card-header {
+        justify-content: space-between !important;
+    }
+
+    #target {
+        height: 600px;
+    }
+
+    .e-data-form .e-grid-col-2.e-form-layout:nth-of-type(3) {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+    }
+
+    .e-dialog.e-popup {
+        width: 500px !important;
+    }
+
+    .smart-button {
+        visibility: hidden;
+    }
+
+    .control-section .row {
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .e-data-form .e-button-right {
+        margin-bottom: 16px !important;
+    }
+
+</style>
+
+@code {
+    private string copyBtnIcon = "e-icons e-timeline-work-week";
+    private string copyBtnContent = "Schedule Appointment";
+    private bool isChecked = false;
+    SfSmartPasteButton smartButton;
+    SfDataForm DataFormInstance { get; set; }
+    private DateTime CurrentDate = DateTime.Now.Date;
+    private DateTime startTime = DateTime.Now.Date.AddHours(12);
+    private DateTime endTime = DateTime.Now.Date.AddHours(13);
+    private bool Visibility { get; set; } = false;
+    private bool AreFieldsPopulated { get; set; } = true;
+    public string[] CustomClass = { "e-appointment-border" };
+    SfToast ToastObj;
+    private string ToastPosition = "Right";
+    private string ToastContent = "";
+    private string cardContent1 = "Title: Discussion on Ticket 429519" +
+    "Hi John,\n\n" +
+    "We have scheduled the meeting for tomorrow (24th Jan) at 12 PM IST at Mathura Towers and this meeting is scheduled to discuss the issue related to the ticket 429519 only. " +
+    "For any other issues, please create a new ticket or update the respective tickets and our technical team will follow up with the details in those tickets.\n\n" +
+    "Note: Screen sharing is to see the issue at your end and debug directly, if needed. We request you to contact your IT team and get prior approval/disable firewall settings to share the controls. This will help to minimize the resolution time.\n\n" +
+    "Regards,\n\n" +
+    "Sabitha";
+
+    string cardContent2 = "Title: Meeting to discuss on Ticket 603027" +
+    "Hi Liji,\n\n" +
+    "We have scheduled the meeting for today at 3 PM IST in Chennai and this meeting is scheduled to discuss the issue related to the ticket 595353 and 603027 only. " +
+    "For any other issues, please create a new ticket or update the respective tickets and our technical team will follow up with the details in those tickets.\n\n" +
+    "Regards,\n\n" +
+    "Ram";
+
+    string cardContent3 = "Title: Exciting Updates and Demo Invitation from Syncfusion" +
+    "You: Hi Alex, I hope you're doing well! I’m reaching out from Syncfusion Software Pvt Ltd. " +
+    "We've recently made some exciting updates to our UI components and I'd love to share them with you.\n" +
+    "Recipient: Hi Andrew, I'm doing well, thanks! What kind of updates have you made?\n" +
+    "You: We've enhanced key components such as the Scheduler, Carousel, Tab, Toolbar, Accordion, and Appbar. " +
+    "Additionally, we've improved accessibility to meet WCAG 2.2 standards and enhanced security with XSS prevention. " +
+    "These updates aim to provide a more robust and secure experience for our users.\n" +
+    "Recipient: That sounds fantastic! I’d be interested in seeing these updates in action.\n" +
+    "You: Wonderful! I’d love to schedule a demo to showcase these new features. Are you available for a session on Wednesday, " +
+    "August 7th at 11 AM, or Friday, August 9th at 2 PM? The demo will be held at our Morrisville office.\n" +
+    "Recipient: Friday, August 9th at 2 PM works for me.\n" +
+    "You: Perfect! I’ll send a calendar invite for Friday, August 9th at 2 PM at our Morrisville office.\n" +
+    "Recipient: Great, see you then!\n" +
+    "You: See you on Friday! Have a great day.";
+
+
+    List<string> cardContents;
+    List<AppointmentData> DataSource = new List<AppointmentData>();
+    AppointmentData newAppointment = new AppointmentData();
+    SfSchedule<AppointmentData> ScheduleObj;
+    SfTab TabObj;
+    private async Task CopyToClipboard(string text)
+    {
+        await JSRuntime.InvokeVoidAsync("copyToClipboard", text);
+        Visibility = true;
+    }
+
+    protected override void OnInitialized()
+    {
+        if (BugRptModel.StartTime == default)
+        {
+            BugRptModel.StartTime = DateTime.Now.Date.AddHours(12);
+        }
+
+        if (BugRptModel.EndTime == default)
+        {
+            BugRptModel.EndTime = DateTime.Now.Date.AddHours(13);
+        }
+        base.OnInitialized();
+    }
+
+    public async Task OpenedHandler(Syncfusion.Blazor.Popups.OpenEventArgs args)
+    {
+        await JSRuntime.InvokeVoidAsync("clickButton", "smart-button");
+        while (string.IsNullOrEmpty(BugRptModel.Subject))
+        {
+            await Task.Delay(1000);
+        }
+        AreFieldsPopulated = false;
+        StateHasChanged();
+    }
+
+    public void ClosedHandler(CloseEventArgs args)
+    {
+        BugRptModel.Subject = "";
+        BugRptModel.Location = "";
+        BugRptModel.Description = "";
+        BugRptModel.EndTime = DateTime.Now.Date.AddHours(13);
+        BugRptModel.StartTime = DateTime.Now.Date.AddHours(12);
+        DataFormInstance?.Refresh();
+        AreFieldsPopulated = true;
+    }
+
+    public void CloseEditorDialog()
+    {
+        Visibility = false;
+    }
+
+    public async Task SaveToScheduler()
+    {
+        Visibility = false;
+        newAppointment = new AppointmentData
+        {
+            Id = DataSource.Count + 1,
+            Subject = BugRptModel.Subject,
+            StartTime = BugRptModel.StartTime,
+            EndTime = BugRptModel.EndTime,
+            Location = BugRptModel.Location,
+            Description = BugRptModel.Description,
+        };
+        var dataSourceCopy = new List<AppointmentData>(DataSource);
+        dataSourceCopy.Add(newAppointment);
+        DataSource = dataSourceCopy;
+        SwitchToSchedule(newAppointment);
+    }
+
+    private async Task SwitchToSchedule(AppointmentData newAppointment)
+    {
+        await TabObj.EnableTabAsync(1, true);
+        await TabObj.SelectAsync(1);
+        await GenerateToastContent(newAppointment);
+    }
+
+    public void OnTabChange(SelectEventArgs args)
+    {
+        if (newAppointment.StartTime == DateTime.MinValue)
+        {
+            newAppointment.StartTime = DateTime.Now;
+        }
+        ScheduleObj.SelectedDate = newAppointment.StartTime;
+        var Date = newAppointment.StartTime.TimeOfDay.ToString();
+        var MinutesHours = Date.Substring(0, 5);
+        ScheduleObj.ScrollToAsync(MinutesHours, newAppointment.StartTime);
+    }
+    
+    public async Task GenerateToastContent(AppointmentData newAppointment)
+    {
+        ToastContent = $"{newAppointment.Subject} has been scheduled at {newAppointment.StartTime}";
+        StateHasChanged();
+        await ToastObj.ShowAsync();
+    }
+
+    public void OnEventRendered(EventRenderedArgs<AppointmentData> args)
+    {
+        if(newAppointment.Id == args.Data.Id)
+        {
+            args.CssClasses = new List<string>(CustomClass);
+        }
+        
+    }
+
+    Dictionary<string, object> subjectAttr = new Dictionary<string, object>()
+     {
+         { "data-smartpaste-description", "Subject must follow the core content of the input" }
+     };
+
+
+    Dictionary<string, object> descriptionAttr = new Dictionary<string, object>()
+     {
+         { "data-smartpaste-description", "Description must be the summary of the entire input" }
+     };
+
+    Dictionary<string, object> startTimeAttr = new Dictionary<string, object>()
+     {
+         { "data-smartpaste-description", $"Get Start Time from the input, The current time is {DateTime.Now.Date} Date must follow the format: MM/dd/yyyy HH:mm" }
+     };
+
+
+    Dictionary<string, object> endTimeAttr = new Dictionary<string, object>()
+     {
+         { "data-smartpaste-description", "If there is End Time in the input get the End Time, If the End Time is not present in the input, add 1hr to the StartTime and Provide the date,  Date must follow the format: MM/dd/yyyy HH:mm" }
+     };
+
+    Dictionary<string, object> locationAttr = new Dictionary<string, object>()
+     {
+         { "data-smartpaste-description", "Check if there is any location given in the input, if there is any location then add it, if not ignore it" }
+     };
+
+    Dictionary<string, object> allDayAttr = new Dictionary<string, object>()
+     {
+         { "data-smartpaste-description", "Check if the input is an all-day event, if it is an all-day event, then set the IsAllDay property to true, otherwise set it to false" },
+     };
+    private BugReportModel BugRptModel = new BugReportModel();
+
+    public class BugReportModel
+    {
+        [Display(Name = "Subject")]
+        public string Subject { get; set; }
+
+        [Display(Name = "Location")]
+        public string Location { get; set; }
+
+        [Display(Name = "StartTime")]
+        public DateTime StartTime { get; set; }
+
+        [Display(Name = "EndTime")]
+        public DateTime EndTime { get; set; } 
+
+        [Display(Name = "Description")]
+        public string Description { get; set; }
+
+        [Display(Name = "Recurrence")]
+        public string Recurrence { get; set; }
+
+        [Display(Name = "IsAllDay")]
+        public bool IsAllDay { get; set; }
+
+    }
+
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Description { get; set; }
+        public string EventType { get; set; }
+        public string RecurrenceRule { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public string RecurrenceException { get; set; }
+    }
+}

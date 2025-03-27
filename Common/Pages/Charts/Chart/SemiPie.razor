@@ -1,0 +1,78 @@
+﻿@page "/chart/semi-pie"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example demonstrates a semi-pie chart for mobile browsers usage statistics. Data label shows the information about the points.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a semi pie chart using <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.AccumulationChartSeries.html#Syncfusion_Blazor_Charts_AccumulationChartSeries_StartAngle' aria-label="Navigate to the StartAngle property reference for accumulation chart series">StartAngle</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.AccumulationChartSeries.html#Syncfusion_Blazor_Charts_AccumulationChartSeries_EndAngle' aria-label="Navigate to the EndAngle property reference for accumulation chart series">EndAngle</a> properties.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the data label feature can be found in this <a target='_blank' href="https://blazor.syncfusion.com/documentation/accumulation-chart/data-label" aria-label="Navigate to the documentation for data-label in accumulation-chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfAccumulationChart  EnableBorderOnMouseMove="false" EnableAnimation="false" Theme="@Theme">
+        <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@PieChartPoints" XName="Browser" YName="Users" Name="Browser" StartAngle="270" EndAngle="90" Radius="90%" InnerRadius="40%">
+                <AccumulationDataLabelSettings EnableRotation="true" Visible="true" Name="DataLabelMappingName" Position="AccumulationLabelPosition.Inside">
+                      <AccumulationChartConnector Length="20px" Type="ConnectorType.Curve"></AccumulationChartConnector>
+                    <AccumulationChartDataLabelFont Size="@FontSize" FontWeight="600"></AccumulationChartDataLabelFont>
+                </AccumulationDataLabelSettings>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+          <AccumulationChartAnnotations>
+            <AccumulationChartAnnotation Region="Regions.Series" X="50%" Y="85%">
+                <ContentTemplate>
+                    <div style="font-size:@TextSize;font-weight:600" id="annotation">
+                        Browser<br> Market <br />Shares
+                    </div>
+                </ContentTemplate>
+            </AccumulationChartAnnotation>
+        </AccumulationChartAnnotations>
+    </SfAccumulationChart>
+</div>
+
+@code{
+    
+    public string FontSize { get; set; } = "11px";
+    public string TextSize { get; set; } = "14px";
+    private Theme Theme { get; set; }
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
+    {
+        new PieData { Browser =  "Chrome", Users = 100, DataLabelMappingName = "Chrome (100M)<br>40%" },
+        new PieData { Browser =  "UC Browser", Users = 40, DataLabelMappingName = "UC Browser (40M)<br>16%" },
+        new PieData { Browser =  "Opera", Users = 30, DataLabelMappingName = "Opera (30M)<br>12%" },
+        new PieData { Browser =  "Safari", Users = 30, DataLabelMappingName = "Safari (30M)<br>12%" },
+        new PieData { Browser =  "Firefox", Users = 25, DataLabelMappingName = "Firefox (25M)<br>10%" },
+        new PieData { Browser =  "Others", Users = 25, DataLabelMappingName = "Others (25M)<br>10%" },
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if(SampleService.IsDevice)
+        {
+            FontSize = "7px";
+            TextSize = "10px";
+        }
+    }
+
+    public class PieData
+    {
+        public string Browser { get; set; }
+        public double Users { get; set; }
+        public string DataLabelMappingName { get; set; }
+    }
+}

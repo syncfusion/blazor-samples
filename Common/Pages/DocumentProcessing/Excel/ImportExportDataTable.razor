@@ -1,0 +1,185 @@
+﻿@page "/excel/import-export-data-table"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Grids
+@using blazor_griddata
+@using Syncfusion.Blazor.Data
+@using System.ComponentModel;
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject HttpClient Http
+@using System.IO;
+
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using System.Data;
+@*Hidden:Lines*@
+
+@using BlazorDemos.Data.FileFormats.XlsIO
+@using static BlazorDemos.Data.FileFormats.XlsIO.ImportExportDataTableService
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates exporting data from Excel to a data table, and import data from the data table to the Grid.</p>
+</SampleDescription>
+<ActionDescription>
+    <p style='display: block'>The ImportDataTable and ExportDataTable methods makes it easier to work with ADO.NET data tables. It just takes one line of code to import data from data table to a Spreadsheet or export data from Spreadsheet to a data table.</p>
+<p style='display: block'><b>Features:</b></p>
+<ul>
+<li>Usage of helper methods to work with ADO.NET</li>
+<li>Import data from Spreadsheet to a data table</li>
+<li>Export data from data table to Spreadsheet</li>
+<li>Apply row and column styles</li>
+<li>Export data from Spreadsheet to a data table by skipping specific rows, replacing cell values in the data table, and stop exporting</li>
+</ul>
+</ActionDescription>
+
+ <div class="control-section">
+    <p style="font-weight:normal">Click the "Input Template" button to view the input Excel document. <br></p>  
+    <p>Click the "Import from Excel" button to import data from Excel and view the data in the grid. Here, the data will be exported to a data table with customized options and imported to the grid.<br></p>    
+    <p>Click the "Export to Excel" button to create a new Microsoft Excel document and export the data from the grid to an Excel workbook.<br></p>  
+    <p>Note: You need to have a MS Excel Viewer installed in order to view the generated Excel file.<br></p>
+
+    <div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <table>
+            <tr>
+                <SfGrid DataSource="@grid" AllowPaging="true" TValue="Customer" Width="850" Height="250">
+                    <GridPageSettings PageCount="5"></GridPageSettings>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(Customer.CustomerID) HeaderText="Customer ID" Width="60"></GridColumn>
+                        <GridColumn Field=@nameof(Customer.CompanyName) HeaderText="Company Name" Width="80"></GridColumn>
+                        <GridColumn Field=@nameof(Customer.ContactName) HeaderText="Contact Name" Width="70"></GridColumn>
+                        <GridColumn Field=@nameof(Customer.ContactTitle) HeaderText="Contact Title" Width="70"></GridColumn>
+                        <GridColumn Field=@nameof(Customer.Address) HeaderText="Address " Width="100"></GridColumn>
+                        <GridColumn Field=@nameof(Customer.City) HeaderText="City " Width="60"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </tr>
+        </table>
+        <br/>
+        <br />
+
+            <div class="radio-control" style="float:left; width: 40%;">
+                <label style="font-weight:14px">Import Options:</label> <br /><br />
+                <SfRadioButton Label="None" Name="NONE" Value=@("None") @bind-Checked="@option" @onchange="OnOptionChanged"></SfRadioButton> <br />
+                <SfRadioButton Label="Skip rows if 'ContactTitle' is 'Owner'" Name="SKIP" Value=@("Skip") @bind-Checked="@option" @onchange="OnOptionChanged"></SfRadioButton> <br />
+                <SfRadioButton Label="Replace 'México D.F.' to 'Mexico'" Name="REPLACE" Value=@("Replace") @bind-Checked="@option" @onchange="OnOptionChanged"></SfRadioButton> <br />
+                <SfRadioButton Label="Stop importing if 'CustomerID' is 'BLONP'" Name="STOP" Value=@("Stop") @bind-Checked="@option" @onchange="OnOptionChanged"></SfRadioButton> <br />
+            </div>
+
+
+            <div class="radio-control" style="float:left; width: 20%;">
+                <label style="font-weight:14px">Export As:</label> <br /><br />
+                <SfRadioButton Label="XLS" Name="XLS" Value=@("XLS") @bind-Checked="@excelVersion" style="font-weight:normal;vertical-align:central"></SfRadioButton><br />
+                <SfRadioButton Label="XLSX" Name="XLSX" Value=@("XLSX") @bind-Checked="@excelVersion" style="font-weight:normal"></SfRadioButton><br />
+            </div>
+            
+        
+         <div class="button-section">
+            <div id="button-control">
+                    <div class="row" style="float:left; width: 40%;">
+                    <div>
+                            <SfButton @onclick="InputTemplate" style="width:162px; font-size:small; height:30px;text-transform:capitalize">Input Template</SfButton><br /> <br />
+                            <SfButton @onclick="ImportDocument" style="width:162px; font-size:small; height:30px;text-transform:capitalize">Import Document</SfButton><br /> <br />
+                            <SfButton Disabled="@IsExportEnabled" @onclick="ExportData" style="width:162px; font-size:small; height:30px;text-transform:capitalize">Export to Excel</SfButton><br /> <br />
+                    </div>
+                </div>
+            </div>
+        </div> 
+    </div>
+</div> 
+</div>
+<style>    
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    public List<Customer> GridData { get; set; }
+    public DataTable customerDataTable { get; set; }
+    string option = "None";
+    string excelVersion = "XLSX";
+    private bool m_isExportEnabled = true;
+    public bool IsExportEnabled
+    {
+        get
+        {
+            if (customerDataTable != null && customerDataTable.Rows.Count != 0)
+            {
+                m_isExportEnabled = false;
+            }
+            return m_isExportEnabled;
+        }
+        set
+        {
+            m_isExportEnabled = value;
+        }
+    }
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    private void OnOptionChanged(ChangeEventArgs e)
+    {
+        IsExportEnabled = true;
+        customerDataTable = null;
+    }
+    public async Task InputTemplate()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/north-wind-data-template.xls");
+        fileData.Add("north-wind-data-template.xls", new MemoryStream(data));
+        data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/north-wind-data-template.xls");
+        ImportExportDataTableService service = new ImportExportDataTableService(fileData);
+        excelStream = service.ImportExportDataTableServiceXlsIO("Input Template", excelVersion);
+        // if (excelVersion == "XLSX")
+        // {
+        await JS.SaveAs("ImportExportDataTableTemplate.xls", excelStream.ToArray());
+        // }
+        // else
+        // {
+        //     await JS.SaveAs("ImportExportDataTableTemplate.xls", excelStream.ToArray());
+        // }
+        service.Close();
+    }
+    public async Task Import()
+    {
+        ImportExportDataTableService service = new ImportExportDataTableService(fileData);
+        dataTable = service.ImportFromExcel(option);
+    }
+    public async Task ExportData()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/north-wind-data-template.xls");
+        fileData.Add("north-wind-data-template.xls", new MemoryStream(data));
+        data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/north-wind-data-template.xls");
+        ImportExportDataTableService service = new ImportExportDataTableService(fileData);
+        excelStream = service.ImportExportDataTableServiceXlsIO("ExportToExcel", excelVersion);
+        if (excelVersion == "XLSX")
+        {
+            await JS.SaveAs("ImportExportDataTable.xlsx", excelStream.ToArray());
+        }
+        else
+        {
+            await JS.SaveAs("ImportExportDataTable.xls", excelStream.ToArray());
+        }
+        service.Close();
+    }
+    public async Task ImportDocument()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/north-wind-data-template.xls");
+        fileData.Add("north-wind-data-template.xls", new MemoryStream(data));
+        data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/north-wind-data-template.xls");
+        ImportExportDataTableService service = new ImportExportDataTableService(fileData);
+        customerDataTable = service.ImportFromExcel(option);
+        //GridData = grid;
+        service.Close();
+    }
+}

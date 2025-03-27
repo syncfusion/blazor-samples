@@ -1,0 +1,102 @@
+@page "/excel/WhatIfAnalysis"
+@inject HttpClient Http
+@using System.IO;
+
+@using Blazor_MAUI_Demos.Services
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+
+@using Blazor_MAUI_Demos.Pages.DocumentProcessing.Excel
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>The sample shows how to create different scenarios of What-If Analysis in Blazor using Excel (XlsIO) library.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>What-If Analysis is the process of changing the values in cells to see how those changes will affect the outcome of formulas on the worksheet. Essential XlsIO supports the What-If Analysis of Scenarios type.</p>
+    <p> A Scenario is a set of values that Excel saves and can substitute automatically in cells on a worksheet. It is possible to create and save different groups of values on a worksheet and then switch to any of these new scenarios to view different results.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-weight:normal">Click the "Input Template" button to view the input Excel document.</p>
+    <p style="font-weight:normal">Click the "Create Document" button to view the output Excel document. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document.</p>
+
+    <div class="checkbox-control">
+        <div class="row">
+            <SfCheckBox @bind-Checked=createSummary Label="Create Summary" TChecked="bool"></SfCheckBox>
+        </div>
+    </div>
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="InputDocument">Input Template</SfButton>&nbsp;
+                    <SfButton @onclick="WhatIfAnalysisXlsIO">Create Document</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    private bool createSummary;
+    string button = string.Empty;
+    //Hidden:Lines
+
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the Excel document with What-If Analysis.
+    /// </summary>
+    public async void WhatIfAnalysisXlsIO(MouseEventArgs args)
+    {
+        LoadTemplate();
+        WhatIfAnalysisService service = new WhatIfAnalysisService(fileData);
+        button = "Create Document";
+        excelStream = service.WhatIfAnalysisXlsIO(button, createSummary);
+        service.Close();
+        excelStream.Position = 0;
+        SaveService saveService = new SaveService();
+        saveService.SaveAndView("What-If Analysis.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelStream);
+    }
+    public async void InputDocument(MouseEventArgs args)
+    {
+        LoadTemplate();
+        WhatIfAnalysisService service = new WhatIfAnalysisService(fileData);
+        button = "Input Document";
+        excelStream = service.WhatIfAnalysisXlsIO(button, createSummary);
+        service.Close();
+        excelStream.Position = 0;
+        SaveService saveService = new SaveService();
+        saveService.SaveAndView("What-If Analysis.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelStream);
+    }
+
+    public async void LoadTemplate()
+    {
+        string fileDataPath = "Blazor_MAUI_Demos.wwwroot.data.xlsio.what-if-analysis-template.xlsx";
+        Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(fileDataPath);
+        MemoryStream memoryStream = new MemoryStream();
+        DocumentStream.CopyTo(memoryStream);
+        memoryStream.Position = 0;
+        fileData.Add("what-if-analysis-template.xlsx", memoryStream);
+        DocumentStream.Dispose();
+    }
+}

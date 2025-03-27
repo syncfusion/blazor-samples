@@ -1,0 +1,88 @@
+﻿@page "/chart/range-column"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the Range Column series, highlighting the maximum and minimum temperature changes in the Contiguous U.S. for the year 2024 over different months.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the range column chart. The range column chart is used to display a range of data by plotting two y-values per data point. The two y-values are used as the upper and lower bounds of a column.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about the range column series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/range-column' aria-label="Navigate to the documentation for range-column in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Contiguous U.S. Average Temperature in 2024" SubTitle="Source: ncei.noaa.gov" Width="@Width" Theme="@Theme">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Average Monthly Temperature (°F)" LabelFormat="{value}°F" EdgeLabelPlacement="EdgeLabelPlacement.Shift" Minimum="0" Maximum="100" Interval="20">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="Month" High="Max" Low="Min" Name="India" ColumnSpacing="0.4" Type="ChartSeriesType.RangeColumn" TooltipMappingName="Text" CornerRadius="@(new ChartCornerRadius { TopLeft = 4, TopRight = 4, BottomLeft = 4, BottomRight = 4 })">
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Outer">
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Header="<b>${point.tooltip}</b>" Enable="true" Format="Temperature : <b>${point.low} - ${point.high}</b>"></ChartTooltipSettings>
+        <ChartLegendSettings Visible="false" EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<RangeColumnChartData> ChartPoints = new List<RangeColumnChartData>
+    {
+        new RangeColumnChartData { Month = "Jan", Min = 22.75, Max = 41.02, Text = "January" },
+        new RangeColumnChartData { Month = "Feb", Min = 29.71, Max = 51.93, Text = "February" },
+        new RangeColumnChartData { Month = "Mar", Min = 33.53, Max = 56.39, Text = "March" },
+        new RangeColumnChartData { Month = "Apr", Min = 41.22, Max = 66.06, Text = "April" },
+        new RangeColumnChartData { Month = "May", Min = 49.87, Max = 74.64, Text = "May" },
+        new RangeColumnChartData { Month = "Jun", Min = 59.02, Max = 84.58, Text = "June" },
+        new RangeColumnChartData { Month = "Jul", Min = 62.94, Max = 88.43, Text = "July" },
+        new RangeColumnChartData { Month = "Aug", Min = 61.27, Max = 86.72, Text = "August" },
+        new RangeColumnChartData { Month = "Sep", Min = 55.36, Max = 81.86, Text = "September" },
+        new RangeColumnChartData { Month = "Oct", Min = 44.76, Max = 73.13, Text = "October" },
+        new RangeColumnChartData { Month = "Nov", Min = 34.79, Max = 55.54, Text = "November" },
+        new RangeColumnChartData { Month = "Dec", Min = 28.04, Max = 48.36, Text = "December" }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    public class RangeColumnChartData
+    {
+        public string Month { get; set; }
+        public double Min { get; set; }
+        public double Max { get; set; }
+        public string Text { get; set; }
+    }
+}

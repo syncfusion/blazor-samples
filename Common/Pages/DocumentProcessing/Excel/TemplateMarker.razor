@@ -1,0 +1,194 @@
+﻿@page "/excel/template-marker"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO;
+@inject HttpClient Http
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@using BlazorDemos.Data.FileFormats.XlsIO
+@using Syncfusion.Blazor.DropDowns
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>The sample demonstrates how to import data to a predefined Excel template using template marker in Excel (XlsIO) library.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>A template marker is a special marker symbol created in an Excel template that will be bound to data.</p> <br />
+    <p>Essential XlsIO allows you to create and bind markers with data from various sources, such as data tables, variables, and arrays. This allows users to control the format of the data when it is bound to a template document.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-weight:normal">
+        Click the "Input Template" button to view the input Excel document and click the "Create Document" button to view the created Excel document. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document.
+    </p>
+
+    <br/>
+    <div>
+        Select data source:
+        &nbsp;
+        <SfRadioButton Label="Data Table" Name="importOption" Value=@("Data Table") @bind-Checked="@importOption"></SfRadioButton>
+
+        &nbsp;
+        <SfRadioButton Label="Collection Objects" Name="importOption" Value=@("Collection Objects") @bind-Checked="@importOption"></SfRadioButton>
+
+    </div>
+    <br />
+    <div style="display:flex;">
+        <div class="dropdown-control">
+            <table>
+                <tr>                    
+                    <td>
+                        <label style="font-weight:normal">
+                            Image import options
+                        </label>
+                    </td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>
+                    <td>                           
+                        <div class="drop-control" style="margin-left:4px; width:230px;">
+                            <SfDropDownList TItem="string" TValue="string" style="width:220px;" PopupHeight="150px" @bind-value="@DropVal1" Placeholder="Image with size and position" DataSource="@Columns">
+                            </SfDropDownList>
+                        </div>                      
+                    </td>
+                </tr>                         
+            </table>
+        </div>
+    </div>
+    <br />
+    <div class="celldiv">
+        <SfButton Value=@("Input Template") @onclick="InputTemplateMaker" style="width:160px; text-transform:capitalize">
+            Input Template</SfButton>
+        <SfButton Value=@("Create Template") @onclick="CreateTemplateMaker" style="width:160px; text-transform:capitalize; margin-left: 1rem;">Create Document</SfButton>
+    </div>
+    
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    string importOption = "Data Table";
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    Dictionary<string, FileStream> xmlfileData = new Dictionary<string, FileStream>();
+    Dictionary<string, byte[]> imgFileData = new Dictionary<string, byte[]>();
+    public string DropVal1 = "Image with size and position";
+    private List<string> Columns = new List<string>() {"Image with size and position","Image only", "Image with size", "Image with position", "Image fit to cell" };
+    public async Task InputTemplateMaker()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-fit-to-cell.xlsx");
+        byte[] data1 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-only.xlsx");
+        byte[] data2 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-with-position.xlsx");
+        byte[] data3 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-with-size.xlsx");
+        byte[] data4 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-with-sizeposition.xlsx");
+        byte[] data5 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/customers.xml");
+        fileData.Add("templatemarker-image-fit-to-cell.xlsx", new MemoryStream(data));
+        fileData.Add("templatemarker-image-only.xlsx", new MemoryStream(data1));
+        fileData.Add("templatemarker-image-with-position.xlsx", new MemoryStream(data2));
+        fileData.Add("templatemarker-image-with-size.xlsx", new MemoryStream(data3));
+        fileData.Add("templatemarker-image-with-sizeposition.xlsx", new MemoryStream(data4));
+        fileData.Add("customers.xml", new MemoryStream(data5));
+        TemplateMarkerService service = new TemplateMarkerService(fileData,fileDataPath,imgFileData);
+        excelStream = service.TemplateMarkerXlsio(importOption, DropVal1, "Input Template");
+        service.Close();
+        await JS.SaveAs("TemplateMarkerInput.xlsx", excelStream.ToArray());
+    }
+    public async Task CreateTemplateMaker()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-fit-to-cell.xlsx");
+        byte[] data1 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-only.xlsx");
+        byte[] data2 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-with-position.xlsx");
+        byte[] data3 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-with-size.xlsx");
+        byte[] data4 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/templatemarker-image-with-sizeposition.xlsx");
+        byte[] data5 = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/customers.xml");
+        fileData.Add("templatemarker-image-fit-to-cell.xlsx", new MemoryStream(data));
+        fileData.Add("templatemarker-image-only.xlsx", new MemoryStream(data1));
+        fileData.Add("templatemarker-image-with-position.xlsx", new MemoryStream(data2));
+        fileData.Add("templatemarker-image-with-size.xlsx", new MemoryStream(data3));
+        fileData.Add("templatemarker-image-with-sizeposition.xlsx", new MemoryStream(data4));
+        fileData.Add("customers.xml", new MemoryStream(data5));
+
+        //add images in dictionary
+        byte[] img1 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man1.png");
+        byte[] img2 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man2.png");
+        byte[] img3 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man3.png");
+        byte[] img4 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man4.png");
+        byte[] img5 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man5.png");
+        byte[] img6 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man6.png");
+        byte[] img7 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man7.png");
+        byte[] img8 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man8.png");
+        byte[] img9 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man9.png");
+        byte[] img10 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man10.png");
+        byte[] img11 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man11.png");
+        byte[] img12 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man12.png");
+        byte[] img13 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man13.png");
+        byte[] img14 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man14.png");
+        byte[] img15 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man15.png");
+        byte[] img16 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man16.png");
+        byte[] img17 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man17.png");
+        byte[] img18 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/man18.png");
+        byte[] img19 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman1.png");
+        byte[] img20 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman2.png");
+        byte[] img21 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman3.png");
+        byte[] img22 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman4.png");
+        byte[] img23 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman5.png");
+        byte[] img24 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman6.png");
+        byte[] img25 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman7.png");
+        byte[] img26 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman8.png");
+        byte[] img27 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman9.png");
+        byte[] img28 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman10.png");
+        byte[] img29 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman11.png");
+        byte[] img30 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman12.png");
+        byte[] img31 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman13.png");
+        byte[] img32 = await Http.GetByteArrayAsync(fileDataPath + "images/xlsio/template-marker-images/woman14.png");
+
+        imgFileData.Add("Man1.png", img1);
+        imgFileData.Add("Man2.png", img2);
+        imgFileData.Add("Man3.png", img3);
+        imgFileData.Add("Man4.png", img4);
+        imgFileData.Add("Man5.png", img5);
+        imgFileData.Add("Man6.png", img6);
+        imgFileData.Add("Man7.png", img7);
+        imgFileData.Add("Man8.png", img8);
+        imgFileData.Add("Man9.png", img9);
+        imgFileData.Add("Man10.png", img10);
+        imgFileData.Add("Man11.png", img11);
+        imgFileData.Add("Man12.png", img12);
+        imgFileData.Add("Man13.png", img13);
+        imgFileData.Add("Man14.png", img14);
+        imgFileData.Add("Man15.png", img15);
+        imgFileData.Add("Man16.png", img16);
+        imgFileData.Add("Man17.png", img17);
+        imgFileData.Add("Man18.png", img18);
+        imgFileData.Add("Woman1.png", img19);
+        imgFileData.Add("Woman2.png", img20);
+        imgFileData.Add("Woman3.png", img21);
+        imgFileData.Add("Woman4.png", img22);
+        imgFileData.Add("Woman5.png", img23);
+        imgFileData.Add("Woman6.png", img24);
+        imgFileData.Add("Woman7.png", img25);
+        imgFileData.Add("Woman8.png", img26);
+        imgFileData.Add("Woman9.png", img27);
+        imgFileData.Add("Woman10.png", img28);
+        imgFileData.Add("Woman11.png", img29);
+        imgFileData.Add("Woman12.png", img30);
+        imgFileData.Add("Woman13.png", img31);
+        imgFileData.Add("Woman14.png", img32);
+        
+        TemplateMarkerService service = new TemplateMarkerService(fileData,fileDataPath,imgFileData);
+        excelStream = service.TemplateMarkerXlsio(importOption, DropVal1, "Create Template");
+        service.Close();
+        await JS.SaveAs("TemplateMarker.xlsx", excelStream.ToArray());
+    }
+}

@@ -1,0 +1,137 @@
+﻿@page "/ai-assistview/assist-streaming"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.InteractiveChatDemo
+@using Markdig;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the streaming response update in the <code>AI AssistView</code> component.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        In this example, the <code>AI AssistView</code> component dynamically updates responses in a streaming manner using the <code>UpdateResponseAsync</code> method, while the <code>ScrollToBottomAsync</code> method ensures automatic scrolling. The <code>BannerTemplate</code> customizes the banner content, and <code>AssistViewToolbar</code> adds custom toolbar items like a right-aligned <code>Refresh</code> button. The <code>PromptSuggestions</code> provides AI prompt suggestions, and <code>PromptRequested</code> handles prompt requests when triggered.  
+    </p> 
+    <p>   
+      This implementation provides an interactive chat experience with real-time streaming updates, enhanced by Markdown-to-HTML conversion using the <code>Markdig</code>.   
+   </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="stream-aiassistview">
+        <SfAIAssistView @ref="AIAssist" PromptSuggestions="@suggestions" PromptRequested="@PromptRequest" ResponseStopped="@HandleStopResponse">
+            <AssistViews>
+                <AssistView>
+                    <BannerTemplate>
+                        <div class="banner-content">
+                            <div class="e-icons e-assistview-icon"></div>
+                            <h3>AI Assistance</h3>
+                            <i>
+                                Update real-time responses with chunked streaming updates.
+                            </i>
+                        </div>
+                    </BannerTemplate>
+                </AssistView>
+            </AssistViews>
+            <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+            </AssistViewToolbar>
+        </SfAIAssistView>
+    </div>
+</div>
+@code {
+    private SfAIAssistView AIAssist;
+    private bool responseStopped = false;
+    private List<string> suggestions = new PromptResponseData().GetStreamingSuggestionData();
+
+    private List<PromptResponseData> prompts = new PromptResponseData().GetStreamingData();
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        await Task.Delay(2000);
+        var promptData = prompts.FirstOrDefault(prompt => prompt.Prompt == args.Prompt);
+        var defaultResponse = "For real-time prompt processing, connect the AI AssistView control to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.";
+        if (promptData != null)
+        {
+            if (responseStopped)
+            {
+                responseStopped = false;
+                return;
+            }
+            string lastResponse = string.Empty;
+            var pipeline = new MarkdownPipelineBuilder()
+                .UseAdvancedExtensions() // Includes tables, lists, etc.
+                .UsePipeTables()         // Explicitly handle pipe tables
+                .UseTaskLists()          // Enable checkbox-style task lists
+                .Build();
+            int i = 0;
+            int responseUpdateRate = 10; // Update scroll and streaming response every 10 characters
+            int responseLength = promptData.Response.Length;
+            while (i < responseLength && !responseStopped)
+            {
+                lastResponse += promptData.Response[i];
+                i++;
+                if (i % responseUpdateRate == 0 || i == responseLength)
+                {
+                    string htmlResponse = Markdown.ToHtml(lastResponse, pipeline);
+                    await AIAssist.UpdateResponseAsync(htmlResponse);
+                    await AIAssist.ScrollToBottomAsync();
+                }
+                await Task.Delay(10); // Simulate typing effect
+            }
+            responseStopped = false;
+        }
+        else
+        {
+            await AIAssist.UpdateResponseAsync(defaultResponse);
+            await AIAssist.ScrollToBottomAsync();
+        }
+        args.PromptSuggestions = promptData?.SuggestionData.Count > 0 ? promptData.SuggestionData : suggestions;
+    }
+
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-refresh")
+        {
+            AIAssist.Prompts.Clear();
+        }
+    }
+    private void HandleStopResponse(ResponseStoppedEventArgs args)
+    {
+        responseStopped = true;
+    }
+}
+<style>
+    .stream-aiassistview {
+        height: 600px;
+        width: 60vw;
+        margin: 0 auto;
+    }
+
+    .stream-aiassistview .banner-content .e-assistview-icon:before {
+        font-size: 35px;
+    }
+
+    .stream-aiassistview .banner-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 330px;
+        text-align: center;
+    }
+
+    @@media only screen and (max-width: 750px) {
+        .stream-aiassistview {
+            width: 100%;
+        }
+    }
+</style>
