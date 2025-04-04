@@ -1,4 +1,4 @@
-# Syncfusion� Blazor Component Examples    
+# Syncfusion® Blazor Component Examples    
 
 This repository contains the demos of [Syncfusion Blazor Components](https://www.syncfusion.com/blazor-components). This is the best place to check the controls to get more insight into the usage of APIs.
 
@@ -15,38 +15,41 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 * [System requirements](https://blazor.syncfusion.com/documentation/system-requirements/)
 
-* [NET 6 WebAssembly Workload / NET 8 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools) (For [PDF Viewer Component](https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-app#prerequisites))
+* [NET 8 WebAssembly Workload / NET 9 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools) (For [PDF Viewer Component](https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-app#prerequisites))
 
 * Nodejs Version : [10.24.* or above](https://nodejs.org/download/release/v8.1.0/)
 
 ## How to run the demo
 
-Clone the repository. This repository contains Blazor Server demos(.NET 6 and .NET 8), Blazor WASM demos(.NET 6 and .NET 8), Blazor Web App demos(.NET 8) and Blazor MAUI demos(.NET 8) project and solution files. This repository has Common, Blazor Server Demos, Blazor WASM Demos and Blazor Web App demos folders.
+Clone the repository. This repository contains Blazor Server demos, Blazor WASM demos, Blazor Web App demos and Blazor MAUI demos project and solution files for .NET 8 and .NET 9. This repository has Common, Blazor Server Demos, Blazor WASM Demos and Blazor Web App demos folders.
 * `Blazor-Server-Demos` folder has solution and project files to run Blazor server demos.
 * `Blazor-WASM-Demos` folder has solution and project files to run Blazor WebAssembly demos.
 * `Blazor-WebApp-Demos` folder has solution and project files to run Blazor Web app(InteractiveMode Auto) demos.
 * `Blazor-MAUI-Demos` folder has project file to run Blazor MAUI demos(Android).
-* The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Server demos(.NET 6 and .NET 8), Blazor WASM demos(.NET 6 and .NET 8) and Blazor Web App demos(.NET 8).
+* The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Server demos, Blazor WASM demos and Blazor Web App demos.
 
 ### Run the demo using .NET CLI
 
 * Open the command prompt from the demo's directory.
 * Run the demo using the following command.
    
-   To run .NET 6 Blazor Server Demos project
-   > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET6.csproj`
-
    To run .NET 8 Blazor Server Demos project
    > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET8.csproj`
 
-   To run .NET 6 Blazor WASM Demos project
-   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET6.csproj`
+   To run .NET 9 Blazor Server Demos project
+   > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET9.csproj`
 
    To run .NET 8 Blazor WASM Demos project
    > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET8.csproj`
 
+   To run .NET 9 Blazor WASM Demos project
+   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET9.csproj`
+
    To run .NET 8 Blazor WebApp Demos project(InteractiveMode Auto)
    > `dotnet run --project Blazor-WebApp-Demos/Blazor_WebApp_Demos/Blazor_WebApp_Demos.csproj`
+
+   To run .NET 9 Blazor WebApp Demos project(InteractiveMode Auto)
+   > `dotnet run --project Blazor-WebApp-Demos/Blazor_WebApp_Demos/Blazor_WebApp_Demos_NET9.csproj`
 
 ### Run the demo using Visual Studio
 
@@ -234,7 +237,7 @@ Clone the repository. This repository contains Blazor Server demos(.NET 6 and .N
 
 Syncfusion Blazor Components is available under the Syncfusion Essential Studio program, and can be licensed either under the Syncfusion Community License Program or the Syncfusion commercial license.
 
-To be qualified for the Syncfusion Community License Program, you must have gross revenue of less than one (1) million U.S. dollars (USD 1,000,000.00) per year and have less than five (5) developers in your organization, and agree to be bound by Syncfusion’s terms and conditions.
+To be qualified for the Syncfusion Community License Program, you must have gross revenue of less than one (1) million U.S. dollars (USD 1,000,000.00) per year and have less than five (5) developers in your organization, and agree to be bound by Syncfusionâs terms and conditions.
 
 Customers who do not qualify for the community license can contact sales@syncfusion.com for commercial licensing options.
 

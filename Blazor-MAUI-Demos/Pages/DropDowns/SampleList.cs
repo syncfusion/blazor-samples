@@ -1,4 +1,4 @@
-#region Copyright Syncfusion® Inc. 2001-2025.
+﻿#region Copyright Syncfusion® Inc. 2001-2025.
 // Copyright Syncfusion® Inc. 2001-2025. All rights reserved.
 // Use of this code is subject to the terms of our license.
 // A copy of the current license can be obtained at any time by e-mailing
@@ -496,6 +496,108 @@ namespace Blazor_MAUI_Demos
                 Directory = "DropDowns/Mention",
                 Url = "Mention/Template",
                 FileName = "Templates.razor",
+                Type = SampleType.None
+            }
+        };
+
+        public List<Sample> MultiColumnComboBox { get; set; } = new List<Sample> {
+            new Sample
+            {
+                Name = "Default Functionalities",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Default-Functionalities",
+                FileName = "DefaultFunctionalities.razor",
+                Type = SampleType.None,
+            },
+            new Sample
+            {
+                Name = "Remote Data Binding",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Remote-Data-Binding",
+                FileName = "RemoteDataBinding.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Paging",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Paging",
+                FileName = "Paging.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Filtering",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Filtering",
+                FileName = "Filtering.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Virtualization",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Virtualization",
+                FileName = "Virtualization.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Grouping and Sorting",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Grouping-Sorting",
+                FileName = "Grouping.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Template",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Template",
+                FileName = "Template.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Keyboard Navigation",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/Keyboard-Navigation",
+                FileName = "KeyboardNavigation.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Row Style",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/RowStyle",
+                FileName = "RowStyle.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Form Support",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/FormSupport",
+                FileName = "FormSupport.razor",
+                Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Text Wrap",
+                Category = "MultiColumn ComboBox",
+                Directory = "DropDowns/MultiColumnComboBox",
+                Url = "MultiColumn-ComboBox/TextWrap",
+                FileName = "TextWrap.razor",
                 Type = SampleType.None
             }
         };

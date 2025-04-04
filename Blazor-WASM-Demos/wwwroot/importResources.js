@@ -117,7 +117,6 @@ function samplePageAssets() {
 if (homepagepath.indexOf(window.location.pathname) !== -1) {
     loadAssets(isolatedCss);
     homePageAssets();
-    loadAssets('_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js');
 }
 else {
     loadAssets(isolatedCss);
