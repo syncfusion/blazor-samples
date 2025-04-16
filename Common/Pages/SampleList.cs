@@ -84,7 +84,7 @@ namespace BlazorDemos
             {
                 Name = "Diagram",
                 Category = "Smart AI Solutions",
-                Directory = "DiagramComponent",
+                Directory = "Diagram",
                 Samples = AIDiagram,
                 ControllerName = "AIDiagram",
                 DemoPath = "ai-diagram/text-to-flowchart",
@@ -229,11 +229,11 @@ namespace BlazorDemos
             {
                 Name = "Diagram",
                 Category = "Data Visualization",
-                Directory = "DiagramComponent",
-                Samples = DiagramComponent,
+                Directory = "Diagram",
+                Samples = Diagram,
                 Type = SampleType.Updated,
-                ControllerName = "DiagramComponent",
-                DemoPath = "diagramcomponent/flowchart",
+                ControllerName = "Diagram",
+                DemoPath = "diagram/flowchart",
             });
             SampleBrowser.SampleList.Add(new SampleList
             {
