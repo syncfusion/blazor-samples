@@ -539,7 +539,7 @@ namespace Blazor_MAUI_Demos.Shared
                 components.Add(new PopularComponents("Data Grid", "data-grid", "datagrid/default-functionalities"));
                 components.Add(new PopularComponents("Charts", "charts", "chart/overview"));
                 components.Add(new PopularComponents("Scheduler", "scheduler", "scheduler/overview"));
-                components.Add(new PopularComponents("Diagram", "diagram", "diagramcomponent/flowchart"));
+                components.Add(new PopularComponents("Diagram", "diagram", "diagram/flowchart"));
                 components.Add(new PopularComponents("Document Editor", "document-editor", "document-editor/default-functionalities"));
                 components.Add(new PopularComponents("PDF Viewer", "pdf-viewer", "pdf-viewer-2/default-functionalities"));
             }
