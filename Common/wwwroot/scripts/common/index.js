@@ -405,42 +405,20 @@ document.addEventListener("keydown", function (e) {
 });
 
 window.addEventListener('load', function () {
-
-    const Theme_integrity = {
-        "material3" : "sha384-P6zhSzNCSpZ2fXYaBw41sRJS5i8ys9cnDOw3IM5xai8auKFvd1Bvm4+5J4V/mGQ0",
-        "material3-dark": "sha384-VdDAFg30AEKCAIKlBkxZ4nozm4TAEBBdE4D1o+ufQdnS8/bvGYyPSxdNr5z7xnRV",
-        "fluent": "sha384-GITa1XWIFWoZpomL5pP/L49KnvRv4zQxKtpYtJJurL1Qbsv1K74t4ICuipaB++IE",
-        "fluent-dark":"sha384-xvQFD2gPmxm3XCXDUCxH9+PTBnWa+Jg8XEO5/Uj0NxxdZZHPV9Un/lqTr3MFyeiK",
-        "fluent2": "sha384-wwx/wkfkugAYS1p8AhlzxJp2DaI/bM9AzJEMJpssRdDdEjW0GJmugo+9pQsfSFtH",
-        "fluent2-dark": "sha384-9xEB+TijTR0r72TJpLiDEJ2jWx8xz9G+q6UyZfZ5Jbg4mwkTgzKeuuHupjZXAYnS",
-        "bootstrap5.3": "sha384-M3uzTXLjbiGvxr/+Jv/qf1AbJX6eXpAwMP5UV8MO4o2uTjawmhzDYTzrjaNY359N",
-        "bootstrap5.3-dark": "sha384-7Jcz2KF5x0EoMuiuOM62Aq2GWBRyHwJkNem3/+srKEZ3RhbfqJjE7DzGcckaow31",
-        "tailwind": "sha384-2PClT36mZOJJANif7K+S0PyJekY4a18sFJGvuJCLEECF+rYD7XEcL0lN2ld87T4d",
-        "tailwind-dark": "sha384-9sAG0Yq8wu0SZbfmNIqH3DR+ImK0k3m2a0pFsIvazG+XvWMud2kxlFw5fJn2KS1C",
-        "tailwind3": "sha384-vjBU/oQxz4e8RWXlALtT5YurJVDkBXx1VjZIM0E1FsbbL0p0ApOYAyMN+tcStMf2",
-        "tailwind3-dark": "sha384-qvr0nSxeEHxKHuvLqM3EXbmzRqvnEenzwPn+xAYwVd+XePRNM/O7t8ZyThnMlWZ9",
-        "highcontrast": "sha384-p80ERM5BibxvsqrOzZqL7StKRqxeXQCBNKhmQY4Ua5/GhrA1iO6dX1Bllc4GVLiF",
-        "fluent2-highcontrast": "sha384-PjhVi53JYUezDd+ffataBbXMeXqEN+V0twJEppXce4/aNy+5msLkyQQjMWvJ7Fg+"
-    };
-
-
   //To replace theme in Link Tag for WASM and MAUI
     let ThemeEle = document.getElementById('theme');
     if (ThemeEle) {
         let url = window.location.href.split("?theme=");
         let theme = new URL(window.location.href).searchParams.get("theme"); 
         theme = theme === "bootstrap5" ? "bootstrap5.3" : theme === "bootstrap5-dark" ? "bootstrap5.3-dark" :theme;
-            if (url.length > 1) {
-                if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
-                    ThemeEle.removeAttribute('integrity');
-                    ThemeEle.href = 'https://cdn.syncfusion.com/blazor/27.1.48/styles/' + theme + '.css';
-                   ThemeEle.setAttribute('integrity', Theme_integrity[theme]);
-                }
-                else {
-                    ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + theme + '.css';
-                }
-
+        if (url.length > 1) {
+            if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
+                ThemeEle.href = 'https://cdn.syncfusion.com/blazor/29.1.33/styles/' + theme + '.css';
             }
+            else {
+                ThemeEle.href = '_content/Syncfusion.Blazor.Themes/' + theme + '.css';
+            }
+        }
     }
 
   // Add mobile class to the body element for device rendering.
@@ -848,7 +826,7 @@ function updateButtonTheme() {
     }
     highContrast();
 }
-window.addEventListener('DOMContentLoaded', updateButtonTheme);
+// window.addEventListener('DOMContentLoaded', updateButtonTheme);
 function highContrast() {
     // Check if the URL ends with "highcontrast"
     if (window.location.href.endsWith("highcontrast")) {
@@ -1365,3 +1343,83 @@ window.loadIndicator = function() {
 window.getUserAgent = function () {
     return navigator.userAgent;
 };
+
+// Session based AI tokens for users
+async function fingerPrint() {
+    try {
+        // Import FingerprintJS and load the agent
+        const FingerprintJS = await import('https://openfpcdn.io/fingerprintjs/v4');
+        const fp = await FingerprintJS.load();
+
+        // Get the visitor identifier
+        const result = await fp.get();
+        return result.visitorId;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+}
+
+async function getRemainingTokens(userId) {
+    try {
+        const baseElement = document.querySelector('base');
+        const baseUrl = baseElement ? baseElement.href : window.location.origin;
+        const response = await fetch(`${baseUrl}api/UserTokens/get_remaining_tokens/${userId}`);
+        if (response.ok) {
+            return await response.json();
+        }
+    } catch (error) {
+        console.error("Error fetching remaining tokens:", error);
+    }
+    return 0;
+}
+
+// Function to create and show a banner at the top of the application
+function showBanner(messageText) {
+    // Check if the banner already exists
+    if (document.getElementById("custom-banner")) {
+        hideSpinner();
+        return;
+    }
+
+    // Create the banner container
+    let banner = document.createElement("div");
+    banner.id = "custom-banner";
+    banner.className = "e-banner";
+
+    // Banner content
+    let message = document.createElement("p");
+    message.innerText = messageText;
+    message.className = "banner-message";
+
+    // Create the close button
+    let closeButton = document.createElement("span");
+    closeButton.innerHTML = "&times;"; // HTML entity for '×' symbol
+    closeButton.className = "close-button";
+    closeButton.onclick = closeBanner;
+
+    // Append elements
+    banner.appendChild(message);
+    banner.appendChild(closeButton);
+    document.body.insertBefore(banner, document.body.firstChild);
+    hideSpinner();
+}
+
+// Function to close the banner
+function closeBanner() {
+    let banner = document.getElementById("custom-banner");
+    if (banner) {
+        document.body.removeChild(banner);
+    }
+}
+
+function hideSpinner() {
+    var spinnerElement = document.querySelector('.e-spinner-pane.e-spin-show');
+    if (spinnerElement) {
+        spinnerElement.classList.remove('e-spin-show');
+        spinnerElement.classList.add('e-spin-hide');
+    }
+}
+
+// Example usage
+//showBanner("This is a banner message.");

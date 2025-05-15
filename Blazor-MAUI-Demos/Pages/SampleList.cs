@@ -107,11 +107,11 @@ namespace Blazor_MAUI_Demos
             {
                 Name = "Diagram",
                 Category = "Data Visualization",
-                Directory = "DiagramComponent",
+                Directory = "Diagram",
                 Type = SampleType.Updated,
-                Samples = DiagramComponent,
-                ControllerName = "DiagramComponent",
-                DemoPath = "diagramcomponent/flowchart",
+                Samples = Diagram,
+                ControllerName = "Diagram",
+                DemoPath = "diagram/flowchart",
                 IsHideFromDevice = true // Hide from mobile mode alone
             });
             SampleBrowser.SampleList.Add(new SampleList

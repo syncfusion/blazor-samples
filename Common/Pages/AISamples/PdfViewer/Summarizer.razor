@@ -46,9 +46,11 @@
         <strong>Reference Page Navigation:</strong> This feature allows users to navigate directly to relevant pages in the document based on their queries. When a question is asked, the tool identifies the specific content and directs the user to the corresponding page. It streamlines finding specific information within the document.
     </p>
 </ActionDescription>
+
 @*Hidden:Lines*@
 <AIToastNotification></AIToastNotification>
 @*End:Hidden*@
+
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="control-section">
@@ -261,16 +263,22 @@
                 suggestions = responseArray[1];
             }
         }
-        _promptSuggestions = new List<string>(suggestions.Split('\n').Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => System.Text.RegularExpressions.Regex.Replace(s, @"^\d+\.\s*", "")));
-        string pattern = @"\[(?:Page )?(\d+(?:,\s*\d+)*)\]";
-        // Replace the pattern with an HTML anchor tag
-        args.Response = Regex.Replace(args.Response, pattern, m =>
+        if (suggestions != null)
         {
-            // Split the matched value by commas and optional spaces
-            var pages = m.Groups[1].Value.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
-            var links = string.Join(", ", pages.Select(page => $"<a href=\"pdfviewer/summarizer/#\" onclick=\"goToPage({page})\">{page}</a>"));
-            return $"[{links}]";
-        });
+            _promptSuggestions = new List<string>(suggestions.Split('\n').Where(s => !string.IsNullOrWhiteSpace(s)).Select(s => System.Text.RegularExpressions.Regex.Replace(s, @"^\d+\.\s*", "")));
+        }
+        if (args.Response != null)
+        {
+            string pattern = @"\[(?:Page )?(\d+(?:,\s*\d+)*)\]";
+            // Replace the pattern with an HTML anchor tag
+            args.Response = Regex.Replace(args.Response, pattern, m =>
+            {
+                // Split the matched value by commas and optional spaces
+                var pages = m.Groups[1].Value.Split(new[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+                var links = string.Join(", ", pages.Select(page => $"<a href=\"pdfviewer/summarizer/#\" onclick=\"goToPage({page})\">{page}</a>"));
+                return $"[{links}]";
+            });
+        }
     }
 
     [JSInvokable]

@@ -69,9 +69,14 @@ else
                 fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
                 var filePath = $"_content/{projectPath}/scripts/Pages/{directory}/{fileName}.txt";
                 var response = await Http.SendAsync(new HttpRequestMessage(HttpMethod.Head, filePath));
-                directory = response.IsSuccessStatusCode ? directory : directory.Split("/")[0];
+                var contentType = response.Content.Headers.ContentType?.MediaType;
+                if(contentType != null && contentType.Equals("text/plain", StringComparison.OrdinalIgnoreCase)) {
+                    directory = directory;
+                }
+                else {
+                    directory = directory.Split("/")[0];
+                }
                 sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
-                
             }
             else
             {

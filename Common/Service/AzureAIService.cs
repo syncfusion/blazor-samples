@@ -7,47 +7,49 @@
 #endregion
 using System.Threading.Tasks;
 using System;
-using Syncfusion.Blazor.Charts.AccumulationChart.Internal;
-using SmartComponents.LocalEmbeddings;
 using System.Linq;
 using System.Collections.Generic;
 using System.Text;
 using Microsoft.Extensions.AI;
 using Syncfusion.Blazor.SmartComponents;
+using OpenAI;
+
 
 namespace BlazorDemos.Service
 {
     public class AzureAIService
     {
-        private OpenAIConfiguration _openAIConfiguration;
-        //private readonly AzureOpenAIChatCompletionService _chatService;
-        //private ChatHistory _chatHistories;
+        private readonly UserTokenService _userTokenService;
         private ChatParameters chatParameters_history = new ChatParameters();
+        private IChatClient _azureAIClient;
 
-        public AzureAIService(OpenAIConfiguration openAIConfiguration)
+        public AzureAIService(UserTokenService userTokenService, AIServiceCredentials credentials)
         {
-            _openAIConfiguration = openAIConfiguration;
+            _userTokenService = userTokenService;
+            _azureAIClient = new OpenAIClient(credentials.ApiKey).AsChatClient(credentials.DeploymentName);
         }
+
 
         /// <summary>
         /// Gets a text completion from the Azure OpenAI service.
         /// </summary>
         /// <param name="prompt">The user prompt to send to the AI service.</param>
-        /// <param name="returnAsJson">Indicates whether the response should be returned in JSON format.</param>
-        /// <param name="appendPreviousResponse">Indicates whether to append previous responses to the conversation history.</param>
+        /// <param name="returnAsJson">Indicates whether the response should be returned in JSON format. Defaults to <c>true</c></param>
+        /// <param name="appendPreviousResponse">Indicates whether to append previous responses to the conversation history. Defaults to <c>false</c></param>
+        /// <param name="systemRole">Specifies the systemRole that is sent to AI Clients. Defaults to <c>null</c></param>
         /// <returns>The AI-generated completion as a string.</returns>
         public async Task<string> GetCompletionAsync(string prompt, bool returnAsJson = true, bool appendPreviousResponse = false, string systemRole = null)
         {
-            string systemMessage = returnAsJson ? "You are a helpful assistant that only returns and replies with valid, iterable RFC8259 compliant JSON in your responses unless I ask for any other format. Do not provide introductory words such as 'Here is your result', etc. in the response" : !string.IsNullOrEmpty(systemRole) ? systemRole : "You are a helpful assistant";
+            string systemMessage = returnAsJson ? "You are a helpful assistant that only returns and replies with valid, iterable RFC8259 compliant JSON in your responses unless I ask for any other format. Do not provide introductory words such as 'Here is your result' or '```json', etc. in the response" : !string.IsNullOrEmpty(systemRole) ? systemRole : "You are a helpful assistant";
             try
             {
                 ChatParameters chatParameters = appendPreviousResponse ? chatParameters_history : new ChatParameters();
                 if (appendPreviousResponse)
                 {
-                    if(chatParameters.Messages == null)
+                    if (chatParameters.Messages == null)
                     {
                         chatParameters.Messages = new List<ChatMessage>() {
-                        new ChatMessage(ChatRole.System,systemMessage),
+                            new ChatMessage(ChatRole.System,systemMessage),
                         };
                     }
                     chatParameters.Messages.Add(new ChatMessage(ChatRole.User, prompt));
@@ -55,38 +57,55 @@ namespace BlazorDemos.Service
                 else
                 {
                     chatParameters.Messages = new List<ChatMessage>(2) {
-                    new ChatMessage (ChatRole.System, systemMessage),
-                    new ChatMessage(ChatRole.User,prompt)
+                        new ChatMessage (ChatRole.System, systemMessage),
+                        new ChatMessage(ChatRole.User,prompt)
                     };
                 }
-                //chatParameters.MaxTokens = 20000;
-                var completion = await _openAIConfiguration.GetChatResponseAsync(chatParameters);
+                var completion = await GetChatResponseAsync(chatParameters);
                 if (appendPreviousResponse)
                 {
-                    chatParameters_history?.Messages?.Add(new ChatMessage(ChatRole.Assistant, completion.ToString()));
+                    chatParameters_history?.Messages?.Add(new ChatMessage(ChatRole.Assistant, completion));
                 }
-                return completion.ToString();
+                return completion;
             }
             catch (Exception ex)
             {
                 Console.WriteLine($"An exception has occurred: {ex.Message}");
-                return "Something went wrong, Please try again!";
+                return "";
             }
         }
-        public async Task<string> AnswerQuestion(string question, Dictionary<string, EmbeddingF32> PageEmbeddings)
-        {
-            var embedder = new LocalEmbedder();
-            var questionEmbedding = embedder.Embed(question);
-            var results = LocalEmbedder.FindClosestWithScore(questionEmbedding, PageEmbeddings.Select(x => (x.Key, x.Value)), 5, 0.5f);
-            StringBuilder builder = new StringBuilder();
-            foreach (var result in results)
-            {
-                builder.AppendLine(result.Item);
-            }
-            string message = builder.ToString();
-            var answer = await GetCompletionAsync("You are a helpful assistant. Use the provided PDF document pages and pick a precise page to answer the user question, proivde a reference at the bottom of the content with page numbers like ex: Reference: [20,21,23]. Pages: " + message + question);
 
-            return answer;
+        public async Task<string> GetChatResponseAsync(ChatParameters options)
+        {
+            string userCode = await _userTokenService.GetUserFingerprintAsync();
+            int remainingTokens = await _userTokenService.GetRemainingTokensAsync(userCode);
+            int inputTokens = options.Messages.Sum(message => message.Text.Length/4);
+
+            if (remainingTokens <= inputTokens)
+            {
+                await _userTokenService.ShowAlert(userCode);
+                return null;
+            }
+            // Create a completion request with the provided parameters
+            var completionRequest = new ChatOptions
+            {
+                Temperature = options.Temperature ?? 0.5f,
+                TopP = options.TopP ?? 1.0f,
+                MaxOutputTokens = options.MaxTokens ?? 2000,
+                FrequencyPenalty = options.FrequencyPenalty ?? 0.0f,
+                PresencePenalty = options.PresencePenalty ?? 0.0f,
+                StopSequences = options.StopSequences
+            };
+            try
+            {
+                ChatCompletion completion = await _azureAIClient.CompleteAsync(options.Messages, completionRequest);
+                await _userTokenService.UpdateTokensAsync(userCode, (int)(remainingTokens - completion.Usage.TotalTokenCount));
+                return completion.Message.Text.ToString();
+            }
+            catch (Exception ex)
+            {
+                throw;
+            }
         }
     }
 }

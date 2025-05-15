@@ -19,10 +19,11 @@
 @{#endif}
 <CascadingValue Value="@this">
     <SpinnerComponent @ref="spinnerRef"></SpinnerComponent>
+@{#if SERVER}
+@if(enableLazyLoad){
+#endif
     @*Set empty layout to home page and components which have open in new window functionality.*@
-    @{
-        var isEmptyLayout = SampleService.SampleInfo != null && !UriHelper.Uri.Contains(SampleService.SampleInfo.Url) && SampleService.SampleInfo.MappingSampleName != null;
-    }
+    var isEmptyLayout = SampleService.SampleInfo != null && !UriHelper.Uri.Contains(SampleService.SampleInfo.Url) && SampleService.SampleInfo.MappingSampleName != null;
     @if (SampleUtils.IsHomePage(UriHelper) || isEmptyLayout)
     {
         foreach (var fileName in SampleBrowser.PreLoadFiles)
@@ -37,7 +38,7 @@
     }
     else
     {
-        <div class="sample-browser e-view sf-new" @onclick="OnAppClick">
+	    <div class="sample-browser e-view sf-new" @onclick="OnAppClick">
             <div class="sb-mobile-overlay sb-hide"></div>
             <HeaderComponent @ref="headerRef" OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick" HomeIconClick="@HomeIconClick" OnSearchRender="@OnSearchRender"></HeaderComponent>
             <div class="sb-content e-view">
@@ -81,6 +82,9 @@
             </div>
         </div>
     }
+#if SERVER
+}
+@{#endif}
 </CascadingValue>
 <Syncfusion.Blazor.Popups.SfDialogProvider/>
 
@@ -100,6 +104,9 @@
     private SearchComponent searchRef { get; set; }
     public HeaderComponent headerRef { get; set; }
     private ErrorBoundary errorBoundaryRef { get; set; }
+#if SERVER
+    private bool enableLazyLoad { get; set; }
+#endif
 
     /// <summary>
     /// Specifies the app is rendering in tablet or not.
@@ -360,6 +367,11 @@
             }
             // Update home page or demo page loaded property in SampleService.
             SampleUtils.GetDynamicResources(UriHelper, SampleService);
+#if SERVER
+            await Task.Delay(500);
+            enableLazyLoad = true;
+            StateHasChanged();
+#endif        
         }
         else
         {

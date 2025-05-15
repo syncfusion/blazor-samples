@@ -65,13 +65,16 @@ namespace BlazorDemos.Pages.AISamples.PdfViewer
 
             // Reuest to AI
             string resultantXfdfFile = await openAIService.GetCompletionAsync(mergePrompt, false);
-            // Convert the string directly to a MemoryStream
-            using (MemoryStream inputFileStream = new MemoryStream(Encoding.UTF8.GetBytes(resultantXfdfFile)))
+            if (!string.IsNullOrEmpty(resultantXfdfFile))
             {
-                // Import the form field data as XFDF
-                if (sfPdfViewer2 != null)
+                // Convert the string directly to a MemoryStream
+                using (MemoryStream inputFileStream = new MemoryStream(Encoding.UTF8.GetBytes(resultantXfdfFile)))
                 {
-                    await sfPdfViewer2.ImportFormFieldsAsync(inputFileStream, FormFieldDataFormat.Xfdf);
+                    // Import the form field data as XFDF
+                    if (sfPdfViewer2 != null)
+                    {
+                        await sfPdfViewer2.ImportFormFieldsAsync(inputFileStream, FormFieldDataFormat.Xfdf);
+                    }
                 }
             }
             this.isSpinnerVisible = false;

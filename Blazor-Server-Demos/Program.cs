@@ -47,10 +47,20 @@ builder.Services.AddScoped<FileManagerService>();
 // Local Embeddings
 builder.Services.AddSingleton<LocalEmbedder>();
 // Smart Components
+/* OpenAI Service */
+string apiKey = "your api key";
+string deploymentName = "your deployment name";
+var creds = new AIServiceCredentials(apiKey, deploymentName);
+
 builder.Services.AddSyncfusionSmartComponents()
-    .ConfigureCredentials(new AIServiceCredentials("your-api-key", "your-deployment-name", "")).InjectOpenAIInference();
+    .ConfigureCredentials(creds).InjectOpenAIInference();
 builder.Services.AddSingleton<OpenAIConfiguration>();
-builder.Services.AddSingleton<AzureAIService>();
+builder.Services.AddScoped<UserTokenService>();
+builder.Services.AddScoped<AzureAIService>(sp =>
+{
+    var userTokenService = sp.GetRequiredService<UserTokenService>();
+    return new AzureAIService(userTokenService, creds);
+});
 
 #endregion
 builder.Services.AddControllers();

@@ -36,10 +36,6 @@
     </ul>
 </ActionDescription>
 
-@*Hidden:Lines*@
-<AIToastNotification></AIToastNotification>
-@*End:Hidden*@
-
 <div class="control-section" id="rteSection">
     <SfRichTextEditor Height="500px" Width="100%" @ref="rteObj" @bind-Value="@Value" SaveInterval="0" AutoSaveOnIdle="true">
         <RichTextEditorToolbarSettings Items="@Tools">
@@ -253,97 +249,99 @@
         {
             chipValue = new [] { args.RemovedItems[0] };
         }
-            await UpdateAISuggestionsData("Rephrase");
-        }
+        await UpdateAISuggestionsData("Rephrase");
+    }
 
-        private async Task AITranslateDropdownList(ChangeEventArgs<string, Languages> args)
+    private async Task AITranslateDropdownList(ChangeEventArgs<string, Languages> args)
+    {
+        await UpdateAISuggestionsData("Translate");
+    }
+
+    private async Task AIQuerySelectedDropdownList(ChangeEventArgs<string, SubQuery> args)
+    {
+        if (!string.IsNullOrEmpty(dropVal))
         {
-            await UpdateAISuggestionsData("Translate");
-        }
-
-        private async Task AIQuerySelectedDropdownList(ChangeEventArgs<string, SubQuery> args)
-        {
-            if (!string.IsNullOrEmpty(dropVal))
-            {
-                chipValue = new[] { "Standard" };
-                translatelanguage = "EN";
-                var selectedQuery = QueryList.FirstOrDefault(q => q.ID.Equals(dropVal, StringComparison.OrdinalIgnoreCase))?.Text;
-                await UpdateAISuggestionsData(selectedQuery);
-            }
-        }
-
-        private async Task UpdateAISuggestionsData(string selectedQuery)
-        {
-            enableRephraseChips = false;
-            enableLanguageList = false;
-            isSentimentCheck = false;
-            switch (selectedQuery)
-            {
-                case "Summarize":
-                    subQuery = "Briefly summarize the following text in a short and concise manner.";
-                    break;
-                case "Elaborate":
-                    subQuery = "Elaborate/Expand on the following text, providing more detail and context.";
-                    break;
-                case "Rephrase":
-                    enableRephraseChips = true;
-                    enableLanguageList = false;
-                    subQuery = $"Rephrase the following text in a {chipValue[0]} [tone/style], ensuring clarity and maintaining the original meaning.";
-                    break;
-                case "Correct Grammar":
-                    subQuery = "Correct any grammatical errors in the following text, ensuring it is clear and well-structured.";
-                    break;
-                case "Translate":
-                    enableLanguageList = true;
-                    enableRephraseChips = false;
-                    subQuery = $"Translate the following text into {translatelanguage}, preserving the original meaning and tone.";
-                    break;
-            }
-
-            UpdateAISuggestionsData();
-        }
-
-        private async Task RegenerateContent()
-        {
-            UpdateAISuggestionsData();
-        }
-
-        private async Task ReplaceContent()
-        {
-            ExecuteCommandOption executeCommandOption = new ExecuteCommandOption();
-            executeCommandOption.Undo = true;
-            await this.rteObj.RestoreSelectionAsync();
-            await this.rteObj.ExecuteCommandAsync(CommandName.InsertHTML, this.apiResultData, executeCommandOption);
-            await CloseDialog();
-        }
-
-        private async Task CopyContent()
-        {
-            await JSRuntime.InvokeVoidAsync("copyToClipboard", Markdig.Markdown.ToPlainText(AIResult, pipeline));
-        }
-
-        private async Task CloseDialog()
-        {
-            dialogVisible = false;
-            promptQuery = string.Empty;
-            AIResult = string.Empty;
             chipValue = new[] { "Standard" };
-            dropVal = "Query1";
-            enableRephraseChips = true;
-            enableLanguageList = false;
-            sentiment = "";
-            apiResultData = "";
+            translatelanguage = "EN";
+            var selectedQuery = QueryList.FirstOrDefault(q => q.ID.Equals(dropVal, StringComparison.OrdinalIgnoreCase))?.Text;
+            await UpdateAISuggestionsData(selectedQuery);
+        }
+    }
+
+    private async Task UpdateAISuggestionsData(string selectedQuery)
+    {
+        enableRephraseChips = false;
+        enableLanguageList = false;
+        isSentimentCheck = false;
+        switch (selectedQuery)
+        {
+            case "Summarize":
+                subQuery = "Briefly summarize the following text in a short and concise manner.";
+                break;
+            case "Elaborate":
+                subQuery = "Elaborate/Expand on the following text, providing more detail and context.";
+                break;
+            case "Rephrase":
+                enableRephraseChips = true;
+                enableLanguageList = false;
+                subQuery = $"Rephrase the following text in a {chipValue[0]} [tone/style], ensuring clarity and maintaining the original meaning.";
+                break;
+            case "Correct Grammar":
+                subQuery = "Correct any grammatical errors in the following text, ensuring it is clear and well-structured.";
+                break;
+            case "Translate":
+                enableLanguageList = true;
+                enableRephraseChips = false;
+                subQuery = $"Translate the following text into {translatelanguage}, preserving the original meaning and tone.";
+                break;
         }
 
-        private async Task UpdateAISuggestionsData()
+        UpdateAISuggestionsData();
+    }
+
+    private async Task RegenerateContent()
+    {
+        UpdateAISuggestionsData();
+    }
+
+    private async Task ReplaceContent()
+    {
+        ExecuteCommandOption executeCommandOption = new ExecuteCommandOption();
+        executeCommandOption.Undo = true;
+        await this.rteObj.RestoreSelectionAsync();
+        await this.rteObj.ExecuteCommandAsync(CommandName.InsertHTML, this.apiResultData, executeCommandOption);
+        await CloseDialog();
+    }
+
+    private async Task CopyContent()
+    {
+        await JSRuntime.InvokeVoidAsync("copyToClipboard", Markdig.Markdown.ToPlainText(AIResult, pipeline));
+    }
+
+    private async Task CloseDialog()
+    {
+        dialogVisible = false;
+        promptQuery = string.Empty;
+        AIResult = string.Empty;
+        chipValue = new[] { "Standard" };
+        dropVal = "Query1";
+        enableRephraseChips = true;
+        enableLanguageList = false;
+        sentiment = "";
+        apiResultData = "";
+    }
+
+    private async Task UpdateAISuggestionsData()
+    {
+        try
         {
-            try
+            if (!string.IsNullOrEmpty(promptQuery))
             {
-                if (!string.IsNullOrEmpty(promptQuery))
+                enabelRegenerateContentButton = isContentGenerating = enabelContentButton = true;
+                string systemPrompt = subQuery.Contains("emoji followed by the sentiment in the format") ? "You are a helpful assistant. Please respond in string format." : "NOTE:Please retain the existing HTML structure and modify the content only. Ensure that the response adheres to the specified formatting.";
+                apiResultData = await semanticKernelAI.GetCompletionAsync(promptQuery, false, false, (subQuery + systemPrompt));
+                if (apiResultData != null)
                 {
-                    enabelRegenerateContentButton = isContentGenerating = enabelContentButton = true;
-                    string systemPrompt = subQuery.Contains("emoji followed by the sentiment in the format") ? "You are a helpful assistant. Please respond in string format." : "NOTE:Please retain the existing HTML structure and modify the content only. Ensure that the response adheres to the specified formatting.";
-                    apiResultData = await semanticKernelAI.GetCompletionAsync(promptQuery, false, false, (subQuery + systemPrompt));
                     isContentGenerating = false;
                     sentiment = isSentimentCheck ? apiResultData.Replace("\"", "").Replace("'", "") : "";
                     AIResult = isSentimentCheck ? promptQuery : apiResultData;
@@ -351,6 +349,12 @@
                     enabelRegenerateContentButton = enabelContentButton = noResultsFound;
                     await InvokeAsync(StateHasChanged);
                 }
+                else
+                {
+                    isContentGenerating = false;
+                    await InvokeAsync(StateHasChanged);
+                }
+            }
             }
             catch
             {

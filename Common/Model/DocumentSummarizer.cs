@@ -14,122 +14,118 @@ using System.Threading.Tasks;
 using BlazorDemos.Service;
 using SmartComponents.LocalEmbeddings;
 using System.Linq;
+using Microsoft.Extensions.AI;
+using Syncfusion.Blazor.SmartComponents;
 
 namespace BlazorDemos.Model
 {
     internal class DocumentSummarizer
     {
-        private AzureAIService? openAIService { get; set; }
-        public Dictionary<string, EmbeddingF32>? PageEmbeddings { get; set; }
-        public void InitializeOpenAI(AzureAIService azureService)
+        public Dictionary<string, EmbeddingF32> PageEmbeddings { get; set; }
+        private List<string> extractedText = new List<string>();
+        private string DocumentContent { get; set; } = string.Empty;
+
+        private LocalEmbedder? Embedder;
+
+        private AzureAIService? OpenAIService;
+
+        public DocumentSummarizer(LocalEmbedder embedder, AzureAIService azureAIService)
         {
-            openAIService = azureService;
+            Embedder = embedder;
+            OpenAIService = azureAIService;
+        }
+        private void CreateEmbeddingChunks(string[] chunks)
+        {
+            PageEmbeddings = chunks.Select(x => KeyValuePair.Create(x, Embedder.Embed(x))).ToDictionary(k => k.Key, v => v.Value);
         }
 
         /// <summary>
-        /// Load the document and extract text page by page and save it in List
+        /// Get answer from GPT-4o
         /// </summary>
-        /// <param name="stream"></param>
-        /// <param name="mimeType"></param>
+        /// <param name="systemPrompt"></param>
+        /// <param name="message"></param>
         /// <returns></returns>
-        internal async Task<List<String>> LoadDocument(Stream stream, string mimeType)
+        public async Task<string> GetAnswerFromGPT(string systemPrompt, string message, bool isSummary = false)
         {
-            List<string> extractedText = new List<string>();
-
-            if (mimeType == "application/pdf")
+            ChatParameters chatParameters = new ChatParameters();
+            chatParameters.Messages = new()
             {
-                using (PdfLoadedDocument loadedDocument = new PdfLoadedDocument(stream))
+                new ChatMessage(ChatRole.System,systemPrompt)
+            };
+            if (isSummary)
+            {
+                var summaryResults = new List<string>();
+                List<string> embed = PageEmbeddings.Keys.Take(PageEmbeddings.Keys.Count).ToList();
+                foreach (var chunk in embed)
                 {
-                    // Loading page collections
-
-                    PdfLoadedPageCollection loadedPages = loadedDocument.Pages;
-
-                    // Extract annotations to a memory stream and convert to string
-                    using (MemoryStream annotationStream = new MemoryStream())
-                    {
-                        loadedDocument.ExportAnnotations(annotationStream, AnnotationDataFormat.Json);
-                        string annotations = ConvertToString(annotationStream);
-                        if (!String.IsNullOrEmpty(annotations))
-                        {
-                            extractedText.Add("Annotations: " + annotations);
-                        }
-                    }
-
-                    // Extract form fields to a memory stream and convert to string
-                    using (MemoryStream formStream = new MemoryStream())
-                    {
-                        if (loadedDocument.Form != null)
-                        {
-                            loadedDocument.Form.ExportData(formStream, DataFormat.Json, "form");
-                            string formFields = ConvertToString(formStream);
-                            if (!String.IsNullOrEmpty(formFields))
-                            {
-                                extractedText.Add("Form fields: " + formFields);
-                            }
-                        }
-                    }
-
-
-                    // Extract text from existing PDF document pages
-                    for (int i = 0; i < loadedPages.Count; i++)
-                    {
-                        string text = $"... Page {i + 1} ...\n";
-                        text += loadedPages[i].ExtractText();
-                        extractedText.Add(text);
-                    }
+                    chatParameters.Messages.Add(new ChatMessage(ChatRole.User, chunk));
+                    var result = await OpenAIService.GetChatResponseAsync(chatParameters);
+                    summaryResults.Add(result.ToString());
+                    chatParameters.Messages.RemoveAt(chatParameters.Messages.Count - 1);
                 }
-
-                PageEmbeddings = Initialize(extractedText.ToArray());
+                return String.Join(" ", summaryResults);
             }
-        
-           return extractedText;
-           
-        }
-        public Dictionary<string, EmbeddingF32> Initialize(string[] chunks)
-        {
-            var embedder = new LocalEmbedder();
-            Dictionary<string, EmbeddingF32> PageEmbeddings = chunks.Select(x => KeyValuePair.Create(x, embedder.Embed(x))).ToDictionary(k => k.Key, v => v.Value);
-            return PageEmbeddings;
-        }
-        private string ConvertToString(MemoryStream memoryStream)
-        {
-            // Reset the position of the MemoryStream to the beginning
-            memoryStream.Position = 0;
-
-            using (StreamReader reader = new StreamReader(memoryStream, Encoding.UTF8))
+            else
             {
-                return reader.ReadToEnd();
+                chatParameters.Messages.Add(new ChatMessage(ChatRole.User, message));
+                var result = await OpenAIService.GetChatResponseAsync(chatParameters);
+                return result.ToString();
             }
         }
 
-        /// <summary>
-        /// Get the summary of the document using first 10 pages content
-        /// </summary>
-        /// <returns></returns>
-        internal async Task<string> GetDocumentSummary()
+        public async Task LoadDocument(string document)
         {
-            List<string> message = PageEmbeddings.Keys.Take(10).ToList();
-            return await openAIService.GetCompletionAsync("You are a helpful assistant. Your task is to analyze the provided text and generate short summary." + String.Join(" ", message), false);
+            extractedText.Clear();
+            this.DocumentContent = document;
+            int chunkSize = 4000;
+            int start = 0;
+
+            while (start < document.Length)
+            {
+                int length = Math.Min(chunkSize, document.Length - start);
+                int lastSpace = document.LastIndexOf('.', start + length - 1, length);
+                if (lastSpace > start)
+                {
+                    string chunk = document.Substring(start, lastSpace - start);
+                    extractedText.Add(chunk);
+                    start = lastSpace + 1;
+                }
+                else
+                {
+                    string chunk = document.Substring(start, length);
+                    extractedText.Add(chunk);
+                    start += length;
+                }
+            }
+            CreateEmbeddingChunks(extractedText.ToArray());
+        }
+
+        public async Task<string> GetDocumentSummary()
+        {
+            return await GetAnswerFromGPT("You are a helpful assistant. Your task is to analyze the provided text and generate short summary. Always respond in proper HTML format, but do not include <html>, <head>, or <body> tags.", "", true);
         }
 
         /// <summary>
-        /// Get the answer for the question using GPT-4o and local embeddings
+        /// Fine closest page embedding and answer the question using GPT-4o
         /// </summary>
         /// <param name="question"></param>
         /// <returns></returns>
-        internal async Task<string> GetAnswer(string question)
+        public async Task<string> GetAnswer(string systemPrompt, string question)
         {
-            return await openAIService.AnswerQuestion(question,PageEmbeddings);
+            var questionEmbedding = Embedder.Embed(question);
+            var results = LocalEmbedder.FindClosest(questionEmbedding, PageEmbeddings.Select(x => (x.Key, x.Value)), 2);
+            var answer = await GetAnswerFromGPT(systemPrompt + string.Join(" --- ", results), question);
+            return answer;
         }
 
         /// <summary>
         /// Get the suggestions using GPT-4o and local embeddings
         /// </summary>
         /// <returns></returns>
-        internal async Task<string> GetSuggestions()
+        public async Task<string> GetSuggestions()
         {
-            List<string> message = PageEmbeddings.Keys.Take(10).ToList();
-            return await openAIService.GetCompletionAsync("You are a helpful assistant. Your task is to analyze the provided text and generate 3 short diverse questions and each question should not exceed 10 words" +  String.Join(" ", message), false);
+            string text = this.DocumentContent;
+            return await GetAnswerFromGPT("You are a helpful assistant. Your task is to analyze the provided text and generate 3 short diverse questions and each question should not exceed 10 words", text);
         }
     }
 }

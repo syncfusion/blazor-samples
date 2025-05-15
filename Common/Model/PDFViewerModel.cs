@@ -55,9 +55,9 @@ namespace BlazorDemos.Model
 
         public async Task<string> FetchResponseFromAIService(string systemPrompt)
         {
-            List<string> message = PageEmbeddings.Keys.Take(10).ToList();
+            List<string> message = PageEmbeddings.Keys.Take(2).ToList();
             var result = await OpenAIService.GetCompletionAsync(String.Join(" ", message), false, false, systemPrompt);
-            return result.ToString();
+            return result;
         }
 
         /// <summary>

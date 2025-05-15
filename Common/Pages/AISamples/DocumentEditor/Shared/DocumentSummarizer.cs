@@ -5,6 +5,7 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
+using BlazorDemos.Service;
 using Microsoft.Extensions.AI;
 using SmartComponents.LocalEmbeddings;
 using Syncfusion.Blazor.SmartComponents;
@@ -23,9 +24,9 @@ namespace BlazorDemos.Pages.AISamples.DocumentEditor.Shared
 
         private LocalEmbedder? Embedder;
 
-        private OpenAIConfiguration? OpenAIService;
+        private AzureAIService? OpenAIService;
 
-        public DocumentSummarizer(LocalEmbedder embedder, OpenAIConfiguration azureAIService)
+        public DocumentSummarizer(LocalEmbedder embedder, AzureAIService azureAIService)
         {
             Embedder = embedder;
             OpenAIService = azureAIService;
@@ -56,8 +57,11 @@ namespace BlazorDemos.Pages.AISamples.DocumentEditor.Shared
                 {
                     chatParameters.Messages.Add(new ChatMessage(ChatRole.User, chunk));
                     var result = await OpenAIService.GetChatResponseAsync(chatParameters);
-                    summaryResults.Add(result.ToString());
-                    chatParameters.Messages.RemoveAt(chatParameters.Messages.Count - 1);
+                    if (result != null)
+                    {
+                        summaryResults.Add(result.ToString());
+                        chatParameters.Messages.RemoveAt(chatParameters.Messages.Count - 1);
+                    }
                 }
                 return String.Join(" ", summaryResults);
             }
@@ -65,7 +69,7 @@ namespace BlazorDemos.Pages.AISamples.DocumentEditor.Shared
             {
                 chatParameters.Messages.Add(new ChatMessage(ChatRole.User, message));
                 var result = await OpenAIService.GetChatResponseAsync(chatParameters);
-                return result.ToString();
+                return result;
             }
         }
 
