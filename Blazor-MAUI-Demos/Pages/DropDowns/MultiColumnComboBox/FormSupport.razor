@@ -1,0 +1,130 @@
+﻿@page "/MultiColumn-ComboBox/FormSupport"
+
+@using Syncfusion.Blazor.MultiColumnComboBox
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example demonstrates how the <a href="https://www.syncfusion.com/blazor-components/blazor-multicolumn-combobox" aria-label="Feature Tour of Blazor MultiColumn ComboBox">Blazor MultiColumn ComboBox</a> can be integrated within a form using the EditForm component. This allows the ComboBox to be used in data entry scenarios, where it can be validated and managed as part of a form submission process.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The MultiColumn ComboBox supports form integration, enabling it to work seamlessly within an EditForm. In this example, the ComboBox is placed inside an EditForm, allowing it to participate in form validation and data binding. This feature is particularly useful for creating data entry forms where the ComboBox needs to be validated and its values submitted as part of the form.</p>
+    <p><b>See also</b></p>
+    <ul>
+        <li><a href="https://blazor.syncfusion.com/documentation/multicolumn-combobox/getting-started/" target="_blank" aria-label="Blazor MultiColumn ComboBox Getting Started documentation">Getting Started with Blazor MultiColumn ComboBox</a></li>
+    </ul>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+            <EditForm Model="@ProductModel" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator />
+                <div>
+                    <label class="example-label">Select a product</label>
+                    <SfMultiColumnComboBox @bind-Value="@ProductModel.Name" DataSource="@Products" ValueField="Name" TextField="Name" Placeholder="Select any product" PopupWidth="600px">
+                    </SfMultiColumnComboBox>
+                    <ValidationMessage For="()=>ProductModel.Name" />
+                </div>
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+
+
+@code {
+    public Product ProductModel = new Product();
+
+    public class Product
+    {
+        [Required(ErrorMessage = "Please select a product")]
+        public string Name { get; set; }
+        public decimal Price { get; set; }
+        public string Availability { get; set; }
+        public string Category { get; set; }
+        public double Rating { get; set; }
+    }
+    
+    private List<Product> Products = new List<Product>();
+
+    protected override Task OnInitializedAsync()
+    {
+        Products = new List<Product>
+        {
+            new Product { Name = "Laptop", Price = 999.99m, Availability = "In Stock", Category = "Electronics", Rating = 4.5 },
+            new Product { Name = "Smartphone", Price = 599.99m, Availability = "Out of Stock", Category = "Electronics", Rating = 4.3 },
+            new Product { Name = "Tablet", Price = 299.99m, Availability = "In Stock", Category = "Electronics", Rating = 4.2 },
+            new Product { Name = "Headphones", Price = 49.99m, Availability = "In Stock", Category = "Accessories", Rating = 4.0 },
+            new Product { Name = "Smartwatch", Price = 199.99m, Availability = "Limited Stock", Category = "Wearables", Rating = 4.4 },
+            new Product { Name = "Monitor", Price = 129.99m, Availability = "In Stock", Category = "Electronics", Rating = 4.6 },
+            new Product { Name = "Keyboard", Price = 39.99m, Availability = "In Stock", Category = "Accessories", Rating = 4.1 },
+            new Product { Name = "Mouse", Price = 19.99m, Availability = "Out of Stock", Category = "Accessories", Rating = 4.3 },
+            new Product { Name = "Printer", Price = 89.99m, Availability = "In Stock", Category = "Office Supplies", Rating = 4.2 },
+            new Product { Name = "Camera", Price = 499.99m, Availability = "In Stock", Category = "Electronics", Rating = 4.7 },
+            new Product { Name = "Speakers", Price = 149.99m, Availability = "In Stock", Category = "Accessories", Rating = 4.5 },
+            new Product { Name = "Router", Price = 79.99m, Availability = "Out of Stock", Category = "Electronics", Rating = 4.4 },
+            new Product { Name = "External Hard Drive", Price = 59.99m, Availability = "In Stock", Category = "Storage", Rating = 4.6 },
+            new Product { Name = "USB Flash Drive", Price = 9.99m, Availability = "In Stock", Category = "Storage", Rating = 4.2 },
+            new Product { Name = "Webcam", Price = 29.99m, Availability = "Limited Stock", Category = "Accessories", Rating = 4.1 },
+            new Product { Name = "Smart TV", Price = 799.99m, Availability = "In Stock", Category = "Electronics", Rating = 4.8 },
+            new Product { Name = "Projector", Price = 299.99m, Availability = "Out of Stock", Category = "Electronics", Rating = 4.5 },
+            new Product { Name = "VR Headset", Price = 349.99m, Availability = "In Stock", Category = "Electronics", Rating = 4.7 },
+            new Product { Name = "Drone", Price = 599.99m, Availability = "In Stock", Category = "Electronics", Rating = 4.6 },
+            new Product { Name = "Fitness Tracker", Price = 99.99m, Availability = "In Stock", Category = "Wearables", Rating = 4.3 }
+        };
+        return base.OnInitializedAsync();
+    }
+
+    private string Message { get; set; } = string.Empty;
+    async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        ProductModel.Name = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+}
+
+
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px 0px;
+    }
+
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+</style>

@@ -1,0 +1,282 @@
+﻿@page "/media-query/default-functionalities"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    This sample demonstrates the default functionalities of the Blazor Media Query component where it tracks the change in browser size and allows users to create responsive layouts easily.
+</SampleDescription>
+<ActionDescription>
+    The Blazor Media Query component is used to make webpages responsive based on media query breakpoints. By default, the predefined media query breakpoints are <code>Small</code> <i>(max-width: 768px)</i>, <code>Medium</code> <i>(min-width: 768px)</i>, and <code>Large</code> <i>(min-width: 1024px)</i>.
+ </ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <h5 style="text-align:center;">Resize the browser to see the responsiveness of the below layout using MediaQuery component.</h5>
+
+            <SfMediaQuery @bind-ActiveBreakPoint = "activeBreakpoint"></SfMediaQuery>
+
+            <br />
+            @{
+                //Form a class name with the active breakpoint.
+                string deviceSize =activeBreakpoint.ToLowerInvariant() + "-device";
+            }
+            <div class="mediaquery-demo @deviceSize">
+                <SfAppBar ColorMode="AppBarColor.Light" CssClass="headercss">
+                    @if (activeBreakpoint == "Large")
+                    {
+                        <SfToolbar CssClass="e-inherit headercss" OverflowMode="OverflowMode.Popup" Width="100%" Height="100%">
+
+                            <ToolbarItems>
+                                <ToolbarItem Align="ItemAlign.Left">
+                                    <Template>
+                                        <SfButton CssClass="e-inherit logobtn" Content="MQ" readonly></SfButton>
+                                    </Template>
+                                </ToolbarItem>
+                                @foreach (string city in cities)
+                                {
+                                    <ToolbarItem Text="@city" Align="ItemAlign.Center" CssClass="@(city==selectedCity?"selected":"")"></ToolbarItem>
+                                }
+                            </ToolbarItems>
+                        </SfToolbar>
+                    }
+
+                    else
+                    {
+                        <SfMenu CssClass="e-inherit headercss" @ref="menu" TValue="MenuItem" HamburgerMode=true Title="MQ">
+                            <MenuItems>
+                                @foreach (string city in cities)
+                                {
+                                    <MenuItem Text="@city"></MenuItem>
+                                }
+                            </MenuItems>
+                            <MenuEvents TValue="MenuItem" ItemSelected="menuselected"></MenuEvents>
+                        </SfMenu>
+                    }
+                </SfAppBar>
+
+                <div class="banner">
+                    <label>Best Places to Visit in the United States</label>
+                </div>
+                <div class="main-container">
+                    <div class="contentimage normal-view">
+                        @for( int i = 0; i < places.Count(); i++)
+                        {
+                            <div class="fig-container">
+                                <figure class="img-container">
+                                    <img src="@(SampleService.WebAssetsPath + "images/media-query/" + @places[i].Replace(" ", "-").ToLowerInvariant() + ".png")" alt="@places[i]" />
+                                    <figcaption class="img-caption">@places[i]</figcaption>
+                                </figure>
+                            </div>
+                        }
+                    </div>
+                    <label>New York</label>
+                    <p>@cityDescription</p>
+                </div>
+                <SfAppBar ColorMode="AppBarColor.Light" CssClass="footer">
+                    <div class="footer-content">Demo of Media Query component</div>
+                </SfAppBar>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    SfMenu<MenuItem> menu;
+
+    private string activeBreakpoint { get; set; } = "Large";
+    private string selectedCity { get; set; } = "New York";
+    
+
+    private string[] cities = { "New York", "San Francisco", "The Grand Canyon", "Houston", "Las Vegas", "Waikiki", "Washington, D.C.", "Los Angeles", "Miami", "New Orleans" };
+
+    private string cityDescription = "New York City is like no other city in the world, and one that must be experienced to be fully appreciated. For first-time visitors, walking "
+    + "the streets can be like walking through a movie set, with famous sites at every turn, from the Empire State Building, to Rockefeller Plaza, the Chrysler Building, Central Park, "
+    + "The High Line, Times Square, 5th Avenue, Broadway, and of course, the Statue of Liberty.";
+
+    private string[] places = { "Empire State Building", "Central Park", "The High Line", "Statue of liberty", "Brooklyn Bridge", "Times Square" };
+
+    private void menuselected()
+    {
+        //To close the menu when the menu item is selected.
+        menu.CloseAsync();
+    }
+}
+
+<style>
+
+    .headercss.e-toolbar .e-tbar-btn {
+        border:none;
+    }
+
+    .headercss .e-menu-container.e-hamburger .e-menu-parent {
+        top: 100%;
+        z-index: 1;
+    }
+
+    .e-appbar .e-toolbar .e-btn.logobtn {
+        cursor: default;
+        padding-right: 5px;
+        padding-left: 10px;
+        font-weight: bold;
+        font-size: 24px;
+        line-height: 28px;
+    }
+    
+    .headercss .e-menu-container.e-hamburger .e-menu-header .e-menu-title{
+        font-weight: bold;
+        font-size: 24px;
+    }
+
+    .headercss .e-menu-container.e-hamburger .e-menu-header {
+        border:none;
+    }
+
+    .e-toolbar.headercss .e-toolbar-item.selected .e-tbar-btn {
+        font-weight: bold;
+    }
+
+    .bootstrap4 .e-toolbar.headercss .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn {
+        padding: 0 3px 
+    }
+    
+    .bootstrap4.e-bigger .e-toolbar.headercss .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn {
+        padding: 1.5px 5.5px;
+    }
+
+    .bootstrap-dark .e-toolbar.headercss .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn,
+    .bootstrap .e-toolbar.headercss .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn {
+        padding: 1px 2.5px
+    }
+
+    .bootstrap-dark.e-bigger .e-toolbar.headercss .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn,
+    .bootstrap.e-bigger .e-toolbar.headercss .e-toolbar-items .e-toolbar-item .e-tbar-btn.e-btn {
+        padding: 1px 7px
+    }
+
+    .contentimage.normal-view{
+        display:inline-flex; 
+        flex-wrap:wrap;
+    }
+    
+    .contentimage .fig-container {
+        position: relative;
+        /*set the width to show 3 images in a row*/
+        width: 29.33%;
+        margin: 2%;
+        margin-bottom: calc( 2% + 3rem);
+    }
+
+    .contentimage .img-container {
+        height: 100%;
+        margin: 0;
+        margin:2px;
+    }
+
+    .contentimage .img-container img {
+        aspect-ratio: 3 / 2;
+        width:100%;
+        border-radius: 8px;
+    }
+
+    .contentimage .img-caption {
+        font-weight: bold;
+        position: absolute;
+        bottom: -3rem;
+        width: 100%;
+        text-align: center;
+    }
+
+    .mediaquery-demo {
+        margin: 0 1%;
+        border: 1px solid #f3f2f1;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .mediaquery-demo .e-appbar.headercss {
+        overflow: visible;
+        padding: 0;
+        border: none;
+        box-shadow: 0px 4px 32px rgba(190, 190, 190, 0.25);
+    }
+
+    .mediaquery-demo .banner {
+        background: linear-gradient(180deg, #E4EFFF 0%, rgba(182, 211, 255, 0) 100%);
+        height: 240px;
+        width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .mediaquery-demo .banner label {
+        font-size: 48px;
+        width: 648px;
+        line-height: 1.25;
+        text-align: center;
+    }
+
+    .mediaquery-demo .main-container {
+        max-width: 950px;
+        margin: 0 auto;
+        line-height: 28px;
+        width: 75%;
+    }
+
+    .mediaquery-demo .main-container label {
+        font-weight: 600;
+        font-size: 24px;
+    }
+
+    .mediaquery-demo .main-container p {
+        font-size: 14px;
+        font-weight: 400;
+        padding: 24px 0px;
+        margin: 0;
+    }
+
+    .mediaquery-demo .e-appbar.footer {
+        height: 84px;
+        text-align: center;
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 6;
+        border:none;
+        padding:0;
+    }
+
+    .mediaquery-demo .footer-content{
+        justify-content: center;
+    }
+
+    /* Medium device */
+    .mediaquery-demo.medium-device .main-container {
+        width: 80%;
+    }
+
+    .mediaquery-demo.medium-device .contentimage .fig-container {
+        /*set the width to show 2 images in a row*/
+        width: 46%; 
+    }
+
+    /* Small device */
+    .mediaquery-demo.small-device .banner label {
+        font-size: 40px;
+        width: 265px;
+    }
+
+    .mediaquery-demo.small-device .contentimage .fig-container {
+        /*set the width to show 1 image in a row*/
+        width: 96%;
+    }
+
+</style>

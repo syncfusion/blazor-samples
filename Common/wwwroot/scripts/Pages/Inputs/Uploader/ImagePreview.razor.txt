@@ -1,0 +1,289 @@
+﻿@page "/File-Upload/Image-Preview"
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using System.IO
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to add an image preview of the uploaded files. Browse or drag-and-drop image files (PNG, JPG) to display preview for the selected files.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>The Uploader control allows to create preview images after uploaded it. The preview images created by reading the file using success event. Also, the user can create preview images before uploading to server using select event..</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="control_wrapper">
+        <div class="col-lg-6" id="dropArea">
+            <SfUploader @ref="uploadObj" CssClass="@CssClass" AutoUpload="true" AllowedExtensions=".png, .jpg, .jpeg">
+                <UploaderButtons Browse="Browse"></UploaderButtons>
+                <UploaderTemplates>
+                    <Template>
+                        @if (!string.IsNullOrEmpty(base64))
+                        {
+                            <span class="wrapper">
+                                <img class="upload-image" alt="Image" src="@base64">
+                            </span>
+                            <div class="name file-name" title="@context.Name">@context.Name</div>
+                            <div class="file-size">@fileSize</div>
+                            <span class="e-icons e-file-remove-btn" id="removeIcon" title="Remove" @onclick="@onFileRemove"></span>
+                        }
+                    </Template>
+                </UploaderTemplates>
+                <UploaderEvents ValueChange="OnChange"></UploaderEvents>
+            </SfUploader>
+        </div>
+    </div>
+</div>
+
+@code {
+    private SfUploader uploadObj { get; set; }
+    public string CssClass = "custom-file";
+    private string base64 { get; set; }
+    private string fileSize { get; set; }
+    
+    private async Task OnChange(UploadChangeEventArgs args)
+    {
+        base64 = string.Empty;
+        foreach (var file in args.Files)
+        {
+            byte[] bytes;
+            using (var memoryStream = new MemoryStream())
+            {
+                file.Stream.CopyTo(memoryStream);
+                bytes = file.Stream.ToArray();
+            }
+            base64 = "data:image/png;base64," + Convert.ToBase64String(bytes);
+            fileSize = await uploadObj.BytesToSizeAsync(file.FileInfo.Size);
+        }
+    }
+    private async Task onFileRemove()
+    {
+        await uploadObj.RemoveAsync();
+    }
+}
+<style>
+    .control_wrapper {
+        width: 1100px;
+    }
+    .custom-file.e-control-wrapper {
+        margin: 5px 0 -8px 0;
+    }
+    .custom-file .e-file-select-wrap {
+        padding: 0px;
+        margin-left: -100px
+    }
+
+    .custom-file button.e-css.e-btn.e-upload-browse-btn {
+        margin-left: 130px;
+        background: none !important;
+        border: none;
+        padding: 0 !important;
+        font-family: inherit;
+        color: #ff4081;
+        text-decoration: underline;
+        cursor: pointer;
+        box-shadow: none;
+        text-transform: capitalize;
+    }
+
+    .custom-file button.e-css.e-btn.e-upload-browse-btn:hover {
+        background: none !important;
+        border: none;
+        padding: 0 !important;
+        font-family: inherit;
+        color: #ff4081;
+        text-decoration: underline;
+        cursor: pointer;
+        box-shadow: none;
+        text-transform: capitalize;
+    }
+
+    .custom-file.e-upload .e-file-drop {
+        margin-left: 1px;
+    }
+
+    .e-upload-actions {
+        display: none;
+    }
+
+    .property {
+        padding-bottom: 20px;
+        font-weight: 600;
+        font-size: 15px;
+    }
+
+    #uploadicon {
+        cursor: pointer;
+        top: 5px;
+        left: 20px;
+        position: relative;
+    }
+
+    .e-upload {
+        border: none;
+        margin-top: 10px;
+        width: 100%;
+    }
+
+    #drop {
+        font-size: 14px;
+    }
+
+    .e-bigger #drop {
+        font-size: 15px;
+    }
+
+    #dropArea {
+        border: 1px dashed #c3c3cc;
+        position: relative;
+        text-align: center;
+        padding: 10px 0 10px;
+    }
+
+        #dropArea .e-upload .e-upload-files {
+            text-align: initial;
+            border-top: none;
+        }
+
+        #dropArea .e-upload-files .e-file-delete-btn.e-icons,
+        #dropArea .e-upload-files .e-file-remove-btn.e-icons,
+        #dropArea .e-upload-files .e-file-abort-btn {
+            top: 120px;
+            background-color: white;
+            border-radius: 50%;
+            font-size: 12px;
+            left: 80px;
+        }
+
+        #dropArea .e-upload-files li .e-file-remove-btn.e-icons.e-upload-icon {
+            font-size: 14px;
+            left: 20px;
+        }
+
+        #dropArea .e-upload-files li:hover .e-icons {
+            visibility: visible;
+        }
+
+        #dropArea .e-upload-files li .e-icons {
+            visibility: hidden;
+        }
+
+    @@font-face {
+        font-family: 'Uploader_Icon';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMj1tSfIAAAEoAAAAVmNtYXDnEOdVAAABiAAAADZnbHlmoZcPvgAAAcgAAABAaGVhZBLQTSUAAADQAAAANmhoZWEINQQDAAAArAAAACRobXR4CAAAAAAAAYAAAAAIbG9jYQAgAAAAAAHAAAAABm1heHABDgAdAAABCAAAACBuYW1lQySinQAAAggAAAIxcG9zdLfl0usAAAQ8AAAAMgABAAAEAAAAAFwEAAAAAAAD2AABAAAAAAAAAAAAAAAAAAAAAgABAAAAAQAA2vKJUF8PPPUACwQAAAAAANftBBgAAAAA1+0EGAAAAAAD2AP4AAAACAACAAAAAAAAAAEAAAACABEAAgAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQQAAZAABQAAAokCzAAAAI8CiQLMAAAB6wAyAQgAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA5wDnAAQAAAAAXAQAAAAAAAABAAAAAAAABAAAAAQAAAAAAAACAAAAAwAAABQAAwABAAAAFAAEACIAAAAEAAQAAQAA5wD//wAA5wD//wAAAAEABAAAAAEAAAAAAAAAIAAAAAIAAAAAA9gD+AAHABAAADchESMVITUjEzM3ETMRFzMBKAOwPvzMPp1mtUC1Zv7FCAF6vb0BO7X+EAHwtQE7AAAAABIA3gABAAAAAAAAAAEAAAABAAAAAAABAAgAAQABAAAAAAACAAcACQABAAAAAAADAAgAEAABAAAAAAAEAAgAGAABAAAAAAAFAAsAIAABAAAAAAAGAAgAKwABAAAAAAAKACwAMwABAAAAAAALABIAXwADAAEECQAAAAIAcQADAAEECQABABAAcwADAAEECQACAA4AgwADAAEECQADABAAkQADAAEECQAEABAAoQADAAEECQAFABYAsQADAAEECQAGABAAxwADAAEECQAKAFgA1wADAAEECQALACQBLyBVcGxvYWRlclJlZ3VsYXJVcGxvYWRlclVwbG9hZGVyVmVyc2lvbiAxLjBVcGxvYWRlckZvbnQgZ2VuZXJhdGVkIHVzaW5nIFN5bmNmdXNpb24gTWV0cm8gU3R1ZGlvd3d3LnN5bmNmdXNpb24uY29tACAAVQBwAGwAbwBhAGQAZQByAFIAZQBnAHUAbABhAHIAVQBwAGwAbwBhAGQAZQByAFUAcABsAG8AYQBkAGUAcgBWAGUAcgBzAGkAbwBuACAAMQAuADAAVQBwAGwAbwBhAGQAZQByAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAHUAcwBpAG4AZwAgAFMAeQBuAGMAZgB1AHMAaQBvAG4AIABNAGUAdAByAG8AIABTAHQAdQBkAGkAbwB3AHcAdwAuAHMAeQBuAGMAZgB1AHMAaQBvAG4ALgBjAG8AbQAAAAACAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIBAgEDAAhVcGxvYWRlcgAAAAA=) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    #dropArea .e-upload .e-upload-files .e-icons.e-upload-icon {
+        font-family: 'Uploader_Icon';
+        speak: none;
+        font-size: 16px;
+        left: 20px;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+        #dropArea .e-upload .e-upload-files .e-icons.e-upload-icon::before {
+            content: '\e700';
+        }
+
+    #dropArea .e-upload .e-upload-files .e-icons:not(.e-uploaded):hover {
+        background-color: #e6e6e6;
+        border-color: #adadad;
+        color: #333;
+    }
+
+    #dropArea .e-upload .e-upload-files .e-upload-file-list {
+        border: 0;
+        display: inline-block;
+        width: 165px;
+    }
+
+    .upload-image {
+        width: 150px;
+        height: 150px;
+        display: inline-flex;
+        background-size: contain;
+        margin: 7px;
+        text-align: center;
+        line-height: 10;
+        border-radius: 5px;
+    }
+
+        .upload-image:after {
+            content: "";
+            position: absolute;
+            top: 6px;
+            left: 6px;
+            width: inherit;
+            height: inherit;
+            background: lightgray url('http://via.placeholder.com/300?text=Loading...') no-repeat center;
+            color: transparent;
+            border-radius: 5px;
+        }
+
+    div.file-name {
+        color: rgb(14 121 32);
+        font-size: 14px;
+        padding: 3px 10px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        width: 90%;
+        white-space: nowrap;
+    }
+
+    div.file-size {
+        font-size: 13px;
+        padding: 3px 10px;
+        overflow: hidden;
+    }
+
+    .progressbar {
+        background: #ff4081;
+        border: none;
+        border-radius: 10px;
+        height: 4px;
+        margin-left: 7px;
+        width: 90%;
+        top: -60px;
+        position: relative;
+    }
+
+    #dropArea progress {
+        border: none;
+        background: #fff;
+    }
+
+    progress::-webkit-progress-bar {
+        border: none;
+        background-color: #ffffff;
+    }
+
+    .material progress::-moz-progress-bar {
+        border-radius: 2px;
+        background-color: #ff4081;
+    }
+
+    .material #dropArea span a {
+        color: #ff4081;
+    }
+
+    @@media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
+        #dropArea .e-upload .e-upload-files .e-file-remove-btn.e-icons, .e-bigger #dropArea .e-upload .e-upload-files .e-file-remove-btn.e-icons {
+            padding: 18px 25px 18px 12px;
+        }
+    }
+</style>

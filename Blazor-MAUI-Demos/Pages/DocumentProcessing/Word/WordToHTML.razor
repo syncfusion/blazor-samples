@@ -1,0 +1,101 @@
+@page "/word/word-to-html"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using Blazor_MAUI_Demos.Pages.DocumentProcessing.Word
+@using Blazor_MAUI_Demos.Services
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to convert a Word document to HTML using .NET Word Library (DocIO).</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">The .NET Word Library (DocIO) supports converting Word documents to HTML and vice versa.</p>
+    <p><ul style="font-size:16px"><li>Customize image saving to save locally or upload to cloud storage.</li><li>Export text form fields as editable fields or plain text.</li><li>Option to generate HTML with body content only.</li></ul></p>
+    <p style="font-size:16px">More information about Word to HTML conversion and vice versa can be found in this <a href="https://help.syncfusion.com/document-processing/word/word-library/net/html" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="control-section">
+    <p style="font-size:16px">Click the button to view the generated HTML file converted from a Word document using the .NET Word Library (DocIO).</p>
+
+        <table>
+            <tr>
+                <td colspan="4">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="ViewTemplate">View Template</SfButton>
+                                    <SfButton @onclick="GenerateDocument">Convert To HTML</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Convert Word document to HTML
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        WordToHTMLService service = new WordToHTMLService(fileData);
+        documentStream = service.WordToHTML("Convert To HTML");
+        service.Close();		
+        documentStream.Position = 0;
+        SaveService saveService = new();
+		saveService.SaveAndView("WordToHTML.html", "application/msword", documentStream);
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        WordToHTMLService service = new WordToHTMLService(fileData);
+        documentStream = service.WordToHTML("View Template");
+        documentStream.Position = 0;
+        SaveService saveService = new();
+		saveService.SaveAndView("WordToHTML.docx", "application/msword", documentStream);
+        service.Close();
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string basePath = "Blazor_MAUI_Demos.wwwroot.data.word.word-to-html.docx";
+            Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            MemoryStream memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("word-to-html.docx", memoryStream);
+            DocumentStream.Dispose();
+        }
+    }
+}

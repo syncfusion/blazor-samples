@@ -1,0 +1,332 @@
+@page "/dashboard-layout/predefined-layouts"
+
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+	<p>This sample demonstrates how to update the panels dynamically in the Dashboard Layout component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample demonstrates the functionality of dynamically updating the panels inside the Dashboard Layout by selecting it from the pre-defined values in the properties panel. Go to the properties panel section and select any of the pre-defined layouts. Based on the selection, the panels are updated in the dashboard layout dynamically inside the Dashboard Layout. Click the <code>reset</code> button to reset the panel's settings of the layout.
+</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section">
+	<div class="content-wrapper" style="max-width: 100%">
+		<SfDashboardLayout @ref="dashboardObject" CellSpacing="@CellSpacing" Columns="@Columns">
+			<DashboardLayoutPanels>
+				@foreach (PanelObject Panel in PanelData)
+				{
+					<DashboardLayoutPanel @key="Panel" Row=@Panel.Row Column=@Panel.Column SizeX=@Panel.SizeX SizeY=@Panel.SizeY>
+						<HeaderTemplate>
+							<div class="e-header-text">Header Area</div>
+							<div class="header-border"></div>
+						</HeaderTemplate>
+						<ContentTemplate>
+							<div class="panel-content">Content Area</div>
+						</ContentTemplate>
+					</DashboardLayoutPanel>
+				}
+			</DashboardLayoutPanels>
+		</SfDashboardLayout>
+ </div>
+</div>
+<div class="col-lg-4 property-section dashboard">
+ <div class="property-panel-header">
+  Properties
+ </div>
+ <div class="row property-panel-content" id="template">
+  <div class="row row-header">
+   Choose dashboard layout
+  </div>
+  <div class="row" style="padding-top: 3px;">
+   <div class="image-pattern-style @GetSelectedClass(1)" id="template1" data-id="1" @onclick="@(() => UpdateSelectedTemplate(1))"></div>
+   <div class="image-pattern-style @GetSelectedClass(2)" id="template2" data-id="2" @onclick="@(() => UpdateSelectedTemplate(2))"></div>
+   <div class="image-pattern-style @GetSelectedClass(3)" id="template3" data-id="3" @onclick="@(() => UpdateSelectedTemplate(3))"></div>
+  </div>
+  <div class="row" style="padding-top: 3px">
+   <div class="image-pattern-style @GetSelectedClass(4)" id="template4" data-id="4" @onclick="@(() => UpdateSelectedTemplate(4))"></div>
+   <div class="image-pattern-style @GetSelectedClass(5)" id="template5" data-id="5" @onclick="@(() => UpdateSelectedTemplate(5))"></div>
+   <div class="image-pattern-style @GetSelectedClass(6)" id="template6" data-id="6" @onclick="@(() => UpdateSelectedTemplate(6))"></div>
+  </div>
+ </div>
+ <div class="col-xs-12 col-sm-12 col-lg-12 col-md-12" style="padding:10px">
+  <SfButton Content="Reset" OnClick="ResetPanel"></SfButton>
+ </div>
+
+</div>
+
+@code {
+	SfDashboardLayout dashboardObject;
+	
+	List<PanelObject> PanelData { get; set; } = new List<PanelObject>()
+	{
+	new PanelObject(){ Column=0, Row=0, SizeX=4, SizeY=3 },
+	new PanelObject(){ Column=4, Row=0, SizeX=2, SizeY=3 },
+	new PanelObject(){ Column=0, Row=3, SizeX=6, SizeY=2 }
+	};
+	int selectedTemplate { get; set; } = 1;
+	public double[] CellSpacing = { 10, 10 };
+	public int Columns = 6;
+
+	private string GetSelectedClass(int id)
+	{
+		return id == selectedTemplate ? " e-selected-style" : string.Empty;
+	}
+
+	private void ResetPanel()
+	{
+		UpdatePanelData(selectedTemplate);
+	}
+
+	private void UpdateSelectedTemplate(int selectedId)
+	{
+		selectedTemplate = selectedId;
+		UpdatePanelData(selectedId);
+	}
+
+	private void UpdatePanelData(int selectedId)
+	{
+		List<PanelObject> UpdatedPanels = new List<PanelObject>();
+		switch (selectedId)
+		{
+			case 1:
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 0, SizeX = 4, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 4, Row = 0, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 3, SizeX = 6, SizeY = 2 });
+				break;
+			case 2:
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 0, SizeX = 6, SizeY = 1 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 1, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 2, Row = 1, SizeX = 4, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 4, SizeX = 6, SizeY = 1 });
+				break;
+			case 3:
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 0, SizeX = 6, SizeY = 1 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 1, SizeX = 3, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 3, Row = 1, SizeX = 3, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 4, SizeX = 6, SizeY = 1 });
+				break;
+			case 4:
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 0, SizeX = 6, SizeY = 1 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 1, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 2, Row = 1, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 4, Row = 1, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 4, SizeX = 6, SizeY = 1 });
+				break;
+			case 5:
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 0, SizeX = 6, SizeY = 1 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 1, SizeX = 4, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 4, Row = 1, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 4, SizeX = 6, SizeY = 1 });
+				break;
+			case 6:
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 0, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 2, Row = 0, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 4, Row = 0, SizeX = 2, SizeY = 3 });
+				UpdatedPanels.Add(new PanelObject() { Column = 0, Row = 3, SizeX = 6, SizeY = 2 });
+				break;
+		}
+		PanelData = UpdatedPanels;
+		StateHasChanged();
+	}
+
+	public class PanelObject
+	{
+		public int Column { get; set; }
+		public int Row { get; set; }
+		public int SizeX { get; set; }
+		public int SizeY { get; set; }
+	}
+}
+
+
+<style>
+	.panel-content {
+		vertical-align: middle;
+		font-size: 14px;
+		font-weight: 500;
+		text-align: center;
+	}
+
+	body.material .panel-content,
+	body.fabric .panel-content,
+	body.bootstrap .panel-content,
+	{
+		color: rgba(0, 0, 0, 0.61);
+	}
+
+	.row .row-header {
+		padding: 5px;
+	}
+
+	.e-panel-content {
+		height: calc(100% - 28px);
+		width: 100%;
+		display: block;
+	}
+
+	.image-pattern-style {
+		background-color: transparent;
+		background-size: contain;
+		background-repeat: no-repeat;
+		height: 80px;
+		width: calc((100% - 12px) / 3);
+		cursor: pointer;
+		border: 1px solid #D5D5D5;
+		background-position: center;
+		float: left;
+		margin-right: 3px;
+		line-height: 77px;
+		text-align: center;
+	}
+
+		.image-pattern-style:hover {
+			border-color: gray;
+			border-width: 1px;
+		}
+
+	.row {
+		margin-left: 0px;
+		margin-right: 0px;
+	}
+
+	.row-header {
+		font-size: 13px;
+		font-weight: 500;
+	}
+
+	.e-selected-style {
+		border-color: #006CE6;
+		border-width: 2px;
+	}
+
+	.e-panel-content {
+		padding: 10px;
+	}
+
+	#reset {
+		display: block;
+		margin: 0 auto;
+		width: 90px;
+	}
+
+	@@font-face {
+		font-family: 'e-icons';
+		src: url(data:application/x-font-ttf;charset=utf-8;base64,AAEAAAAKAIAAAwAgT1MvMjciQ6oAAAEoAAAAVmNtYXBH1Ec8AAABsAAAAHJnbHlmKcXfOQAAAkAAAAg4aGVhZBLt+DYAAADQAAAANmhoZWEHogNsAAAArAAAACRobXR4LvgAAAAAAYAAAAAwbG9jYQukCgIAAAIkAAAAGm1heHABGQEOAAABCAAAACBuYW1lR4040wAACngAAAJtcG9zdEFgIbwAAAzoAAAArAABAAADUv9qAFoEAAAA//UD8wABAAAAAAAAAAAAAAAAAAAADAABAAAAAQAAlbrm7l8PPPUACwPoAAAAANfuWa8AAAAA1+5ZrwAAAAAD8wPzAAAACAACAAAAAAAAAAEAAAAMAQIAAwAAAAAAAgAAAAoACgAAAP8AAAAAAAAAAQPqAZAABQAAAnoCvAAAAIwCegK8AAAB4AAxAQIAAAIABQMAAAAAAAAAAAAAAAAAAAAAAAAAAAAAUGZFZABA4QLhkANS/2oAWgPzAJYAAAABAAAAAAAABAAAAAPoAAAD6AAAA+gAAAPoAAAD6AAAA+gAAAPoAAAD6AAAA+gAAAPoAAAD6AAAAAAAAgAAAAMAAAAUAAMAAQAAABQABABeAAAADgAIAAIABuEC4QnhD+ES4RvhkP//AADhAuEJ4QvhEuEa4ZD//wAAAAAAAAAAAAAAAAABAA4ADgAOABYAFgAYAAAAAQACAAYABAADAAgABwAKAAkABQALAAAAAAAAAB4AQABaAQYB5gJkAnoCjgKwA8oEHAAAAAIAAAAAA+oDlQAEAAoAAAEFESERCQEVCQE1AgcBZv0mAXQB5P4c/g4Cw/D+lwFpAcP+s24BTf6qbgAAAAEAAAAAA+oD6gALAAATCQEXCQEHCQEnCQF4AYgBiGP+eAGIY/54/nhjAYj+eAPr/ngBiGP+eP54YwGI/nhjAYgBiAAAAwAAAAAD6gOkAAMABwALAAA3IRUhESEVIREhFSEVA9b8KgPW/CoD1vwq6I0B64wB640AAAEAAAAAA+oD4QCaAAABMx8aHQEPDjEPAh8bIT8bNS8SPxsCAA0aGhgMDAsLCwoKCgkJCQgHBwYGBgUEBAMCAgECAwUFBggICQoLCwwMDg0GAgEBAgIDBAMIBiIdHh0cHBoZFhUSEAcFBgQDAwEB/CoBAQMDBAUGBw8SFRYYGhsbHB0cHwsJBQQEAwIBAQMEDg0NDAsLCQkJBwYGBAMCAQEBAgIDBAQFBQYGBwgICAkJCgoKCwsLDAwMGRoD4gMEBwQFBQYGBwgICAkKCgsLDAwNDQ4ODxAQEBEWFxYWFhYVFRQUExIRERAOFxMLCggIBgYFBgQMDAwNDg4QDxERERIJCQkKCQkJFRQJCQoJCQgJEhERERAPDw4NDQsMBwgFBgYICQkKDAwODw8RERMTExUUFhUWFxYWFxEQEBAPDg4NDQwMCwsKCgkICAgHBgYFBQQEBQQAAAAAAwAAAAAD8wPzAEEAZQDFAAABMx8FFREzHwYdAg8GIS8GPQI/BjM1KwEvBT0CPwUzNzMfBR0CDwUrAi8FPQI/BTMnDw8fFz8XLxcPBgI+BQQDAwMCAT8EBAMDAwIBAQIDAwMEBP7cBAQDAwMCAQECAwMDBAQ/PwQEAwMDAgEBAgMDAwQE0AUEAwMDAgEBAgMDAwQFfAUEAwMDAgEBAgMDAwQFvRsbGRcWFRMREA4LCQgFAwEBAwUHCgsOEBETFRYXGRocHR4eHyAgISIiISAgHx4eHRsbGRcWFRMREA4LCQgFAwEBAwUHCgsOEBETFRYXGRsbHR4eHyAgISIiISAgHx4eAqYBAgIDBAQE/rMBAQEDAwQEBGgEBAQDAgIBAQEBAgIDBAQEaAQEBAMDAQEB0AECAwMDBAVoBAQDAwMCAeUBAgIEAwQEaAUEAwMDAgEBAgMDAwQFaAQEAwQCAgElERMVFhcZGhwdHh4fICAhIiIhICAfHh4dGxsZFxYVExEQDgsJCAUDAQEDBQcKCw4QERMVFhcZGxsdHh4fICAhIiIhICAfHh4dHBoZFxYVExEQDgsKBwUDAQEDBQcKCw4AAAIAAAAAA9MD6QALAE8AAAEOAQcuASc+ATceAQEHBgcnJgYPAQYWHwEGFBcHDgEfAR4BPwEWHwEeATsBMjY/ATY3FxY2PwE2Ji8BNjQnNz4BLwEuAQ8BJi8BLgErASIGApsBY0tKYwICY0pLY/7WEy4nfAkRBWQEAwdqAwNqBwMEZAURCXwnLhMBDgnICg4BEy4mfQkRBGQFAwhpAwNpCAMFZAQSCH0mLhMBDgrICQ4B9UpjAgJjSkpjAgJjAZWEFB4yBAYIrggSBlIYMhhSBhIIrggFAzIfE4QJDAwJhBQeMgQGCK4IEgZSGDIYUgYSCK4IBQMyHxOECQwMAAEAAAAAAwED6gAFAAAJAicJAQEbAef+FhoBzf4zA+v+Ff4VHwHMAc0AAAAAAQAAAAADAQPqAAUAAAEXCQEHAQLlHf4zAc0a/hYD6x7+M/40HwHrAAEAAAAAA/MD8wALAAATCQEXCQE3CQEnCQENAY7+cmQBjwGPZP5yAY5k/nH+cQOP/nH+cWQBjv5yZAGPAY9k/nEBjwAAAwAAAAAD8wPzAEAAgQEBAAAlDw4rAS8dPQE/DgUVDw4BPw47AR8dBRUfHTsBPx09AS8dKwEPHQL1DQ0ODg4PDw8QEBAQERERERUUFBQTExITEREREBAPDw0ODAwLCwkJCAcGBgQEAgIBAgIEAwUFBgYHBwkICQoCygECAgQDBQUGBgcHCQgJCv3QDQ0ODg4PDw8QEBAQERERERUUFBQTExITEREREBAPDw0ODAwLCwkJCAcGBgQEAgL8fgIDBQUHCAkKCwwNDg8PERESExQUFRYWFhgXGBkZGRoaGRkZGBcYFhYWFRQUExIREQ8PDg0MCwoJCAcFBQMCAgMFBQcICQoLDA0ODw8RERITFBQVFhYWGBcYGRkZGhoZGRkYFxgWFhYVFBQTEhERDw8ODQwLCgkIBwUFAwLFCgkICQcHBgYFBQMEAgIBAgIEBAYGBwgJCQsLDAwODQ8PEBARERETEhMTFBQUFREREREQEBAQDw8PDg4ODQ31ERERERAQEBAPDw8ODg4NDQIwCgkICQcHBgYFBQMEAgIBAgIEBAYGBwgJCQsLDAwODQ8PEBARERETEhMTFBQUFRoZGRkYFxgWFhYVFBQTEhERDw8ODQwLCgkIBwUFAwICAwUFBwgJCgsMDQ4PDxEREhMUFBUWFhYYFxgZGRkaGhkZGRgXGBYWFhUUFBMSEREPDw4NDAsKCQgHBQUDAgIDBQUHCAkKCwwNDg8PERESExQUFRYWFhgXGBkZGQAAAQAAAAAD6gPqAEMAABMhHw8RDw8hLw8RPw6aAswNDgwMDAsKCggIBwUFAwIBAQIDBQUHCAgKCgsMDAwODf00DQ4MDAwLCgoICAcFBQMCAQECAwUFBwgICgoLDAwMDgPrAQIDBQUHCAgKCgsLDA0NDv00Dg0NDAsLCgoICAcFBQMCAQECAwUFBwgICgoLCwwNDQ4CzA4NDQwLCwoKCAgHBQUDAgAAABIA3gABAAAAAAAAAAEAAAABAAAAAAABAA0AAQABAAAAAAACAAcADgABAAAAAAADAA0AFQABAAAAAAAEAA0AIgABAAAAAAAFAAsALwABAAAAAAAGAA0AOgABAAAAAAAKACwARwABAAAAAAALABIAcwADAAEECQAAAAIAhQADAAEECQABABoAhwADAAEECQACAA4AoQADAAEECQADABoArwADAAEECQAEABoAyQADAAEECQAFABYA4wADAAEECQAGABoA+QADAAEECQAKAFgBEwADAAEECQALACQBayBlLWljb25zLW1ldHJvUmVndWxhcmUtaWNvbnMtbWV0cm9lLWljb25zLW1ldHJvVmVyc2lvbiAxLjBlLWljb25zLW1ldHJvRm9udCBnZW5lcmF0ZWQgdXNpbmcgU3luY2Z1c2lvbiBNZXRybyBTdHVkaW93d3cuc3luY2Z1c2lvbi5jb20AIABlAC0AaQBjAG8AbgBzAC0AbQBlAHQAcgBvAFIAZQBnAHUAbABhAHIAZQAtAGkAYwBvAG4AcwAtAG0AZQB0AHIAbwBlAC0AaQBjAG8AbgBzAC0AbQBlAHQAcgBvAFYAZQByAHMAaQBvAG4AIAAxAC4AMABlAC0AaQBjAG8AbgBzAC0AbQBlAHQAcgBvAEYAbwBuAHQAIABnAGUAbgBlAHIAYQB0AGUAZAAgAHUAcwBpAG4AZwAgAFMAeQBuAGMAZgB1AHMAaQBvAG4AIABNAGUAdAByAG8AIABTAHQAdQBkAGkAbwB3AHcAdwAuAHMAeQBuAGMAZgB1AHMAaQBvAG4ALgBjAG8AbQAAAAACAAAAAAAAAAoAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAwBAgEDAQQBBQEGAQcBCAEJAQoBCwEMAQ0AB2hvbWUtMDELQ2xvc2UtaWNvbnMHbWVudS0wMQR1c2VyB0JUX2luZm8PU2V0dGluZ19BbmRyb2lkDWNoZXZyb24tcmlnaHQMY2hldnJvbi1sZWZ0CE1UX0NsZWFyDE1UX0p1bmttYWlscwRzdG9wAAA=) format('truetype');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	@@font-face {
+		font-family: 'e-image-icons';
+		src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	.image-pattern-style {
+		font-family: 'e-image-icons';
+		speak: none;
+		font-size: 80px;
+		font-style: normal;
+		font-weight: normal;
+		font-variant: normal;
+		text-transform: none;
+		-webkit-font-smoothing: antialiased;
+		-moz-osx-font-smoothing: grayscale;
+	}
+
+		.image-pattern-style#template1::before {
+			content: "\e700";
+		}
+
+		.image-pattern-style#template2::before {
+			content: "\e701";
+		}
+
+		.image-pattern-style#template3::before {
+			content: "\e702";
+		}
+
+		.image-pattern-style#template4::before {
+			content: "\e703";
+		}
+
+		.image-pattern-style#template5::before {
+			content: "\e704";
+		}
+
+		.image-pattern-style#template6::before {
+			content: "\e705";
+		}
+
+	.header-border {
+		position: absolute;
+		top: 0px;
+		left: 0px;
+		width: 100%;
+		border-top: 5px solid #2684ff
+	}
+
+	.e-template-icon {
+		display: block;
+		padding: 12px 0 12px 0;
+	}
+
+	.sb-property-border {
+		border: 1px solid lightgray;
+	}
+
+	body.highcontrast #dynamicLayout .panel-content {
+		color: rgba(255, 255, 255, 0.54);
+	}
+    .mobile .e-control.e-lib.e-dashboardlayout.e-responsive {
+        z-index: 0;
+        overflow: scroll;
+    }
+
+	.material .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.material-dark .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.highcontrast .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.fabric .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.fabric-dark .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.bootstrap .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.bootstrap-dark .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.bootstrap4 .e-dashboardlayout.e-control .e-panel .e-panel-header{
+		line-height:28px;
+	}
+
+	.material.e-bigger .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.material-dark.e-bigger .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.highcontrast.e-bigger .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.fabric.e-bigger .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.fabric-dark.e-bigger .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.bootstrap.e-bigger .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.bootstrap-dark.e-bigger .e-dashboardlayout.e-control .e-panel .e-panel-header,
+	.bootstrap4.e-bigger .e-dashboardlayout.e-control .e-panel .e-panel-header{
+		line-height:30px;
+	}
+
+	body.material-dark .e-panel .panel-content,
+    body.material-dark .property-section,
+    body.fabric-dark .e-panel .panel-content,
+    body.bootstrap-dark .e-panel .panel-content,
+    body.tailwind-dark .e-panel .panel-content,
+	body.bootstrap5-dark .e-panel .panel-content {
+        color: #ffffff;
+    }
+
+	.e-control.e-lib.e-dashboardlayout.e-responsive {
+        z-index: 0;
+    }
+
+</style>

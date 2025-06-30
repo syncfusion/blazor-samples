@@ -1,0 +1,268 @@
+﻿@page "/smith-chart/customization"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes distinct transmissions using the smith chart. Data points are enhanced with marker and tooltip.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render a smith chart with multiple series. The legend provides information about the series in the smith chart.</p>
+    <p>More information about the smith chart can be found in this <a target="_blank" href="https://ej2.syncfusion.com/blazor/documentation/smith-chart/getting-started" aria-label="Documentation section">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="row">
+    <div class="col-lg-9 control-section sb-property-border">
+        <SfSmithChart Radius="@SmithChartRadius" Theme="@CurrentTheme">
+            <SmithChartHorizontalAxis>
+                <SmithChartHorizontalMinorGridLines Visible="true"></SmithChartHorizontalMinorGridLines>
+            </SmithChartHorizontalAxis>
+            <SmithChartRadialAxis>
+                <SmithChartRadialMinorGridLines Visible="true"></SmithChartRadialMinorGridLines>
+            </SmithChartRadialAxis>
+            <SmithChartTitle Visible="true" Text="Impedance Transmission" EnableTrim="true" MaximumWidth="200">
+                <SmithChartTitleFont Size="16px"></SmithChartTitleFont>
+            </SmithChartTitle>
+            <SmithChartLegendSettings Visible="@IsLegendVisible" Shape="Shape.Circle" Position="@LegendPosition">
+                <SmithChartBorder Color="transparent"></SmithChartBorder>
+            </SmithChartLegendSettings>
+            <SmithChartSeriesCollection>
+                <SmithChartSeries Name="Transmission-1" DataSource="@FirstTransmissionData" Resistance="Resistance" Reactance="Reactance"
+                                  EnableAnimation="@IsAnimationEnabled" EnableSmartLabels="false"
+                                  Width="2">
+                    <SmithChartSeriesTooltip Visible="@IsTooltipVisible"></SmithChartSeriesTooltip>
+                    <SmithChartSeriesMarker Visible="@IsMarkerVisible" Shape="Shape.Rectangle">
+                        <SmithChartSeriesDatalabel Visible="@IsDatalabelVisible"></SmithChartSeriesDatalabel>
+                        <SmithChartSeriesMarkerBorder Width="2"></SmithChartSeriesMarkerBorder>
+                    </SmithChartSeriesMarker>
+                </SmithChartSeries>
+                <SmithChartSeries Name="Transmission-2" DataSource="@SecondTransmissionData" Resistance="Resistance" Reactance="Reactance"
+                                  EnableAnimation="@IsAnimationEnabled" EnableSmartLabels="false" Width="2">
+                    <SmithChartSeriesTooltip Visible="@IsTooltipVisible"></SmithChartSeriesTooltip>
+                    <SmithChartSeriesMarker Visible="@IsMarkerVisible" Shape="Shape.Rectangle">
+                        <SmithChartSeriesDatalabel Visible="@IsDatalabelVisible"></SmithChartSeriesDatalabel>
+                        <SmithChartSeriesMarkerBorder Width="2"></SmithChartSeriesMarkerBorder>
+                    </SmithChartSeriesMarker>
+                </SmithChartSeries>
+            </SmithChartSeriesCollection>
+        </SfSmithChart>
+    </div>
+    <div class="col-md-3 property-section">
+        &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+        <div class="property-panel-header">Properties</div>
+        <table style="width :100%" title="Properties">
+            <tbody>
+            <tr style="height: 35px">
+                <td style="width: 45%; margin-top: 5px" class="property-text">
+                    Radius<span>&nbsp;&nbsp;&nbsp;@RadiusValueText</span>
+                </td>
+                <td style="width: 70%">
+                    <SfNumericTextBox TValue="double?" Value="@RadiusSliderValue" Max="1" Min="0.4" Step="0.1">
+                        <NumericTextBoxEvents TValue="double?" ValueChange="OnRadiusSliderValueChanged" />
+                    </SfNumericTextBox>
+                </td>
+            </tr>
+            <tr style="height: 35px">
+                <td style="width: 45%" class="property-text">Marker</td>
+                <td style="width: 70%">
+                    <SfCheckBox Checked="@IsMarkerVisible" ValueChange="OnMarkerCheckboxChanged" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 35px">
+                <td style="width: 45%" class="property-text">Data Label</td>
+                <td style="width: 75%">
+                    <SfCheckBox Checked="@IsDatalabelVisible" ValueChange="OnDatalabelCheckboxChanged" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 35px">
+                <td style="width: 45%" class="property-text">Animation</td>
+                <td style="width: 75%">
+                    <SfCheckBox Checked="@IsAnimationEnabled" ValueChange="OnAnimationCheckboxChanged" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 35px">
+                <td style="width: 45%" class="property-text">Tooltip</td>
+                <td style="width: 75%">
+                    <SfCheckBox Checked="@IsTooltipVisible" ValueChange="OnTooltipCheckboxChanged" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 35px">
+                <td style="width: 45%" class="property-text">Legend</td>
+                <td style="width: 75%">
+                    <SfCheckBox Checked="@IsLegendVisible" ValueChange="OnLegendCheckboxChanged" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 35px">
+                <td style="width: 45%" class="property-text">Legend Position</td>
+                <td style="width: 75%">
+                    <SfDropDownList TValue="string" Enabled="@IsLegendPositionListEnabled" TItem="PositionList" DataSource="@PositionData" @bind-Value="@LegendPositionValue" Width="90px">
+                        <DropDownListEvents TValue="string" TItem="PositionList" ValueChange="OnLegendPositionChanged"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@code {
+    public Theme CurrentTheme { get; set; }
+    public double SmithChartRadius { get; set; } = 1;
+    public bool IsMarkerVisible { get; set; } = true;
+    public bool IsDatalabelVisible { get; set; } = false;
+    public bool IsAnimationEnabled { get; set; } = false;
+    public bool IsTooltipVisible { get; set; } = true;
+    public bool IsLegendVisible { get; set; } = true;
+    public LegendPosition LegendPosition { get; set; } = LegendPosition.Top;
+    public double RadiusValueText { get; set; } = 1;
+    public double RadiusSliderValue { get; set; } = 1;
+    public string LegendPositionValue { get; set; } = "Top";
+    public bool IsLegendPositionListEnabled { get; set; } = true;
+
+    public class SmithDataSource
+    {
+        public double? Resistance { get; set; }
+        public double? Reactance { get; set; }
+    }
+
+    public List<SmithDataSource> FirstTransmissionData { get; set; } = new List<SmithDataSource>
+    {
+        new SmithDataSource { Resistance = 10, Reactance = 25 },
+        new SmithDataSource { Resistance = 8, Reactance = 6 },
+        new SmithDataSource { Resistance = 6, Reactance = 4.5 },
+        new SmithDataSource { Resistance = 4.5, Reactance = 4 },
+        new SmithDataSource { Resistance = 3.5, Reactance = 3 },
+        new SmithDataSource { Resistance = 2.5, Reactance = 2 },
+        new SmithDataSource { Resistance = 2, Reactance = 1.5 },
+        new SmithDataSource { Resistance = 1.5, Reactance = 1.25 },
+        new SmithDataSource { Resistance = 1, Reactance = 0.9 },
+        new SmithDataSource { Resistance = 0.5, Reactance = 0.6 },
+        new SmithDataSource { Resistance = 0.3, Reactance = 0.4 },
+        new SmithDataSource { Resistance = 0, Reactance = 0.15 }
+    };
+
+    public List<SmithDataSource> SecondTransmissionData { get; set; } = new List<SmithDataSource>
+    {
+        new SmithDataSource { Resistance = 20, Reactance = -50 },
+        new SmithDataSource { Resistance = 10, Reactance = -10 },
+        new SmithDataSource { Resistance = 9, Reactance = -4.5 },
+        new SmithDataSource { Resistance = 8, Reactance = -3.5 },
+        new SmithDataSource { Resistance = 7, Reactance = -2.5 },
+        new SmithDataSource { Resistance = 6, Reactance = -1.5 },
+        new SmithDataSource { Resistance = 5, Reactance = -1 },
+        new SmithDataSource { Resistance = 4.5, Reactance = -0.8 },
+        new SmithDataSource { Resistance = 3.5, Reactance = -0.8 },
+        new SmithDataSource { Resistance = 2.5, Reactance = -0.4 },
+        new SmithDataSource { Resistance = 2, Reactance = -0.2 },
+        new SmithDataSource { Resistance = 1.5, Reactance = 0 },
+        new SmithDataSource { Resistance = 1, Reactance = 0.1 },
+        new SmithDataSource { Resistance = 0.5, Reactance = 0.2 },
+        new SmithDataSource { Resistance = 0.3, Reactance = 0.15 },
+        new SmithDataSource { Resistance = 0, Reactance = 0.05 },
+    };
+
+    public class PositionList
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    }
+
+    public List<PositionList> PositionData { get; set; } = new List<PositionList>
+    {
+        new PositionList { Value = "Top", Name = "Top" },
+        new PositionList { Value = "Bottom", Name = "Bottom" },
+        new PositionList { Value = "Right", Name = "Right" },
+        new PositionList { Value = "Left", Name = "Left" },
+    };
+
+    protected override void OnInitialized()
+    {
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public void OnRadiusSliderValueChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double?> args)
+    {
+        SmithChartRadius = Convert.ToDouble(args.Value);
+        RadiusSliderValue = Convert.ToDouble(args.Value);
+        RadiusValueText = RadiusSliderValue;
+    }
+
+    public void OnMarkerCheckboxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsMarkerVisible = args.Checked;
+    }
+
+    public void OnDatalabelCheckboxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsDatalabelVisible = args.Checked;
+    }
+
+    public void OnAnimationCheckboxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsAnimationEnabled = args.Checked;
+    }
+
+    public void OnTooltipCheckboxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsTooltipVisible = args.Checked;
+    }
+
+    public void OnLegendCheckboxChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsLegendVisible = args.Checked;
+        IsLegendPositionListEnabled = args.Checked;
+    }
+
+    public void OnLegendPositionChanged(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, PositionList> args)
+    {
+        LegendPositionValue = args.Value;
+        LegendPosition = args.Value switch
+        {
+            "Top" => LegendPosition.Top,
+            "Bottom" => LegendPosition.Bottom,
+            "Right" => LegendPosition.Right,
+            "Left" => LegendPosition.Left,
+            _ => LegendPosition
+        };
+    }
+
+}
+
+<style>
+    .control-section {
+        min-height: 450px;
+    }
+
+    .property-text {
+        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif" !important;
+        font-size: 13px !important;
+        font-weight: 400 !important;
+    }
+
+    #radius > * {
+        padding: 0px !important;
+    }
+
+    .content-wrapper {
+        width: 40%;
+        margin: 0 auto;
+        min-width: 185px;
+    }
+
+    label {
+        height: 32px !important;
+    }
+
+    td {
+        padding: 1%;
+    }
+</style>

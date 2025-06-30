@@ -1,0 +1,94 @@
+﻿@page "/excel/excel-to-pdf-ua"
+@using System.IO;
+
+@using Blazor_MAUI_Demos.Services
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+
+@using Blazor_MAUI_Demos.Pages.DocumentProcessing.Excel
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to convert a Excel document to PDF/UA using .NET Excel (XlsIO) library and .NET PDF library.</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">The .NET Excel (XlsIO) library allows you to convert Excel documents into tagged PDFs that are compliant with Section 508 and PDF/UA standards. This ensures that the content of the PDF is accessible and can be easily read by users who require assistive technology.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-size:16px">Click the button to view the generated PDF/UA document being converted from Excel document using .NET Excel (XlsIO) library and .NET PDF library. Please note that PDF viewer is required to view the resultant PDF.</p>
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                    <SfButton @onclick="GenerateDocument">Convert to PDF</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    //Hidden:Lines
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async void GenerateDocument(MouseEventArgs args)
+    {
+        LoadTemplate();
+        ExcelToPDFUAService service = new ExcelToPDFUAService(fileData);
+        documentStream = service.ExceltoPDFXlsIO("Generate Document");
+        service.Close();
+        documentStream.Position = 0;
+        SaveService saveService = new SaveService();
+        saveService.SaveAndView("ExcelToPDF.pdf", "application/pdf", documentStream);
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async void ViewTemplate(MouseEventArgs args)
+    {
+        LoadTemplate();
+        ExcelToPDFUAService service = new ExcelToPDFUAService(fileData);
+        documentStream = service.ExceltoPDFXlsIO("View Template");
+        documentStream.Position = 0;
+        MemoryStream memoryStream = new MemoryStream();
+        documentStream.CopyTo(memoryStream);
+        memoryStream.Position = 0;
+        service.Close();
+        SaveService saveService = new SaveService();
+        saveService.SaveAndView("ExcelToPDF.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", memoryStream);
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async void LoadTemplate()
+    {
+        string fileDataPath = "Blazor_MAUI_Demos.wwwroot.data.xlsio.excel-to-pdf-ua.xlsx";
+        Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(fileDataPath);
+        MemoryStream memoryStream = new MemoryStream();
+        DocumentStream.CopyTo(memoryStream);
+        memoryStream.Position = 0;
+        fileData.Add("excel-to-pdf-ua.xlsx", memoryStream);
+        DocumentStream.Dispose();
+    }
+}

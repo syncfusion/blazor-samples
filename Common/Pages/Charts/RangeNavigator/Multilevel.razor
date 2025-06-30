@@ -1,0 +1,95 @@
+﻿@page "/range-selector/multilevel"
+@using  Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@using ThemeHelper
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>Axis labels are placed based on the values of the start and end ranges. You can add higher-level labels to the range navigator using multi-level labels.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to group the axis labels in the range navigator. The interval for the second level labels can be customized using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfRangeNavigator.html#Syncfusion_Blazor_Charts_SfRangeNavigator_GroupBy" aria-label="groupBy">groupBy</a> property.</p>
+    <p>More information about multi-level labels can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/range-selector/labels#multi-level-labels" aria-label="documentation section">documentation section</a>.</p>
+</ActionDescription>
+
+@if (RangeNavigatorData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section">
+        <br>
+        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px; text-align:center">Multi-Level Labels</h4>
+        <div align="center">
+            <SfRangeNavigator LabelPosition="AxisPosition.Outside" Theme="@NavigatorTheme" EnableGrouping="true" GroupBy="RangeIntervalType.Years" Value="@SelectedRange" IntervalType="RangeIntervalType.Quarter" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" DataSource="@RangeNavigatorData" XName="x" YName="low" Interval="@GroupInterval">
+                <RangeNavigatorStyleSettings SelectedRegionColor="@SelectedColor"></RangeNavigatorStyleSettings>
+                <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always"></RangeNavigatorRangeTooltipSettings>
+            </SfRangeNavigator>
+        </div>
+    </div>
+}
+
+@code{
+    public Theme NavigatorTheme { get; set; }
+    public ChartData[] RangeNavigatorData { get; set; }
+    public object[] SelectedRange { get; set; } = { new DateTime(2014, 01, 01), new DateTime(2016, 01, 01) };
+    public string SelectedColor { get; set; }
+    public double GroupInterval { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        RangeNavigatorData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/chart-data.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double low { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        GroupInterval = SampleService.IsDevice ? 4 : 1;
+        SetThemeAndColor();
+    }
+
+    private void SetThemeAndColor()
+    {
+        // Get the current theme using a helper method
+        NavigatorTheme  = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    
+        // Use switch expression to set the selected region color based on the theme
+        SelectedColor  = NavigatorTheme switch
+        {
+            Theme.Material3Dark => "#4EAAFF",
+            Theme.Material3 => "#6355C7",
+            Theme.MaterialDark => "#9ECB08",
+            Theme.Material => "#00bdae",
+            Theme.FabricDark => "#4472c4",
+            Theme.Fabric => "#4472c4",
+            Theme.Bootstrap5Dark => "#FD7E14",
+            Theme.Bootstrap5 => "#FD7E14",
+            Theme.Fluent2HighContrast => "#9BB449",
+            Theme.Fluent2Dark => "#9BB449",
+            Theme.Fluent2 => "#6200EE",
+            Theme.FluentDark => "#1AC9E6",
+            Theme.Fluent => "#1AC9E6",
+            Theme.BootstrapDark => "#a16ee5",
+            Theme.Bootstrap => "#a16ee5",
+            Theme.HighContrast => "#79ECE4",            
+            Theme.Tailwind3Dark => "#8029F1",
+            Theme.Tailwind3 => "#2F4074",
+            _ => "#a16ee5" // Default color
+        };
+    }
+
+}

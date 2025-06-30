@@ -1,0 +1,140 @@
+﻿@page "/excel/collection-objects"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Data
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject HttpClient Http
+@using System.IO;
+
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@using BlazorDemos.Data.FileFormats.XlsIO
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to use Collection  Objects in spreadsheets using XlsIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The .NET Excel (XlsIO) library allows you to import/export data from/to collection objects. The collection objects are a list of objects that contain the data in the object properties.</p>
+    <p></p>
+    <p>This sample demonstrates how to import object collections to Excel using XlsIO.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <p style="font-weight:normal">Click the "Import From Excel" button to import data from nested class into the ListView.</p>
+    <p></p>
+    <p style="font-weight:normal">
+        Click the "Export To Excel" button to view the Excel document created by exporting the nested class data from the ListView using Essential XlsIO. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document.
+    </p>
+    <div class="content-wrapper">
+        <table>
+            <tr>
+                <SfGrid DataSource="@GridData" AllowPaging="true" TValue="Brand" Width="550" Height="250">
+                    <GridPageSettings PageCount="5"></GridPageSettings>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(Brand.BrandName) HeaderText="Brand" Width="50"></GridColumn>
+                        <GridColumn Field=@nameof(Brand.VehicleType.VehicleName) HeaderText="Vechicle Type" Width="70"></GridColumn>
+                        <GridColumn Field=@nameof(Brand.VehicleType.Model.ModelName) HeaderText="Model" Width="70"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </tr>
+            <tr>
+                <div class="radio-control">
+                    <label style="font-weight:14px">Save As:</label>
+                    <SfRadioButton Label="XLS" Name="XLS" Value=@("XLS") @bind-Checked="@excelVersion"></SfRadioButton>
+                    <SfRadioButton Label="XLSX" Name="XLSX" Value=@("XLSX") @bind-Checked="@excelVersion"></SfRadioButton>
+                </div>
+            </tr>
+        </table>
+        <div class="button-section">
+            <div id="button-control">
+                <div class="row">
+                    <div>
+                        <SfButton @onclick="InputTemplate">Input Template</SfButton>
+                        <SfButton @onclick="ImportDocument">Import Document</SfButton>
+                        <SfButton Disabled="@IsExportDisabled" @onclick="ExportData">Export to Excel</SfButton>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code{
+    MemoryStream excelStream;
+    public List<Brand> GridData
+    {
+        get;
+        set;
+    }
+    string excelVersion = "XLSX";
+    bool isExportDisabled = true;
+
+    bool IsExportDisabled
+    {
+        get
+        {
+            if (GridData != null && GridData.Count != 0)
+                isExportDisabled = false;
+            return isExportDisabled;
+        }
+        set
+        {
+            isExportDisabled = value;
+        }
+    }
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+
+    public async Task InputTemplate()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/export-data.xlsx");
+        fileData.Add("export-data.xlsx", new MemoryStream(data));
+        data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/export-data.xlsx");
+        CollectionObjectsService service = new CollectionObjectsService(fileData);
+        excelStream = service.CollectionObjectsXlsIO("Input Template",excelVersion);        
+        await JS.SaveAs("CollectionObjectsTemplate.xlsx", excelStream.ToArray()); 
+        service.Close();
+    }
+    public async Task ExportData()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/export-data.xlsx");
+        fileData.Add("export-data.xlsx", new MemoryStream(data));
+        data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/export-data.xlsx");
+        CollectionObjectsService service = new CollectionObjectsService(fileData);
+        excelStream = service.CollectionObjectsXlsIO("ExportToExcel", excelVersion);
+        if (excelVersion == "XLSX")
+        {
+            await JS.SaveAs("CollectionObjects.xlsx", excelStream.ToArray());
+        }
+        else
+        {
+            await JS.SaveAs("CollectionObjects.xls", excelStream.ToArray());
+        }
+        service.Close();
+    }
+    public async Task  ImportDocument()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/export-data.xlsx");
+        fileData.Add("export-data.xlsx", new MemoryStream(data));
+        data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/export-data.xlsx");
+        CollectionObjectsService service = new CollectionObjectsService(fileData);
+        GridData = service.ImportExcel();
+        service.Close();
+    }
+}

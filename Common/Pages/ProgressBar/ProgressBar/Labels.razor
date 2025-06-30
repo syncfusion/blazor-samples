@@ -1,0 +1,192 @@
+﻿@page "/progress-bar/labels"
+@using Syncfusion.Blazor.ProgressBar
+@inject NavigationManager Navigation
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates a linear progress bar with different labels.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to configure labels in the linear progress bar using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.TextRenderEventArgs.html?&_ga=2.201769297.1522010031.1638758774-218625430.1638525643#Syncfusion_Blazor_ProgressBar_TextRenderEventArgs_Text" aria-label="Text">Text</a> argument in the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.ProgressBarEvents.html?&_ga=2.25103610.1522010031.1638758774-218625430.1638525643#Syncfusion_Blazor_ProgressBar_ProgressBarEvents_TextRender" aria-label="TextRender">TextRender</a> event.</p>
+    <p>More information about the labels in the progress bar can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/progress-bar/progress-annotation#label" aria-label="documentation section">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="row linear-parent" align="center">
+        @foreach (var progressBar in ProgressBars)
+        {
+        <div class="linear-progress">
+            <SfProgressBar @ref="progressBar.Ref" Type="ProgressType.Linear" Height="40"
+                           Width="100%" ID="@progressBar.Id"
+                           TrackThickness="24"
+                           ProgressThickness="24" Role="progressBar.Role"
+                           ShowProgressValue="true"
+                           Value="@progressBar.Value" Minimum="0" Maximum="100"
+                           Theme="@Theme"
+                           TrackColor="@TrackColor">
+                <ProgressBarLabelStyle Text="@progressBar.Label"
+                                       TextAlignment="TextAlignmentType.Center"
+                                       Color="@TextColor" />
+                <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
+            </SfProgressBar>
+        </div>
+        }
+    </div>
+    <div class="row" align="center">
+        <button id="RefreshButton" class="e-control e-btn e-lib e-outline e-primary" @onclick="RefreshProgressBars">Reload</button>
+    </div>
+</div>
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    .linear-parent {
+        text-align: center;
+        margin-top: 2%;
+    }
+
+    .linear-button {
+        text-align: center;
+    }
+
+    .linear-progress {
+        width: 80%;
+        margin: auto;
+        margin-bottom: 3%;
+    }
+
+    [id$="Lineartrack"] {
+        opacity: 1 !important;
+    }
+
+    #RefreshButton {
+        border-radius: 4px;
+        text-transform: capitalize;
+    }
+</style>
+@code {
+    public string TextColor { get; set; } = "#FFFFFF";
+    public string TrackColor { get; set; }
+    public Theme Theme { get; set; }
+
+    private List<ProgressBarModel> ProgressBars { get; set; }
+
+// Initialize the SfProgressBar references
+    private SfProgressBar PercentageProgressBar;
+    private SfProgressBar RatioProgressBar;
+    private SfProgressBar ActualProgressBar;
+    private SfProgressBar CustomProgressBar;
+
+    protected override void OnInitialized()
+    {
+        SetThemeAndColors();
+        InitializeProgressBars();
+    }
+
+    private void SetThemeAndColors()
+    {
+        var uri = Navigation.Uri;
+        Theme = uri switch
+        {
+            var u when u.Contains("material3-dark") => Theme.Material3Dark,
+            var u when u.Contains("material3") => Theme.Material3,
+            var u when u.Contains("fabric-dark") => Theme.FabricDark,
+            var u when u.Contains("fabric") => Theme.Fabric,
+            var u when u.Contains("bootstrap5-dark") => Theme.Bootstrap5Dark,
+            var u when u.Contains("bootstrap5") => Theme.Bootstrap5,
+            var u when u.Contains("bootstrap-dark") => Theme.BootstrapDark,
+            var u when u.Contains("fluent2-highcontrast") => Theme.Fluent2HighContrast,
+            var u when u.Contains("fluent2-dark") => Theme.Fluent2Dark,
+            var u when u.Contains("fluent2") => Theme.Fluent2,
+            var u when u.Contains("fluent-dark") => Theme.FluentDark,
+            var u when u.Contains("fluent") => Theme.Fluent,
+            var u when u.Contains("bootstrap4") => Theme.Bootstrap4,
+            var u when u.Contains("bootstrap") => Theme.Bootstrap,
+            var u when u.Contains("highcontrast") => SetHighContrastTheme(),
+            var u when u.Contains("tailwind3-dark") => Theme.Tailwind3Dark,
+            var u when u.Contains("tailwind3") => Theme.Tailwind3,
+            var u when u.Contains("material-dark") => Theme.MaterialDark,
+            var u when u.Contains("material") => SetMaterialTheme(),
+            _ => Theme.Material
+        };
+    }
+
+    private Theme SetHighContrastTheme()
+    {
+        TextColor = "#000000";
+        TrackColor = "#969696";
+        return Theme.HighContrast;
+    }
+
+    private Theme SetMaterialTheme()
+    {
+        TrackColor = "#eee";
+        return Theme.Material;
+    }
+
+    private void InitializeProgressBars()
+    {
+        ProgressBars = new List<ProgressBarModel>
+        {
+            new ProgressBarModel
+            {
+                Id = "Percentage",
+                Value = 40,
+                Role = ModeType.Success,
+                Label = "40% Complete (Success)",
+                Ref = PercentageProgressBar
+            },
+            new ProgressBarModel
+            {
+                Id = "Ratio",
+                Value = 50,
+                Role = ModeType.Info,
+                Label = "50% Complete (Info)",
+                Ref = RatioProgressBar
+            },
+            new ProgressBarModel
+            {
+                Id = "Actual",
+                Value = 60,
+                Role = ModeType.Warning,
+                Label = "60% Complete (Warning)",
+                Ref = ActualProgressBar
+            },
+            new ProgressBarModel
+            {
+                Id = "Custom",
+                Value = 70,
+                Role = ModeType.Danger,
+                Label = "70% Complete (Danger)",
+                Ref = CustomProgressBar
+            }
+        };
+    }
+
+    public async Task RefreshProgressBars()
+    {
+        foreach (var progressBar in ProgressBars)
+        {
+            if (progressBar.Ref != null)
+            {
+                await progressBar.Ref.RefreshAsync();
+            }
+        }
+    }
+
+    private class ProgressBarModel
+    {
+        public SfProgressBar Ref { get; set; }
+        public string Id { get; set; }
+        public double Value { get; set; }
+        public ModeType Role { get; set; }
+        public string Label { get; set; }
+    }
+
+
+}

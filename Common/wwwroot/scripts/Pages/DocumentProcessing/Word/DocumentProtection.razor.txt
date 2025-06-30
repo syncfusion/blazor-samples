@@ -1,0 +1,164 @@
+@page "/word/document-protection"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@inject HttpClient Http;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+<SampleDescription>
+    <p style="font-size:16px">DocIO supports to protect a Word document with password.</p>
+</SampleDescription>
+<ActionDescription>
+<p style ="font-size:16px">The .NET Word Library (DocIO) supports all Microsoft Word protection types and enables disabling document protection.</p>
+<p>
+    <ul style="font-size:16px">
+        <li> Generate forms restricted to filling form fields only.</li>
+        <li> Generate documents allowing only adding or modifying comments.</li>
+        <li> Generate documents allowing only accepting or rejecting revisions.</li>
+        <li> Generate documents with full editing restriction, permitting only content viewing.</li>
+        <li> Add editable ranges to allow everyone to edit specific parts, even in protected documents.</li>
+    </ul>
+</p>
+   <p style="font-size:16px">More information about the Document protection options can be found in this <a href="https://help.syncfusion.com/file-formats/docio/working-with-security" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-size:16px">
+        Click the button to view the generated Word document.
+        Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.
+    </p>
+    <div class="dropdown-control">
+        <table class="protection-table">
+            <tr>
+                <td style="white-space: nowrap; width: 125px;">
+                    <label class="form-label">Protection Type : </label>
+                </td>
+                <td>
+                    <SfDropDownList TItem="string" TValue="string" PopupHeight="230px"
+                                    Placeholder="AllowOnlyFormFields"
+                                    @bind-Value="@DropVal"
+                                    DataSource="@Author"
+                                    Width="200px"
+                                    style="margin-left: 15px;">
+                        <DropDownListEvents TItem="string" TValue="string" ValueChange="onChange" />
+                    </SfDropDownList>
+                </td>
+            </tr>
+
+            <tr>
+                <td colspan="2" style="padding-top: 6px;">
+                    <SfCheckBox Label="Make part of the document editable"
+                                @bind-Checked="@RevisionBtn"
+                                Disabled="@disableRadio" />
+                </td>
+            </tr>
+
+            <tr>
+                <td style="white-space: nowrap;">
+                    <label class="form-label">Password :</label>
+                </td>
+                <td>
+                    <SfTextBox Placeholder="Enter password"
+                               @bind-Value="@Password"
+                               Width="175px"
+                               CssClass="password-input" />
+                </td>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+</div>
+
+<style>
+    .control-section {
+        padding: 20px;
+    }
+    .control-section .row {
+        margin: 10px 0;
+    }
+    .button-row {
+        margin-top: 20px;
+    }
+    h5 {
+        margin: 0;
+        padding: 0;
+        font-size: 16px;
+    }
+</style>
+
+@code {
+    public string DropVal { get; set; }
+    public string FileName { get; set; }
+    private List<string> Author = new List<string>() { "AllowOnlyFormFields", "AllowOnlyComments", "AllowOnlyRevisions", "AllowOnlyReading" };
+    MemoryStream documentStream;
+    bool RevisionBtn = false;
+    bool disableRadio = true;
+    private string Password { get; set; }
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+    //End:Hidden
+    /// <summary>
+    /// Protect and download the Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        DocumentProtectionService service = new DocumentProtectionService(fileData);
+        documentStream = service.DocumentProtection(DropVal, Password, RevisionBtn);
+        service.Close();
+        if(DropVal != null)
+            await JS.SaveAs(DropVal + ".docx", documentStream.ToArray());
+        else
+            await JS.SaveAs("AllowOnlyFormFields.docx", documentStream.ToArray());
+    }
+    private void onChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        if (args.Value == "AllowOnlyFormFields" || args.Value == "AllowOnlyRevisions")
+        {
+            RevisionBtn = false;
+            disableRadio = true;
+        }
+        else
+        {
+            RevisionBtn = true;
+            disableRadio = false;
+        }
+    }
+    public async Task LoadTemplate()
+    {
+        if (DropVal == "AllowOnlyReading")
+            FileName = "template-reading";
+        else if (DropVal == "AllowOnlyComments")
+            FileName = "template-comments";
+        else if (DropVal == "AllowOnlyRevisions")
+            FileName = "template-revisions";
+        else
+            FileName = "template-form-fields";
+
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + $"data/word/{FileName}.docx");
+            fileData.Add(FileName + ".docx", new MemoryStream(data));
+        }
+    }
+}

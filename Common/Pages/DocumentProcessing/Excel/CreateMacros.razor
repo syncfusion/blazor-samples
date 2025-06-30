@@ -1,0 +1,93 @@
+﻿@page "/excel/create-macros"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject HttpClient Http
+@using System.IO;
+
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+
+@using BlazorDemos.Data.FileFormats.XlsIO
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to create macros using XlsIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Essential XlsIO supports creating macro files from scratch programmatically.</p>
+    <p style='display: block'><b>Features:</b></p>
+    <ul>
+        <li>Create Excel chart from macro code for the data provided in the Excel workbook.</li>
+        <li>Save the macro-enabled file in various file formats (XLS, XLSM, XLTM).</li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-weight:normal">Click the "Create Document" button to view the created Excel document. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document.</p>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="radio-control">
+        <label style="font-weight:bold">Save As:</label>        
+            <SfRadioButton Label="XLS" Name="XLS" Value=@("XLS") @bind-Checked="@excelVersion"></SfRadioButton>        
+            <SfRadioButton Label="XLTM" Name="XLTM" Value=@("XLTM") @bind-Checked="@excelVersion"></SfRadioButton>
+            <SfRadioButton Label="XLSM" Name="XLSM" Value=@("XLSM") @bind-Checked="@excelVersion"></SfRadioButton>
+    </div>
+    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="CreateMacrosXlsIO">Create Document</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>    
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@functions {
+    MemoryStream excelStream;
+    string excelVersion = "XLSM";
+    //Hidden:Lines
+
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the Excel document with data validation
+    /// </summary>
+    public async Task CreateMacrosXlsIO()
+    {
+        fileData.Clear();
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/create-macro-template.xlsx");
+        fileData.Add("create-macro-template.xlsx", new MemoryStream(data));
+        CreateMacrosService service = new CreateMacrosService(fileData);
+        excelStream = service.CreateMacrosXlsIO(excelVersion);
+        if (excelVersion == "XLTM")
+        {
+            await JS.SaveAs("Sample.xltm", excelStream.ToArray());
+        }
+        else if (excelVersion == "XLS")
+        {
+            await JS.SaveAs("Sample.xls", excelStream.ToArray());
+        }
+        else
+        {
+            await JS.SaveAs("Sample.xlsm", excelStream.ToArray());
+        }
+    }
+}

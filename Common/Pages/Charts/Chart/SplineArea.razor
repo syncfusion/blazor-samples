@@ -1,0 +1,82 @@
+﻿@page "/chart/spline-area"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/spline-area-chart' aria-label="Navigate to explore the Blazor Spline Area Chart">Blazor Spline Area Chart</a> example visualizes inflation rate comparison for two countries by using spline area series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure a spline area chart. This chart plots a fitted curve through each data point in a series. It is used to represent time-dependent data and show trends in data at equal intervals.</p>
+    <p>More information about the spline area series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/spline-area' aria-label="Navigate to the documentation for spline-area in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Inflation Rate in Percentage" SubTitle="Source: wikipedia.org" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}%" Minimum="0" Maximum="80" Interval="20">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true" EnableHighlight="true" ShowNearestTooltip="true"></ChartTooltipSettings>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Iran" XName="Period" Width="2"
+                         Opacity="0.5" YName="IRA_InflationRate" Type="ChartSeriesType.SplineArea">
+                <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+                <ChartMarker IsFilled="true" Visible="true" Width="6" Height="6" Shape="ChartShape.Circle"></ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="Turkey" XName="Period" Width="2"
+                         Opacity="0.5" YName="TUR_InflationRate" Type="ChartSeriesType.SplineArea">
+                <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+                <ChartMarker IsFilled="true" Visible="true" Height="7" Width="7" Shape="ChartShape.Diamond"></ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<SplineAreaChartData> ChartPoints { get; set; } = new List<SplineAreaChartData>
+    {
+        new SplineAreaChartData { Period = new DateTime(2018, 01, 01), IRA_InflationRate = 18.01, TUR_InflationRate = 16.33, GER_InflationRate = 1.73 },
+        new SplineAreaChartData { Period = new DateTime(2019, 01, 01), IRA_InflationRate = 39.91, TUR_InflationRate = 15.18, GER_InflationRate = 1.45 },
+        new SplineAreaChartData { Period = new DateTime(2020, 01, 01), IRA_InflationRate = 30.59, TUR_InflationRate = 12.28, GER_InflationRate = 0.14 },
+        new SplineAreaChartData { Period = new DateTime(2021, 01, 01), IRA_InflationRate = 43.39, TUR_InflationRate = 19.60, GER_InflationRate = 3.07 },
+        new SplineAreaChartData { Period = new DateTime(2022, 01, 01), IRA_InflationRate = 43.49, TUR_InflationRate = 72.31, GER_InflationRate = 6.87 },
+        new SplineAreaChartData { Period = new DateTime(2023, 01, 01), IRA_InflationRate = 44.58, TUR_InflationRate = 53.86, GER_InflationRate = 5.95 }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    public class SplineAreaChartData
+    {
+        public DateTime Period { get; set; }
+        public double IRA_InflationRate { get; set; }
+        public double TUR_InflationRate { get; set; }
+        public double GER_InflationRate { get; set; }
+    }
+}

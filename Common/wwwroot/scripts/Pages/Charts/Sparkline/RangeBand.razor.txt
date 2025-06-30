@@ -1,0 +1,135 @@
+﻿@page "/sparkline/range-band"
+
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Inputs
+@using BlazorDemos
+@using BlazorSparklineGridData
+
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample depicts the range band feature in sparklines component.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>In this example, you can see how to render a sparkline with a range band. Here, the sparklines are placed inside the data grid control.</p>
+   <p>More information about the sparkline can be found in this <a target='_blank' href='https://ej2.syncfusion.com/blazor/documentation/sparkline/getting-started' aria-label="documentation section" >documentation section</a>.</p>
+</ActionDescription>
+
+    <div class="control-section">
+        <div id="spark-container" class="row">
+            <div class="cols-sample-area" align="center">
+                <p>
+                    <font size=4> Sales Growth Comparison with various Products</font>
+                </p>
+                    <SfGrid id="Grid" DataSource="@gridData">
+                        <GridColumns>
+                            <GridColumn Field='name' HeaderText="Name" TextAlign="TextAlign.Center" Width="120"></GridColumn>
+                            <GridColumn HeaderText="2010" TextAlign="TextAlign.Center" Width="150">
+                                <Template>
+                                    @{
+                                        <div>
+                                            <SfSparkline DataSource="@data[firstDataIndex++]"
+                                                          LineWidth="2"
+                                                          Fill="#0d3c9b" Height="50" Width="150" @ref="sparklineref1">
+                                                <SparklineRangeBandSettings>
+                                                    <SparklineRangeBand StartRange="1" EndRange="3" Color="#bfd4fc"></SparklineRangeBand>
+                                                </SparklineRangeBandSettings>
+                                            </SfSparkline>
+                                        </div>
+                                    }
+                                </Template>
+                            </GridColumn>
+                            <GridColumn HeaderText="2011" TextAlign="TextAlign.Center" Width="120">
+                                <Template>
+                                    @{
+                                        <div>
+                                            <SfSparkline DataSource="@data[secondDataIndex++]"
+                                                          LineWidth="2"
+                                                          Fill="#0d3c9b" Height="50" Width="150" @ref="sparklineref2">
+                                                <SparklineRangeBandSettings>
+                                                    <SparklineRangeBand StartRange="1" EndRange="3" Color="#bfd4fc"></SparklineRangeBand>
+                                                </SparklineRangeBandSettings>
+                                            </SfSparkline>
+                                        </div>
+                                        secondDataIndex++;
+                                    }
+                                </Template>
+                            </GridColumn>
+                        </GridColumns>
+                    </SfGrid>
+                </div>
+            </div>
+        </div>
+    
+
+    @code {
+		
+        SfSparkline<double> sparklineref1;
+        SfSparkline<double> sparklineref2;
+        private Double startRange = 1;
+        private Double endRange = 3;
+        private Double minSliderValue = 1;
+        private Double maxSliderValue = 3;
+        private Double minSliderValueText = 1;
+        private Double maxSliderValueText = 3;
+        private List<SparkGridData> gridData { get; set; }
+        private List<double[]> data = new List<double[]>
+    {
+            new double[]{0, 6, 4, 1, 3, 2, 5 },
+            new double[]{5, 4, 6, 3, 1, 2, 0 },
+            new double[]{6, 4, 0, 3, 2, 5, 1 },
+            new double[]{4, 6, 3, 0, 1, 2, 5 },
+            new double[]{3, 5, 6, 4, 0, 1, 2 },
+            new double[]{1, 3, 4, 2, 5, 0, 6 },
+            new double[]{2, 4, 0, 3, 5, 6, 1 },
+            new double[]{5, 4, 6, 3, 1, 2, 0 },
+            new double[]{0, 6, 4, 1, 3, 2, 5 },
+            new double[]{6, 4, 0, 3, 2, 5, 1 },
+            new double[]{4, 6, 3, 0, 1, 2, 5 },
+            new double[]{3, 5, 6, 4, 0, 1, 2 },
+            new double[]{1, 3, 4, 2, 5, 0, 6 },
+            new double[]{2, 4, 0, 3, 5, 6, 1 },
+            new double[]{5, 4, 6, 3, 1, 2, 0 },
+            new double[]{0, 6, 4, 1, 3, 2, 5 },
+            new double[]{6, 4, 0, 3, 2, 5, 1 },
+            new double[]{4, 6, 3, 0, 1, 2, 5 },
+            new double[]{2, 4, 0, 3, 5, 6, 1 },
+            new double[]{3, 5, 6, 4, 0, 1, 2 },
+            new double[]{1, 3, 4, 2, 5, 0, 6 }
+    };
+        private int firstDataIndex = 0;
+        private int secondDataIndex = 6;
+        protected override void OnInitialized()
+        {
+			
+            gridData = SparkGridData.GetAllRecords();
+        }
+        private async Task minSliderValueChange(Microsoft.AspNetCore.Components.ChangeEventArgs minArgs)
+        {
+            minSliderValue = Convert.ToDouble(minArgs.Value);
+            startRange = minSliderValue;
+            minSliderValueText = Convert.ToDouble(minArgs.Value);
+            firstDataIndex = 0; secondDataIndex = 6;
+            await sparklineref1.RefreshAsync();
+            await sparklineref2.RefreshAsync();
+        }
+        private async Task maxSliderValueChange(Microsoft.AspNetCore.Components.ChangeEventArgs maxArgs)
+        {
+            maxSliderValue = Convert.ToDouble(maxArgs.Value);
+            endRange = maxSliderValue;
+            maxSliderValueText = Convert.ToDouble(maxArgs.Value);
+            firstDataIndex = 0; firstDataIndex = 6;
+            await sparklineref1.RefreshAsync();
+            await sparklineref2.RefreshAsync();
+        }
+    }

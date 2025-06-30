@@ -1,0 +1,104 @@
+@page "/maps/programatic-zoom"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the capital cities in the south america by displaying the markers in their locations.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to zoom the maps based on the markers using the <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsZoomSettings.html#Syncfusion_Blazor_Maps_MapsZoomSettings_ShouldZoomInitially' aria-label="Class reference of ShouldZoomInitially property in Maps">ShouldZoomInitially</a></code> property in the maps <code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsZoomSettings.html' aria-label="Class reference of MapsZoomSettings">MapsZoomSettings</a></code>. Markers are used to indicate or mark a particular location on the map with desired symbols.</p>
+    <p>More information about shouldZoomIntially can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/markers/#marker-zooming' aria-label="Blazor Maps Marker documentation" >documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section sb-property-border">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsZoomSettings Enable="true" ShouldZoomInitially="@ZoomIntiatally" />
+        <MapsTitleSettings Text="Capitals of South American Countries">
+            <MapsTitleTextStyle Size="16px" />
+        </MapsTitleSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/world-map.json"}' TValue="string">
+                <MapsShapeSettings Fill="#C1DFF5">
+                    <MapsShapeBorder Width="0.5" Color="#000000" />
+                </MapsShapeSettings>
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" Shape="MarkerType.Image" ImageUrl="@(SampleService.WebAssetsPath + "images/maps/ballon.png")" Height="20" Width="20" DataSource="@SouthAmericanCapital" TValue="Capital">
+                        <MapsMarkerTooltipSettings Visible="true" ValuePath="Name" Format="<b>Capital</b> : ${Name}<br><b>Country</b> : ${Country}" />
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        Source:
+        <a href="http://www.citymayors.com/statistics/largest-cities-area-125.html"
+           target="_blank">www.citymayors.com</a>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width:100%" title="Properties">
+                <tbody>
+                    <tr style="height: 35px">
+                        <td style="width: 70%" class="property-text">
+                            Zoom to fit all the makers in map
+                        </td>
+                        <td style="width: 50%">
+                            <SfCheckBox Checked="@ZoomIntiatally" ValueChange="@ZoomCheckBox" TChecked="bool"/>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    public bool ZoomIntiatally = false;
+    
+    public class Capital
+    {
+        public string Name { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string Country { get; set; }
+    };
+    private void ZoomCheckBox(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        ZoomIntiatally = args.Checked;
+    }
+    public List<Capital> SouthAmericanCapital = new List<Capital> {
+        new Capital{ Name="Buenos Aires", Latitude=-34.603722, Longitude=-58.381592, Country="Argentina" },
+        new Capital{ Name="Sucre", Latitude=-19.019585, Longitude=-65.261963, Country="Bolivia" },
+        new Capital{ Name="Bras�lia", Latitude=-15.793889, Longitude=-47.882778, Country="Brazil" },
+        new Capital{ Name="Santiago", Latitude=-33.447487, Longitude=-70.673676, Country="Chile" },
+        new Capital{ Name="Bogota", Latitude=4.624335, Longitude=-74.063644, Country="Colombia"  },
+        new Capital{ Name="Quito", Latitude=-0.180653, Longitude=-78.467834, Country="Ecuador" },
+        new Capital{ Name="Georgetown", Latitude=6.8045, Longitude=-58.1553, Country="Guyana" },
+        new Capital{ Name="Asuncion", Latitude=-25.3006592, Longitude=-57.63591, Country="Paraguay" },
+        new Capital{ Name="Lima", Latitude=-12.046374, Longitude=-77.042793, Country="Peru" },
+        new Capital{ Name="Paramaribo", Latitude= 5.8663802, Longitude=-55.1668205, Country="Suri name" },
+        new Capital{ Name="Montevideo", Latitude=-34.901112, Longitude=-56.164532, Country="Uruguay" },
+        new Capital{ Name="Caracas", Latitude=10.500000, Longitude=-66.916664, Country="Vanezuela" },
+        new Capital{ Name="Cayenne", Latitude=4.937200, Longitude=-52.326000, Country="French Guiana" }
+    };    
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

@@ -1,0 +1,137 @@
+﻿@page "/chart/adaptive-layout"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons;
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example demonstrates the medal count from the Rio Olympics 2016 using a column chart with adaptive layout support.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Syncfusion Blazor Chart's adaptive layout ensures that the chart dynamically adjusts its design and element positions to fit different screen sizes seamlessly. Use the predefined buttons to explore the chart's behavior across various viewports. Key elements, including the legend, axis titles, and labels, automatically reposition to optimize space. For example, at a screen size of 200 × 200 pixels, the axis labels shift inside the chart area, while the data labels and title are removed for better readability.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <div>
+        <SfChart @ref="chartObj" Title="Olympic Medal Count - RIO" SubTitle="Gold, Silver, and Bronze Tallies" Width="@width" Height="@height" EnableAdaptiveRendering="true" Theme="@Theme">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+            <ChartArea>
+                <ChartAreaBorder Width="0"></ChartAreaBorder>
+            </ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" PlotOffsetLeft="@plotOffsetLeft">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis Title="Medal Count">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ChartPoints" XName="Country" YName="GoldMedal" Type="ChartSeriesType.Column" Name="Gold" ColumnSpacing="0.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                            <ChartDataLabelFont Color="#FFFFFF"></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@ChartPoints" XName="Country" YName="SilverMedal" Type="ChartSeriesType.Column" Name="Silver" ColumnSpacing="0.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                            <ChartDataLabelFont Color="#FFFFFF"></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries> 
+                <ChartSeries DataSource="@ChartPoints" XName="Country" YName="BronzeMedal" Type="ChartSeriesType.Column" Name="Bronze" ColumnSpacing="0.2">
+                    <ChartSeriesAnimation Enable="false"></ChartSeriesAnimation>
+                    <ChartCornerRadius TopLeft="4" TopRight="4"></ChartCornerRadius>
+                    <ChartMarker>
+                        <ChartDataLabel Visible="true" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                            <ChartDataLabelFont Color="#FFFFFF"></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+            <ChartLegendSettings Visible="true" Position="LegendPosition.Right"></ChartLegendSettings>
+            <ChartTooltipSettings Enable="true"></ChartTooltipSettings>
+        </SfChart>
+    </div>
+
+    <div id="button-bar">
+        <SfButton CssClass="e-small charts-demo-button" OnClick="SetSmallCategory">Small</SfButton>
+        <SfButton CssClass="e-small charts-demo-button" OnClick="SetLargeCategory">Large</SfButton>
+        <SfButton CssClass="e-small charts-demo-button" OnClick="SetAutoCategory">Auto</SfButton>
+    </div>
+</div>
+
+<style>
+    #button-bar {
+        min-width: 310px;
+        max-width: 800px;
+        margin: 0 auto;
+        margin-top: 15px;
+    }
+
+    .charts-demo-button {
+        margin-right: 0.5rem !important;
+        margin-left: 0.5rem !important;
+    }
+</style>
+
+@code {
+    private SfChart chartObj;
+    private Theme Theme { get; set; }
+    public string width = "90%";
+    public string height = "400";
+    public double plotOffsetLeft = 0;
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    private async void SetSmallCategory()
+    {
+        width = "300";
+        plotOffsetLeft = 15;
+        await chartObj.RefreshAsync();
+    }
+
+    private async void SetLargeCategory()
+    {
+        width = "600";
+        plotOffsetLeft = 0;
+        await chartObj.RefreshAsync();
+    }
+
+    private async void SetAutoCategory()
+    {
+        width = "90%";
+        plotOffsetLeft = 0;
+        await chartObj.RefreshAsync();
+    }
+
+
+    public List<ChartData> ChartPoints { get; set; } = new List<ChartData>
+    {
+        new ChartData { Country = "China", GoldMedal = 26, SilverMedal = 18, BronzeMedal = 26 },
+        new ChartData { Country = "Australia", GoldMedal = 8, SilverMedal = 11, BronzeMedal = 10 },
+        new ChartData { Country = "Russia", GoldMedal = 19, SilverMedal = 17, BronzeMedal = 20 }
+    };
+
+    public class ChartData
+    {
+        public string Country { get; set; }
+        public double GoldMedal { get; set; }
+        public double SilverMedal { get; set; }
+        public double BronzeMedal { get; set; }
+    }
+}

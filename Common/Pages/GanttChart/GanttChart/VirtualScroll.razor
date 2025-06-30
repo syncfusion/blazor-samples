@@ -1,0 +1,249 @@
+﻿@page "/gantt-chart/virtual-scroll"
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the virtual scroll support in Gantt Chart. It allows users to load a large amount of data effectively and reduces the DOM element’s weight by virtually updating DOM.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        Virtualization support enhances the performance of the Gantt Chart by efficiently rendering large tasks, columns, and extensive timelines.
+    </p>
+    <p>
+        In virtualization mode, all tasks are initially fetched from the data source, but only a limited number of records and columns are rendered in the DOM, depending on the current viewport area. As you scroll vertically, the tasks are updated in the DOM based on the viewport's position. Similarly, the timeline is rendered only up to three times the width of the Gantt Chart, with additional timeline cells loaded on-demand during horizontal scrolling. Columns are also rendered dynamically during horizontal scrolling. Enable row virtualization by setting the <a aria-label="Navigate to the EnableRowVirtualization property reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_EnableRowVirtualization">EnableRowVirtualization</a> property, timeline virtualization by setting the <a aria-label="Navigate to the EnableTimelineVirtualization property reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_EnableTimelineVirtualization">EnableTimelineVirtualization</a> property, and column virtualization by setting the <a aria-label="Navigate to the EnableColumnVirtualization property reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_EnableColumnVirtualization">EnableColumnVirtualization</a> property.
+    </p>
+    <p>
+        The <a aria-label="Navigate to the OverscanCount property reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_OverscanCount">OverscanCount</a> property allows rendering of additional items before and after the visible items (based on page size) during virtual scrolling and initial rendering. This reduces the frequency of rendering during scrolling. In this sample, the page size is set to 20 and the overscan count is 5, so a total of 25 records will be rendered in the DOM.
+    </p>
+    <p>
+        If the <a aria-label="Navigate to the PageSize property reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_PageSize">PageSize</a> property is not enabled, the number of records rendered depends on the Gantt Chart's height and viewport size, including the overscan count.
+    </p>
+    <p>
+        This demo enables row, column, and timeline virtualization. Editing actions can also be performed in this sample.
+    </p>
+    <p>
+        More information on virtualization can be found in this <a aria-label="Navigate to the documentation for virtualization in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/virtualization">documentation</a> section.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div style="padding-bottom: 10px;">
+                <span class="e-dddata">
+                    <SfDropDownList TItem="DropdownData" TValue="string" PopupHeight="230px" Width="240px" @bind-Index="@index" DataSource="@DLData" Placeholder="e.g. 1000 Rows">
+                        <DropDownListEvents TItem="DropdownData" TValue="string" ValueChange="OnDataChange" Closed="DropdownClose"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </span>
+                <span style="padding-left: 20px; font-size: 15px">
+                    <b>Data initial load time: </b> @(LoadTime.ToString() + " milliseconds")
+                </span>
+            </div>
+
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" PageSize="20" OverscanCount="5" AutoCalculateDateScheduling="@autoCalculateDateScheduling" TreeColumnIndex="1" EnableRowVirtualization="true" EnableTimelineVirtualization="true" EnableColumnVirtualization="true" ProjectStartDate="ProjectStartDate" ProjectEndDate="ProjectEndDate"
+                     Toolbar="@(new List<string>() { "Add", "Delete", "Edit", "ZoomIn", "ZoomOut" })" ScrollToTaskbarOnClick="true">
+                <GanttLabelSettings LeftLabel="TaskName" TValue="TaskData"></GanttLabelSettings>
+                <GanttTaskFields ParentID="ParentId" Work="Work" Id="ID" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" TaskType="TaskType" Dependency="Predecessor">
+                </GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="ID" HeaderText="TaskId" Width="100" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Center"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="TaskName"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                    <GanttColumn Field="Assignee" HeaderText="Assignee"></GanttColumn>
+                    <GanttColumn Field="Reporter" HeaderText="Reporter"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Center"></GanttColumn>
+                    <GanttColumn Field="Priority" HeaderText="Priority"></GanttColumn>
+                    <GanttColumn Field="Status" HeaderText="Status"></GanttColumn>
+                    <GanttColumn Field="Work" HeaderText="Work (Hours)"></GanttColumn>
+                    <GanttColumn Field="TaskType" HeaderText="TaskType"></GanttColumn>
+                    <GanttColumn Field="Shift" HeaderText="WorkShift"></GanttColumn>
+                    <GanttColumn Field="StoryPoint" HeaderText="StoryPoint" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Center"></GanttColumn>
+                    <GanttColumn Field="ActualStartDate" HeaderText="ActualStartDate" Format="@DateFormat"></GanttColumn>
+                    <GanttColumn Field="ActualEndDate" HeaderText="ActualEndDate" Format="@DateFormat"></GanttColumn>
+                    <GanttColumn Field="WorkersCount" HeaderText="Resources Count" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Center"></GanttColumn>
+                    <GanttColumn Field="ApprovedBy" HeaderText="ApprovedBy"></GanttColumn>
+                    <GanttColumn Field="FixVerison" HeaderText="FixVersion" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Center"></GanttColumn>
+                    <GanttColumn Field="PlatForm" HeaderText="PlatForm"></GanttColumn>
+                    <GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+                </GanttColumns>
+                <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Auto" ShowDeleteConfirmDialog="true">
+                </GanttEditSettings>
+                <GanttSplitterSettings Position="40%"></GanttSplitterSettings>
+                <GanttEvents Created="OnGanttCreated" OnActionComplete="ActionCompleteHandler" TValue="TaskData"></GanttEvents>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code {
+    private string DateFormat { get; set; }= "MM/dd/yyyy";
+    private DateTime ProjectStartDate { get; set; }= new DateTime(2000, 1, 1);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2025, 12, 31);
+    private bool autoCalculateDateScheduling = false;
+    public DateTime? StartLoadTime { get; private set; }
+    public DateTime? EndLoadTime { get; private set; }
+    public string LoadTime = string.Empty;
+    public int RowCount { get; set; } = 1000;
+    private List<TaskData> TaskCollection { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        
+        StartLoadTime = DateTime.Now;
+        this.TaskCollection = VirtualData.GetTreeVirtualData(1000);
+    }
+    private void OnGanttCreated(object sender)
+    {
+        autoCalculateDateScheduling = true;
+        EndLoadTime = DateTime.Now;
+        TimeSpan ts = (TimeSpan)(EndLoadTime - StartLoadTime);
+        LoadTime = ts.TotalMilliseconds.ToString();
+    }
+    public void ActionCompleteHandler(GanttActionEventArgs<TaskData> args)
+    {
+        if (args.RequestType == Syncfusion.Blazor.Gantt.Action.Refresh)
+        {
+            EndLoadTime = DateTime.Now;
+            TimeSpan ts = (TimeSpan)(EndLoadTime - StartLoadTime);
+            LoadTime = ts.TotalMilliseconds.ToString();
+            autoCalculateDateScheduling = true;
+        }
+    }
+    private int? index { get; set; } = 0;
+    private int? PreviousIndex { get; set; } = 0;
+    private void DropdownClose(@Syncfusion.Blazor.DropDowns.ClosedEventArgs args)
+    {
+        if (PreviousIndex != index)
+        {
+            StartLoadTime = DateTime.Now;
+            autoCalculateDateScheduling = false;
+            this.TaskCollection = VirtualData.GetTreeVirtualData(RowCount);
+            PreviousIndex = index;
+        }
+    }
+    public void OnDataChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownData> args)
+    {
+        RowCount = Int32.Parse(args.Value);
+    }
+    public class DropdownData
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+    public List<DropdownData> DLData = new List<DropdownData>() {
+        new DropdownData(){ Text= "1,000 Rows", Value= "1000" },
+        new DropdownData(){ Text= "2,500 Rows", Value= "2500" },
+        new DropdownData(){ Text= "5,000 Rows", Value= "5000" },
+    };
+    public class VirtualData
+    {
+        public static List<TaskData> GetTreeVirtualData(int count)
+        {
+            List<TaskData> DataCollection = new List<TaskData>();
+            var x = 0;
+            int duration = 0;
+            DateTime startDate = new DateTime(2000, 1, 5);
+            DateTime endDate = new DateTime(2000, 1, 12);
+            string[] assignee = { "Allison Janney", "Bryan Fogel", "Richard King", "Alex Gibson" };
+            string[] reporter = { "James Ivory", "Jordan Peele", "Guillermo del Toro", "Gary Oldman" };
+            string[] priority = { "Normal", "High", "Low", "Ultra Critical" };
+            string[] status = { "Validated", "InProgress", "Approved", "Completed" };
+            string[] tasktype = { "FixedDuration", "FixedWork", "FixedUnit" };
+            string[] shift = { "Noon Shift", "Night Shift", "Regular" };
+            int[] storypoint = { 1, 2, 3, 4 };
+            string[] fixversion = { "19.1", "19.2", "20.1", "20.2" };
+            string[] approvedby = { "Margaret Buchanan", "Van Jack", "Fuller King", "Rose Fuller" };
+            string[] platform = { "Blazor", "Angular", "EJ2", "EJ1" };
+            for (var i = 1; i <= count / 5; i++)
+            {
+                TaskData Parent = new TaskData()
+                    {
+                        ID = ++x,
+                        TaskName = "Task " + x,
+                        StartDate = startDate,
+                        EndDate = startDate.AddDays(26),
+                        ActualStartDate = startDate,
+                        ActualEndDate = endDate,
+                        Duration = "20",
+                        Assignee = "Mark Bridges",
+                        Reporter = "Kobe Bryant",
+                        Progress = 50,
+                        Priority = "High",
+                        TaskType = "FixedWork",
+                        Status = "Open",
+                        Work = 16 + x,
+                        Shift = "Regular",
+                        StoryPoint = 5,
+                        WorkersCount = 4,
+                        FixVerison = "20.2",
+                        ApprovedBy = "Van Jack",
+                        PlatForm = "Blazor",
+                        Predecessor = null
+                    };
+                DataCollection.Add(Parent);
+                for (var j = 1; j <= 4; j++)
+                {
+                    startDate = startDate.AddDays(j == 1 ? 0 : duration + 2);
+                    duration = 5;
+                    DataCollection.Add(new TaskData()
+                        {
+                            ID = ++x,
+                            TaskName = "Task " + x,
+                            StartDate = startDate,
+                            EndDate = startDate.AddDays(5),
+                            ActualStartDate = startDate,
+                            ActualEndDate = startDate.AddDays(5),
+                            Duration = duration.ToString(),
+                            Assignee = assignee[j - 1],
+                            Reporter = reporter[j - 1],
+                            Progress = 50,
+                            ParentId = Parent.ID,
+                            Priority = priority[j - 1],
+                            Status = status[j - 1],
+                            Work = 96 + x,
+                            TaskType = tasktype[(j - 1) % 3],
+                            Shift = shift[(j - 1) % 3],
+                            StoryPoint = storypoint[j - 1],
+                            WorkersCount = 1,
+                            FixVerison = fixversion[j - 1],
+                            ApprovedBy = approvedby[j - 1],
+                            PlatForm = platform[j - 1],
+                            Predecessor = j > 1 ? (x - 1) + "FS" : ""
+                        });
+                }
+            }
+            return DataCollection;
+        }
+    }
+    public class TaskData
+    {
+        public int ID { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Duration { get; set; }
+        public string Assignee { get; set; }
+        public string Reporter { get; set; }
+        public int Progress { get; set; }
+        public int? ParentId { get; set; }
+        public string Status { get; set; }
+        public double? Work { get; set; }
+        public int WorkersCount { get; set; }
+        public string TaskType { get; set; }
+        public string ApprovedBy { get; set; }
+        public string Shift { get; set; }
+        public string PlatForm { get; set; }
+        public int StoryPoint { get; set; }
+        public string Priority { get; set; }
+        public string FixVerison { get; set; }
+        public DateTime ActualStartDate { get; set; }
+        public DateTime ActualEndDate { get; set; }
+        public string Predecessor { get; set; }
+    }
+}

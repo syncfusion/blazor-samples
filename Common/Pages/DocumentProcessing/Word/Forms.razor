@@ -1,0 +1,106 @@
+@page "/word/forms"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to create a simple job application form and fill the form using Essential DocIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">DocIO allows you to create a simple form using legacy form fields in the Word document, which gives built-in form filling experience.
+        <ul style="font-size:16px"><li>You can create form using legacy form fields like text, check box, and drop down.</li>
+        <li>You can open an existing Word document with form fields and fill them.</li>
+        <li>You can also set editing restriction that does not allow the users to edit the Word document, except filling the form fields.</li></ul></p><p style="font-size:16px">More information about the forms can be found in this <a href="https://help.syncfusion.com/file-formats/docio/working-with-form-fields" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+    <table>
+        <tr>
+            <td>
+                <h5 class="row" style="font-size:16px">Save As:</h5>
+            </td>
+            <td>
+                <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                    <SfRadioButton Label="DOC" Name="DOC" Value=@("DOC") @bind-Checked="@documentType"></SfRadioButton>
+                </div>
+            </td>
+            <td>
+                <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                    <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                </div>
+            </td>
+            <td>
+                <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                    <SfRadioButton Label="WordML" Name="WordML" Value=@("WordML") @bind-Checked="@documentType"></SfRadioButton>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td colspan="4">
+                <div class="button-section">
+                    <div id="button-control">
+                        <div class="row">
+                            <div>
+                                <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        FormsService service = new FormsService(fileData);
+        documentStream = service.Forms(documentType);
+        service.Close();
+        if (documentType == "DOC")
+            await JS.SaveAs("Sample.doc", documentStream.ToArray());
+        else if (documentType == "WordML")
+            await JS.SaveAs("Sample.xml", documentStream.ToArray());
+        else
+            await JS.SaveAs("Sample.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "images/word/image.png");
+            fileData.Add("image.png", new MemoryStream(data));
+        }
+    }
+}

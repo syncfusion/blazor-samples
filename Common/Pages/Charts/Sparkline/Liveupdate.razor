@@ -1,0 +1,363 @@
+﻿
+@page "/sparkline/live-update"
+
+@using Syncfusion.Blazor.Charts
+@using System.Threading;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample depicts the various customization options available in sparklines.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see various customization options available in sparklines. Tooltip is enabled in this example. To see the tooltip in action, hover the mouse over the data points or tap on a data point in touch enabled devices.</p>
+</ActionDescription>
+
+	
+<!-- <div class="control-section" align="center">
+	<div id="spark-container" class="row">
+		<div align="center" class="col-lg-3 col-m-3 col-sm-6">
+			<div align="center" class="spark" id="spark-container1" style="position:relative;">
+				<div style="color: #000000; font-size: 12px; position: absolute; z-index:1 ;margin-top: 10px; margin-left: 8%;">
+					<b>CPU</b>
+				</div>
+				<div id='cpu' style="color: #0877d6;position: absolute; z-index:1; margin-top: 25px; margin-left: 8%;">@cpuTextValue </div>
+				<SfSparkline  XName="x" YName="yval" DataSource="@cpudata" @ref="@cpuRef"
+							  Type="@Syncfusion.Blazor.Charts.SparklineType.Area"
+							  Fill="#e8f2fc" Width="90%" Height="130px" ValueType="SparklineValueType.Numeric">
+					<SparklineAxisSettings MinY="1" MaxY="150"></SparklineAxisSettings>
+					<SparklineContainerArea Background="white">
+						<SparklineContainerAreaBorder Width="@borderWidth" Color="@borderColor"></SparklineContainerAreaBorder>
+					</SparklineContainerArea>
+					<SparklineBorder Color="#0358a0" Width="1"></SparklineBorder>
+				</SfSparkline>
+			</div>
+		</div>
+		<div align="center" class="col-lg-3 col-m-3 col-sm-6">
+			<div align="center" class="spark" id="spark-container2" style="position:relative;">
+				<div style="color: #000000; font-size: 12px; position: absolute; z-index:1; margin-top: 10px; margin-left: 8%;">
+					<b>Disk</b>
+				</div>
+				<div id="disk" style="color: #b247c6;position: absolute; z-index:1; margin-top: 25px; margin-left: 8%;">@memTextValue</div>
+				<SfSparkline  XName="x" YName="yval" DataSource="@memdata" @ref="@memRef"
+							  Type="@Syncfusion.Blazor.Charts.SparklineType.Area" LineWidth="1"
+							  Fill="#f5e8fc" Width="90%" Height="130px" ValueType="SparklineValueType.Numeric">
+					<SparklineAxisSettings MinY="4" MaxY="8"></SparklineAxisSettings>
+					<SparklineContainerArea Background="white">
+						<SparklineContainerAreaBorder Width="@borderWidth" Color="@borderColor"></SparklineContainerAreaBorder>
+					</SparklineContainerArea>
+					<SparklineBorder Color="#b247c6" Width="1"></SparklineBorder>
+				</SfSparkline>
+			</div>
+		</div>
+		<div align="center" class="col-lg-3 col-m-3 col-sm-6">
+			<div align="center" class="spark" id="spark-container3" style="position:relative;">
+				<div style="color: #000000; font-size: 12px; position: absolute; z-index:1; margin-top: 10px; margin-left: 8%;">
+					<b>Memory</b>
+				</div>
+				<div id="memory" style="color: #5bcc8f;position: absolute; z-index:1; margin-top: 25px; margin-left: 8%;">@diskTextValue</div>
+				<div style="display:block;">
+					<SfSparkline XName="x" YName="yval" DataSource="@diskdata" @ref="@diskRef"
+								  Type="@Syncfusion.Blazor.Charts.SparklineType.Area" LineWidth="1"
+								  Fill="#e0f9d1" Width="90%" Height="130px" ValueType="SparklineValueType.Numeric">
+						<SparklineAxisSettings MinY="0.01" MaxY="130"></SparklineAxisSettings>
+						<SparklineContainerArea Background="white">
+							<SparklineContainerAreaBorder Width="@borderWidth" Color="@borderColor"></SparklineContainerAreaBorder>
+						</SparklineContainerArea>
+						<SparklineBorder Color="#27ad66" Width="1"></SparklineBorder>
+					</SfSparkline>
+				</div>
+			</div>
+		</div>
+		<div align="center" class="col-lg-3 col-m-3 col-sm-6">
+			<div align="center" class="spark" id="spark-container4" style="position:relative;">
+				<div style="color: #000000; font-size: 12px; position: absolute; z-index:1; margin-top: 10px; margin-left: 8%;">
+					<b>Ethernet</b>
+				</div>
+				<div id="net" style="color: #d1a990;position: absolute; z-index:1; margin-top: 25px; margin-left: 8%;">@netTextValue</div>
+				<SfSparkline XName="x" YName="yval" DataSource="@netdata" @ref="@netRef"
+							  Type="@Syncfusion.Blazor.Charts.SparklineType.Area" LineWidth="1"
+							  Fill="#F2D8C7" Width="90%" Height="130px" ValueType="SparklineValueType.Numeric">
+					<SparklineAxisSettings MinY="0.01" MaxY="120"></SparklineAxisSettings>
+					<SparklineContainerArea Background="white">
+						<SparklineContainerAreaBorder Width="@borderWidth" Color="@borderColor"></SparklineContainerAreaBorder>
+					</SparklineContainerArea>
+					<SparklineBorder Color="#AA907A" Width="1"></SparklineBorder>
+				</SfSparkline>
+			</div>
+		</div>
+	</div>	
+</div>
+@code{
+    System.Timers.Timer syncTimer = null;
+    SfSparkline<SparkDataSource> cpuRef;
+    SfSparkline<SparkDataSource> memRef;
+    SfSparkline<SparkDataSource> diskRef;
+    SfSparkline<SparkDataSource> netRef;
+    private string cpuTextValue = "26% 1.2GHz";
+    private string memTextValue = "50%";
+    private string diskTextValue = "6.5/15.8 GB (41%)";
+    private string netTextValue = "R: 50Kbps";
+    public Int32 CpuIndex ;
+    public Int32 MemIndex ;
+    public Int32 DiskIndex ;
+    public Int32 NetIndex ;
+    public Int32 CpuXvalue ;
+    public Int32 MemXvalue ;
+    public Int32 DiskXvalue ;
+    public Int32 NetXvalue ;
+    private List<SparkDataSource> cpudatatemp { get; set; }
+    private List<SparkDataSource> memdatatemp { get; set; }
+    private List<SparkDataSource> diskdatatemp { get; set; }
+    private List<SparkDataSource> netdatatemp { get; set; }
+    private List<SparkDataSource> adata { get; set; }
+    private List<SparkDataSource> adata1 { get; set; }
+    private List<SparkDataSource> adata2 { get; set; }
+    private List<SparkDataSource> adata3 { get; set; }
+    private String borderColor = "#dcdfe0";
+    private Double borderWidth = 2;
+    
+
+    public class SparkDataSource
+    {
+        public double x { get; set; }
+        public double yval { get; set; }
+    };
+    private List<SparkDataSource> cpudata { get; set; } = new List<SparkDataSource>
+{
+    new SparkDataSource { x= 0, yval= 50 },
+    new SparkDataSource { x= 1, yval= 30 },
+    new SparkDataSource { x= 2, yval= 20 },
+    new SparkDataSource { x= 3, yval= 30 },
+    new SparkDataSource { x= 4, yval= 50 },
+    new SparkDataSource { x= 5, yval= 40 },
+    new SparkDataSource { x= 6, yval= 20 },
+    new SparkDataSource { x= 7, yval= 10 },
+    new SparkDataSource { x= 8, yval= 30 },
+    new SparkDataSource { x= 9, yval= 10 },
+    new SparkDataSource { x= 10, yval= 40 },
+    new SparkDataSource { x= 11, yval= 50 },
+    new SparkDataSource { x= 12, yval= 10 },
+    new SparkDataSource { x= 13, yval= 30 },
+    new SparkDataSource { x= 14, yval= 50 },
+    new SparkDataSource { x= 15, yval= 20 },
+    new SparkDataSource { x= 16, yval= 10 },
+    new SparkDataSource { x= 17, yval= 40 },
+    new SparkDataSource { x= 18, yval= 30 },
+    new SparkDataSource { x= 19, yval= 40 }
+};
+    private List<SparkDataSource> memdata { get; set; } = new List<SparkDataSource>
+{
+    new SparkDataSource { x= 0, yval= 6.05 },
+    new SparkDataSource { x= 1, yval= 6.03 },
+    new SparkDataSource { x= 2, yval= 6.02 },
+    new SparkDataSource { x= 3, yval= 6.07 },
+    new SparkDataSource { x= 4, yval= 6.05 },
+    new SparkDataSource { x= 5, yval= 6.09 },
+    new SparkDataSource { x= 6, yval= 6.08 },
+    new SparkDataSource { x= 7, yval= 6.01 },
+    new SparkDataSource { x= 8, yval= 6.03 },
+    new SparkDataSource { x= 9, yval= 6.01 },
+    new SparkDataSource { x= 10, yval= 6.07 },
+    new SparkDataSource { x= 11, yval= 6.05 },
+    new SparkDataSource { x= 12, yval= 6.01 },
+    new SparkDataSource { x= 13, yval= 6.06 },
+    new SparkDataSource { x= 14, yval= 6.05 },
+    new SparkDataSource { x= 15, yval= 6.03 },
+    new SparkDataSource { x= 16, yval= 6.01 },
+    new SparkDataSource { x= 17, yval= 6.09 },
+    new SparkDataSource { x= 18, yval= 6.06 },
+    new SparkDataSource { x= 19, yval= 6.05 }
+};
+    private List<SparkDataSource>diskdata = new List<SparkDataSource>
+{
+    new SparkDataSource { x= 0, yval= 50 },
+    new SparkDataSource { x= 1, yval= 30 },
+    new SparkDataSource { x= 2, yval= 20 },
+    new SparkDataSource { x= 3, yval= 70 },
+    new SparkDataSource { x= 4, yval= 50 },
+    new SparkDataSource { x= 5, yval= 20 },
+    new SparkDataSource { x= 6, yval= 80 },
+    new SparkDataSource { x= 7, yval= 10 },
+    new SparkDataSource { x= 8, yval= 30 },
+    new SparkDataSource { x= 9, yval= 10 },
+    new SparkDataSource { x= 10, yval= 70 },
+    new SparkDataSource { x= 11, yval= 50 },
+    new SparkDataSource { x= 12, yval= 10 },
+    new SparkDataSource { x= 13, yval= 60 },
+    new SparkDataSource { x= 14, yval= 50 },
+    new SparkDataSource { x= 15, yval= 30 },
+    new SparkDataSource { x= 16, yval= 10 },
+    new SparkDataSource { x= 17, yval= 20 },
+    new SparkDataSource { x= 18, yval= 60 },
+    new SparkDataSource { x= 19, yval= 50 }
+};
+    private List<SparkDataSource>netdata = new List<SparkDataSource>
+{
+    new SparkDataSource { x= 0, yval= 50 },
+    new SparkDataSource { x= 1, yval= 30 },
+    new SparkDataSource { x= 2, yval= 20 },
+    new SparkDataSource { x= 3, yval= 70 },
+    new SparkDataSource { x= 4, yval= 50 },
+    new SparkDataSource { x= 5, yval= 20 },
+    new SparkDataSource { x= 6, yval= 80 },
+    new SparkDataSource { x= 7, yval= 10 },
+    new SparkDataSource { x= 8, yval= 30 },
+    new SparkDataSource { x= 9, yval= 10 },
+    new SparkDataSource { x= 10, yval= 70 },
+    new SparkDataSource { x= 11, yval= 50 },
+    new SparkDataSource { x= 12, yval= 10 },
+    new SparkDataSource { x= 13, yval= 60 },
+    new SparkDataSource { x= 14, yval= 50 },
+    new SparkDataSource { x= 15, yval= 30 },
+    new SparkDataSource { x= 16, yval= 10 },
+    new SparkDataSource { x= 17, yval= 20 },
+    new SparkDataSource { x= 18, yval= 60 },
+    new SparkDataSource { x= 19, yval= 50 }
+};
+    private double Count1 { get; set; } = 10;
+    private double Count2 { get; set; } = 10;
+    private double Count3 { get; set; } = 10;
+    private double Count4 { get; set; } = 10;
+    Random Random = new Random();
+    protected override void OnInitialized()
+    {
+        
+        CpuIndex = (cpudata.Count - 1);
+        MemIndex = (memdata.Count - 1);
+        DiskIndex = (diskdata.Count - 1);
+        NetIndex = (netdata.Count - 1);
+        CpuXvalue = cpudata.Count;
+        MemXvalue = memdata.Count;
+        DiskXvalue = diskdata.Count;
+        NetXvalue = netdata.Count;
+
+        syncTimer = new System.Timers.Timer(200);
+        syncTimer.Elapsed += this.netAddData;
+        syncTimer.Elapsed += this.diskAddData;
+        syncTimer.Elapsed += this.cpuAddData;
+        syncTimer.Elapsed += this.memAddData;
+        syncTimer.AutoReset = true;
+        syncTimer.Enabled = true;
+    }
+    void cpuAddData(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        var Number = Random.NextDouble();
+        var cpuvalue = (((Number * 100) + 5) % 50) ;
+        cpudata.RemoveAt(0);
+        cpudata.Add(new SparkDataSource() { x = CpuXvalue++, yval = cpuvalue });
+        cpudatatemp = cpudata;
+        cpudata = cpugetdata();
+        InvokeAsync(() =>
+        {
+            cpuRef.Refresh();            
+        });
+        cpuTextValue = Convert.ToInt32(cpuvalue).ToString() + " % " + ((cpuvalue * 3) / 100).ToString("N2") + "GHz";
+        Count1 = cpudata[0].x;
+    }
+    List<SparkDataSource> cpugetdata()
+    {
+        var i = 0;
+        List<SparkDataSource> tempdata = new List<SparkDataSource>();
+        for (i = 0; i <= CpuIndex; i++)
+        {
+            tempdata.Add(new SparkDataSource { x = cpudatatemp[i].x, yval = cpudatatemp[i].yval });
+        }
+        return tempdata;
+    }
+    void memAddData(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        var Number = Random.NextDouble();
+        var memvalue = Number;
+        if (memvalue > 0.6)
+        {
+            memvalue = 6 + (memvalue / 10);
+        }
+        else
+        {
+            memvalue = 6 - (memvalue / 10);
+        }
+        memdata.RemoveAt(0);
+        memdata.Add(new SparkDataSource() { x = MemXvalue++, yval = memvalue });
+        memdatatemp = memdata;
+        memdata = memgetdata();
+        InvokeAsync(() =>
+        {
+            memRef.Refresh();            
+        });
+        memTextValue = Convert.ToInt32(Number*100).ToString("N1")+"%";
+        Count2 = cpudata[0].x;
+    }
+    List<SparkDataSource> memgetdata()
+    {
+        var i = 0;
+        List<SparkDataSource> tempdata = new List<SparkDataSource>();
+        for (i = 0; i <= MemIndex; i++)
+        {
+            tempdata.Add(new SparkDataSource { x = memdatatemp[i].x, yval = memdatatemp[i].yval });
+        }
+        return tempdata;
+    }
+    void diskAddData(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        var Number = Random.NextDouble();
+        var diskvalue = (((Number * 100) + 5) % 80);
+        diskdata.RemoveAt(0);
+        diskdata.Add(new SparkDataSource() { x = DiskXvalue++, yval = diskvalue });
+        diskdatatemp = diskdata;
+        diskdata = diskgetdata();
+        InvokeAsync(() =>
+        {
+            diskRef.Refresh();            
+        });
+        var gb = float.Parse(diskvalue.ToString()).ToString();
+        diskTextValue = gb + "/15.8 GB (" + ((Number / 15.8) * 100).ToString("N2") + "%)";
+        Count3 = diskdata[0].x;
+    }
+    List<SparkDataSource> diskgetdata()
+    {
+        var i = 0;
+        List<SparkDataSource> tempdata = new List<SparkDataSource>();
+        for (i = 0; i <= DiskIndex; i++)
+        {
+            tempdata.Add(new SparkDataSource { x = diskdatatemp[i].x, yval = diskdatatemp[i].yval });
+        }
+        return tempdata;
+    }
+    void netAddData(Object source, System.Timers.ElapsedEventArgs e)
+    {
+        var Number = Random.NextDouble();
+        var netvalue = (((Number * 100) + 5) % 80);
+        netdata.RemoveAt(0);
+        netdata.Add(new SparkDataSource() { x = NetXvalue++, yval = netvalue });
+        netdatatemp = netdata;
+        netdata = netgetdata();
+        InvokeAsync(() =>
+        {
+            netRef.Refresh();            
+        });
+        netTextValue =  "R: " + netvalue.ToString() + "Kbps";
+        Count4 = netdata[0].x;
+    }
+    List<SparkDataSource> netgetdata()
+    {
+        var i = 0;
+        List<SparkDataSource> tempdata = new List<SparkDataSource>();
+        for (i = 0; i <= NetIndex; i++)
+        {
+            tempdata.Add(new SparkDataSource { x = netdatatemp[i].x, yval = netdatatemp[i].yval });
+        }
+        return tempdata;
+    }
+
+}
+
+
+ -->

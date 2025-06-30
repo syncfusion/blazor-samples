@@ -1,0 +1,57 @@
+@page "/gantt-chart/load-on-demand"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Data
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the Gantt Chart's capability to handle large data sets, such as 50,000 records. In this sample, only the parent records are loaded initially. The child records are rendered on demand when a parent record is expanded.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        Load-on-demand and virtualization support are utilized to render a large number of tasks in the Gantt Chart while ensuring effective performance. In this demo, row virtualization is enabled with remote data binding, handling 50,000 records.
+    </p>
+    <p>
+        With the virtualization feature enabled for remote data binding, only the root-level records are fetched from the remote server during the initial load. Therefore, it's essential to set the <a aria-label="Navigate to the HasChildMapping property reference for gantt task fields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html#Syncfusion_Blazor_Gantt_GanttTaskFields_HasChildMapping">HasChildMapping</a> property of the <a aria-label="Navigate to the class reference for gantt task fields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html">GanttTaskFields</a> to indicate which records have child records.
+    </p>
+    <p>
+        Upon expanding the root parent node, the child records will be fetched from the remote server. As the user scrolls vertically, tasks are dynamically retrieved from the remote server and updated in the DOM according to the current viewport position.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt TValue="TaskData" Height="450px" Width="100%" LoadChildOnDemand="true" EnableRowVirtualization="true" EnableTimelineVirtualization="true"
+                     ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true">
+
+                <SfDataManager Url="http://localhost:63028/api/GanttVirtualData" Adaptor="Adaptors.WebApiAdaptor"></SfDataManager>
+                <GanttTaskFields Id="ID" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
+                                 Duration="Duration" Dependency="Predecessor" ParentID="ParentId" HasChildMapping="isParent">
+                </GanttTaskFields>
+
+            </SfGantt>
+        </div>
+    </div>
+</div>
+
+@code {
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2000, 1, 1);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2500, 12, 31);
+    
+    public class TaskData
+    {
+        public int ID { get; set; }
+        public string TaskName { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
+        public string Duration { get; set; }
+        public int? ParentId { get; set; }
+        public string Predecessor { get; set; }
+        public bool? isParent { get; set; }
+    }
+}

@@ -1,0 +1,113 @@
+@page "/word/image-insertion"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to insert images into the Word document using Essential DocIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">DocIO allows you to insert images into the Word document at desired location.</p>
+                <p><ul style="font-size:16px"><li>You can insert image as "in line with text" or "position relative to the page" in the Word document.</li>
+                <li>Images in the Word document can be accessed by its name, title, etc., and resized to required size.</li>
+                <li>You can make images in the Word document accessible by defining alternate text.</li>
+                <li>You can add caption to an image and update the caption numbers (Sequence fields).</li>
+                </ul></p>
+                <p style="font-size:16px">More information about the images support can be found in this <a href="https://help.syncfusion.com/file-formats/docio/working-with-paragraph#working-with-images" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="control-section">
+        <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+        <table>
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:16px">Save As:</h5>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOC" Name="DOC" Value=@("DOC") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="WordML" Name="WordML" Value=@("WordML") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="4">
+                    <div id="button-control">
+                        <div class="row">
+                            <div>
+                                <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        ImageInsertionService service = new ImageInsertionService(fileData);
+        documentStream = service.ImageInsertion(documentType);
+        service.Close();
+        if (documentType == "DOC")
+            await JS.SaveAs("Image Insertion.doc", documentStream.ToArray());
+        else if (documentType == "WordML")
+            await JS.SaveAs("Image Insertion.xml", documentStream.ToArray());
+        else
+            await JS.SaveAs("Image Insertion.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "images/word/yahoo.gif");
+            fileData.Add("yahoo.gif", new MemoryStream(data));
+            data = await Http.GetByteArrayAsync(fileDataPath + "images/word/reports.bmp");
+            fileData.Add("reports.bmp", new MemoryStream(data));
+            data = await Http.GetByteArrayAsync(fileDataPath + "images/word/google.png");
+            fileData.Add("google.png", new MemoryStream(data));
+            data = await Http.GetByteArrayAsync(fileDataPath + "images/word/square.tif");
+            fileData.Add("square.tif", new MemoryStream(data));
+        }
+    }
+}

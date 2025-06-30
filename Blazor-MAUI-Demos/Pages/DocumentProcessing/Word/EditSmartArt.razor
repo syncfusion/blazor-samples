@@ -1,0 +1,102 @@
+@page "/word/edit-smartart"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using Blazor_MAUI_Demos.Pages.DocumentProcessing.Word
+@using Blazor_MAUI_Demos.Services
+@using Syncfusion.Blazor.Inputs
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to modify SmartArt graphics in a Word document using the .NET Word Library (DocIO).</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">The .NET Word Library (DocIO) allows you to modify SmartArt graphics in Word documents.</p>
+    <p><ul style="font-size:16px"><li>Change the text in SmartArt nodes.</li>
+    <li>Modify the format of SmartArt nodes and the SmartArt container.</li></ul></p>
+    <p style="font-size:16px">More information about SmartArt can be found in this <a href="https://help.syncfusion.com/document-processing/word/word-library/net/working-with-smartarts" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="control-section">
+        <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+        <table>
+            <tr>
+                <td colspan="4">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        EditSmartArtService service = new EditSmartArtService(fileData);
+        documentStream = service.EditSmartArt("Generate Document");
+        service.Close();
+        documentStream.Position = 0;
+        SaveService saveService = new();
+        saveService.SaveAndView("EditSmartArt.docx", "application/msword", documentStream);
+    }
+    /// <summary>
+    /// Create and download the template document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        EditSmartArtService service = new EditSmartArtService(fileData);
+        documentStream = service.EditSmartArt("View Template");
+        documentStream.Position = 0;
+        SaveService saveService = new();
+        saveService.SaveAndView("EditSmartArtInput.docx", "application/msword", documentStream);
+        service.Close();
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string basePath = "Blazor_MAUI_Demos.wwwroot.data.word.edit-smartart-input.docx";
+            Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            MemoryStream memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("edit-smartart-input.docx", memoryStream);
+            DocumentStream.Dispose();
+        }
+    }
+}

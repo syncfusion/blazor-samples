@@ -1,0 +1,106 @@
+﻿@page "/heatmap-chart/label-template"
+@inject NavigationManager NavigationManager
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.HeatMap
+@using sf_blazor_heatmapdata
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates a comprehensive view of the likelihood and impact of an organization’s risks. Risks that fall into the HeatMap's green zones require no action. Action is required in the yellow areas. Risks that fall into the red zone require immediate action.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to use the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.HeatMapCellSettings.html#Syncfusion_Blazor_HeatMap_HeatMapCellSettings_LabelTemplate" aria-label="Class reference of LabelTemplate property in HeatMap Chart">LabelTemplate</a> to display images in the HeatMap cells. The <code>LabelTemplate</code> can be used to add any HTML elements into the HeatMap cells, such as images, text, and so on.</p>
+    <p>The tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item on touch-enabled devices.</p>
+    <p>More information about label template can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/heatmap-chart/appearance#template" aria-label="Blazor HeatMap Appearance documentation" >documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfHeatMap DataSource="@DataSource" Theme="@Theme">
+        <HeatMapXAxis Labels="@XLabels">
+            <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapXAxisTextStyle>
+            <HeatMapXAxisTitle Text="LIKELIHOOD">
+                <HeatMapXAxisTitleTextStyle Color="@AxisLabelColor" FontWeight="700"></HeatMapXAxisTitleTextStyle>
+            </HeatMapXAxisTitle>
+        </HeatMapXAxis>
+        <HeatMapYAxis Labels="@YLabels">
+            <HeatMapYAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapYAxisTextStyle>
+            <HeatMapYAxisTitle Text="IMPACT">
+                <HeatMapYAxisTitleTextStyle Color="@AxisLabelColor" FontWeight="700"></HeatMapYAxisTitleTextStyle>
+            </HeatMapYAxisTitle>
+        </HeatMapYAxis>
+        <HeatMapDataSourceSettings IsJsonData="true" AdaptorType="AdaptorType.Cell" XDataMapping="RowId" YDataMapping="ColumnId" ValueMapping="Value"></HeatMapDataSourceSettings>
+        <HeatMapCellSettings>
+            <LabelTemplate>
+                @{
+                    var Template = (context as HeatmapData);
+                    if (Template != null)
+                    {
+                        <span>&nbsp;</span> <img src="@(SampleService.WebAssetsPath + @Template.Image)" alt="HeatMap with Label" style="width: 35px; height: 35px;" />
+                    }
+                }
+            </LabelTemplate>
+        </HeatMapCellSettings>
+        <HeatMapPaletteSettings Type="PaletteType.Fixed">
+            <HeatMapPalettes>
+                <HeatMapPalette Value="2" Color="#61c961"></HeatMapPalette>
+                <HeatMapPalette Value="24" Color="#fcc81c"></HeatMapPalette>
+                <HeatMapPalette Value="48" Color="#ff6354"></HeatMapPalette>
+            </HeatMapPalettes>
+        </HeatMapPaletteSettings>
+        <HeatMapLegendSettings Visible="false">
+        </HeatMapLegendSettings>
+        <HeatMapTooltipSettings>
+            <HeatMapFont FontFamily="inherit"></HeatMapFont>
+        </HeatMapTooltipSettings>
+    </SfHeatMap>
+</div>
+
+@code{
+    public Theme Theme { get; set; }
+    public string AxisLabelColor = "#FFF";
+    public string[] XLabels = new string[] { "Improbable", "Remote", "Occasional", "Probable", "Frequent"};
+    public string[] YLabels = new string[] { "Negligible", "Low", "Moderate", "Significant", "Catastrophic" };
+    protected override void OnInitialized()
+    {
+        Theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        AxisLabelColor = (Theme.ToString().IndexOf("Dark") > -1 || Theme.ToString().IndexOf("HighContrast") > -1) ? "#FFF" : "#000";
+    }
+    public class HeatmapData
+    {
+        public string RowId { get; set; }
+        public string ColumnId { get; set; }
+        public string Value { get; set; }
+        public string Image { get; set; }
+    }
+
+    private HeatmapData[] DataSource = new HeatmapData[]
+    {
+        new HeatmapData { RowId = "Improbable", ColumnId = "Negligible", Value = "2", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Improbable", ColumnId = "Low", Value = "4", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Improbable", ColumnId = "Moderate", Value = "6", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Improbable", ColumnId = "Significant", Value = "8", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Improbable", ColumnId = "Catastrophic", Value = "10", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Remote", ColumnId = "Negligible", Value = "4", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Remote", ColumnId = "Low", Value = "16", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Remote", ColumnId = "Moderate", Value = "24", Image = "images/heat-map/orange-tick.png" },
+        new HeatmapData { RowId = "Remote", ColumnId = "Significant", Value = "32", Image = "images/heat-map/orange-tick.png" },
+        new HeatmapData { RowId = "Remote", ColumnId = "Catastrophic", Value = "40", Image = "images/heat-map/orange-tick.png" },
+        new HeatmapData { RowId = "Occasional", ColumnId = "Negligible", Value = "6", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Occasional", ColumnId = "Low", Value = "24", Image = "images/heat-map/orange-tick.png" },
+        new HeatmapData { RowId = "Occasional", ColumnId = "Moderate", Value = "36", Image = "images/heat-map/orange-tick.png" },
+        new HeatmapData { RowId = "Occasional", ColumnId = "Significant", Value = "48", Image = "images/heat-map/red-tick.png" },
+        new HeatmapData { RowId = "Occasional", ColumnId = "Catastrophic", Value = "60", Image = "images/heat-map/red-tick.png" },
+        new HeatmapData { RowId = "Probable", ColumnId = "Negligible", Value = "8", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Probable", ColumnId = "Low", Value = "32", Image = "images/heat-map/orange-tick.png" },
+        new HeatmapData { RowId = "Probable", ColumnId = "Moderate", Value = "48", Image = "images/heat-map/red-tick.png" },
+        new HeatmapData { RowId = "Probable", ColumnId = "Significant", Value = "64", Image = "images/heat-map/red-tick.png" },
+        new HeatmapData { RowId = "Probable", ColumnId = "Catastrophic", Value = "80", Image = "images/heat-map/red-tick.png" },
+        new HeatmapData { RowId = "Frequent", ColumnId = "Negligible", Value = "10", Image = "images/heat-map/green-cross.png" },
+        new HeatmapData { RowId = "Frequent", ColumnId = "Low", Value = "40", Image = "images/heat-map/orange-tick.png" },
+        new HeatmapData { RowId = "Frequent", ColumnId = "Moderate", Value = "60", Image = "images/heat-map/red-tick.png" },
+        new HeatmapData { RowId = "Frequent", ColumnId = "Significant", Value = "80", Image = "images/heat-map/red-tick.png" },
+        new HeatmapData { RowId = "Frequent", ColumnId = "Catastrophic", Value = "100", Image = "images/heat-map/red-tick.png" }
+    };
+}

@@ -1,0 +1,129 @@
+﻿@page "/data-form/column-layout"
+
+@*Hidden:Lines*@
+@using Blazor_MAUI_Demos.Models.Form
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        The below example demonstrates the column layout of the Blazor Data Form component .
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        The <code>ColumnCount</code> property sets the overall layout of the form,
+        dividing it into a specified number of columns for organizing form fields ,
+        Using the <code>ColumnSpan</code> property on form fields adjusts their width within the defined columns, controlling their horizontal layout and alignment in the form.
+    </p>
+</ActionDescription>
+
+@using Syncfusion.Blazor.DataForm
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
+@using System.ComponentModel.DataAnnotations
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+
+
+
+<div class="col-lg-12 control-section">
+    
+    <div class="control-wrapper">
+        <h4 class="control-header">Invoice Payment</h4>
+        <SfDataForm ID="MyForm"
+                    EditContext="@UserEditContext"
+                    ColumnCount=6
+                    ColumnSpacing="10px"
+                    ButtonsAlignment="FormButtonsAlignment.Right">
+            <FormValidator>
+                <Blazored.FluentValidation.FluentValidationValidator Validator="@fluentValidator"></Blazored.FluentValidation.FluentValidationValidator>
+            </FormValidator>
+            <FormItems>
+                <FormItem Field="@nameof(PaymentDetails.PaymentAmount)" ColumnSpan="6">
+                    <Template>
+                        <label class="e-form-label">Payable Amount</label>
+                        <SfNumericTextBox TValue="double" Min="10" @bind-Value=@PaymentDetails.PaymentAmount Format="c2" Placeholder="Currency format"></SfNumericTextBox>
+                    </Template>
+                </FormItem>
+                <FormItem Field="@nameof(PaymentDetails.NameOnCard)" ColumnSpan="6" Placeholder="Enter the name on the card" />
+                <FormItem Field="@nameof(PaymentDetails.CardNumber)" ColumnSpan="6">
+                    <Template>
+                        <label class="e-form-label">Card Number</label>
+                        <SfMaskedTextBox Mask="0000-0000-0000-0000" @bind-Value="@PaymentDetails.CardNumber" Placeholder="Enter the card number"></SfMaskedTextBox>
+                    </Template>
+                </FormItem>
+                <FormItem Field="@nameof(PaymentDetails.ExpiryDate)" ColumnSpan="2">
+                    <Template>
+                        <label class="e-form-label">Expiry Date</label>
+                        <SfDatePicker EnableMask="true" Format="MM/yy" Start="CalendarView.Year" Depth="CalendarView.Year" Min=DateTime.Now Placeholder="MM/YY" @bind-Value="@PaymentDetails.ExpiryDate">
+                            <MaskPlaceholder Month="MM" Year="YY"></MaskPlaceholder>
+                            </SfDatePicker>
+                    </Template>
+                </FormItem>
+                <FormItem Field="@nameof(PaymentDetails.SecurityCode)" EditorType="FormEditorType.Password" Placeholder="e.g. 123" ColumnSpan="2" />
+                <FormItem Field="@nameof(PaymentDetails.ZipCode)" ColumnSpan="2">
+                    <Template>
+                        <label class="e-form-label">Zip code</label>
+                        <SfDropDownList TValue="int?" TItem="ZipCodes" Placeholder="Enter Zip code " DataSource="ZipData" @bind-Value="PaymentDetails.ZipCode">
+                            <DropDownListFieldSettings Value="Code" Text="City"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </Template>
+                </FormItem>
+                <FormItem Field="@nameof(PaymentDetails.ShippingAddress)" Placeholder="Flat number , Apartment ,Suite etc." EditorType="FormEditorType.TextArea" ColumnSpan="3" />
+                <FormItem Field="@nameof(PaymentDetails.BillingAddress)" EditorType="FormEditorType.TextArea" ColumnSpan="3" Placeholder="The billing address." />
+                <FormItem Field="@nameof(PaymentDetails.AcceptTerms)" ColumnSpan="6" />
+            </FormItems>
+            <FormButtons>
+                <SfButton>Pay $@PaymentDetails.PaymentAmount </SfButton>
+            </FormButtons>
+        </SfDataForm>
+    </div>
+</div>
+<style>
+    .mobile .control-wrapper {
+        max-width: 100%;
+    }
+    .control-wrapper {
+        max-width: 50%;
+        margin: 0 auto;
+        padding: 0px 0px 0px;
+    }
+
+    .control-header {
+        text-align: center;
+    }
+</style>
+@code {
+
+    EditContext UserEditContext { get; set; }
+
+    FluentValidator fluentValidator { get; set; }
+
+    protected override Task OnInitializedAsync()
+    {
+        UserEditContext = new EditContext(PaymentDetails);
+        return base.OnInitializedAsync();
+    }
+
+    private PaymentDetails PaymentDetails = new PaymentDetails();
+
+    
+    public class ZipCodes
+    {
+        public int? Code{ get; set; }
+        public string City { get; set; }
+    }
+
+    private List<ZipCodes> ZipData = new List<ZipCodes>()
+    {
+        new ZipCodes(){ Code=90210 , City="Beverly Hills, 90210 (California)"  },
+        new ZipCodes(){ Code=94558, City="Napa Valley, 94558 (California)"  },
+        new ZipCodes(){ Code=33139, City="South Beach, 33139 (Florida)"  },
+        new ZipCodes(){ Code=10019, City="Manhattan, 10019 (New York)"  },
+        new ZipCodes(){ Code=94043, City="Silicon Valley, 94043 (California)"  },
+     };
+}

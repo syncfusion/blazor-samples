@@ -1,0 +1,134 @@
+@page "/word/markdown-to-word"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+   <p style="font-size:16px"> This sample demonstrates how to convert the Markdown file to Word document using .NET Word (DocIO) library.</p> 
+</SampleDescription>
+<ActionDescription>
+   <p style="font-size:16px">.NET Word (DocIO) library provides support to convert Markdown file to Word document and vice versa.</p>
+    <p><ul style="font-size:16px"><li>You can convert headings, tables, hyperlinks, numbered and bulleted list, and images from Markdown to Word document.</li><li>You can customize the image while importing Markdown file.</li></ul></p>
+    <p style="font-size:16px">More information about Markdown to Word conversion can be found in this <a href="https://help.syncfusion.com/file-formats/docio/convert-markdown-to-word-document-in-csharp" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+    <div class="control-section">
+        @*Server:Block*@
+        @{ #if !(WASM) && !WEBAPP }
+        <p style="font-size:16px">Click the button to view the generated Word document or PDF. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document and PDF viewer is required to view the resultant PDF.</p>
+        @{ #endif }
+        @*End:Server*@
+        @*WebAssembly:Block*@
+        @{ #if (WASM) || WEBAPP }
+        <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+        @{ #endif }
+        @*End:WebAssembly*@
+        <table>
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:16px">Save As:</h5>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="DOCX" Name="DOCX" Value=@("DOCX") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="HTML" Name="HTML" Value=@("HTML") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                 @*Server:Block*@
+                 @{ #if !(WASM) && !WEBAPP }
+                <td>
+                    <div class="col-xs-12 col-sm-12 col-lg-1 col-md-6">
+                        <SfRadioButton Label="PDF" Name="PDF" Value=@("PDF") @bind-Checked="@documentType"></SfRadioButton>
+                    </div>
+                </td>
+                @{ #endif }
+                @*End:Server*@
+            </tr>
+            <tr>
+                <td colspan="3">
+                    <div class="button-section">
+                        <div id="button-control">
+                            <div class="row">
+                                <div>
+                                    <SfButton @onclick="ViewTemplate">View Input Template</SfButton>&nbsp;
+                                    <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    string documentType = "DOCX";
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        MarkdownToWordService service = new MarkdownToWordService(fileData);
+        documentStream = service.MarkdownToWord(documentType, "Generate Document");
+        service.Close();
+        if (documentType == "DOCX")
+            await JS.SaveAs("MarkdownToWord.docx", documentStream.ToArray());       
+        else if (documentType == "HTML")
+            await JS.SaveAs("MarkdownToWord.html", documentStream.ToArray());
+@*Server:Block*@            
+#if !(WASM) && !WEBAPP
+        else
+            await JS.SaveAs("MarkdownToWord.pdf", documentStream.ToArray());
+#endif
+@*End:Server*@
+    }
+    /// <summary>
+    /// Create and download the template Markdown document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        MarkdownToWordService service = new MarkdownToWordService(fileData);
+        documentStream = service.MarkdownToWord(documentType, "View Input Template");
+        service.Close();
+        await JS.SaveAs("MarkdownToWord.md", documentStream.ToArray());        
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/word/markdown-to-word.md");
+            fileData.Add("markdown-to-word.md", new MemoryStream(data));
+        }
+    }
+}

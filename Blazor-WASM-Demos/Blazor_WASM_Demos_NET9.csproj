@@ -1,0 +1,150 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.BlazorWebAssembly">
+	<!--SWASM - Standalone WASM-->
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<DefineConstants>$(DefineConstants);WASM;STAGING</DefineConstants>
+		<ErrorOnDuplicatePublishOutputFiles>false</ErrorOnDuplicatePublishOutputFiles>
+		<RootNamespace>BlazorDemos</RootNamespace>
+		<ImplicitUsings>disable</ImplicitUsings>
+		<ShouldIncludeNativeSkiaSharp>True</ShouldIncludeNativeSkiaSharp>
+		<PreferredNativeSkiaSharp>x64;x86</PreferredNativeSkiaSharp>
+		<SelfContained>true</SelfContained>
+		<BlazorWebAssemblyLoadAllGlobalizationData>true</BlazorWebAssemblyLoadAllGlobalizationData>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+		<DefineConstants>RELEASE;NET9_0;WASM</DefineConstants>
+		<ConfigurationValue>Release</ConfigurationValue>
+	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+     	<DefineConstants>DEBUG;NET9_0;WASM</DefineConstants>
+		<ConfigurationValue>Debug</ConfigurationValue>
+  	</PropertyGroup>
+
+	<PropertyGroup Condition="'$(ISSTAGING)' != ''">
+		<DefineConstants>$(DefineConstants);ISSTAGING</DefineConstants>
+	  </PropertyGroup>
+	
+	<Target Name="RemoveStaticFiles" AfterTargets="AfterPublish">
+		<PropertyGroup>
+			<Files>$(PublishDir)\wwwroot\_content</Files>
+		</PropertyGroup>
+
+		<ItemGroup>
+			<Directories Include="$(Files)\**"
+				Exclude="$(Files)\**\syncfusion-blazor.min.js;$(Files)\**\syncfusion-blazor-sfpdfviewer.min.js;$(Files)\**\pdfium.js;$(Files)\**\pdfium.wasm;
+			$(Files)\**\syncfusion-blazor-documenteditor.min.js;$(Files)\**\syncfusion-blazor-spreadsheet.min.js;$(Files)\Syncfusion.Blazor.Themes\**;$(Files)\Blazor_WASM_Common_NET9\**;
+			$(Files)\**\syncfusion-blazor-base.min.js;$(Files)\**\syncfusion-blazor-extended.min.js;$(Files)\**\data.min.js;$(Files)\**\diagrams.min.js;" />
+		</ItemGroup>
+
+		<Delete Files="@(Directories)" ContinueOnError="true" />
+	</Target>
+
+	<ItemGroup>
+		<!--<PackageReference
+		Include="Microsoft.AspNet.Mvc" Version="5.2.9" />-->
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="9.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer"
+			Version="9.0.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.AspNetCore.Localization" Version="2.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.Abstractions" Version="2.3.0" />
+		<PackageReference Include="Microsoft.AspNetCore.Mvc.RazorPages" Version="2.3.0" />
+		<PackageReference Include="System.Net.Http.Json" Version="9.0.4" />
+		<PackageReference Include="Microsoft.AspNetCore.Hosting" Version="2.3.0" />
+		<PackageReference Include="SkiaSharp.Views.Blazor" Version="3.116.1" />
+	</ItemGroup>
+
+	<!-- Updated packages to latest secure versions to address known vulnerabilities in Microsoft.AspNetCore dependencies. -->
+	<ItemGroup>
+		<PackageReference Include="System.Private.Uri" Version="4.3.2" />
+		<PackageReference Include="System.Security.Cryptography.Xml" Version="8.0.2" />
+		<PackageReference Include="System.Text.Encodings.Web" Version="8.0.0" />
+		<PackageReference Include="System.Text.RegularExpressions" Version="4.3.1" />
+		<PackageReference Include="System.Net.Http" Version="4.3.4" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Markdig" Version="0.23.0" />
+	</ItemGroup>
+
+	<Target Name="ProductionBuild" BeforeTargets="BeforeBuild">
+		<Delete Files="wwwroot/version.js" />
+		<WriteLinesToFile File="wwwroot/version.js" Lines='export const data={"version":"net9.0","configuration":"$(ConfigurationValue)"}' />
+	</Target>
+	
+	<Target Name="UpdateHtmlReferences" BeforeTargets="BeforeBuild" Condition="'$(Configuration)'=='Release'">
+		<ReadLinesFromFile File="wwwroot/index.html" Condition="Exists('wwwroot/index.html')">
+			<Output TaskParameter="Lines" ItemName="IndexHtmlLines" />
+		</ReadLinesFromFile>
+
+		<WriteLinesToFile File="wwwroot/index.html" Lines="@(IndexHtmlLines-&gt;Replace('importResources.js','importResources.min.js')-&gt;Replace('service-worker.js','service-worker.min.js'))" Overwrite="true" Condition="Exists('wwwroot/index.html')" />
+	</Target>
+
+	<!--<Target Name="PublishConsoleAppBeforeBuild" BeforeTargets="BeforeBuild"  Condition="'$(Configuration)'=='Release'">
+
+		<PropertyGroup>
+			<ConsoleAppPath>AssetMinifier\AssetMinifier.csproj</ConsoleAppPath>
+			<ConsoleAppPublishDir>AssetMinifier\publish</ConsoleAppPublishDir>
+		</PropertyGroup>
+
+		<Exec Command="dotnet publish $(ConsoleAppPath) -c Release -o $(ConsoleAppPublishDir)" />
+	</Target>-->
+	
+	<Target Name="MinifyAssets" BeforeTargets="BeforeBuild" Condition="'$(Configuration)'=='Release'">
+
+		<ItemGroup>
+			<_CssFiles Include="wwwroot/**/*.css" Exclude="wwwroot/**/*.min.css" />
+			<_JsFiles Include="wwwroot/**/*.js" Exclude="wwwroot/**/*.min.js" />
+
+			<_CssFiles Include="..\Common\wwwroot\**\*.css" Exclude="..\Common\wwwroot\**\*.min.css" />
+			<_JsFiles Include="..\Common\wwwroot\**\*.js" Exclude="..\Common\wwwroot\**\*.min.js" />
+		</ItemGroup>
+
+		<Exec
+		Command="dotnet &quot;../Common/AssetMinifier/Blazor-StaticAssetMinifier/AssetMinifier.dll&quot; &quot;%( _CssFiles.FullPath )&quot;"
+		Condition="Exists('%( _CssFiles.FullPath )')"
+		StandardOutputImportance="High"
+		StandardErrorImportance="High" />
+
+		<Exec
+		Command="dotnet &quot;../Common/AssetMinifier/Blazor-StaticAssetMinifier/AssetMinifier.dll&quot; &quot;%( _JsFiles.FullPath )&quot;"
+		Condition="Exists('%( _JsFiles.FullPath )')"
+		StandardOutputImportance="High"
+		StandardErrorImportance="High" />
+
+	</Target>
+
+	<ItemGroup>
+		<Compile Remove="bin\**" />
+		<Content Remove="bin\**" />
+		<None Remove="bin\**" />
+		<Compile Remove="obj\**" />
+		<Content Remove="bin\**" />
+		<None Remove="obj\**" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Common\Blazor_WASM_Common_NET9.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Compile Remove="Pages\DocumentProcessing\Excel\EncryptAndDecryptService.cs" />
+		<Compile Remove="Pages\DocumentProcessing\PDF\CompressExistingPdfService.cs" />
+		<Compile Remove="Pages\DocumentProcessing\PDF\RedactionService.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<Content Remove="Pages\DocumentProcessing\Excel\EncryptAndDecrypt.razor" />
+		<Content Remove="Pages\DocumentProcessing\PDF\CompressExistingPdf.razor" />
+		<Content Remove="Pages\DocumentProcessing\PDF\Redaction.razor" />
+	</ItemGroup>
+
+	<Target Name="CopyWebConfig" AfterTargets="Publish">
+		<Copy SourceFiles="web.config" DestinationFolder="$(PublishDir)" />
+	</Target>
+	<PropertyGroup>
+		<!--<WasmNativeStrip>true</WasmNativeStrip>-->
+		<WasmBuildNative>true</WasmBuildNative>
+	</PropertyGroup>
+</Project>

@@ -1,0 +1,639 @@
+﻿@page "/diagram/constraints"
+
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
+@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@implements IDisposable
+@inject NavigationManager NavigationManager
+<PageTitle>Blazor Diagram Constraints Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the Constraints in Blazor Diagram Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p> This sample illustrates how to restrict end-users interaction with the diagram component, nodes, and connectors using constraints. Node constraints are used to restrict end-users from performing certain operations on nodes and connector constraints are used to restrict end-users from performing certain operation on connectors. </p>
+</SampleDescription>
+<ActionDescription>
+    <p> This example shows how to restrict interaction with a diagram using constraints and explains <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.NodeConstraints.html'>NodeConstraints</a>, <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.ConnectorConstraints.html'>ConnectorConstraints</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.AnnotationConstraints.html'>AnnotationConstraints</a>,<a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramConstraints.html#Syncfusion_Blazor_Diagram_DiagramConstraints'>DiagramConstraints</a>.</p>
+    <p> The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_Constraints'>Constraints</a> property allows you to enable or disable node behaviors like select, drag, resize, rotate, and delete. The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Connector.html#Syncfusion_Blazor_Diagram_Connector_Constraints'>Constraints</a> property allows you to enable or disable connector behaviors like select, drag, delete, drag source end, and drag target end. Using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramConstraints.html#Syncfusion_Blazor_Diagram_DiagramConstraints'>Constraints</a> property, enable or disable certain features of the diagram like bridging, undo/redo, user interaction, page editable, and tooltip support.The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.AnnotationConstraints.html'>Constraints</a> property allows you to enable or disable the read-only mode for the annotations.</p>
+</ActionDescription>
+@*End:Hidden*@
+@*Hidden:Lines*@
+<div class="col-lg-9 control-section sb-property-border" style="width:80%">
+    <style>
+        .image-pattern-style {
+            background-color: white;
+            background-size: contain;
+            background-repeat: no-repeat;
+            height: 60px;
+            width: calc((100% - 18px) / 3);
+            cursor: pointer;
+            border: 1px solid #D5D5D5;
+            background-position: center;
+            float: left;
+        }
+
+        .property-panel-header {
+            padding-top: 18px;
+            padding-bottom: 5px;
+            font-weight: 600;
+            font-size: 15px;
+        }
+
+        .image-pattern-style:hover {
+            border-color: gray;
+            border-width: 2px;
+        }
+
+        .e-remove-selection .property-section-content {
+            pointer-events: none;
+        }
+
+        .column-style {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: calc((100% - 12px) / 3);
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+
+        .row-header {
+            font-size: 13px;
+            font-weight: 600;
+        }
+
+        .e-checkbox-wrapper .e-label {
+            font-size: 12px;
+        }
+
+        .e-selected-style {
+            border-color: #006CE6;
+            border-width: 2px;
+        }
+
+        .col-xs-6 {
+            padding-left: 0px;
+            padding-right: 0px;
+            padding-top: 5px;
+        }
+
+        .buttonstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 117px;
+            float: left;
+        }
+
+        .column-style custom {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 70px;
+        }
+
+        .e-btn .e-btn-icon, .e-css.e-btn .e-btn-icon {
+            display: inline-block;
+            font-size: 14px;
+            margin-top: -2px;
+            vertical-align: middle;
+            width: 1em;
+        }
+
+        @@font-face {
+            font-family: 'e-ddb-icons';
+            src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+            font-weight: normal;
+            font-style: normal;
+        }
+
+        #bold, #italic, #underline {
+            width: 100%;
+        }
+
+        .e-ddb-icons {
+            font-family: 'e-ddb-icons';
+            speak: none;
+            font-size: 14px;
+            font-style: normal;
+            font-weight: normal;
+            font-variant: normal;
+            text-transform: none;
+            line-height: 1;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        .e-btngrp-bold::before {
+            content: '\e71a'
+        }
+
+        .e-btngrp-italic::before {
+            content: '\e708';
+        }
+
+        .e-btngrp-underline::before {
+            content: '\e703';
+        }
+
+        .texstyle {
+            display: table;
+            height: 35px;
+            padding-right: 4px;
+            padding-left: 0px;
+            width: 50%;
+            padding-top: 15px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+
+        .e-zoomin::before {
+            content: "\e70c";
+        }
+
+        .e-zoomout::before {
+            content: "\e70d";
+        }
+
+        .material .e-zoomin::before {
+            content: "\e700";
+        }
+
+        .material .e-zoomout::before {
+            content: "\e701";
+        }
+
+        .bootstrap .e-zoomin::before {
+            content: "\e718";
+        }
+
+        .bootstrap .e-zoomout::before {
+            content: "\e719";
+        }
+    </style>
+    @*End:Hidden*@
+    <div style="width:100%">
+        <SfToolbar>
+            <ToolbarItems>
+                <ToolbarItem @ref="@UndoItem" PrefixIcon="e-icons e-undo" Text="Undo" Disabled="@undoredo" OnClick="@OnUndoItemClick"></ToolbarItem>
+                <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
+                <ToolbarItem @ref="@RedoItem" PrefixIcon="e-icons e-redo" Text="Redo" Disabled="@undoredo" OnClick="@OnRedoItemClick"></ToolbarItem>
+                <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
+                <ToolbarItem @ref="@ZoomInItem" Text="ZoomIn" Disabled="@zoomvalue" PrefixIcon="e-ddb-icons e-zoomin" OnClick="@OnZoomInItemClick"></ToolbarItem>
+                <ToolbarItem Type="ItemType.Separator"></ToolbarItem>
+                <ToolbarItem @ref="@ZoomOutItem" Text="ZoomOut" Disabled="@zoomvalue" PrefixIcon="e-ddb-icons e-zoomout" OnClick="@OnZoomOutItemClick"></ToolbarItem>
+            </ToolbarItems>
+        </SfToolbar>
+    </div>
+    <div id="diagram-space" class="content-wrapper show-background" style="width:100%">
+        <SfDiagramComponent Height="640px" Constraints="@constraints" @ref="@diagram" Nodes="@nodes" Connectors="@connectors" Created="OnCreated">
+            <SnapSettings Constraints=SnapConstraints.ShowLines>
+            </SnapSettings>
+        </SfDiagramComponent>
+    </div>
+    @*Hidden:Lines*@
+</div>
+<button id="toggle-button" onclick="togglePropertySection()">
+    <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.9531 12.1719H20.8438L20.9844 12.1953L21.125 12.2422L21.2656 12.3125L21.3594 12.4062L21.4531 12.5L21.5234 12.6406L21.5703 12.7812L21.5938 12.9219L21.5703 13.0625L21.5234 13.2031L21.4531 13.3438L21.3594 13.4375L21.2656 13.5312L21.125 13.6016L20.9844 13.6484L20.8438 13.6719H13.9531L13.8125 13.6484L13.6719 13.6016L13.5312 13.5312L13.4375 13.4375L13.3438 13.3438L13.2734 13.2031L13.2266 13.0625L13.2031 12.9219L13.2266 12.7812L13.2734 12.6406L13.3438 12.5L13.4375 12.4062L13.5312 12.3125L13.6719 12.2422L13.8125 12.1953L13.9531 12.1719ZM8.04688 11.7031H7.92969L7.78906 11.7266L7.57812 11.7969L7.36719 11.8906L7.17969 12.0547L7.01562 12.2422L6.92188 12.4531L6.85156 12.6641L6.82812 12.9219L6.85156 13.1797L6.92188 13.3906L7.01562 13.6016L7.17969 13.7891L7.36719 13.9531L7.57812 14.0469L7.78906 14.1172L8.04688 14.1406L8.30469 14.1172L8.51562 14.0469L8.72656 13.9531L8.91406 13.7891L9.07812 13.6016L9.17188 13.3906L9.24219 13.1797L9.26562 12.9219L9.24219 12.6641L9.17188 12.4531L9.07812 12.2422L8.91406 12.0547L8.72656 11.8906L8.51562 11.7969L8.30469 11.7266L8.04688 11.7031ZM8.04688 10.2031L8.32812 10.2266L8.58594 10.2734L8.84375 10.3438L9.10156 10.4375L9.33594 10.5312L9.57031 10.6719L9.75781 10.8359L9.96875 11L10.1328 11.2109L10.2969 11.3984L10.4375 11.6328L10.5312 11.8672L10.625 12.125L10.6953 12.3828L10.7422 12.6406L10.7656 12.9219L10.7422 13.2031L10.6953 13.4609L10.625 13.7188L10.5312 13.9766L10.4375 14.2109L10.2969 14.4453L10.1328 14.6328L9.96875 14.8438L9.75781 15.0078L9.57031 15.1719L9.33594 15.3125L9.10156 15.4062L8.84375 15.5L8.58594 15.5703L8.32812 15.6172L8.04688 15.6406L7.8125 15.6172L7.60156 15.5938L7.39062 15.5469L7.17969 15.4766L6.96875 15.4062L6.78125 15.3125L6.59375 15.2188L6.42969 15.1016L6.26562 14.9609L6.10156 14.8203L5.96094 14.6562L5.84375 14.4922L5.72656 14.3047L5.63281 14.1172L5.53906 13.9297L5.44531 13.6719H1.15625L1.01562 13.6484L0.875 13.6016L0.734375 13.5312L0.640625 13.4375L0.546875 13.3438L0.476562 13.2031L0.429688 13.0625L0.40625 12.9219L0.429688 12.7812L0.476562 12.6406L0.546875 12.5L0.640625 12.4062L0.734375 12.3125L0.875 12.2422L1.01562 12.1953L1.15625 12.1719H5.44531L5.53906 11.9141L5.63281 11.7266L5.72656 11.5391L5.84375 11.3516L5.96094 11.1875L6.10156 11.0234L6.26562 10.8828L6.42969 10.7422L6.59375 10.625L6.78125 10.5312L6.96875 10.4375L7.17969 10.3672L7.39062 10.2969L7.60156 10.25L7.8125 10.2266L8.04688 10.2031ZM1.15625 2.32812H8.04688L8.1875 2.35156L8.32812 2.39844L8.46875 2.46875L8.5625 2.5625L8.65625 2.65625L8.72656 2.79688L8.77344 2.9375L8.79688 3.07812L8.77344 3.21875L8.72656 3.35938L8.65625 3.5L8.5625 3.59375L8.46875 3.6875L8.32812 3.75781L8.1875 3.80469L8.04688 3.82812H1.15625L1.01562 3.80469L0.875 3.75781L0.734375 3.6875L0.640625 3.59375L0.546875 3.5L0.476562 3.35938L0.429688 3.21875L0.40625 3.07812L0.429688 2.9375L0.476562 2.79688L0.546875 2.65625L0.640625 2.5625L0.734375 2.46875L0.875 2.39844L1.01562 2.35156L1.15625 2.32812ZM13.9531 1.85938H13.8359L13.6953 1.88281L13.4844 1.95312L13.2734 2.04688L13.0859 2.21094L12.9219 2.39844L12.8281 2.60938L12.7578 2.82031L12.7344 3.07812L12.7578 3.33594L12.8281 3.54688L12.9219 3.75781L13.0859 3.94531L13.2734 4.10938L13.4844 4.20312L13.6953 4.27344L13.9531 4.29688L14.2109 4.27344L14.4219 4.20312L14.6328 4.10938L14.8203 3.94531L14.9844 3.75781L15.0781 3.54688L15.1484 3.33594L15.1719 3.07812L15.1484 2.82031L15.0781 2.60938L14.9844 2.39844L14.8203 2.21094L14.6328 2.04688L14.4219 1.95312L14.2109 1.88281L13.9531 1.85938ZM13.9531 0.359375L14.1875 0.382812L14.3984 0.40625L14.6094 0.453125L14.8203 0.523438L15.0312 0.59375L15.2188 0.6875L15.4062 0.78125L15.5703 0.898438L15.7344 1.03906L15.8984 1.17969L16.0391 1.34375L16.1562 1.50781L16.2734 1.69531L16.3672 1.88281L16.4609 2.07031L16.5547 2.35156H20.8438H20.9844L21.125 2.39844L21.2656 2.46875L21.3594 2.5625L21.4531 2.65625L21.5234 2.79688L21.5703 2.9375L21.5938 3.07812L21.5703 3.21875L21.5234 3.35938L21.4531 3.5L21.3594 3.59375L21.2656 3.6875L21.125 3.75781L20.9844 3.80469L20.8438 3.82812H16.5547L16.4609 4.08594L16.3672 4.27344L16.2734 4.46094L16.1562 4.64844L16.0391 4.8125L15.8984 4.97656L15.7344 5.11719L15.5703 5.25781L15.4062 5.375L15.2188 5.46875L15.0312 5.5625L14.8203 5.63281L14.6094 5.70312L14.3984 5.75L14.1875 5.77344L13.9531 5.79688L13.6719 5.77344L13.4141 5.72656L13.1562 5.65625L12.8984 5.5625L12.6641 5.46875L12.4297 5.32812L12.2422 5.16406L12.0312 5L11.8672 4.78906L11.7031 4.60156L11.5625 4.36719L11.4688 4.13281L11.375 3.875L11.3047 3.61719L11.2578 3.35938L11.2344 3.07812L11.2578 2.79688L11.3047 2.53906L11.375 2.28125L11.4688 2.02344L11.5625 1.78906L11.7031 1.55469L11.8672 1.36719L12.0312 1.15625L12.2422 0.992188L12.4297 0.828125L12.6641 0.6875L12.8984 0.59375L13.1562 0.5L13.4141 0.429688L13.6719 0.382812L13.9531 0.359375Z" fill="white" />
+    </svg>
+</button>
+<div class="col-sm-3 property-section" id="property-section" style="width:100%;margin-left:-6px">
+    <div class="property-panel-section">    
+    <div class="property-panel-header">
+        Diagram Constraints
+    </div>
+    <div class="property-panel-content">
+    <svg onclick="togglePropertySection()" role="button" tabindex="0" aria-label="Toggle settings" title='Toggle Settings' id="close-settings" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M1.25781 0.4375H1.33594L1.49219 0.476562L1.64844 0.535156L1.78516 0.613281L7 5.84766L12.2148 0.613281L12.3516 0.535156L12.5078 0.476562L12.6641 0.4375H12.8203L12.9766 0.476562L13.1328 0.535156L13.2695 0.613281L13.3867 0.730469L13.4648 0.867188L13.5234 1.02344L13.5625 1.17969V1.33594L13.5234 1.49219L13.4648 1.64844L13.3867 1.78516L8.15234 7L13.3867 12.2148L13.4648 12.3516L13.5234 12.5078L13.5625 12.6641V12.8203L13.5234 12.9766L13.4648 13.1328L13.3867 13.2695L13.2695 13.3867L13.1328 13.4648L12.9766 13.5234L12.8203 13.5625H12.6641L12.5078 13.5234L12.3516 13.4648L12.2148 13.3867L7 8.15234L1.78516 13.3867L1.64844 13.4648L1.49219 13.5234L1.33594 13.5625H1.17969L1.02344 13.5234L0.867188 13.4648L0.730469 13.3867L0.613281 13.2695L0.535156 13.1328L0.476562 12.9766L0.4375 12.8203V12.6641L0.476562 12.5078L0.535156 12.3516L0.613281 12.2148L5.84766 7L0.671875 1.84375L0.574219 1.70703L0.496094 1.57031L0.457031 1.41406L0.4375 1.25781L0.457031 1.10156L0.496094 0.945312L0.574219 0.808594L0.671875 0.671875L0.808594 0.574219L0.945312 0.496094L1.10156 0.457031L1.25781 0.4375Z" fill="#424242" />
+    </svg>
+
+    <div class="@appearance">
+        <div class="row property-panel-content" id="appearance">
+            <div class="row">
+                <div class="row row-header"></div>
+                <div class="row" style="padding-top: 8px">
+                    <SfCheckBox ID="chkLock" Label="Zooming" Checked="@zoom" TChecked="bool" ValueChange="ZoomChanged" />
+                </div>
+                <div class="row row-header"></div>
+                <div class="row" style="padding-top: 8px">
+                    <SfCheckBox ID="chkLock" Label="Undo/Redo" Checked="@undo" ValueChange="UndoChanged" TChecked="bool" />
+                </div>
+                <div class="row row-header"></div>
+                <div class="row" style="padding-top: 8px">
+                    <SfCheckBox ID="chkLock" Label="Text Editing" Checked="@textEdit" ValueChange="TextEditChanged" TChecked="bool" />
+                </div>
+                <div class="row row-header"></div>
+                <div class="row row-header"></div>
+                <div class="row" style="padding-top: 8px">
+                    <SfCheckBox ID="chkLock" Label="Selectable" Checked="@select" ValueChange="SelectChanged" TChecked="bool" />
+                </div>
+                <div class="row row-header"></div>
+                <div class="row" style="padding-top: 8px">
+                    <SfCheckBox ID="chkLock" Label="Draggable" Checked="@drag" ValueChange="DragChanged" TChecked="bool" />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</div>
+</div>
+@*End:Hidden*@
+@code{
+    @*Hidden:Lines*@
+    private string canonicalURL { get; set; }
+    string appearance = "e-remove-selection";
+    bool zoom = true;
+    bool undo = true;
+    bool undoredo = false;
+    bool zoomvalue = false;
+    bool select = true;
+    bool drag = true;
+    bool textEdit = true;
+    @*End:Hidden*@
+
+    ToolbarItem UndoItem;
+    ToolbarItem RedoItem;
+    ToolbarItem ZoomInItem;
+    ToolbarItem ZoomOutItem;
+
+    //Defines sfdiagramComponent
+    SfDiagramComponent diagram;
+
+    //Defines diagram constraints
+    public DiagramConstraints constraints { get; set; }
+
+    //Defines diagrams's nodes collection
+    public DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+
+    //Defines diagrams's connectors collection
+    public DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+
+    protected override void OnInitialized()
+    {
+        //Hidden:Lines
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+        //End:Hidden
+        constraints = DiagramConstraints.Default;
+
+        CreateNode("textnode", 390, NodeBasicShapes.Rectangle, "Node Constraints", "Node");
+        CreateNode("connector", 390, NodeBasicShapes.Rectangle, "Connector Constraints", "Connector");
+        CreateNode("select", 80, NodeBasicShapes.Rectangle, "Selection = False", "Selection");
+        CreateNode("drag", 230, NodeBasicShapes.Ellipse, "Dragging = False", "Drag");
+        CreateNode("delete", 380, NodeBasicShapes.Heptagon, "Delete = False", "Delete");
+        CreateNode("rotate", 530, NodeBasicShapes.Cylinder, "Rotate = False", "Rotate");
+        CreateNode("edit", 680, NodeBasicShapes.Plus, "TextEdit = False", "Edit");
+        CreateNode("resize", 820, NodeBasicShapes.Diamond, "Resizing = False", "Resize");
+
+        CreateConnector(new DiagramPoint(80, 500), new DiagramPoint(140, 600), "Selection = False", "Selection", "selection");
+        CreateConnector(new DiagramPoint(210, 500), new DiagramPoint(270, 600), "Dragging = True", "Drag", "dragging");
+        CreateConnector(new DiagramPoint(360, 500), new DiagramPoint(420, 600), "Delete = False", "Delete", "deleting");
+        CreateConnector(new DiagramPoint(510, 500), new DiagramPoint(570, 600), "DragTargetEnd = False", "DragTargetEnd", "targetend");
+        CreateConnector(new DiagramPoint(660, 500), new DiagramPoint(720, 600), "DragSourceEnd = False", "DragSourceEnd", "sourceend");
+        CreateConnector(new DiagramPoint(790, 500), new DiagramPoint(850, 600), "DragSegmentThumb = True", "SegmentThumb", "segmentthumb");
+    }
+    @*Hidden:Lines*@
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        if (SampleService.IsDevice)
+        {
+            diagram.FitToPage(mobileoptions);
+
+        }
+    }
+    //Enable or disable text edit constraints
+    private void TextEditChanged(ChangeEventArgs<bool> args)
+    {
+        for (var i = 0; i < diagram.Connectors.Count; i++)
+        {
+            var connector = diagram.Connectors[i];
+            for (var j = 0; j < connector.Annotations.Count; j++)
+            {
+                PathAnnotation pathAnnotation = connector.Annotations[j];
+                if (args.Checked == true)
+                {
+                    textEdit = true;
+                    pathAnnotation.Constraints &= ~AnnotationConstraints.ReadOnly;
+                }
+                else
+                {
+                    textEdit = false;
+                    pathAnnotation.Constraints = AnnotationConstraints.ReadOnly;
+                }
+            }
+        }
+
+        for (var i = 0; i < diagram.Nodes.Count; i++)
+        {
+            var node = diagram.Nodes[i];
+            for (var j = 0; j < node.Annotations.Count; j++)
+            {
+                ShapeAnnotation shapeAnnotation = node.Annotations[j];
+                if (args.Checked == true)
+                {
+                    if (node.ID == "edit")
+                    {
+                        shapeAnnotation.Constraints = AnnotationConstraints.ReadOnly;
+                    }
+                    else
+                    {
+                        textEdit = true;
+                        shapeAnnotation.Constraints &= ~AnnotationConstraints.ReadOnly;
+                    }
+                }
+                else
+                {
+                    textEdit = false;
+                    shapeAnnotation.Constraints = AnnotationConstraints.ReadOnly;
+                }
+            }
+        }
+    }
+    //Enable or disable Zoom constraints
+    private void ZoomChanged(ChangeEventArgs<bool> args)
+    {
+        if (args.Checked == true)
+        {
+            zoom = true;
+            zoomvalue = false;
+            constraints |= DiagramConstraints.Zoom;
+        }
+        else
+        {
+            zoom = false;
+            zoomvalue = true;
+            constraints &= ~DiagramConstraints.Zoom;
+        }
+    }
+    //Enable or disable undo/redo constraints
+    private void UndoChanged(ChangeEventArgs<bool> args)
+    {
+        if (args.Checked == true)
+        {
+            undo = true;
+            undoredo = false;
+            constraints |= DiagramConstraints.UndoRedo;
+        }
+        else
+        {
+            undo = false;
+            undoredo = true;
+            constraints &= ~DiagramConstraints.UndoRedo;
+        }
+    }
+    //Enable or disable select constraints
+    private void SelectChanged(ChangeEventArgs<bool> args)
+    {
+        for (var i = 0; i < diagram.Connectors.Count; i++)
+        {
+            var connector = diagram.Connectors[i];
+            if (args.Checked == true)
+            {
+                if (connector.ID == "selection")
+                {
+                    connector.Constraints &= ~ConnectorConstraints.Select;
+                }
+                else
+                {
+                    select = true;
+                    connector.Constraints |= ConnectorConstraints.Select;
+                }
+            }
+            else
+            {
+                select = false;
+                connector.Constraints &= ~ConnectorConstraints.Select;
+            }
+        }
+
+        for (var i = 0; i < diagram.Nodes.Count; i++)
+        {
+            var node = diagram.Nodes[i];
+            if (args.Checked == true)
+            {
+                if (node.ID == "select")
+                {
+                    node.Constraints &= ~NodeConstraints.Select;
+                }
+                else
+                {
+                    select = true;
+                    node.Constraints |= NodeConstraints.Select;
+                }
+            }
+            else
+            {
+                select = false;
+                node.Constraints &= ~NodeConstraints.Select;
+            }
+        }
+    }
+    //Enable or disable drag constraints
+    private void DragChanged(ChangeEventArgs<bool> args)
+    {
+        for (var i = 0; i < diagram.Connectors.Count; i++)
+        {
+            var connector = diagram.Connectors[i];
+            if (args.Checked == true)
+            {
+                if (connector.ID == "dragging")
+                {
+                    connector.Constraints &= ~ConnectorConstraints.Drag;
+                }
+                else
+                {
+                    drag = true;
+                    connector.Constraints |= ConnectorConstraints.Drag;
+                }
+            }
+            else
+            {
+                drag = false;
+                connector.Constraints &= ~ConnectorConstraints.Drag;
+            }
+        }
+
+        for (var i = 0; i < diagram.Nodes.Count; i++)
+        {
+            var node = diagram.Nodes[i];
+            if (args.Checked == true)
+            {
+                drag = true;
+                if (node.ID == "drag")
+                {
+                    node.Constraints &= ~NodeConstraints.Drag;
+                }
+                else
+                {
+                    node.Constraints |= NodeConstraints.Drag;
+                }
+            }
+            else
+            {
+                drag = false;
+                node.Constraints &= ~NodeConstraints.Drag;
+            }
+        }
+    }
+
+    //Create connector
+    private void CreateConnector(DiagramPoint point1, DiagramPoint point2, string annotation, string constraints, string id)
+    {
+        PathAnnotation pathAnnotation = new PathAnnotation()
+        {
+            Content = annotation,
+            Alignment = AnnotationAlignment.After,
+            Margin = new DiagramThickness { Left = 0, Top = 10, Right = 30, Bottom = 0 },
+        };
+
+        Connector con = new Connector()
+        {
+            ID = id,
+            SourcePoint = point1,
+            TargetPoint = point2,
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle() { StrokeColor = "#1587FF", StrokeWidth = 1 },
+            Annotations = new DiagramObjectCollection<PathAnnotation>() { pathAnnotation }
+        };
+        switch (constraints)
+        {
+            case "Selection":
+                con.Constraints &= ~ConnectorConstraints.Select;
+                break;
+            case "Drag":
+                con.Constraints |= ConnectorConstraints.Drag;
+                break;
+            case "DragTargetEnd":
+                con.Constraints &= ~ConnectorConstraints.DragTargetEnd;
+                break;
+            case "DragSourceEnd":
+                con.Constraints &= ~ConnectorConstraints.DragSourceEnd;
+                break;
+            case "Delete":
+                con.Constraints &= ~ConnectorConstraints.Delete;
+                break;
+            case "SegmentThumb":
+                con.Constraints |= ConnectorConstraints.DragSegmentThumb;
+                break;
+        }
+        connectors.Add(con);
+    }
+    //Create Node
+    private void CreateNode(string id, double offsetx, NodeBasicShapes shape, string annotation, string constraints)
+    {
+        bool textConnector = false;
+        bool textNode = false;
+        if (constraints.Equals("Connector"))
+        {
+            textConnector = true;
+        }
+        if (constraints.Equals("Node"))
+        {
+            textNode = true;
+        }
+
+        ShapeStyle shapeStyle = new ShapeStyle() { Fill = "#C7E6FF", StrokeWidth = 1, StrokeColor = "#1587FF" };
+        ShapeStyle nodeStyle = new ShapeStyle() { Fill = "Transparent", StrokeColor = "Transparent", StrokeWidth = 0 };
+        ShapeAnnotation shapeAnnotation = new ShapeAnnotation()
+        {
+            Content = annotation,
+        };
+
+        Node node = new Node()
+        {
+            OffsetX = offsetx,
+            ID = id,
+            OffsetY = textConnector ? 420 : textNode ? 80 : 210,
+            Height = textConnector ? 60 : textNode ? 60 : 100,
+            Width = textConnector ? 700 : textNode ? 700 : 100,
+            Style = textConnector ? nodeStyle : textNode ? nodeStyle : shapeStyle,
+            Shape = new BasicShape() { Shape = shape, Type = shapes.Basic },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { shapeAnnotation },
+        };
+        if (node.ID == "resize")
+        {
+            node.Width = 130;
+        }
+        TextStyle newStyle = node.Annotations[0].Style;
+        newStyle.Color = textConnector ? "#323232" : textNode ? "#323232" : "black";
+        newStyle.Bold = textConnector ? true : textNode ? true : false;
+        newStyle.FontSize = textConnector ? 20 : textNode ? 20 : 12.0;
+        newStyle.FontFamily = textConnector ? "Segoe UI" : textNode ? "Segoe UI" : "Arial";
+        node.Annotations[0].Height = textConnector ? 60 : textNode ? 60 : 12;
+        switch (constraints)
+        {
+            case "Selection":
+            case "Node":
+            case "Connector":
+                node.Constraints &= ~NodeConstraints.Select;
+                break;
+            case "Drag":
+                node.Constraints &= ~NodeConstraints.Drag;
+                break;
+            case "Resize":
+                node.Constraints &= ~NodeConstraints.Resize;
+                break;
+            case "Rotate":
+                node.ID = "Rotate";
+                node.RotationAngle = 45;
+                node.Constraints &= ~NodeConstraints.Rotate;
+                break;
+            case "Delete":
+                node.Constraints &= ~NodeConstraints.Delete;
+                break;
+            case "Edit":
+                node.Annotations[0].Constraints = AnnotationConstraints.ReadOnly;
+                break;
+        }
+        nodes.Add(node);
+    }
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+    }
+    @*End:Hidden*@
+
+    public void OnUndoItemClick()
+    {
+        diagram.Undo();
+    }
+    public void OnRedoItemClick()
+    {
+        diagram.Redo();
+    }
+    public void OnZoomInItemClick()
+    {
+        diagram.Zoom(1.2, new DiagramPoint() { X = 100, Y = 100 });
+    }
+    public void OnZoomOutItemClick()
+    {
+       diagram.Zoom(1/1.2, new DiagramPoint() { X = 100, Y = 100 });
+    }
+}

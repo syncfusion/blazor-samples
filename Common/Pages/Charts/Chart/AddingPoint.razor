@@ -1,0 +1,155 @@
+﻿@page "/chart/add-a-point-on-click"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates a chart that allows users to add new data and update existing data source by clicking in the chart area. Additionally, clicking on an existing point will remove that data from the existing data source.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, the X-Axis and Y-Axis data of the currently clicked location are retrieved from the <code>ChartMouseClick</code> event arguments and converted into a new point. This point is then added to the existing datasource. If there is already a point with the same coordinates present, it will be removed from the existing datasource.</p>
+    <p><a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/tool-tip' aria-label="Navigate to the documentation for tooltip in charts component">Tooltip</a> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p>More information about the mouse click event can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/events#chartmouseclick' aria-label="Navigate to the documentation for chart mouse click">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart @ref="Chart" Width="@Width" Height="450px" Theme="@Theme">
+        <ChartEvents ChartMouseClick="MouseClick"></ChartEvents>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis @ref="XAxis" Interval="@xInterval" ValueType="Syncfusion.Blazor.Charts.ValueType.Double" RangePadding="ChartRangePadding.Additional" EdgeLabelPlacement="EdgeLabelPlacement.Shift" LabelIntersectAction="LabelIntersectAction.Hide">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Interval="@yInterval" LabelIntersectAction="LabelIntersectAction.Hide">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y} </b>"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@MouseClickPoints" XName="X" YName="Y" Opacity="1" Width="2" Type="ChartSeriesType.Line">
+                <ChartMarker Visible="true" Height="10" Width="10"/>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+    #nullable enable
+    SfChart? Chart;
+    ChartPrimaryXAxis? XAxis;
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    object xPoint, yPoint;
+    int index;
+    double xInterval, yInterval;
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+    public void MouseClick(ChartMouseEventArgs args)
+    {
+        if (args.AxisData.Count > 0)
+        {
+            if (args.AxisData.TryGetValue("PrimaryXAxis", out object xValue) && args.AxisData.TryGetValue("PrimaryYAxis", out object yValue))
+            {
+                xPoint = Math.Round(Convert.ToDouble(xValue, null));
+                yPoint = Math.Round(Convert.ToDouble(yValue, null));
+                bool isSamePoint;
+                if (MouseClickPoints.Count >= 1)
+                {
+                    index = -1;
+                    isSamePoint = IsSamePoint();
+                    if (isSamePoint && MouseClickPoints.Count >= 1)
+                    {
+                        MouseClickPoints.RemoveAt(index);
+                    }
+                    else if (!isSamePoint)
+                    {
+                        AddToDataSource(xPoint, yPoint);
+                    }
+                }
+                else
+                {
+                    AddToDataSource(xPoint, yPoint);
+                }
+                StateHasChanged();
+            }
+        }
+
+        xInterval = GetXInterval();
+        yInterval = GetYInterval();
+    }
+
+    public bool IsSamePoint()
+    {
+        foreach (PointData item in MouseClickPoints)
+        {
+            index = index + 1;
+            if(item.X == Convert.ToDouble(xPoint, null) && item.Y == Convert.ToDouble(yPoint, null))
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void AddToDataSource(object xValue, object yValue)
+    {
+        MouseClickPoints.Add(new PointData() { X = Convert.ToDouble(xValue, null), Y = Convert.ToDouble(yValue, null) });
+    }
+
+    public double GetXInterval()
+    {
+        double maximum = 0, minimum = 0;
+        for(int i = 0; i < MouseClickPoints.Count; i++)
+        {
+            if (MouseClickPoints[i].X.HasValue)
+            {
+                maximum = Math.Max(MouseClickPoints[i].X.Value, maximum);
+                minimum = i == 0 || minimum == 0 ? MouseClickPoints[i].X.Value : Math.Min(MouseClickPoints[i].X.Value, minimum);
+            }
+        }
+        return MouseClickPoints.Count == 0 ? 1 : Math.Round((maximum - minimum) / MouseClickPoints.Count) <= 10 ? 10 : Math.Round((maximum - minimum) / MouseClickPoints.Count);
+    }
+
+    public double GetYInterval()
+    {
+        double maximum = 0, minimum = 0;
+        for (int i = 0; i < MouseClickPoints.Count; i++)
+        {
+            if (MouseClickPoints[i].Y.HasValue)
+            {
+                maximum = Math.Max(MouseClickPoints[i].Y.Value, maximum);
+                minimum = i == 0 || minimum == 0 ? MouseClickPoints[i].Y.Value : Math.Min(MouseClickPoints[i].Y.Value, minimum);
+            }
+        }
+        return MouseClickPoints.Count == 0 ? 1 : Math.Round((maximum - minimum) / MouseClickPoints.Count) <= 5 ? 5 : Math.Round((maximum - minimum) / MouseClickPoints.Count);
+    }
+
+    public class PointData
+    {
+        public Nullable<double> X { get; set; }
+        public Nullable<double> Y { get; set; }
+    }
+
+    public List<PointData> MouseClickPoints = new List<PointData>
+    {
+        new PointData { X= 12, Y= 19 },
+        new PointData { X= 26, Y= 25 },
+        new PointData { X= 45, Y= 15 },
+        new PointData { X= 78, Y= 24 },
+        new PointData { X= 90, Y= 35 }
+    };
+}

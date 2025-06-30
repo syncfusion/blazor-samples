@@ -1,0 +1,97 @@
+﻿@page "/excel/workbook-protection"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO;
+@inject HttpClient Http
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@using BlazorDemos.Data.FileFormats.XlsIO
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+  <p>This sample demonstrates how to set protection for a workbook using Excel (XlsIO) Library.</p>  
+</SampleDescription>
+<ActionDescription>
+   <p>You can lock the structure of a workbook, which prevents users from adding or deleting worksheets or from displaying hidden worksheets. You can also prevent users from changing the size or position of worksheet windows. Workbook structure and window protection apply to the entire workbook.</p> <br/>
+<p style='display: block'><b>Features:</b></p> <br/>
+<ul>
+        <li>Protecting a workbook with a password</li>
+        <li>Protecting a window or structure from modification</li>
+        <li>Removing protection of a workbook with a password</li>
+</ul>
+<br />
+    <p>To protect a workbook, point to <b>Protection</b> on the <b>Tools</b> menu, and then click <b>Protect Workbook.</b> You can choose which elements you want to protect (workbook structure, windows, or both) by selecting or clearing the corresponding check boxes.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-weight:normal">Click the "Protect Workbook" button to view the protected Excel document and "Unprotect Workbook" to view the unprotected Excel document. Please note that the Microsoft Excel viewer or Microsoft Excel is required to view the Excel document.</p>
+
+    
+        <div class="radio-control">
+            <label style="font-weight:bold">Save As:</label>
+            <SfRadioButton Label="XLS" Name="XLS" Value=@("Xls") @bind-Checked="@excelVersion"></SfRadioButton>
+            <SfRadioButton Label="XLSX" Name="XLSX" Value=@("Xlsx") @bind-Checked="@excelVersion"></SfRadioButton>
+        </div>
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="WorkbookProtectionXlsIO">Protect Workbook</SfButton>
+                    <SfButton @onclick="WorkbookUnProtectionXlsIO">Unprotect Workbook</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    string excelVersion = "Xls";
+    string button;
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+    /// <summary>
+    /// Create and download the Excel document with attendance tracker
+    /// </summary>
+    public async Task WorkbookProtectionXlsIO()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/protected-workbook.xls");
+        if (!fileData.ContainsKey("protected-workbook.xls"))
+            fileData.Add("protected-workbook.xls", new MemoryStream(data));
+        WorkbookProtectionService service = new WorkbookProtectionService(fileData);
+        excelStream = service.WorkbookProtection("Protect Workbook", excelVersion);
+        if (excelVersion == "Xlsx")
+            await JS.SaveAs("WorkookProtection.xlsx", excelStream.ToArray());
+        else
+            await JS.SaveAs("WorkbookProtection.xls", excelStream.ToArray());
+        service.Close();
+    }
+    public async Task WorkbookUnProtectionXlsIO()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+        byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/xlsio/protected-workbook.xls");
+        if (!fileData.ContainsKey("protected-workbook.xls"))
+            fileData.Add("protected-workbook.xls", new MemoryStream(data));
+        WorkbookProtectionService service = new WorkbookProtectionService(fileData);
+        excelStream = service.WorkbookProtection("Unprotect Workbook", excelVersion);
+        if (excelVersion == "Xlsx")
+            await JS.SaveAs("WorkookProtection.xlsx", excelStream.ToArray());
+        else
+            await JS.SaveAs("WorkbookProtection.xls", excelStream.ToArray());
+        service.Close();
+    }
+}

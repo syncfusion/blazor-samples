@@ -1,0 +1,79 @@
+﻿@page "/chart/range-area"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@using System.IO
+@using System.Net.Http.Json
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/range-area-chart' aria-label="Navigate to explore the Blazor Range Area Chart">Blazor Range Area Chart</a> example visualizes minimum and maximum temperatures of different days with default range area series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the range area chart. This chart is used to display continuous data points as a set of lines varying between high and low values over time intervals and across different categories.</p>
+    <p>More information about the range area series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/range-area' aria-label="Navigate to the documentation for range-area in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Temperature Variation by Month" Width="@Width" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartTooltipSettings Enable="true" Format="Temperature : <b>${point.low} - ${point.high}</b>" Shared="true"></ChartTooltipSettings>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" Format="dd MMM">
+            <ChartAxisMajorGridLines Width="0"/>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}˚C" Interval="5" Minimum="-5" Maximum="25">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"/>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" XName="X" High="High" Low="Low" Opacity="0.5" Type="ChartSeriesType.RangeArea">
+                <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"/>
+    </SfChart>
+</div>
+ 
+
+@code{
+    
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public EdgeLabelPlacement EdgeLabelPlacement { get; set; } = EdgeLabelPlacement.Hide;
+    public ChartData[] ChartPoints { get; set; }
+
+    protected async override Task OnInitializedAsync()
+    {
+        ChartPoints = new ChartData[] { };
+        ChartPoints = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/chart/range-data.json");
+
+    }
+    
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+		if (SampleService.IsDevice)
+		{
+			Width = "100%";
+			EdgeLabelPlacement = EdgeLabelPlacement.Shift;
+		}
+    }
+    
+    public class ChartData
+    {
+        public string X { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+    }
+}

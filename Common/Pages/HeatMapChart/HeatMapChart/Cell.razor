@@ -1,0 +1,89 @@
+﻿@page "/heatmap-chart/cell"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.HeatMap
+@using sf_blazor_heatmapdata
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the percentage growth rate of individuals using the internet in a country compared to the overall population of the country.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to bind a two-dimensional array objects as <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.SfHeatMap-1.html#Syncfusion_Blazor_HeatMap_SfHeatMap_1_DataSource" aria-label="Class reference of DataSource property in HeatMap Chart"> DataSource </a> for Heatmap and configure the Heatmap using the data adaptor support.</p>
+    <p>The tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item on touch-enabled devices.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="row">
+        <div class="col-md-12">
+            <SfHeatMap DataSource="@DataSource" Theme="@_theme">
+                <HeatMapEvents Resized="@Resized" TooltipRendering="@OnRendering"></HeatMapEvents>
+                <HeatMapTitleSettings Text="Percentage of Individuals Using Internet by Country">
+                    <HeatMapTitleTextStyle Size="15px" FontFamily="inherit" FontWeight="500" FontStyle="Normal" TextOverflow="TextOverflow.Trim"></HeatMapTitleTextStyle>
+                </HeatMapTitleSettings>
+                <HeatMapDataSourceSettings IsJsonData="false" AdaptorType="AdaptorType.Cell"></HeatMapDataSourceSettings>
+                <HeatMapXAxis Labels="@XLabels" LabelRotation="45" LabelIntersectAction="LabelIntersectAction.None">
+                     <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapXAxisTextStyle>
+                </HeatMapXAxis>
+                <HeatMapYAxis Labels="@YLabels">
+                    <HeatMapYAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapYAxisTextStyle>
+                </HeatMapYAxis>
+                <HeatMapPaletteSettings>
+                    <HeatMapPalettes>
+                        <HeatMapPalette Color="#3498DB"></HeatMapPalette>
+                        <HeatMapPalette Color="#2C3E50"></HeatMapPalette>
+                    </HeatMapPalettes>
+                </HeatMapPaletteSettings>
+              <HeatMapTooltipSettings>
+                    <HeatMapFont FontFamily="inherit"></HeatMapFont>
+                </HeatMapTooltipSettings>
+                <HeatMapCellSettings Format="{value} %" ShowLabel="@IsShowLabel">
+                    <HeatMapCellTextStyle Size="15px" FontFamily="inherit" Color="white" FontWeight="500" FontStyle="Normal"></HeatMapCellTextStyle>
+                    <HeatMapCellBorder Color="White"></HeatMapCellBorder>
+                </HeatMapCellSettings>
+                <HeatMapLegendSettings Visible="false"></HeatMapLegendSettings>
+            </SfHeatMap>
+        </div>
+    </div>
+</div>
+
+@code
+{
+    private Theme _theme { get; set; }
+    public string AxisLabelColor = "Black";
+    public string[] XLabels = new string[] { "China", "Australia", "Mexico", "Canada", "Brazil", "USA", "UK", "Germany", "Russia", "France", "Japan" };
+    public string[] YLabels = new string[] { "2000", "2005", "2010", "2011", "2012", "2013", "2014"};
+    public bool IsShowLabel = true;
+    public double[,] DataSource = HeatMapData.CellData();
+    public void OnRendering(TooltipEventArgs args)
+    {
+        args.Content = new string[] {args.YLabel + " | " + args.XLabel + " : " + args.Value + " % "};
+    }
+    private void Resized(ResizeEventArgs args)
+    {
+        if (args.CurrentSize.Width <= 700)
+        {
+            IsShowLabel = false;
+        }
+        else
+        {
+            IsShowLabel = true;
+        }        
+    }
+    protected override void OnInitialized()
+    {
+        _theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        AxisLabelColor = (_theme.ToString().IndexOf("Dark") > -1 || _theme.ToString().IndexOf("HighContrast") > -1) ? "#FFFFFF" : "#000000";
+        if (SampleService.IsDevice)
+        {
+            IsShowLabel = false;
+        }
+        else
+        {
+            IsShowLabel = true;
+        }
+    }
+}

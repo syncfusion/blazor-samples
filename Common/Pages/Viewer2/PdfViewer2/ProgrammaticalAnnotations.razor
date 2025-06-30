@@ -1,0 +1,1743 @@
+﻿@page "/pdf-viewer-2/programmatical-annotations"
+
+@using System.IO
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.SfPdfViewer
+@using System.Text.RegularExpressions
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example showcases how to programmatically create or edit various types of annotations in the SfPdfViewer. These annotations include Text Markup, Shapes, Measurements, Free text, Stamps, Ink, and Sticky notes. Additionally, we can programmatically insert new annotations or programmatically update existing ones.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The SfPdfViewer component allows the process of programmatically adding or modifying annotations within a PDF document. With the ability to programmatically add any type of annotation using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.SfPdfViewer.PdfViewerBase.html#Syncfusion_Blazor_SfPdfViewer_PdfViewerBase_AddAnnotationAsync_Syncfusion_Blazor_SfPdfViewer_PdfAnnotation_" aria-label="Navigate to the AddAnnotationAsync method reference for PdfViewerBase">AddAnnotationAsync</a> API and edit existing annotations using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.SfPdfViewer.PdfViewerBase.html#Syncfusion_Blazor_SfPdfViewer_PdfViewerBase_EditAnnotationAsync_Syncfusion_Blazor_SfPdfViewer_PdfAnnotation_" aria-label="Navigate to the EditAnnotationAsync method reference for PdfViewerBase">EditAnnotationAsync</a> API, users can seamlessly enhance their PDF viewing experience.</p>
+    <br />
+    <p>The creation of an annotation when clicking the ‘Add annotation’ button depends on the selected properties from the Property panel. To update an existing annotation, users can select the desired annotation, modify its properties, and then click the ‘Update’ button.</p>
+    <br />
+    <p>We can programmatically add or update the following types of annotations in the PDF viewer:</p>
+    <ul>
+        <li><a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation/text-markup-annotation" aria-label="Navigate to the documentation for Text markup annotations in SfPdfViewer component">Text markup annotations</a></li>
+        <li><a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation/shape-annotation" aria-label="Navigate to the documentation for Shape annotations in SfPdfViewer component">Shape annotations</a></li>
+        <li><a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation/measurement-annotation" aria-label="Navigate to the documentation for Measurements annotation in SfPdfViewer component">Measurements annotation</a></li>
+        <li><a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation/free-text-annotation" aria-label="Navigate to the documentation for Free text annotation in SfPdfViewer component">Free text annotation</a></li>
+        <li><a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation/stamp-annotation" aria-label="Navigate to the documentation for Stamp annotation in SfPdfViewer component">Stamp annotation</a></li>
+        <li><a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation/ink-annotation" aria-label="Navigate to the documentation for Ink annotation in SfPdfViewer component">Ink annotation</a></li>
+        <li><a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation/sticky-notes-annotation" aria-label="Navigate to the documentation for Sticky notes annotation in SfPdfViewer component">Sticky notes annotation</a></li>
+    </ul>
+
+    @*WASM:Block*@ 
+    @{ 
+#if (WASM) 
+    }
+    <p>More information about the SfPdfViewer can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-assembly-application" aria-label="documentation section for View PDF files using PDF Viewer Component in the Blazor WASM app">documentation section</a>.</p>
+    @{
+#endif 
+    }
+    @*End:WASM*@
+
+    @*Server:Block*@ 
+    @{ 
+#if !(WASM)
+    } 
+    <p>More information about the SfPdfViewer can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/server-side-application" aria-label="documentation section for View PDF files using PDF Viewer Component in the Blazor Server app">documentation section</a>.</p>
+    @{
+#endif 
+    }
+    @*End:Server*@ 
+</ActionDescription>
+
+<div>
+    <div class="col-lg-9 control-section">
+        <SfPdfViewer2 @ref="PdfViewerInstance" DocumentPath="@DocumentPath" Height="640px" Width="100%" ZoomMode=ZoomMode.FitToPage>
+            <PdfViewerEvents AnnotationAdded="@AddAnnotationEvent"
+                             DocumentLoaded="@DocumentLoaded"
+                             AnnotationSelected="@AnnotationSelectedEvent"
+                             AnnotationUnselected="@AnnotationUnSelectedEvent"
+                             AnnotationRemoved="@AnnotationRemovedEvent"
+                             AnnotationMoved="AnnotationMoved"></PdfViewerEvents>
+        </SfPdfViewer2>
+    </div>
+    @*Hidden:Lines*@
+    <style>
+        .main-panel {
+            border-left: 1px solid #D7D7D7;
+            height: 680px;
+            overflow-y: scroll;
+            padding-bottom: 0px;
+        }
+        .text-content {
+            font-size: 12px;
+        }
+        .input-item {
+            margin-top: 0px;
+        }
+        .input-title {
+            margin-top: 16px;
+            font-size: 12px;
+        }
+        .inner-container {
+            margin-top: 15px;
+            border: 1px solid rgba(196, 199, 197, 1);
+            padding: 12px;
+        }
+        .inner-table {
+            width: 100%;
+            border-collapse: collapse;  
+            table-layout: fixed;
+        }
+        .inline-input {
+            display: flex;
+            gap: 5px;
+            align-items: center;
+        }
+        .inline-input-item {
+            white-space: nowrap;
+        }
+        .button-section {
+            text-align: center;
+            display : flex;
+            justify-content: end;
+            gap: 12px;
+            padding: 0px 12px 12px 0;
+            flex-wrap: wrap-reverse;
+        }
+        .inner-table td {
+            text-wrap : none;
+            padding: 12px 12px 0 12px;
+            width: 50%;
+        }
+        .checkbox-item {
+            padding: 0;
+        }
+       .property-panel-footer {
+            padding: 16px 0px;
+            position: sticky;
+            bottom: 0;
+            background-color: white;
+            z-index: 1;
+            border-top:1px solid #D7D7D7;
+            margin-top: 16px;
+        }
+        .header-panel {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            position: sticky;
+            top: 0px;
+            z-index: 2;
+            background-color: white;
+            border-bottom: 1px solid #D7D7D7;
+            padding-bottom: 0px;
+            margin-bottom: 16px;
+        }
+        .upload-image {
+        width: 80px;
+        height: 80px;
+        margin: 12px;
+        border-radius: 5px;
+        border: 1px solid rgba(196, 199, 197, 1);
+        padding: 4px;
+    }
+    div.file-name {
+        font-size: 14px;
+        padding: 0px 5px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        font-weight: 500;
+        width: 90px;
+        white-space: nowrap;
+    }
+    .wrapper {
+        display: flex;
+        align-items: center;
+    }
+    .reply-container{ 
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        justify-content: space-between;
+        padding: 12px;
+    }
+    .coordinate-table {
+        border-top:1px solid rgba(196, 199, 197, 1);
+        border-left:1px solid rgba(196, 199, 197, 1);
+        border-right:1px solid rgba(196, 199, 197, 1);
+        border-spacing: 0px;
+    }
+    .vertex {
+        border-right: 0px;
+    }
+    .vertex td{
+        border-right: 1px solid rgba(196, 199, 197, 1);
+    }
+    .coordinate-table td {
+        border-bottom: 1px solid rgba(196, 199, 197, 1);
+        font-size: 10px;
+        text-align: center;
+        width: auto;
+        padding: 4px 0px;
+    }
+    .more-container {
+        width: min-content;
+    }
+    .replies::-webkit-scrollbar {
+      width: 3px;
+      height: 3px;
+    }
+    .replies::-webkit-scrollbar-track {
+      border-radius: 10px;
+    }
+    .replies::-webkit-scrollbar-thumb {
+      background: rgba(120, 120, 120, 1); 
+      border-radius: 10px;
+    }
+    .replies {
+        overflow-y: scroll;
+        max-height: 180px;
+        padding: 0px !important;
+    }
+    .reply-text {
+        width: 100%;
+        font-size: 12px;
+        word-break: break-word;
+    }
+    .table-content {
+        padding: 12px 12px 0px 4px;
+    }
+    .table-items {
+        display: flex;
+        justify-content: space-evenly;
+        flex-wrap: wrap;
+        gap: 2px;
+    }
+    .left-item {
+        padding: 12px 4px 0px 12px !important;
+    }
+    .input-title .e-checkbox-wrapper .e-label,
+    .button-section .e-btn,
+    .input-title .e-upload .e-file-select-wrap .e-file-drop, .e-bigger.e-small .e-upload .e-file-select-wrap .e-file-drop {
+        font-size: 12px;
+    }
+    </style>
+    @*End:Hidden*@
+    @*Hidden:Lines*@
+    <div class="col-lg-3 property-section main-panel">
+        <div class="property-panel-header header-panel sb-content-tab-header">Properties <div><div style="padding: 4px 0;"><SfButton CssClass="e-flat" IconCss="e-icons e-refresh" OnClick="@Reset"></SfButton></div></div></div>
+        <div class="property-panel-content">
+            <div class="text-content">Select Annotation</div>
+            <div class="input-item">
+                    <SfDropDownList Enabled="@selectedAnnotation.AnnotationUnSelected" TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.AnnotationType" DataSource="@AnnotationList">
+                    <DropDownListEvents TItem="AnnotationsFields" TValue="string" ValueChange="ShapeChanged"/>
+                    <DropDownListFieldSettings Text="Text" Value="ID"/>
+                    </SfDropDownList>
+            </div>
+            @if (selectedAnnotation.AnnotationType == "CustomStamp" && selectedAnnotation.AnnotationUnSelected)
+            {
+                <div class="input-title">
+                    <SfUploader Enabled="selectedAnnotation.AnnotationUnSelected" @ref="uploadObj" ID="fileUpload" AllowedExtensions=".jpg, .jpeg, .png" AllowMultiple=false ShowProgressBar=false AutoUpload="true">
+                        <UploaderTemplates>
+                            <Template>
+                                @if (selectedAnnotation.CustomStampSource != null && selectedAnnotation.CustomStampSource != "")
+                                {
+                                    <span class="wrapper">
+                                    <img class="upload-image" alt="Image" src="@selectedAnnotation.CustomStampSource">
+                                    <div class="name file-name" title="@context.Name">@context.Name</div>
+                                    <span class="e-icons e-file-delete-btn" id="removeIcon" title="Remove" @onclick="@OnFileRemove"></span>
+                                    </span>
+                                }
+                            </Template>
+                        </UploaderTemplates>
+                        <UploaderEvents ValueChange="ImageChane" ></UploaderEvents>                        
+                    </SfUploader>
+                </div>
+            }
+            @if (selectedAnnotation.AnnotationType == "Stamp"&& selectedAnnotation.AnnotationUnSelected)
+            {
+               <div class="inner-container"> 
+                <div class="text-content">Stamp Type</div>
+                <div class="input-item">
+                    <SfDropDownList TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.StampsType" DataSource="@StampTypeList" Enabled = "@selectedAnnotation.AnnotationUnSelected">
+                    <DropDownListEvents TItem="AnnotationsFields" TValue="string" ValueChange="StampChanged"/>
+                    <DropDownListFieldSettings Text="Text" Value="ID"/>
+                    </SfDropDownList>
+                </div>
+                <div class="input-title">
+                    <div class="text-content">Comments</div>
+                    <div class="input-item">
+                        @if(selectedAnnotation.StampsType == "Dynamic" || selectedAnnotation.StampsType == "SignHere")
+                        {
+                            if(selectedAnnotation.StampsType == "Dynamic")
+                            {
+                                <SfDropDownList TItem="AnnotationsFields" TValue="string"  @bind-Value="@selectedAnnotation.DynamicStamp" DataSource="@DynamicStamps" Enabled = "@selectedAnnotation.AnnotationUnSelected">
+                                <DropDownListEvents TItem="AnnotationsFields" TValue="string" ValueChange="StampChanged"/>
+                                <DropDownListFieldSettings Text="Text" Value="ID"/>
+                                </SfDropDownList>
+                            }
+                            else
+                            {
+                                <SfDropDownList TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.SignHereStamp" DataSource="@SignHereStamps" Enabled = "@selectedAnnotation.AnnotationUnSelected">
+                                <DropDownListEvents TItem="AnnotationsFields" TValue="string" ValueChange="StampChanged"/>
+                                <DropDownListFieldSettings Text="Text" Value="ID"/>
+                                </SfDropDownList>
+                            }
+                        }
+                        else
+                        {
+                            <SfDropDownList TItem="AnnotationsFields" TValue="string"  @bind-Value="@selectedAnnotation.StandardBusinessStamp" DataSource="@StandardBusinessStamps" Enabled = "@selectedAnnotation.AnnotationUnSelected">
+                            <DropDownListEvents TItem="AnnotationsFields" TValue="string" ValueChange="StampChanged"/>
+                            <DropDownListFieldSettings Text="Text" Value="ID"/>
+                            </SfDropDownList>
+                        }
+                    </div>
+                </div>
+            </div> 
+            }
+            <div class="input-title">Page Number</div>
+            <div class="input-item"><SfNumericTextBox @ref = "numericTextBoxRef" TValue="int" Enabled="selectedAnnotation.AnnotationUnSelected" Min="1"  @bind-Value="@selectedAnnotation.PageNumber"></SfNumericTextBox></div>
+            <div class="input-title">Settings:</div>
+            <div class="inner-container" style="padding: 0 0 12px 0px;;">
+                <table class="inner-table">
+                    @if (selectedAnnotation.AnnotationType == "Distance" || selectedAnnotation.AnnotationType == "Line" || selectedAnnotation.AnnotationType == "Area" || selectedAnnotation.AnnotationType == "Perimeter" || selectedAnnotation.AnnotationType == "Volume" || selectedAnnotation.AnnotationType == "Arrow" || selectedAnnotation.AnnotationType == "Polygon")
+                    {
+                        if (selectedAnnotation.AnnotationType == "Distance" || selectedAnnotation.AnnotationType == "Line" || selectedAnnotation.AnnotationType == "Arrow")
+                        {
+                            <tr><td class="left-item"><div class="text-content">X1 Position<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.VertexX0" OnChange="@InputChange"></SfNumericTextBox></div></div></td>
+                                <td><div class="text-content">Y1 Position<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.VertexY0" OnChange="@InputChange"></SfNumericTextBox></div></div></td></tr>
+                            <tr><td class="left-item"><div class="text-content">X2 Position<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.VertexX1" OnChange="@InputChange"></SfNumericTextBox></div></div></td>
+                                <td><div class="text-content">Y2 Position<div class="input-item"><SfNumericTextBox TValue="double" Min=0 Format="###.##" ShowSpinButton=false @bind-Value="@selectedAnnotation.VertexY1" OnChange="@InputChange"></SfNumericTextBox></div></div></td></tr>
+                        }
+                        else
+                        {
+                            <tr><td class="left-item"><div class="text-content">X Position<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.VertexX" ></SfNumericTextBox></div></div></td>
+                                <td><div class="text-content">Y Position <div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.VertexY"></SfNumericTextBox></div></div></td></tr>
+                        }
+                    }
+                    else if (selectedAnnotation.AnnotationType == "Highlight" || selectedAnnotation.AnnotationType == "Underline" || selectedAnnotation.AnnotationType == "Strikethrough") 
+                    {
+                        <tr><td class="left-item"><div class="text-content">X Position<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.X" ></SfNumericTextBox></div></div></td>
+                            <td><div class="text-content">Y Position<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 @bind-Value="@selectedAnnotation.Y" ShowSpinButton=false ></SfNumericTextBox></div></div></td></tr>
+                        <tr><td class="left-item"><div class="text-content">Width<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.Width" ></SfNumericTextBox></div></div></td>
+                            <td><div class="text-content">Height<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.Height" ></SfNumericTextBox></div></div></td></tr>
+                    
+                    }
+                    else
+                    {
+                        <tr><td class="left-item"><div class="text-content">X Position<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.X" OnChange="@InputChange"></SfNumericTextBox></div></div></td>
+                            <td><div class="text-content">Y Position<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 @bind-Value="@selectedAnnotation.Y" ShowSpinButton=false OnChange="@InputChange"></SfNumericTextBox></div></div></td></tr>
+                        <tr><td class="left-item"><div class="text-content">Width<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.Width" OnChange="@InputChange"></SfNumericTextBox></div></div></td>
+                            <td><div class="text-content">Height<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.Height" OnChange="@InputChange"></SfNumericTextBox></div></div></td></tr>
+                    
+                    }
+                    <tr><td class="left-item"><div class="text-content">Shape Opacity<div class="input-item"><SfNumericTextBox TValue="double" Format="###.##" Min=0 Max=100 ShowSpinButton=false @bind-Value="@selectedAnnotation.Opacity" OnChange="@InputChange"></SfNumericTextBox></div></div></td>
+                        @if (selectedAnnotation.AnnotationType != "Stamp" && selectedAnnotation.AnnotationType != "CustomStamp" && selectedAnnotation.AnnotationType != "StickyNotes")
+                        {
+                                <td><div class="text-content">Fill Color<div class="input-item" style="overflow:hidden"><SfColorPicker Mode="ColorPickerMode.Palette" NoColor="true" @bind-Value="@selectedAnnotation.FillColor" ValueChange="@InputChange"></SfColorPicker></div></div></td>
+                        }
+                    </tr>
+                    @if (selectedAnnotation.AnnotationType != "Highlight" && selectedAnnotation.AnnotationType != "Underline" && selectedAnnotation.AnnotationType != "Strikethrough" && selectedAnnotation.AnnotationType != "Stamp" && selectedAnnotation.AnnotationType != "CustomStamp" && selectedAnnotation.AnnotationType != "StickyNotes")
+                    {
+                        <tr>
+                            <td class="left-item"><div class="text-content">Stroke Thickness<div class="input-item"><SfNumericTextBox TValue="int" Min=1 Max=12 ShowSpinButton=false @bind-Value="@selectedAnnotation.Thickness" OnChange="@InputChange"></SfNumericTextBox></div></div></td>
+                            <td><div class="text-content">Stroke Color<div class="input-item"  style="overflow:hidden"><SfColorPicker  Mode="ColorPickerMode.Palette" NoColor="true" @bind-Value="@selectedAnnotation.StrokeColor" ValueChange="@InputChange"></SfColorPicker></div></div></td></tr>
+                    }
+                </table>
+                @if(selectedAnnotation.AnnotationType == "Highlight" || selectedAnnotation.AnnotationType == "Underline" || selectedAnnotation.AnnotationType == "Strikethrough" || selectedAnnotation.AnnotationType == "Polygon"|| selectedAnnotation.AnnotationType == "Perimeter"|| selectedAnnotation.AnnotationType == "Area" || selectedAnnotation.AnnotationType == "Volume")
+                {
+                    if(selectedAnnotation.AnnotationType == "Polygon"|| selectedAnnotation.AnnotationType == "Perimeter"|| selectedAnnotation.AnnotationType == "Area" || selectedAnnotation.AnnotationType == "Volume")
+                    {
+                        @if(selectedAnnotation.VertexPoints.Count != 0)
+                        {
+                           <div style="padding: 12px 12px 0 12px;">
+                            <table class="inner-table coordinate-table vertex" >
+                            @for(int i=0; i< selectedAnnotation.VertexPoints.Count; i=i+2)
+                            {
+                                <tr> 
+                                <td>
+                                    <div class="table-items"><div style=" border-right:0px;"> X@(i+1) = @((int)selectedAnnotation.VertexPoints[i].X) </div> 
+                                    <div> Y@(i+1) = @((int)selectedAnnotation.VertexPoints[i].Y) </div> </div>
+                                    </td>
+                                        @if(i+1 != selectedAnnotation.VertexPoints.Count)
+                                        {
+                                            <td>
+                                            <div class="table-items"><div style=" border-right:0px;"> X@(i+2) = @((int)selectedAnnotation.VertexPoints[i+1].X) </div> 
+                                            <div> Y@(i+2) = @((int)selectedAnnotation.VertexPoints[i+1].Y) </div></div>
+                                            </td>
+                                        }
+                                </tr>
+                            }  
+                            </table>
+                            </div> 
+                        }
+                    }
+                    else
+                    {
+                        if(selectedAnnotation.Bounds.Count != 0)
+                        {
+                            <div style="padding: 12px 12px 0 12px;">
+                            <table class="inner-table coordinate-table">
+                            @for(int i=0; i< selectedAnnotation.Bounds.Count; i++)
+                            {
+                                <tr> 
+                                    <td><div class="table-items">
+                                        <div>X@(i+1) = @((int)selectedAnnotation.Bounds[i].X) </div> 
+                                        <div>Y@(i+1) = @((int)selectedAnnotation.Bounds[i].Y) </div>
+                                    </div>
+                                        
+                                    </td>
+                                    <td>  <div class="table-items">
+                                            <div>W@(i+1) = @((int)selectedAnnotation.Bounds[i].Width) </div>
+                                        <div>H@(i+1) = @((int)selectedAnnotation.Bounds[i].Height) </div>
+                                           </div>
+                                        
+                                    </td>
+                                </tr>
+                            }
+                            </table>
+                            </div>
+                        }
+                    }
+                    <div class="button-section" style="padding: 12px 12px 0px 0;">
+                        <SfButton IsPrimary="true" CssClass="e-outline" Content="Delete" OnClick="DeleteList"></SfButton>
+                        @if(selectedAnnotation.AnnotationType == "Polygon" || selectedAnnotation.AnnotationType == "Perimeter" || selectedAnnotation.AnnotationType == "Area" || selectedAnnotation.AnnotationType == "Volume")
+                        {
+                            <SfButton IsPrimary="true" Content="Add Vertex" OnClick="AddVertexPoint"></SfButton>
+                        }
+                        else 
+                        {
+                            <SfButton IsPrimary="true" Content="Add Bounds" OnClick="AddBounds"></SfButton>
+                        }
+                    </div>
+                }
+                @if(selectedAnnotation.AnnotationType == "Line" || selectedAnnotation.AnnotationType == "Arrow" || selectedAnnotation.AnnotationType == "Distance" )
+                {
+                    <div style="padding: 0px 12px 12px 12px">
+                    <div class="input-title">Line Head Start</div>
+                    <div class="input-item">
+                        <SfDropDownList TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.LindHeadStart" DataSource="@LineShape" OnChange="@InputChange">
+                        <DropDownListFieldSettings Text="Text" Value="ID"/>
+                        <DropDownListEvents TItem="AnnotationsFields" TValue="string" OnValueSelect="InputChange"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                    <div class="input-title">Line Head End</div>
+                    <div class="input-item">
+                        <SfDropDownList TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.LindHeadEnd" DataSource="@LineShape" OnChange="@InputChange">
+                        <DropDownListFieldSettings Text="Text" Value="ID"/>
+                        <DropDownListEvents TItem="AnnotationsFields" TValue="string" OnValueSelect="InputChange"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                    
+                    
+                    @if(selectedAnnotation.AnnotationType == "Distance")
+                    {
+                        <div class="input-title">Leader Length</div>
+                        <div class="input-item"><SfNumericTextBox TValue="int" Min=0 ShowSpinButton=false @bind-Value="@selectedAnnotation.LeaderLength" OnChange="@InputChange"></SfNumericTextBox></div>                    
+                    }
+                    </div>
+                }
+            </div>
+            @if(selectedAnnotation.AnnotationType == "Ink")
+            {
+                <div class="input-title">Ink Annotation</div>
+                <div class="input-item">
+                    <SfDropDownList TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.InkAnnotation" DataSource="@InkAnnotationType" Enabled ="@selectedAnnotation.AnnotationUnSelected">
+                    <DropDownListEvents TItem="AnnotationsFields" TValue="string" ValueChange="InkAnnotationChanged"/>
+                    <DropDownListFieldSettings Text="Text" Value="ID"/>
+                    </SfDropDownList>
+                </div>
+            }
+            @if(selectedAnnotation.AnnotationType == "FreeText")
+            {
+                <div class="input-title">Text Properties:</div>
+                <div class="inner-container"> 
+                    <div class="text-content">Default Text</div>
+                    <div class="input-item">
+                        <SfTextBox @bind-Value="@selectedAnnotation.DefaultText" OnChange="@InputChange"></SfTextBox>
+                    </div>
+                    <div class="input-title">Font Family</div>
+                    <div class="input-item">
+                        <SfDropDownList TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.FontFamily" DataSource="@FontFamilyTypes">
+                        <DropDownListFieldSettings Text="Text" Value="ID"/>
+                        <DropDownListEvents TItem="AnnotationsFields" TValue="string" OnValueSelect="InputChange"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>  
+                    <div class="input-title">Alignment</div>
+                    <div class="input-item">
+                        <SfDropDownList TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.Alignment" DataSource="@AlignmentTypes">
+                        <DropDownListFieldSettings Text="Text" Value="ID"/>
+                        <DropDownListEvents TItem="AnnotationsFields" TValue="string" OnValueSelect="InputChange"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div> 
+                    <div class="input-title">Font Style</div>
+                    <div class="input-item">
+                        <SfDropDownList TItem="AnnotationsFields" TValue="string" @bind-Value="@selectedAnnotation.FontStyle" DataSource="@FontStyleTypes">
+                        <DropDownListFieldSettings Text="Text" Value="ID"/>
+                        <DropDownListEvents TItem="AnnotationsFields" TValue="string" OnValueSelect="InputChange"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div> 
+                    <div class="input-title">
+                        <table class="inner-table" style="border-spacing: 0px;">
+                            <tr><td style="width:50%;padding:0;" class="text-content">Font Size<div class="input-item"><SfNumericTextBox TValue="int" @bind-Value="@selectedAnnotation.FontSize" ShowSpinButton=false OnChange="@InputChange"></SfNumericTextBox></div></td>
+                            <td style="padding:0;"><div style="margin-left: 12px;" class="text-content">Font Color<div class="input-item"><SfColorPicker Mode="ColorPickerMode.Palette" @bind-Value="@selectedAnnotation.FontColor" ValueChange="@InputChange"></SfColorPicker></div></div></td></tr>
+                        </table>
+                    </div> 
+                </div>
+            }
+            <div class="input-title"><SfCheckBox Checked="@selectedAnnotation.IsPrint" Label="Print Annotation" TChecked="bool" @onchange="PrintChange" CssClass="checkbox-item"></SfCheckBox></div>
+            <div class="input-title"><SfCheckBox Checked="@selectedAnnotation.IsLocked" Label="Lock Annotation" TChecked="bool" @onchange="LockChange" CssClass="checkbox-item"></SfCheckBox></div>
+            @if(selectedAnnotation.IsLocked)
+            {
+                <div class="input-title text-content">Allow Interactions</div>
+                <div class="input-item">
+                    <SfMultiSelect @bind-Value="@selectedAnnotation.AllowedInteractions" Placeholder="Select Interactions" TItem="string" TValue="List<string>" Mode="@VisualMode.CheckBox" DataSource="@selectedAnnotation.AllowedInteractionList" EnableSelectionOrder="true" ShowDropDownIcon="true">
+                    <MultiSelectEvents TItem="string" TValue="List<string>" OnValueSelect="InputChange" OnValueRemove="InputChange" ></MultiSelectEvents>
+                    </SfMultiSelect>
+                </div>  
+            }
+            <div class="input-title">Add Comment:</div>
+            <div class="input-title">Author</div>
+            <div class="input-item"><SfTextBox @bind-Value="@selectedAnnotation.Author" OnChange="@InputChange"></SfTextBox></div> 
+            <div class="input-title">Comment</div>
+            <div class="input-item"><SfTextBox @bind-Value="@selectedAnnotation.Comment" OnChange="@InputChange"></SfTextBox></div> 
+            <div class="input-title">Status</div>
+            <div class="input-item">
+                <SfDropDownList TItem="AnnotationsFields" TValue="string" Placeholder="None" @bind-Value="@selectedAnnotation.State" DataSource="@Status" >
+                <DropDownListEvents TItem="AnnotationsFields" TValue="string" ValueChange="@CommentStatusChanged" OnValueSelect="@InputChange"/>
+                <DropDownListFieldSettings Text="Text" Value="ID"/>
+                </SfDropDownList>
+            </div>
+            <div class="input-title"><SfCheckBox Checked="@selectedAnnotation.IsReply" Label="Reply" TChecked="bool" @onchange="IsAddReplyCommentChange" CssClass="checkbox-item"></SfCheckBox></div>
+            @if (selectedAnnotation.IsReply)
+            {
+                @if(selectedAnnotation.ReplyComments.Count != 0)
+                {
+                    <div class="input-title">Replies:</div>
+                    <div class="inner-container replies">
+                        @foreach(Comment comment in selectedAnnotation.ReplyComments)
+                        {
+                         <div class="reply-container" id="@comment.Id">
+                            <div class="reply-icon e-pv-comment-icon e-pv-icon"></div>
+                            <div class="reply-main-container">
+                                <div class="reply-text" >@comment.Author - @(Convert.ToDateTime(comment.ModifiedDate).ToString("MMM dd,HH:mm tt"))</div>
+                                    <div class="reply-text">
+                                        @comment.Note &nbsp; @if (@comment.State != "None")
+                                        {
+                                            @comment.State
+                                        }
+                                    </div>
+                                </div>
+                            <div class="more-container">
+                                <SfButton style="padding: 5px 4px;" IconCss="e-icons e-more-vertical-2" CssClass="e-flat" Content="" OnClick="OpenContextMenu" @onmousedown="()=>SaveReplyID(comment.Id)"></SfButton>
+                            </div>
+                       
+                        </div>   
+                    }
+                     </div>
+                     <div id="target">
+                    <SfContextMenu @ref="ContextMenuObj" TValue="MenuItem">
+                        <MenuItems>
+                            <MenuItem Text="Edit"></MenuItem>
+                            <MenuItem Text="Delete"></MenuItem>
+                        </MenuItems>
+                        <MenuEvents TValue="MenuItem" ItemSelected="@SelectedHandler"></MenuEvents>
+                    </SfContextMenu>
+                </div>
+                }   
+                <div class="inner-container">
+                    <div class="text-content">Author</div>
+                    <div class="input-item"><SfTextBox @bind-Value="@selectedAnnotation.ReplyAuthor"></SfTextBox></div>
+                    <div class="input-title">Comment</div>
+                    <div class="input-item"><SfTextBox @bind-Value="@selectedAnnotation.ReplyComment"></SfTextBox></div> 
+                    <div class="input-title">Status</div>
+                    <div class="input-item">
+                        <SfDropDownList TItem="AnnotationsFields" TValue="string" Placeholder="None" @bind-Value="@selectedAnnotation.ReplyState" DataSource="@Status">
+                        <DropDownListEvents TItem="AnnotationsFields" TValue="string" ValueChange="ReplyStatusChanged"/>
+                        <DropDownListFieldSettings Text="Text" Value="ID"/>
+                        </SfDropDownList>
+                    </div>
+                    
+                    <div class="button-section" style="padding: 12px 0 0 12px;">
+                        @if (selectedAnnotation.EditReply)
+                        {
+                            <SfButton IsPrimary="true" Content="Update Reply" OnClick="UpdateReply"></SfButton>
+                        }
+                        else
+                        {
+                            <SfButton IsPrimary="true" Content="Add Reply" OnClick="AddReply"></SfButton>
+                        }
+                        
+                    </div>
+                </div>
+            }
+            <div class="property-panel-footer sb-content-tab-header">
+            <div class="button-section" style="padding:0">
+                    <SfButton IsPrimary="true" Disabled = "@(selectedAnnotation.AnnotationUnSelected || !selectedAnnotation.IsInputChange)" OnClick="UpdateAnnotation" Content="Update"></SfButton>
+                    <SfButton IsPrimary="true" Disabled = "@selectedAnnotation.AnnotationSelected" OnClick="AddAnnotation" Content="Add Annotation"></SfButton>
+            </div>
+        </div>
+        </div>
+    </div>
+    @*End:Hidden*@
+</div>
+@code {
+    public SfPdfViewer2 PdfViewerInstance { get; set; }
+    private string DocumentPath { get; set; } = string.Empty;
+    @*Hidden:Lines*@
+    SfContextMenu<MenuItem> ContextMenuObj { get; set; }
+    private string SelectedItem { get; set; }
+    private SfUploader uploadObj { get; set; }
+    @*End:Hidden*@
+    protected override void OnInitialized()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+
+@*Server:Block*@
+#if !(WASM || WEBAPP)
+        //Sets the PDF document path for initial loading.
+        DocumentPath = "wwwroot/data/pdfviewer2/programmatical-annotations.pdf";
+#endif
+@*End:Server*@
+
+@*WebAssembly:Block*@
+#if (WASM || WEBAPP)
+        //Sets the PDF document path for initial loading.   
+        DocumentPath= fileDataPath + "data/pdfviewer2/programmatical-annotations.pdf";
+#endif
+        @*End:WebAssembly*@
+
+    }
+    //Class for Annotation properties 
+    public class AnnotationBase
+    {
+        internal string AnnotationType {get; set; } = "Rectangle";
+        internal int PageNumber {get; set; } = 1;
+        internal double X { get; set; } = 100;
+        internal double Y { get; set; } = 100;
+        internal double Width { get; set; } = 100;
+        internal double Height { get; set; } =  100;
+        internal double Opacity {get; set; } = 100;
+        internal int Thickness {get; set; } = 1;
+        internal string FillColor {get; set; } = "";
+        internal string StrokeColor {get; set; } = "#FF0000";
+        internal bool IsPrint {get; set;} = true;
+        internal bool IsLocked {get; set;} = false;
+        internal bool IsAllowedInterActionsNone {get; set;} = false;
+        internal bool IsAllowedInterActionsSelect {get; set;} = false;
+        internal bool IsAllowedInterActionsMove {get; set;} = false;
+        internal bool IsAllowedInterActionsDelete {get; set;} = false;
+        internal bool IsAllowedInterActionsPropertyChange {get; set;} = false;
+        internal bool IsAllowedInterActionsResize {get; set;} = false;      
+        internal string Author {get; set;} = "Guest";
+        internal string State {get; set;} = "";
+        internal string Comment {get; set;} = "New Comment";
+        internal string ReplyAuthor {get; set;} = "Guest";
+        internal string ReplyState {get; set;} = "";
+        internal string ReplyComment {get; set;} = "Reply Comment";
+        internal string ModifiedDate  {get; set;} = DateTime.Now.ToString();
+        internal string ReplyModifiedDate  {get; set;} = DateTime.Now.ToString();
+        internal List<VertexPoint> VertexPoints {get; set;} = new List<VertexPoint>();
+        internal string LindHeadStart {get; set;} = "None";
+        internal string LindHeadEnd {get; set;} = "None";
+        internal int LeaderLength {get; set;}  = 0;
+        internal List<Bound> Bounds = new List<Bound>();
+        internal string FontFamily {get; set;} = "Helvetica";
+        internal string FontStyle {get; set;} = "None";
+        internal string Alignment {get; set;} = "Left";
+        internal string DefaultText {get; set;} = "Free Text";
+        internal int FontSize {get; set;} = 16;
+        internal string FontColor {get; set;} = "";
+        internal double VertexX0 {get; set;} = 100;
+        internal double VertexY0 {get; set;} = 100;
+        internal double VertexX1 {get; set;} = 200;
+        internal double VertexY1 {get; set;} = 100;
+        internal double VertexX {get; set;} = 10;
+        internal double VertexY {get; set;} = 10;
+        @*Hidden:Lines*@
+        internal int TotalPageNumber { get; set; }
+        internal bool AnnotationSelected {get; set; } = false;
+        internal bool AnnotationUnSelected {get; set; } = true;
+        internal string AnnotationId { get; set; } = "";
+        internal string ReplyId { get; set; } = "";
+        internal List<string> AllowedInteractions { get; set;} = new List<string>() { };
+        internal List<string> AllowedInteractionList { get; set; } = new List<string>() { "None", "Delete", "Property Change", "Move", "Select" ,"Resize" };
+        internal List<Comment> ReplyComments = new List<Comment>();
+        internal bool IsReply {get; set;} = false;
+        internal bool EditReply { get; set; } = false;
+        internal string StampsType {get; set;} = "Dynamic";
+        internal string DynamicStamp  {get; set;} = "Approved";
+        internal string SignHereStamp  {get; set;} = "Accepted";
+        internal string StandardBusinessStamp  {get; set;} = "Approved";
+        internal int VertexPointCount {get; set;} = 0;
+        internal string VertexPointString {get; set;}= "";
+        internal bool IsInputChange { get; set; } = false;
+        internal string InkAnnotation {get; set;} = "Syncfusion";
+        internal string Data { get; set; } = "[{\"command\":\"M\",\"x\":244.83334350585938,\"y\":982.0000305175781},{\"command\":\"L\",\"x\":244.83334350585938,\"y\":982.0000305175781},{\"command\":\"L\",\"x\":250.83334350585938,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":252.83334350585938,\"y\":946.0000305175781},{\"command\":\"L\",\"x\":254.16668701171875,\"y\":940.6667175292969},{\"command\":\"L\",\"x\":256.8333435058594,\"y\":931.3333435058594},{\"command\":\"L\",\"x\":257.5,\"y\":929.3333435058594},{\"command\":\"L\",\"x\":258.8333435058594,\"y\":926.6667175292969},{\"command\":\"L\",\"x\":259.5,\"y\":924.0000305175781},{\"command\":\"L\",\"x\":259.5,\"y\":922.6667175292969},{\"command\":\"L\",\"x\":258.8333435058594,\"y\":922.0000305175781},{\"command\":\"L\",\"x\":258.16668701171875,\"y\":922.0000305175781},{\"command\":\"L\",\"x\":256.8333435058594,\"y\":922.0000305175781},{\"command\":\"L\",\"x\":256.16668701171875,\"y\":922.6667175292969},{\"command\":\"L\",\"x\":254.83334350585938,\"y\":923.3333435058594},{\"command\":\"L\",\"x\":254.16668701171875,\"y\":923.3333435058594},{\"command\":\"L\",\"x\":253.5,\"y\":923.3333435058594},{\"command\":\"L\",\"x\":252.83334350585938,\"y\":925.3333435058594},{\"command\":\"L\",\"x\":252.83334350585938,\"y\":927.3333435058594},{\"command\":\"L\",\"x\":252.83334350585938,\"y\":936.0000305175781},{\"command\":\"L\",\"x\":253.5,\"y\":940.6667175292969},{\"command\":\"L\",\"x\":254.83334350585938,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":260.16668701171875,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":264.16668701171875,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":274.16668701171875,\"y\":958.6667175292969},{\"command\":\"L\",\"x\":278.16668701171875,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":281.5,\"y\":961.3333435058594},{\"command\":\"L\",\"x\":285.5,\"y\":964.6667175292969},{\"command\":\"L\",\"x\":286.8333740234375,\"y\":967.3333435058594},{\"command\":\"L\",\"x\":286.8333740234375,\"y\":970.0000305175781},{\"command\":\"L\",\"x\":282.8333740234375,\"y\":978.6667175292969},{\"command\":\"L\",\"x\":278.16668701171875,\"y\":983.3333435058594},{\"command\":\"L\",\"x\":266.16668701171875,\"y\":991.3333435058594},{\"command\":\"L\",\"x\":259.5,\"y\":993.3333435058594},{\"command\":\"L\",\"x\":252.16668701171875,\"y\":994.0000305175781},{\"command\":\"L\",\"x\":240.83334350585938,\"y\":991.3333435058594},{\"command\":\"L\",\"x\":236.16668701171875,\"y\":988.6667175292969},{\"command\":\"L\",\"x\":230.16668701171875,\"y\":982.6667175292969},{\"command\":\"L\",\"x\":228.83334350585938,\"y\":980.6667175292969},{\"command\":\"L\",\"x\":228.16668701171875,\"y\":978.6667175292969},{\"command\":\"L\",\"x\":228.83334350585938,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":230.16668701171875,\"y\":973.3333435058594},{\"command\":\"L\",\"x\":236.16668701171875,\"y\":971.3333435058594},{\"command\":\"L\",\"x\":240.83334350585938,\"y\":971.3333435058594},{\"command\":\"L\",\"x\":246.16668701171875,\"y\":972.0000305175781},{\"command\":\"L\",\"x\":257.5,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":262.8333435058594,\"y\":976.0000305175781},{\"command\":\"L\",\"x\":269.5,\"y\":977.3333435058594},{\"command\":\"L\",\"x\":276.16668701171875,\"y\":978.6667175292969},{\"command\":\"L\",\"x\":279.5,\"y\":978.0000305175781},{\"command\":\"L\",\"x\":285.5,\"y\":976.6667175292969},{\"command\":\"L\",\"x\":288.16668701171875,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":292.8333740234375,\"y\":969.3333435058594},{\"command\":\"L\",\"x\":293.5,\"y\":966.6667175292969},{\"command\":\"L\",\"x\":294.16668701171875,\"y\":964.0000305175781},{\"command\":\"L\",\"x\":293.5,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":293.5,\"y\":958.0000305175781},{\"command\":\"L\",\"x\":292.8333740234375,\"y\":956.6667175292969},{\"command\":\"L\",\"x\":291.5,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":291.5,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":291.5,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":291.5,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":292.16668701171875,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":292.8333740234375,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":294.16668701171875,\"y\":961.3333435058594},{\"command\":\"L\",\"x\":295.5,\"y\":964.6667175292969},{\"command\":\"L\",\"x\":297.5,\"y\":969.3333435058594},{\"command\":\"L\",\"x\":298.8333740234375,\"y\":970.6667175292969},{\"command\":\"L\",\"x\":301.5,\"y\":970.0000305175781},{\"command\":\"L\",\"x\":304.16668701171875,\"y\":968.6667175292969},{\"command\":\"L\",\"x\":305.5,\"y\":966.0000305175781},{\"command\":\"L\",\"x\":308.8333740234375,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":310.16668701171875,\"y\":957.3333435058594},{\"command\":\"L\",\"x\":310.8333740234375,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":310.8333740234375,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":310.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":311.5,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":312.8333740234375,\"y\":959.3333435058594},{\"command\":\"L\",\"x\":316.16668701171875,\"y\":968.0000305175781},{\"command\":\"L\",\"x\":317.5,\"y\":972.6667175292969},{\"command\":\"L\",\"x\":318.16668701171875,\"y\":977.3333435058594},{\"command\":\"L\",\"x\":319.5,\"y\":983.3333435058594},{\"command\":\"L\",\"x\":319.5,\"y\":986.0000305175781},{\"command\":\"L\",\"x\":319.5,\"y\":988.0000305175781},{\"command\":\"L\",\"x\":318.8333740234375,\"y\":988.0000305175781},{\"command\":\"L\",\"x\":318.16668701171875,\"y\":988.6667175292969},{\"command\":\"L\",\"x\":316.16668701171875,\"y\":987.3333435058594},{\"command\":\"L\",\"x\":314.8333740234375,\"y\":985.3333435058594},{\"command\":\"L\",\"x\":314.16668701171875,\"y\":980.6667175292969},{\"command\":\"L\",\"x\":314.8333740234375,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":316.16668701171875,\"y\":969.3333435058594},{\"command\":\"L\",\"x\":319.5,\"y\":960.6667175292969},{\"command\":\"L\",\"x\":320.16668701171875,\"y\":957.3333435058594},{\"command\":\"L\",\"x\":321.5,\"y\":955.3333435058594},{\"command\":\"L\",\"x\":322.16668701171875,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":322.8333740234375,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":324.16668701171875,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":324.8333740234375,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":326.8333740234375,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":328.16668701171875,\"y\":958.0000305175781},{\"command\":\"L\",\"x\":328.8333740234375,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":329.5,\"y\":962.0000305175781},{\"command\":\"L\",\"x\":330.16668701171875,\"y\":962.0000305175781},{\"command\":\"L\",\"x\":330.16668701171875,\"y\":962.6667175292969},{\"command\":\"L\",\"x\":330.16668701171875,\"y\":962.0000305175781},{\"command\":\"L\",\"x\":330.8333740234375,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":331.5,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":332.8333740234375,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":333.5,\"y\":950.0000305175781},{\"command\":\"L\",\"x\":334.8333740234375,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":335.5,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":336.16668701171875,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":337.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":338.8333740234375,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":340.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":341.5,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":342.8333740234375,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":344.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":346.8333740234375,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":349.5,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":350.8333740234375,\"y\":948.0000305175781},{\"command\":\"L\",\"x\":351.5,\"y\":946.6667175292969},{\"command\":\"L\",\"x\":352.8333740234375,\"y\":944.0000305175781},{\"command\":\"L\",\"x\":352.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":354.16668701171875,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":354.8333740234375,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":354.8333740234375,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":354.16668701171875,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":354.16668701171875,\"y\":946.6667175292969},{\"command\":\"L\",\"x\":354.16668701171875,\"y\":950.0000305175781},{\"command\":\"L\",\"x\":355.5,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":356.16668701171875,\"y\":957.3333435058594},{\"command\":\"L\",\"x\":358.16668701171875,\"y\":959.3333435058594},{\"command\":\"L\",\"x\":360.16668701171875,\"y\":958.0000305175781},{\"command\":\"L\",\"x\":364.16668701171875,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":370.8333740234375,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":373.5,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":375.5,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":376.16668701171875,\"y\":933.3333435058594},{\"command\":\"L\",\"x\":376.8333740234375,\"y\":931.3333435058594},{\"command\":\"L\",\"x\":376.8333740234375,\"y\":930.0000305175781},{\"command\":\"L\",\"x\":376.8333740234375,\"y\":929.3333435058594},{\"command\":\"L\",\"x\":376.16668701171875,\"y\":930.0000305175781},{\"command\":\"L\",\"x\":375.5,\"y\":932.0000305175781},{\"command\":\"L\",\"x\":375.5,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":374.8333740234375,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":374.8333740234375,\"y\":960.6667175292969},{\"command\":\"L\",\"x\":375.5,\"y\":966.0000305175781},{\"command\":\"L\",\"x\":377.5,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":378.16668701171875,\"y\":977.3333435058594},{\"command\":\"L\",\"x\":380.8333740234375,\"y\":981.3333435058594},{\"command\":\"L\",\"x\":382.16668701171875,\"y\":982.6667175292969},{\"command\":\"L\",\"x\":383.5,\"y\":982.6667175292969},{\"command\":\"L\",\"x\":387.5,\"y\":982.6667175292969},{\"command\":\"L\",\"x\":389.5,\"y\":980.6667175292969},{\"command\":\"L\",\"x\":392.16668701171875,\"y\":976.6667175292969},{\"command\":\"L\",\"x\":392.8333740234375,\"y\":973.3333435058594},{\"command\":\"L\",\"x\":392.16668701171875,\"y\":970.0000305175781},{\"command\":\"L\",\"x\":388.8333740234375,\"y\":965.3333435058594},{\"command\":\"L\",\"x\":385.5,\"y\":964.0000305175781},{\"command\":\"L\",\"x\":382.8333740234375,\"y\":964.0000305175781},{\"command\":\"L\",\"x\":377.5,\"y\":964.0000305175781},{\"command\":\"L\",\"x\":375.5,\"y\":964.6667175292969},{\"command\":\"L\",\"x\":373.5,\"y\":965.3333435058594},{\"command\":\"L\",\"x\":374.8333740234375,\"y\":963.3333435058594},{\"command\":\"L\",\"x\":376.8333740234375,\"y\":961.3333435058594},{\"command\":\"L\",\"x\":382.16668701171875,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":384.16668701171875,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":387.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":388.16668701171875,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":388.16668701171875,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":388.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":388.8333740234375,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":389.5,\"y\":959.3333435058594},{\"command\":\"L\",\"x\":389.5,\"y\":960.6667175292969},{\"command\":\"L\",\"x\":390.16668701171875,\"y\":961.3333435058594},{\"command\":\"L\",\"x\":390.8333740234375,\"y\":960.6667175292969},{\"command\":\"L\",\"x\":393.5,\"y\":958.0000305175781},{\"command\":\"L\",\"x\":396.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":398.16668701171875,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":400.16668701171875,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":400.16668701171875,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":400.8333740234375,\"y\":948.0000305175781},{\"command\":\"L\",\"x\":400.8333740234375,\"y\":947.3333435058594},{\"command\":\"L\",\"x\":401.5,\"y\":948.0000305175781},{\"command\":\"L\",\"x\":402.16668701171875,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":403.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":404.8333740234375,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":406.16668701171875,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":407.5,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":410.16668701171875,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":412.16668701171875,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":940.6667175292969},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":938.0000305175781},{\"command\":\"L\",\"x\":415.5,\"y\":939.3333435058594},{\"command\":\"L\",\"x\":418.8333740234375,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":420.16668701171875,\"y\":945.3333435058594},{\"command\":\"L\",\"x\":421.5,\"y\":946.6667175292969},{\"command\":\"L\",\"x\":422.8333740234375,\"y\":950.0000305175781},{\"command\":\"L\",\"x\":423.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":423.5,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":422.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":421.5,\"y\":955.3333435058594},{\"command\":\"L\",\"x\":421.5,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":422.16668701171875,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":422.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":424.8333740234375,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":425.5,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":428.16668701171875,\"y\":945.3333435058594},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":945.3333435058594},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":948.0000305175781},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":950.0000305175781},{\"command\":\"L\",\"x\":429.5,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":430.16668701171875,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":432.8333740234375,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":434.8333740234375,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":437.5,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":440.16668701171875,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":441.5,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":442.16668701171875,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":941.3333435058594},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":946.0000305175781},{\"command\":\"L\",\"x\":443.5,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":444.16668701171875,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":445.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":447.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":450.16668701171875,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":452.16668701171875,\"y\":945.3333435058594},{\"command\":\"L\",\"x\":453.5,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":452.8333740234375,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":452.16668701171875,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":450.8333740234375,\"y\":936.6667175292969},{\"command\":\"L\",\"x\":448.8333740234375,\"y\":936.0000305175781},{\"command\":\"L\",\"x\":447.5,\"y\":936.6667175292969},{\"command\":\"L\",\"x\":446.16668701171875,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":445.5,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":445.5,\"y\":939.3333435058594},{\"command\":\"L\",\"x\":446.16668701171875,\"y\":939.3333435058594},{\"command\":\"L\",\"x\":446.8333740234375,\"y\":939.3333435058594},{\"command\":\"L\",\"x\":452.16668701171875,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":454.8333740234375,\"y\":936.6667175292969},{\"command\":\"L\",\"x\":456.8333740234375,\"y\":936.0000305175781},{\"command\":\"L\",\"x\":459.5,\"y\":936.6667175292969},{\"command\":\"L\",\"x\":460.8333740234375,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":461.5,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":944.0000305175781},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":941.3333435058594},{\"command\":\"L\",\"x\":462.8333740234375,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":464.16668701171875,\"y\":935.3333435058594},{\"command\":\"L\",\"x\":465.5,\"y\":933.3333435058594},{\"command\":\"L\",\"x\":466.16668701171875,\"y\":932.6667175292969},{\"command\":\"L\",\"x\":467.5,\"y\":933.3333435058594},{\"command\":\"L\",\"x\":469.5,\"y\":935.3333435058594},{\"command\":\"L\",\"x\":470.16668701171875,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":472.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":472.8333740234375,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":474.16668701171875,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":475.5,\"y\":944.0000305175781},{\"command\":\"L\",\"x\":478.16668701171875,\"y\":941.3333435058594},{\"command\":\"L\",\"x\":481.5,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":484.8333740234375,\"y\":934.0000305175781},{\"command\":\"L\",\"x\":488.8333740234375,\"y\":929.3333435058594},{\"command\":\"L\",\"x\":489.5,\"y\":928.0000305175781}]";
+        internal string CustomStampSource { get; set; } = "data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADJCAMAAABYMS1zAAAAllBMVEX///8rNXz2kh7b3OXQ0d8jLnlMU4wfK3hYXpH5+fvz8/bv7/SRlbYAAGyLj7GMkLBGToqdoLt4fKS1t8vIydoAGHEXJXUMHnP1hAD1jAD9483+9u7707L4sXSDh6s0PoL3oE76xpr4qV/97d/5vov96NYADW/2m0b7zaX2mTv4t3v5uYT83cL4rms+R4YAAGX2kjBubpsmc7m7AAAEKUlEQVR4nO3c6VbiQBAF4Dai7AiikCbIjuyK7/9ykziTCJLuVLUcu5O5938d8x2kUr0chEAQBEEQpBgJbD/A9RLMVnPbz3C1LHw5Gdh+iCtl7Xue3AxtP8ZVMpReGOlNC/DF2Xt/I+U295rlRHoxZ5ZzzXyWWELNZGn7eX6SYHdiidrA3vYT/SBT3zuPXNt+JOOsv1tCzSKnX5y9vLB4nr/N5TQw8NIwnjzksA3MV6mWqKnlrg0EM4UlmgbyNtu8KC2fs43tx2NlobFEnDzNNmst5bMN5EYzzLKEmlVOmtpgo/8n+/fFyUVTW6ob2ZlG5qCpBbpGdhbf/QXbjmoJNTvHZ5sp3ZI521S7oxY93biqwSga3Wr+/ppjyZptaq3XMjm9Rox569Or3p/Ufz51UtZqdPs2tYf+DTl3CaZdplc11Zj5kWnxtAs2q5hANSlr4+9UTc0mRjMp6zWqfRubmK2ZJdRs0lu0RQyrKX/TTBzDEKZLVeQxfWPdGoY0XSosqpnTFka55KdgVK8aSxizpvzPolxEW8LMLvf7qPHVS2hrn4ypRreAttYADF8y2qMBe615aoTRHgxYfGkOjwYfjnbpbHOc2U/YCwD9EYfVqZm4lZHE32ktttczW05T818yNjTsYkRwcVim+R+bZG1nWMakHpcpLJvMPU3rGLGXtC+OzL6CYh8jlqT5mbKf6QDm/PRfFcq5swsYEewyLaRTZycwYVPLOGyiHc+4gYkW0bpzwMym7BZG7DUaSdwvdwYTzjaqN45PvRfoDkbMD+kan3zI5BBGBIs0jU8/N3cJk3rqLDMmZXcxlws21pm5Y5jvCzY54xz8uYYRy8PpzcbsSdlpjAhO9m2OvLN/9zDRbBNzmLcaHcQks41cMOucxIh91NTkjFvmJkYMVlJKdpWjmOi8k3+3xFWMCAxuljiLMUmxMKP3Z3JeWzFm3KRX6a6bXDfVpw4jyWNxihq6i0BX1rBiVPVrFgRBkIKkVmekZlSV9OaAEwNLtfvxSE9ye7bFKPpIXpovjBxMBs1Ws0dOPxln3p7pVV/jjGSEvCd7ivnNQZNzUA4MMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwPzvmOcCYVoFwlRLXUZKcRmnqJtcBBoysnb+lxkRBEEQSuq3jNTjKk6RYVUt/Xl1qXbuK/R04qpHRlE7mQAYRZV2SfHEmtQajN+e7T/GmArnt2fjC8TipnedX6xVYxhTc3mUYIxms/GdSRUHwxg0gQEGGGCAAQYYYIABBhhggAEGGGCAAQYYYIABBhhggAEGGGCAAaaImELdA3i9I6f3henTq5pfNzTK9CqjGxqdt3ty2g8x5qNNrxonmAq96H5sgBH1EiPJPdhbTlVyq4lTVDK41YQgCIIgCIIgSFr+AKg+KPUzaG6DAAAAAElFTkSuQmCC";
+        internal string[] SignHereStampList = { "Accepted", "InitialHere", "Rejected", "SignHere", "Witness" };
+        @*End:Hidden*@
+    } 
+    AnnotationBase selectedAnnotation = new AnnotationBase();
+    SfNumericTextBox<int> numericTextBoxRef;
+    //Method for Adding the Annotation in the pdf viewer
+    private async void AddAnnotation()
+    {
+        PdfAnnotation newShapeAnnotation = new PdfAnnotation();
+        AnnotationsPropertyUpdate(newShapeAnnotation);
+        if (selectedAnnotation.AnnotationType != "Stamp")
+        {
+            //Adding the Annotation in the PDF viewer
+            await PdfViewerInstance.AddAnnotationAsync(newShapeAnnotation);
+        }
+        else if (selectedAnnotation.StampsType == "Dynamic")
+        {
+            DynamicStampItem dynamicAnnotationType = Enum.Parse<DynamicStampItem>(selectedAnnotation.DynamicStamp.Replace(" ", ""));
+            //Adding the Dynamic Stamp Annotation in the PDF viewer
+            await PdfViewerInstance.AddAnnotationAsync(newShapeAnnotation, dynamicAnnotationType);
+        }
+        else if (selectedAnnotation.StampsType == "SignHere")
+        {
+            SignStampItem signAnnotationType = Enum.Parse<SignStampItem>(selectedAnnotation.SignHereStamp.Replace(" ", ""));
+            //Adding the Sign Stamp Annotation in the PDF viewer
+            await PdfViewerInstance.AddAnnotationAsync(newShapeAnnotation, signAnnotationType);
+        }
+        else if (selectedAnnotation.StampsType == "StandardBusiness")
+        {
+            StandardBusinessStampItem standardBusinessAnnotationType = Enum.Parse<StandardBusinessStampItem>(selectedAnnotation.StandardBusinessStamp.Replace(" ", ""));
+            //Adding the Standard Business Stamp Annotation in the PDF viewer
+            await PdfViewerInstance.AddAnnotationAsync(newShapeAnnotation, standardBusinessAnnotationType);
+        }
+        //ResetAnnotationProperties(selectedAnnotation);
+    }
+    //Method for reset the properties of the annotations
+    private void Reset()
+    {
+        ResetAnnotationProperties(selectedAnnotation);
+    }
+    //Method for Update the annotation in the pdf viewer
+    private async void UpdateAnnotation()
+    {
+        List<PdfAnnotation> pdfAnnotationList = new List<PdfAnnotation>();
+        PdfAnnotation existingAnnotation = new PdfAnnotation();
+        selectedAnnotation.IsInputChange = false;
+        pdfAnnotationList = await PdfViewerInstance.GetAnnotationsAsync();
+        int existingAnnotationIndex = pdfAnnotationList.FindIndex(item => item.Id == selectedAnnotation.AnnotationId);
+        if(existingAnnotationIndex != -1)
+        {
+            existingAnnotation = pdfAnnotationList[existingAnnotationIndex];
+
+            AnnotationsPropertyUpdate(existingAnnotation);
+            
+            //Edit the Selected Annotation in the PDF viewer
+            await PdfViewerInstance.EditAnnotationAsync(existingAnnotation);
+        }
+    }
+    //Method for Update the annotation property values to the property panel when select the Annotation
+    private async Task AnnotationSelectedEvent(AnnotationSelectEventArgs annotationSelectEventArgs)
+    {
+        selectedAnnotation.AnnotationSelected = true;
+        selectedAnnotation.AnnotationUnSelected = false;
+        selectedAnnotation.IsInputChange = false;
+        await UpdatePropertiesInPropertyPanel(annotationSelectEventArgs.AnnotationId);
+    }
+    //Method for Reset the annotation property values to the property panel when Add the Annotation
+    private void AddAnnotationEvent(AnnotationAddEventArgs annotationAddEventArgs)
+    {
+        //ResetAnnotationProperties(selectedAnnotation);
+    }
+    //Method for Update the annotation property values to the property panel when Move the Annotation
+    private async Task AnnotationMoved(AnnotationMoveEventArgs annotationSelectEventArgs)
+    {
+        selectedAnnotation.AnnotationSelected = true;
+        selectedAnnotation.AnnotationUnSelected = false;
+        await UpdatePropertiesInPropertyPanel(annotationSelectEventArgs.AnnotationId);
+    }
+    //Method for Reset the annotation property values to the property panel when Unselect the Annotation
+    private async Task AnnotationUnSelectedEvent(AnnotationUnselectEventArgs annotationSelectEventArgs)
+    {
+        selectedAnnotation.AnnotationUnSelected = true;
+        selectedAnnotation.AnnotationSelected = false;
+        ResetAnnotationProperties(selectedAnnotation);
+    }
+    //Method for Reset the annotation property values to the property panel when Remove the Annotation
+    private async Task AnnotationRemovedEvent(AnnotationRemoveEventArgs annotationSelectEventArgs)
+    {
+        selectedAnnotation.AnnotationUnSelected = true;
+        selectedAnnotation.AnnotationSelected = false;
+        ResetAnnotationProperties(selectedAnnotation);
+
+    }
+    //Method for Apply annotation properties from property panel to the new Annotation
+    private void AnnotationsPropertyUpdate(PdfAnnotation annotation)
+    {
+        Bound bound = new Bound();
+        bound.X = selectedAnnotation.X;
+        bound.Y = selectedAnnotation.Y;
+        bound.Width = selectedAnnotation.Width;
+        bound.Height = selectedAnnotation.Height;
+        annotation.PageNumber = (selectedAnnotation.PageNumber == 0 ? 1 : selectedAnnotation.PageNumber) - 1;
+        AnnotationType annotationType;
+        if (selectedAnnotation.AnnotationType == "CustomStamp")
+        {
+            annotationType = Enum.Parse<AnnotationType>("Image");
+        }
+        else
+        {
+            annotationType = Enum.Parse<AnnotationType>(selectedAnnotation.AnnotationType);
+        }
+        annotation.Type = annotationType;
+        annotation.Bound = bound;
+        selectedAnnotation.VertexPointCount = 0;
+        annotation.IsLock = selectedAnnotation.IsLocked;
+        if (selectedAnnotation.IsLocked)
+        {
+            annotation.AllowedInteractions = new List<AllowedInteraction>();
+            if (selectedAnnotation.AllowedInteractions != null)
+            {
+                foreach (string allowIntraction in selectedAnnotation.AllowedInteractions)
+                {
+                    if (allowIntraction == "None")
+                    {
+                        annotation.AllowedInteractions.Add(AllowedInteraction.None);
+                    }
+                    else if (allowIntraction == "Select")
+                    {
+                        annotation.AllowedInteractions.Add(AllowedInteraction.Select);
+                    }
+                    else if (allowIntraction == "Delete")
+                    {
+                        annotation.AllowedInteractions.Add(AllowedInteraction.Delete);
+                    }
+                    else if (allowIntraction == "Move")
+                    {
+                        annotation.AllowedInteractions.Add(AllowedInteraction.Move);
+                    }
+                    else if (allowIntraction == "Property Change")
+                    {
+                        annotation.AllowedInteractions.Add(AllowedInteraction.PropertyChange);
+                    }
+                    else if (allowIntraction == "Resize")
+                    {
+                        annotation.AllowedInteractions.Add(AllowedInteraction.Resize);
+                    }
+                }
+            }
+        }
+        annotation.Opacity = selectedAnnotation.Opacity / 100;
+        annotation.FillColor = selectedAnnotation.FillColor;
+        annotation.Thickness = selectedAnnotation.Thickness;
+        annotation.StrokeColor = selectedAnnotation.StrokeColor;
+        annotation.IsPrint = selectedAnnotation.IsPrint;
+        annotation.Author = selectedAnnotation.Author;
+        annotation.ModifiedDate = selectedAnnotation.ModifiedDate;
+        if (annotation.Type == AnnotationType.Highlight || annotation.Type == AnnotationType.Underline || annotation.Type == AnnotationType.Strikethrough)
+        {
+            annotation.Color = selectedAnnotation.FillColor;
+            annotation.TextMarkupContent = "TEXT";
+            if (selectedAnnotation.Bounds.Count == 0)
+            {
+                Bound newBound = new Bound();
+                newBound.X = selectedAnnotation.X;
+                newBound.Y = selectedAnnotation.Y;
+                newBound.Width = selectedAnnotation.Width;
+                newBound.Height = selectedAnnotation.Height;
+                selectedAnnotation.Bounds.Add(newBound);
+            }
+        }
+        annotation.Review = new Review();
+        annotation.Review.State = selectedAnnotation.State;
+        if (annotation.Type == AnnotationType.FreeText)
+        {
+            annotation.BorderWidth = selectedAnnotation.Thickness;
+            annotation.BorderColor = selectedAnnotation.StrokeColor;
+            annotation.FontColor = selectedAnnotation.FontColor;
+            annotation.DefaultText = selectedAnnotation.DefaultText;
+            annotation.DynamicText = selectedAnnotation.DefaultText;
+            annotation.FontSize = selectedAnnotation.FontSize;
+            annotation.FontFamily = selectedAnnotation.FontFamily;
+            annotation.TextAlignment = Enum.Parse<TextAlignment>(selectedAnnotation.Alignment);
+            annotation.FontStyle = Enum.Parse<FontStyle>(selectedAnnotation.FontStyle);
+        }
+        if (annotationType != AnnotationType.Distance && annotationType != AnnotationType.Perimeter && annotationType != AnnotationType.Area && annotationType != AnnotationType.Radius && annotationType != AnnotationType.Volume)
+        {
+            annotation.Note = selectedAnnotation.Comment;
+        }
+        if (annotationType == AnnotationType.Distance)
+        {
+            annotation.LeaderLength = selectedAnnotation.LeaderLength;
+        }
+        if (annotationType == AnnotationType.Line || annotationType == AnnotationType.Arrow || annotationType == AnnotationType.Distance || annotationType == AnnotationType.Perimeter)
+        {
+            annotation.LineHeadStart = Enum.Parse<LineHeadStyle>(selectedAnnotation.LindHeadStart);
+            annotation.LineHeadEnd = Enum.Parse<LineHeadStyle>(selectedAnnotation.LindHeadEnd);
+        }
+        if (annotationType == AnnotationType.Ink || annotationType == AnnotationType.HandWrittenSignature)
+        {
+            annotation.Data = selectedAnnotation.Data;
+        }
+        VertexPoint vertexPoint = new VertexPoint();
+        if (annotationType == AnnotationType.Line || annotationType == AnnotationType.Arrow || annotationType == AnnotationType.Distance)
+        {
+            annotation.VertexPoints = new List<VertexPoint>();
+            vertexPoint.X = selectedAnnotation.VertexX0;
+            vertexPoint.Y = selectedAnnotation.VertexY0;
+            annotation.VertexPoints.Add(vertexPoint);
+            vertexPoint = new VertexPoint();
+            vertexPoint.X = selectedAnnotation.VertexX1;
+            vertexPoint.Y = selectedAnnotation.VertexY1;
+            annotation.VertexPoints.Add(vertexPoint);
+        }
+        if (annotationType == AnnotationType.Polygon || annotationType == AnnotationType.Perimeter || annotationType == AnnotationType.Area || annotationType == AnnotationType.Volume)
+        {
+            annotation.VertexPoints = selectedAnnotation.VertexPoints;
+        }
+        if (selectedAnnotation.Bounds.Count != 0)
+        {
+            annotation.Bounds = selectedAnnotation.Bounds;
+        }
+        if (selectedAnnotation.IsReply)
+        {
+            annotation.Comments = selectedAnnotation.ReplyComments;
+        }
+        else
+        {
+            annotation.Comments = new List<Comment>();
+        }
+        if (annotationType == AnnotationType.Image)
+        {
+            annotation.CustomStampSource = selectedAnnotation.CustomStampSource;
+        }
+    }
+    //Method for update the propertry value to the property panel
+    private async Task UpdatePropertiesInPropertyPanel(string SelectedAnnotationId)
+    {
+        List<PdfAnnotation> pdfAnnotationList = new List<PdfAnnotation>();
+        PdfAnnotation annotation = new PdfAnnotation();
+        pdfAnnotationList = await PdfViewerInstance.GetAnnotationsAsync();
+        selectedAnnotation.AnnotationId = SelectedAnnotationId;
+        int selectedAnnotationIndex = pdfAnnotationList.FindIndex(item => item.Id == SelectedAnnotationId);
+        if (selectedAnnotationIndex != -1)
+        {
+            annotation = pdfAnnotationList[selectedAnnotationIndex];
+        }
+        if (annotation != null)
+        {
+            if (annotation.Type.ToString() == "Image" || annotation.Type.ToString() == "Stamp")
+            {
+                if (annotation.Subject != null)
+                {
+                    if (annotation.Subject == "")
+                    {
+                        selectedAnnotation.AnnotationType = "CustomStamp";
+                    }
+                    else
+                    {
+                        selectedAnnotation.AnnotationType = "Stamp";
+                    }
+
+                }
+                else
+                {
+                    selectedAnnotation.AnnotationType = "CustomStamp";
+                }
+            }
+            else
+            {
+                selectedAnnotation.AnnotationType = annotation.Type.ToString();
+            }
+            ApplyCommonProperties(annotation);
+
+            if (selectedAnnotation.AnnotationType == "Line" || selectedAnnotation.AnnotationType == "Arrow" || selectedAnnotation.AnnotationType == "Polygon" || selectedAnnotation.AnnotationType == "Distance" || selectedAnnotation.AnnotationType == "Area" || selectedAnnotation.AnnotationType == "Volume" || selectedAnnotation.AnnotationType == "Perimeter")
+            {
+                if (selectedAnnotation.AnnotationType == "Line" || selectedAnnotation.AnnotationType == "Arrow" || selectedAnnotation.AnnotationType == "Distance" || selectedAnnotation.AnnotationType == "Perimeter")
+                {
+                    if (selectedAnnotation.AnnotationType == "Distance")
+                    {
+                        selectedAnnotation.LeaderLength = annotation.LeaderLength;
+                    }
+                    ApplyLineProperties(annotation);
+                    if (selectedAnnotation.AnnotationType == "Line" || selectedAnnotation.AnnotationType == "Arrow" || selectedAnnotation.AnnotationType == "Distance")
+                    {
+                        ApplyVertexProperties(annotation);
+                    }
+                }
+                if (selectedAnnotation.AnnotationType == "Polygon" || selectedAnnotation.AnnotationType == "Area" || selectedAnnotation.AnnotationType == "Volume" || selectedAnnotation.AnnotationType == "Perimeter")
+                {
+                    if (annotation.VertexPoints.Count != 0)
+                    {
+                        ApplyPolygonProperties(annotation);
+                    }
+                }
+            }
+            else
+            {
+                ApplyShapeProperties(annotation);
+            }
+            if (selectedAnnotation.AnnotationType == "Line" || selectedAnnotation.AnnotationType == "Arrow" || selectedAnnotation.AnnotationType == "Polygon" || selectedAnnotation.AnnotationType == "Distance" || selectedAnnotation.AnnotationType == "Area" || selectedAnnotation.AnnotationType == "Volume" || selectedAnnotation.AnnotationType == "Perimeter" || selectedAnnotation.AnnotationType == "Rectangle" || selectedAnnotation.AnnotationType == "Circle" || selectedAnnotation.AnnotationType == "Ink" || selectedAnnotation.AnnotationType == "FreeText")
+            {
+                selectedAnnotation.Thickness = annotation.Thickness;
+                selectedAnnotation.StrokeColor = annotation.StrokeColor;
+                if (IsRGBAColor(selectedAnnotation.StrokeColor))
+                {
+                    selectedAnnotation.StrokeColor = RGBAtoHex(selectedAnnotation.StrokeColor, "stroke");
+                }
+            }
+            if (selectedAnnotation.AnnotationType != "StickyNotes" && selectedAnnotation.AnnotationType != "Ink" && selectedAnnotation.AnnotationType != "Stamp" && selectedAnnotation.AnnotationType != "CustomStamp")
+            {
+                if (selectedAnnotation.AnnotationType == "Highlight" || selectedAnnotation.AnnotationType == "Underline" || selectedAnnotation.AnnotationType == "Strikethrough")
+                {
+                    selectedAnnotation.FillColor = annotation.Color;
+                    selectedAnnotation.Bounds = annotation.Bounds;
+                }
+                else
+                {
+                    selectedAnnotation.FillColor = annotation.FillColor;
+                    if (IsRGBAColor(selectedAnnotation.FillColor))
+                    {
+                        selectedAnnotation.FillColor = RGBAtoHex(selectedAnnotation.FillColor, "fill");
+                    }
+                }
+            }
+            if (selectedAnnotation.AnnotationType == "Stamp")
+            {
+                ApplyStampProperties(annotation);
+            }
+            if (selectedAnnotation.AnnotationType == "FreeText")
+            {
+                ApplyFreeTextProperties(annotation);
+            }
+            if (selectedAnnotation.AnnotationType == "CustomStamp")
+            {
+                selectedAnnotation.CustomStampSource = annotation.CustomStampSource;
+            }
+        }
+        //StateHasChanged();
+    }
+    //Method for the Find out the Total page number in the PDF file
+    private void DocumentLoaded()
+    {
+        selectedAnnotation.TotalPageNumber = PdfViewerInstance.PageCount;
+        numericTextBoxRef.Max = PdfViewerInstance.PageCount;
+        StateHasChanged();
+    }
+    //Method for Apply the Common Properties to property panel
+    private void ApplyCommonProperties(PdfAnnotation annotation)
+    {
+        selectedAnnotation.PageNumber = annotation.PageNumber + 1;
+        selectedAnnotation.Opacity = annotation.Opacity * 100;
+        selectedAnnotation.IsPrint = annotation.IsPrint;
+        selectedAnnotation.IsLocked = annotation.IsLock;
+        if (annotation.AllowedInteractions != null)
+        {
+            if (annotation.AllowedInteractions.Count != 0)
+            {
+                foreach (AllowedInteraction AllowedInteraction in annotation.AllowedInteractions)
+                {
+                    string allowedInteraction = AllowedInteraction.ToString();
+
+                    if (allowedInteraction == "None")
+                    {
+                        selectedAnnotation.IsAllowedInterActionsNone = true;
+                        selectedAnnotation.AllowedInteractions.Add("None");
+                    }
+                    if (allowedInteraction == "Select")
+                    {
+                        selectedAnnotation.IsAllowedInterActionsSelect = true;
+                        selectedAnnotation.AllowedInteractions.Add("Select");
+                    }
+                    if (allowedInteraction == "Move")
+                    {
+                        selectedAnnotation.IsAllowedInterActionsMove = true;
+                        selectedAnnotation.AllowedInteractions.Add("Move");
+                    }
+                    if (allowedInteraction == "Resize")
+                    {
+                        selectedAnnotation.IsAllowedInterActionsResize = true;
+                        selectedAnnotation.AllowedInteractions.Add("Resize");
+
+                    }
+                    if (allowedInteraction == "Delete")
+                    {
+                        selectedAnnotation.IsAllowedInterActionsDelete = true;
+                        selectedAnnotation.AllowedInteractions.Add("Delete");
+                    }
+                    if (allowedInteraction == "PropertyChange")
+                    {
+                        selectedAnnotation.IsAllowedInterActionsPropertyChange = true;
+                        selectedAnnotation.AllowedInteractions.Add("Property Change");
+
+                    }
+                }
+            }
+        }
+        selectedAnnotation.Author = annotation.Author;
+        selectedAnnotation.Comment = annotation.Note;
+        selectedAnnotation.State = annotation.Review.State;
+        if (annotation.Comments.Count != 0)
+        {
+            selectedAnnotation.IsReply = true;
+            selectedAnnotation.ReplyComments = annotation.Comments;
+        }
+        else
+        {
+            selectedAnnotation.IsReply = false;
+            selectedAnnotation.ReplyComments = new List<Comment>();
+        }
+    }
+    //Method for Apply the Line Properties to property panel
+    private void ApplyLineProperties(PdfAnnotation annotation)
+    {
+        selectedAnnotation.LindHeadStart = annotation.LineHeadStart.ToString();
+        selectedAnnotation.LindHeadEnd = annotation.LineHeadEnd.ToString();
+    }
+    //Method for Apply the free text Properties to property panel
+    private void ApplyFreeTextProperties(PdfAnnotation annotation)
+    {
+        selectedAnnotation.FontFamily = annotation.FontFamily;
+        selectedAnnotation.FontSize = annotation.FontSize;
+        selectedAnnotation.FontStyle = annotation.FontStyle.ToString();
+        selectedAnnotation.FontColor = annotation.FontColor;
+        selectedAnnotation.Alignment = annotation.TextAlignment.ToString();
+        selectedAnnotation.DefaultText = annotation.DefaultText;
+
+        if (IsRGBAColor(selectedAnnotation.FontColor))
+        {
+            selectedAnnotation.FontColor = RGBAtoHex(selectedAnnotation.FontColor, "stroke");
+        }
+    }
+    //Method for Apply the Stamp Properties to property panel
+    private void ApplyStampProperties(PdfAnnotation annotation)
+    {
+        if (annotation.DynamicText != "")
+        {
+            selectedAnnotation.StampsType = "Dynamic";
+            selectedAnnotation.DynamicStamp = annotation.Subject;
+        }
+        else
+        {
+            if (selectedAnnotation.SignHereStampList.Contains(annotation.Subject))
+            {
+                selectedAnnotation.StampsType = "SignHere";
+                selectedAnnotation.SignHereStamp = annotation.Subject.Replace(" ", "");
+            }
+            else
+            {
+                selectedAnnotation.StampsType = "StandardBusiness";
+                selectedAnnotation.StandardBusinessStamp = annotation.Subject.Replace(" ", "");
+            }
+        }
+    }
+    //Method for Apply the shape Properties to property panel
+    private void ApplyShapeProperties(PdfAnnotation annotation)
+    {
+        selectedAnnotation.X = annotation.Bound.X;
+        selectedAnnotation.Y = annotation.Bound.Y;
+        selectedAnnotation.Width = annotation.Bound.Width;
+        selectedAnnotation.Height = annotation.Bound.Height;
+    }
+    //Method for Apply the polygon Properties to property panel
+    private void ApplyPolygonProperties(PdfAnnotation annotation)
+    {
+        selectedAnnotation.VertexPointString = "";
+        selectedAnnotation.VertexPointCount = annotation.VertexPoints.Count;
+        selectedAnnotation.VertexPoints = new List<VertexPoint>();
+        if (selectedAnnotation.VertexPointCount != 0)
+        {
+            selectedAnnotation.VertexX = annotation.VertexPoints[0].X;
+            selectedAnnotation.VertexY = annotation.VertexPoints[0].Y;
+
+            for (int i = 0; i < selectedAnnotation.VertexPointCount; i++)
+            {
+                VertexPoint vertexPoint = new VertexPoint();
+                vertexPoint.X = annotation.VertexPoints[i].X;
+                vertexPoint.Y = annotation.VertexPoints[i].Y;
+                selectedAnnotation.VertexPoints.Add(vertexPoint);
+                selectedAnnotation.VertexPointString += ($"X{i + 1}: {vertexPoint.X}   Y{i + 1}: {vertexPoint.Y}\n").ToString();
+            }
+        }
+    }
+    //Method for Apply the line and Arrow Properties to property panel
+    private void ApplyVertexProperties(PdfAnnotation annotation)
+    {
+        if (annotation.VertexPoints.Count != 0)
+        {
+            selectedAnnotation.VertexX0 = annotation.VertexPoints[0].X;
+            selectedAnnotation.VertexY0 = annotation.VertexPoints[0].Y;
+            selectedAnnotation.VertexX1 = annotation.VertexPoints[1].X;
+            selectedAnnotation.VertexY1 = annotation.VertexPoints[1].Y;
+        }
+    }
+    @*Hidden:Lines*@
+    //Common class for the dropdown list in the property panel
+    public class AnnotationsFields
+    {
+        public string ID { get; set; }
+        public string Text { get; set; }
+    }
+    private List<AnnotationsFields> StampTypeList = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "Dynamic", Text= "Dynamic"},
+        new AnnotationsFields() { ID= "SignHere", Text= "Sign Here"},
+        new AnnotationsFields() { ID= "StandardBusiness", Text= "Standard Business"}
+    };
+    private List<AnnotationsFields> DynamicStamps = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "Approved", Text= "Approved"},
+        new AnnotationsFields() { ID= "Confidential", Text= "Confidential"},
+        new AnnotationsFields() { ID= "NotApproved", Text= "Not Approved"},
+        new AnnotationsFields() { ID= "Received", Text= "Received"},
+        new AnnotationsFields() { ID= "Reviewed", Text= "Reviewed"},
+        new AnnotationsFields() { ID= "Revised", Text= "Revised"}
+    };
+    private List<AnnotationsFields> LineShape = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "None", Text= "None"},
+        new AnnotationsFields() { ID= "OpenArrow", Text= "Open Arrow"},
+        new AnnotationsFields() { ID= "ClosedArrow", Text= "Closed Arrow"},
+        new AnnotationsFields() { ID= "Square", Text= "Square"},
+        new AnnotationsFields() { ID= "Diamond", Text= "Diamond"},
+        new AnnotationsFields() { ID= "Round", Text= "Round"}
+    };
+    private List<AnnotationsFields> InkAnnotationType = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "Syncfusion", Text= "Syncfusion"},
+        new AnnotationsFields() { ID= "PdfViewer", Text= "PdfViewer"},
+        new AnnotationsFields() { ID= "Star", Text= "Star"}
+    };
+    private List<AnnotationsFields> FontFamilyTypes = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "Helvetica", Text= "Helvetica"},
+        new AnnotationsFields() { ID= "Courier", Text= "Courier"},
+        new AnnotationsFields() { ID= "Symbol", Text= "Symbol"},
+        new AnnotationsFields() { ID= "Times New Roman", Text= "Times New Roman"}
+    };
+    private List<AnnotationsFields> FontStyleTypes = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "None", Text= "None"},
+        new AnnotationsFields() { ID= "Bold", Text= "Bold"},
+        new AnnotationsFields() { ID= "Underline", Text= "UnderLine"},
+        new AnnotationsFields() { ID= "Italic", Text= "Italic"},
+        new AnnotationsFields() { ID= "Strikethrough", Text= "Strikethrough"}
+    };
+    private List<AnnotationsFields> AlignmentTypes = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "Center", Text= "Center"},
+        new AnnotationsFields() { ID= "Right", Text= "Right"},
+        new AnnotationsFields() { ID= "Left", Text= "Left"},
+        new AnnotationsFields() { ID= "Justify", Text= "Justify"}
+    };
+    private List<AnnotationsFields> SignHereStamps = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "Accepted", Text= "Accepted"},
+        new AnnotationsFields() { ID= "InitialHere", Text= "Initial Here"},
+        new AnnotationsFields() { ID= "Rejected", Text= "Rejected"},
+        new AnnotationsFields() { ID= "SignHere", Text= "Sign Here"},
+        new AnnotationsFields() { ID= "Witness", Text= "Witness"}
+    };
+    private List<AnnotationsFields> StandardBusinessStamps = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "Approved", Text= "Approved"},
+        new AnnotationsFields() { ID= "Completed", Text= "Completed"},
+        new AnnotationsFields() { ID= "Confidential", Text= "Confidential"},
+        new AnnotationsFields() { ID= "Draft", Text= "Draft"},
+        new AnnotationsFields() { ID= "Final", Text= "Final"},
+        new AnnotationsFields() { ID= "ForComment", Text= "For Comment"},
+        new AnnotationsFields() { ID= "ForPublicRelease", Text= "For Public Release"},
+        new AnnotationsFields() { ID= "InformationOnly", Text= "Information Only"},
+        new AnnotationsFields() { ID= "NotApproved", Text= "Not Approved"},
+        new AnnotationsFields() { ID= "NotForPublicRelease", Text= "Not For Public Release"},
+        new AnnotationsFields() { ID= "PreliminaryResults", Text= "Preliminary Results"},
+        new AnnotationsFields() { ID= "Void", Text= "Void"}
+    };
+    private List<AnnotationsFields> Status = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "None", Text= "None"},
+        new AnnotationsFields() { ID= "Accepted", Text= "Accepted"},
+        new AnnotationsFields() { ID= "Cancelled", Text= "Cancelled"},
+        new AnnotationsFields() { ID= "Completed", Text= "Completed"},
+        new AnnotationsFields() { ID= "Rejected", Text= "Rejected"}
+    };
+    private List<AnnotationsFields> AnnotationList = new List<AnnotationsFields>()
+    {
+        new AnnotationsFields() { ID= "Highlight", Text= "Highlight"},
+        new AnnotationsFields() { ID= "Underline", Text= "Underline"},
+        new AnnotationsFields() { ID= "Strikethrough", Text= "Strikethrough"},
+        new AnnotationsFields() { ID= "Line", Text= "Line"},
+        new AnnotationsFields() { ID= "Arrow", Text= "Arrow"},
+        new AnnotationsFields() { ID= "Rectangle", Text= "Rectangle"},
+        new AnnotationsFields() { ID= "Circle", Text= "Circle"},
+        new AnnotationsFields() { ID= "Polygon", Text= "Polygon"},
+        new AnnotationsFields() { ID= "Distance", Text= "Distance"},
+        new AnnotationsFields() { ID= "Perimeter", Text= "Perimeter"},
+        new AnnotationsFields() { ID= "Area", Text= "Area"},
+        new AnnotationsFields() { ID= "Radius", Text= "Radius"},
+        new AnnotationsFields() { ID= "Volume", Text= "Volume"},
+        new AnnotationsFields() { ID= "StickyNotes", Text= "Sticky Notes"},
+        new AnnotationsFields() { ID= "Ink", Text= "Ink"},
+        new AnnotationsFields() { ID= "Stamp", Text= "Stamp"},
+        new AnnotationsFields() { ID= "CustomStamp", Text= "Custom Stamp"},
+        new AnnotationsFields() { ID= "FreeText", Text= "Free Text"}
+    };
+    //Method for checking color is RGBA of Hex code
+    private static bool IsRGBAColor(string input)
+    {
+        string rgbaPattern = @"rgba\((\d+),\s*(\d+),\s*(\d+),\s*(\d+(?:\.\d+)?)\)";
+        if (input != null)
+        {
+            return Regex.IsMatch(input, rgbaPattern);
+        }
+        return false;
+    }
+    //Method to convert the RGBA color to hex code
+    private static string RGBAtoHex(string rgba, string type)
+    {
+        string[] rgbaValues = rgba.Split(new[] { '(', ',', ')' }, StringSplitOptions.RemoveEmptyEntries);
+        int r = int.Parse(rgbaValues[1]);
+        int g = int.Parse(rgbaValues[2]);
+        int b = int.Parse(rgbaValues[3]);
+        int a = (int)(double.Parse(rgbaValues[4]) * 255);
+        if (type == "stroke")
+        {
+            return $"#{r:X2}{g:X2}{b:X2}";
+        }
+        else
+        {
+            return $"#{r:X2}{g:X2}{b:X2}{a:X2}";
+        }
+    }
+    //Method for the Ink annotation dropdown
+    private void InkAnnotationChanged(ChangeEventArgs<string, AnnotationsFields> args)
+    {
+        if (args.Value.ToString() == "PdfViewer")
+        {
+            selectedAnnotation.Data = "M462,144 L462,144 L463,144 L464,144 L465,147 L465,149 L465,150 L466,152 L466,154 L466,156 L466,156 L466,159 L466,160 L466,162 L466,163 L466,164 L466,165 L466,168 L466,169 L466,171 L466,172 L466,172 L466,174 L466,175 L466,176 L466,176 L466,178 L466,180 L467,180 L468,180 L468,181 M465,144 L465,144 L466,144 L468,144 L469,144 L470,144 L472,146 L473,147 L473,147 L474,148 L475,148 L475,149 L476,150 L476,151 L476,152 L476,152 L476,154 L476,155 L476,156 L476,156 L476,157 L476,158 L476,159 L476,160 L476,160 L475,160 L475,161 L474,162 L473,163 L472,164 L471,164 L469,165 L469,165 L468,166 L465,167 M479,148 L479,148 L479,149 L479,150 L479,152 L479,154 L477,156 L477,157 L477,158 L477,160 L477,161 L477,162 L477,163 L477,164 L477,166 L477,167 L477,168 L477,169 L477,170 L477,171 L477,172 L477,172 L477,173 L477,175 L477,176 L477,176 L477,178 L477,179 L477,180 M477,146 L477,146 L478,146 L480,146 L481,146 L484,146 L485,146 L485,146 L488,147 L489,148 L490,148 L490,148 L491,149 L493,149 L493,150 L493,151 L493,153 L493,154 L493,156 L494,158 L494,160 L494,161 L494,162 L494,163 L494,164 L494,165 L494,166 L494,168 L493,168 L492,169 L491,171 L490,172 L489,172 L488,174 L487,174 L485,175 L484,175 L483,176 L481,176 L481,176 L479,176 L478,176 L478,177 L477,177 M499,148 L499,148 L499,149 L499,152 L499,155 L499,156 L499,159 L499,160 L499,162 L499,164 L499,165 L499,167 L499,168 L499,169 L499,170 L499,171 L499,173 L499,174 L499,176 L499,176 L499,177 L499,178 M499,148 L499,148 L500,148 L501,148 L501,148 L502,148 L505,148 L506,148 L507,148 L508,148 L509,148 L509,148 L510,148 L511,148 L512,148 L513,148 L513,148 L515,148 L516,148 L517,148 M498,157 L498,157 L499,157 L502,158 L508,158 L510,158 L512,158 L514,158 L515,158 L517,158 M520,148 L520,148 L519,148 L519,149 L519,151 L521,155 L521,156 L521,157 L521,158 L521,160 L522,161 L522,163 L522,164 L522,164 L523,166 L523,167 L523,168 L523,168 L523,169 L524,170 L524,172 L525,173 L525,173 L526,176 L527,176 L528,176 M537,145 L537,145 L537,147 L537,149 L537,151 L537,152 L537,156 L537,157 L537,159 L537,161 L537,162 L537,164 L536,167 L536,168 L535,169 L534,171 L534,172 L534,173 L533,173 L532,175 L532,176 L531,176 L531,177 L530,177 L529,178 L529,179 M545,148 L545,148 L545,151 L545,154 L545,157 L545,160 L545,164 L545,167 L545,169 L545,170 L545,171 L545,172 L545,172 M540,145 L540,145 L541,145 L542,144 L544,144 L545,144 L547,144 L548,144 M541,176 L541,176 L542,176 L543,176 L545,176 L545,174 L547,174 L548,174 L549,174 L550,174 L550,173 M553,144 L553,144 L553,145 L553,146 L553,148 L554,150 L554,152 L554,155 L554,156 L554,158 L554,160 L554,162 L554,164 L554,166 L554,168 L554,170 L554,171 L554,172 L554,172 L554,173 L554,174 M553,147 L553,147 L553,146 L554,146 L557,146 L557,146 L560,146 L561,146 L562,146 M553,165 L553,165 L554,165 L557,164 L559,164 L561,164 L562,163 L563,163 M559,148 L559,148 L560,148 L561,148 L562,148 L564,148 L565,148 L565,148 L567,148 M552,175 L552,175 L552,176 L553,176 L555,176 L557,175 L558,175 L560,175 L561,175 L561,175 L562,175 L563,175 M569,145 L569,145 L572,145 L573,149 L574,152 L574,155 L575,157 L575,159 L577,160 L577,161 L577,162 L577,163 L577,164 L577,166 L578,167 L579,168 L579,169 L579,170 M585,152 L585,152 L584,154 L584,155 L583,158 L583,159 L583,161 L583,163 L582,165 L582,166 L581,168 L581,169 L580,170 L580,172 L580,173 L580,174 L580,175 L580,176 M585,153 L585,153 L586,156 L586,158 L587,160 L587,162 L588,165 L588,167 L588,168 L589,171 L589,172 L589,172 L590,173 L591,174 M596,144 L596,144 L596,146 L596,148 L596,151 L596,154 L596,156 L596,156 L596,158 L596,159 L595,161 L595,163 L594,166 L593,167 L593,168 L593,170 L592,171 L592,173 L592,175 L590,177 M603,145 L603,145 L603,147 L603,149 L603,152 L605,153 L605,156 L605,156 L605,158 L605,160 L605,162 L605,165 L605,167 L605,168 L605,168 L605,169 M603,147 L603,147 L604,146 L605,145 L605,145 L608,145 L610,145 L611,145 L613,145 L614,145 L616,145 L617,145 L617,145 L619,145 L620,145 L621,145 L622,145 L623,145 L625,145 L625,145 M605,160 L605,160 L607,160 L610,160 L613,160 L613,160 L614,160 L616,160 L614,160 M603,163 L603,163 L603,164 L603,164 L603,167 L603,168 L603,170 L603,171 L603,172 L603,172 L603,173 L603,174 L603,175 L603,176 L603,176 L604,176 L605,176 L606,176 L608,176 L610,176 L611,175 L613,174 L614,174 L615,173 L617,173 L617,172 L618,172 M629,146 L629,146 L628,147 L628,150 L628,153 L628,158 L628,161 L628,164 L628,165 L628,167 L628,168 L628,169 L628,170 L628,171 L628,172 L628,172 L627,173 M628,144 L628,144 L629,144 L631,144 L633,144 L633,144 L634,144 L635,144 L636,144 L637,144 L637,144 L639,145 L640,147 L640,148 L640,149 L640,151 L640,152 L640,153 L640,154 L640,156 L640,156 L640,158 L640,159 L640,160 L638,160 L636,162 L634,162 L633,163 L631,164 L630,164 L629,164 L628,164 L627,164 L627,165 L628,165 L629,166 L629,166 L630,166 L631,167 L632,168 L633,168 L633,169 L634,170 L634,171 L634,172 L634,172 L635,173 L636,174 M626,172 L626,172 L626,173 L626,174 M634,172 L634,172 L635,174 L636,175 L637,176 L637,176 L637,177 M626,171 L626,171 L626,172 L626,173 L626,174 L626,175 L626,176 L626,176 L626,177 L626,179";
+        }
+        else if (args.Value.ToString() == "Star")
+        {
+            selectedAnnotation.Data = "M243.75,108 L243.75,108 L244.5,108 L246,108 L246.75,108 L247.5,107.25 L248.25,107.25 L249.75,107.25 L250.5,107.25 L251.25,107.25 L252.75,107.25 L252.75,107.25 L254.25,107.25 L255.75,107.25 L255.75,107.25 L257.25,107.25 L258.75,107.25 L259.5,107.25 L261.75,107.25 L261.75,107.25 L263.25,107.25 L264.75,107.25 L266.25,107.25 L267.75,107.25 L268.5,107.25 L270,107.25 L270.75,107.25 L271.5,107.25 L272.25,107.25 L273,107.25 L273.75,107.25 L274.5,107.25 L275.25,107.25 L276.75,107.25 L276.75,107.25 L277.5,107.25 L279,107.25 L279.75,107.25 L280.5,107.25 L281.25,107.25 L282,107.25 L282.75,107.25 L282,107.25 L281.25,108 L279.75,108.75 L279,109.5 L277.5,110.25 L276.75,110.25 L275.25,111 L273.75,112.5 L272.25,113.25 L271.5,113.25 L270,115.5 L269.25,115.5 L269.25,116.25 L267.75,116.25 L266.25,117.75 L264.75,117.75 L264.75,118.5 L263.25,119.25 L261.75,120 L261,120 L260.25,120.75 L258.75,121.5 L258,122.25 L258,122.25 L255.75,123.75 L254.25,124.5 L253.5,125.25 L252,125.25 L251.25,126 L250.5,126.75 L249.75,127.5 L249,127.5 L248.25,127.5 L248.25,126.75 L248.25,126 L249,125.25 L249.75,125.25 L249.75,124.5 L249.75,123.75 L249.75,123 L250.5,122.25 L251.25,122.25 L252,120.75 L252,120 L252.75,120 L252.75,118.5 L254.25,117.75 L254.25,116.25 L255.75,115.5 L255.75,114.75 L256.5,113.25 L258,111 L258.75,110.25 L258.75,109.5 L258.75,108 L258.75,107.25 L258.75,107.25 L260.25,106.5 L261,105.75 L261,104.25 L261.75,103.5 L262.5,102 L262.5,101.25 L263.25,100.5 L263.25,99.75 L263.25,99 L264,98.25 L264,98.25 L264,97.5 L264.75,96 L264.75,95.25 L264.75,95.25 L264.75,94.5 L265.5,94.5 L266.25,95.25 L267,96 L267.75,96.75 L267.75,98.25 L267.75,99.75 L269.25,101.25 L269.25,101.25 L270,102 L270,102.75 L270,103.5 L270,104.25 L270,105.75 L270.75,106.5 L270.75,107.25 L270.75,108 L271.5,109.5 L271.5,110.25 L271.5,111 L271.5,111.75 L271.5,112.5 L271.5,113.25 L271.5,114.75 L272.25,115.5 L272.25,116.25 L272.25,117 L273,118.5 L273,119.25 L273,119.25 L273.75,120.75 L273.75,121.5 L273.75,122.25 L274.5,123 L274.5,123.75 L275.25,124.5 L275.25,125.25 L275.25,125.25 L276,126 L276.75,126.75 L276.75,127.5 L276,127.5 L273.75,126.75 L273.75,126 L272.25,126 L270.75,125.25 L269.25,124.5 L267.75,123.75 L266.25,122.25 L265.5,122.25 L264.75,121.5 L264,120.75 L261.75,120 L261.75,119.25 L261.75,119.25 L259.5,117.75 L259.5,117 L258,116.25 L258,116.25 L257.25,115.5 L256.5,114.75 L255.75,114 L255.75,114 L255,113.25 L253.5,113.25 L253.5,112.5 L252.75,112.5 L252.75,111.75 L252,111.75 L251.25,111.75 L250.5,111 L249.75,110.25 L249.75,110.25 L249,110.25 L249,110.25 L247.5,110.25 L246.75,109.5 L246.75,108.75 L246,108.75 L245.25,108.75";
+        }
+        else
+        {
+            selectedAnnotation.Data = "[{\"command\":\"M\",\"x\":244.83334350585938,\"y\":982.0000305175781},{\"command\":\"L\",\"x\":244.83334350585938,\"y\":982.0000305175781},{\"command\":\"L\",\"x\":250.83334350585938,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":252.83334350585938,\"y\":946.0000305175781},{\"command\":\"L\",\"x\":254.16668701171875,\"y\":940.6667175292969},{\"command\":\"L\",\"x\":256.8333435058594,\"y\":931.3333435058594},{\"command\":\"L\",\"x\":257.5,\"y\":929.3333435058594},{\"command\":\"L\",\"x\":258.8333435058594,\"y\":926.6667175292969},{\"command\":\"L\",\"x\":259.5,\"y\":924.0000305175781},{\"command\":\"L\",\"x\":259.5,\"y\":922.6667175292969},{\"command\":\"L\",\"x\":258.8333435058594,\"y\":922.0000305175781},{\"command\":\"L\",\"x\":258.16668701171875,\"y\":922.0000305175781},{\"command\":\"L\",\"x\":256.8333435058594,\"y\":922.0000305175781},{\"command\":\"L\",\"x\":256.16668701171875,\"y\":922.6667175292969},{\"command\":\"L\",\"x\":254.83334350585938,\"y\":923.3333435058594},{\"command\":\"L\",\"x\":254.16668701171875,\"y\":923.3333435058594},{\"command\":\"L\",\"x\":253.5,\"y\":923.3333435058594},{\"command\":\"L\",\"x\":252.83334350585938,\"y\":925.3333435058594},{\"command\":\"L\",\"x\":252.83334350585938,\"y\":927.3333435058594},{\"command\":\"L\",\"x\":252.83334350585938,\"y\":936.0000305175781},{\"command\":\"L\",\"x\":253.5,\"y\":940.6667175292969},{\"command\":\"L\",\"x\":254.83334350585938,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":260.16668701171875,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":264.16668701171875,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":274.16668701171875,\"y\":958.6667175292969},{\"command\":\"L\",\"x\":278.16668701171875,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":281.5,\"y\":961.3333435058594},{\"command\":\"L\",\"x\":285.5,\"y\":964.6667175292969},{\"command\":\"L\",\"x\":286.8333740234375,\"y\":967.3333435058594},{\"command\":\"L\",\"x\":286.8333740234375,\"y\":970.0000305175781},{\"command\":\"L\",\"x\":282.8333740234375,\"y\":978.6667175292969},{\"command\":\"L\",\"x\":278.16668701171875,\"y\":983.3333435058594},{\"command\":\"L\",\"x\":266.16668701171875,\"y\":991.3333435058594},{\"command\":\"L\",\"x\":259.5,\"y\":993.3333435058594},{\"command\":\"L\",\"x\":252.16668701171875,\"y\":994.0000305175781},{\"command\":\"L\",\"x\":240.83334350585938,\"y\":991.3333435058594},{\"command\":\"L\",\"x\":236.16668701171875,\"y\":988.6667175292969},{\"command\":\"L\",\"x\":230.16668701171875,\"y\":982.6667175292969},{\"command\":\"L\",\"x\":228.83334350585938,\"y\":980.6667175292969},{\"command\":\"L\",\"x\":228.16668701171875,\"y\":978.6667175292969},{\"command\":\"L\",\"x\":228.83334350585938,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":230.16668701171875,\"y\":973.3333435058594},{\"command\":\"L\",\"x\":236.16668701171875,\"y\":971.3333435058594},{\"command\":\"L\",\"x\":240.83334350585938,\"y\":971.3333435058594},{\"command\":\"L\",\"x\":246.16668701171875,\"y\":972.0000305175781},{\"command\":\"L\",\"x\":257.5,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":262.8333435058594,\"y\":976.0000305175781},{\"command\":\"L\",\"x\":269.5,\"y\":977.3333435058594},{\"command\":\"L\",\"x\":276.16668701171875,\"y\":978.6667175292969},{\"command\":\"L\",\"x\":279.5,\"y\":978.0000305175781},{\"command\":\"L\",\"x\":285.5,\"y\":976.6667175292969},{\"command\":\"L\",\"x\":288.16668701171875,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":292.8333740234375,\"y\":969.3333435058594},{\"command\":\"L\",\"x\":293.5,\"y\":966.6667175292969},{\"command\":\"L\",\"x\":294.16668701171875,\"y\":964.0000305175781},{\"command\":\"L\",\"x\":293.5,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":293.5,\"y\":958.0000305175781},{\"command\":\"L\",\"x\":292.8333740234375,\"y\":956.6667175292969},{\"command\":\"L\",\"x\":291.5,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":291.5,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":291.5,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":291.5,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":292.16668701171875,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":292.8333740234375,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":294.16668701171875,\"y\":961.3333435058594},{\"command\":\"L\",\"x\":295.5,\"y\":964.6667175292969},{\"command\":\"L\",\"x\":297.5,\"y\":969.3333435058594},{\"command\":\"L\",\"x\":298.8333740234375,\"y\":970.6667175292969},{\"command\":\"L\",\"x\":301.5,\"y\":970.0000305175781},{\"command\":\"L\",\"x\":304.16668701171875,\"y\":968.6667175292969},{\"command\":\"L\",\"x\":305.5,\"y\":966.0000305175781},{\"command\":\"L\",\"x\":308.8333740234375,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":310.16668701171875,\"y\":957.3333435058594},{\"command\":\"L\",\"x\":310.8333740234375,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":310.8333740234375,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":310.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":311.5,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":312.8333740234375,\"y\":959.3333435058594},{\"command\":\"L\",\"x\":316.16668701171875,\"y\":968.0000305175781},{\"command\":\"L\",\"x\":317.5,\"y\":972.6667175292969},{\"command\":\"L\",\"x\":318.16668701171875,\"y\":977.3333435058594},{\"command\":\"L\",\"x\":319.5,\"y\":983.3333435058594},{\"command\":\"L\",\"x\":319.5,\"y\":986.0000305175781},{\"command\":\"L\",\"x\":319.5,\"y\":988.0000305175781},{\"command\":\"L\",\"x\":318.8333740234375,\"y\":988.0000305175781},{\"command\":\"L\",\"x\":318.16668701171875,\"y\":988.6667175292969},{\"command\":\"L\",\"x\":316.16668701171875,\"y\":987.3333435058594},{\"command\":\"L\",\"x\":314.8333740234375,\"y\":985.3333435058594},{\"command\":\"L\",\"x\":314.16668701171875,\"y\":980.6667175292969},{\"command\":\"L\",\"x\":314.8333740234375,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":316.16668701171875,\"y\":969.3333435058594},{\"command\":\"L\",\"x\":319.5,\"y\":960.6667175292969},{\"command\":\"L\",\"x\":320.16668701171875,\"y\":957.3333435058594},{\"command\":\"L\",\"x\":321.5,\"y\":955.3333435058594},{\"command\":\"L\",\"x\":322.16668701171875,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":322.8333740234375,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":324.16668701171875,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":324.8333740234375,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":326.8333740234375,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":328.16668701171875,\"y\":958.0000305175781},{\"command\":\"L\",\"x\":328.8333740234375,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":329.5,\"y\":962.0000305175781},{\"command\":\"L\",\"x\":330.16668701171875,\"y\":962.0000305175781},{\"command\":\"L\",\"x\":330.16668701171875,\"y\":962.6667175292969},{\"command\":\"L\",\"x\":330.16668701171875,\"y\":962.0000305175781},{\"command\":\"L\",\"x\":330.8333740234375,\"y\":960.0000305175781},{\"command\":\"L\",\"x\":331.5,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":332.8333740234375,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":333.5,\"y\":950.0000305175781},{\"command\":\"L\",\"x\":334.8333740234375,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":335.5,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":336.16668701171875,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":337.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":338.8333740234375,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":340.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":341.5,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":342.8333740234375,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":344.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":346.8333740234375,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":349.5,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":350.8333740234375,\"y\":948.0000305175781},{\"command\":\"L\",\"x\":351.5,\"y\":946.6667175292969},{\"command\":\"L\",\"x\":352.8333740234375,\"y\":944.0000305175781},{\"command\":\"L\",\"x\":352.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":354.16668701171875,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":354.8333740234375,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":354.8333740234375,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":354.16668701171875,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":354.16668701171875,\"y\":946.6667175292969},{\"command\":\"L\",\"x\":354.16668701171875,\"y\":950.0000305175781},{\"command\":\"L\",\"x\":355.5,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":356.16668701171875,\"y\":957.3333435058594},{\"command\":\"L\",\"x\":358.16668701171875,\"y\":959.3333435058594},{\"command\":\"L\",\"x\":360.16668701171875,\"y\":958.0000305175781},{\"command\":\"L\",\"x\":364.16668701171875,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":370.8333740234375,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":373.5,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":375.5,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":376.16668701171875,\"y\":933.3333435058594},{\"command\":\"L\",\"x\":376.8333740234375,\"y\":931.3333435058594},{\"command\":\"L\",\"x\":376.8333740234375,\"y\":930.0000305175781},{\"command\":\"L\",\"x\":376.8333740234375,\"y\":929.3333435058594},{\"command\":\"L\",\"x\":376.16668701171875,\"y\":930.0000305175781},{\"command\":\"L\",\"x\":375.5,\"y\":932.0000305175781},{\"command\":\"L\",\"x\":375.5,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":374.8333740234375,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":374.8333740234375,\"y\":960.6667175292969},{\"command\":\"L\",\"x\":375.5,\"y\":966.0000305175781},{\"command\":\"L\",\"x\":377.5,\"y\":974.6667175292969},{\"command\":\"L\",\"x\":378.16668701171875,\"y\":977.3333435058594},{\"command\":\"L\",\"x\":380.8333740234375,\"y\":981.3333435058594},{\"command\":\"L\",\"x\":382.16668701171875,\"y\":982.6667175292969},{\"command\":\"L\",\"x\":383.5,\"y\":982.6667175292969},{\"command\":\"L\",\"x\":387.5,\"y\":982.6667175292969},{\"command\":\"L\",\"x\":389.5,\"y\":980.6667175292969},{\"command\":\"L\",\"x\":392.16668701171875,\"y\":976.6667175292969},{\"command\":\"L\",\"x\":392.8333740234375,\"y\":973.3333435058594},{\"command\":\"L\",\"x\":392.16668701171875,\"y\":970.0000305175781},{\"command\":\"L\",\"x\":388.8333740234375,\"y\":965.3333435058594},{\"command\":\"L\",\"x\":385.5,\"y\":964.0000305175781},{\"command\":\"L\",\"x\":382.8333740234375,\"y\":964.0000305175781},{\"command\":\"L\",\"x\":377.5,\"y\":964.0000305175781},{\"command\":\"L\",\"x\":375.5,\"y\":964.6667175292969},{\"command\":\"L\",\"x\":373.5,\"y\":965.3333435058594},{\"command\":\"L\",\"x\":374.8333740234375,\"y\":963.3333435058594},{\"command\":\"L\",\"x\":376.8333740234375,\"y\":961.3333435058594},{\"command\":\"L\",\"x\":382.16668701171875,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":384.16668701171875,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":387.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":388.16668701171875,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":388.16668701171875,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":388.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":388.8333740234375,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":389.5,\"y\":959.3333435058594},{\"command\":\"L\",\"x\":389.5,\"y\":960.6667175292969},{\"command\":\"L\",\"x\":390.16668701171875,\"y\":961.3333435058594},{\"command\":\"L\",\"x\":390.8333740234375,\"y\":960.6667175292969},{\"command\":\"L\",\"x\":393.5,\"y\":958.0000305175781},{\"command\":\"L\",\"x\":396.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":398.16668701171875,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":400.16668701171875,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":400.16668701171875,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":400.8333740234375,\"y\":948.0000305175781},{\"command\":\"L\",\"x\":400.8333740234375,\"y\":947.3333435058594},{\"command\":\"L\",\"x\":401.5,\"y\":948.0000305175781},{\"command\":\"L\",\"x\":402.16668701171875,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":403.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":404.8333740234375,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":406.16668701171875,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":407.5,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":410.16668701171875,\"y\":952.0000305175781},{\"command\":\"L\",\"x\":412.16668701171875,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":940.6667175292969},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":414.16668701171875,\"y\":938.0000305175781},{\"command\":\"L\",\"x\":415.5,\"y\":939.3333435058594},{\"command\":\"L\",\"x\":418.8333740234375,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":420.16668701171875,\"y\":945.3333435058594},{\"command\":\"L\",\"x\":421.5,\"y\":946.6667175292969},{\"command\":\"L\",\"x\":422.8333740234375,\"y\":950.0000305175781},{\"command\":\"L\",\"x\":423.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":423.5,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":422.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":421.5,\"y\":955.3333435058594},{\"command\":\"L\",\"x\":421.5,\"y\":956.0000305175781},{\"command\":\"L\",\"x\":422.16668701171875,\"y\":954.6667175292969},{\"command\":\"L\",\"x\":422.8333740234375,\"y\":954.0000305175781},{\"command\":\"L\",\"x\":424.8333740234375,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":425.5,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":428.16668701171875,\"y\":945.3333435058594},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":945.3333435058594},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":948.0000305175781},{\"command\":\"L\",\"x\":428.8333740234375,\"y\":950.0000305175781},{\"command\":\"L\",\"x\":429.5,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":430.16668701171875,\"y\":953.3333435058594},{\"command\":\"L\",\"x\":432.8333740234375,\"y\":952.6667175292969},{\"command\":\"L\",\"x\":434.8333740234375,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":437.5,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":440.16668701171875,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":441.5,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":442.16668701171875,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":941.3333435058594},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":442.8333740234375,\"y\":946.0000305175781},{\"command\":\"L\",\"x\":443.5,\"y\":949.3333435058594},{\"command\":\"L\",\"x\":444.16668701171875,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":445.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":447.5,\"y\":950.6667175292969},{\"command\":\"L\",\"x\":450.16668701171875,\"y\":948.6667175292969},{\"command\":\"L\",\"x\":452.16668701171875,\"y\":945.3333435058594},{\"command\":\"L\",\"x\":453.5,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":452.8333740234375,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":452.16668701171875,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":450.8333740234375,\"y\":936.6667175292969},{\"command\":\"L\",\"x\":448.8333740234375,\"y\":936.0000305175781},{\"command\":\"L\",\"x\":447.5,\"y\":936.6667175292969},{\"command\":\"L\",\"x\":446.16668701171875,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":445.5,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":445.5,\"y\":939.3333435058594},{\"command\":\"L\",\"x\":446.16668701171875,\"y\":939.3333435058594},{\"command\":\"L\",\"x\":446.8333740234375,\"y\":939.3333435058594},{\"command\":\"L\",\"x\":452.16668701171875,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":454.8333740234375,\"y\":936.6667175292969},{\"command\":\"L\",\"x\":456.8333740234375,\"y\":936.0000305175781},{\"command\":\"L\",\"x\":459.5,\"y\":936.6667175292969},{\"command\":\"L\",\"x\":460.8333740234375,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":461.5,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":942.0000305175781},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":944.0000305175781},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":942.6667175292969},{\"command\":\"L\",\"x\":462.16668701171875,\"y\":941.3333435058594},{\"command\":\"L\",\"x\":462.8333740234375,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":464.16668701171875,\"y\":935.3333435058594},{\"command\":\"L\",\"x\":465.5,\"y\":933.3333435058594},{\"command\":\"L\",\"x\":466.16668701171875,\"y\":932.6667175292969},{\"command\":\"L\",\"x\":467.5,\"y\":933.3333435058594},{\"command\":\"L\",\"x\":469.5,\"y\":935.3333435058594},{\"command\":\"L\",\"x\":470.16668701171875,\"y\":938.6667175292969},{\"command\":\"L\",\"x\":472.8333740234375,\"y\":943.3333435058594},{\"command\":\"L\",\"x\":472.8333740234375,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":474.16668701171875,\"y\":944.6667175292969},{\"command\":\"L\",\"x\":475.5,\"y\":944.0000305175781},{\"command\":\"L\",\"x\":478.16668701171875,\"y\":941.3333435058594},{\"command\":\"L\",\"x\":481.5,\"y\":937.3333435058594},{\"command\":\"L\",\"x\":484.8333740234375,\"y\":934.0000305175781},{\"command\":\"L\",\"x\":488.8333740234375,\"y\":929.3333435058594},{\"command\":\"L\",\"x\":489.5,\"y\":928.0000305175781}]";
+        }
+    }
+    //Method for update the input is changed
+    private void InputChange()
+    {
+        selectedAnnotation.IsInputChange = true;
+    }
+    //Method for getting the random Id for reply comment
+    private string GetRandomId()
+    {
+        Guid newGUID = Guid.NewGuid();
+        return newGUID.ToString();
+    }
+    //Method for create the new reply comment
+    private void AddReply()
+    {
+        selectedAnnotation.IsInputChange = true;
+        if (selectedAnnotation.Comment == null || selectedAnnotation.Comment == "")
+        {
+            selectedAnnotation.Comment = "New Comment";
+        }
+        Comment comment = new Comment();
+        comment.Id = GetRandomId();
+        comment.Author = selectedAnnotation.ReplyAuthor;
+        comment.Note = selectedAnnotation.ReplyComment;
+        comment.ModifiedDate = DateTime.Now.ToString();
+        comment.State = selectedAnnotation.ReplyState;
+        selectedAnnotation.ReplyComments.Add(comment);
+        selectedAnnotation.ReplyAuthor = "Guest";
+        selectedAnnotation.ReplyState = "";
+        selectedAnnotation.ReplyComment = "Reply Comment";
+        StateHasChanged();
+    }
+    //Method for Image change in custom stamp
+    private async void ImageChane(UploadChangeEventArgs action)
+    {
+        string base64 = action.Files[0].File.ToString();
+        string type = action.Files[0].FileInfo.Type.ToLower();
+        var fileStream = new MemoryStream();
+        await action.Files[0].File.OpenReadStream(long.MaxValue).CopyToAsync(fileStream);
+        string baseString = Convert.ToBase64String(fileStream.ToArray());
+        selectedAnnotation.CustomStampSource = "data:image/jpeg;base64," + baseString;
+        byte[] bytes = Convert.FromBase64String(Convert.ToBase64String(fileStream.ToArray()));
+        fileStream.Close();
+        StateHasChanged();
+
+    }
+    //Method for the image remove from the file uploader
+    private async Task OnFileRemove()
+    {
+        selectedAnnotation.CustomStampSource = "data:image/jpeg;base64,iVBORw0KGgoAAAANSUhEUgAAAMwAAADJCAMAAABYMS1zAAAAllBMVEX///8rNXz2kh7b3OXQ0d8jLnlMU4wfK3hYXpH5+fvz8/bv7/SRlbYAAGyLj7GMkLBGToqdoLt4fKS1t8vIydoAGHEXJXUMHnP1hAD1jAD9483+9u7707L4sXSDh6s0PoL3oE76xpr4qV/97d/5vov96NYADW/2m0b7zaX2mTv4t3v5uYT83cL4rms+R4YAAGX2kjBubpsmc7m7AAAEKUlEQVR4nO3c6VbiQBAF4Dai7AiikCbIjuyK7/9ykziTCJLuVLUcu5O5938d8x2kUr0chEAQBEEQpBgJbD/A9RLMVnPbz3C1LHw5Gdh+iCtl7Xue3AxtP8ZVMpReGOlNC/DF2Xt/I+U295rlRHoxZ5ZzzXyWWELNZGn7eX6SYHdiidrA3vYT/SBT3zuPXNt+JOOsv1tCzSKnX5y9vLB4nr/N5TQw8NIwnjzksA3MV6mWqKnlrg0EM4UlmgbyNtu8KC2fs43tx2NlobFEnDzNNmst5bMN5EYzzLKEmlVOmtpgo/8n+/fFyUVTW6ob2ZlG5qCpBbpGdhbf/QXbjmoJNTvHZ5sp3ZI521S7oxY93biqwSga3Wr+/ppjyZptaq3XMjm9Rox569Or3p/Ufz51UtZqdPs2tYf+DTl3CaZdplc11Zj5kWnxtAs2q5hANSlr4+9UTc0mRjMp6zWqfRubmK2ZJdRs0lu0RQyrKX/TTBzDEKZLVeQxfWPdGoY0XSosqpnTFka55KdgVK8aSxizpvzPolxEW8LMLvf7qPHVS2hrn4ypRreAttYADF8y2qMBe615aoTRHgxYfGkOjwYfjnbpbHOc2U/YCwD9EYfVqZm4lZHE32ktttczW05T818yNjTsYkRwcVim+R+bZG1nWMakHpcpLJvMPU3rGLGXtC+OzL6CYh8jlqT5mbKf6QDm/PRfFcq5swsYEewyLaRTZycwYVPLOGyiHc+4gYkW0bpzwMym7BZG7DUaSdwvdwYTzjaqN45PvRfoDkbMD+kan3zI5BBGBIs0jU8/N3cJk3rqLDMmZXcxlws21pm5Y5jvCzY54xz8uYYRy8PpzcbsSdlpjAhO9m2OvLN/9zDRbBNzmLcaHcQks41cMOucxIh91NTkjFvmJkYMVlJKdpWjmOi8k3+3xFWMCAxuljiLMUmxMKP3Z3JeWzFm3KRX6a6bXDfVpw4jyWNxihq6i0BX1rBiVPVrFgRBkIKkVmekZlSV9OaAEwNLtfvxSE9ye7bFKPpIXpovjBxMBs1Ws0dOPxln3p7pVV/jjGSEvCd7ivnNQZNzUA4MMMAAAwwwwAADDDDAAAMMMMAAAwwwwAADDDDAAAMMMMAAAwwwwPzvmOcCYVoFwlRLXUZKcRmnqJtcBBoysnb+lxkRBEEQSuq3jNTjKk6RYVUt/Xl1qXbuK/R04qpHRlE7mQAYRZV2SfHEmtQajN+e7T/GmArnt2fjC8TipnedX6xVYxhTc3mUYIxms/GdSRUHwxg0gQEGGGCAAQYYYIABBhhggAEGGGCAAQYYYIABBhhggAEGGGCAAaaImELdA3i9I6f3henTq5pfNzTK9CqjGxqdt3ty2g8x5qNNrxonmAq96H5sgBH1EiPJPdhbTlVyq4lTVDK41YQgCIIgCIIgSFr+AKg+KPUzaG6DAAAAAElFTkSuQmCC";
+        await uploadObj.RemoveAsync();
+    }
+    //Method for the delete the list for bounds and vertext point
+    private void DeleteList()
+    {
+        selectedAnnotation.IsInputChange = false;
+        if (selectedAnnotation.Bounds.Count != 0)
+        {
+            selectedAnnotation.Bounds = new List<Bound>();
+        }
+        if (selectedAnnotation.VertexPoints.Count != 0)
+        {
+            selectedAnnotation.VertexPoints = new List<VertexPoint>();
+        }
+    }
+    //Method for apply the value of replay comment to property panel
+    private void OpenReplyComment(string id)
+    {
+        selectedAnnotation.EditReply = true;
+        for (int i = 0; i < selectedAnnotation.ReplyComments.Count; i++)
+        {
+            if (selectedAnnotation.ReplyComments[i].Id == id)
+            {
+                selectedAnnotation.ReplyAuthor = selectedAnnotation.ReplyComments[i].Author;
+                selectedAnnotation.ReplyComment = selectedAnnotation.ReplyComments[i].Note;
+                selectedAnnotation.ReplyState = selectedAnnotation.ReplyComments[i].State;
+                selectedAnnotation.ReplyId = selectedAnnotation.ReplyComments[i].Id;
+            }
+        }
+    }
+    //Method for edit the reply comment in pdf vierwer
+    private void UpdateReply()
+    {
+        selectedAnnotation.IsInputChange = true;
+        for (int i = 0; i < selectedAnnotation.ReplyComments.Count; i++)
+        {
+            if (selectedAnnotation.ReplyComments[i].Id == selectedAnnotation.ReplyId)
+            {
+                selectedAnnotation.ReplyComments[i].Author = selectedAnnotation.ReplyAuthor;
+                selectedAnnotation.ReplyComments[i].Note = selectedAnnotation.ReplyComment;
+                selectedAnnotation.ReplyComments[i].State = selectedAnnotation.ReplyState;
+            }
+        }
+        selectedAnnotation.ReplyAuthor = "Guest";
+        selectedAnnotation.ReplyState = "";
+        selectedAnnotation.ReplyComment = "Reply Comment";
+        selectedAnnotation.EditReply = false;
+    }
+    //Method for delete the reply comment in pdf vierwer
+    private void DeleteReplyComment(string id)
+    {
+        selectedAnnotation.IsInputChange = true;
+        int index = -1;
+        for (int i = 0; i < selectedAnnotation.ReplyComments.Count; i++)
+        {
+            if (selectedAnnotation.ReplyComments[i].Id == id)
+            {
+                index = i;
+            }
+        }
+        if (index != -1)
+        {
+            selectedAnnotation.ReplyComments.RemoveAt(index);
+            selectedAnnotation.EditReply = false;
+            selectedAnnotation.ReplyAuthor = "Guest";
+            selectedAnnotation.ReplyState = "";
+            selectedAnnotation.ReplyComment = "Reply Comment";
+            selectedAnnotation.EditReply = false;
+        }
+        if (selectedAnnotation.ReplyComments.Count == 0)
+        {
+            selectedAnnotation.IsReply = false;
+        }
+        StateHasChanged();
+    }
+    //Method for Add the bounds value for the text markup annotations
+    private void AddBounds()
+    {
+        selectedAnnotation.IsInputChange = true;
+        Bound bound = new Bound();
+        bound.X = selectedAnnotation.X;
+        bound.Y = selectedAnnotation.Y;
+        bound.Width = selectedAnnotation.Width;
+        bound.Height = selectedAnnotation.Height;
+        selectedAnnotation.Bounds.Add(bound);
+    }
+    //Add the vertext points for the polygon type annotations
+    private void AddVertexPoint()
+    {
+        selectedAnnotation.IsInputChange = true;
+        VertexPoint vertexPoint = new VertexPoint();
+        vertexPoint.X = selectedAnnotation.VertexX;
+        vertexPoint.Y = selectedAnnotation.VertexY;
+        selectedAnnotation.VertexPoints.Add(vertexPoint);
+        StateHasChanged();
+    }
+    //Method for the Open the context menu
+    private void OpenContextMenu(MouseEventArgs e)
+    {
+        ContextMenuObj.Open(e.ClientX, e.ClientY);
+    }
+    //Method for Handel the selected item from the context menu
+    private void SelectedHandler(MenuEventArgs<MenuItem> args)
+    {
+        SelectedItem = args.Item.Text.ToString();
+        if (SelectedItem == "Edit")
+        {
+            OpenReplyComment(selectedAnnotation.ReplyId);
+        }
+        else if (SelectedItem == "Delete")
+        {
+            DeleteReplyComment(selectedAnnotation.ReplyId);
+        }
+    }
+    //Method for save the reply ID
+    private void SaveReplyID(string id)
+    {
+        selectedAnnotation.ReplyId = id;
+    }
+    //Method for update the Shape value in the property panel
+    private void ShapeChanged(ChangeEventArgs<string, AnnotationsFields> args)
+    {
+        if (selectedAnnotation.AnnotationType != null)
+        {
+            selectedAnnotation.AnnotationType = args.Value.ToString();
+        }
+        if (selectedAnnotation.AnnotationUnSelected)
+        {
+            ResetAnnotationProperties(selectedAnnotation);
+        }
+
+    }
+    //Method for update the stamp type in the property panel
+    private void StampChanged(ChangeEventArgs<string, AnnotationsFields> args)
+    {
+        if (selectedAnnotation.AnnotationUnSelected)
+        {
+            ResetAnnotationProperties(selectedAnnotation);
+        }
+    }
+    //Method for update the commnet status value in the property panel
+    private void CommentStatusChanged(ChangeEventArgs<string, AnnotationsFields> args)
+    {
+        if (args.Value != null)
+        {
+            selectedAnnotation.State = args.Value.ToString();
+        }
+    }
+    //Method for update the reply status value in the property panel
+    private void ReplyStatusChanged(ChangeEventArgs<string, AnnotationsFields> args)
+    {
+        if (args.Value != null)
+        {
+            selectedAnnotation.ReplyState = args.Value.ToString();
+        }
+    }
+    //Method for update the lock value in the property panel
+    private void LockChange(Microsoft.AspNetCore.Components.ChangeEventArgs changeEventArgs)
+    {
+        selectedAnnotation.IsInputChange = true;
+        if (changeEventArgs != null)
+        {
+            if (changeEventArgs.Value != null && changeEventArgs.Value.ToString() != "")
+            {
+                selectedAnnotation.IsLocked = bool.Parse(changeEventArgs.Value.ToString());
+            }
+        }
+        if (selectedAnnotation.IsLocked && selectedAnnotation.AllowedInteractions != null)
+        {
+            if (selectedAnnotation.AllowedInteractions.Count == 0)
+            {
+                selectedAnnotation.AllowedInteractions.Add("Select");
+                selectedAnnotation.AllowedInteractions.Add("Resize");
+            }
+        }
+    }
+    //Method for update the reply in the property panel
+    private void IsAddReplyCommentChange(Microsoft.AspNetCore.Components.ChangeEventArgs changeEventArgs)
+    {
+        selectedAnnotation.IsReply = bool.Parse(changeEventArgs.Value.ToString());
+        if (selectedAnnotation.EditReply)
+        {
+            selectedAnnotation.EditReply = false;
+        }
+        if (selectedAnnotation.IsReply == false)
+        {
+            selectedAnnotation.IsInputChange = true;
+            selectedAnnotation.ReplyComments = new List<Comment>();
+        }
+    }
+    //Method for update the print value in the property panel
+    private void PrintChange(Microsoft.AspNetCore.Components.ChangeEventArgs changeEventArgs)
+    {
+        selectedAnnotation.IsInputChange = true;
+        selectedAnnotation.IsPrint = bool.Parse(changeEventArgs.Value.ToString());
+    }
+    @*End:Hidden*@
+    //Method for reset all annotation properties in the property panel
+    public void ResetAnnotationProperties(AnnotationBase annotation)
+    {
+        annotation.VertexPoints = new List<VertexPoint>();
+        annotation.Bounds = new List<Bound>();
+        string ShapeAnnotation = annotation.AnnotationType;
+        if (ShapeAnnotation == "Arrow" || ShapeAnnotation == "Distance")
+        {
+            annotation.LindHeadStart = "ClosedArrow";
+            annotation.LindHeadEnd = "ClosedArrow";
+            if (ShapeAnnotation == "Distance")
+            {
+                annotation.LeaderLength = 0;
+            }
+        }
+        else if (ShapeAnnotation == "Perimeter")
+        {
+            annotation.LindHeadEnd = "OpenArrow";
+            annotation.LindHeadStart = "OpenArrow";
+        }
+        else
+        {
+            annotation.LindHeadEnd = "None";
+            annotation.LindHeadStart = "None";
+        }
+        if (ShapeAnnotation == "Rectangle" || ShapeAnnotation == "Circle" || ShapeAnnotation == "Radius")
+        {
+            annotation.Width = 100;
+            annotation.Height = 100;
+        }
+        else if (ShapeAnnotation == "Ink")
+        {
+            annotation.Width = 150;
+            annotation.Height = 60;
+        }
+        else if (ShapeAnnotation == "FreeText")
+        {
+            annotation.Width = 150;
+            annotation.Height = 26.5;
+            annotation.FontFamily = "Helvetica";
+            annotation.FontStyle = "None";
+            annotation.Alignment = "Left";
+            annotation.DefaultText = "Free Text";
+            annotation.FontSize = 16;
+            annotation.FontColor = "#000000";
+        }
+        else if (ShapeAnnotation == "StickyNotes")
+        {
+            annotation.Width = 30;
+            annotation.Height = 30;
+        }
+        else if (ShapeAnnotation == "Stamp")
+        {
+            if (annotation.StampsType == "Dynamic")
+            {
+                annotation.Width = 140;
+                annotation.Height = 55;
+            }
+            if (annotation.StampsType == "SignHere")
+            {
+                if (annotation.SignHereStamp == "SignHere")
+                {
+                    annotation.Width = 110;
+                }
+                if (annotation.SignHereStamp == "Witness")
+                {
+                    annotation.Width = 130;
+                }
+                if (annotation.SignHereStamp == "InitialHere")
+                {
+                    annotation.Width = 90;
+                }
+                if (annotation.SignHereStamp == "Accepted" || annotation.SignHereStamp == "Rejected")
+                {
+                    annotation.Width = 35;
+                    annotation.Height = 35;
+                }
+                else
+                {
+                    annotation.Height = 30;
+                }
+            }
+            if (annotation.StampsType == "StandardBusiness")
+            {
+                if (annotation.StandardBusinessStamp == "Final" || annotation.StandardBusinessStamp == "Draft")
+                {
+                    annotation.Width = 110;
+                }
+                else if (annotation.StandardBusinessStamp == "Void")
+                {
+                    annotation.Width = 100;
+                }
+                else
+                {
+                    annotation.Width = 130;
+                }
+                annotation.Height = 30;
+            }
+        }
+        else if (ShapeAnnotation == "CustomStamp")
+        {
+            annotation.Width = 100;
+            annotation.Height = 100;
+        }
+        else if ((ShapeAnnotation == "Highlight") || (ShapeAnnotation == "Underline") || (ShapeAnnotation == "Strikethrough"))
+        {
+            annotation.Width = 100;
+            annotation.Height = 14;
+        }
+        else
+        {
+            annotation.Width = 0;
+            annotation.Height = 0;
+        }
+        annotation.X = 100;
+        annotation.Y = 100;
+        annotation.FillColor = "#00000000";
+        annotation.StrokeColor = "#FF0000";
+        if ((ShapeAnnotation == "Highlight") || (ShapeAnnotation == "Underline") || (ShapeAnnotation == "Strikethrough") || ShapeAnnotation == "FreeText")
+        {
+            annotation.X = 10;
+            annotation.Y = 10;
+            annotation.StrokeColor = "";
+            if (ShapeAnnotation == "Highlight")
+            {
+                annotation.FillColor = "#FFFF00";
+            }
+            else if (ShapeAnnotation == "Underline")
+            {
+                annotation.FillColor = "#00FF00";
+            }
+            else if (ShapeAnnotation == "Strikethrough")
+            {
+                annotation.FillColor = "#FF0000";
+            }
+            else
+            {
+                annotation.FillColor = "";
+            }
+        }
+        annotation.Opacity = 100;
+        annotation.Thickness = 1;
+        annotation.IsPrint = true;
+        annotation.IsLocked = false;
+        annotation.IsAllowedInterActionsNone = false;
+        annotation.IsAllowedInterActionsSelect = false;
+        annotation.IsAllowedInterActionsMove = false;
+        annotation.IsAllowedInterActionsDelete = false;
+        annotation.IsAllowedInterActionsPropertyChange = false;
+        annotation.IsAllowedInterActionsResize = false;
+        annotation.Author = "Guest";
+        annotation.State = "";
+        annotation.Comment = "New Comment";
+        annotation.IsReply = false;
+        annotation.ReplyAuthor = "Guest";
+        annotation.ReplyState = "";
+        annotation.ReplyComment = "Reply Comment";
+        annotation.AllowedInteractions = new List<string>() { };
+        annotation.ReplyComments = new List<Comment>();
+        annotation.VertexX0 = 100;
+        annotation.VertexY0 = 100;
+        annotation.VertexX1 = 200;
+        annotation.VertexY1 = 100;
+        annotation.VertexX = 10;
+        annotation.VertexY = 10;
+        annotation.VertexPointCount = 0;
+        annotation.IsInputChange = false;
+        annotation.PageNumber = PdfViewerInstance.CurrentPageNumber;
+    }
+}

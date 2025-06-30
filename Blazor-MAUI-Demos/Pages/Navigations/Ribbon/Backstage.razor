@@ -1,0 +1,1027 @@
+﻿@page "/ribbon/backstage"
+
+@*Hidden:Lines*@
+
+@using Syncfusion.Blazor.Ribbon;
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.SplitButtons;
+@using Syncfusion.Blazor.Navigations;
+@using Syncfusion.Blazor.Notifications;
+@using DisplayMode = Syncfusion.Blazor.Ribbon.DisplayMode;
+@inherits SampleBaseComponent
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample showcases the basic ribbon backstage view.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>The blazor <code>Ribbon</code> backstage provides a centralized interface for managing files, settings, and document-related tasks. It streamlines user interactions by organizing document management and application preferences in one place, enhancing usability and efficiency.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section default-ribbon-section">
+    <div id="ribbonContainer">
+        <SfRibbon @ref=@ribbonRef ID="ribbon" LauncherIconClick="LauncherIconClick">
+            <RibbonBackstageMenuSettings @ref="ribbonBackstage" Text="File" Visible="true" BackButtonSettings="@backStageBackButton" BackstageItemClick="HandleBackstageItemClicked">
+                <BackstageMenuItems>
+                    <BackstageMenuItem ID="home" Text="Home" IconCss="e-icons e-home"> @GetBackstageContent("home") </BackstageMenuItem>
+                    <BackstageMenuItem ID="new" Text="New" IconCss="e-icons e-file-new"> @GetBackstageContent("new") </BackstageMenuItem>
+                    <BackstageMenuItem ID="open" Text="Open" IconCss="e-icons e-folder-open"> @GetBackstageContent("open") </BackstageMenuItem>
+                    <BackstageMenuItem Separator="true"></BackstageMenuItem>
+                    <BackstageMenuItem ID="info" Text="Info"> @GetBackstageContent("info") </BackstageMenuItem>
+                    <BackstageMenuItem ID="save" Text="Save as"> @GetBackstageContent("save") </BackstageMenuItem>
+                    <BackstageMenuItem ID="export" Text="Export"> @GetBackstageContent("export") </BackstageMenuItem>
+                    <BackstageMenuItem ID="print" Text="Print"></BackstageMenuItem>
+                    <BackstageMenuItem ID="share" Text="Share"> @GetBackstageContent("share") </BackstageMenuItem>
+                    <BackstageMenuItem IsFooter="true" Separator="true"></BackstageMenuItem>
+                    <BackstageMenuItem ID="account" Text="Account" IsFooter="true"> @GetBackstageContent("account") </BackstageMenuItem>
+                    <BackstageMenuItem ID="feedback" Text="Feedback" IsFooter="true"> @GetBackstageContent("feedback") </BackstageMenuItem>
+                </BackstageMenuItems>
+            </RibbonBackstageMenuSettings>
+            <RibbonTabs>
+                <RibbonTab HeaderText="Home">
+                    <RibbonGroups>
+                        <RibbonGroup HeaderText="Clipboard" ID="clipboard" GroupIconCss="e-icons e-paste" ShowLauncherIcon="true">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Disabled="true" AllowedSizes=RibbonItemSize.Large Type=RibbonItemType.SplitButton ID="pastebtn">
+                                            <RibbonSplitButtonSettings Content="Paste" IconCss="e-icons e-paste" Items="@formatItems" ItemSelected="@(args => UpdateContent($"Paste -> {args.Item.Text}"))" Clicked="@(() => UpdateContent("Paste"))"></RibbonSplitButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Cut" IconCss="e-icons e-cut" OnClick="@(() => EnablePaste("Cut"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Copy" IconCss="e-icons e-copy" OnClick="@(() => EnablePaste("Copy"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Format Painter" IconCss="e-icons e-format-painter" OnClick="@(() => UpdateContent("Format Painter"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup Orientation=Syncfusion.Blazor.Ribbon.Orientation.Row GroupIconCss="e-icons e-bold" PopupHeaderText="More Font Options" IsCollapsible="false" EnableGroupOverflow="true" HeaderText="Font" CssClass="font-group">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.ComboBox>
+                                            <RibbonComboBoxSettings @bind-Index="@fontFamIndex" AllowFiltering=true DataSource="@fontFamilyItems" Width="115px" PopupWidth="150px" FieldSettings="@fieldSetings" Selecting="@HandleComboBoxSelection"></RibbonComboBoxSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.ComboBox>
+                                            <RibbonComboBoxSettings @bind-Index="@fontSizeIndex" AllowFiltering=true DataSource="@fontSizeItems" Width="65px" PopupWidth="85px" FieldSettings="@fieldSetings" Selecting="@HandleComboBoxSelection"></RibbonComboBoxSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.GroupButton ID="formatGroup">
+                                            <RibbonGroupButtonSettings HeaderText="Format Styles"
+                                                                       Selection=GroupButtonSelection.Multiple
+                                                                       Items="@formatGroupItems"
+                                                                       ItemClick="HandleGroupBtnSelection">
+                                            </RibbonGroupButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.ColorPicker AllowedSizes="RibbonItemSize.Small"
+                                                    DisplayOptions="@((DisplayMode)DisplayMode.Classic | DisplayMode.Simplified)">
+                                            <RibbonColorPickerSettings @bind-Value="@colorValue" ValueChange="@(args => UpdateContent(args.CurrentValue.Hex + "color"))"></RibbonColorPickerSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup Orientation=Syncfusion.Blazor.Ribbon.Orientation.Row ID="paragraph" EnableGroupOverflow="true" GroupIconCss="e-icons e-align-center" HeaderText="Paragraph">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.Button AllowedSizes="RibbonItemSize.Small">
+                                            <RibbonButtonSettings Content="Decrease Indent" IconCss="e-icons e-decrease-indent" OnClick="@(() => UpdateContent("Decrease Indent"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button AllowedSizes="RibbonItemSize.Small">
+                                            <RibbonButtonSettings Content="Increase Indent" IconCss="e-icons e-increase-indent" OnClick="@(() => UpdateContent("Increase Indent"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button AllowedSizes="RibbonItemSize.Small">
+                                            <RibbonButtonSettings Content="Paragraph" IconCss="e-icons e-paragraph" OnClick="@(() => UpdateContent("Paragraph Mark"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.GroupButton ID="alignmentGroup">
+                                            <RibbonGroupButtonSettings HeaderText="Alignment"
+                                                                       Selection=GroupButtonSelection.Single
+                                                                       Items="@alignGroupItems"
+                                                                       ItemClick="HandleGroupBtnSelection">
+                                            </RibbonGroupButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup Orientation=Syncfusion.Blazor.Ribbon.Orientation.Column HeaderText="Editing" GroupIconCss="e-icons e-edit">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.SplitButton>
+                                            <RibbonSplitButtonSettings Content="Find" IconCss="e-icons e-search" Items="@searchItems" ItemSelected="@(args => UpdateContent($"Find -> {args.Item.Text}"))" Clicked="@(() => UpdateContent("Find"))"></RibbonSplitButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Replace" IconCss="e-icons e-replace" OnClick="@(() => UpdateContent("Replace"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.SplitButton>
+                                            <RibbonSplitButtonSettings Content="Select" IconCss="e-icons e-mouse-pointer" Items="@selectItems" ItemSelected="@(args => UpdateContent($"Select -> {args.Item.Text}"))" Clicked="@(() => UpdateContent("Select"))"></RibbonSplitButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup IsCollapsible="false" HeaderText="Voice" GroupIconCss="sf-icon-dictate">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.SplitButton AllowedSizes="RibbonItemSize.Large">
+                                            <RibbonSplitButtonSettings Content="Dictate" IconCss="sf-icon-dictate" Items="@dictateItems" ItemSelected="@(args => UpdateContent($"Dictate -> {args.Item.Text}"))" Clicked="@(() => UpdateContent("Dictate"))"></RibbonSplitButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup IsCollapsible="false" HeaderText="Editor" GroupIconCss="sf-icon-editor">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.Button AllowedSizes="RibbonItemSize.Large">
+                                            <RibbonButtonSettings Content="Editor" IconCss="sf-icon-editor" OnClick="@(() => UpdateContent("Editor"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup IsCollapsible="false" HeaderText="Reuse Files" GroupIconCss="sf-icon-reuse">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.Button AllowedSizes="RibbonItemSize.Large" Disabled="true">
+                                            <RibbonButtonSettings Content="Reuse Files" IconCss="sf-icon-reuse" OnClick="@(() => UpdateContent("Reuse Files"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                    </RibbonGroups>
+                </RibbonTab>
+                <RibbonTab HeaderText="Insert">
+                    <RibbonGroups>
+                        <RibbonGroup HeaderText="Tables" IsCollapsible="false">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.DropDown AllowedSizes="RibbonItemSize.Large">
+                                            <RibbonDropDownSettings Content="Table" IconCss="e-icons e-table" Items="@tableItems" ItemSelecting="@(args => UpdateContent($"Table -> {args.Item.Text}"))"></RibbonDropDownSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup Orientation=Syncfusion.Blazor.Ribbon.Orientation.Row ID="illustration" EnableGroupOverflow="true" HeaderText="Illustrations" GroupIconCss="e-icons e-image" PopupHeaderText="Illustrations" ShowLauncherIcon="true">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.DropDown ID="pictureddl">
+                                            <RibbonDropDownSettings Content="Pictures" IconCss="e-icons e-image" Items="@pictureItems" ItemSelecting="@(args => UpdateContent($"Pictures -> {args.Item.Text}"))"></RibbonDropDownSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.DropDown>
+                                            <RibbonDropDownSettings Content="Shapes" IconCss="sf-icon-shapes" Items="@shapeItems" ItemSelecting="@(args => UpdateContent($"Shapes -> {args.Item.Text}"))"></RibbonDropDownSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="3D Models" IconCss="sf-icon-3d-model" OnClick="@(() => UpdateContent("3D Models"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="SmartArt" IconCss="sf-icon-smart-art" OnClick="@(() => UpdateContent("SmartArt"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Chart" IconCss="sf-icon-chart" OnClick="@(() => UpdateContent("Chart"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Screenshot" IconCss="sf-icon-screenshot" OnClick="@(() => UpdateContent("Screenshot"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup Orientation=Syncfusion.Blazor.Ribbon.Orientation.Column HeaderText="Header & Footer" GroupIconCss="e-icons e-table" ID="header_footer" ShowLauncherIcon="true">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.DropDown>
+                                            <RibbonDropDownSettings Content="Header" IconCss="e-icons e-header" Items="@headerItems" ItemSelecting="@(args => UpdateContent($"Header -> {args.Item.Text}"))"></RibbonDropDownSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.DropDown>
+                                            <RibbonDropDownSettings Content="Footer" IconCss="e-icons e-footer" Items="@footerItems" ItemSelecting="@(args => UpdateContent($"Footer -> {args.Item.Text}"))"></RibbonDropDownSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.DropDown>
+                                            <RibbonDropDownSettings Content="Page Number" IconCss="e-icons e-page-numbering" Items="@pageItems" ItemSelecting="@(args => UpdateContent($"Page Numbering -> {args.Item.Text}"))"></RibbonDropDownSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup IsCollapsible="false" HeaderText="Comments">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.Button AllowedSizes="RibbonItemSize.Large" Disabled="true">
+                                            <RibbonButtonSettings Content="New Comment" IconCss="e-icons e-comment-add" OnClick="@(() => UpdateContent("New Comment"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup HeaderText="Links" IsCollapsible="false" GroupIconCss="e-icons e-link">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.DropDown AllowedSizes="RibbonItemSize.Large">
+                                            <RibbonDropDownSettings Content="Link" IconCss="e-icons e-link" Items="@linkItems" ItemSelecting="@(args => UpdateContent($"Link -> {args.Item.Text}"))"></RibbonDropDownSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                    </RibbonGroups>
+                </RibbonTab>
+                <RibbonTab HeaderText="View">
+                    <RibbonGroups>
+                        <RibbonGroup HeaderText="Views" Orientation="Syncfusion.Blazor.Ribbon.Orientation.Row" GroupIconCss="e-icons e-print">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Read Mode" IconCss="sf-icon-read" OnClick="@(() => UpdateContent("Read Mode"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Print Layout" IconCss="e-print e-icons" OnClick="@(() => UpdateContent("Print Layout"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Web Layout" IconCss="sf-icon-web-layout" OnClick="@(() => UpdateContent("Web Layout"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup HeaderText="Zoom" Orientation="Syncfusion.Blazor.Ribbon.Orientation.Row" GroupIconCss="e-icons e-zoom-to-fit">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Zoom In" IconCss="e-icons e-zoom-in" OnClick="@(() => UpdateContent("Zoom In"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.Button>
+                                            <RibbonButtonSettings Content="Zoom Out" IconCss="e-icons e-zoom-out" OnClick="@(() => UpdateContent("Zoom Out"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup HeaderText="Show" IsCollapsible="false">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.CheckBox>
+                                            <RibbonCheckBoxSettings Label="Ruler" ValueChange="@(() => UpdateContent("Ruler"))"></RibbonCheckBoxSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.CheckBox>
+                                            <RibbonCheckBoxSettings Label="Gridlines" ValueChange="@(() => UpdateContent("Gridlines"))"></RibbonCheckBoxSettings>
+                                        </RibbonItem>
+                                        <RibbonItem Type=RibbonItemType.CheckBox>
+                                            <RibbonCheckBoxSettings Label="Navigation Pane" @bind-Checked="@checkedState" ValueChange="@(() => UpdateContent("Navigation Pane"))"></RibbonCheckBoxSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                        <RibbonGroup HeaderText="Dark Mode" IsCollapsible="false">
+                            <RibbonCollections>
+                                <RibbonCollection>
+                                    <RibbonItems>
+                                        <RibbonItem Type=RibbonItemType.Button AllowedSizes="RibbonItemSize.Large">
+                                            <RibbonButtonSettings Content="Dark Mode" IconCss="sf-icon-mode" OnClick="@(() => UpdateContent("Dark Mode"))"></RibbonButtonSettings>
+                                        </RibbonItem>
+                                    </RibbonItems>
+                                </RibbonCollection>
+                            </RibbonCollections>
+                        </RibbonGroup>
+                    </RibbonGroups>
+                </RibbonTab>
+            </RibbonTabs>
+        </SfRibbon>
+        <div id="ribbonPlaceHolder">
+            <div class="content1"></div>
+            <div class="content2"></div>
+            <div class="content3"></div>
+            <div class="content4"></div>
+            <div id="toast">
+                <SfToast @ref="toast">
+                    <ToastPosition X="Right"></ToastPosition>
+                    <ToastAnimationSettings>
+                        <ToastShowAnimationSettings Effect="ToastEffect.FadeIn"></ToastShowAnimationSettings>
+                        <ToastHideAnimationSettings Effect="ToastEffect.FadeOut"></ToastHideAnimationSettings>
+                    </ToastAnimationSettings>
+                </SfToast>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    SfToast toast;
+    SfRibbon ribbonRef;
+    RibbonBackstageMenuSettings ribbonBackstage;
+    bool isPasteDisabled = true;
+    private bool checkedState = true;
+    private string colorValue = "#123456";
+    private int? fontFamIndex = 3;
+    private int? fontSizeIndex = 3;
+
+    private async Task EnablePaste(string text)
+    {
+        await UpdateContent(text);
+        if (!isPasteDisabled) return;
+        ribbonRef?.EnableItem("pastebtn");
+        isPasteDisabled = false;
+    }
+
+    private async Task UpdateContent(string text, bool isBackstageItem = false)
+    {
+        var toastModel = new ToastModel()
+                {
+                    Target = "#ribbonPlaceHolder",
+                    CssClass = "e-toast-info",
+                    Height = "25",
+                    Width = "auto",
+                    Timeout = 2000,
+                    ShowCloseButton = true,
+                    NewestOnTop = true,
+                    Content = !isBackstageItem ? "Last clicked item is " + text : text
+                };
+        await this.toast.ShowAsync(toastModel);
+    }
+
+    private async void HandleComboBoxSelection(ComboBoxSelectEventArgs args)
+    {
+        var data = (ComboBoxItem)args.ItemData;
+        await UpdateContent($"Font Style -> {data.Text}");
+    }
+
+    private async Task LauncherIconClick(LauncherClickEventArgs args)
+    {
+        if (args.GroupId == "clipboard")
+        {
+            await UpdateContent("Clipboard LauncherIcon");
+        }
+        else if (args.GroupId == "illustration")
+        {
+            await UpdateContent("Illustration LauncherIcon");
+        }
+        else if (args.GroupId == "header_footer")
+        {
+            await UpdateContent("Header & Footer LauncherIcon");
+        }
+    }
+
+    private async Task HandleBackstageContentClicked()
+    {
+        ribbonBackstage?.HideBackstageAsync();
+        await UpdateContent("Backstage content is interacted and closed.", true);
+    }
+
+    BackstageBackButtonSettings backStageBackButton = new BackstageBackButtonSettings
+            {
+                Text = "Close",
+                IconCss = "e-icons e-arrow-left",
+                Visible = true
+            };
+
+    private async Task HandleBackstageItemClicked(BackstageItemClickEventArgs args)
+    {
+        if(args.MenuItem.Text.Contains("Print"))
+        {
+            ribbonBackstage?.HideBackstageAsync();
+            await UpdateContent("Print action is selected", true);
+        }
+    }
+
+    RenderFragment GetBackstageContent(string item) => item switch
+    {
+        "home" => @<div class="home-wrapper">
+        <div class="new-wrapper">
+            <div class="section-title">New</div>
+            <div class="category_container" @onclick="() => HandleBackstageContentClicked()">
+                <div class="doc_category_image"></div>
+                <span class="doc_category_text">New document</span>
+            </div>
+        </div>
+        <div class="block-wrapper">
+            <div class="section-title">Recent</div>
+            @{
+        var recentDocuments = new List<(string icon, string name, string description)>
+        {
+        ("e-notes", "Classic_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
+        ("e-notes", "Simplified_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
+        ("e-notes", "Ribbon_resize.docx", "EJ2 >> Components >> Navigations >> Ribbon >> resize"),
+        };
+            }
+            @foreach (var doc in recentDocuments)
+        {
+            @RenderWrapperContent(doc.icon, doc.name, doc.description)
+        }
+        </div>
+    </div>,
+        "new" => @<div class="new-wrapper">
+        <div class="section-title">New</div>
+        <div class="category_container" @onclick="() => HandleBackstageContentClicked()">
+            <div class="doc_category_image"></div>
+            <span class="doc_category_text">New document</span>
+        </div>
+    </div>,
+        "open" => @<div class="block-wrapper">
+        <div class="section-title">Recent</div>
+        @{
+    var recentDocuments = new List<(string icon, string name, string description)>
+    {
+    ("e-notes", "Classic_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
+    ("e-notes", "Simplified_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
+    ("e-notes", "Ribbon_resize.docx", "EJ2 >> Components >> Navigations >> Ribbon >> resize"),
+    ("e-notes", "Ribbon_backstage.docx", "EJ2 >> Components >> Navigations >> Ribbon >> backstage"),
+    ("e-notes", "Ribbon_overflow.docx", "EJ2 >> Components >> Navigations >> Ribbon >> overflow"),
+    ("e-notes", "Custom_items.docx", "EJ2 >> Components >> Navigations >> Ribbon >> items"),
+    };
+        }
+        @foreach (var doc in recentDocuments)
+    {
+        @RenderWrapperContent(doc.icon, doc.name, doc.description)
+    }
+    </div>,
+        "info" => @<div class="block-wrapper">
+        <div class="section-title">Info</div>
+        @{
+    var infoItems = new List<(string icon, string name, string description)>
+    {
+    ("e-open-link", "Open in Desktop App", "Use the full functionality of Ribbon"),
+    ("e-protect-sheet", "Protect Document", "To prevent accidental changes, this document has been set to open as view-only"),
+    ("e-send-to-back", "Version History", "View previous versions"),
+    };
+        }
+        @foreach (var item in infoItems)
+    {
+        @RenderWrapperContent(item.icon, item.name, item.description)
+    }
+    </div>,
+        "save" => @<div class="block-wrapper">
+        <div class="section-title">Save</div>
+        @{
+    var saveItems = new List<(string icon, string name, string description)>
+    {
+    ("e-save", "Save as", "Save a copy online"),
+    ("e-rename", "Rename", "Rename this file"),
+    ("e-download", "Download a Copy", "Download a local copy"),
+    ("e-export-pdf", "Download as PDF", "Download a copy as PDF file"),
+    ("e-chevron-down-fill", "Download as ODT", "Download a copy as ODT file"),
+    };
+        }
+        @foreach (var item in saveItems)
+    {
+        @RenderWrapperContent(item.icon, item.name, item.description)
+    }
+    </div>,
+        "export" => @<div class="block-wrapper">
+        <div class="section-title">Export</div>
+        @{
+    var exportItems = new List<(string icon, string name, string description)>
+    {
+    ("e-transform-right", "Transform to Web Page", "Transform your document into an interactive webpage"),
+    ("e-export", "Export to PowerPoint presentation", "Export your document into a multi-slide presentation"),
+    ("e-protect-workbook", "Send documents to Kindle", "Send documents to your Kindle device to read and annotate the documents"),
+    };
+        }
+        @foreach (var item in exportItems)
+    {
+        @RenderWrapperContent(item.icon, item.name, item.description)
+    }
+    </div>,
+        "print" => @<div class="print-wrapper">
+        <div class="section-title">Print</div>
+        <div class="section-content">
+            <p>Configure your print settings here.</p>
+        </div>
+    </div>,
+        "share" => @<div class="block-wrapper">
+        <div class="section-title">Share</div>
+        @{
+    var shareItems = new List<(string icon, string name, string description)>
+    {
+    ("e-arrow-right-up", "Share with People", "Invite other people to view or edit this document"),
+    ("e-protect-workbook", "Embed", "Embed this document in your blog or website"),
+    };
+        }
+        @foreach (var item in shareItems)
+    {
+        @RenderWrapperContent(item.icon, item.name, item.description)
+    }
+    </div>,
+        "account" => @<div class="block-wrapper">
+        <div class="section-title">Account</div>
+        @{
+    var accountItems = new List<(string icon, string name, string description)>
+    {
+    ("e-people", "Account type", "Administrator"),
+    ("e-password", "Password protected", "Yes"),
+    ("e-text-that-contains", "E-mail", "abc@gmail.com")
+    };
+        }
+        @foreach (var item in accountItems)
+    {
+        @RenderWrapperContent(item.icon, item.name, item.description)
+    }
+    </div>,
+        "feedback" => @<div class="block-wrapper">
+        <div class="section-title">Feedback</div>
+        @{
+    var feedbackItems = new List<(string icon, string name, string description)>
+    {
+    ("e-check", "I Like Something", "It's nice to know when we have made a positive change."),
+    ("e-close", "I Don't Like Something", "If something's not right we'd like to know so we can fix it."),
+    ("e-comment-add", "I Have a Suggestion", "Do you have an idea for a new feature or an improvement ?")
+    };
+        }
+        @foreach (var item in feedbackItems)
+    {
+        @RenderWrapperContent(item.icon, item.name, item.description)
+    }
+    </div>
+    };
+
+    RenderFragment RenderWrapperContent(string icon, string name, string description) =>
+    @<div class="section-content" @onclick="() => HandleBackstageContentClicked()">
+        <table>
+            <tbody>
+                <tr>
+                    <td><span class="doc_icon e-icons @icon"></span></td>
+                    <td>
+                        <span style="display: block; font-size: 14px">@name</span>
+                        <span style="font-size: 12px">@description</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>;
+
+    private async void HandleGroupBtnSelection(GroupButtonClickEventArgs args)
+    {
+        await UpdateContent(args.CurrentItem.Content);
+    }
+
+    List<GroupButtonItem> alignGroupItems = new List<GroupButtonItem>
+    {
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-align-left",
+            Selected = true,
+            Content = "Align Left"
+        },
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-align-center",
+            Content = "Align Center"
+        },
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-align-right",
+            Content = "Align Right"
+        },
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-justify",
+            Content = "Justify"
+        }
+    };
+
+    List<GroupButtonItem> formatGroupItems = new List<GroupButtonItem>
+    {
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-bold",
+            Selected = true,
+            Content = "Bold"
+        },
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-italic",
+            Content = "Italic"
+        },
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-underline",
+            Content = "Underline"
+        },
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-strikethrough",
+            Content = "Strikethrough"
+        },
+        new GroupButtonItem
+        {
+            IconCss = "e-icons e-change-case",
+            Content = "Change Case"
+        },
+    };
+
+    FieldSettingsModel fieldSetings = new FieldSettingsModel
+    {
+        Text = "Text",
+        Value = "Value"
+    };
+
+    private class ComboBoxItem
+    {
+        public string Text {get; set; }
+        public string Value {get; set; }
+    }
+
+    List<ComboBoxItem> fontFamilyItems = new List<ComboBoxItem>
+    {
+        new ComboBoxItem { Text = "Algerian", Value = "Algerian" },
+        new ComboBoxItem { Text = "Arial", Value = "Arial" },
+        new ComboBoxItem { Text = "Calibri", Value = "Calibri" },
+        new ComboBoxItem { Text = "Cambria", Value = "Cambria" },
+        new ComboBoxItem { Text = "Cambria Math", Value = "Cambria Math" },
+        new ComboBoxItem { Text = "Courier New", Value = "Courier New" },
+        new ComboBoxItem { Text = "Candara", Value = "Candara" },
+        new ComboBoxItem { Text = "Georgia", Value = "Georgia" },
+        new ComboBoxItem { Text = "Impact", Value = "Impact" },
+        new ComboBoxItem { Text = "Segoe Print", Value = "Segoe Print" },
+        new ComboBoxItem { Text = "Segoe Script", Value = "Segoe Script" },
+        new ComboBoxItem { Text = "Segoe UI", Value = "Segoe UI" },
+        new ComboBoxItem { Text = "Symbol", Value = "Symbol" },
+        new ComboBoxItem { Text = "Times New Roman", Value = "Times New Roman" },
+        new ComboBoxItem { Text = "Verdana", Value = "Verdana" },
+        new ComboBoxItem { Text = "Windings", Value = "Windings" }
+    };
+
+    List<ComboBoxItem> fontSizeItems = new List<ComboBoxItem>
+    {
+        new ComboBoxItem { Text = "8", Value = "8" },
+        new ComboBoxItem { Text = "9", Value = "9" },
+        new ComboBoxItem { Text = "10", Value = "10" },
+        new ComboBoxItem { Text = "11", Value = "11" },
+        new ComboBoxItem { Text = "12", Value = "12" },
+        new ComboBoxItem { Text = "14", Value = "14" },
+        new ComboBoxItem { Text = "16", Value = "16" },
+        new ComboBoxItem { Text = "18", Value = "18" },
+        new ComboBoxItem { Text = "20", Value = "20" },
+        new ComboBoxItem { Text = "22", Value = "22" },
+        new ComboBoxItem { Text = "24", Value = "24" },
+        new ComboBoxItem { Text = "26", Value = "26" },
+        new ComboBoxItem { Text = "28", Value = "28" },
+        new ComboBoxItem { Text = "36", Value = "36" },
+        new ComboBoxItem { Text = "48", Value = "48" },
+        new ComboBoxItem { Text = "72", Value = "72" },
+        new ComboBoxItem { Text = "96", Value = "96" }
+    };
+
+    List<DropDownMenuItem> formatItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Keep Source Format" },
+        new DropDownMenuItem{ Text = "Merge Format" },
+        new DropDownMenuItem{ Text = "Keep Text Only" }
+    };
+    List<DropDownMenuItem> selectItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Select All" },
+        new DropDownMenuItem{ Text = "Select Objects" }
+    };
+    List<DropDownMenuItem> dictateItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Chinese" },
+        new DropDownMenuItem{ Text = "English" },
+        new DropDownMenuItem{ Text = "German" },
+        new DropDownMenuItem{ Text = "French" }
+    };
+    List<DropDownMenuItem> linkItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Insert Link", IconCss = "e-icons e-link" },
+        new DropDownMenuItem{ Text = "Recent Links", IconCss = "e-icons e-clock" },
+        new DropDownMenuItem{ Text = "Bookmarks", IconCss = "e-icons e-bookmark" }
+    };
+    List<DropDownMenuItem> searchItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Find", IconCss = "e-icons e-search" },
+        new DropDownMenuItem{ Text = "Advanced Find", IconCss = "e-icons e-search" },
+        new DropDownMenuItem{ Text = "Go To", IconCss = "e-icons e-arrow-right" }
+    };
+
+    List<DropDownMenuItem> tableItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Insert Table" },
+        new DropDownMenuItem{ Text = "Draw Table" },
+        new DropDownMenuItem{ Text = "Convert Table" },
+        new DropDownMenuItem{ Text = "Excel SpreadSheet" }
+    };
+    List<DropDownMenuItem> pictureItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "This device" },
+        new DropDownMenuItem{ Text = "Browse files" }
+    };
+    List<DropDownMenuItem> shapeItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Lines" },
+        new DropDownMenuItem{ Text = "Rectangles" },
+        new DropDownMenuItem{ Text = "Basic Arrows" },
+        new DropDownMenuItem{ Text = "Basic Shapes" },
+        new DropDownMenuItem{ Text = "FlowChart" },
+    };
+    List<DropDownMenuItem> headerItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Insert Header" },
+        new DropDownMenuItem{ Text = "Edit Header" },
+        new DropDownMenuItem{ Text = "Remove Header" }
+    };
+    List<DropDownMenuItem> footerItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Insert Footer" },
+        new DropDownMenuItem{ Text = "Edit Footer" },
+        new DropDownMenuItem{ Text = "Remove Footer" }
+    };
+    List<DropDownMenuItem> pageItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Insert Top of page" },
+        new DropDownMenuItem{ Text = "Insert Bottom of page" },
+        new DropDownMenuItem{ Text = "Format Page Number" },
+        new DropDownMenuItem{ Text = "Remove Page Number" },
+    };
+    List<DropDownMenuItem> pasteItems = new List<DropDownMenuItem>()
+    {
+        new DropDownMenuItem{ Text = "Source format" },
+        new DropDownMenuItem{ Text = "Text format" },
+        new DropDownMenuItem{ Text = "Keep source only" }
+
+    };
+}
+
+<style>
+    #pictureList {
+        display: none;
+        border: 1px;
+        box-shadow: 0 0 2px;
+    }
+
+    #pictureddl-popup #pictureList {
+        display: block;
+    }
+
+    .e-bigger #pictureList .e-list-header {
+        background-color: white;
+    }
+
+    body[class*="dark"].e-bigger #pictureList .e-list-header,
+    body[class*="high"].e-bigger #pictureList .e-list-header {
+        background-color: #212529;
+    }
+
+    .e-bigger #pictureList ul {
+        padding: 0px;
+        margin-top: 0px;
+    }
+
+    #ribbonContainer {
+        padding: 20px;
+        background-color: #dbdadacc;
+        display: flex;
+        flex-direction: column;
+        height: 550px;
+    }
+
+    #ribbon {
+        box-sizing: border-box;
+    }
+
+    #ribbonPlaceHolder .e-toast-close-icon {
+        position: absolute;
+        top: 50%;
+        right: 2px;
+        transform: translateY(-50%);
+        margin: 0;
+    }
+
+    #ribbonPlaceHolder .e-toast-content {
+        padding-right: 25px;
+    }
+
+    #ribbonPlaceHolder {
+        flex-grow: 1;
+        background-color: transparent;
+        box-sizing: border-box;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+        #ribbonPlaceHolder .content1 {
+            background-color: #3a9ae5;
+            width: 150px;
+            height: 60%;
+        }
+
+        #ribbonPlaceHolder .content2 {
+            background-color: #9d9c9a;
+            width: calc(100% - 160px);
+            height: 60%;
+        }
+
+        #ribbonPlaceHolder .content3 {
+            background-color: #7f7e7d;
+            width: 150px;
+            height: calc(40% - 10px);
+        }
+
+        #ribbonPlaceHolder .content4 {
+            background-color: #c8c6c4;
+            width: calc(100% - 160px);
+            height: calc(40% - 10px);
+        }
+
+    body[class*="dark"] #ribbonPlaceHolder,
+    body[class*="high"] #ribbonPlaceHolder {
+        background-color: #5b5958;
+    }
+
+    .font-group .e-ribbon-group-content {
+        justify-content: center;
+    }
+
+    #header_footer .e-ribbon-group-overflow-ddb {
+        min-width: 10ch;
+    }
+
+    @@font-face {
+        font-family: 'ribbon';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    [class^="sf-icon-"], [class*=" sf-icon-"] {
+        font-family: 'ribbon' !important;
+        speak: none;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .sf-icon-3d-model:before {
+        content: "\e700";
+    }
+
+    .sf-icon-shapes:before {
+        content: "\e701";
+    }
+
+    .sf-icon-dictate:before {
+        content: "\e702";
+    }
+
+    .sf-icon-chart:before {
+        content: "\e703";
+    }
+
+    .sf-icon-screenshot:before {
+        content: "\e704";
+    }
+
+    .sf-icon-smart-art:before {
+        content: "\e706";
+    }
+
+    .sf-icon-share:before {
+        content: "\e707";
+    }
+
+    .sf-icon-read:before {
+        content: "\e708";
+    }
+
+    .sf-icon-web-layout:before {
+        content: "\e709";
+    }
+
+    .sf-icon-mode:before {
+        content: "\e70b";
+    }
+
+    .sf-icon-draft:before {
+        content: "\e70c";
+    }
+
+    .sf-icon-reuse:before {
+        content: "\e70f";
+    }
+
+    .sf-icon-editor:before {
+        content: "\e70a";
+    }
+
+    .sf-icon-word:before {
+        content: "\e70d";
+    }
+
+    /* Sample level styles */
+    #ribbonContainer .e-ribbon-backstage-content > div:first-child {
+        width: 550px;
+        padding: 25px;
+        height: 510px;
+    }
+
+    #home_content .new-wrapper {
+        margin-bottom: 15px;
+    }
+
+    .section-title {
+        font-size: 22px;
+    }
+
+    .new-docs {
+        display: flex;
+        justify-content: space-around;
+        flex-wrap: wrap;
+    }
+
+    .category_container {
+        width: 150px;
+        padding: 15px;
+        text-align: center;
+        cursor: pointer;
+    }
+
+    .doc_category_image {
+        width: 80px;
+        height: 100px;
+        background-color: #fff;
+        border: 1px solid rgb(125, 124, 124);
+        text-align: center;
+        overflow: hidden;
+        margin: 0px auto 10px;
+    }
+
+    .doc_category_text {
+        font-size: 16px;
+    }
+
+    .section-content {
+        padding: 12px 0px;
+        cursor: pointer;
+    }
+
+    .doc_icon {
+        font-size: 16px;
+        padding: 0px 10px;
+    }
+
+    /* Hover styles */
+    .category_container:hover,
+    .section-content:hover {
+        background-color: #dfdfdf;
+        border-radius: 5px;
+        transition: all 0.3s;
+    }
+
+    body[class*="dark"] .category_container:hover,
+    body[class*="dark"] .section-content:hover,
+    body[class*="high"] .category_container:hover,
+    body[class*="high"] .section-content:hover {
+        background-color: #4d4b4b;
+    }
+
+    /* Responsive queries */
+    @@media screen and (max-width: 760px) {
+        #ribbonContainer .e-ribbon-backstage-content > div:first-child {
+            width: 400px;
+        }
+    }
+
+    @@media screen and (max-width: 550px) {
+        #ribbonContainer .e-ribbon-backstage-content > div:first-child {
+            width: 200px;
+            padding: 10px;
+        }
+    }
+</style>

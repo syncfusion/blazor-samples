@@ -1,0 +1,71 @@
+﻿@page "/excel/csv-to-excel"
+@inject HttpClient Http
+@using System.IO;
+
+@using Blazor_MAUI_Demos.Services
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@using Blazor_MAUI_Demos.Pages.DocumentProcessing.Excel
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to convert CSV to Excel using XlsIO.</p>
+</SampleDescription>
+
+
+<div class="control-section">
+    <p style="font-weight:normal">Click the "Convert to Excel" button to convert CSV file to excel document. Please note that the Microsoft Excel or an Excel viewer is required to view the Excel document.</p>
+
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="CSVToExcelXlsIO">Convert To Excel</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    //Hidden:Lines
+
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+
+    //End:Hidden
+
+    /// <summary>
+    /// Download the Excel document created from CSV file
+    /// </summary>
+    public async void CSVToExcelXlsIO(MouseEventArgs args)
+    {
+        string fileDataPath = "Blazor_MAUI_Demos.wwwroot.data.xlsio.csv-to-excel-template.csv";
+        Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(fileDataPath);
+        MemoryStream memoryStream = new MemoryStream();
+        DocumentStream.CopyTo(memoryStream);
+        memoryStream.Position = 0;
+        fileData.Add("csv-to-excel-template.csv", memoryStream);
+        CSVToExcelService service = new CSVToExcelService(fileData);
+        excelStream = service.CSVToExcelXlsIO(fileDataPath);
+        service.Close();
+        excelStream.Position = 0;
+        SaveService saveService = new SaveService();
+        saveService.SaveAndView("CSVToExcel.xlsx", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", excelStream);
+    }
+}

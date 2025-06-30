@@ -1,0 +1,130 @@
+@page "/linear-gauge/range-slider"
+
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.LinearGauge
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to create a range slider component by utilizing the functionalities available in the linear gauge.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure a new range slider component in the linear gauge. This can be accomplished by combining axis, range, and multiple pointers. The pointers have been made interactive, so the value changes as you drag them.</p>
+    <p>More information on the linear gauge can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/linear-gauge/getting-started' aria-label="Blazor Linear Gauge Getting Started documentation" >documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div align="center">
+        <SfLinearGauge Title="Enabled" Orientation="Orientation.Horizontal" Theme="@Theme" Height="@Height" Width="@Width" @ref="Linear" Background="transparent">
+            <LinearGaugeEvents OnDrag="OnDrag" OnDragEnd="OnDragEnd" TooltipRendering="TooltipRendering" />
+            <LinearGaugeTitleStyle FontWeight="499" />
+            <LinearGaugeTooltipSettings Enable="true" ShowAtMousePosition="true">
+                <LinearGaugeTooltipTextStyle FontFamily="inherit"></LinearGaugeTooltipTextStyle>
+            </LinearGaugeTooltipSettings>
+            <LinearGaugeAxes>
+                <LinearGaugeAxis Minimum="0" Maximum="100" OpposedPosition="true">
+                    <LinearGaugeLine Width="5" Color="#C2DEF8" />
+                    <LinearGaugeMajorTicks Interval="20" Height="0" />
+                    <LinearGaugeMinorTicks Interval="10" Height="0" />
+                    <LinearGaugeAxisLabelStyle Offset="10" />
+                    <LinearGaugeRanges>
+                        <LinearGaugeRange Start="@FirstPointerValue" End="@SecondPointerValue" StartWidth="5" EndWidth="5" Color="#0074E3" Offset="0" />
+                    </LinearGaugeRanges>
+                    <LinearGaugePointers>
+                        <LinearGaugePointer PointerValue="@FirstPointerValue" Height="15" Width="15" Placement="Placement.Center" Color="#0074E3" EnableDrag="true" Offset="-10" MarkerType="MarkerType.Circle" />
+                        <LinearGaugePointer PointerValue="@SecondPointerValue" Height="15" Width="15" Placement="Placement.Center" Color="#0074E3" EnableDrag="true" Offset="-10" MarkerType="MarkerType.Circle" />
+                    </LinearGaugePointers>
+                </LinearGaugeAxis>
+            </LinearGaugeAxes>
+        </SfLinearGauge>
+        <SfLinearGauge Title="Disabled" Orientation="Orientation.Horizontal" Theme="@Theme" Height="@Height" Width="@Width">
+            <LinearGaugeTitleStyle FontWeight="499" />
+            <LinearGaugeAxes>
+                <LinearGaugeAxis Minimum="0" Maximum="100" OpposedPosition="true">
+                    <LinearGaugeLine Width="5" Color="#E0E0E0" />
+                    <LinearGaugeMajorTicks Interval="20" Height="0" />
+                    <LinearGaugeMinorTicks Interval="10" Height="0" />
+                    <LinearGaugeAxisLabelStyle Offset="10" />
+                    <LinearGaugeRanges>
+                        <LinearGaugeRange Start="50" End="80" StartWidth="5" EndWidth="5" Color="#ADADAD" />
+                    </LinearGaugeRanges>
+                    <LinearGaugePointers>
+                        <LinearGaugePointer PointerValue="50" Height="15" Width="15" Offset="-10" Placement="Placement.Center" Color="#ADADAD" MarkerType="MarkerType.Circle" />
+                        <LinearGaugePointer PointerValue="80" Height="15" Width="15" Offset="-10" Placement="Placement.Center" Color="#ADADAD" MarkerType="MarkerType.Circle" />
+                    </LinearGaugePointers>
+                </LinearGaugeAxis>
+            </LinearGaugeAxes>
+        </SfLinearGauge>
+    </div>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    SfLinearGauge Linear;
+    public string Width = "450px";
+    public string Height = "150px";
+    public double FirstPointerValue = 50;
+    public double SecondPointerValue = 80;
+    
+
+    public void OnDragEnd(PointerDragEventArgs args)
+    {
+        if (args.PointerIndex == 0)
+        {
+            FirstPointerValue = args.CurrentValue;
+            if (args.CurrentValue > SecondPointerValue)
+            {
+                FirstPointerValue = SecondPointerValue - 1;
+                Linear.SetPointerValue(0, 0, FirstPointerValue);
+            }
+        }
+        else
+        {
+            SecondPointerValue = args.CurrentValue > FirstPointerValue ? args.CurrentValue : SecondPointerValue;
+            if (FirstPointerValue > args.CurrentValue)
+            {
+                SecondPointerValue = FirstPointerValue + 1;
+                Linear.SetPointerValue(0, 1, SecondPointerValue);
+            }
+        }
+    }
+
+    public void OnDrag(PointerDragEventArgs args)
+    {
+        if (args.PointerIndex == 0)
+        {
+            FirstPointerValue = args.CurrentValue;
+            if (args.CurrentValue > SecondPointerValue)
+            {
+                FirstPointerValue = SecondPointerValue - 1;
+                Linear.SetPointerValue(0, 0, FirstPointerValue);
+            }
+        }
+        else
+        {
+            SecondPointerValue = args.CurrentValue > FirstPointerValue ? args.CurrentValue : SecondPointerValue;
+            if (FirstPointerValue > args.CurrentValue)
+            {
+                SecondPointerValue = FirstPointerValue + 1;
+                Linear.SetPointerValue(0, 1, SecondPointerValue);
+            }
+        }
+    }
+
+    public void TooltipRendering(TooltipRenderEventArgs args)
+    {
+        args.Content = args.Content.Split(".")[0];
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

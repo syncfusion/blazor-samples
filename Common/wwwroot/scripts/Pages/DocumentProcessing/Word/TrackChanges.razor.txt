@@ -1,0 +1,161 @@
+@page "/word/track-changes"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to accept or reject the tracked changes in the Word document using Essential DocIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">With DocIO, you can accept or reject the tracked changes from an existing Word document (DOCX).</p>
+    <ul style="font-size:16px">
+        <li>
+            You can accept or reject the tracked changes based on author, date, and type of revision.
+        </li>
+        <li>
+            You can accept or reject all the tracked changes in the Word document.
+        </li>
+    </ul>
+    <p style="font-size:16px">More information about accepting or rejecting track changes can be found in this <a href="https://help.syncfusion.com/file-formats/docio/accepting-or-rejecting-track-changes" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+
+    <div class="dropdown-control">
+        <table>
+            <tr class="row">
+                <td>
+                    <h5 class="row">Author Name : </h5>
+                </td>
+                <td>
+                    <div class="drop-control" style="margin-left:4px; width:175px" >
+                        <SfDropDownList TItem="string" TValue="string" PopupHeight="230px" Placeholder="All" @bind-Value="@DropVal" DataSource="@Author">
+                            <DropDownListEvents TItem="string" TValue="string" ValueChange="onChange"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table>
+        <tr class="row">
+            <td colspan="4" height="25px">
+                <SfRadioButton Label="Accepts all changes made by the author" Name="Accept" Value=@("AcceptBtn") Disabled="@disableRadio" @bind-Checked="@RevisionBtn"></SfRadioButton>
+            </td>
+        </tr>
+        <tr class="row">
+            <td colspan="4" height="25px">
+                <SfRadioButton Label="Rejects all changes made by the author" Name="Reject" Value=@("RejectBtn") Disabled="@disableRadio" @bind-Checked="@RevisionBtn"></SfRadioButton>
+            </td>
+        </tr>
+        <tr class="row">
+            <td colspan="4" height="25px">
+                <SfRadioButton Label="Accepts all the tracked changes in the Word document" Name="AcceptAll" Value=@("AcceptAllBtnt") @bind-Checked="@RevisionBtn"></SfRadioButton>
+            </td>
+        </tr>
+        <tr class="row">
+            <td colspan="4" height="25px">
+                <SfRadioButton Label="Rejects all the tracked changes in the Word document" Name="RejectAll" Value=@("RejectAllBtn")  @bind-Checked="@RevisionBtn"></SfRadioButton>
+            </td>
+        </tr>
+    </table>
+    <table>
+        <tr>
+            <td colspan="4">
+                <div class="button-section">
+                    <div id="button-control">
+                        <div class="row">
+                            <div>
+                                <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                                <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+
+    public string DropVal { get; set; }
+
+    private List<string> Author = new List<string>() { "All", "Nancy Davolio", "Steven Buchanan", "Stanley Hudson", "Andrew Fuller" };
+
+    bool disableRadio = true;
+    MemoryStream documentStream;
+    string RevisionBtn = "AcceptAllBtnt";
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        int id = 0;
+        int.TryParse(DropVal, out id);
+        TrackChangesService service = new TrackChangesService(fileData);
+        documentStream = service.CreateWordDocument(id, RevisionBtn, "Generate Document");
+        service.Close();
+        await JS.SaveAs("Track Changes.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        TrackChangesService service = new TrackChangesService(fileData);
+        documentStream = service.CreateWordDocument(0, RevisionBtn, "View Template");
+        service.Close();
+        await JS.SaveAs("TrackChangesTemplate.docx", documentStream.ToArray());
+    }
+    private void onChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        //If all author selected disable the radio button, otherwise enabled
+        if (args.Value=="All")
+        {
+            disableRadio = true;
+            RevisionBtn = "AcceptAllBtnt";
+        }
+        else
+        {
+            RevisionBtn = "AcceptBtn";
+            disableRadio = false;
+        }
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/word/track-changes-template.docx");
+            fileData.Add("track-changes-template.docx", new MemoryStream(data));
+        }
+    }
+}
