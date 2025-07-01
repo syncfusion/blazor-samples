@@ -1,4 +1,4 @@
-[![.NET](https://github.com/ArunKumar-SF3979/blazor-samples/actions/workflows/dotnet.yml/badge.svg)](https://github.com/ArunKumar-SF3979/blazor-samples/actions/workflows/dotnet.yml)
+[![.NET](https://github.com/syncfusion/blazor-samples/actions/workflows/dotnet.yml/badge.svg)](https://github.com/syncfusion/blazor-samples/actions/workflows/dotnet.yml)
 
 # Syncfusion® Blazor Component Examples    
 
