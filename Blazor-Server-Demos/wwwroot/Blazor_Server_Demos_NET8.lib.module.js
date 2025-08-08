@@ -6,28 +6,28 @@ const homepagepath = ["/demos/", "/development/net8/demos/", "/release/net8/demo
 
 // Predefined mappings for component names to their corresponding values
 const compNameMappings = {
-    'ai-smartpaste': { cssDirectory: 'overall', jsFile: ['sf-textarea', 'sf-dropdownlist', 'sf-textbox', 'sf-spinner', 'sf-toast'] },
-    'ai-smarttextarea': { cssDirectory: 'overall', jsFile: ['sf-textarea', 'sf-dropdownlist', 'sf-toast'] },
+    'ai-smartpaste': { cssDirectory: 'smart-paste', jsFile: ['sf-textarea', 'sf-dropdownlist', 'sf-textbox', 'sf-spinner', 'sf-toast'] },
+    'ai-smarttextarea': { cssDirectory: 'smart-textarea', jsFile: ['sf-textarea', 'sf-dropdownlist', 'sf-toast'] },
     'ai-combobox': { cssDirectory: 'combo-box', jsFile: ['sf-dropdownlist'] },
-    'ai-scheduler': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor'] },
-    'ai-richtexteditor': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor'] },
-    'ai-querybuilder': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor'] },
-    'ai-diagram': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor']},
-    'ai-pdfviewer-2': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor-sfpdfviewer','syncfusion-blazor'] },
-    'ai-documenteditor': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor-documenteditor','syncfusion-blazor'] },
-    'ai-kanban': { cssDirectory: 'overall', jsFile: ['sf-kanban', 'sf-toast'] },
-    'ai-datagrid': { cssDirectory: 'overall', jsFile: ['sf-grid', 'sf-toast'] },
-    'datagrid': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor'] },
+    'ai-scheduler': { cssDirectory: 'ai-scheduler', jsFile: ['sf-schedule','sf-dialog','sf-tab','sf-spinner', 'sf-toast'] },
+    'ai-richtexteditor': { cssDirectory: 'ai-richtexteditor', jsFile: ['sf-richtexteditor', 'sf-toast', 'sf-dropdownlist', 'sf-dialog', 'sf-drop-down-button'] },
+    'ai-querybuilder': { cssDirectory: 'ai-querybuilder', jsFile: ['sf-querybuilder','sf-grid','sf-toast'] },
+    'ai-diagram': { cssDirectory: 'ai-diagram', jsFile: ['syncfusion-blazor']},
+    'ai-pdfviewer-2': { cssDirectory: 'ai-pdfviewer-2', jsFile: ['syncfusion-blazor-sfpdfviewer','syncfusion-blazor'] },
+    'ai-documenteditor': { cssDirectory: 'ai-documenteditor', jsFile: ['syncfusion-blazor-documenteditor','sf-ai-assistview','sf-spinner', 'sf-toast'] },
+    'ai-kanban': { cssDirectory: 'ai-kanban', jsFile: ['sf-kanban', 'sf-toast'] },
+    'ai-datagrid': { cssDirectory: 'ai-datagrid', jsFile: ['sf-grid', 'sf-toast'] },
+    'datagrid': { cssDirectory: 'grid', jsFile: ['sf-grid','sf-chart'] },
     'pivot-table': { cssDirectory: 'pivotview', jsFile: ['sf-pivotview','sf-dropdownlist','sf-numerictextbox','sf-heatmap','sf-multiselect', 'sf-textbox'] },
-    'spreadsheet': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor-spreadsheet', 'syncfusion-blazor'] },
+    'spreadsheet': { cssDirectory: 'spreadsheet', jsFile: ['syncfusion-blazor-spreadsheet'] },
     'tree-grid': { cssDirectory: 'treegrid', jsFile: ['sf-treegrid', 'sf-dropdownlist'] },
     'chart': { cssDirectory: 'chart', jsFile: ['sf-chart', 'sf-dashboard-layout', 'sf-dropdownlist', 'sf-numerictextbox', 'sf-textbox', 'sf-colorpicker','sf-accumulation-chart'] },
-    'chart-3d': { cssDirectory: 'chart-3d', jsFile: ['syncfusion-blazor'] },
+    'chart-3d': { cssDirectory: 'chart-3d', jsFile: ['sf-chart3D'] },
     'barcodes': { cssDirectory: 'barcode', jsFile: ['sf-barcode', 'sf-numerictextbox', 'sf-colorpicker', 'sf-textbox', 'sf-dropdownlist'] },
     'bullet-chart': { cssDirectory: 'bullet-chart', jsFile: ['sf-bullet-chart', 'sf-dropdownlist', 'sf-numerictextbox', 'sf-colorpicker'] },
     'circular-gauge': { cssDirectory: 'circular-gauge', jsFile: ['sf-circulargauge', 'sf-dropdownlist', 'sf-slider', 'sf-textbox','sf-grid'] },
     'arc-gauge': { cssDirectory: 'arc-gauge', jsFile: ['sf-circulargauge'] },
-    'diagram': { cssDirectory: 'overall', jsFile: ['sf-diagramcomponent','sf-uploader','sf-numerictextbox', 'sf-colorpicker', 'sf-textbox', 'sf-drop-down-button','sf-toolbar','sf-tab','sf-treeview','sf-grid','sf-daterangepicker','sf-chart','sf-accumulation-chart','sf-dropdownlist'] },
+    'diagram': { cssDirectory: 'diagram', jsFile: ['sf-diagramcomponent','sf-uploader','sf-numerictextbox', 'sf-colorpicker', 'sf-textbox', 'sf-drop-down-button','sf-toolbar','sf-tab','sf-treeview','sf-grid','sf-daterangepicker','sf-chart','sf-accumulation-chart','sf-dropdownlist'] },
     'heatmap-chart': { cssDirectory: 'heatmap-chart', jsFile: ['sf-heatmap', 'sf-dropdownlist', 'sf-chart'] },
     'kanban': { cssDirectory: 'kanban', jsFile: ['sf-kanban'] },
     'linear-gauge': { cssDirectory: 'linear-gauge', jsFile: ['sf-lineargauge', 'sf-dropdownlist', 'sf-tooltip'] },
@@ -38,14 +38,14 @@ const compNameMappings = {
     'sparkline': { cssDirectory: 'sparkline', jsFile: ['sf-sparkline', 'sf-grid'] },
     'stock-chart': { cssDirectory: 'stock-chart', jsFile: ['sf-stock-chart'] },
     'treemap': { cssDirectory: 'treemap', jsFile: ['sf-treemap', 'sf-dropdownlist', 'sf-textbox'] },
-    'pdf-viewer-2': { cssDirectory: 'pdfviewer', jsFile: ['syncfusion-blazor-sfpdfviewer','sf-grid','sf-uploader','sf-multiselect','sf-accordion'] },
-    'document-editor': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor-documenteditor','sf-grid', 'sf-dialog','sf-multiselect','sf-treeview','sf-spinner'] },
-    'rich-text-editor': { cssDirectory: 'rich-text-editor', jsFile: ['sf-richtexteditor', 'sf-dropdownlist','sf-mention'] },
+    'pdf-viewer-2': { cssDirectory: 'pdfviewer', jsFile: ['syncfusion-blazor-sfpdfviewer','sf-grid','sf-uploader','sf-multiselect','sf-accordion', 'sf-sidebar', 'sf-dropdownlist' ] },
+    'document-editor': { cssDirectory: 'document-editor', jsFile: ['syncfusion-blazor-documenteditor','sf-grid', 'sf-dialog','sf-multiselect','sf-treeview','sf-spinner'] },
+    'rich-text-editor': { cssDirectory: 'rich-text-editor', jsFile: ['sf-richtexteditor', 'sf-dropdownlist','sf-mention','sf-chat-ui'] },
     'markdown-editor': { cssDirectory: 'markdown-editor', jsFile: ['sf-richtexteditor','sf-mention'] },
     'image-editor': { cssDirectory: 'image-editor', jsFile: ['sf-image-editor','sf-toolbar', 'sf-drop-down-button', 'sf-textbox', 'sf-uploader','sf-colorpicker','sf-slider','sf-spinner', 'sf-dialog','sf-multiselect'] },
     'in-place-editor': { cssDirectory: 'inplace-editor', jsFile: ['sf-inplaceeditor','sf-dropdownlist','sf-datepicker','sf-timepicker','sf-daterangepicker'] },
-    'scheduler': { cssDirectory: 'schedule', jsFile: ['sf-schedule', 'sf-uploader','sf-drop-down-button','sf-toolbar','sf-contextmenu','sf-multiselect','sf-dropdownlist','sf-timepicker','sf-sidebar','sf-grid','sf-pager','sf-calendar','sf-listview','sf-dialog', 'sf-textbox','sf-toast','sf-treeview'] },
-    'gantt-chart': { cssDirectory: 'gantt', jsFile: ['syncfusion-blazor'] },
+    'scheduler': { cssDirectory: 'schedule', jsFile: ['sf-schedule', 'sf-uploader','sf-drop-down-button','sf-toolbar','sf-contextmenu','sf-multiselect','sf-dropdownlist','sf-timepicker','sf-sidebar','sf-grid','sf-pager','sf-calendar','sf-listview','sf-dialog', 'sf-textbox','sf-toast','sf-treeview', 'sf-colorpicker'] },
+    'gantt-chart': { cssDirectory: 'gantt', jsFile: ['sf-gantt','sf-sidebar','sf-listview','sf-slider','sf-multiselect','sf-numerictextbox','sf-dropdownlist','sf-toolbar','sf-querybuilder','sf-textbox','sf-daterangepicker','sf-chart','sf-accumulation-chart','sf-schedule'] },
     'calendar': { cssDirectory: 'calendar', jsFile: ['sf-calendar','sf-dropdownlist'] },
     'datepicker': { cssDirectory: 'datepicker', jsFile: ['sf-datepicker','sf-dropdownlist','sf-multiselect'] },
     'daterangepicker': { cssDirectory: 'daterangepicker', jsFile: ['sf-daterangepicker','sf-dropdownlist','sf-multiselect'] },
@@ -54,7 +54,7 @@ const compNameMappings = {
     'buttons': { cssDirectory: 'button', jsFile: ['sf-drop-down-button'] },
     'button-group': { cssDirectory: 'button-group' },
     'chips': { cssDirectory: 'chips', jsFile: ['sf-dropdownlist'] },
-    'fab': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor'] },
+    'fab': { cssDirectory: 'floating-action-button', jsFile: ['syncfusion-blazor'] },
     'dropdown-menu': { cssDirectory: 'drop-down-button', jsFile: ['sf-drop-down-button']},
     'progress-button': { cssDirectory: 'progress-button', jsFile: ['sf-spinner'] },
     'split-button': { cssDirectory: 'split-button', jsFile: ['sf-drop-down-button'] },
@@ -80,8 +80,8 @@ const compNameMappings = {
     'toggle-switch-button': { cssDirectory: 'switch' },
     'rating': { cssDirectory: 'rating', jsFile: ['sf-rating'] },
     'otp-input': { cssDirectory: 'otp-input', jsFile: ['sf-otp-input','sf-toast','sf-dropdownlist', 'sf-textbox','sf-numerictextbox'] },
-    'speech-to-text': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor']},
-    'ai-assistview': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor'] },
+    'speech-to-text': { cssDirectory: 'speech-to-text', jsFile: ['sf-speechtotext', 'sf-textarea', 'sf-dropdownlist', 'sf-chat-ui', 'sf-toast', 'sf-ai-assistview']},
+    'ai-assistview': { cssDirectory: 'ai-assistview', jsFile: ['syncfusion-blazor'] },
     'chat-ui': { cssDirectory: 'chat-ui', jsFile: ['sf-chat-ui', 'sf-drop-down-button', 'sf-dropdownlist','sf-multiselect','sf-splitter','sf-listview'] },
     'accordion': { cssDirectory: 'accordion', jsFile: ['sf-accordion'] },
     'breadcrumb': { cssDirectory: 'breadcrumb', jsFile: ['sf-breadcrumb', 'sf-menu'] },
@@ -96,7 +96,7 @@ const compNameMappings = {
     'treeview': { cssDirectory: 'treeview', jsFile: ['sf-treeview','sf-listview','sf-spinner'] },
     'appbar': { cssDirectory: 'appbar', jsFile: ['sf-drop-down-button','sf-menu', 'sf-textbox'] },
     'stepper': { cssDirectory: 'stepper', jsFile: ['sf-stepper','sf-textbox'] },
-    'ribbon': { cssDirectory: 'overall', jsFile: ['syncfusion-blazor'] },
+    'ribbon': { cssDirectory: 'ribbon', jsFile: ['sf-ribbon', 'sf-toast', 'sf-slider'] },
     'card': { cssDirectory: 'card', jsFile: ['sf-textbox','sf-dropdownlist','sf-multiselect','sf-listview']  },
     'dashboard-layout': { cssDirectory: 'dashboard-layout', jsFile: ['sf-dashboard-layout','sf-chart','sf-accumulation-chart','sf-grid', 'sf-dialog'] },
     'dialog': { cssDirectory: 'dialog', jsFile: ['sf-dialog','sf-dropdownlist','sf-textbox','sf-grid'] },
@@ -109,11 +109,11 @@ const compNameMappings = {
     'avatar': { cssDirectory: 'avatar', jsFile: ['sf-listview'] },
     'message': { cssDirectory: 'message' },
     'progress-bar': { cssDirectory: 'progress-bar', jsFile: ['sf-progressbar'] },
-    'toast': { cssDirectory: 'overall', jsFile: ['sf-toast', 'sf-dropdownlist', 'sf-textbox'] },
+    'toast': { cssDirectory: 'toast', jsFile: ['sf-toast', 'sf-dropdownlist', 'sf-textbox'] },
     'spinner': { cssDirectory: 'spinner', jsFile: ['sf-spinner'] },
     'skeleton': { cssDirectory: 'skeleton', jsFile: ['sf-listview'] },
     'badge': { cssDirectory: 'badge', jsFile: ['sf-accordion','sf-listview']  },
-    'query-builder': { cssDirectory: 'query-builder', jsFile: ['syncfusion-blazor'] },
+    'query-builder': { cssDirectory: 'query-builder', jsFile: ['sf-querybuilder','sf-grid'] },
     'data-form': { cssDirectory: 'data-form', jsFile: ['sf-numerictextbox','sf-maskedtextbox','sf-datepicker','sf-dropdownlist','sf-stepper','sf-textbox','sf-datepicker','sf-timepicker'] },
     'word': { cssDirectory: 'word', jsFile: ['sf-dropdownlist', 'sf-textbox'] },
     'pdf': { cssDirectory: 'pdf', jsFile: ['sf-dropdownlist'] },
@@ -123,7 +123,9 @@ const compNameMappings = {
 
 let theme = new URL(window.location.href).searchParams.get("theme");
 theme = theme ? theme : "fluent2";
-theme = theme === "bootstrap5" ? "bootstrap5.3" : theme === "bootstrap5-dark" ? "bootstrap5.3-dark" : theme;
+if (window.location.href.indexOf('blazor.syncfusion.com') != -1 || window.location.href.indexOf('localhost') != -1) {
+   theme = theme === "bootstrap5" ? "bootstrap5.3" : theme === "bootstrap5-dark" ? "bootstrap5.3-dark" : theme;
+}
 
 function getCompNameFromURL() {
     var pathSegments = window.location.pathname;
@@ -151,7 +153,7 @@ window.sfBlazorSBStaticAssets = {
                 loadAssets("https://cdn.syncfusion.com/blazor/29.2.4/styles/" + theme + ".css");
             }
             else {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/" + values.cssDirectory + "/" + theme + ".min.css");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/" + values.cssDirectory + "/" + theme + ".min.css");
             }
             if (!values.jsFile || !values.jsFile.includes('syncfusion-blazor')) {
                 // Dynamically import necessary scripts for the common layout components
@@ -170,22 +172,23 @@ window.sfBlazorSBStaticAssets = {
             }
 
             if (window.location.href.indexOf('image-editor') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/image-editor.min.js");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/image-editor.min.js");
             }
             if (window.location.href.indexOf('ribbon') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/ribbon.min.js");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/ribbon.min.js");
             }
             if (window.location.href.indexOf('rich-text-editor') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/richtexteditor.min.js");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/richtexteditor.min.js");
             }
             if (window.location.href.indexOf('speech-to-text') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/speechtotext.min.js");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/speechtotext.min.js");
             }
             if (window.location.href.indexOf('diagram') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/common/diagram/syncfusion-blazor-icons.min.css");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/diagram/syncfusion-blazor-icons.min.css");
             }
             if (window.location.href.indexOf('dark') != -1 || window.location.href.indexOf('fluent2-highcontrast') != -1 || window.location.href.indexOf('highcontrast') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/common/dark-theme.min.css");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/highcontrast.min.css");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/dark-theme.min.css");
             }
         }
         else {
@@ -232,32 +235,17 @@ function homePageAssets() {
     var assetFiles;
     if (data.configuration == "Release") {
         assetFiles = [
-            'https://cdn.syncfusion.com/blazor/sb/styles/home-page/fluent2.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/styles/common/bootstrap.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/favicon.ico',
-            'https://cdn.syncfusion.com/blazor/sb/styles/common/site.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/styles/common/home.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/styles/common/devices.min.css'
+            'https://cdn.syncfusion.com/blazor/sb/favicon.ico'
         ];
     } 
     else if(data.configuration == "Staging"){
         assetFiles = [
-            '_content/Syncfusion.Blazor.Themes/fluent2.css',
-            '/styles/bootstrap.min.css',
-            '/favicon.ico',
-            '/styles/site.min.css',
-            '/styles/common/home.min.css',
-            '/styles/common/devices.min.css'
+            '/favicon.ico'
         ];
     }
     else {
         assetFiles = [
-			'_content/Syncfusion.Blazor.Themes/fluent2.css',
-            '/styles/bootstrap.min.css',
-            '/favicon.ico',
-            '/styles/site.css',
-            '/styles/common/home.css',
-            '/styles/common/devices.css'
+            '/favicon.ico'
         ];
     }
     assetFiles.forEach((file) => {
@@ -265,12 +253,7 @@ function homePageAssets() {
             loadAssets(file);
         }
         else {
-			if (file.includes('_content')) {
-                loadAssets(file);
-            }
-            else {
-                loadAssets(path + file);
-            }
+            loadAssets(path + file);
         }
     });
 }
@@ -280,10 +263,9 @@ function samplePageAssets() {
     if (data.configuration == "Release") {
         assetFiles = [
             'https://cdn.syncfusion.com/blazor/sb/favicon.ico',
-            'https://cdn.syncfusion.com/blazor/sb/styles/common/bootstrap.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/styles/common/demos.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/styles/common/devices.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/scripts/highlight.min.js'
+            'https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/roboto.min.css',
+            'https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/highlight.min.css',
+            'https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/highlight.min.js'
         ];
     } 
     else if(data.configuration == "Staging"){
@@ -291,10 +273,7 @@ function samplePageAssets() {
             '/styles/common/highcontrast.min.css',
             '/favicon.ico',
             '/styles/common/roboto.min.css',
-            '/styles/bootstrap.min.css',
             '/styles/common/highlight.min.css',
-            '/styles/common/demos.min.css',
-            '/styles/common/devices.min.css',
             '/scripts/common/highlight.min.js',
             '/scripts/image-editor.min.js',
             '/scripts/richtexteditor.min.js',
@@ -309,10 +288,7 @@ function samplePageAssets() {
             '/styles/common/highcontrast.css',
             '/favicon.ico',
             '/styles/common/roboto.css',
-            '/styles/bootstrap.min.css',
             '/styles/common/highlight.css',
-            '/styles/common/demos.css',
-            '/styles/common/devices.css',
             '/scripts/common/highlight.min.js',
             '/scripts/image-editor.js',
             '/scripts/richtexteditor.js',
@@ -344,7 +320,6 @@ if (homepagepath.indexOf(window.location.pathname) !== -1) {
     }
 }
 else {
-    loadAssets("Blazor_Server_Demos_NET8.styles.css");
     sfBlazorSBStaticAssets.dynamicResources();
     samplePageAssets();
 }

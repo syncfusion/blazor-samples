@@ -9,7 +9,44 @@
 @inject NavigationManager UriHelper;
 @inject SampleService SampleService;
 @inject IJSRuntime JsRuntime;
+<style>
+    .sf-blazor-home .sf-banner-image {
+        background: url( @(SampleService.ImagePath + "home-banner.webp") ) no-repeat center top;
+        background-size: 100% 100%;
+    }
 
+    .sf-blazor-home .sf-trusted-companies {
+        background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-v1.png) no-repeat center top;
+        background-size: contain;
+    }
+
+    @@media (max-width: 1024px) {
+        .sf-blazor-home .sf-banner-image {
+            background: url( @(SampleService.ImagePath + "home-banner-tab.webp") ) no-repeat center top;
+            background-size: 100% 100%;
+        }
+
+        .sf-blazor-home .sf-trusted-companies {
+            background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-v1.png) no-repeat center top;
+        }
+    }
+
+    @@media (max-width: 450px) {
+        .sf-blazor-home .sf-banner-image {
+            background: url( @(SampleService.ImagePath + "home-banner-mobile.webp") ) no-repeat center top;
+            background-size: 100% 100%;
+        }
+        .sf-blazor-home .sf-trusted-companies {
+            background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-mobile-v1.png) no-repeat center top;
+        }
+    }
+
+    @@media (max-width: 2580px) and (min-width: 1850px) {
+        .trusted-companies {
+            height: 220px !important;
+        }
+    }
+</style>
 <div class="sf-blazor-home" role="main">
     <!-- Header -->
     <div class="sf-header">
@@ -21,6 +58,9 @@
                 </a>
             </div>
         </div>
+@{#if SERVER}
+    @if (EnableLazyLoad)
+    {
         <div class="sf-header-right">
             @if (IsDevice)
             {
@@ -43,6 +83,32 @@
                 </div>
              }
         </div>
+    }
+@{#else}
+        <div class="sf-header-right">
+            @if (IsDevice)
+            {
+                <span class="@searchIcon" role="button" aria-label="Search Samples" @onclick="OnRenderSearch"></span>
+                <div class="@searchContainer">
+                    <SearchComponent @ref="@searchRef"></SearchComponent>
+                </div>
+            }
+            else
+            {
+                <div class="@searchContainerClass">
+                    <SearchComponent></SearchComponent>
+                </div>
+            }
+            @if (!(SampleUtils.IsLocalSample(UriHelper.Uri)))
+            {
+                <div class='sf-header-items sf-table-cell sf-download-container'>
+                    <a href='https://www.syncfusion.com/downloads/blazor?tag=es-seo-blazor-demos-static-menu-trial' target="_blank" rel="noopener" role="link" aria-label="Free trial">
+                        <SfButton CssClass="e-primary">Free Trial</SfButton>
+                    </a>
+                </div>
+            }
+        </div>
+@{#endif}
     </div>
     <!-- Banner -->
     <div class="sf-banner-image" @onclick="OnAppClick">
@@ -91,6 +157,9 @@
             </div>
         </div>
     </div>
+@{#if SERVER}
+    @if (EnableLazyLoad)
+    {
     <!-- Content -->
     <div class="sf-home-content sf-container">
         <PopularComponent></PopularComponent>
@@ -206,6 +275,124 @@
     <div class="sf-home-footer">
         <HomeFooterComponent></HomeFooterComponent>
     </div>
+    }
+@{#else}
+    <!-- Content -->
+    <div class="sf-home-content sf-container">
+        <PopularComponent></PopularComponent>
+        <div class="sf-components-list">
+            <h2>Blazor UI & Data Visualization Components</h2>
+            <div class="sf-components-description">The Syncfusion<sup>&reg;</sup> Blazor components library is the only suite that you will ever need to build an application. It contains 100+ high-performance, light-weight, and responsive UI controls, available as individual packages for seamless integration to meet your specific component requirements.</div>
+            <div class="sf-components">
+                @foreach (var orders in categoryOrders)
+                {
+                    <div class="sf-component-col">
+                        @foreach (var category in orders)
+                        {
+                            <div class="sf-catagory">@category</div>
+                            var components = SampleBrowser.SampleList.Where(comp => comp.Category == category).ToList();
+                            {
+                                <ul>
+                                    @foreach (var component in components)
+                                    {
+                                        @if (!component.IsHideFromHomePageList)
+                                        {
+                                            <li>
+                                                <a aria-label="Syncfusion components" href=@component.DemoPath @onclick="@(() => NavSample(component))" @onclick:preventDefault
+                                                   rel="noopener noreferrer">
+                                                    <span class="sf-home-icon sf-icon-@string.Join("", (component.ComponentIconName != null ? component.ComponentIconName : component.Name).ToLower().Split(" "))"></span>
+                                                    <span class="sf-component-name">@component.Name</span>
+                                                    @if (component.IsPreview)
+                                                    {
+                                                        <span class="sf-preview">PREVIEW</span>
+                                                    }
+                                                </a>
+                                            </li>
+                                        }
+                                    }
+                                </ul>
+                            }
+                        }
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <!-- ShowCase demos -->
+    <div class="sf-showcase">
+        <ShowCaseComponent></ShowCaseComponent>
+    </div>
+    <!-- Syncfusion G2 reviews -->
+    <div class="sf-g2-container">
+        <div class="sf-g2-review sf-container">
+            <div class="sf-g2-section col-sm-4 col-xs-12">
+                <div class="app-logos-section ">
+                    <img style="width:242px; height: 49px" class="app-capterra-logo" src="https://cdn.syncfusion.com/content/images/user-reviews/capterra-logo.png?v=01122022083421" alt="Capterra-logo" loading="lazy">
+                    <div class="row">
+                        <div class="star-rating col-xs-8" style=" background-image:url(https://cdn.syncfusion.com/content/images/user-reviews/users-reward-rating-4.4.png)"> </div>
+                        <div class="app-ratings col-xs-4">4.5/5</div>
+                    </div>
+                    <div class="reviews-count">(650+ Reviews)</div>
+                    <a rel="nofollow" class="app-ratings-link" href="https://www.capterra.com/p/228226/Essential-Studio/" aria-label="Read more on Capterra"> Read more on Capterra </a>
+                </div>
+            </div>
+            <div class="sf-g2-section col-sm-4 col-xs-12">
+                <div class="app-logos-section ">
+                    <img style="width:242px; height: 49px" class="app-g2-logo" src="https://cdn.syncfusion.com/content/images/user-reviews/G2-logo.png?v=01122022083421" alt="G2-logo" loading="lazy">
+                    <div class="row">
+                        <div class="star-rating col-xs-8" style=" background-image: url(https://cdn.syncfusion.com/content/images/user-reviews/users-reward-rating-4.4.png)"> </div>
+                        <div class="app-ratings col-xs-4">4.5/5</div>
+                    </div>
+                    <div class="reviews-count">(550+ Reviews)</div>
+                    <a rel="nofollow" class="app-ratings-link" href="https://www.g2.com/products/syncfusion-essential-studio-enterprise-edition/reviews"> Read more on G2  </a>
+                </div>
+            </div>
+            <div class="sf-g2-section col-sm-4 col-xs-12">
+                <div class="app-logos-section ">
+                    <img style="width:242px; height: 49px" class="app-getapp-logo" src="https://cdn.syncfusion.com/content/images/user-reviews/get-app-logo.png?v=01122022083421" alt="GetApp-logo" loading="lazy">
+                    <div class="row">
+                        <div class="star-rating col-xs-8" style=" background-image:url(https://cdn.syncfusion.com/content/images/user-reviews/users-reward-rating-4.4.png)"> </div>
+                        <div class="app-ratings col-xs-4">4.5/5</div>
+                    </div>
+                    <div class="reviews-count">(650+ Reviews)</div>
+                    <a rel="nofollow" class="app-ratings-link" href="https://www.getapp.com/development-tools-software/a/essential-studio/"> Read more on GetApp  </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- AdStrip -->
+    <div class="sf-ad-strip">
+        <div class="sf-container">
+            <div class="sf-ad-strip-img"></div>
+            <div class="sf-ad-strip-content">
+                <h3>Transform your web apps today with Syncfusion Blazor components</h3>
+                <ul>
+                    <li>
+                        <span class="sbicons sf-ad-strip-tick"></span>
+                        <span>100+ high-performance and responsive UI components</span>
+                    </li>
+                    <li>
+                        <span class="sbicons sf-ad-strip-tick"></span>
+                        <span>Dedicated support</span>
+                    </li>
+                    <li>
+                        <span class="sbicons sf-ad-strip-tick"></span>
+                        <span>Hassle-free licensing</span>
+                    </li>
+                </ul>
+                <div class="sf-ad-strip-button">
+                    <a href="https://www.syncfusion.com/downloads/blazor?tag=es-seo-blazor-demos-section-trial" target="_blank" rel="noopener">
+                        <SfButton CssClass="e-primary" IconCss="sbicons sf-gt-icon" IconPosition=@IconPosition.Right>Try It for Free</SfButton>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Footer -->
+    <div class="sf-home-footer">
+        <HomeFooterComponent></HomeFooterComponent>
+    </div>
+@{#endif}
 </div>
 
 <style>
@@ -220,37 +407,6 @@
     .sf-blazor-home .sf-g2-img {
         background: url( @(SampleService.ImagePath + "syncfusion-g2-review.png") ) no-repeat center top;
     }
-    .sf-blazor-home .sf-banner-image {
-        background: url(@(SampleService.ImagePath + "home-banner.webp")) no-repeat center top;
-        background-size: 100% 100%;
-    }
-    .sf-blazor-home .sf-trusted-companies {
-        background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-v1.png) no-repeat center top;
-        background-size: contain;
-    }
-    @@media (max-width: 1024px) {
-        .sf-blazor-home .sf-banner-image {
-            background: url( @(SampleService.ImagePath + "home-banner-tab.png") ) no-repeat center top;
-            background-size: 100% 100%;
-        }
-        .sf-blazor-home .sf-trusted-companies {
-           background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-v1.png) no-repeat center top;
-        }
-    }
-    @@media (max-width: 450px) {
-        .sf-blazor-home .sf-banner-image {
-            background: url( @(SampleService.ImagePath + "home-banner-mobile.png") ) no-repeat center top;
-            background-size: 100% 100%;
-        }
-        .sf-blazor-home .sf-trusted-companies {
-            background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-mobile-v1.png) no-repeat center top;
-        }
-    }
-    @@media (max-width: 2580px) and (min-width: 1850px) {
-    .trusted-companies{
-        height: 220px !important;
-    }
-}
 </style>
 @code {
     private string headerLogo { get; set; }
@@ -266,9 +422,13 @@
     private string selectedItemID { get; set; }
     private string searchContainerClass {get;set;}
 
-
     [CascadingParameter(Name = "IsDevice")]
     protected bool IsDevice { get; set; }
+
+#if SERVER
+    [CascadingParameter(Name = "EnableLazyLoad")]
+    private bool EnableLazyLoad { get; set; }
+#endif
 
     // Search icon click event handler method.
     private async Task OnRenderSearch()

@@ -17,6 +17,8 @@
 @{#if SERVER || WEBAPP}
 @attribute [StreamRendering]
 @{#endif}
+
+@{#if SERVER}
 <CascadingValue Value="@this">
     <SpinnerComponent @ref="spinnerRef"></SpinnerComponent>
     @if (SampleUtils.IsHomePage(UriHelper))
@@ -26,11 +28,112 @@
             <link rel="preload" href="@fileName" as="font" type="font/woff2" crossorigin />
         }
     }
-@{#if SERVER}
-@if(enableLazyLoad){
-#endif
+
     @*Set empty layout to home page and components which have open in new window functionality.*@
-    var isEmptyLayout = SampleService.SampleInfo != null && !UriHelper.Uri.Contains(SampleService.SampleInfo.Url) && SampleService.SampleInfo.MappingSampleName != null;
+    @{
+        var isEmptyLayout = SampleService.SampleInfo != null && !UriHelper.Uri.Contains(SampleService.SampleInfo.Url) && SampleService.SampleInfo.MappingSampleName != null;
+    }
+    @if (SampleUtils.IsHomePage(UriHelper) || isEmptyLayout)
+    {
+        <CascadingValue Value="isDeviceMode" Name="IsDevice">
+            <CascadingValue Value="enableLazyLoad" Name="EnableLazyLoad">
+                <div>
+                    @Body
+                </div>
+            </CascadingValue>
+        </CascadingValue>
+    }
+    else
+    {
+	    <div class="sample-browser e-view sf-new" @onclick="OnAppClick">
+            <div class="sb-mobile-overlay sb-hide"></div>
+            <HeaderComponent @ref="headerRef" OnToggleClick="@OnToggleClick" OnRightToggleClick="@OnRightToggleClick" HomeIconClick="@HomeIconClick" OnSearchRender="@OnSearchRender"></HeaderComponent>
+            <div class="sb-content e-view">
+                @if (enableLazyLoad)
+                {
+                <div class="@searchContainer">
+                    <div class="index-search-container">
+                        <SearchComponent @ref="@searchRef"></SearchComponent>
+                    </div>
+                </div>
+                <LeftPaneComponent @ref="LeftPaneRef"></LeftPaneComponent>
+                }
+                <RightPaneComponent @ref="RightPaneRef">
+                    <ErrorBoundary @ref="errorBoundaryRef" Context="Exception">
+                        <ChildContent>
+                            @if (enableLazyLoad)
+                            {
+                                @Body
+                            }
+                            else
+                            {
+                                <div style="position: relative; height: 560px; width: 104%;">
+                                    <SpinnerComponent CssClass="lazy-loading-placeholder"></SpinnerComponent>
+                                </div>
+                                <style>
+                                    @@media (max-width: 767px) {
+                                        .lazy-loading-placeholder {
+                                            display: block;
+                                        }
+
+                                        .sb-right-pane{
+                                            height: 100%;
+                                        }
+                                    }
+
+                                    @@media (min-width: 768px) {
+                                        .lazy-loading-placeholder {
+                                            display: none;
+                                        }
+                                    }
+                                </style>
+                            }
+                        </ChildContent>
+                        <ErrorContent>
+                            <div class="e-error-ui">
+                                <div class="e-error-content">
+                                    <div class="e-error-ui-text">Try that again</div>
+                                    <div class="e-error-text-ui">Page could not be loaded. Please try again later.</div>
+                                    <div class="border p-4 text-danger">
+                                        Error Type : @Exception.GetType() <br><br>
+                                        Error Message : @Exception.Message <br><br>
+                                        Error Stack Trace : @Exception.StackTrace <br><br>
+                                        Error Base Exception : @Exception.GetBaseException() <br><br>
+                                    </div>
+                                    <div class="e-page-refresh">
+                                        <SfButton CssClass="e-primary" OnClick="OnRefresh">Refresh the page</SfButton>
+                                    </div>
+                                </div>
+                            </div>
+                        </ErrorContent>
+                    </ErrorBoundary>
+                </RightPaneComponent>
+                @if (SampleService.IsDevice && enableLazyLoad)
+                {
+                    <SideBarComponent IsExpanded="@rightSidebarExpanded" Position="SidebarPlacement.Right">
+                        <Preferences IsMobile="true"></Preferences>
+                    </SideBarComponent>
+                    <SampleNavigator @ref="SampleNavigatorRef"></SampleNavigator>
+                }
+            </div>
+        </div>
+    }
+</CascadingValue>
+@{#else}
+<CascadingValue Value="@this">
+    <SpinnerComponent @ref="spinnerRef"></SpinnerComponent>
+    @if (SampleUtils.IsHomePage(UriHelper))
+    {
+        foreach (var fileName in SampleBrowser.PreLoadFiles)
+        {
+            <link rel="preload" href="@fileName" as="font" type="font/woff2" crossorigin />
+        }
+    }
+
+    @*Set empty layout to home page and components which have open in new window functionality.*@
+    @{
+        var isEmptyLayout = SampleService.SampleInfo != null && !UriHelper.Uri.Contains(SampleService.SampleInfo.Url) && SampleService.SampleInfo.MappingSampleName != null;
+    }
     @if (SampleUtils.IsHomePage(UriHelper) || isEmptyLayout)
     {
         <CascadingValue Value="isDeviceMode" Name="IsDevice">
@@ -85,10 +188,8 @@
             </div>
         </div>
     }
-#if SERVER
-}
-@{#endif}
 </CascadingValue>
+@{#endif}
 <Syncfusion.Blazor.Popups.SfDialogProvider/>
 
 @code {
@@ -98,7 +199,7 @@
     [Inject]
     private NavigationManager navigationManager { get; set; }
 
-    private bool isDeviceMode { get; set; }
+    internal bool isDeviceMode { get; set; }
     private bool isSearchIconClick { get; set; }
     private string searchContainer { get; set; }
     private bool rightSidebarExpanded { get; set; }
@@ -342,7 +443,9 @@
             // Remove "-dark" from the current theme
             themeName = themeName.Replace("-dark", "");
         }
+#if !STAGING || DEBUG
         themeName = themeName != null && themeName.Equals("bootstrap5") ? "bootstrap5.3" : themeName;
+#endif
         if (!string.IsNullOrEmpty(themeName) && !SampleUtils.ThemeData.Any((theme => theme.ID == themeName)) && themeName != "tailwind")
         {
             this.navigationManager.NavigateTo(this.navigationManager.Uri.Split("?")[0], forceLoad: true);
@@ -368,18 +471,22 @@
             this.DeviceMode.Isdevice = this.SampleService.IsDevice;
             this.isTablet = await this.JsRuntime.InvokeAsync<bool>("sfBlazorSB.isTablet");
             this.isDeviceMode = this.SampleService.IsDevice;
+#if WASM || WEBAPP
             if (this.SampleService.IsDevice)
             {
                 LeftPaneRef?.UpdateExpandedState();
                 StateHasChanged();
             }
+#endif
             // Update home page or demo page loaded property in SampleService.
             // SampleUtils.GetDynamicResources(UriHelper, SampleService);
 #if SERVER
-            await Task.Delay(500);
             enableLazyLoad = true;
             StateHasChanged();
-            await JsRuntime.InvokeVoidAsync("initializeGTM");
+            if (!SampleUtils.IsLocalSample(UriHelper.BaseUri)) {
+                await Task.Delay(500);
+                await JsRuntime.InvokeVoidAsync("initializeGTM");
+            }
 #endif        
         }
         else

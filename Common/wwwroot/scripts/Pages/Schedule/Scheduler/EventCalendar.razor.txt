@@ -564,6 +564,10 @@
     {
         if (args.ActionType == ActionType.EventCreate)
         {
+            foreach (var record in args.AddedRecords)
+            {
+                record.IsPlanned = true;
+            }
             Datas.AddRange(args.AddedRecords);
         }
     }
@@ -669,7 +673,7 @@
                 break;
         }
     }
-    
+
     private DateTime GetPreviousNextDate(bool isPrevious)
     {
         DateTime updatedDate = CurrentDate;
@@ -720,10 +724,16 @@
                 {
                     if (!AssignedData.Contains(data) && !UnassignedData.Contains(data))
                     {
-                        AssignedData.Add(data);
-                        AssignedData = AssignedData.ToList();
-                        UnassignedData.Add(data);
-                        UnassignedData = UnassignedData.ToList();
+                        if (data.IsPlanned)
+                        {
+                            AssignedData.Add(data);
+                            AssignedData = AssignedData.ToList();
+                        }
+                        else
+                        {
+                            UnassignedData.Add(data);
+                            UnassignedData = UnassignedData.ToList();
+                        }
                     }
                 }
             }

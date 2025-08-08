@@ -207,7 +207,9 @@ namespace BlazorDemos.Shared
         public static string GetThemeUrl(NavigationManager UriHelper, string themeName)
         {
             string url = UriHelper.Uri.TrimEnd('/');
+#if !STAGING || DEBUG
             themeName = themeName.Equals("bootstrap5.3") ? "bootstrap5" : themeName;
+#endif
             if (url.Contains("?theme="))
             {
                 string[] splittedUrl = url.Split("?theme=");
@@ -229,24 +231,35 @@ namespace BlazorDemos.Shared
             var uri = new Uri(url);
             string themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
             themeName = themeName != null ? themeName : "fluent2";
+#if !STAGING || DEBUG
             themeName = themeName.Equals("bootstrap5") ? "bootstrap5.3" : themeName.Equals("bootstrap5-dark") ? "bootstrap5.3-dark" : themeName;
+#endif
             return themeName;
         }
 
         public static List<DropDownData> ThemeData = new List<DropDownData>
         {
+#if RELEASE && STAGING
+            new DropDownData { ID = "material", Text = "Material" },
+#endif
             new DropDownData { ID = "material3", Text = "Material 3" },
             new DropDownData { ID = "fluent", Text = "Fluent" },
             new DropDownData { ID = "fluent2", Text = "Fluent 2" },
+#if RELEASE && STAGING
+            new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
+            new DropDownData { ID = "bootstrap5", Text = "Bootstrap v5" },
+            new DropDownData { ID = "bootstrap5.3", Text = "Bootstrap v5.3" },
+#else
             new DropDownData { ID = "bootstrap5.3", Text = "Bootstrap 5" },
-            new DropDownData { ID = "tailwind3", Text = "Tailwind CSS" },
-            //new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
-#if DEBUG || STAGING
-      //      new DropDownData { ID = "material-dark", Text = "Material Dark" },
 #endif
-          //  new DropDownData { ID = "bootstrap4", Text = "Bootstrap v4" },
-#if DEBUG || STAGING
-           // new DropDownData { ID = "fabric", Text = "Fabric" },
+#if RELEASE && STAGING
+            new DropDownData { ID = "tailwind", Text = "Tailwind CSS" },
+            new DropDownData { ID = "tailwind3", Text = "Tailwind3 CSS" },
+#else
+            new DropDownData { ID = "tailwind3", Text = "Tailwind CSS" },
+#endif
+#if RELEASE && STAGING
+           new DropDownData { ID = "fabric", Text = "Fabric" },
 #endif
             new DropDownData { ID = "highcontrast", Text = "High Contrast" },
             new DropDownData { ID = "fluent2-highcontrast", Text = "Fluent 2 High Contrast" },

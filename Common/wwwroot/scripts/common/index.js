@@ -410,7 +410,9 @@ window.addEventListener('load', function () {
     if (ThemeEle) {
         let url = window.location.href.split("?theme=");
         let theme = new URL(window.location.href).searchParams.get("theme");
-        theme = theme === "bootstrap5" ? "bootstrap5.3" : theme === "bootstrap5-dark" ? "bootstrap5.3-dark" :theme;
+        if (window.location.href.indexOf('blazor.syncfusion.com') != -1 || window.location.href.indexOf('localhost') != -1) {
+            theme = theme === "bootstrap5" ? "bootstrap5.3" : theme === "bootstrap5-dark" ? "bootstrap5.3-dark" :theme;
+        }
         if (url.length > 1) {
             if (ThemeEle.href.indexOf("cdn.syncfusion.com") !== -1) {
                 ThemeEle.href = 'https://cdn.syncfusion.com/blazor/29.2.4/styles/' + theme + '.css';
@@ -431,7 +433,9 @@ window.addEventListener('load', function () {
   if (/theme=/g.test(location.search)) {
     themeName = location.search.replace("?theme=", "");
     }
-    themeName = themeName === "bootstrap5" ? "bootstrap5.3" : themeName === "bootstrap5-dark" ? "bootstrap5.3-dark" : themeName;
+    if (window.location.href.indexOf('blazor.syncfusion.com') != -1 || window.location.href.indexOf('localhost') != -1) {
+        themeName = themeName === "bootstrap5" ? "bootstrap5.3" : themeName === "bootstrap5-dark" ? "bootstrap5.3-dark" : themeName;
+    }
     var sfPreferenceMode = localStorage.getItem("sfPreferenceMode");
     document.body.classList.add(themeName);
     if (sfPreferenceMode === "touch") {
@@ -1445,7 +1449,7 @@ function showBanner(messageText) {
 
     // Banner content
     let message = document.createElement("p");
-    message.innerHtml = messageText;
+    message.innerHTML = messageText;
     message.className = "banner-message";
 
     // Create the close button

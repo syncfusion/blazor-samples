@@ -31,6 +31,8 @@ namespace BlazorDemos.Shared
 
         private string GetContent()
         {
+
+            string ogImage = "https://cdn.syncfusion.com/content/images/company-logos/Syncfusion_Logo_Image.png";
             SampleService.Update(UriHelper);
             StringBuilder sb = new StringBuilder();
             sb.Append(Environment.NewLine);
@@ -52,20 +54,43 @@ namespace BlazorDemos.Shared
                 sb.Append($" content =\"{metaDescription}\"");
                 sb.Append(">");
                 sb.Append(Environment.NewLine);
+
+                // Open Graph and Twitter tags
+                AppendOpenGraphTags(sb, metaTitle, metaDescription, ogImage);
+                AppendTwitterCardTags(sb, metaTitle, metaDescription, ogImage);
+
+
             }
             // Meta data content generation for home page.
             else
             {
+                var metaTitle = "Blazor Components Examples & Demos | Syncfusion";
+                var metaDescription = "Explore and learn Syncfusion Blazor components using large collection of demos, example applications and tutorial samples.";
                 sb.Append($"<title>");
-                sb.Append("Blazor Components Examples & Demos | Syncfusion");
+                sb.Append(metaTitle);
                 sb.Append($"</title>");
                 sb.Append(Environment.NewLine);
                 sb.Append($"<meta");
                 sb.Append($" name =\"description\"");
-                sb.Append($" content =\"{"Explore and learn Syncfusion Blazor components using large collection of demos, example applications and tutorial samples."}\"");
+                sb.Append($" content =\"{metaDescription}\"");
                 sb.Append(">");
                 sb.Append(Environment.NewLine);
+
+                //Appends Open Graph and Twitter tags
+                AppendOpenGraphTags(sb, metaTitle, metaDescription, ogImage);
+                AppendTwitterCardTags(sb, metaTitle, metaDescription, ogImage);
+
             }
+
+            //Appends schema.org structured data
+            string schemaJson = GetSchemaJson();
+            if (!string.IsNullOrWhiteSpace(schemaJson))
+            {
+                sb.AppendLine("<script type=\"application/ld+json\">");
+                sb.AppendLine(schemaJson);
+                sb.AppendLine("</script>");
+            }
+
             return sb.ToString();       
         }
 
@@ -81,6 +106,88 @@ namespace BlazorDemos.Shared
             sb.Append(Environment.NewLine);
             return sb.ToString();
         }
+
+        /// <summary>
+        /// Appends Open Graph meta tags for link previews on social media platforms like Facebook and LinkedIn.These tags define how the page title, description, URL, and image are displayed when shared.
+        /// </summary>
+        private void AppendOpenGraphTags(StringBuilder sb, string title, string description, string image)
+        {
+            sb.AppendLine($"<meta property=\"og:title\" content=\"{title}\" />");
+            sb.AppendLine($"<meta property=\"og:description\" content=\"{description}\" />");
+            sb.AppendLine($"<meta property=\"og:url\" content=\"{UriHelper.Uri}\" />");
+            sb.AppendLine($"<meta property=\"og:type\" content=\"website\" />");
+            sb.AppendLine($"<meta property=\"og:site_name\" content=\"Syncfusion Blazor Demos\" />");
+            sb.AppendLine($"<meta property=\"og:image\" content=\"{image}\" />");
+        }
+
+        /// <summary>
+        /// Appends Twitter Card meta tags to control how the page appears when shared on Twitter for better visibility and branding.
+        /// </summary>
+        private void AppendTwitterCardTags(StringBuilder sb, string title, string description, string image)
+        {
+            sb.AppendLine($"<meta name=\"twitter:account_id\" content=\"41152441\" />");
+            sb.AppendLine($"<meta name=\"twitter:url\" content=\"{UriHelper.Uri}\" />");
+            sb.AppendLine($"<meta name=\"twitter:title\" content=\"{title}\" />");
+            sb.AppendLine($"<meta name=\"twitter:card\" content=\"summary\" />");
+            sb.AppendLine($"<meta name=\"twitter:description\" content=\"{description}\" />");
+            sb.AppendLine($"<meta name=\"twitter:image\" content=\"{image}\" />");
+        }
+
+        /// <summary>
+        /// Generates structured data in JSON-LD format.This improves SEO by helping search engines understand the content and context of the page.
+        /// </summary>
+        private string GetSchemaJson()
+        {
+            if (SampleService.ComponentName != null && SampleService.SampleInfo != null)
+            {
+                var sampleInfo = SampleService.SampleInfo;
+                var headline = sampleInfo.MetaTitle ?? $"Blazor {SampleService.ComponentName} - {sampleInfo.Name}";
+                var description = sampleInfo.MetaDescription ?? $"Explore how to use {sampleInfo.Name} in Blazor {SampleService.ComponentName}.";
+
+                return $@"
+{{
+  ""@context"": ""https://schema.org"",
+  ""@type"": ""WebApplication"",
+  ""headline"": ""{headline}"",
+  ""description"": ""{description}"",
+  ""author"": {{
+    ""@type"": ""Organization"",
+    ""name"": ""Syncfusion""
+  }},
+  ""publisher"": {{
+    ""@type"": ""Organization"",
+    ""name"": ""Syncfusion"",
+    ""logo"": {{
+      ""@type"": ""ImageObject"",
+      ""url"": ""https://cdn.syncfusion.com/content/images/company-logos/Syncfusion_Logo_Image.png""
+    }}
+  }}
+}}";
+            }
+            else
+            {
+                return $@"
+{{
+  ""@context"": ""https://schema.org"",
+  ""@type"": ""WebApplication"",
+  ""headline"": ""Blazor Components Examples & Demos | Syncfusion"",
+  ""description"": ""Explore and learn Syncfusion Blazor components using large collection of demos, example applications and tutorial samples."",
+  ""author"": {{
+    ""@type"": ""Organization"",
+    ""name"": ""Syncfusion""
+  }},
+  ""publisher"": {{
+    ""@type"": ""Organization"",
+    ""name"": ""Syncfusion"",
+    ""logo"": {{
+      ""@type"": ""ImageObject"",
+      ""url"": ""https://cdn.syncfusion.com/blazor/images/demos/syncfusion-logo.svg""
+    }}
+  }}
+}}";
+            }
+        }
+
 
         /// <summary>
         /// Re-rendering the component with current sample's meta data.
