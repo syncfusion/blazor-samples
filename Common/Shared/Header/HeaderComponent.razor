@@ -1,0 +1,396 @@
+﻿@using Syncfusion.Blazor.Buttons;
+
+@namespace BlazorDemos.Shared
+
+@inject IJSRuntime JsRuntime;
+@inject NavigationManager UriHelper;
+@inject SampleService SampleService;
+
+<div id='sample-header' class="sb-header e-view" role="banner">
+    <div class='sb-header-left sb-left sb-table'>
+        <div class='sb-header-item sb-table-cell'>
+            <div id="sb-toggle-left" @onclick="OnToggleClick" @onclick:stopPropagation="true" role="button" tabindex="0" class="sb-slide-nav sb-icons toggle-active sb-icon-hamburger" aria-label="toggle all controls navigation"
+                 title='toggle leftpane'></div>
+        </div>
+         @{#if(RELEASE) }
+           @if(!(SampleUtils.IsLocalSample(UriHelper.Uri))){
+                <div class='sb-header-item sb-table-cell' id="sb-header-text" style="padding-left:10px" role="button" aria-label="Navigates to Home page">
+                    <DropDownComponent  @ref="dropdowndemoRef" DataSource="@SampleUtils.Blazor_Platform" DefaultValue="@SampleService.DemoType" OnSelect="OnDemoSwitch">
+                        <ItemTemplate>
+                            <span>Blazor @context.Text  Demos</span>   
+                        </ItemTemplate>
+                    </DropDownComponent>
+                </div>
+            }
+            else{
+                <div class='sb-header-item sb-table-cell' id="sb-header-text" @onclick="HomeIconClick" style="padding-left:20px" role="button" aria-label="Navigates to Home page">
+                    <span>@SampleService.DemoType</span>
+                </div>
+            }
+        @{#else}
+            <div class='sb-header-item sb-table-cell' id="sb-header-text" @onclick="HomeIconClick" style="padding-left:20px" role="button" aria-label="Navigates to Home page">
+                <span>@SampleService.DemoType</span>
+            </div>
+         @{#endif}
+    </div>
+    <div class='sb-header-item sb-table-cell' id="sb-index-search-container" style="padding-right:20px">
+        <SearchComponent></SearchComponent>
+    </div>
+
+    <div class='sb-header-right sb-right sb-table'>
+        <div class="sb-header-item sb-table-cell">
+            <div id="header-theme-switcher" tabindex="0" title='Change theme of sample browser'>
+                <DropDownComponent  @ref="dropdownRef" DataSource="@SampleUtils.ThemeData" DefaultValue="CHOOSE THEME" OnSelect="OnThemeChange">
+                    <ItemTemplate>
+                      
+                        @if (currentTheme.Contains("-dark"))
+                         {
+                         // Remove "-dark" from the current theme
+                          currentTheme = currentTheme.Replace("-dark", "");
+                         }
+                          @if (currentTheme == context.ID)
+                         {
+
+                             <span class="sb-icons sf-theme-selection-icon"></span>
+                         } 
+                       
+                            <span>@context.Text</span>   
+                    </ItemTemplate>
+                </DropDownComponent>
+            </div>
+        </div>
+        <div class="sb-header-item sb-table-cell" id="themeSwitchDiv">
+            <div role="button" tabindex="0" title="Change light/dark mode of sample browser" @onclick="NavigatePages" data-theme="dark" id="buttoncolor" style="display: flex; align-items: center;">
+                <svg style="display: none;" id="darkThemeIcon" xmlns="http://www.w3.org/2000/svg" width="15" height="15" viewBox="0 0 20 20" fill="none">
+                    <g clip-path="url(#clip0_4_795)">
+                        <path d="M16.9297 11.9219C15.7026 12.266 14.406 12.2772 13.1731 11.9545C11.9402 11.6318 10.8155 10.9868 9.91432 10.0856C9.01317 9.1845 8.36813 8.05973 8.04543 6.82684C7.72273 5.59396 7.734 4.2974 8.0781 3.07031C6.8683 3.40704 5.76785 4.05486 4.88633 4.94924C4.00482 5.84363 3.37303 6.95336 3.05387 8.16791C2.73472 9.38246 2.73934 10.6594 3.06729 11.8716C3.39524 13.0838 4.03507 14.189 4.92304 15.0769C5.81101 15.9649 6.91614 16.6047 8.12834 16.9327C9.34054 17.2606 10.6175 17.2653 11.8321 16.9461C13.0466 16.6269 14.1563 15.9951 15.0507 15.1136C15.9451 14.2321 16.5929 13.1317 16.9297 11.9219Z" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                    </g>
+                    <defs>
+                        <clipPath id="clip0_4_795">
+                            <rect width="20" height="20" fill="white" />
+                        </clipPath>
+                    </defs>
+                </svg>
+                <svg style="display: none;"  fill="#cfc9c9" height="15px" width="15px" version="1.1" id="lightThemeIcon" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 64.00 64.00" enable-background="new 0 0 64 64" xml:space="preserve" stroke="#cfc9c9" transform="rotate(0)" stroke-width="2.816" role="presentation">
+                    <g id="SVGRepo_bgCarrier" stroke-width="0" />
+                    <g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round" stroke="#CCCCCC" stroke-width="3.2"> <g id="Sum"> <path d="M17,31.9727993c0,8.295599,6.7157001,15.0206013,15,15.0206013s15-6.7250023,15-15.0206013 c0-8.2957001-6.7157021-15.0206985-15-15.0206985S17,23.6770992,17,31.9727993z M45,31.9727993 c0,7.1779995-5.8317986,13.0178013-13,13.0178013c-7.1681843,0-13-5.8398018-13-13.0178013 c0-7.1780987,5.8318157-13.0178986,13-13.0178986C39.1682014,18.9549007,45,24.7947006,45,31.9727993z" /> <path d="M32.7421989,11.7700996c0.5527,0,1-0.4478998,1-1.0014V1.0014c0-0.5535-0.4473-1.0014-1-1.0014 c-0.5527992,0-0.9999981,0.4479-0.9999981,1.0014v9.7672997C31.7422009,11.3221998,32.1893997,11.7700996,32.7421989,11.7700996z" /> <path d="M48.6445007,4.6588001C48.1640015,4.3790998,47.5527,4.5443001,47.2783012,5.0235l-4.8838005,8.4578991 c-0.2773018,0.4792004-0.1133003,1.0914001,0.364315,1.3681002c0.1581841,0.0918999,0.3300858,0.1350002,0.5,0.1350002 c0.3456841,0,0.6815834-0.1789999,0.8661842-0.4996996l4.8838158-8.4580002 C49.2860985,5.5476999,49.1221008,4.9355001,48.6445007,4.6588001z" /> <path d="M50.7616997,23.0286999c0.1689987,0,0.3408012-0.0429993,0.4990005-0.1340008l8.4580002-4.8835983 c0.4776001-0.2758007,0.6425972-0.8889008,0.3661995-1.3681011c-0.2763023-0.4771996-0.8837013-0.6434994-1.3661995-0.3666992 l-8.4580002,4.8836002c-0.4775009,0.2757988-0.6425018,0.8889999-0.3661995,1.3680992 C50.0790977,22.8488007,50.4160004,23.0286999,50.7616997,23.0286999z" /> <path d="M11.7676001,32.7421989c0-0.5533981-0.4473-1.0012989-0.999999-1.0012989H1.0000008c-0.5527,0-1,0.4479008-1,1.0012989 c0,0.5535011,0.4473,1.0014,1,1.0014h9.7676001C11.3203001,33.7435989,11.7676001,33.2957001,11.7676001,32.7421989z" /> <path d="M4.2822008,18.0111008L12.7402,22.8946991c0.1582003,0.0910015,0.3291006,0.1340008,0.4990005,0.1340008 c0.3457003,0,0.6827002-0.1798992,0.8671999-0.5007c0.2764149-0.4790993,0.1114149-1.0923004-0.3662004-1.3680992 l-8.4579992-4.8836002c-0.4813852-0.2768002-1.0918002-0.1125011-1.3662002,0.3666992 C3.6396008,17.1222,3.8047006,17.7353001,4.2822008,18.0111008z" /> <path d="M20.7411995,14.9844999c0.1699009,0,0.3418007-0.0431004,0.4990005-0.1339998 c0.4785004-0.2777004,0.6426163-0.8899002,0.3661995-1.3681002l-4.8827991-8.4579 c-0.2772999-0.4801998-0.8895998-0.6444001-1.3661995-0.3666997c-0.4785004,0.2776999-0.6425858,0.8898997-0.3662004,1.3680997 l4.8828001,8.4579C20.0596008,14.8055,20.3955002,14.9844999,20.7411995,14.9844999z" /> <path d="M32.7421989,52.2318993c-0.5527992,0-0.9999981,0.4478989-0.9999981,1.0014V62.9986 c0,0.5535011,0.4471989,1.0014,0.9999981,1.0014c0.5527,0,1-0.4478989,1-1.0014v-9.7653008 C33.7421989,52.6797981,33.294899,52.2318993,32.7421989,52.2318993z" /> <path d="M22.5272999,49.8936996c-0.4813995-0.2795982-1.0907993-0.114399-1.3661995,0.3647995l-4.8838005,8.457901 C16,59.1955986,16.1639996,59.8077011,16.6415997,60.0844994c0.1582165,0.0918999,0.330101,0.1348991,0.5,0.1348991 c0.3457012,0,0.6816006-0.1788979,0.8662167-0.4996986l4.8837833-8.457901 C23.1688995,50.7826004,23.0049,50.1705017,22.5272999,49.8936996z" /> <path d="M13.4824009,42.3922005l-8.4580002,4.8837013c-0.4775,0.2756996-0.6425853,0.8888969-0.3662,1.3680992 c0.1846147,0.3206978,0.5215001,0.5006981,0.8671999,0.5006981c0.1689,0,0.3407998-0.0430984,0.4990001-0.1339989 l8.4580002-4.8837013c0.4775-0.2756996,0.6425991-0.8889008,0.3661995-1.3680992 C14.5732002,42.2807007,13.9639006,42.1144981,13.4824009,42.3922005z" /> <path d="M63,31.7409h-9.7656021c-0.5527992,0-1,0.4479008-1,1.0012989c0,0.5535011,0.4472008,1.0014,1,1.0014H63 c0.5527,0,1-0.4478989,1-1.0014C64,32.1888008,63.5527,31.7409,63,31.7409z" /> <path d="M58.9756012,47.2759018l-8.4580002-4.8837013c-0.4805031-0.2766991-1.0917854-0.1114998-1.3662033,0.3666992 c-0.2763977,0.4791985-0.1113968,1.0923996,0.3662033,1.3680992l8.4580002,4.8837013 c0.1582146,0.0909004,0.3290977,0.1339989,0.4989967,0.1339989c0.3457031,0,0.6826019-0.1800003,0.867218-0.5006981 C59.6181984,48.1647987,59.4530983,47.5516014,58.9756012,47.2759018z" /> <path d="M42.8378983,50.2584991c-0.2753983-0.4791985-0.8866997-0.6443977-1.3661995-0.3647995 c-0.4776001,0.2768021-0.6415977,0.8889008-0.3642998,1.3680992l4.8838005,8.457901 c0.1846161,0.3208008,0.5205002,0.4996986,0.8661995,0.4996986c0.169899,0,0.3418007-0.0429993,0.5-0.1348991 c0.4775009-0.2767982,0.6416016-0.8889008,0.3642998-1.3680992L42.8378983,50.2584991z" /> </g> </g>
+                    <g id="SVGRepo_iconCarrier"> <g id="Sum"> <path d="M17,31.9727993c0,8.295599,6.7157001,15.0206013,15,15.0206013s15-6.7250023,15-15.0206013 c0-8.2957001-6.7157021-15.0206985-15-15.0206985S17,23.6770992,17,31.9727993z M45,31.9727993 c0,7.1779995-5.8317986,13.0178013-13,13.0178013c-7.1681843,0-13-5.8398018-13-13.0178013 c0-7.1780987,5.8318157-13.0178986,13-13.0178986C39.1682014,18.9549007,45,24.7947006,45,31.9727993z" /> <path d="M32.7421989,11.7700996c0.5527,0,1-0.4478998,1-1.0014V1.0014c0-0.5535-0.4473-1.0014-1-1.0014 c-0.5527992,0-0.9999981,0.4479-0.9999981,1.0014v9.7672997C31.7422009,11.3221998,32.1893997,11.7700996,32.7421989,11.7700996z" /> <path d="M48.6445007,4.6588001C48.1640015,4.3790998,47.5527,4.5443001,47.2783012,5.0235l-4.8838005,8.4578991 c-0.2773018,0.4792004-0.1133003,1.0914001,0.364315,1.3681002c0.1581841,0.0918999,0.3300858,0.1350002,0.5,0.1350002 c0.3456841,0,0.6815834-0.1789999,0.8661842-0.4996996l4.8838158-8.4580002 C49.2860985,5.5476999,49.1221008,4.9355001,48.6445007,4.6588001z" /> <path d="M50.7616997,23.0286999c0.1689987,0,0.3408012-0.0429993,0.4990005-0.1340008l8.4580002-4.8835983 c0.4776001-0.2758007,0.6425972-0.8889008,0.3661995-1.3681011c-0.2763023-0.4771996-0.8837013-0.6434994-1.3661995-0.3666992 l-8.4580002,4.8836002c-0.4775009,0.2757988-0.6425018,0.8889999-0.3661995,1.3680992 C50.0790977,22.8488007,50.4160004,23.0286999,50.7616997,23.0286999z" /> <path d="M11.7676001,32.7421989c0-0.5533981-0.4473-1.0012989-0.999999-1.0012989H1.0000008c-0.5527,0-1,0.4479008-1,1.0012989 c0,0.5535011,0.4473,1.0014,1,1.0014h9.7676001C11.3203001,33.7435989,11.7676001,33.2957001,11.7676001,32.7421989z" /> <path d="M4.2822008,18.0111008L12.7402,22.8946991c0.1582003,0.0910015,0.3291006,0.1340008,0.4990005,0.1340008 c0.3457003,0,0.6827002-0.1798992,0.8671999-0.5007c0.2764149-0.4790993,0.1114149-1.0923004-0.3662004-1.3680992 l-8.4579992-4.8836002c-0.4813852-0.2768002-1.0918002-0.1125011-1.3662002,0.3666992 C3.6396008,17.1222,3.8047006,17.7353001,4.2822008,18.0111008z" /> <path d="M20.7411995,14.9844999c0.1699009,0,0.3418007-0.0431004,0.4990005-0.1339998 c0.4785004-0.2777004,0.6426163-0.8899002,0.3661995-1.3681002l-4.8827991-8.4579 c-0.2772999-0.4801998-0.8895998-0.6444001-1.3661995-0.3666997c-0.4785004,0.2776999-0.6425858,0.8898997-0.3662004,1.3680997 l4.8828001,8.4579C20.0596008,14.8055,20.3955002,14.9844999,20.7411995,14.9844999z" /> <path d="M32.7421989,52.2318993c-0.5527992,0-0.9999981,0.4478989-0.9999981,1.0014V62.9986 c0,0.5535011,0.4471989,1.0014,0.9999981,1.0014c0.5527,0,1-0.4478989,1-1.0014v-9.7653008 C33.7421989,52.6797981,33.294899,52.2318993,32.7421989,52.2318993z" /> <path d="M22.5272999,49.8936996c-0.4813995-0.2795982-1.0907993-0.114399-1.3661995,0.3647995l-4.8838005,8.457901 C16,59.1955986,16.1639996,59.8077011,16.6415997,60.0844994c0.1582165,0.0918999,0.330101,0.1348991,0.5,0.1348991 c0.3457012,0,0.6816006-0.1788979,0.8662167-0.4996986l4.8837833-8.457901 C23.1688995,50.7826004,23.0049,50.1705017,22.5272999,49.8936996z" /> <path d="M13.4824009,42.3922005l-8.4580002,4.8837013c-0.4775,0.2756996-0.6425853,0.8888969-0.3662,1.3680992 c0.1846147,0.3206978,0.5215001,0.5006981,0.8671999,0.5006981c0.1689,0,0.3407998-0.0430984,0.4990001-0.1339989 l8.4580002-4.8837013c0.4775-0.2756996,0.6425991-0.8889008,0.3661995-1.3680992 C14.5732002,42.2807007,13.9639006,42.1144981,13.4824009,42.3922005z" /> <path d="M63,31.7409h-9.7656021c-0.5527992,0-1,0.4479008-1,1.0012989c0,0.5535011,0.4472008,1.0014,1,1.0014H63 c0.5527,0,1-0.4478989,1-1.0014C64,32.1888008,63.5527,31.7409,63,31.7409z" /> <path d="M58.9756012,47.2759018l-8.4580002-4.8837013c-0.4805031-0.2766991-1.0917854-0.1114998-1.3662033,0.3666992 c-0.2763977,0.4791985-0.1113968,1.0923996,0.3662033,1.3680992l8.4580002,4.8837013 c0.1582146,0.0909004,0.3290977,0.1339989,0.4989967,0.1339989c0.3457031,0,0.6826019-0.1800003,0.867218-0.5006981 C59.6181984,48.1647987,59.4530983,47.5516014,58.9756012,47.2759018z" /> <path d="M42.8378983,50.2584991c-0.2753983-0.4791985-0.8866997-0.6443977-1.3661995-0.3647995 c-0.4776001,0.2768021-0.6415977,0.8889008-0.3642998,1.3680992l4.8838005,8.457901 c0.1846161,0.3208008,0.5205002,0.4996986,0.8661995,0.4996986c0.169899,0,0.3418007-0.0429993,0.5-0.1348991 c0.4775009-0.2767982,0.6416016-0.8889008,0.3642998-1.3680992L42.8378983,50.2584991z" /> </g> </g>
+                </svg>
+                <span id="themeSwitch" tabindex="0" >Dark</span>
+            </div>
+        </div>
+        <div class="sb-header-splitter sb-download-splitter"></div>
+        <div class='sb-header-item sb-table-cell sb-search-container'>
+            <div class="@searchClass" role="button" tabindex="0" aria-label="toggle sample search" title="Toggle sample search" @onclick="@OnSearchRender">
+                <span class="sb-settings sb-icons sb-icon-search"></span>
+            </div>
+        </div>
+
+        <div class='sb-header-item sb-table-cell sb-settings-container'>
+            <div class='@preferenceClass' role="button" tabindex="0" aria-label="toggle settings menu" title="Toggle sample browser preferences" @onclick="@OnPreferenceClick">
+                <span class='sb-settings sb-icons sb-icon-settings-preferences'></span>
+            </div>
+            <Preferences @ref="@preferenceRef"></Preferences>
+        </div>
+       
+        <div class='sb-header-item sb-table-cell sb-notification-container'>
+            <div class="sf-notification" role="button" tabindex="0" aria-label="notification settings menu" title="notification of our sample browser" @onclick="NotifyClicked" @onkeydown="OnNotificationKeyDown" style="position:relative">
+                <span class='sb-notification sb-icons sf-sb-icon-notifications'></span>
+            </div>
+        </div>
+        
+        <div class='sb-header-item sb-table-cell sb-download-container'>
+            <a href='https://github.com/syncfusion/blazor-samples' target="_blank" rel="noopener" aria-label="Explore in Github">
+                <button id='github' class='sb-github-btn'>
+                    <div class="sb-icons github-logo" title="Explore in Github"></div>
+                </button>
+            </a>
+        </div>
+
+        <div class="sb-header-splitter sb-download-splitter"></div>
+        <div class='sb-header-item sb-table-cell sb-doc-container'>
+        <a href=@SampleService.DocumentLink target="_blank" rel="noopener" aria-label="Explore in Documentation">
+            <button class='sb-doc-btn'>
+                <div class="sb-icons sf-sb-icon-docs" title="Documentation"></div>
+            </button>
+        </a>
+        </div>
+        @if(!(SampleUtils.IsLocalSample(UriHelper.Uri))){
+            <div class="sb-header-splitter sb-download-splitter sb-free-trial"></div>
+            <div class='sb-header-item sb-table-cell sb-download-container sb-free-trial'>
+                <a href='https://www.syncfusion.com/downloads/blazor?tag=es-seo-blazor-demos-static-menu-trial' target="_blank" rel="noopener" aria-label="FREE TRIAL">
+                    <button id='download-now' class='sb-download-btn'>
+                        <span class='sb-download-text'>FREE TRIAL</span>
+                    </button>
+                </a>
+            </div>
+        }
+        <div class="sb-header-item sb-table-cell sb-header-settings sb-icons" @onclick="@OnRightToggleClick" @onclick:stopPropagation="true" role="button" aria-label="Sample Browser's Preferences"></div>
+    </div>
+</div>
+
+<div class=@overlayClass @onclick="OnPopupHide" role="complementary">
+@if (isNotifyClicked)
+{
+<div class="@notificationClass" tabindex="0" @onkeydown="OnNotificationKeyDown" @onclick:stopPropagation="true">
+    <div class='sb-notification-item'>
+        <span class="sb-notification-update">New Updates</span>
+        <span class="sb-notification-new">
+            <a href="https://www.syncfusion.com/products/whatsnew/blazor-components" target="_blank" aria-label="Whats New">
+                <div class="sb-whatsnew-content">What's New</div>
+            </a>
+        </span>
+         <div class="sb-notification-clear-icon" role="button" tabindex="0" aria-label="notification settings menu" @onclick="OnPopupHide">
+             <span class='sb-notification sb-icons sf-clear-icon'></span>
+         </div>
+    </div>
+    <hr />
+    <div>
+        @foreach (var ComponentList in componentnotificationlist)
+        {
+            @if (ComponentList.NotificationContent.Length > 0)
+            {
+                var listclass = "sb-notification-list" + SampleUtils.SPACE + "list-type-none";
+                <div class="sb-notification-content-container">
+                    <div class=" sb-notification-content">
+                        <div class="sb-notification-category">
+                            <a href='@(UriHelper.BaseUri + ComponentList.DefaultSamplePath.ToLower())' target="_blank" aria-label="Component List"> @ComponentList.Name</a>
+                        </div>
+                        <div class="sb-notification-list-container">
+                            <ul class="@listclass">
+                                @foreach (var content in ComponentList.NotificationContent)
+                                {
+                                    <li>@content</li>
+                                    @if (ComponentList.NotificationContent.Length > 1)
+                                    {
+                                        <br />
+                                    }
+                                }
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            }
+
+        }
+        @foreach (var ComponentList in notificationlist)
+        {
+             var listclass = "sb-notification-list";
+             <div class="sb-notification-content-container">
+                 <div class=" sb-notification-content">
+                     <div class="sb-notification-category">
+                          <a href='@(UriHelper.BaseUri + ComponentList.DefaultSamplePath.ToLower())' target="_blank" aria-label="Component name"> @ComponentList.Name</a>
+                     </div>
+                      @foreach (var SampleList in ComponentList.SampleList)
+                      {
+                        <div class="sb-notification-list-container">
+                           <div class="sb-notification-sample">
+                               @SampleList.SampleName -
+                               <span class="sb-Notification-link-label">
+                                    <a href='@(UriHelper.BaseUri + SampleList.SampleUrl.ToLower())' target="_blank" aria-label="View Demo">View Demo</a>
+                               </span>
+                            </div>
+                            @if (SampleList.NotificationContent.Length == 1){
+                               listclass = listclass + SampleUtils.SPACE + "list-type-none";
+                            }
+                           <ul class="@listclass">
+                               @foreach (var content in SampleList.NotificationContent)
+                               {
+                                   <li>@content</li>
+                               }
+                            </ul>
+                         </div>
+                          count++;
+                        }
+                 </div>
+              </div>
+        }
+        @if (count == 0)
+        {
+           <span class="sb-notifiction-Update">No new updates available.</span>
+        }
+    </div>
+</div>
+}
+</div>
+@code {
+    private string searchClass { get; set; }
+    private string currentTheme { get; set; }
+    private string preferenceClass { get; set; }
+    private string notificationClass { get; set; }
+    private string overlayClass{ get; set; }
+    private bool isPreferenceClicked { get; set; }
+    private List<NotificationList> notificationlist { get; set; }
+    private List<NotificationList> componentnotificationlist { get; set; }
+    public bool isNotifyClicked { get; set; }
+    public int count { get; set; } = 0;
+    private string DemoLink { get; set; }
+    private Preferences preferenceRef { get; set; }
+    private SearchComponent searchRef { get; set; }
+    public DropDownComponent dropdownRef { get; set; }
+     public DropDownComponent dropdowndemoRef { get; set; }
+
+    /// <summary>
+    /// Triggers event callback on left toggle button action.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnToggleClick { get; set; }
+
+    /// <summary>
+    /// Triggers event callback on right toggle button action in device rendering.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnRightToggleClick { get; set; }
+
+    /// <summary>
+    /// Triggers event callback on home icon button click action.
+    /// </summary>
+    [Parameter]
+    public EventCallback HomeIconClick { get; set; }
+
+    /// <summary>
+    /// Triggers event callback on search icon button click action in mobile mode.
+    /// </summary>
+    [Parameter]
+    public EventCallback OnSearchRender { get; set; }
+
+    // Theme switcher change handler
+    private void OnThemeChange(DropDownData args)
+    {
+        var currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        var themeModeCheck = currentTheme;
+        if (currentTheme.Contains("-dark"))
+        {
+            currentTheme = currentTheme.Replace("-dark", "");
+        }
+        if (currentTheme != args.ID)
+        {
+            var url = SampleUtils.GetThemeUrl(UriHelper, args.ID);
+            // Check if the current theme contains "dark"
+            if (themeModeCheck.Contains("dark") && args.ID != "highcontrast" && args.ID != "fluent2-highcontrast" && args.ID != "bootstrap4")
+            {
+                // Append "-dark" to the URL
+                url += "-dark";
+            }
+
+            UriHelper.NavigateTo(url, true);
+        }
+    }
+    // private void async NavigatePages()
+    // {
+
+    //     await JsRuntime.InvokeVoidAsync("navigateToPage");
+    // }
+    private async Task NavigatePages()
+    {
+        await JsRuntime.InvokeVoidAsync("navigateToPage");
+    }
+    private void OnDemoSwitch(DropDownData args)
+    {
+        if (!UriHelper.BaseUri.Contains("localhost"))
+        {
+            SampleService.SwicthToDemo(args.ID, UriHelper, JsRuntime);
+        }
+    }
+    public void NotifyClicked() {
+        if (notificationClass.Contains(SampleUtils.ACTIVE_CLASS))
+        {
+            notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.ACTIVE_CLASS);
+            notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.DISPLAY_NONE);
+            overlayClass = SampleUtils.AddClass(overlayClass, SampleUtils.HIDDEN);
+            isNotifyClicked = false;
+        }
+        else
+        {
+            notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.DISPLAY_NONE);
+            notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.ACTIVE_CLASS);
+            overlayClass = SampleUtils.RemoveClass(overlayClass, SampleUtils.HIDDEN);
+            isNotifyClicked = true;
+        }
+    }
+
+    public void OnNotificationKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key=="Escape")
+        {
+            OnPopupHide();
+        }
+    }
+
+    public void OnPopupHide() {
+        notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.DISPLAY_NONE);
+        notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.ACTIVE_CLASS);
+        isNotifyClicked = false;
+        overlayClass = SampleUtils.AddClass(overlayClass, SampleUtils.HIDDEN);
+        StateHasChanged();
+    }
+
+    // Preferences icon click handler.
+    private void OnPreferenceClick()
+    {
+        isPreferenceClicked = true;
+        var isActive = preferenceClass.Contains(SampleUtils.ACTIVE_CLASS);
+        if (isActive)
+        {
+            preferenceClass = SampleUtils.RemoveClass(preferenceClass, SampleUtils.ACTIVE_CLASS);
+        }
+        else
+        {
+            preferenceClass = SampleUtils.AddClass(preferenceClass, SampleUtils.ACTIVE_CLASS);
+        }
+        preferenceRef.ShowPopup(!isActive);
+    }
+
+    /// <summary>
+    /// Hides the preferences popup element.
+    /// </summary>
+    public void HidePreferences()
+    {
+        if (!isPreferenceClicked && !preferenceRef.IsPopupClicked())
+        {
+            preferenceClass = SampleUtils.RemoveClass(preferenceClass, SampleUtils.ACTIVE_CLASS);
+            preferenceRef.ShowPopup(false);
+            StateHasChanged();
+        }
+        isPreferenceClicked = false;
+    }
+
+#if SERVER || WEBAPP
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        searchClass = SampleUtils.HEADER_SEARCH_CLASS;
+        preferenceClass = SampleUtils.HEADER_PREFERENCES_CLASS;
+        overlayClass = "sb-notification-overlay" + SampleUtils.HIDDEN;
+        notificationlist = await new NotificationList().GetNotificationDataAsync();
+        componentnotificationlist = await new NotificationList().GetComponentNotificationDataAsync();
+        notificationClass = SampleUtils.NOTIFICATION_POPUP_CLASS + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
+    }
+#else
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        currentTheme = SampleUtils.GetThemeName(UriHelper.Uri);
+        searchClass = SampleUtils.HEADER_SEARCH_CLASS;
+        preferenceClass = SampleUtils.HEADER_PREFERENCES_CLASS;
+        overlayClass = "sb-notification-overlay" + SampleUtils.HIDDEN;
+        notificationlist = new NotificationList().GetNotificationData();
+        componentnotificationlist = new NotificationList().GetComponentNotificationData();
+        notificationClass = SampleUtils.NOTIFICATION_POPUP_CLASS + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
+    }
+#endif
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            await this.JsRuntime.InvokeVoidAsync("updateButtonTheme");
+            SampleService.UpdateFooter(UriHelper.Uri);
+            StateHasChanged();
+        }
+    }
+
+}

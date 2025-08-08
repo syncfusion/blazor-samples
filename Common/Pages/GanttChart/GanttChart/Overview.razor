@@ -1,0 +1,1590 @@
+﻿@page "/gantt-chart/overview"
+
+@using BlazorDemos.Shared
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Lists
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRunTime
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@using ej2_blazor_ganttdata;
+@using global::Overview.Pages;
+
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample shows an overview of the <a aria-label="Navigate to the explore Syncfusion Blazor gantt chart component" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-gantt-chart'>Blazor Gantt Chart</a> features that visualize the progress of each feature of the product towards its release and make it easier to monitor the scheduling of the dependent items.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example showcases the e-commerce platform redesign project visualized in the Blazor Gantt Chart. It provides a clear roadmap for the redesign process, tracking key milestones, task progress, resource allocation, and deadlines. With this interactive timeline, teams can efficiently manage the entire revamp from initial planning to final deployment ensuring a seamless and successful transformation of the e-commerce platform.</p>
+    <p>Blazor Gantt Chart features such as <a aria-label="Navigate to the documentation for sorting in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/sorting'>Sorting</a>, <a aria-label="Navigate to the documentation for filtering in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/filtering'>Filtering</a>, <a aria-label="Navigate to the documentation for column resizing in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-resizing'>Column resizing</a>, <a aria-label="Navigate to the documentation for column menu in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-menu'>Column menu</a>, and so on are used in this demo.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section e-gantt-overview-sample">
+    <div class="content-wrapper e-gantt-overview-sample-wrapper">
+        <div class="row e-gantt-overview-sample-row">
+            <SfGantt @ref="GanttInstance" ID="GanttOverview" DataSource="TaskCollection" Height="100%" Width="100%" ScrollToTaskbarOnClick="true" TreeColumnIndex="1" RowHeight="@RowHeightValue"
+            TValue="OverviewData.TaskData" Toolbar="Toolbaritems" AllowExcelExport="true" AllowPdfExport="true" GridLines="@gridlines" EnableCriticalPath="@IsCriticalPathEnabled"
+            WorkWeek="@WorkWeekDays" WorkUnit="WorkUnit.Hour" HighlightWeekends="true" DurationUnit="@DurationValue" EnableRowHover="true" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" AutoCalculateDateScheduling="true" EnablePredecessorValidation="true"
+            ViewType="@SelectedViewType" AllowSorting="true" AllowFiltering="true" EnableContextMenu="true" AllowResizing="true">
+
+                @if (!ShowDependency)
+                {
+                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Progress="Progress" ParentID="ParentId" Notes="Notes">
+                    </GanttTaskFields>
+                }
+                else if (IsCustomSchedulingEnabled)
+                {
+                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Progress="Progress" ParentID="ParentId" Dependency="Dependencies" Manual="IsManual" Notes="Notes">
+                    </GanttTaskFields>
+                }
+                else
+                {
+                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Dependency="Dependencies" Progress="Progress" ParentID="ParentId" Notes="Notes">
+                    </GanttTaskFields>
+                }
+                <GanttColumns>
+                    <GanttColumn Field="Id" HeaderText="Task TaskId" Visible="false" />
+                    <GanttColumn Field="Task" HeaderText="Task Name" Width="300" ClipMode="ClipMode.EllipsisWithTooltip"/>
+
+                    <GanttColumn Field="Assignee" HeaderText="Assigned Person" Width="200" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var taskData = context as OverviewData.TaskData;
+                                var departmentClass = IsDarkMode ? "department-text-dark" : "department-text-light";
+                            }
+                            <div class="e-assigned-person">
+                                @{
+                                    if (taskData.Assignee != null)
+                                    {
+                                        int randomIndex = 0;
+                                        if (taskData.Id % 2 == 0)
+                                        {
+                                            randomIndex = 0;
+                                        }
+                                        else if (taskData.Id % 3 == 0)
+                                        {
+                                            randomIndex = 1;
+                                        }
+                                        else if (taskData.Id % 2 != 0)
+                                        {
+                                            randomIndex = 2;
+                                        }
+                                        else if (taskData.Id % 3 != 0)
+                                        {
+                                            randomIndex = 3;
+                                        }
+                                        var randomItem = OverviewData.GetResources[randomIndex];
+                                        string resourceName = randomItem.Name.Trim().Replace(" ", "").ToLower();
+                                        <div class="img-assignee-column">
+                                            <img class="e-assignee-image"
+                                            src="@Navigation.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png")"
+                                            alt="@resourceName" />
+                                        </div>
+                                    }
+                                }
+                                <div class="assignee-column">
+                                    <span class="assignee-text">@taskData.Assignee</span>
+                                    <span class="@departmentClass">@taskData.Department</span>
+                                </div>
+                            </div>
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date" Width="150" TextAlign="TextAlign.Right" ClipMode="ClipMode.EllipsisWithTooltip"/>
+                    <GanttColumn Field="EndDate" HeaderText="End Date" Width="150" TextAlign="TextAlign.Right" ClipMode="ClipMode.EllipsisWithTooltip"/>
+                    <GanttColumn Field="Priority" HeaderText="Task Priority" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                if (employee.Priority == "Medium")
+                                {
+                                    <div class="e-priority">
+                                        <SfIcon class="icon-style medium-icon" style="color: #107C10 !important;" Name="IconName.ArrowRight" />
+                                        <span class="e-priority-text">@employee.Priority</span>
+                                    </div>
+                                }
+                                else if (employee.Priority == "High")
+                                {
+                                    string iconColor = IsDarkMode ? "#DC626D" : "#D13438";
+                                    string iconStyle = $"color: {iconColor} !important;";
+                                    <div class="e-priority">
+                                        <SfIcon class="icon-style" Name="IconName.ArrowUp" style="@iconStyle" />
+                                        <span class="e-priority-text">@employee.Priority</span>
+                                    </div>
+                                }
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Budget" HeaderText=@($"Allocated Budget ({System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol})") Width="230" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                if (employee.Budget != null)
+                                {
+                                    string budgetClass = IsDarkMode ? "e-budget-dark" : "e-budget-light";
+                                    <div class="@budgetClass">
+                                        @employee.Budget?.ToString("C", System.Globalization.CultureInfo.CurrentCulture)
+                                    </div>
+                                }
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="ActualCost" HeaderText=@($"Spent Budget ({System.Globalization.CultureInfo.CurrentCulture.NumberFormat.CurrencySymbol})") Width="230" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                if (employee.ActualCost != null)
+                                {
+                                    string actualCostClass = IsDarkMode ? "e-actualcost-dark" : "e-actualcost-light";
+                                    <div class="@actualCostClass">
+                                        @employee.ActualCost?.ToString("C", System.Globalization.CultureInfo.CurrentCulture)
+                                    </div>
+                                }
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Completion (%)" Width="200" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var taskRecord = context as OverviewData.TaskData;
+                                if (taskRecord == null) return;
+                                string themeSuffix = IsDarkMode ? "dark" : "light";
+                                string outerClass = $"e-progress-outer e-progress-outer-{themeSuffix}";
+                                string barClass = $"e-progress-bar-{themeSuffix}";
+                                string progressText = $"{taskRecord.Progress}%";
+                                <div class="e-progress-custom">
+                                    <div class="@outerClass">
+                                        <div class="@barClass" style="width:@(taskRecord.Progress)%;"></div>
+                                    </div>
+                                    <div class="e-progress-inner">
+                                        <span>@progressText</span>
+                                    </div>
+                                </div>
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Status" HeaderText="Status" Width="180">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                string themeSuffix = IsDarkMode ? "dark" : "light";
+                                if (!string.IsNullOrEmpty(employee.Status))
+                                {
+                                    string statusClassPrefix = employee.Status switch
+                                    {
+                                        "Completed" => "completed",
+                                        "In Progress" => "inprogress",
+                                        "On Track" => "ontrack",
+                                        _ => "notstarted"
+                                    };
+
+                                    string containerClass = $"e-status-container e-status-{statusClassPrefix}-{themeSuffix}";
+                                    string iconClass = $"e-status-icon e-status-{statusClassPrefix}-icon-{themeSuffix}";
+
+                                    <div class="@containerClass">
+                                        <div class="@iconClass"></div>
+                                        <span class="e-status-text">@employee.Status</span>
+                                    </div>
+                                }
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Dependencies" HeaderText="Related Tasks" Width="200" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                if (employee.Dependencies != string.Empty)
+                                {
+                                    string themeSuffix = IsDarkMode ? "dark" : "light";
+                                    string dependenciesClass = $"e-dependencies e-dependencies-{themeSuffix}";
+
+                                    <div class="@dependenciesClass">
+                                        @employee.Dependencies
+                                    </div>
+                                }
+                                else 
+                                {
+                                    <div> - </div>
+                                }
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Risks" HeaderText="Risk Level" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                string themeSuffix = IsDarkMode ? "dark" : "light";
+                                if (!string.IsNullOrEmpty(employee.Risks))
+                                {
+                                    string riskLevel = employee.Risks switch
+                                    {
+                                        "Low" => "low",
+                                        "Medium" => "medium",
+                                        _ => "high"
+                                    };
+
+                                    string iconColor = employee.Risks switch
+                                    {
+                                        "Low" => IsDarkMode ? "#18A4C4" : "#31AFCC",
+                                        "Medium" => IsDarkMode ? "#F87528" : "#F7630C",
+                                        _ => IsDarkMode ? "#CC2635" : "#C50F1F"
+                                    };
+
+                                    string containerClass = $"e-risks-container e-risks-{riskLevel}-{themeSuffix}";
+                                    string textClass = $"e-risks-{riskLevel}-text-{themeSuffix}";
+                                    string iconStyle = $"color: {iconColor} !important;";
+                                    IconName iconName = riskLevel switch
+                                    {
+                                        "low" => IconName.ArrowDown,
+                                        "medium" => IconName.ArrowRight,
+                                        _ => IconName.ArrowUp,
+                                    };
+
+                                    <div class="@containerClass">
+                                        <SfIcon Name="@iconName" class="e-risks-icon" style="@iconStyle" />
+                                        <span class="@textClass">@employee.Risks</span>
+                                    </div>
+                                }
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Category" HeaderText="Task Category/Work Location" Width="280" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                if (employee == null) return;
+                                string locationClass = IsDarkMode ? "e-location-dark" : "e-location-light";
+                                <div class="e-category-location">
+                                    @if (!string.IsNullOrEmpty(employee.Category))
+                                    {
+                                        <div class="e-category">
+                                            @employee.Category
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(employee.Location))
+                                    {
+                                        <div class="e-location @locationClass">
+                                            @employee.Location
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="TechStack" HeaderText="Technology Stack" Width="320" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                if (employee.TechStack != "N/A" && employee.TechStack != null)
+                                {
+                                    List<string> techStackList = employee.TechStack
+                                    .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
+                                    .Select(tech => tech.Trim())
+                                    .ToList();
+
+                                    string techStackClass = IsDarkMode ? "e-techstack-dark" : "e-techstack-light";
+                                    foreach (string techStack in techStackList)
+                                    {
+                                        <div class="e-techstack @techStackClass">
+                                            @techStack
+                                        </div>
+                                    }
+                                }
+                                else
+                                {
+                                    <div>-</div>
+                                }
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="Initiative" HeaderText="Initiative/Story Points" Width="280" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as OverviewData.TaskData);
+                                string storyPointsClass = IsDarkMode ? "e-story-points-dark" : "e-story-points-light";
+                                <div class="e-initiative-story">
+                                    <div class="e-initiative">
+                                        @employee.Initiative
+                                    </div>
+                                    @if (employee.EstimatedStoryPoints != null)
+                                    {
+                                        <div class="e-story-points @storyPointsClass">
+                                            @employee.EstimatedStoryPoints
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </Template>
+                    </GanttColumn>
+                    <GanttColumn Field="PriorityLevel" HeaderText="Strategic Priority" Width="180" ClipMode="ClipMode.EllipsisWithTooltip" />
+                </GanttColumns>
+                <GanttTimelineSettings>
+                    <GanttTopTierSettings Unit="TimelineViewMode.Month"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Day" Count="3"></GanttBottomTierSettings>
+                </GanttTimelineSettings>
+                <GanttSplitterSettings ColumnIndex="4"></GanttSplitterSettings>
+                @if (IsTaskLabelsVisible)
+                {
+                    <GanttLabelSettings TValue="OverviewData.TaskData">
+                        <RightLabelTemplate>
+                            @{
+                                var taskData = context as OverviewData.TaskData;
+                                if (taskData.Assignee != null)
+                                {
+                                    int randomIndex = 0;
+                                    if (taskData.Id % 2 == 0)
+                                    {
+                                        randomIndex = 0;
+                                    }
+                                    else if (taskData.Id % 3 == 0)
+                                    {
+                                        randomIndex = 1;
+                                    }
+                                    else if (taskData.Id % 2 != 0)
+                                    {
+                                        randomIndex = 2;
+                                    }
+                                    else if (taskData.Id % 3 != 0)
+                                    {
+                                        randomIndex = 3;
+                                    }
+                                    var randomItem = OverviewData.GetResources[randomIndex];
+
+                                    // Get the random name
+                                    string resourceName = randomItem.Name.Trim().Replace(" ", "").ToLower();
+                                    <div class="e-right-label-inner-div">
+                                        <img class="e-label image" role="presentation"
+                                        src="@Navigation.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png")" alt="@resourceName" />
+
+                                    </div>
+                                }
+                            }
+                        </RightLabelTemplate>
+                        <TaskLabelTemplate>
+                            <div class="e-task-label-inner-div progress-label">
+                                <span class="e-task-label">@((context as OverviewData.TaskData).Progress)%</span>
+                            </div>
+                        </TaskLabelTemplate>
+                    </GanttLabelSettings>
+                }else{
+                    <GanttLabelSettings TValue="OverviewData.TaskData">
+                        <TaskLabelTemplate>
+                            <div class="e-task-label-inner-div progress-label">
+                                <span class="e-task-label">@((context as OverviewData.TaskData).Progress)%</span>
+                            </div>
+                        </TaskLabelTemplate>
+                    </GanttLabelSettings>
+                }
+                <GanttEventMarkers>
+                    @if (IsEventMarkerVisible)
+                    {
+                        <GanttEventMarker Day="@KickOffDate" Label="Kickoff Meeting"
+                        CssClass="e-custom-event-marker"></GanttEventMarker>
+                        <GanttEventMarker Day="@DesignCompletionDate" Label="Design Phase Completed"
+                        CssClass="e-custom-event-marker"></GanttEventMarker>
+                        <GanttEventMarker Day="@DeploymentDate" Label="Deployment"
+                        CssClass="e-custom-event-marker"></GanttEventMarker>
+                    }
+                </GanttEventMarkers>
+                <GanttHolidays>
+                    @{
+                        foreach (var holiday in OverviewData.HolidayCollection)
+                        {
+                            <GanttHoliday From="holiday.Date" To="holiday.Date" Label="@holiday.HolidayName"></GanttHoliday>
+                        }
+                    }
+                </GanttHolidays>
+                <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" TValue="OverviewData.TaskData" TResources="OverviewData.ResourceInfoModel"></GanttResource>
+                <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="Id" TaskID="TaskId" ResourceID="ResourceId" Units="Unit" TValue="OverviewData.TaskData" TAssignment="OverviewData.AssignmentModel"></GanttAssignmentFields>
+                <GanttSegmentFields DataSource="SegmentCollection" PrimaryKey="id" ForeignKey="TaskId" StartDate="StartDate" EndDate="EndDate" Duration="Duration" TValue="OverviewData.TaskData" TSegments="OverviewData.SegmentModel"></GanttSegmentFields>
+                <GanttTimelineSettings TimelineUnitSize="@DefaultUnitWidth">
+                    <GanttTopTierSettings Unit="TimelineViewMode.Month"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Week" Format="dd"></GanttBottomTierSettings>
+                </GanttTimelineSettings>
+                <GanttCriticalPathSettings SlackValue="15" ></GanttCriticalPathSettings>
+                <GanttEvents OnToolbarClick="ToolbarClickHandler" RowSelected="RowSelectedHandler" PdfQueryTaskbarInfo="PdfQueryTaskbarInfoHandler" PdfQueryCellInfo="PdfQueryCellInforHandler" TValue="OverviewData.TaskData"></GanttEvents>
+            </SfGantt>
+        </div>
+        <div style="padding-left: 10px; padding-right: 20px;">
+            @if (IsSideBar)
+            {
+                <SfSidebar class="default-sidebar" Width="260px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="IsSidebarToggled">
+                    <ChildContent>
+
+                        <SfListView DataSource="@ListViewData" CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
+                            <ListViewFieldSettings TValue="DataModel" Id="Id" Text="Text" GroupBy="Category" Tooltip="Text"></ListViewFieldSettings>
+                            <ListViewEvents TValue="DataModel"></ListViewEvents>
+                            <ListViewTemplates TValue="DataModel">
+                                <HeaderTemplate>
+                                    <div class="header-title">
+                                        <div>
+                                            @CurrentHeaderTitle
+                                        </div>
+                                        <span class="e-close" @onclick="@Close" style="cursor:pointer"></span>
+                                    </div>
+                                </HeaderTemplate>
+                                <GroupTemplate>
+                                    @{
+                                        var composedItemModel = context as Syncfusion.Blazor.Lists.ComposedItemModel<DataModel>;
+                                        var data = composedItemModel.Text;
+                                        <div>
+                                            @if (data != "")
+                                            {
+                                                if (data == "Scheduling Settings")
+                                                {
+                                                    <div class="list-header">Scheduling settings</div>
+                                                }
+                                                else if (data == "View settings")
+                                                {
+                                                    <div class="list-header">View settings</div>
+                                                }
+                                                else if (data == "API properties")
+                                                {
+                                                    <div class="list-header">API properties</div>
+                                                }
+                                            }
+                                        </div>
+                                    }
+                                </GroupTemplate>
+                                <Template>
+                                    @{
+                                        if (context.Text == "RowHeight")
+                                        {
+                                            <div>
+                                                <label class="labels">Row height:</label>
+                                                <div style="padding-left: 12px;padding-right: 5px;margin-top: 7px;">
+                                                    <SfSlider Min="45" Max="65" Step="10" Type=SliderType.MinRange TValue="int" @bind-Value="@RowHeightValue">
+                                                        <SliderTicks Placement="Placement.Before"></SliderTicks>
+                                                        <SliderEvents TValue="int" ValueChange="@(e => { rowheightchange(e.Value); })"></SliderEvents>
+                                                    </SfSlider>
+
+                                                </div>
+                                            </div>
+                                        }
+
+                                        if (context.Text == "Work Week")
+                                        {
+                                            <label class="labels">Work week:</label>
+                                            <div>
+                                                <SfMultiSelect TValue="string[]" TItem="WorkWeek" Placeholder="Select week" Mode="@VisualMode.CheckBox" DataSource="@Weeks" PopupHeight="350px">
+                                                    <MultiSelectEvents TItem="WorkWeek" TValue="string[]" ValueChange="@ValueChangeHandler"></MultiSelectEvents>
+                                                    <MultiSelectFieldSettings Text="Week" Value="Week"></MultiSelectFieldSettings>
+                                                </SfMultiSelect>
+                                            </div>
+                                        }
+                                        else if (context.Text == "Work Time Range")
+                                        {
+                                            <label class="labels">Duration unit:</label>
+                                            <div>
+                                                <SfDropDownList TValue="string" TItem="Duration" Placeholder="@DurationUnitValue" @bind-Value="@DurationUnitValue" DataSource="@Duration1" PopupHeight="350px">
+                                                    <DropDownListEvents TItem="Duration" TValue="string" ValueChange="@ValueChangeHandler2"></DropDownListEvents>
+                                                    <DropDownListFieldSettings Text="Unit" Value="Unit"></DropDownListFieldSettings>
+                                                </SfDropDownList>
+                                            </div>
+                                        }
+                                        else if (context.Text == "TimeLine Cell Unit")
+                                        {
+                                            <label class="labels">Timeline width:</label>
+                                            <div>
+                                                <SfNumericTextBox TValue="int?" Format="n0" Value="@DefaultUnitWidth" Min="10">
+                                                    <NumericTextBoxEvents TValue="int?" ValueChange="OnChange"></NumericTextBoxEvents>
+                                                </SfNumericTextBox>
+                                            </div>
+                                        }
+                                        if (context.Text == "View Type")
+                                        {
+                                            <label class="labels">View type:</label>
+                                            <div>
+                                                <SfDropDownList TValue="string" TItem="ViewTypes" Placeholder="@SelectedViewTypes" @bind-Value="@SelectedViewTypes" DataSource="@Types" PopupHeight="350px">
+                                                    <DropDownListEvents TItem="ViewTypes" TValue="string" ValueChange="@GanttViewTypes"></DropDownListEvents>
+                                                    <DropDownListFieldSettings Text="Type" Value="Type"></DropDownListFieldSettings>
+                                                </SfDropDownList>
+                                            </div>
+                                        }
+                                        else if (context.Text == "View Mode")
+                                        {
+                                            <label class="labels">View mode:</label>
+                                            <div>
+                                                <SfDropDownList TValue="string" TItem="SplitterView" DataSource="@SplitterViews" Placeholder="View" CssClass="e-custom">
+                                                    <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
+                                                    <DropDownListEvents TValue="string" TItem="SplitterView" ValueChange="OnChange"></DropDownListEvents>
+                                                </SfDropDownList>
+                                            </div>
+                                        }
+                                        if (context.Text == "Show grid Lines")
+                                        {
+                                            <div class="list-fields">
+                                                <label class="labels"> Show grid lines:</label>
+                                                <div>
+                                                    <SfSwitch ValueChange="GridLines" TValue="bool?" @bind-Checked="Checked" TChecked="bool"></SfSwitch>
+                                                </div>
+                                            </div>
+                                        }
+                                        if (context.Text == "Event markers")
+                                        {
+                                            <div class="list-fields">
+                                                <label class="labels"> Show event marker:</label>
+                                                <div>
+                                                    <SfSwitch ValueChange="EventMarkerEvent" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                </div>
+                                            </div>
+                                        }
+                                        if (context.Text == "Show dependencies")
+                                        {
+                                            <div class="list-fields">
+                                                <label class="labels">Show dependencies:</label>
+                                                <div>
+                                                    <SfSwitch ValueChange="ShowDependencies" TValue="bool?" @bind-Checked="ShowDependency" TChecked="bool"></SfSwitch>
+                                                </div>
+                                            </div>
+                                        }
+                                        if (context.Text == "Show task labels")
+                                        {
+                                            <div class="list-fields">
+                                                <label class="labels">Show task labels:</label>
+                                                <div>
+                                                    <SfSwitch ValueChange="ShowTaskLabels" TValue="bool?" @bind-Checked="IsTaskLabelsVisible" TChecked="bool"></SfSwitch>
+                                                </div>
+                                            </div>
+                                        }
+                                        if (context.Text == "Enable critical path")
+                                        {
+                                            <div class="list-fields">
+                                                <label class="labels">Critical path:</label>
+                                                <div>
+                                                    <SfSwitch ValueChange="CriticalPathEnable" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                </div>
+                                            </div>
+                                        }
+                                        if (context.Text == "Custom scheduling")
+                                        {
+                                            <div class="list-fields">
+                                                <label class="labels">Custom scheduling:</label>
+                                                <div>
+                                                    <SfSwitch ValueChange="EnableCustomScheduling" TValue="bool?" TChecked="bool?"></SfSwitch>
+                                                </div>
+                                            </div>
+                                        }
+                                    }
+                                </Template>
+                            </ListViewTemplates>
+                        </SfListView>
+                    </ChildContent>
+                </SfSidebar>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+
+    [CascadingParameter]
+    protected MainLayout Layout { get; set; }
+
+    protected override void OnInitialized()
+    {
+        // Updating the ListView datasource.
+        UpdateDataModel();
+        ProjectStartDate = new DateTime(2025, 01, 25);
+        ProjectEndDate = new DateTime(2025, 11, 30);
+        this.TaskCollection = OverviewData.DataCollection();
+        this.ResourceCollection = OverviewData.GetResources;
+        AssignmentCollection = OverviewData.GetAssignmentCollection();
+        SegmentCollection = OverviewData.GetSegmentCollection();
+        CurrentUri = Navigation.Uri;
+        UpdateTheme(CurrentUri);
+        ConvertImageToBase64(Navigation, JSRunTime);
+        Layout.Collapse();
+    }
+
+}
+
+<style>
+    body:not(.material3):not(.material3-dark) .e-ddl.e-input-group.e-control-wrapper .e-ddl-icon::before {
+        content: '\e729';
+        padding-top: 5px;
+    }
+
+    .e-gantt-overview-sample {
+        min-height: auto !important;
+        height: 100vh;
+    }
+
+    .e-gantt-overview-sample-wrapper {
+        height:100%;
+    }
+    .e-gantt-overview-sample-row{
+        height: 100%;
+    }
+    .e-tbar-btn-text {
+        display: none;
+    }
+
+    .highcontrast .e-toolbar .e-toolbar-item .e-tbar-btn.e-tbtn-txt .e-icons.e-btn-icon {
+        padding: 4px !important;
+    }
+
+
+    .e-task-label {
+        display: inline-block;
+        width: 100%;
+        padding: 0 6px;
+    }
+
+    .e-toolbar {
+        border-bottom-left-radius: 0;
+        border-bottom-right-radius: 0;
+        border-style: solid;
+        border-width: 1px 1px 0;
+    }
+
+    @@font-face {
+        font-family: 'e-icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-close::before {
+        font-family: 'e-icons' !important;
+        content: '\e7e7';
+        font-size: 15px;
+    }
+
+    .e-settings-icon::before {
+        font-family: 'e-icons' !important;
+        content: '\e880';
+        font-size: 15px;
+    }
+
+    .listviewarrow::before {
+        font-family: 'e-icons' !important;
+        content: '\e70c';
+        font-size: 15px;
+    }
+
+    .material3 .e-close::before,
+    .materia3l-dark .e-close::before,
+    .material3 .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .material .e-close::before,
+    .material-dark .e-close::before,
+    .material .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .fabric .e-close::before,
+    .fabric-dark .e-close::before,
+    .highcontrast .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap .e-close::before,
+    .bootstrap-dark .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap4 .e-close::before {
+        content: '\e745';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .tailwind .e-close::before,
+    .tailwind-dark .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+    .bootstrap5 .e-close::before,
+    .bootstrap5-dark .e-close::before,
+    .fluent .e-close::before, .fluent-dark .e-close::before,
+    .tailwind .e-close::before, .tailwind-dark .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+        font-size: 15px;
+    }
+
+
+    .material3 .e-settings-icon::before,
+    .materia3l-dark .e-settings-icon::before,
+    .material3 .e-settings-icon::before {
+        content: '\e880';
+        font-family: 'e-icons';
+    }
+
+    .material .e-settings-icon::before,
+    .material-dark .e-settings-icon::before,
+    .material .e-settings-icon::before {
+        content: '\e679';
+        font-family: 'e-icons';
+    }
+
+    .fabric .e-settings-icon::before,
+    .fabric-dark .e-settings-icon::before,
+    .highcontrast .e-settings-icon::before {
+        content: '\e679';
+        font-family: 'e-icons';
+    }
+
+    .bootstrap .e-settings-icon::before,
+    .bootstrap-dark .e-settings-icon::before {
+        content: '\e679';
+        font-family: 'e-icons';
+    }
+
+    .bootstrap4 .e-settings-icon::before {
+        content: '\e679';
+        font-family: 'e-icons';
+    }
+
+    .tailwind .e-settings-icon::before,
+    .tailwind-dark .e-settings-icon::before {
+        content: '\e880';
+        font-family: 'e-icons';
+    }
+
+
+    .fluent .e-settings-icon::before, .fluent-dark .e-settings-icon::before {
+        content: '\e880';
+        font-family: 'e-icons';
+    }
+
+    .title {
+        line-height: 24px;
+        font-size: @FilterHeaderFontSize;
+        font-weight: @FilterHeaderFontWeight;
+        margin-top: 0;
+    }
+
+    .e-filterbutton {
+        padding-left: 20px;
+        padding-right: 20px;
+    }
+
+    .e-listview .e-list-header {
+        background: @FilterBackgroundColor;
+        padding-left: 15px;
+        position: sticky;
+        top: -1px;
+        height: @FilterHeaderHeight;
+        color: @LabelTextColor;
+    }
+
+    .e-listview .e-list-group-item {
+        font-size: 16px !important;
+        color: @LabelTextColor;
+        padding: 12px;
+    }
+
+    body.tailwind3 .e-listview .e-list-group-item,
+    body.tailwind3-dark .e-listview .e-list-group-item {
+        color: inherit !important;
+    }
+
+    .e-listview:not(.e-list-template) .e-list-item {
+        height: 100% !important;
+        padding: 12px;
+    }
+
+    .e-listview .e-list-group-item {
+        height: 100% !important;
+    }
+
+    .e-btn .e-btn-icon.e-icon-left {
+        margin-bottom: -3px;
+    }
+
+    .e-bigger .e-btn .e-btn-icon.e-icon-left {
+        margin-top: -6px;
+    }
+
+    .e-listview .e-list-group-item:first-child {
+        display: none;
+    }
+
+
+    .material3 .settings-btn,
+    .material3-dark .settings-btn {
+        font-family: Roboto;
+        font-size: 14px;
+        font-weight: 500;
+        letter-spacing: 0.10000000149011612px;
+        text-align: center;
+        border-radius: 20px;
+    }
+
+    .material3 .list-header,
+    .material3-dark .list-header {
+        font-weight: 600;
+        font-size: 14px;
+        padding-top: 2px;
+    }
+
+    .material3 .list-fields,
+    .material3 .list-fields {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .material3 .e-switch-wrapper,
+    .material3-dark .e-switch-wrapper {
+        width: 40px;
+        height: 24px;
+    }
+
+    .labels {
+        font-weight: 400;
+        font-size: 14px;
+    }
+
+    .e-sidebar {
+        overflow: hidden;
+    }
+
+    .e-sidebar.e-right.e-open {
+        transition-duration: 200ms;
+    }
+
+    .e-sidebar.e-right.e-close {
+        transition-duration: 200ms;
+    }
+
+    .e-listview .e-list-item.e-focused {
+        background: none;
+    }
+
+    .bootstrap5 .e-listview .e-list-item.e-focused {
+        color: #212529;
+    }
+
+    .highcontrast .e-listview .e-list-item.e-focused {
+        color: #fff;
+    }
+
+    .bootstrap5 .e-listview .e-list-item,
+    .bootstrap5-dark .e-listview .e-list-item {
+        border: 0px;
+    }
+
+    .e-bigger.bootstrap5 .e-listview .e-list-item,
+    .e-bigger .bootstrap5-dark .e-listview .e-list-item {
+        border: 0px;
+    }
+
+    .e-bigger .material3 .e-switch-wrapper,
+    .e-bigger .material3-dark .e-switch-wrapper {
+        width: 52px;
+        height: 32px;
+    }
+
+    .e-switch-wrapper {
+        margin: 0 !important;
+    }
+
+    .list-fields {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .e-bigger
+    .title {
+        line-height: 24px;
+        font-size: @FilterHeaderFontSizeTouch;
+        font-weight: @FilterHeaderFontWeight;
+        margin-top: 0;
+    }
+
+    .e-bigger .e-listview .e-list-header {
+        background: @FilterBackgroundColor;
+        padding-left: 15px;
+        position: sticky;
+        top: -1px;
+        height: @FilterHeaderHeightTouch;
+    }
+
+    .groupedList.e-listview {
+        display: block;
+        max-width: 350px;
+        margin: auto;
+        border: 1px solid;
+        line-height: initial;
+        border-color: rgba(0, 0, 0, 0.12);
+    }
+    /* ListView border color customization */
+    .highcontrast .groupedList.e-listview {
+        border-color: #969696;
+    }
+
+    .tailwind-dark .groupedList.e-listview,
+    .bootstrap5-dark .groupedList.e-listview,
+    .material-dark .groupedList.e-listview,
+    .bootstrap-dark .groupedList.e-listview,
+    .fabric-dark .groupedList.e-listview {
+        border-color: #fff;
+    }
+
+    /* ListView template customization */
+    .groupedList.e-listview .e-list-header {
+        color: #fff;
+        height: 57px;
+        background-color: #56697f;
+        padding-left: 15px;
+        position: sticky;
+        top: -1px;
+        box-shadow: 0 1px 6px rgba(0, 0, 0, 0.16), 0 3px 6px rgba(0, 0, 0, 0.23);
+    }
+
+    body.tailwind3 .groupedList.e-listview .e-list-header,
+    body.tailwind3-dark .groupedList.e-listview .e-list-header {
+        box-shadow: none;
+    }
+
+    .groupedList.e-listview .e-list-item {
+        cursor: pointer;
+    }
+
+    .groupedList.e-listview .e-list-group-item {
+        color: #837c7c;
+        height: inherit;
+    }
+
+    body.tailwind3 .groupedList.e-listview .e-list-group-item,
+    body.tailwind3-dark .groupedList.e-listview .e-list-group-item {
+        color: inherit !important;
+    }
+
+    .bootstrap5\.3 .e-listview .e-list-item.e-focused {
+        color: #212529;
+    }
+
+    body.fluent2-highcontrast .e-listview .e-list-item.e-focused,
+    body.fluent2-highcontrast .e-listview .e-list-item.e-hover {
+        color: #fff;
+    }
+
+    /* Dark theme related customization*/
+    .bootstrap5-dark .groupedList.e-listview .icon,
+    .bootstrap-dark .groupedList.e-listview .icon,
+    .highcontrast .groupedList.e-listview .icon,
+    .fabric-dark .groupedList.e-listview .icon,
+    .bootstrap5-dark .groupedList.e-listview .e-focused .icon,
+    .tailwind-dark .groupedList.e-listview .e-focused .icon,
+    .tailwind-dark .groupedList.e-listview .icon,
+    .highcontrast .groupedList.e-listview .e-focused .icon,
+    .bootstrap5 .groupedList.e-listview .e-focused .icon {
+        color: #fff;
+    }
+
+    .bootstrap4 .groupedList.e-listview .e-focused .icon {
+        color: #212529;
+    }
+    /* Template icons related customization */
+    .groupedList.e-listview .icon {
+        background: transparent;
+        color: #6c757d;
+    }
+
+
+    .highcontrast .groupedList.e-listview .e-list-header {
+        color: #ffd939;
+        background-color: #333333;
+    }
+
+    .material-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-item-header {
+        color: #ffffff;
+    }
+
+    .material-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-content,
+    .bootstrap-dark .e-list-item .e-list-avatar.e-list-multi-line .e-list-content {
+        color: rgba(255,255,255,0.7);
+    }
+
+    .groupedList .e-list-item:has(:hover) {
+        background-color: transparent !important;
+    }
+
+    .e-bigger .e-gantt .e-gantt-chart .e-gantt-manualparenttaskbar {
+        margin-top: @MarginTop !important;
+    }
+
+    .e-gantt .e-gantt-chart .e-gantt-manualparenttaskbar {
+        margin-top: @MarginTop !important;
+    }
+
+    .e-bigger .e-gantt .e-gantt-chart .e-gantt-manualparenttaskbar-left,
+    .e-bigger .e-gantt .e-gantt-chart .e-gantt-manualparenttaskbar-right {
+        width: @ManualTaskbarWidth !important;
+    }
+
+    .e-gantt .e-gantt-chart .e-gantt-manualparenttaskbar-left,
+    .e-gantt .e-gantt-chart .e-gantt-manualparenttaskbar-right {
+        width: @ManualTaskbarWidth !important;
+    }
+
+    .material3.e-bigger .e-switch-wrapper .e-switch-handle.e-switch-active,
+    .material3-dark.e-bigger .e-switch-wrapper .e-switch-handle.e-switch-active,
+    .tailwind3.e-bigger .e-switch-wrapper .e-switch-handle.e-switch-active,
+    .tailwind3-dark.e-bigger .e-switch-wrapper .e-switch-handle.e-switch-active {
+        margin-left: -20px;
+        height: 16px;
+        width: 16px;
+    }
+
+    .tailwind3.e-bigger .e-switch-wrapper,
+    .tailwind3-dark.e-bigger .e-switch-wrapper {
+        height: 22px;
+        width: 46px;
+    }
+
+    .tailwind3.e-bigger .e-switch-wrapper .e-switch-handle,
+    .tailwind3-dark.e-bigger .e-switch-wrapper .e-switch-handle {
+        height: 18px;
+        width: 18px;
+    }
+
+    .header-title {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px;
+        width: 230px;
+    }
+
+    .e-listview .e-list-container {
+        overflow-y: auto;
+        max-height: calc(100vh - 99px);
+        padding-right: 10px;
+    }
+
+    .image {
+        width: 100%;
+        height: 28px;
+    }
+
+    .e-right-label-inner-div {
+        margin-top: 4px;
+    }
+
+    .e-bigger .image {
+        width: 100%;
+        height: 32px;
+    }
+
+    .progress-label {
+        height: 100%;
+        align-content: center;
+    }
+    .progress-label .e-task-label {
+        margin-left: 2px !important;
+    }
+
+    .img-assignee-column {
+        height: 24px;
+        width: 24px;
+    }
+
+    .e-progress-inner {
+        font-size: 12px;
+        padding: 4px 0px;
+        font-weight: 400;
+        line-height: 16px;
+    }
+
+    .e-assigned-person {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        height: 100%;
+    }
+
+    .e-assignee-image {
+        width: 100%;
+    }
+
+    .assignee-column {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        line-height: 16px;
+    }
+
+    .department-text-light {
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 14px;
+    }
+
+    .department-text-dark {
+        font-weight: 400;
+        font-size: 10px;
+        line-height: 14px;
+    }
+
+    .e-budget-light {
+        border: 1px solid #107C10;
+        color: #107C10;
+        border-radius: 4px;
+        padding: 2px 8px;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-budget-dark {
+        border: 1px solid #218C21;
+        color: #218C21;
+        border-radius: 4px;
+        padding: 2px 8px;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-actualcost-light {
+        border: 1px solid #C50F1F;
+        color: #C50F1F;
+        border-radius: 4px;
+        padding: 2px 8px;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-actualcost-dark {
+        border: 1px solid #CC2635;
+        color: #CC2635;
+        border-radius: 4px;
+        padding: 2px 8px;
+        width: fit-content;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-progress-outer-dark {
+        background-color: #333333;
+    }
+
+    .e-progress-outer-light {
+        background-color: #E6E6E6;
+    }
+
+    .e-progress-bar-dark {
+        background-color: #115EA3;
+        border-radius: 2px;
+        height: 4px;
+    }
+
+    .e-progress-bar-light {
+        background-color: #0F6CBD;
+        border-radius: 2px;
+        height: 4px;
+    }
+
+    .e-status-container {
+        display: inline-flex;
+        align-items: center;
+        border-radius: 4px;
+        padding: 2px 8px;
+    }
+
+    .e-status-completed-dark {
+        border: 1px solid #218C21;
+        color: #218C21;
+    }
+
+    .e-status-inprogress-dark {
+        border: 1px solid #18A4C4;
+        color: #18A4C4;
+    }
+
+    .e-status-ontrack-dark {
+        border: 1px solid #F87528;
+        color: #F87528;
+    }
+
+    .e-status-notstarted-dark {
+        border: 1px solid #CC2635;
+        color: #CC2635;
+    }
+
+    .e-status-completed-light {
+        border: 1px solid #107C10;
+        color: #107C10;
+    }
+
+    .e-status-inprogress-light {
+        border: 1px solid #31AFCC;
+        color: #31AFCC;
+    }
+
+    .e-status-ontrack-light {
+        border: 1px solid #F7630C;
+        color: #F7630C;
+    }
+
+    .e-status-notstarted-light {
+        border: 1px solid #C50F1F;
+        color: #C50F1F;
+    }
+
+    .e-status-icon {
+        border-radius: 10px;
+        margin-right: 8px;
+        padding: 4px;
+    }
+
+    .e-status-completed-icon-dark {
+        background: #107C10;
+        border: 1px solid #1F1F1F;
+    }
+
+    .e-status-inprogress-icon-dark {
+        background: #0099BC;
+        border: 1px solid #1F1F1F;
+    }
+
+    .e-status-ontrack-icon-dark {
+        background: #FAA06B;
+        border: 1px solid #1F1F1F;
+    }
+
+    .e-status-notstarted-icon-dark {
+        background: #DC626D;
+        border: 1px solid #1F1F1F;
+    }
+
+    .e-status-completed-icon-light {
+        background: #107C10;
+        border: 1px solid #FAFAFA;
+    }
+
+    .e-status-inprogress-icon-light {
+        background: #008AA9;
+        border: 1px solid #FAFAFA;
+    }
+
+    .e-status-ontrack-icon-light {
+        background: #BC4B09;
+        border: 1px solid #FAFAFA;
+    }
+
+    .e-status-notstarted-icon-light {
+        background: #D13438;
+        border: 1px solid #FAFAFA;
+    }
+
+    .e-dependencies {
+        border-radius: 4px;
+        padding: 2px 8px;
+        width: fit-content;
+    }
+
+    .e-dependencies-dark {
+        border: 1px solid #b8b8b8;
+    }
+
+    .e-dependencies-light {
+        border: 1px solid #b8b8b8;
+    }
+
+    .e-risks-container {
+        border-radius: 4px;
+        padding: 2px 8px;
+        width: fit-content;
+    }
+
+    .e-risks-low-dark {
+        border: 1px solid #18A4C4;
+    }
+
+    .e-risks-medium-dark {
+        border: 1px solid #F87528;
+    }
+
+    .e-risks-high-dark {
+        border: 1px solid #CC2635;
+    }
+
+    .e-risks-low-light {
+        border: 1px solid #31AFCC;
+    }
+
+    .e-risks-medium-light {
+        border: 1px solid #F7630C;
+    }
+
+    .e-risks-high-light {
+        border: 1px solid #C50F1F;
+    }
+
+    .e-risks-low-text-dark {
+        color: #18A4C4;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-risks-medium-text-dark {
+        color: #F87528;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-risks-high-text-dark {
+        color: #CC2635;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-risks-low-text-light {
+        color: #31AFCC;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-risks-medium-text-light {
+        color: #F7630C;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-risks-high-text-light {
+        color: #C50F1F;
+        font-size: 14px;
+        font-weight: 400;
+        line-height: 20px;
+    }
+
+    .e-category-location, .e-initiative-story {
+        display: flex;
+        align-items: center;
+    }
+
+    .e-location {
+        border-radius: 4px;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 4px 8px;
+        margin-left: 5px;
+        font-weight: 400;
+        width: fit-content;
+    }
+
+    .e-location-dark {
+        border: 1px solid #218C21;
+        background-color: #218C21;
+        color: #FFFFFF;
+    }
+
+    .e-location-light { 
+        border: 1px solid #107C10;
+        background-color: #107C10;
+        color: #FFFFFF;
+    }
+
+    .e-techstack {
+        border-radius: 4px;
+        padding: 2px 8px;
+        display: inline-block;
+        margin-right: 5px;
+    }
+
+    .e-techstack-dark {
+        border: 1px solid #b8b8b8;
+    }
+
+    .e-techstack-light {
+        border: 1px solid #b8b8b8;
+    }
+
+
+    .e-story-points {
+        border-radius: 10px;
+        font-size: 12px;
+        line-height: 16px;
+        padding: 2px 6px;
+        margin-left: 10px;
+        font-weight: 600;
+    }
+
+    .e-story-points-dark {
+        border: 1px solid #6C757D;
+        background-color: #6C757D;
+        color: #FFFFFF;
+    }
+
+    .e-story-points-light {
+        border: 1px solid #6C757D;
+        background-color: #6C757D;
+        color: #FFFFFF;
+    }
+
+    .assignee-text {
+        font-weight: 600;
+        font-size: 12px;
+    }
+
+    .icon-style {
+        font-size: 12px !important;
+        margin-top: 3px;
+    }
+
+    .e-priority-text, .e-status-text, .e-dependencies, .e-category, .e-techstack, .e-initiative {
+        font-weight: 400;
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    .e-risks-icon {
+        font-size: 10px !important;
+    }
+    .e-row:hover {
+        .e-budget-dark,
+        .e-actualcost-dark,
+        .e-status-completed-dark,
+        .e-status-inprogress-dark,
+        .e-status-notstarted-dark,
+        .e-status-ontrack-dark,
+        .e-risks-low-text-dark,
+        .e-risks-high-text-dark,
+        .e-techstack-dark,
+        .e-risks-medium-text-dark,
+        .e-dependencies-dark {
+        color: #FFFFFF !important;
+        }
+    }
+
+    .e-rowcell.e-templatecell.e-active {
+        .e-budget-dark,
+        .e-actualcost-dark,
+        .e-status-completed-dark,
+        .e-status-inprogress-dark,
+        .e-status-notstarted-dark,
+        .e-status-ontrack-dark,
+        .e-risks-low-text-dark,
+        .e-risks-high-text-dark,
+        .e-techstack-dark,
+        .e-risks-medium-text-dark,
+        .e-dependencies-dark {
+        color: #FFFFFF !important;
+        }
+    }
+
+    .e-row:hover {
+        .e-budget-light,
+        .e-actualcost-light,
+        .e-status-completed-light,
+        .e-status-inprogress-light,
+        .e-status-notstarted-light,
+        .e-status-ontrack-light,
+        .e-risks-low-text-light,
+        .e-risks-high-text-light,
+        .e-techstack-light,
+        .e-risks-medium-text-light,
+        .e-dependencies-light {
+        color: #242424 !important;
+        }
+    }
+
+    .e-rowcell.e-templatecell.e-active {
+        .e-budget-light,
+        .e-actualcost-light,
+        .e-status-completed-light,
+        .e-status-inprogress-light,
+        .e-status-notstarted-light,
+        .e-status-ontrack-light,
+        .e-risks-low-text-light,
+        .e-risks-high-text-light,
+        .e-techstack-light,
+        .e-risks-medium-text-light,
+        .e-dependencies-light {
+        color: #242424 !important;
+        }
+    }
+
+    body.fluent2-highcontrast,
+    body.highcontrast {
+        .e-row:hover {
+            .e-budget-dark,
+            .e-actualcost-dark,
+            .e-progress-bar-dark,
+            .e-status-completed-dark,
+            .e-status-inprogress-dark,
+            .e-status-notstarted-dark,
+            .e-status-ontrack-dark,
+            .e-risks-low-dark,
+            .e-risks-high-dark,
+            .e-techstack-dark,
+            .e-risks-medium-dark,
+            .e-dependencies-dark {
+                background-color: #FFFFFF !important;
+                border-color: #FFFFFF !important;
+                color: #000000 !important;
+            }
+            .e-progress-bar-dark {
+                border-radius: 2px;
+            }
+            .e-risks-low-text-dark,
+            .e-risks-high-text-dark,
+            .e-risks-medium-text-dark {
+                color: #000000 !important;
+            }
+        }
+
+        .e-rowcell.e-templatecell.e-active {
+            .e-budget-dark,
+            .e-actualcost-dark,
+            .e-progress-bar-dark,
+            .e-status-completed-dark,
+            .e-status-inprogress-dark,
+            .e-status-notstarted-dark,
+            .e-status-ontrack-dark,
+            .e-risks-low-dark,
+            .e-risks-high-dark,
+            .e-techstack-dark,
+            .e-risks-medium-dark,
+            .e-dependencies-dark {
+                background-color: #FFFFFF !important;
+                border-color: #FFFFFF !important;
+                color: #000000 !important;
+            }
+            .e-progress-bar-dark {
+                border-radius: 2px;
+            }
+            .e-risks-low-text-dark,
+            .e-risks-high-text-dark,
+            .e-risks-medium-text-dark {
+                color: #000000 !important;
+            }
+        }
+    }
+    </style>

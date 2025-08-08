@@ -1,0 +1,552 @@
+﻿@page "/scheduler/resource-filtering"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Schedule
+@using System.Globalization
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This demo showcases on how to efficiently manage and filter multiple staff members across different departments using a timeline view scheduler. This sample includes advanced filtering and sorting capabilities, allowing for efficient management of large-scale scheduling in a healthcare environment.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This demo showcases an advanced resource filtering system for a timeline view scheduler, designed to efficiently manage and filter multiple staff members across different departments in a healthcare environment.
+    </p>
+    <p>
+        Key features and components:
+    </p>
+    <ul>
+        <li><strong>Syncfusion Scheduler (SfSchedule):</strong> Displays appointments in a timeline month view, grouped by staff resources.</li>
+        <li><strong>Resource Grouping:</strong> Utilizes the <code>ScheduleGroup</code> property to group the timeline by staff members.</li>
+        <li><strong>Custom Resource Header:</strong> Implements a <code>ResourceHeaderTemplate</code> to display staff names and departments in a column format.</li>
+        <li><strong>Dynamic Filtering:</strong> Uses <code>SfTextBox</code> components with search icons for filtering staff by name and department.</li>
+        <li><strong>Appointment Search:</strong> Provides a search functionality to filter appointments by subject.</li>
+        <li><strong>Sorting Capability:</strong> Allows sorting of staff members by name or department in ascending or descending order.</li>
+    </ul>
+    <p>
+        Implementation details:
+    </p>
+    <ol>
+        <li>The scheduler is configured with a timeline month view and grouped by staff resources.</li>
+        <li>A custom header template (<code>HeaderIndentTemplate</code>) is used to create the filtering and sorting interface.</li>
+        <li>Staff filtering is implemented using two <code>SfTextBox</code> components for name and department searches.</li>
+        <li>Appointment filtering is achieved through a separate <code>SfTextBox</code> component at the top of the scheduler.</li>
+        <li>Sorting functionality is added using clickable icons in the custom header.</li>
+        <li>Search icons are added to the text boxes using CSS, enhancing the user interface.</li>
+    </ol>
+</ActionDescription>
+
+<div class="col-lg-12 property-section">
+    <div class="event-filter-section">
+        <SfTextBox ID="searchEventName" @bind-Value="@SubjectValue" Width="350px" Placeholder="Search events by subject" ShowClearButton="true" Input="OnSearchClick"></SfTextBox>
+    </div>
+
+    <SfSchedule TValue="AppointmentData" @ref="ScheduleRef" Width="100%" Height="600px" @bind-SelectedDate="@_currentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
+        <ScheduleResources>
+            <ScheduleResource TItem="ResourceData" TValue="int[]" DataSource="@StaffData" Field="StaffId" Title="StaffType" Name="Staff" TextField="Name" IdField="Id" GroupIDField="DepartmentId" ColorField="StaffColor" AllowMultiple="true"></ScheduleResource>
+        </ScheduleResources>
+        <ScheduleTemplates>
+            <HeaderIndentTemplate>
+                <div class="e-resource-header-container">
+                    <div class="resource-header">
+                        <div class="header-cell name">
+                            <span>Name</span>
+                            <span class="@(SortField == "Name" ? (SortAscending ? "e-icons e-sort-ascending" : "e-icons e-sort-descending") : "e-icons e-sorting-1")" @onclick="@(() => SortStaff("Name"))"></span>
+
+                        </div>
+                        <div class="header-cell department">
+                            <span>Department</span>
+                            <span class="@(SortField == "Department" ? (SortAscending ? "e-icons e-sort-ascending" : "e-icons e-sort-descending") : "e-icons e-sorting-1")" @onclick="@(() => SortStaff("Department"))"></span>
+                        </div>
+                    </div>
+                    <div class='resource-filter'>
+                        <div>
+                            <SfTextBox @ref="NameSearch"
+                                       Placeholder="Search Name"
+                                       Width="140px"
+                                       @bind-Value="nameSearchText" ShowClearButton="true"
+                                       Input="@OnNameSearchChanged">
+                            </SfTextBox>
+                        </div>
+                        <div>
+                            <SfTextBox @ref="DepartmentSearch"
+                                       Placeholder="Search Dept"
+                                       Width="140px"
+                                       @bind-Value="departmentSearchText" ShowClearButton="true"
+                                       Input="@OnDepartmentSearchChanged">
+                            </SfTextBox>
+                        </div>
+                    </div>
+                </div>
+            </HeaderIndentTemplate>
+            <ResourceHeaderTemplate>
+                @{
+                    var resourceData = (context as TemplateContext).ResourceData as ResourceData;
+                    <div class='template-wrap'>
+                        <div class="staff-name">@(resourceData.Name)</div>
+                        <div class="staff-department">@(resourceData.Department)</div>
+                    </div>
+                }
+            </ResourceHeaderTemplate>
+        </ScheduleTemplates>
+        <ScheduleEventSettings DataSource="@FilteredAppointments"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+        </ScheduleViews>
+        <ScheduleHeaderRows>
+            <ScheduleHeaderRow Option="HeaderRowType.Week">
+                <Template>
+                    <div class="date-text">Week: @(CultureInfo.InvariantCulture.Calendar.GetWeekOfYear((context as TemplateContext).Date, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Sunday).ToString())</div>
+                </Template>
+            </ScheduleHeaderRow>
+            <ScheduleHeaderRow Option="HeaderRowType.Date"></ScheduleHeaderRow>
+        </ScheduleHeaderRows>
+    </SfSchedule>
+</div>
+@code {
+    private SfSchedule<AppointmentData> ScheduleRef;
+    SfTextBox NameSearch { get; set; }
+    SfTextBox DepartmentSearch { get; set; }
+    private DateTime _currentDate { get; set; }
+    private View CurrentView = View.TimelineMonth;
+    private string nameSearchText = string.Empty;
+    private string departmentSearchText = string.Empty;
+    private string SubjectValue { get; set; }
+    public string[] GroupData { get; set; } = { "Staff" };
+    private int CurrentYear;
+
+    private string SortField { get; set; } = string.Empty;
+    private bool SortAscending { get; set; } = true;
+
+    public List<ResourceData> StaffData { get; set; } = new List<ResourceData> {
+        new ResourceData{ Name = "John Smith", Id = 1, DepartmentId = 1, StaffColor = "#ea7a57", Department = "Cardiology" },
+        new ResourceData{ Name = "Nurse Sarah Johnson", Id = 2, DepartmentId = 1, StaffColor = "#7fa900", Department = "Cardiology" },
+        new ResourceData{ Name = "Emily Brown", Id = 3, DepartmentId = 2, StaffColor = "#865fcf", Department = "Pediatrics" },
+        new ResourceData{ Name = "Nurse Michael Lee", Id = 4, DepartmentId = 2, StaffColor = "#fec200", Department = "Pediatrics" },
+        new ResourceData{ Name = "Lisa Wang", Id = 5, DepartmentId = 3, StaffColor = "#865fcf", Department = "Neurology" },
+        new ResourceData{ Name = "Nurse Robert Chen", Id = 6, DepartmentId = 3, StaffColor = "#1aaa55", Department = "Neurology" },
+        new ResourceData{ Name = "David Miller", Id = 7, DepartmentId = 4, StaffColor = "#fec200", Department = "Orthopedics" },
+        new ResourceData{ Name = "Nurse Emma Wilson", Id = 8, DepartmentId = 4, StaffColor = "#7fa900", Department = "Orthopedics" },
+        new ResourceData{ Name = "Sophia Martinez", Id = 9, DepartmentId = 5, StaffColor = "#ea7a57", Department = "Oncology" },
+        new ResourceData{ Name = "Nurse James Taylor", Id = 10, DepartmentId = 5, StaffColor = "#865fcf", Department = "Oncology" },
+        new ResourceData{ Name = "Oliver Thompson", Id = 11, DepartmentId = 1, StaffColor = "#1aaa55", Department = "Cardiology" },
+        new ResourceData{ Name = "Nurse Isabella Garcia", Id = 12, DepartmentId = 2, StaffColor = "#fec200", Department = "Pediatrics" },
+        new ResourceData{ Name = "Ava Robinson", Id = 13, DepartmentId = 3, StaffColor = "#7fa900", Department = "Neurology" },
+        new ResourceData{ Name = "Nurse Ethan Wright", Id = 14, DepartmentId = 4, StaffColor = "#ea7a57", Department = "Orthopedics" },
+        new ResourceData{ Name = "Mia Clark", Id = 15, DepartmentId = 5, StaffColor = "#865fcf", Department = "Oncology" },
+        new ResourceData{ Name = "Nurse Liam Baker", Id = 16, DepartmentId = 1, StaffColor = "#1aaa55", Department = "Cardiology" },
+        new ResourceData{ Name = "Charlotte Hill", Id = 17, DepartmentId = 2, StaffColor = "#fec200", Department = "Pediatrics" },
+        new ResourceData{ Name = "Nurse Noah Green", Id = 18, DepartmentId = 3, StaffColor = "#7fa900", Department = "Neurology" },
+        new ResourceData{ Name = "Amelia Adams", Id = 19, DepartmentId = 4, StaffColor = "#ea7a57", Department = "Orthopedics" },
+        new ResourceData{ Name = "Nurse William Scott", Id = 20, DepartmentId = 5, StaffColor = "#865fcf", Department = "Oncology" }
+    };
+
+    public List<ResourceData> StaffDataCopy { get; set; }
+
+    List<AppointmentData> DataSource = new List<AppointmentData>();
+    List<AppointmentData> FilteredAppointments = new List<AppointmentData>();
+
+    protected override void OnInitialized()
+    {
+        CurrentYear = DateTime.Today.Year;
+        _currentDate = new DateTime(CurrentYear, 1, 1);
+        StaffDataCopy = StaffData.ToList();        
+        GenerateAppointments();
+    }
+
+    private void GenerateAppointments()
+    {
+        Random random = new Random();
+        DateTime startDate = new DateTime(CurrentYear, 1, 1);
+        DateTime endDate = new DateTime(CurrentYear, 1, 31);
+
+        foreach (var staff in StaffData)
+        {
+            int appointmentCount = random.Next(5, 11); // Generate 5-10 appointments per staff member
+
+            for (int i = 0; i < appointmentCount; i++)
+            {
+                DateTime appointmentDate = startDate.AddDays(random.Next((endDate - startDate).Days));
+                int startHour = random.Next(8, 17); // Appointments between 8 AM and 5 PM
+
+                DateTime startTime = appointmentDate.Date.AddHours(startHour).AddMinutes(random.Next(0, 4) * 15);
+                DateTime endTime = startTime.AddMinutes(random.Next(1, 5) * 30);
+
+                string subject = "Patient Consultation";
+                List<string> subjects = new List<string>
+                {
+                    "Patient Consultation", "Routine Checkup", "Emergency Visit",
+                    "Follow-up Consultation", "Dental Cleaning", "Physical Examination",
+                    "Vaccination", "Therapy Session", "Specialist Consultation",
+                    "Health Screening", "Wellness Check", "Nutritional Advice",
+                    "Mental Health Assessment", "Pregnancy Check", "Pediatric Visit",
+                    "Chronic Condition Management", "Surgical Follow-up",
+                    "Cardiology Consultation", "Dermatology Appointment",
+                    "Orthopedic Assessment", "vision Screening",
+                    "Hearing Test", "ENT Consultation", "Geriatric Care",
+                    "Endocrinology Follow-up"
+                };
+
+
+                DataSource.Add(new AppointmentData
+                    {
+                        Id = DataSource.Count + 1,
+                        Subject = subjects[random.Next(subjects.Count)],
+                        StartTime = startTime,
+                        EndTime = endTime,
+                        StaffId = staff.Id,
+                        Description = $"{subject} with {staff.Name}"
+                    });
+            }
+        }
+        FilteredAppointments = DataSource;
+    }
+
+    private void OnNameSearchChanged(Syncfusion.Blazor.Inputs.InputEventArgs args)
+    {
+        ApplyFilters(args, "Name");
+    }
+
+    private void OnDepartmentSearchChanged(Syncfusion.Blazor.Inputs.InputEventArgs args)
+    {
+        ApplyFilters(args, "Department");
+    }
+
+    private void ApplyFilters(Syncfusion.Blazor.Inputs.InputEventArgs args, string filterType)
+    {
+        if (ScheduleRef != null && args.Value != null)
+        {
+            string inputValue = args.Value.Trim();
+
+            switch (filterType)
+            {
+                case "Name":
+                    nameSearchText = inputValue;
+                    break;
+                case "Department":
+                    departmentSearchText = inputValue;
+                    break;
+            }
+
+            var filteredData = StaffDataCopy
+                .Where(staff =>
+                    (string.IsNullOrEmpty(nameSearchText) || staff.Name.Contains(nameSearchText, StringComparison.OrdinalIgnoreCase)) &&
+                    (string.IsNullOrEmpty(departmentSearchText) || staff.Department.Contains(departmentSearchText, StringComparison.OrdinalIgnoreCase))
+                )
+                .ToList();
+
+            StaffData = filteredData.Any()
+                ? filteredData
+                : new List<ResourceData> { new ResourceData { Name = "No Staff Available", Id = 0, DepartmentId = 0, StaffColor = "#ea7a57", Department = "N/A" } };
+
+            // Apply sorting after filtering
+            if (!string.IsNullOrEmpty(SortField))
+            {
+                StaffData = SortAscending
+                    ? StaffData.OrderBy(s => SortField == "Name" ? s.Name : s.Department).ToList()
+                    : StaffData.OrderByDescending(s => SortField == "Name" ? s.Name : s.Department).ToList();
+            }
+        }
+        else
+        {
+            StaffData = StaffDataCopy;
+        }
+    }
+
+    private void SortStaff(string field)
+    {
+        if (SortField == field)
+        {
+            SortAscending = !SortAscending;
+        }
+        else
+        {
+            SortField = field;
+            SortAscending = true;
+        }
+
+        StaffData = SortAscending
+            ? StaffData.OrderBy(s => field == "Name" ? s.Name : s.Department).ToList()
+            : StaffData.OrderByDescending(s => field == "Name" ? s.Name : s.Department).ToList();
+    }
+
+    public async Task OnSearchClick(Syncfusion.Blazor.Inputs.InputEventArgs args)
+    {
+        if (args.Value != null)
+        {
+            SubjectValue = args.Value.Trim();
+        }
+        List<WhereFilter> searchObj = new List<WhereFilter>();
+        if (!string.IsNullOrEmpty(SubjectValue))
+        {
+            searchObj.Add(new WhereFilter() { Field = "Subject", Operator = "contains", value = SubjectValue, Condition = "or", IgnoreCase = true });
+        }
+        if (searchObj.Count > 0)
+        {
+            Query query = new Query().Where(new WhereFilter() { Condition = "and", IsComplex = true, predicates = searchObj });
+            List<AppointmentData> eventCollections = DataSource;
+            object data = await new DataManager() { Json = eventCollections }.ExecuteQuery<AppointmentData>(query);
+            FilteredAppointments = (data as List<AppointmentData>);
+        }
+        else
+        {
+            FilteredAppointments = DataSource;
+        }
+    }
+
+    public class ResourceData
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public int DepartmentId { get; set; }
+        public string StaffColor { get; set; }
+        public string Department { get; set; }
+    }
+
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string Subject { get; set; }
+        public string Location { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public string Description { get; set; }
+        public bool IsAllDay { get; set; }
+        public string RecurrenceRule { get; set; }
+        public string RecurrenceException { get; set; }
+        public Nullable<int> RecurrenceID { get; set; }
+        public int StaffId { get; set; }
+    }
+}
+
+<style>
+    .e-schedule .e-timeline-month-view .e-resource-left-td,
+    .e-schedule .e-timeline-view .e-resource-left-td {
+        width: 300px;
+    }
+
+    .e-schedule.e-device .e-timeline-month-view .e-resource-left-td,
+    .e-schedule.e-device .e-timeline-view .e-resource-left-td {
+        width: 75px;
+    }
+
+    .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div {
+        border-top: 0 !important;
+    }
+
+    .e-resource-header-container {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .resource-header {
+        display: flex;
+        justify-content: space-between;
+    }
+
+        .resource-header .name,
+        .resource-header .department {
+            display: flex;
+            align-items: center;
+            font-weight: bold;
+        }
+
+    .e-sort-icon {
+        font-size: 14px;
+        margin-left: 5px;
+    }
+
+    .e-sort-ascending::before {
+        content: '\e306';
+    }
+
+    .e-sort-descending::before {
+        content: '\e307';
+    }
+
+    .resource-filter {
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div,
+    .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div,
+    .e-schedule .e-timeline-month-view .e-resource-left-td .resource-filter > div,
+    .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div {
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
+        flex: 0 0 50%;
+        font-weight: 500;
+        height: 36px;
+        padding: 0 4px;
+    }
+
+    .highcontrast .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div,
+    .highcontrast .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div,
+    .highcontrast .e-schedule .e-timeline-month-view .e-resource-left-td .resource-filter > div,
+    .highcontrast .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div {
+        border-right: 1px solid rgb(150 150 150);
+    }
+
+    .fluent2-highcontrast .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div,
+    .fluent2-highcontrast .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div,
+    .fluent2-highcontrast .e-schedule .e-timeline-month-view .e-resource-left-td .resource-filter > div,
+    .fluent2-highcontrast .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div {
+        border-right: 1px solid rgb(255 255 255);
+    }
+
+    .fluent-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div,
+    .fluent-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div,
+    .fluent-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-filter > div,
+    .fluent-dark .e-schedule .e-timeline-month-view .e-resource-left-td > .template-wrap > div,
+    .fluent-dark .e-schedule .e-timeline-view .e-resource-left-td > .template-wrap > div
+    .fluent-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div {
+        border-right: 1px solid rgba(41, 40, 39, 1);
+    }
+
+    .material3-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div,
+    .material3-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div,
+    .material3-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-filter > div,
+    .material3-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div,
+    .material3-dark .e-schedule .e-timeline-month-view .e-resource-left-td > .template-wrap > div,
+    .material3-dark .e-schedule .e-timeline-view .e-resource-left-td > .template-wrap > div {
+        border-right: 1px solid rgba(68, 71, 70, 1);
+    }
+
+    .fluent2-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div,
+    .fluent2-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div,
+    .fluent2-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-filter > div,
+    .fluent2-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div,
+    .fluent2-dark .e-schedule .e-timeline-month-view .e-resource-left-td > .template-wrap > div,
+    .fluent2-dark .e-schedule .e-timeline-view .e-resource-left-td > .template-wrap > div {
+        border-right: 1px solid rgb(82,82, 82, 1);
+    }
+
+    .bootstrap5-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div,
+    .bootstrap5-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div,
+    .bootstrap5-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-filter > div,
+    .bootstrap5-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div,
+    .bootstrap5-dark .e-schedule .e-timeline-month-view .e-resource-left-td > .template-wrap > div,
+    .bootstrap5-dark .e-schedule .e-timeline-view .e-resource-left-td > .template-wrap > div {
+        border-right: 1px solid rgb(82,82, 82, 1);
+    }
+
+    .tailwind3-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div,
+    .tailwind3-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div,
+    .tailwind3-dark .e-schedule .e-timeline-month-view .e-resource-left-td .resource-filter > div,
+    .tailwind3-dark .e-schedule .e-timeline-view .e-resource-left-td .resource-filter > div,
+    .tailwind3-dark .e-schedule .e-timeline-month-view .e-resource-left-td > .template-wrap > div,
+    .tailwind3-dark .e-schedule .e-timeline-view .e-resource-left-td > .template-wrap > div {
+        border-right: 1px solid rgba(40, 47, 60, 1);
+    }
+
+    .e-schedule .e-timeline-month-view .e-resource-left-td .resource-header > div:last-child,
+    .e-schedule .e-timeline-view .e-resource-left-td .resource-header > div:last-child {
+        border-right: 0;
+    }
+
+    .e-schedule .e-schedule-table > tbody > tr > td {
+        width: 100%;
+    }
+
+    .e-schedule .e-timeline-view .e-resource-collapse,
+    .e-schedule .e-timeline-month-view .e-resource-collapse {
+        margin-top: 23px;
+    }
+
+    .e-schedule .e-parent-node .staff-name,
+    .e-schedule .e-parent-node .staff-department {
+        flex: 0 0 50% !important;
+    }
+
+    .e-schedule .e-timeline-view .e-resource-tree-icon,
+    .e-schedule .e-timeline-month-view .e-resource-tree-icon {
+        margin-top: 22px !important;
+    }
+
+    .e-schedule .template-wrap {
+        display: flex;
+        height: 100%;
+        text-align: left;
+    }
+
+    .e-schedule .e-resource-cells .e-blazor-template {
+        height: 100%;
+    }
+
+    .e-schedule .template-wrap > div {
+        border-right: 1px solid rgba(0, 0, 0, 0.12);
+        flex: 0 0 50%;
+        font-weight: 500;
+        overflow: hidden;
+        padding-left: 5px;
+        text-overflow: ellipsis;
+        line-height: 58px;
+    }
+
+    .highcontrast .e-schedule .template-wrap > div {
+        border-right: 1px solid rgb(150 150 150);
+    }
+
+    .fluent2-highcontrast .e-schedule .template-wrap > div {
+        border-right: 1px solid rgb(255 255 255);
+    }
+
+    .e-schedule .template-wrap > div:last-child {
+         border-right: 0;
+     }
+
+    .e-schedule .e-timeline-view .e-resource-cells,
+    .e-schedule .e-timeline-month-view .e-resource-cells {
+        padding-left: 0;
+    }
+
+    .e-schedule .e-timeline-view .e-date-header-wrap table col,
+    .e-schedule .e-timeline-view .e-content-wrap table col {
+        width: 100px;
+    }
+
+    .event-filter-section {
+        display: flex;
+        margin-bottom: 12px;
+        margin-top: 12px;
+    }
+
+    .header-cell.name span:first-child,
+    .header-cell.department span:first-child {
+       flex-grow: 1;
+    }
+
+    .header-cell:hover .e-icons {
+        color: #333333;
+        cursor: pointer;
+    }
+
+    .e-bigger .resource-filter .e-input-group input,
+    .e-bigger .resource-filter .e-input-group input.e-input,
+    .e-bigger .resource-filter .e-input-group.e-control-wrapper input,
+    .e-bigger .resource-filter .e-input-group.e-control-wrapper input.e-input {
+        height: 30px;
+    }
+
+    .e-bigger .event-filter-section .e-input-group.e-control-wrapper,
+    .e-bigger .resource-filter .e-input-group.e-control-wrapper {
+        font-size: 12px;
+        font-weight: 500;
+    }
+
+    .e-bigger .resource-filter .e-input-group .e-clear-icon::before,
+    .e-bigger .resource-filter .e-input-group.e-control-wrapper .e-clear-icon::before,
+    .e-bigger .event-filter-section .e-input-group .e-clear-icon::before,
+    .e-bigger .event-filter-section .e-input-group.e-control-wrapper .e-clear-icon::before {
+            font-size: 14px;
+    }
+
+</style>

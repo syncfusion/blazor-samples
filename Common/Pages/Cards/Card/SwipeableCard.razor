@@ -1,0 +1,395 @@
+﻿@page "/card/swipeable"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Cards
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the Card rendering with a stacked layout. You can swipe the card in the left or right direction to move the first card to the last position.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The sample illustrates stacked collection of card overlapping each other, which can be bound to swipe actions to move cards one after the other. The CSS animation is used to achieve swiping on every left or right swipe.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section swipe-card-layout">
+    <div class="row">
+        <div id="horizontal_product" class="col-xs-6 col-sm-6 col-lg-6 col-md-6">
+            @{
+                foreach (CardModel card in cardData)
+                {
+                    <SfCard @ref="CardRef" ID="@card.Id.ToString()" CssClass="@card.CssClass" Orientation="CardOrientation.Horizontal" @onmousedown="OnCardMouseStart" @onmouseup="OnCardMouseStop" @ontouchstart="@OnCardTouchStart" @ontouchend="@OnCardTouchEnd">
+                        <CardImage Image="@card.ImagePath" />
+                        <CardStacked>
+                            <CardContent Content="@card.Content" />
+                            <CardFooter>
+                                <CardFooterContent>
+                                    <SfButton Disabled="true" IconCss="cb-icons e-fav-icon"></SfButton>
+                                    <SfButton Disabled="true" IconCss="cb-icons e-like-icon"></SfButton>
+                                    <SfButton Disabled="true" IconCss="cb-icons e-share-icon"></SfButton>
+                                </CardFooterContent>
+                            </CardFooter>
+                        </CardStacked>
+                    </SfCard>
+                }
+            }
+        </div>
+    </div>
+    <div class="row">
+        <div id="source_link">
+            <span>Source:</span>
+            <table>
+                <tr>
+                    <td><a href="https://wikitravel.org/en/Malaysia" target="_blank">https://wikitravel.org/en/Malaysia</a></td>
+                </tr>
+                <tr>
+                    <td><a href="https://wikitravel.org/en/Sydney" target="_blank">https://wikitravel.org/en/Sydney</a></td>
+                </tr>
+                <tr>
+                    <td><a href="https://en.wikipedia.org/wiki/Eiffel_Tower" target="_blank">https://en.wikipedia.org/wiki/Eiffel_Tower</a></td>
+                </tr>
+                <tr>
+                    <td><a href="https://wikitravel.org/en/New_York_City" target="_blank">https://wikitravel.org/en/New_York_City</a></td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .swipe-card-layout {
+        min-height: 450px;
+    }
+
+        .swipe-card-layout .row {
+            display: flex;
+        }
+
+        .swipe-card-layout .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
+            margin: 0 auto;
+            position: relative;
+            top: 50px;
+            width: 100%;
+        }
+
+        .swipe-card-layout .e-card.e-card-horizontal {
+            display: flex;
+            position: absolute;
+            transition: all 200ms;
+            touch-action: none;
+            user-select: none;
+            width: 490px;
+        }
+
+            .swipe-card-layout .e-card.e-card-horizontal:nth-child(1) {
+                transform: rotate(4deg);
+            }
+
+            .swipe-card-layout .e-card.e-card-horizontal:nth-child(2) {
+                transform: rotate(2deg);
+            }
+
+            .swipe-card-layout .e-card.e-card-horizontal:nth-child(3) {
+                transform: rotate(0deg);
+            }
+
+            .swipe-card-layout .e-card.e-card-horizontal:nth-child(4) {
+                transform: rotate(-2deg);
+            }
+
+            .swipe-card-layout .e-card.e-card-horizontal > * {
+                justify-content: flex-start;
+                max-width: 50%;
+            }
+
+            .swipe-card-layout .e-card.e-card-horizontal .e-card-image {
+                height: 215px;
+                user-select: none;
+            }
+
+            .swipe-card-layout .e-card.e-card-horizontal .e-card-content {
+                flex-grow: initial;
+                height: 155px;
+            }
+
+            .swipe-card-layout .e-card.e-card-horizontal .e-card-actions {
+                flex-grow: 1;
+            }
+
+                .swipe-card-layout .e-card.e-card-horizontal .e-card-actions button {
+                    background: #fff;
+                    border: 0px;
+                    color: #000;
+                    height: 24px;
+                    margin: 0 5px;
+                    padding: 0px;
+                    width: 24px;
+                }
+
+        .swipe-card-layout #source_link {
+            bottom: 0;
+            float: right;
+            margin-right: 10px;
+            position: absolute;
+            right: 0;
+        }
+
+    @@font-face {
+        font-family: 'Card_Icon';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .cb-icons {
+        margin: auto;
+        font-family: 'Card_Icon';
+        speak: none;
+        width: 38px !important;
+        height: 38px !important;
+        font-size: 37px !important;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+    }
+
+    .e-fav-icon.cb-icons::before {
+        content: '\e700';
+    }
+
+    .e-like-icon.cb-icons::before {
+        content: '\e703';
+    }
+
+    .e-share-icon.cb-icons::before {
+        content: '\e704';
+    }
+
+    .fabric .swipe-card-layout .e-card:hover,
+    .highcontrast .swipe-card-layout .e-card:hover {
+        border-width: 1px;
+        padding: 1px;
+    }
+
+    .swipe-card-layout .e-card .cb-icons {
+        display: flex;
+        width: inherit !important;
+        height: inherit !important;
+        font-size: 18px !important;
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .swipe-card-layout .card-right-out {
+        animation: card-right-out 0.3s cubic-bezier(.8, .2, .1, 0.8);
+        transform: translateX(0px) rotate(0deg) translateY(0px) scale(1);
+    }
+
+    .swipe-card-layout .card-left-out {
+        animation: card-left-out 0.3s cubic-bezier(.8, .2, .1, 0.8);
+        transform: translateX(0px) rotate(0deg) translateY(0px) scale(1);
+    }
+
+    @@keyframes card-left-out {
+        0% {
+            z-index: 20;
+            transform: translateX(0px) translateY(0px);
+        }
+
+        10% {
+            transform: translateX(-50px) translateY(0px);
+        }
+
+        20% {
+            transform: translateX(-100px) translateY(0px);
+        }
+
+        30% {
+            transform: translateX(-150px) translateY(0px);
+        }
+
+        40% {
+            transform: translateX(-200px) translateY(0px);
+        }
+
+        50% {
+            transform: translateX(-250px) translateY(0px);
+        }
+
+        60% {
+            transform: translateX(-200px) translateY(0px);
+            z-index: 0;
+        }
+
+        70% {
+            transform: translateX(-150px) translateY(0px);
+            z-index: 0;
+        }
+
+        80% {
+            transform: translateX(-100px) translateY(0px);
+            z-index: 0;
+        }
+
+        90% {
+            transform: translateX(-50px) translateY(0px);
+            z-index: 0;
+        }
+
+        100% {
+            transform: translateX(0px) translateY(0px) scale(1);
+        }
+    }
+
+    @@keyframes card-right-out {
+        0% {
+            z-index: 20;
+            transform: translateX(0px) translateY(0px);
+        }
+
+        10% {
+            transform: translateX(50px) translateY(0px);
+        }
+
+        20% {
+            transform: translateX(100px) translateY(0px);
+        }
+
+        30% {
+            transform: translateX(150px) translateY(0px);
+        }
+
+        40% {
+            transform: translateX(200px) translateY(0px);
+        }
+
+        50% {
+            transform: translateX(250px) translateY(0px);
+        }
+
+        60% {
+            transform: translateX(200px) translateY(0px);
+            z-index: 0;
+        }
+
+        70% {
+            transform: translateX(150px) translateY(0px);
+            z-index: 0;
+        }
+
+        80% {
+            transform: translateX(100px) translateY(0px);
+            z-index: 0;
+        }
+
+        90% {
+            transform: translateX(50px) translateY(0px);
+            z-index: 0;
+        }
+
+        100% {
+            transform: translateX(0px) translateY(0px) scale(1);
+        }
+    }
+
+    @@media screen and (max-width: 768px) {
+        .swipe-card-layout #source_link {
+            margin-top: -10px;
+            margin-right: 0px;
+        }
+    }
+
+    @@media (min-width: 540px) {
+        .swipe-card-layout .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
+            width: 500px;
+        }
+
+        .swipe-card-layout .card-layout {
+            margin: auto;
+            max-width: 870px;
+        }
+    }
+</style>
+
+@code{
+    private SfCard CardRef;
+    private double initPosition;
+    private CardModel dragCard;
+    
+
+    private class CardModel
+    {
+        public int Id { get; set; }
+        public string CssClass { get; set; }
+        public string Content { get; set; }
+        public string ImagePath { get; set; }
+    }
+    private List<CardModel> cardData = new List<CardModel>() {
+        new CardModel { Id = 1, CssClass = string.Empty, ImagePath = "./images/cards/newyork.png", Content = "New York City has been described as the cultural, financial, and media capital of the world, and exerts a significant impact upon commerce and etc..." },
+        new CardModel { Id = 2, CssClass = string.Empty, ImagePath = "./images/cards/malaysia.png", Content = "Malaysia is one of the Southeast Asian countries, on a peninsula of the Asian continent, to a certain extent; it can be recognized as part of the Asian continent." },
+        new CardModel { Id = 3, CssClass = string.Empty, ImagePath = "./images/cards/eiffeltower.png", Content = "The Eiffel Tower is acknowledged as the universal symbol of Paris and France. It was originally designed by Émile Nouguier and Maurice Koechlin." },
+        new CardModel { Id = 4, CssClass = string.Empty, ImagePath = "./images/cards/sydney.png", Content = "Sydney is a city on the east coast of Australia. Sydney is the capital city of New South Wales. About four million people live in Sydney which makes it the biggest city in Oceania." }
+    };
+
+    private void OnCardMouseStart(MouseEventArgs args)
+    {
+        this.ActionBegin(args.ScreenX);
+    }
+
+    private void OnCardMouseStop(MouseEventArgs args)
+    {
+        this.AddAnimation(args.ScreenX);
+    }
+
+    private void OnCardTouchStart(TouchEventArgs args)
+    {
+        this.ActionBegin(args.ChangedTouches[0].ScreenX);
+    }
+
+    private void OnCardTouchEnd(TouchEventArgs args)
+    {
+        this.AddAnimation(args.ChangedTouches[0].ScreenX);
+    }
+
+    private void ActionBegin(double position)
+    {
+        initPosition = position;
+        cardData.ForEach(e => e.CssClass = string.Empty);
+        dragCard = cardData.Where(e => e.Id == Convert.ToInt32(CardRef.ID)).FirstOrDefault();
+    }
+
+    private void AddAnimation(double position)
+    {
+        if (dragCard != null)
+        {
+            dragCard.CssClass = string.Empty;
+            if (position > initPosition)
+            {
+                dragCard.CssClass = "card-right-out";
+            }
+            else if (position < initPosition)
+            {
+                dragCard.CssClass = "card-left-out";
+            }
+            else
+            {
+                dragCard.CssClass = string.Empty;
+            }
+            if (position != initPosition)
+            {
+                cardData.Remove(dragCard);
+                cardData.Insert(0, dragCard);
+                dragCard = null;
+                initPosition = 0;
+            }
+        }
+    }
+
+}

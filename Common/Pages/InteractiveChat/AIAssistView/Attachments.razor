@@ -1,0 +1,106 @@
+﻿@page "/ai-assistview/attachments"
+
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates how users can attach files while interacting with the AI AssistView. The component enables file uploads to enhance the context of conversations and responses.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the file attachments are configured using the <code>AttachmentSettings</code> property.
+        The <code>Enable</code> option within <code>AttachmentSettings</code> is set to <code>true</code> to allow file attachments.
+        The <code>SaveUrl</code> and <code>RemoveUrl</code> are specified to handle file uploads for the attached files.
+        Additionally, the <code>BannerTemplate</code> customizes the banner message, and <code>AssistViewToolbar</code> adds custom toolbar items, such as a right-aligned <code>Refresh</code> button.
+        The <code>PromptSuggestions</code> provides AI prompt suggestions, and <code>PromptRequested</code> handles prompt requests when triggered.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="attachment-aiassistview">
+        <SfAIAssistView @ref="sfAIAssistView" ID="aiAssistView" AttachmentSettings="@attachmentSettings" PromptSuggestions="@suggestions" PromptRequested="@PromptRequest">
+            <AssistViews>
+                <AssistView>
+                    <BannerTemplate>
+                        <div class="banner-content">
+                            <div class="e-icons e-assistview-icon"></div>
+                            <h3>AI Assistance</h3>
+                            <i>Type your message or attach files to get started.</i>
+                        </div>
+                    </BannerTemplate>
+                </AssistView>
+            </AssistViews>
+            <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+            </AssistViewToolbar>
+        </SfAIAssistView>
+    </div>
+</div>
+@code {
+    private SfAIAssistView sfAIAssistView;
+
+    private List<string> suggestions = new PromptResponseData().GetAllSuggestionData();
+
+    private List<PromptResponseData> prompts = new PromptResponseData().GetAllPromptResponseData();
+
+    private AssistViewAttachmentSettings attachmentSettings = new AssistViewAttachmentSettings()
+    {
+        Enable = true,
+        SaveUrl = "http://localhost:63028/api/FileUploader/Save",
+        RemoveUrl = "http://localhost:63028/api/FileUploader/Remove"
+    };
+
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        await Task.Delay(3000);
+        var promptData = prompts.FirstOrDefault(prompt => prompt.Prompt == args.Prompt);
+        var defaultResponse = "For real-time prompt processing, connect the AI AssistView control to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.";
+        args.Response = promptData?.Response ?? defaultResponse;
+        args.PromptSuggestions = promptData?.SuggestionData.Count > 0 ? promptData.SuggestionData : suggestions;
+    }
+
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-refresh")
+        {
+            sfAIAssistView.Prompts.Clear();
+        }
+    }
+}
+<style>
+    .attachment-aiassistview {
+        height: 600px;
+        width: 60vw;
+        margin: 0 auto;
+    }
+
+    .attachment-aiassistview .banner-content .e-assistview-icon:before {
+        font-size: 35px;
+    }
+
+    .attachment-aiassistview .banner-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 330px;
+        text-align: center;
+    }
+
+    @@media only screen and (max-width: 750px) {
+        .attachment-aiassistview {
+            width: 100%;
+        }
+    }
+</style>

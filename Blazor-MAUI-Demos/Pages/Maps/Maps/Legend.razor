@@ -1,0 +1,414 @@
+@page "/maps/legend"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+<PageTitle>Blazor Maps Legend Example - Syncfusion Demos</PageTitle>
+<HeadContent>
+    <meta name="description" content="This example demonstrates the Legend in Blazor Maps Component. Explore here for more details." />
+    <link rel="canonical" href="@canonicalURL" />
+</HeadContent>
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample depicts grouping of countries based on population density and represents the same via the legend. The type and position of the legend can also be modified.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to configure and render legend in the map using <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLegendSettings.html'>MapsLegendSettings</a>. A legend item represents the value of a shape. A legend can contain any number of legend items. Using the <a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsShapeColorMappings.html'>MapsShapeColorMappings</a> property, you can bind the desired color to the shapes if its values fall within the specified range. Toggling the legend item also allows you to show or hide color mapping related to population density.</p>
+    <p>More information about legend can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/maps/legend'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="show-background">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsZoomSettings Enable="false" />
+        <MapsTitleSettings Text="Population Density (Per Square Kilometers) - 2015">
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsLegendSettings Visible="true" Mode="@LegendTypeValue" LabelDisplayMode="LabelIntersectAction.Trim" Position="@LegendPositionValue" ShapePadding="5" Height="@Height" Width="@Width">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+            <MapsToggleLegendSettings Enable="@ToggleCheck" />
+        </MapsLegendSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions = "https://cdn.syncfusion.com/maps/map-data/world-map.json"}' ShapeDataPath="Name" ShapePropertyPath="@ShapePropertyPath" DataSource="@LegendData" TValue="PopulationDensityData">
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="${Name} : ${Density} per square kms">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
+                <MapsShapeSettings ColorValuePath="Density" Fill="#E5E5E5">
+                    <MapsShapeColorMappings>
+                        <MapsShapeColorMapping StartRange="0.00001" EndRange="100" Color="@ShapeColorOne" Label="<100" />
+                        <MapsShapeColorMapping StartRange="100" EndRange="200" Color="@ShapeColorTwo" Label="100-200" />
+                        <MapsShapeColorMapping StartRange="200" EndRange="300" Color="@ShapeColorThree" Label="200-300" />
+                        <MapsShapeColorMapping StartRange="300" EndRange="500" Color="@ShapeColorFour" Label="300-500" />
+                        <MapsShapeColorMapping StartRange="500" EndRange="19000" Color="@ShapeColorFive" Label=">500" />
+                    </MapsShapeColorMappings>
+                </MapsShapeSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        Source:
+        <a href="https://simple.wikipedia.org/wiki/List_of_countries_by_population_density" target="_blank">simple.wikipedia.org</a>
+    </div>
+    </div>
+</div>
+
+<button id="toggle-button" onclick="togglePropertySection()">
+    <svg width="22" height="16" viewBox="0 0 22 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M13.9531 12.1719H20.8438L20.9844 12.1953L21.125 12.2422L21.2656 12.3125L21.3594 12.4062L21.4531 12.5L21.5234 12.6406L21.5703 12.7812L21.5938 12.9219L21.5703 13.0625L21.5234 13.2031L21.4531 13.3438L21.3594 13.4375L21.2656 13.5312L21.125 13.6016L20.9844 13.6484L20.8438 13.6719H13.9531L13.8125 13.6484L13.6719 13.6016L13.5312 13.5312L13.4375 13.4375L13.3438 13.3438L13.2734 13.2031L13.2266 13.0625L13.2031 12.9219L13.2266 12.7812L13.2734 12.6406L13.3438 12.5L13.4375 12.4062L13.5312 12.3125L13.6719 12.2422L13.8125 12.1953L13.9531 12.1719ZM8.04688 11.7031H7.92969L7.78906 11.7266L7.57812 11.7969L7.36719 11.8906L7.17969 12.0547L7.01562 12.2422L6.92188 12.4531L6.85156 12.6641L6.82812 12.9219L6.85156 13.1797L6.92188 13.3906L7.01562 13.6016L7.17969 13.7891L7.36719 13.9531L7.57812 14.0469L7.78906 14.1172L8.04688 14.1406L8.30469 14.1172L8.51562 14.0469L8.72656 13.9531L8.91406 13.7891L9.07812 13.6016L9.17188 13.3906L9.24219 13.1797L9.26562 12.9219L9.24219 12.6641L9.17188 12.4531L9.07812 12.2422L8.91406 12.0547L8.72656 11.8906L8.51562 11.7969L8.30469 11.7266L8.04688 11.7031ZM8.04688 10.2031L8.32812 10.2266L8.58594 10.2734L8.84375 10.3438L9.10156 10.4375L9.33594 10.5312L9.57031 10.6719L9.75781 10.8359L9.96875 11L10.1328 11.2109L10.2969 11.3984L10.4375 11.6328L10.5312 11.8672L10.625 12.125L10.6953 12.3828L10.7422 12.6406L10.7656 12.9219L10.7422 13.2031L10.6953 13.4609L10.625 13.7188L10.5312 13.9766L10.4375 14.2109L10.2969 14.4453L10.1328 14.6328L9.96875 14.8438L9.75781 15.0078L9.57031 15.1719L9.33594 15.3125L9.10156 15.4062L8.84375 15.5L8.58594 15.5703L8.32812 15.6172L8.04688 15.6406L7.8125 15.6172L7.60156 15.5938L7.39062 15.5469L7.17969 15.4766L6.96875 15.4062L6.78125 15.3125L6.59375 15.2188L6.42969 15.1016L6.26562 14.9609L6.10156 14.8203L5.96094 14.6562L5.84375 14.4922L5.72656 14.3047L5.63281 14.1172L5.53906 13.9297L5.44531 13.6719H1.15625L1.01562 13.6484L0.875 13.6016L0.734375 13.5312L0.640625 13.4375L0.546875 13.3438L0.476562 13.2031L0.429688 13.0625L0.40625 12.9219L0.429688 12.7812L0.476562 12.6406L0.546875 12.5L0.640625 12.4062L0.734375 12.3125L0.875 12.2422L1.01562 12.1953L1.15625 12.1719H5.44531L5.53906 11.9141L5.63281 11.7266L5.72656 11.5391L5.84375 11.3516L5.96094 11.1875L6.10156 11.0234L6.26562 10.8828L6.42969 10.7422L6.59375 10.625L6.78125 10.5312L6.96875 10.4375L7.17969 10.3672L7.39062 10.2969L7.60156 10.25L7.8125 10.2266L8.04688 10.2031ZM1.15625 2.32812H8.04688L8.1875 2.35156L8.32812 2.39844L8.46875 2.46875L8.5625 2.5625L8.65625 2.65625L8.72656 2.79688L8.77344 2.9375L8.79688 3.07812L8.77344 3.21875L8.72656 3.35938L8.65625 3.5L8.5625 3.59375L8.46875 3.6875L8.32812 3.75781L8.1875 3.80469L8.04688 3.82812H1.15625L1.01562 3.80469L0.875 3.75781L0.734375 3.6875L0.640625 3.59375L0.546875 3.5L0.476562 3.35938L0.429688 3.21875L0.40625 3.07812L0.429688 2.9375L0.476562 2.79688L0.546875 2.65625L0.640625 2.5625L0.734375 2.46875L0.875 2.39844L1.01562 2.35156L1.15625 2.32812ZM13.9531 1.85938H13.8359L13.6953 1.88281L13.4844 1.95312L13.2734 2.04688L13.0859 2.21094L12.9219 2.39844L12.8281 2.60938L12.7578 2.82031L12.7344 3.07812L12.7578 3.33594L12.8281 3.54688L12.9219 3.75781L13.0859 3.94531L13.2734 4.10938L13.4844 4.20312L13.6953 4.27344L13.9531 4.29688L14.2109 4.27344L14.4219 4.20312L14.6328 4.10938L14.8203 3.94531L14.9844 3.75781L15.0781 3.54688L15.1484 3.33594L15.1719 3.07812L15.1484 2.82031L15.0781 2.60938L14.9844 2.39844L14.8203 2.21094L14.6328 2.04688L14.4219 1.95312L14.2109 1.88281L13.9531 1.85938ZM13.9531 0.359375L14.1875 0.382812L14.3984 0.40625L14.6094 0.453125L14.8203 0.523438L15.0312 0.59375L15.2188 0.6875L15.4062 0.78125L15.5703 0.898438L15.7344 1.03906L15.8984 1.17969L16.0391 1.34375L16.1562 1.50781L16.2734 1.69531L16.3672 1.88281L16.4609 2.07031L16.5547 2.35156H20.8438H20.9844L21.125 2.39844L21.2656 2.46875L21.3594 2.5625L21.4531 2.65625L21.5234 2.79688L21.5703 2.9375L21.5938 3.07812L21.5703 3.21875L21.5234 3.35938L21.4531 3.5L21.3594 3.59375L21.2656 3.6875L21.125 3.75781L20.9844 3.80469L20.8438 3.82812H16.5547L16.4609 4.08594L16.3672 4.27344L16.2734 4.46094L16.1562 4.64844L16.0391 4.8125L15.8984 4.97656L15.7344 5.11719L15.5703 5.25781L15.4062 5.375L15.2188 5.46875L15.0312 5.5625L14.8203 5.63281L14.6094 5.70312L14.3984 5.75L14.1875 5.77344L13.9531 5.79688L13.6719 5.77344L13.4141 5.72656L13.1562 5.65625L12.8984 5.5625L12.6641 5.46875L12.4297 5.32812L12.2422 5.16406L12.0312 5L11.8672 4.78906L11.7031 4.60156L11.5625 4.36719L11.4688 4.13281L11.375 3.875L11.3047 3.61719L11.2578 3.35938L11.2344 3.07812L11.2578 2.79688L11.3047 2.53906L11.375 2.28125L11.4688 2.02344L11.5625 1.78906L11.7031 1.55469L11.8672 1.36719L12.0312 1.15625L12.2422 0.992188L12.4297 0.828125L12.6641 0.6875L12.8984 0.59375L13.1562 0.5L13.4141 0.429688L13.6719 0.382812L13.9531 0.359375Z" fill="white" />
+    </svg>
+</button>
+<div class="col-lg-4 property-section" id="property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <svg onclick="togglePropertySection()" role="button" tabindex="0" aria-label="Toggle settings" title='Toggle Settings' id="close-settings" width="14" height="14" viewBox="0 0 14 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M1.25781 0.4375H1.33594L1.49219 0.476562L1.64844 0.535156L1.78516 0.613281L7 5.84766L12.2148 0.613281L12.3516 0.535156L12.5078 0.476562L12.6641 0.4375H12.8203L12.9766 0.476562L13.1328 0.535156L13.2695 0.613281L13.3867 0.730469L13.4648 0.867188L13.5234 1.02344L13.5625 1.17969V1.33594L13.5234 1.49219L13.4648 1.64844L13.3867 1.78516L8.15234 7L13.3867 12.2148L13.4648 12.3516L13.5234 12.5078L13.5625 12.6641V12.8203L13.5234 12.9766L13.4648 13.1328L13.3867 13.2695L13.2695 13.3867L13.1328 13.4648L12.9766 13.5234L12.8203 13.5625H12.6641L12.5078 13.5234L12.3516 13.4648L12.2148 13.3867L7 8.15234L1.78516 13.3867L1.64844 13.4648L1.49219 13.5234L1.33594 13.5625H1.17969L1.02344 13.5234L0.867188 13.4648L0.730469 13.3867L0.613281 13.2695L0.535156 13.1328L0.476562 12.9766L0.4375 12.8203V12.6641L0.476562 12.5078L0.535156 12.3516L0.613281 12.2148L5.84766 7L0.671875 1.84375L0.574219 1.70703L0.496094 1.57031L0.457031 1.41406L0.4375 1.25781L0.457031 1.10156L0.496094 0.945312L0.574219 0.808594L0.671875 0.671875L0.808594 0.574219L0.945312 0.496094L1.10156 0.457031L1.25781 0.4375Z" fill="#424242" />
+            </svg>
+            <table style="width:100%" title="Properties">
+                <tbody>
+                    <tr>
+                        <td>
+                            Legend Type
+                        </td>
+                        <td>
+                            <SfDropDownList Placeholder="Select layoutMode type" DataSource="@LegendType" @bind-Value="@LegendTypeDropDownValue" Width="100%">
+                                <DropDownListEvents TItem="DropValues" TValue="string" ValueChange="LegendTypeChange" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            Legend Position
+                        </td>
+                        <td>
+                            <SfDropDownList Placeholder="Legend Position" DataSource="@LegendPosition" @bind-Value="@LegendPositionDropDownValue" Width="100%">
+                                <DropDownListEvents TItem="DropValues" ValueChange="LegendPositionChange" TValue="string" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <div style="width:91%">
+                                Show population density when the legend item is toggled
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfCheckBox Checked="@ToggleCheck" ValueChange="LegendToggleChange" TChecked="bool" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    tr {
+        height: 50px;
+    }
+
+    td {
+        width: 50%;
+    }
+</style>
+
+@code {
+    //Hidden:Lines
+    private string canonicalURL { get; set; }
+    //End:Hidden
+    public LegendMode LegendTypeValue = LegendMode.Default;
+    public Syncfusion.Blazor.Maps.LegendPosition LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Top;
+    public string LegendTypeDropDownValue = "Default";
+    public string LegendPositionDropDownValue = "Top";
+    public string[] ShapePropertyPath = { "name" };
+    public bool ToggleCheck = false;
+    public string[] ShapeColorOne = { "#99AED6" };
+    public string[] ShapeColorTwo = { "#738FC7" };
+    public string[] ShapeColorThree = { "#4D70B8" };
+    public string[] ShapeColorFour = { "#2652A8" };
+    public string[] ShapeColorFive = { "#003399" };
+    public string Height = "";
+    public string Width = "";
+    public class PopulationDensityData
+    {
+        public string Code { get; set; }
+        public double Value { get; set; }
+        public string Name { get; set; }
+        public double Population { get; set; }
+        public double Density { get; set; }
+    };
+    public List<PopulationDensityData> LegendData = new List<PopulationDensityData> {
+        new PopulationDensityData { Code="Côte", Value=1000, Name="Côte d'Ivoire", Population=1000000000, Density=-1 },
+        new PopulationDensityData { Code="BH", Value=2000, Name="Bhutan", Population=202002020, Density=-1 },
+        new PopulationDensityData { Code="Ec", Value=2000, Name="Ecuador", Population=10102002, Density=-1 },
+        new PopulationDensityData { Code="AF", Value=53, Name="Afghanistan", Population=29863010, Density=119 },
+        new PopulationDensityData { Code="AL", Value=117, Name="Albania", Population=3195000, Density=111 },
+        new PopulationDensityData { Code="DZ", Value=15, Name="Algeria", Population=34895000, Density=15 },
+        new PopulationDensityData { Code="AO", Value=15, Name="Angola", Population=18498000, Density=15 },
+        new PopulationDensityData { Code="AR", Value=15, Name="Argentina", Population=40091359, Density=14 },
+        new PopulationDensityData { Code="AM", Value=109, Name="Armenia", Population=3230100, Density=108 },
+        new PopulationDensityData { Code="AU", Value=3, Name="Australia", Population=23839595, Density=3.3 },
+        new PopulationDensityData { Code="AT", Value=102, Name="Austria", Population=8372930, Density=100 },
+        new PopulationDensityData { Code="AZ", Value=110, Name="Azerbaijan", Population=9165000, Density=106 },
+        new PopulationDensityData { Code="BS", Value=34, Name="Bahamas", Population=342000, Density=25 },
+        new PopulationDensityData { Code="BD", Value=1142, Name="Bangladesh", Population=164994076, Density=1118 },
+        new PopulationDensityData { Code="BY", Value=47, Name="Belarus", Population=9755106, Density=47 },
+        new PopulationDensityData { Code="BE", Value=359, Name="Belgium", Population=10827519, Density=355 },
+        new PopulationDensityData { Code="BZ", Value=15, Name="Belize", Population=322000, Density=14 },
+        new PopulationDensityData { Code="BJ", Value=80, Name="Benin", Population=8935000, Density=79 },
+        new PopulationDensityData { Code="BO", Value=9, Name="Bolivia", Population=9879000, Density=9 },
+        new PopulationDensityData { Code="BA", Value=73, Name="Bosnia and Herz.", Population=3843126, Density=75 },
+        new PopulationDensityData { Code="BW", Value=4, Name="Botswana", Population=1950000, Density=3.4 },
+        new PopulationDensityData { Code="BR", Value=23, Name="Brazil", Population=206598985, Density=24 },
+        new PopulationDensityData { Code="BN", Value=76, Name="Brunei", Population=400000, Density=69 },
+        new PopulationDensityData { Code="BG", Value=69, Name="Bulgaria", Population=7351234, Density=66 },
+        new PopulationDensityData { Code="BF", Value=60, Name="Burkina Faso", Population=15757000, Density=58 },
+        new PopulationDensityData { Code="BI", Value=326, Name="Burundi", Population=8303000, Density=298 },
+        new PopulationDensityData { Code="KH", Value=80, Name="Cambodia", Population=14805000, Density=82 },
+        new PopulationDensityData { Code="CM", Value=41, Name="Cameroon", Population=19522000, Density=106 },
+        new PopulationDensityData { Code="CA", Value=4, Name="Canada", Population=35151728, Density=3.4 },
+        new PopulationDensityData { Code="CF", Value=7, Name="Central African Rep.", Population=4422000, Density=7.1 },
+        new PopulationDensityData { Code="TD", Value=9, Name="Chad", Population=11274106, Density=8.8 },
+        new PopulationDensityData { Code="CL", Value=23, Name="Chile", Population=18349928, Density=24 },
+        new PopulationDensityData { Code="CN", Value=143, Name="China", Population=1389750000, Density=144 },
+        new PopulationDensityData { Code="CO", Value=42, Name="Colombia", Population=49471496, Density=43 },
+        new PopulationDensityData { Code="CD", Value=29, Name="Dem. Rep. Congo", Population=68692542, Density=29 },
+        new PopulationDensityData { Code="CG", Value=12, Name="Congo", Population=3998904, Density=12 },
+        new PopulationDensityData { Code="CR", Value=91, Name="Costa Rica", Population=4579000, Density=90 },
+        new PopulationDensityData { Code="HR", Value=79, Name="Croatia", Population=4443000, Density=79 },
+        new PopulationDensityData { Code="CU", Value=106, Name="Cuba", Population=11241894, Density=102 },
+        new PopulationDensityData { Code="CY", Value=119, Name="Cyprus", Population=801851, Density=87 },
+        new PopulationDensityData { Code="CZ", Value=136, Name="Czech Rep.", Population=10532770, Density=134 },
+        new PopulationDensityData { Code="DK", Value=131, Name="Denmark", Population=5532531, Density=128 },
+        new PopulationDensityData { Code="DJ", Value=38, Name="Djibouti", Population=864000, Density=38 },
+        new PopulationDensityData { Code="DO", Value=205, Name="Dominican Rep.", Population=10090000, Density=207 },
+        new PopulationDensityData { Code="EG", Value=81, Name="Egypt", Population=90177649, Density=90 },
+        new PopulationDensityData { Code="SV", Value=299, Name="El Salvador", Population=6163000, Density=293 },
+        new PopulationDensityData { Code="ER", Value=52, Name="Eritrea", Population=5073000, Density=43 },
+        new PopulationDensityData { Code="EE", Value=32, Name="Estonia", Population=1315819, Density=29 },
+        new PopulationDensityData { Code="ET", Value=83, Name="Ethiopia", Population=79221000, Density=72 },
+        new PopulationDensityData { Code="FJ", Value=47, Name="Fiji", Population=849000, Density=46 },
+        new PopulationDensityData { Code="FI", Value=18, Name="Finland", Population=5538741, Density=16 },
+        new PopulationDensityData { Code="FR", Value=118, Name="France", Population=62793432, Density=114 },
+        new PopulationDensityData { Code="GA", Value=6, Name="Gabon", Population=1475000, Density=5.5 },
+        new PopulationDensityData { Code="GM", Value=173, Name="Gambia", Population=1705000, Density=151 },
+        new PopulationDensityData { Code="GE", Value=78, Name="Georgia", Population=4465000, Density=64 },
+        new PopulationDensityData { Code="DE", Value=234, Name="Germany", Population=81757600, Density=229 },
+        new PopulationDensityData { Code="GH", Value=107, Name="Ghana", Population=23837000, Density=100 },
+        new PopulationDensityData { Code="GR", Value=88, Name="Greece", Population=11306183, Density=86 },
+        new PopulationDensityData { Code="GL", Value=0.02, Name="Greenland", Population=57001, Density=0.026 },
+        new PopulationDensityData { Code="GT", Value=134, Name="Guatemala", Population=14027000, Density=129 },
+        new PopulationDensityData { Code="GN", Value=41, Name="Guinea", Population=10069000, Density=41 },
+        new PopulationDensityData { Code="GW", Value=54, Name="Guinea-Bissau", Population=1611000, Density=45 },
+        new PopulationDensityData { Code="GY", Value=4, Name="Guyana", Population=762000, Density=3.5 },
+        new PopulationDensityData { Code="HT", Value=363, Name="Haiti", Population=10033000, Density=362 },
+        new PopulationDensityData { Code="HN", Value=68, Name="Honduras", Population=7466000, Density=66 },
+        new PopulationDensityData { Code="HU", Value=112, Name="Hungary", Population=10013628, Density=108 },
+        new PopulationDensityData { Code="IS", Value=3, Name="Iceland", Population=318452, Density=3.1 },
+        new PopulationDensityData { Code="IN", Value=394, Name="India", Population=1198003000, Density=364 },
+        new PopulationDensityData { Code="ID", Value=132, Name="Indonesia", Population=237556363, Density=121 },
+        new PopulationDensityData { Code="IR", Value=45, Name="Iran", Population=74196000, Density=117 },
+        new PopulationDensityData { Code="IQ", Value=73, Name="Iraq", Population=30747000, Density=70 },
+        new PopulationDensityData { Code="IE", Value=65, Name="Ireland", Population=4581269, Density=65 },
+        new PopulationDensityData { Code="IL", Value=352, Name="Israel", Population=7697600, Density=371 },
+        new PopulationDensityData { Code="IT", Value=206, Name="Italy", Population=60200060, Density=200 },
+        new PopulationDensityData { Code="JM", Value=250, Name="Jamaica", Population=2719000, Density=247 },
+        new PopulationDensityData { Code="JP", Value=350, Name="Japan", Population=127387000, Density=337 },
+        new PopulationDensityData { Code="JO", Value=69, Name="Jordan", Population=6316000, Density=67 },
+        new PopulationDensityData { Code="KZ", Value=6, Name="Kazakhstan", Population=17010000, Density=6.2 },
+        new PopulationDensityData { Code="KE", Value=71, Name="Kenya", Population=39802000, Density=69 },
+        new PopulationDensityData { Code="KP", Value=202, Name="Dem. Rep. Korea", Population=24051706, Density=200 },
+        new PopulationDensityData { Code="KR", Value=504, Name="Korea", Population=48456369, Density=487 },
+        new PopulationDensityData { Code="XK", Value=167, Name="Kosovo", Population=7800000, Density=101 },
+        new PopulationDensityData { Code="KW", Value=154, Name="Kuwait", Population=3566437, Density=200 },
+        new PopulationDensityData { Code="KG", Value=28, Name="Kyrgyzstan", Population=5482000, Density=27 },
+        new PopulationDensityData { Code="LA", Value=27, Name="Lao PDR", Population=6320000, Density=27 },
+        new PopulationDensityData { Code="LV", Value=36, Name="Latvia", Population=2248961, Density=35 },
+        new PopulationDensityData { Code="LB", Value=413, Name="Lebanon", Population=4224000, Density=404 },
+        new PopulationDensityData { Code="LS", Value=72, Name="Lesotho", Population=2067000, Density=68 },
+        new PopulationDensityData { Code="LR", Value=41, Name="Liberia", Population=3476608, Density= 38 },
+        new PopulationDensityData { Code="LY", Value=4, Name="Libya", Population=6420000, Density=3.6 },
+        new PopulationDensityData { Code="LT", Value=53, Name="Lithuania", Population=3053800, Density=47 },
+        new PopulationDensityData { Code="LU", Value=195, Name="Luxembourg", Population=502207, Density=194 },
+        new PopulationDensityData { Code="MK", Value=82, Name="Macedonia", Population=2114550, Density=82 },
+        new PopulationDensityData { Code="MG", Value=36, Name="Madagascar", Population=20653556, Density=35 },
+        new PopulationDensityData { Code="MW", Value=158, Name="Malawi", Population=15263000, Density=129 },
+        new PopulationDensityData { Code="MY", Value=86, Name="Malaysia", Population=28306700, Density=86 },
+        new PopulationDensityData { Code="ML", Value=13, Name="Mali", Population=14517176, Density=12 },
+        new PopulationDensityData { Code="MR", Value=3, Name="Mauritania", Population=3291000, Density=3.2 },
+        new PopulationDensityData { Code="MX", Value=58, Name="Mexico", Population=107550697, Density=57 },
+        new PopulationDensityData { Code="MD", Value=124, Name="Moldova", Population=3567500, Density=105 },
+        new PopulationDensityData { Code="MC", Value=17704, Name="Monaco", Population=33000, Density=16923 },
+        new PopulationDensityData { Code="MN", Value=2, Name="Mongolia", Population=2671000, Density=1.7 },
+        new PopulationDensityData { Code="ME", Value=47, Name="Montenegro", Population=630548, Density=45 },
+        new PopulationDensityData { Code="MA", Value=72, Name="Morocco", Population=34407605, Density=77 },
+        new PopulationDensityData { Code="MZ", Value=30, Name="Mozambique", Population=22894000, Density=29 },
+        new PopulationDensityData { Code="MM", Value=73, Name="Myanmar", Population=50020000, Density=74 },
+        new PopulationDensityData { Code="NA", Value=3, Name="Namibia", Population=2171000, Density=2.6 },
+        new PopulationDensityData { Code="NP", Value=209, Name="Nepal", Population=29331000, Density=109 },
+        new PopulationDensityData { Code="NL", Value=492, Name="Netherlands", Population=17250000, Density=415 },
+        new PopulationDensityData { Code="NC", Value=14, Name="New Caledonia", Population=244410, Density=13 },
+        new PopulationDensityData { Code="NZ", Value=17, Name="New Zealand", Population=4315800, Density=16 },
+        new PopulationDensityData { Code="NI", Value= 48, Name="Nicaragua", Population=5743000, Density=44 },
+        new PopulationDensityData { Code="NE", Value=12, Name="Niger", Population=15290000, Density=12 },
+        new PopulationDensityData { Code="NG", Value=174, Name="Nigeria", Population=154729000, Density=167 },
+        new PopulationDensityData { Code="NO", Value=16, Name="Norway", Population=5279970, Density=14 },
+        new PopulationDensityData { Code="OM", Value=9, Name="Oman", Population=2845000, Density=9.2 },
+        new PopulationDensityData { Code="PK", Value=225, Name="Pakistan", Population=193231420, Density=245 },
+        new PopulationDensityData { Code="PA", Value=47, Name="Panama", Population=3454000, Density=46 },
+        new PopulationDensityData { Code="PG", Value=15, Name="Papua New Guinea", Population=6732000, Density=15 },
+        new PopulationDensityData { Code="PY", Value=16, Name="Paraguay", Population=6349000, Density=16 },
+        new PopulationDensityData { Code="PE", Value=23, Name="Peru", Population=29461933, Density=23 },
+        new PopulationDensityData { Code="PH", Value=313, Name="Philippines", Population=100981437, Density=337 },
+        new PopulationDensityData { Code="PL", Value=126, Name="Poland", Population=38163895, Density=122 },
+        new PopulationDensityData { Code="PT", Value=116, Name="Portugal", Population=10636888, Density=115 },
+        new PopulationDensityData { Code="PR", Value=449, Name="Puerto Rico", Population=3982000, Density=449 },
+        new PopulationDensityData { Code="WA", Value=152, Name="Qatar", Population=1409000, Density=128 },
+        new PopulationDensityData { Code="RO", Value=93, Name="Romania", Population=21466174, Density=90 },
+        new PopulationDensityData { Code="RU", Value=9, Name="Russia", Population=142905208, Density=8.3 },
+        new PopulationDensityData { Code="RW", Value=431, Name="Rwanda", Population=9998000, Density=380 },
+        new PopulationDensityData { Code="SA", Value=14, Name="Saudi Arabia", Population=28146658, Density=12 },
+        new PopulationDensityData { Code="SN", Value=65, Name="Senegal", Population=12534000, Density=64 },
+        new PopulationDensityData { Code="RS", Value=83, Name="Serbia", Population=7800000, Density=101 },
+        new PopulationDensityData { Code="SL", Value=82, Name="Sierra Leone", Population=5696000, Density=79 },
+        new PopulationDensityData { Code="SK", Value=113, Name="Slovakia", Population=5424057, Density=111 },
+        new PopulationDensityData { Code="SI", Value=102, Name="Slovenia", Population=2192912, Density=108 },
+        new PopulationDensityData { Code="SB", Value=19, Name="Solomon Is.", Population=523000, Density=18 },
+        new PopulationDensityData { Code="SO", Value=15, Name="Somalia", Population=9133000, Density=14 },
+        new PopulationDensityData { Code="ZA", Value=41, Name="South Africa", Population=50586757, Density=41 },
+        new PopulationDensityData { Code="SS", Value=13, Name="S. Sudan", Population=8260490, Density=13 },
+        new PopulationDensityData { Code="ES", Value=92, Name="Spain", Population=46087170, Density=91 },
+        new PopulationDensityData { Code="LK", Value=333, Name="Sri Lanka", Population=20238000, Density=308 },
+        new PopulationDensityData { Code="SD", Value=16, Name="Sudan", Population=31894000, Density=17 },
+        new PopulationDensityData { Code="SR", Value=3, Name="Suriname", Population=520000, Density=3.2 },
+        new PopulationDensityData { Code="SZ", Value=69, Name="Swaziland", Population=1185000, Density=68 },
+        new PopulationDensityData { Code="SE", Value=23, Name="Sweden", Population=9366092, Density=21 },
+        new PopulationDensityData { Code="CH", Value=196, Name="Switzerland", Population=7866500, Density=191 },
+        new PopulationDensityData { Code="SY", Value=111, Name="Syria", Population=21906000, Density=118 },
+        new PopulationDensityData { Code="TJ", Value=49, Name="Tajikistan", Population=6952000, Density=49 },
+        new PopulationDensityData { Code="TZ", Value=51, Name="Tanzania", Population=43739000, Density=46 },
+        new PopulationDensityData { Code="TH", Value=135, Name="Thailand", Population=64232760, Density=125 },
+        new PopulationDensityData { Code="TP", Value=76, Name="Timor-Leste", Population=1134000, Density=76 },
+        new PopulationDensityData { Code="TG", Value=111, Name="Togo", Population=6619000, Density=117 },
+        new PopulationDensityData { Code="TT", Value=261, Name="Trinidad and Tobago", Population=1339000, Density=261 },
+        new PopulationDensityData { Code="TN", Value=68, Name="Tunisia", Population=10327800, Density=63 },
+        new PopulationDensityData { Code="TR", Value=95, Name="Turkey", Population=77804122, Density=93 },
+        new PopulationDensityData { Code="TM", Value=11, Name="Turkmenistan", Population=5110000, Density=11 },
+        new PopulationDensityData { Code="UG", Value=170, Name="Uganda", Population=32710000, Density=136 },
+        new PopulationDensityData { Code="UA", Value=79, Name="Ukraine", Population=46936000, Density=78 },
+        new PopulationDensityData { Code="AE", Value=90, Name="United Arab Emirates", Population=8264070, Density=99 },
+        new PopulationDensityData { Code="GB", Value=257, Name="United Kingdom", Population=62041708, Density=255 },
+        new PopulationDensityData { Code="US", Value=34, Name="United States", Population=325020000, Density=33 },
+        new PopulationDensityData { Code="UY", Value=19, Name="Uruguay", Population=3463197, Density=20 },
+        new PopulationDensityData { Code="UZ", Value=66, Name="Uzbekistan", Population=27488000, Density=61 },
+        new PopulationDensityData { Code="VU", Value=20, Name="Vanuatu", Population=240000, Density=20 },
+        new PopulationDensityData { Code="VE", Value=33, Name="Venezuela", Population=32240855, Density=35 },
+        new PopulationDensityData { Code="VN", Value=280, Name="Vietnam", Population=85789573, Density=259 },
+        new PopulationDensityData { Code="EH", Value=2, Name="W. Sahara", Population=513000, Density=1.9 },
+        new PopulationDensityData { Code="YE", Value=46, Name="Yemen", Population=23580000, Density=45 },
+        new PopulationDensityData { Code="ZM", Value=17, Name="Zambia", Population=12935000, Density=17 },
+        new PopulationDensityData { Code="ZW", Value=32, Name="Zimbabwe", Population=13009530, Density=33 }
+    };
+    public class DropValues
+    {
+        public string Value { get; set; }
+        public string Name { get; set; }
+    };
+    public List<DropValues> LegendType = new List<DropValues> {
+        new DropValues { Value="Default", Name="Default" },
+        new DropValues { Value="Interactive", Name="Interactive" }
+    };
+    public List<DropValues> LegendPosition = new List<DropValues> {
+        new DropValues { Value="Top", Name="Top" },
+        new DropValues { Value="Bottom", Name="Bottom" },
+        new DropValues { Value="Left", Name="Left" },
+        new DropValues { Value="Right", Name="Right" }
+    };
+    private void LegendTypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropValues> args)
+    {
+        LegendTypeDropDownValue = (args.Value).ToString();
+        if (LegendTypeDropDownValue == "Default")
+        {
+            LegendTypeValue = LegendMode.Default;
+            Height = "";
+            Width = "";
+        }
+        else if (LegendTypeDropDownValue == "Interactive")
+        {
+            LegendTypeValue = LegendMode.Interactive;
+            if (LegendPositionDropDownValue == "Left" || LegendPositionDropDownValue == "Right")
+            {
+                this. SetVerticalLegendSize();
+            }
+            else
+            {
+                this.SetHorizontalLegendSize();
+            }
+        }
+    }
+    private void LegendPositionChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropValues> args)
+    {
+        LegendPositionDropDownValue = (args.Value).ToString();
+        if (LegendPositionDropDownValue == "Top")
+        {
+            LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Top;
+            if (LegendTypeDropDownValue == "Interactive") {
+                this.SetHorizontalLegendSize();
+            }
+        }
+        else if (LegendPositionDropDownValue == "Bottom")
+        {
+            LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Bottom;
+            if (LegendTypeDropDownValue == "Interactive")
+            {
+                this.SetHorizontalLegendSize();
+            }
+        }
+        else if (LegendPositionDropDownValue == "Left")
+        {
+            LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Left;
+            if (LegendTypeDropDownValue == "Interactive")
+            {
+                this. SetVerticalLegendSize();
+            }
+        }
+        else if (LegendPositionDropDownValue == "Right")
+        {
+            LegendPositionValue = Syncfusion.Blazor.Maps.LegendPosition.Right;
+            if (LegendTypeDropDownValue == "Interactive")
+            {
+                this. SetVerticalLegendSize();
+            }
+        }
+    }
+    private void LegendToggleChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        ToggleCheck = args.Checked;
+    }
+    private void  SetVerticalLegendSize() {
+        Height = "70%";
+        Width = "10";
+    }
+    private void SetHorizontalLegendSize() {
+        Height = "10";
+        Width = "70%";
+    }
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        //Hidden:Lines
+        canonicalURL = NavigationManager.Uri.Split("?")[0];
+        //End:Hidden
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

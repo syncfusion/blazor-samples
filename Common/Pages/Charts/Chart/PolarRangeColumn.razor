@@ -1,0 +1,111 @@
+﻿@page "/chart/polar-range-column"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows minimum and maximum temperature variations in polar and radar charts using a range column series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure polar and radar charts with a range column series. Switching between polar and radar series can be done using <b>Series Type</b> in the property panel.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about the polar and radar chart with a range column series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/polar/#range-column' aria-label="Navigate to the documentation for range-column in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <SfChart Title="Temperatures of Germany" Theme="@Theme">
+        <ChartPrimaryXAxis Interval="1" Coefficient="100" LabelPlacement="LabelPlacement.OnTicks" ValueType="Syncfusion.Blazor.Charts.ValueType.Category"></ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="0" Maximum="15" Interval="5" LabelFormat="{value}"></ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true" Header="" Format="<b>${point.x}</b> <br> Low : <b>${point.low}°C</b> <br> High : <b>${point.high}°C">
+        </ChartTooltipSettings>
+        <ChartLegendSettings Visible="false">
+        </ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Germany" XName="Month" Width="2" Low="MinTemp" High="MaxTemp" TooltipMappingName="MinTemp" Type="@SeriesType" DrawType="ChartDrawType.RangeColumn">
+                <ChartSeriesBorder Color="white" Width="3"></ChartSeriesBorder>
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Top" EnableRotation="true">
+                        <ChartDataLabelFont Color="#ffffff"></ChartDataLabelFont>
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+<div class="col-lg-4 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Properties</div>
+        <div class="property-panel-content">
+            <table style="width: 100%">
+                <tr style="height: 50px">
+                    <td style="width: 50%">
+                        <div>
+                            Series Type:
+                        </div>
+                    </td>
+                    <td style="width: 50%;">
+                        <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Polar" DataSource="@Country">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeSeriesType"></DropDownListEvents>
+                            <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    private ChartSeriesType SeriesType { get; set; } = ChartSeriesType.Polar;
+    private List<DropDownData> Country { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Polar" },
+        new DropDownData() { Type = "Radar" },
+    };
+    public List<PolarRangeColumnData> ChartPoints { get; set; } = new List<PolarRangeColumnData>
+    {
+        new PolarRangeColumnData { Month = "Jan", MinTemp = 2, MaxTemp = 7 },
+        new PolarRangeColumnData { Month = "Feb", MinTemp = 3, MaxTemp = 7 },
+        new PolarRangeColumnData { Month = "Mar", MinTemp = 3, MaxTemp = 7 },
+        new PolarRangeColumnData { Month = "Apr", MinTemp = 4, MaxTemp = 9 },
+        new PolarRangeColumnData { Month = "May", MinTemp = 6, MaxTemp = 11 },
+        new PolarRangeColumnData { Month = "June", MinTemp = 8,MaxTemp = 14 }
+    };
+
+    public void ChangeSeriesType(ChangeEventArgs<string, DropDownData> args)
+    {
+        this.SeriesType = (ChartSeriesType)Enum.Parse(typeof(ChartSeriesType), args.Value.ToString(), true);
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public class DropDownData
+    {
+        public string Type { get; set; }
+    }
+
+    public class PolarRangeColumnData
+    {
+        public string Month { get; set; }
+        public double MinTemp { get; set; }
+        public double MaxTemp { get; set; }
+    }
+
+}

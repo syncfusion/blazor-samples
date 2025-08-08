@@ -1,0 +1,361 @@
+﻿@page "/chat-ui/chat-integration"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Lists
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This example demonstrates how to design a chat application using the Chat UI component, with dynamic switching between users' messages. The SfChatUI component is customized using various properties and includes a HeaderToolbar for additional functionality.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This example demonstrates how to use the Chat UI component to display chat messages for multiple users. The chat interface allows switching between users' conversations, with bot responses triggered by user input. A header toolbar is included, and a splitter layout displays the chat alongside a list view for easy navigation.
+    </p>
+    <p>
+        The Chat UI dynamically updates to reflect the selected user's conversation, providing an interactive experience with seamless switching between different chats. The responsive design ensures that the interface adapts to various screen sizes, making it user-friendly across devices.
+    </p>
+</ActionDescription>
+
+<div class="control-section chat-integration">
+    <div class="integration-chatui">
+        <SfMediaQuery @bind-ActiveBreakPoint="activeBreakpoint"></SfMediaQuery>
+        <SfSplitter id="splitter">
+            <SplitterPanes>
+                <SplitterPane Size="auto" Resizable="false">
+                    <ContentTemplate>
+                        <div class="chat-leftContent" style="display: flex; height: 100%">
+                            <div class="chat-options-container">
+                                <SfButton id="activitybtn" class="chat_options" CssClass="e-flat" IconPosition="IconPosition.Top" IconCss="e-icons e-stamp"><span>Activity</span></SfButton>
+                                <SfButton id="chatbtn" class="chat_options" style="border-left: 2px solid #0f6cbd;" CssClass="e-flat chat_interactable" IconPosition="IconPosition.Top" IconCss="e-icons e-comment-show" @onclick="@UpdateToggle"><span>Chat</span></SfButton>
+                                <SfButton id="calendarbtn" class="chat_options" CssClass="e-flat" IconPosition="IconPosition.Top" IconCss="e-icons e-month"><span>Calendar</span></SfButton>
+                                <SfButton id="teamsbtn" class="chat_options" CssClass="e-flat" IconPosition="IconPosition.Top" IconCss="e-icons e-people"><span>Teams</span></SfButton>
+                            </div>
+                            @if (isToggleVisible && (activeBreakpoint == "Large" || activeBreakpoint == "Small"))
+                            {
+                                <div class="toggle-chat-listview e-card" id="toggle-chat-list">
+                                    <SfListView @ref="ListViewObj" ID="listview_template" DataSource="ListItems" HeaderTitle="Chats" CssClass="e-list-template" ShowHeader="true">
+                                        <ListViewFieldSettings TValue="ListViewData" Id="ID" Text="Text"></ListViewFieldSettings>
+                                        <ListViewTemplates TValue="ListViewData">
+                                            <Template>
+                                                <div class="clearfix e-list-wrapper e-list-multi-line e-list-avatar desc">
+                                                    @if (!string.IsNullOrEmpty(context.ImgSrc))
+                                                    {
+                                                        <img class="e-avatar" src="@(SampleService.WebAssetsPath + $"images/chat-ui/{context.ImgSrc}.png")" alt="image" style="border-radius: 50%;" />
+                                                    }
+                                                    <span class="e-list-item-header">@context.Title</span>
+                                                    @if (!string.IsNullOrEmpty(context.Message))
+                                                    {
+                                                        <div class="chat_message" style="font-size: 12px;">@context.Message</div>
+                                                    }
+                                                </div>
+                                            </Template>
+                                        </ListViewTemplates>
+                                        <ListViewEvents TValue="ListViewData" Clicked="UpdateNextChat"></ListViewEvents>
+                                    </SfListView>
+                                </div>
+                            }
+                        </div>
+                    </ContentTemplate>
+                </SplitterPane>
+                <SplitterPane Size="80%" Resizable="false">
+                    <ContentTemplate>
+                        <div class="chat-rightContent" id="integration-chat" style="height: 100%;">
+                            <SfChatUI @ref="integrationSample" CssClass="integration-chat-border" HeaderText="@HeaderText" HeaderIconCss="@HeaderIconCss" User="User" Messages="Messages" Suggestions="ChatSuggestions" MessageSend="MessageSend">
+                                <HeaderToolbar>
+                                    <HeaderToolbarItem Type="ItemType.Spacer"></HeaderToolbarItem>
+                                    <HeaderToolbarItem IconCss="e-icons sf-icon-phone-call" Tooltip="Audio call"></HeaderToolbarItem>
+                                </HeaderToolbar>
+                            </SfChatUI>
+                        </div>
+                    </ContentTemplate>
+                </SplitterPane>
+            </SplitterPanes>
+        </SfSplitter>
+    </div>
+</div>
+
+<style>
+    .integration-chatui {
+        width: 85%;
+        height: 600px;
+        margin: 0 auto;
+    }
+
+    .integration-chatui .toggle-chat-listview.e-card:hover {
+        background: none;
+    }
+
+    .integration-chatui .integration-chat-border {
+        border: none;
+    }
+
+    .integration-chatui .toggle-chat-listview {
+        border: none;
+        justify-content: flex-start;
+        border-radius: unset;
+        line-height: 20px;
+        box-shadow: none;
+    }
+
+    .integration-chatui .chat-options-container {
+        display: flex;
+        flex-direction: column;
+        background: whitesmoke;
+        overflow: hidden;
+    }
+
+    .integration-chatui .chat_options {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        border: none;
+        border-radius: 0;
+        pointer-events: none;
+    }
+
+        .integration-chatui .chat_options .e-icon-top,
+        .integration-chatui .e-headertext {
+            font-size: 20px !important;
+        }
+
+    .integration-chatui .e-list-header {
+        font-size: 25px;
+        margin: 8px 0 8px 5px;
+        border-bottom: 0;
+        background: unset;
+    }
+
+    .integration-chatui .e-list-container li {
+        border: none;
+    }
+
+    .integration-chatui .e-list-container {
+        border-top: 1px solid #d0d0d0;
+    }
+
+    .integration-chatui .e-splitter .e-split-bar.e-split-bar-horizontal:not(.e-resizable-split-bar),
+    .integration-chatui .e-splitter .e-split-bar-horizontal.e-last-bar,
+    .integration-chatui .e-list-template li {
+        margin: 0;
+        border-radius: 0;
+    }
+
+    .integration-chatui .chat_message {
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .integration-chatui .e-header-icon {
+        background-color: unset;
+    }
+
+    .integration-chatui .chat_user1_avatar {
+        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/andrew.png"));
+    }
+
+    .integration-chatui .chat_user2_avatar {
+        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/charlie.png"));
+    }
+
+    .integration-chatui .chat_user3_avatar {
+        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/laura.png"));
+    }
+
+    .integration-chatui .chat_user4_avatar {
+        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/reena.png"));
+    }
+
+    .integration-chatui .chat_team_avatar {
+        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/calendar.png"));
+    }
+
+    .integration-chatui .chat_bot_avatar {
+        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/bot.png"));
+    }
+
+    .integration-chatui #listview_template {
+        border-right: 0;
+        border-bottom: 0;
+        border-top: 0;
+        border-radius: 0;
+        height: 100%;
+    }
+
+    @@font-face {
+        font-family: 'Chatdemo';
+        src:
+        url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    [class^="sf-icon-"], [class*=" sf-icon-"] {
+        font-family: 'Chatdemo' !important;
+    }
+
+    .integration-chatui .sf-icon-phone-call:before { content: "\e703"; }
+
+    body[class*="-dark"] .integration-chatui .chat-options-container,
+    body[class*="high"] .integration-chatui .chat-options-container {
+        background: #000;
+    }
+
+    @@media only screen and (max-width: 1200px) {
+        .integration-chatui {
+            height: 600px;
+            width: 100%;
+        }
+        .integration-chatui .chat_options .e-btn-icon + span {
+            display: none;
+        }
+        .chat-integration.control-section {
+            height: 650px;
+        }
+        .integration-chatui .toggle-chat-listview {
+            position: absolute;
+            top: 0;
+            width: 300px;
+            left: 46px;
+            height: 100%;
+            z-index: 2000;
+            border: none;
+            border-radius: unset;
+        }
+        .integration-chatui .chat_options.chat_interactable {
+            pointer-events: auto;
+        }
+        .integration-chatui .toggle-chat-listview.e-card:hover {
+            background: #f6f6f6;
+        }
+    }
+</style>
+
+@code {
+    private string activeBreakpoint { get; set; } = "Large";
+    private string HeaderText = "Albert";
+    private string HeaderIconCss = "chat_user1_avatar";
+    private UserModel User;
+    private List<ChatMessage> Messages;
+    private List<string> ChatSuggestions;
+    private SfChatUI integrationSample = new SfChatUI();
+    private SfListView<ListViewData> ListViewObj = new SfListView<ListViewData>();
+    private List<ListViewData> ListItems = new ChatMessagesData().GetListItems();
+    private List<ChatMessage> chatMessage1 = new ChatMessagesData().GetChatMessages()[0];
+    private List<ChatMessage> chatMessage2 = new ChatMessagesData().GetChatMessages()[1];
+    private List<ChatMessage> chatMessage3 = new ChatMessagesData().GetChatMessages()[2];
+    private List<ChatMessage> chatMessage4 = new ChatMessagesData().GetChatMessages()[3];
+    private List<ChatMessage> chatMessage5 = new ChatMessagesData().GetChatMessages()[4];
+    private List<ChatMessage> chatMessage6 = new ChatMessagesData().GetChatMessages()[5];
+    private List<TemplateMessageData> botData = new ChatMessagesData().GetBotData();
+    private Dictionary<string, object> ListOfChatMessages;
+    private bool isToggleVisible { get; set; } = true;
+    private List<SfChatUI> ListChats = new List<SfChatUI>();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        User = new ChatMessagesData().GetSpecificUser("user1", "Albert", "andrew", null);
+        Messages = chatMessage1;
+        ListChats = new List<SfChatUI>()
+        {
+            new SfChatUI()
+            {
+                HeaderIconCss = "chat_user1_avatar",
+                HeaderText = "Albert",
+                User = new ChatMessagesData().GetSpecificUser("user1", "Albert", "andrew", null),
+                Messages = chatMessage1
+            },
+            new SfChatUI()
+            {
+                HeaderIconCss = "chat_bot_avatar",
+                HeaderText = "Decor bot",
+                User =  new ChatMessagesData().GetSpecificUser("admin", "Admin", "bot", null),
+                Messages = chatMessage2,
+                Suggestions = new ChatMessagesData().GetBotSuggestions()
+            },
+            new SfChatUI()
+            {
+                HeaderIconCss = "chat_user2_avatar",
+                HeaderText = "Charlie",
+                User =  new ChatMessagesData().GetSpecificUser("user2", "Charlie", "charlie", null),
+                Messages = chatMessage3
+            },
+            new SfChatUI()
+            {
+                HeaderIconCss = "chat_user3_avatar",
+                HeaderText = "Laura",
+                User =  new ChatMessagesData().GetSpecificUser("user3", "Laura", "laura", null),
+                Messages = chatMessage4
+            },
+            new SfChatUI()
+            {
+                HeaderIconCss = "chat_team_avatar",
+                HeaderText = "New Dev Team",
+                User =  new ChatMessagesData().GetSpecificUser("team", "Admin", "calendar", null),
+                Messages = chatMessage5
+            },
+            new SfChatUI()
+            {
+                HeaderIconCss = "chat_user4_avatar",
+                HeaderText = "Reena",
+                User =  new ChatMessagesData().GetSpecificUser("user4", "Albert", null, null),
+                Messages = chatMessage6
+            }
+        };
+        ListOfChatMessages = new Dictionary<string, object>()
+        {
+            { "user1", chatMessage1 },
+            { "admin", chatMessage2 },
+            { "user2", chatMessage3 },
+            { "user3", chatMessage4 },
+            { "team", chatMessage5 },
+            { "user4", chatMessage6 }
+        };
+    }
+    private void UpdateNextChat(ClickEventArgs<ListViewData> args)
+    {
+        ListOfChatMessages[integrationSample.User.ID] = integrationSample.Messages;
+        integrationSample.Suggestions?.Clear();
+        var newChat = ListChats[args.Index];
+        User = newChat.User;
+        HeaderIconCss = newChat.HeaderIconCss;
+        HeaderText = newChat.HeaderText;
+        Messages = newChat.Messages;
+        if (newChat.User.ID == "admin") { ChatSuggestions = new ChatMessagesData().GetBotSuggestions(); }
+        UpdateToggle();
+    }
+    private void MessageSend(ChatMessageSendEventArgs args)
+    {
+        if (args.Message.Author.ID == "admin")
+        {
+            var foundMessage = botData.FirstOrDefault((message) => message.Text == args.Message.Text);
+            var defaultResponse = "Use any real-time data streaming service to provide chat updates.";
+            var message = new ChatMessage()
+            {
+                Author = new ChatMessagesData().GetSpecificUser("bot", "Bot", "bot", null),
+                Text = foundMessage != null ? foundMessage.Reply : defaultResponse
+            };
+            integrationSample.Messages.Add(message);
+            ChatSuggestions = foundMessage != null ? foundMessage.Suggestions : new List<string>();
+        }
+    }
+
+    private void UpdateToggle()
+    {
+        if (activeBreakpoint == "Small")
+        isToggleVisible = !isToggleVisible;
+    }
+}

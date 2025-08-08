@@ -1,0 +1,37 @@
+﻿@namespace BlazorDemos.Shared
+@inject SampleService SampleService;
+
+<div id='component-name' class='sb-component-name sb-rightpane-padding'>
+    <h1 class='sb-sample-text'>@component</h1>
+</div>
+<div id='sample-bread-crumb' class='sb-bread-crumb sb-rightpane-padding'>
+    <div class='sb-bread-crumb-text'>@path</div>
+</div>
+
+@code {
+    private string path { get; set; }
+    private string component { get; set; }
+
+    /// <summary>
+    /// Re-rendering the component with current sample description.
+    /// </summary>
+    public void Refresh(string componentName, string category, string sample)
+    {
+        string controlType = " Component";
+        if((SampleService.SampleInfo.Directory).IndexOf("DocumentProcessing/") >= 0)
+        {
+            controlType = " Library";
+        }
+        if (componentName.Replace(SampleUtils.SPACE, string.Empty).Trim() == category.Replace(SampleUtils.SPACE, string.Empty).Trim())
+        {
+            path = category + " / " + sample;
+            component = string.IsNullOrEmpty(SampleService.SampleInfo.HeaderText) ? "Example of " + sample + " in Blazor " + componentName + controlType : SampleService.SampleInfo.HeaderText;
+        }
+        else
+        {
+            path = componentName + " / " + category + " / " + sample;
+            component = string.IsNullOrEmpty(SampleService.SampleInfo.HeaderText) ? "Example of " + sample + " in Blazor " + componentName + controlType : SampleService.SampleInfo.HeaderText;
+        }
+        StateHasChanged();
+    }
+}

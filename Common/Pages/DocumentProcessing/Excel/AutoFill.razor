@@ -1,0 +1,383 @@
+﻿@page "/excel/fillOption"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@inject HttpClient Http
+@using System.IO;
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.XlsIO;
+@*Hidden:Lines*@
+
+@using BlazorDemos.Data.FileFormats.XlsIO
+
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to use the Auto Fill and Fill Series options with XlsIO.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Auto Fill and Fill Series features enable users to programmatically populate a range of Excel cells based on defined patterns, sequences, or trends. These capabilities help reduce manual data entry by automatically generating values using built-in logic.</p>
+    <p style='display: block'><b>Features:</b></p>
+    <ul>
+        <li>Allows automatic filling of cells with common sequences, including numbers, months, and custom patterns.</li>
+        <li>Offers Fill Series options, including linear, growth, and date-based sequences.</li>
+        <li>Supports configuration of step value, stop value, series direction, and trend usage.</li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-weight:normal">Click the "Create Document" button to generate and view the Excel file. You can enter the Step Value and Stop Value as either a number or a date in MM/DD/YYYY format, and the generated document can be opened using Microsoft Excel or Excel Viewer.</p>
+    <div class="dropdown-control">
+        <table>
+            <tr>
+                <td><h5 class="row" style="font-size:14px">Fill Type:</h5></td>
+                <td></td>
+                <td>
+                    <SfRadioButton Label="Auto Fill" Name="AutoFill" Value=@("AutoFill") @bind-Checked="@FillType"></SfRadioButton>
+                    <SfRadioButton Label="Fill Series" Name="FillSeries" Value=@("FillSeries") @bind-Checked="@FillType"></SfRadioButton>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:14px">Fill Option:</h5>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</td>
+                <td colspan="2">
+                    <div class="row" style="margin-left:7px; width:200px;">
+                        <SfDropDownList TItem="string" TValue="string" DataSource="@AutoFillOptions" Placeholder="Fill Option" @bind-Value="@FillOption"></SfDropDownList>
+                    </div>
+                </td>
+            </tr>
+
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:14px">Series In:</h5>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</td>
+                <td colspan="2">
+                    <div class="row" style="margin-left:7px; width:200px">
+                        <SfDropDownList Enabled=IsFillSeries TItem="ExcelSeriesBy" TValue="ExcelSeriesBy" DataSource="@SeriesBy" Placeholder="Fill Series" @bind-Value="@m_seriesBy" />
+                    </div>
+                </td>
+                <td>
+                </td>
+            </tr>
+            @if (FillType == "FillSeries" && m_trendSeries.Contains(FillOption))
+            {
+                <tr>
+                    <td></td>
+                    <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</td>
+                    <td>
+                        <div class="checkbox-control">
+                            <SfCheckBox Disabled=CheckBoxEnable LabelPosition="LabelPosition.After" @bind-Checked=IsTrend Label="Trend" TChecked="bool"></SfCheckBox>
+                        </div>
+                    </td>
+                    <td></td>
+                </tr>
+            }
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:14px">Step Value:</h5>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</td>
+                <td>
+                    <div class="row" style="margin-left:7px; width:200px">
+                        <Syncfusion.Blazor.Inputs.SfTextBox Placeholder="Enter value" Enabled=!TrendEnable ShowClearButton="true" @bind-Value="StepValueText"></Syncfusion.Blazor.Inputs.SfTextBox>
+                    </div>
+                </td>
+            </tr>
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:14px">Stop Value:</h5>
+                </td>
+                <td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp</td>
+                <td>
+                    <div class="row" style="margin-left:7px; width:200px">
+                        <Syncfusion.Blazor.Inputs.SfTextBox Placeholder="Enter value" Enabled=!TrendEnable ShowClearButton="true" @bind-Value="StopValueText"></Syncfusion.Blazor.Inputs.SfTextBox>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <div class="checkbox-control">
+    </div>
+    <table>
+        <tr>
+            <td colspan="4">
+                <div class="button-section">
+                    <div id="button-control">
+                        <div class="row">
+                            <div>
+                                <SfButton @onclick="CreateDocument">Create Document</SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+
+</div>
+
+<style>
+    .control-section .row {
+    margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream excelStream;
+    string button = string.Empty;
+    string m_fillOption = string.Empty;
+    private bool m_isTrend;
+    private ExcelSeriesBy m_seriesBy;
+    private List<string> m_autoFillOptions;
+    private List<string> m_trendSeries;
+    private string m_fillType = "AutoFill";
+    public bool IsTrend
+    {
+        get
+        {
+            return m_isTrend;
+        }
+        set
+        {
+            if(m_isTrend || m_isTrend != value)
+            {
+                StopValue = null;
+                StepValue = null;
+            }
+
+            m_isTrend = value;
+        }
+    }
+    public string FillType
+    {
+        get
+        {
+            return m_fillType;
+        }
+        set
+        {
+            m_fillType = value;
+            if(m_fillType == "AutoFill" || m_trendSeries.Contains(m_fillOption))
+                IsTrend = false;
+            if (AutoFillOptions != null)
+                FillOption = AutoFillOptions[0];
+            if (m_fillType == "AutoFill")
+            {
+                m_seriesBy = ExcelSeriesBy.Rows;
+                StopValue = null;
+                StepValue = null;
+            }
+        }
+    }
+    public string FillOption
+    {
+        get
+        {
+            return m_fillOption;
+        }
+        set
+        {
+            string oldValue = m_fillType;
+            m_fillOption = value;
+            if (m_fillType == "AutoFill" || m_fillOption == "Auto Fill" || m_trendSeries.Contains(m_fillOption))
+            {
+                IsTrend = false;
+                StopValue = null;
+                StepValue = null;
+            }
+            else if (FillType != "AutoFill" && !m_trendSeries.Contains(m_fillOption))
+            {
+                IsTrend = false;
+            }
+        }
+    }
+    public string StepValueText
+    {
+        get => StepValue?.ToString();
+        set
+        {
+            StepValue = value;
+        }
+    }
+    public string StopValueText
+    {
+        get => StopValue?.ToString();
+        set
+        {
+            StopValue = value;
+        }
+    }
+    private ExcelSeriesBy DropVal2
+    {
+        get
+        {
+            return m_seriesBy;
+        }
+        set
+        {
+            m_seriesBy = value;
+        }
+    }
+    private ExcelFillSeries DropVal3 { get; set; }
+    private object StepValue { get; set; }
+    private object StopValue { get; set; }
+    private bool IsFillSeries
+    {
+        get
+        {
+            return FillType != "AutoFill";
+        }
+    }
+    private bool TrendEnable
+    {
+        get
+        {
+            if (m_fillOption != null && IsFillSeries)
+                return  m_fillOption.Contains("Auto Fill") || IsTrend;
+
+            return true;
+        }
+    }
+    private bool CheckBoxEnable
+    {
+        get
+        {
+            if (m_fillOption != null && IsFillSeries)
+                return  m_fillOption.Contains("Auto Fill") && !IsTrend;
+
+            return true;
+        }
+    }
+
+    private List<ExcelSeriesBy> SeriesBy = Enum.GetValues(typeof(ExcelSeriesBy)).Cast<ExcelSeriesBy>().ToList();
+
+    private List<string> AutoFillOptions
+    {
+        get
+        {
+            
+            if (FillType == "AutoFill")
+            {
+                return m_autoFillOptions;
+            }
+            else
+                return new List<string>()
+                {
+                    "Linear",
+                    "Growth",
+                    "Days",
+                    "Weekdays",
+                    "Months",
+                    "Years",
+                    "Auto Fill"
+                };
+            
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        m_autoFillOptions = new List<string>
+        {
+            "Default",
+            "Copy",
+            "Series",
+            "Formats",
+            "Values",
+            "Days",
+            "Weekdays",
+            "Months",
+            "Years",
+            "Linear Trend",
+            "Growth Trend"
+        };
+        m_trendSeries = new List<string>() { "Linear", "Growth" };
+        m_fillOption = "Default";
+    }
+
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+
+    //End:Hidden
+
+    /// <summary>
+    /// Download the Excel document
+    /// </summary>
+    public async Task CreateDocument(MouseEventArgs args)
+    {
+        AutoFillService service = new AutoFillService(fileData);
+        button = "Create Document";
+        if (FillType == "AutoFill")
+        {
+            excelStream = service.AutoFill(GetAutoFillEnum(FillOption));
+        }
+        else
+        {
+            excelStream = service.AutoFill(GetFillSeriesEnum(FillOption), DropVal2, StepValue, StopValue, IsTrend);
+        }
+        service.Close();
+        await JS.SaveAs(FillType + ".xlsx", excelStream.ToArray());
+    }
+    private ExcelAutoFillType GetAutoFillEnum(string type)
+    {
+        switch (type)
+        {
+            case "Default":
+                return ExcelAutoFillType.FillDefault;
+            case "Copy":
+                return ExcelAutoFillType.FillCopy;
+            case "Series":
+                return ExcelAutoFillType.FillSeries;
+            case "Formats":
+                return ExcelAutoFillType.FillFormats;
+            case "Values":
+                return ExcelAutoFillType.FillValues;
+            case "Days":
+                return ExcelAutoFillType.FillDays;
+            case "Weekdays":
+                return ExcelAutoFillType.FillWeekdays;
+            case "Months":
+                return ExcelAutoFillType.FillMonths;
+            case "Years":
+                return ExcelAutoFillType.FillYears;
+            case "Linear Trend":
+                return ExcelAutoFillType.LinearTrend;
+            case "Growth Trend":
+                return ExcelAutoFillType.GrowthTrend;
+            default:
+                return ExcelAutoFillType.FillDefault;
+        }
+    }
+    private ExcelFillSeries GetFillSeriesEnum(string type)
+    {
+        switch (type)
+        {
+            case "Linear":
+                return ExcelFillSeries.Linear;
+            case "Growth":
+                return ExcelFillSeries.Growth;
+            case "Days":
+                return ExcelFillSeries.Days;
+            case "Weekdays":
+                return ExcelFillSeries.Weekdays;
+            case "Months":
+                return ExcelFillSeries.Months;
+            case "Years":
+                return ExcelFillSeries.Years;
+            case "Auto Fill":
+                return ExcelFillSeries.AutoFill;
+            default:
+                return ExcelFillSeries.AutoFill;
+        }
+    }
+}

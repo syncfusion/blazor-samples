@@ -1,0 +1,83 @@
+@page "/word/word-to-pdfa"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using BlazorDemos.Data.DocumentProcessing.Word
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to convert a Word document to PDF/A using .NET Word (DocIO) library and .NET PDF library.</p>
+</SampleDescription>
+<ActionDescription>
+   <p style="font-size:16px">This feature can be used for long term archiving and standardization. More information about converting Word document to PDF with conformance can be found in this <a href="https://help.syncfusion.com/file-formats/docio/word-to-pdf#pdf-conformance-level" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-size:16px">Click the button to view the generated PDF/A document being converted from Word document using .NET Word (DocIO) library and .NET PDF library. Please note that PDF viewer is required to view the resultant PDF.</p>
+    <div class="button-section">
+        <div id="button-control">
+            <div class="row">
+                <div>
+                    <SfButton @onclick="ViewTemplate">View Template</SfButton>&nbsp;
+                    <SfButton @onclick="GenerateDocument">Convert to PDF</SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section .row {
+        margin: 10px 0;
+    }
+</style>
+
+@code {
+    MemoryStream documentStream;
+    //Hidden:Lines
+    
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+    
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the simple Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        WordToPDFAService service = new WordToPDFAService(fileData);
+        documentStream = service.WordToPDF("Generate Document");
+        service.Close();
+        await JS.SaveAs("WordToPDF_Pdf_A3A.pdf", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Create and download the template Word document
+    /// </summary>
+    public async Task ViewTemplate(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        WordToPDFAService service = new WordToPDFAService(fileData);
+        documentStream = service.WordToPDF("View Template");
+        service.Close();
+        await JS.SaveAs("WordToPDF.docx", documentStream.ToArray());
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+            byte[] data = await Http.GetByteArrayAsync(fileDataPath + "data/word/doc-to-pdf.docx");
+            fileData.Add("doc-to-pdf.docx", new MemoryStream(data));
+        }
+    }
+}

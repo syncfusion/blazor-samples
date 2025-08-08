@@ -1,0 +1,108 @@
+﻿@page "/pdf-viewer-2/redaction"
+
+@using Syncfusion.Blazor.SfPdfViewer
+@using Syncfusion.Blazor.Buttons
+@inject IJSRuntime JSRuntime
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+<SampleDescription>
+    <p>The `PDF Viewer` includes support for redaction annotations, enabling users to permanently remove sensitive or confidential information from PDF files. This feature offers a straightforward and effective redaction process, allowing secure content management directly within the viewer interface.</p>
+    
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This example illustrates how to `perform redaction` using the PDF Viewer. Users can select areas on one or `multiple pages` and customize redaction properties as needed. By clicking the 'Redact' button, the marked content is permanently removed, and the updated document is reloaded into the viewer. The redacted file can then be saved or reopened for further use.
+    </p>
+    <br />
+   
+
+    @*WASM:Block*@ 
+    @{ 
+#if WASM 
+    }
+    <p>More information about the SfPdfViewer can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation" aria-label="Navigate to the documentation for Text markup annotations in SfPdfViewer component">documentation section</a>.</p>
+    @{
+#endif 
+    }
+    @*End:WASM*@
+
+    @*Server:Block*@ 
+    @{
+#if !(WASM)
+    }
+    <p>More information about the SfPdfViewer can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/annotation" aria-label="Navigate to the documentation for Text markup annotations in SfPdfViewer component">documentation section</a>.</p>
+    @{
+#endif 
+    }
+    @*End:Server*@ 
+</ActionDescription>
+
+<div class="control-section">
+    <SfPdfViewer2 @ref="SfPdfViewer2" Height="640px" Width="100%" DocumentPath="@DocumentPath">
+        <PdfViewerToolbarSettings ToolbarItems="ToolbarItems" MobileToolbarItems="MobileToolbarItems"></PdfViewerToolbarSettings>
+        <PdfViewerEvents DocumentLoaded="DocumentLoaded"></PdfViewerEvents>
+    </SfPdfViewer2> 
+</div>
+
+@code {
+    
+    SfPdfViewer2 SfPdfViewer2;
+    bool redactionToolbar;
+    private string DocumentPath { get; set; } = string.Empty;
+    public List<ToolbarItem> ToolbarItems { get; set; }
+    public List<MobileToolbarItem> MobileToolbarItems { get; set; }
+
+
+    private void DocumentLoaded(LoadEventArgs args)
+    {
+        redactionToolbar = true;
+        SfPdfViewer2.ShowRedactionToolbar(redactionToolbar);
+    }
+
+    protected override void OnInitialized()
+    {
+
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+@*Server:Block*@
+#if !(WASM || WEBAPP)
+        //Sets the PDF document path for initial loading.
+        DocumentPath = "wwwroot/data/pdfviewer2/redaction.pdf";
+#endif
+@*End:Server*@
+
+@*WebAssembly:Block*@
+#if (WASM || WEBAPP)
+        //Sets the PDF document path for initial loading.   
+        DocumentPath= fileDataPath + "data/pdfviewer2/redaction.pdf";
+#endif
+@*End:WebAssembly*@
+        ToolbarItems = new List<ToolbarItem>(){
+        ToolbarItem.OpenOption,
+        ToolbarItem.PageNavigationTool,
+        ToolbarItem.MagnificationTool,
+        ToolbarItem.SelectionTool,
+        ToolbarItem.PanTool,
+        ToolbarItem.UndoRedoTool,
+        ToolbarItem.CommentTool,
+        ToolbarItem.SubmitForm,
+        ToolbarItem.SearchOption,
+        ToolbarItem.AnnotationEditTool,
+        ToolbarItem.Redaction,
+        ToolbarItem.FormDesigner,
+        ToolbarItem.PrintOption,
+        ToolbarItem.DownloadOption
+        };
+        MobileToolbarItems = new List<MobileToolbarItem>()
+        {
+            MobileToolbarItem.Open,
+            MobileToolbarItem.UndoRedo,
+            MobileToolbarItem.EditAnnotation,
+            MobileToolbarItem.Redaction,
+            MobileToolbarItem.FormDesigner,
+            MobileToolbarItem.Search
+        };
+
+    }
+}

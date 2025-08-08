@@ -1,0 +1,244 @@
+﻿@page "/pivot-table/heatmap"
+
+@using Syncfusion.Blazor.PivotView
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>In this sample, we show you how to visualize the bound data by making the pivot table cells look like a heatmap.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Pivot Table provides custom styles for each cell's display using the cell template. Using the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewTemplates.html#Syncfusion_Blazor_PivotView_PivotViewTemplates_CellTemplate" aria-label="Class reference of CellTemplate property in PivotView"> CellTemplate </a> tag in this sample, we are representing the product-specific monthly sales revenue of the goods sold by an online retailer in a year in the form of a heatmap-like appearance. Each pivot table cell was customized by calculating the lowest and highest values via the  <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewEvents-1.html#Syncfusion_Blazor_PivotView_PivotViewEvents_1_EnginePopulated" aria-label="Class reference of EnginePopulated event in PivotView"> EnginePopulated </a> event and applying a color scheme based on their range.</p>
+    <p>More information on the cell template can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/row-and-column/#cell-template" aria-label="Blazor PivotTable CellTemplate documentation" >documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfPivotView @ref="@_pivotref" TValue="ProductSales" Width="100%" Height="500" ShowTooltip=false>
+            <PivotViewTemplates>
+                <CellTemplate>
+                    @{
+                        var data = (context as AxisSet);
+                        if (data != null)
+                        {
+                            if (data.Axis == "value")
+                            {
+                                if (!data.IsGrandSum)
+                                {
+                                    _pivotref.PivotValues[data.RowIndex][data.ColIndex].CssClass = CellColour(data.Value);
+                                }
+                                data.FormattedText = ConvertValue(data.Value);
+                                @data.FormattedText
+                            }
+                            else
+                            {
+                                @data.FormattedText
+                            }
+                        }
+                    }
+                </CellTemplate>
+            </PivotViewTemplates>
+            <PivotViewDataSourceSettings TValue="ProductSales" DataSource="_pivotDataSource" ShowColumnSubTotals="false">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="ProductType" ExpandAll="true"></PivotViewColumn>
+                    <PivotViewColumn Name="Product"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Year"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="SoldAmount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewGroupSettings>
+                    <PivotViewGroupSetting Name="Year" Type="GroupType.Number" RangeInterval="2"></PivotViewGroupSetting>
+                </PivotViewGroupSettings>
+                <PivotViewSortSettings>
+                    <PivotViewSortSetting Name="ProductType" Order="Sorting.None"></PivotViewSortSetting>
+                    <PivotViewSortSetting Name="Product" Order="Sorting.None"></PivotViewSortSetting>
+                </PivotViewSortSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120" RowHeight="36"></PivotViewGridSettings>
+            <PivotViewEvents TValue="ProductSales" EnginePopulated="EnginePopulated"></PivotViewEvents>
+        </SfPivotView>
+    </div>
+</div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .e-pivotfieldlist.e-device {
+        z-index: 1;
+    }
+
+    html, body {
+        height: 100%;
+    }
+
+    .e-pivotview .e-collapse, .e-pivotview .e-collapse {
+        display: none;
+    }
+
+    .range1 {
+        background-color: #fb6262 !important;
+        border-color: #f26666 !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range2 {
+        background-color: #ff6c6c !important;
+        border-color: #ff6c6c !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range3 {
+        background-color: #ff8474 !important;
+        border-color: #ff8474 !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range4 {
+        background-color: #ffa474 !important;
+        border-color: #ffa474 !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range5 {
+        background-color: #ffac7c !important;
+        border-color: #ffac7c !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range6 {
+        background-color: #ffcc7c !important;
+        border-color: #ffcc7c !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range7 {
+        background-color: #ffe484 !important;
+        border-color: #ffe484 !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range8 {
+        background-color: #f8e484 !important;
+        border-color: #f8e484 !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range9 {
+        background-color: #e0dc84 !important;
+        border-color: #e0dc84 !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range10 {
+        background-color: #b8d47c !important;
+        border-color: #b8d47c !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range11 {
+        background-color: #a8d47c !important;
+        border-color: #a8d47c !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range12 {
+        background-color: #8bc97d !important;
+        border-color: #8bc97d !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range13 {
+        background-color: #68bc7c !important;
+        border-color: #68bc7c !important;
+        font-weight: 500;
+        color: black !important;
+        text-shadow: 0px 0px black;
+    }
+
+    .range14 {
+        background-color: #66bb71 !important;
+        color: black !important;
+        font-weight: 500;
+        border-color: #66bb71 !important;
+        text-shadow: 0px 0px black;
+    }
+</style>
+
+@code {
+    private SfPivotView<ProductSales> _pivotref;
+    private List<ProductSales> _pivotDataSource;
+    private List<string> _colourScheme = new List<string> { "range1", "range2", "range3", "range4", "range5", "range6", "range7", "range8", "range9", "range10", "range11", "range12", "range13", "range14" };
+    private double? _maxValue = 0;
+    private double? _minValue = 0;
+    protected override void OnInitialized()
+    {
+        _pivotDataSource = ProductSales.GetSalesData;
+    }
+
+    private string ConvertValue(double? value)
+    {
+        decimal value1 = Math.Round((decimal)value / 1000, 1);
+        string Convert = value1.ToString() + "K";
+        return Convert;
+    }
+
+    private string CellColour(double? value)
+    {
+        double? percentage = (_maxValue - _minValue) / _colourScheme.Count;
+        decimal actualValue = Convert.ToDecimal((value - _minValue) / percentage);
+        int colourIndex = Convert.ToInt32(Math.Round(actualValue));
+        colourIndex = colourIndex > _colourScheme.Count - 1 ? _colourScheme.Count - 1 : colourIndex;
+        return _colourScheme[colourIndex];
+    }
+    private void EnginePopulated(EnginePopulatedEventArgs args)
+    {
+        for (int i = 0; i < args.PivotValues.Count(); i++)
+        {
+            if (args.PivotValues[i]?[0] != null)
+            {
+                for (int j = 1; j < args.PivotValues[i].Count(); j++)
+                {
+                    var cellData = args.PivotValues[i][j];
+                    if (cellData.Axis == "value" && !cellData.IsGrandSum)
+                    {
+                        _minValue = (_minValue < cellData.Value && _minValue != 0) ? _minValue : cellData.Value;
+                        _maxValue = (_maxValue > cellData.Value) ? _maxValue : cellData.Value;
+                    }
+                }
+            }
+        }
+        _minValue = _minValue - 1000;
+        _maxValue = _maxValue + 1000;
+    }
+}

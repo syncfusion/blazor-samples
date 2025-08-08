@@ -1,0 +1,167 @@
+@page "/word/create-smartart"
+@inject Microsoft.JSInterop.IJSRuntime JS
+@using System.IO
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Blazor_MAUI_Demos.Pages.DocumentProcessing.Word
+@using Blazor_MAUI_Demos.Services
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p style="font-size:16px">This sample demonstrates how to create a Word document with SmartArt graphics using the .NET Word Library (DocIO).</p>
+</SampleDescription>
+<ActionDescription>
+    <p style="font-size:16px">The .NET Word Library (DocIO) supports creating SmartArt graphics from scratch and inserting them into Word documents (DOCX, DOTX, DOCM, and DOTM).</p>
+    <ul style="font-size:16px">
+        <li>
+            Create 134 default SmartArt graphics equivalent to those in Microsoft Word.
+        </li>
+        <li>
+            Insert SmartArt as 'in line with text' or 'position relative to the page' in a Word document.
+        </li>
+        <li>
+            Add, modify, and remove SmartArt nodes.
+        </li>
+    </ul>
+    <p style="font-size:16px">More information about SmartArt can be found in this <a href="https://help.syncfusion.com/document-processing/word/word-library/net/working-with-smartarts" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <p style="font-size:16px">Click the button to view the generated Word document. Please note that Microsoft Word Viewer or Microsoft Word is required to view the resultant Word document.</p>
+    <div class="dropdown-control">
+        <table>
+            <tr>
+                <td>
+                    <h5 class="row" style="font-size:16px">Choose SmartArt Type: </h5>
+                </td>
+                <td>
+                    <div class="drop-control" style="margin-left:4px; width:230px">
+                        <SfDropDownList TItem="string" TValue="string" PopupHeight="230px" Placeholder="List" @bind-Value="@DropVal" DataSource="@SmartArtType">
+                        </SfDropDownList>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </div>
+    <table>
+        <tr>
+            <td colspan="4">
+                <div class="button-section">
+                    <div id="button-control">
+                        <div class="row">
+                            <div>
+                                <SfButton @onclick="GenerateDocument">Generate Document</SfButton>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</div>
+
+<style>
+
+    .control-section .row {
+    margin: 10px 0;
+    }
+</style>
+
+@code {
+
+    public string DropVal { get; set; }
+
+    private List<string> SmartArtType = new List<string>() { "List", "Process", "Cycle", "Hierarchy", "Relationship", "Matrix", "Pyramid", "Picture" };
+
+    MemoryStream documentStream;
+    //Hidden:Lines
+
+    Dictionary<string, MemoryStream> fileData = new Dictionary<string, MemoryStream>();
+
+    //End:Hidden
+
+    /// <summary>
+    /// Create and download the Word document
+    /// </summary>
+    public async Task GenerateDocument(MouseEventArgs args)
+    {
+        await LoadTemplate();
+        if (DropVal == null)
+            DropVal = "List";
+        CreateSmartArtService service = new CreateSmartArtService(fileData);
+        documentStream = service.CreateSmartArt(DropVal);
+        service.Close();
+        documentStream.Position = 0;
+        string filename = "";
+        switch (DropVal)
+        {
+            case "List":
+                filename = "CreateListSmartArt.docx";
+                break;
+            case "Process":
+                filename = "CreateProcessSmartArt.docx";
+                break;
+            case "Cycle":
+                filename = "CreateCycleSmartArt.docx";
+                break;
+            case "Hierarchy":
+                filename = "CreateHierarchySmartArt.docx";
+                break;
+            case "Relationship":
+                filename = "CreateRelationshipSmartArt.docx"; 
+                break;
+            case "Matrix":
+                filename = "CreateMatrixSmartArt.docx";
+                break;
+            case "Pyramid":
+                filename = "CreatePyramidSmartArt.docx";
+                break;
+            case "Picture":
+                filename = "CreatePictureSmartArt.docx";
+                break;
+        }
+        SaveService saveService = new();
+        saveService.SaveAndView(filename, "application/msword", documentStream);
+    }
+    /// <summary>
+    /// Load the template document
+    /// </summary>
+    public async Task LoadTemplate()
+    {
+        if (fileData != null && fileData.Count == 0)
+        {
+            MemoryStream memoryStream;
+            string basePath = "Blazor_MAUI_Demos.wwwroot.data.word.create-smartart-input.docx";
+            Stream DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("create-smartart-input.docx", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.andrew-fuller.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("andrew-fuller.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.janet-leverling.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("janet-leverling.png", new MemoryStream(memoryStream.ToArray()));
+            basePath = "Blazor_MAUI_Demos.wwwroot.images.word.nancy-davolio.png";
+            DocumentStream = this.GetType().Assembly.GetManifestResourceStream(basePath);
+            memoryStream = new MemoryStream();
+            DocumentStream.CopyTo(memoryStream);
+            memoryStream.Position = 0;
+            fileData.Add("nancy-davolio.png", new MemoryStream(memoryStream.ToArray()));
+            DocumentStream.Dispose();
+        }
+    }
+}

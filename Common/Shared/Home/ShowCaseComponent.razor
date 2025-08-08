@@ -1,0 +1,152 @@
+﻿﻿@using System.Threading;
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.Navigations;
+
+@namespace BlazorDemos.Shared
+
+@inject SampleService SampleService;
+
+@if (isLazyLoad)
+{
+<div class="sf-showcase-demo"  style="pointer-events: none;">
+    <SfCarousel Interval="10000" @ref="@CarouselRef" ButtonsVisibility="CarouselButtonVisibility.Hidden" ShowIndicators="false"> 
+        <ChildContent>
+             @foreach (var data in dataSource)
+            {
+             var showcaseBg = GetBgClass(data.Header);
+             <CarouselItem>
+                 <h2>See how our components can be transformed into beautiful and efficient apps</h2>
+                 <div class="sf-showcase-container">
+                     <div class="sf-showcase-bg @showcaseBg">
+                         <div class="sf-showcase-bg-container">
+                             <div class="sf-showcase-img">
+                                 
+                             </div>
+                              <div class="sf-showcase-content">
+                                  <h3>@data.Header</h3>
+                                  <div class="sf-showcase-description">
+                                      @data.Content
+                                  </div>
+                                   <div class="sf-showcase-buttons">
+                                       <div class="showcase-demo-btn">
+                                           <a href=@data.DemoLink target="_blank" rel="noopener" aria-label="View Demo">         
+                                               <SfButton CssClass="e-primary" style="pointer-events:auto">View Demo</SfButton>
+                                           </a>
+                                       </div>
+                                        <div class="showcase-github-btn">
+                                            <a href=@data.GitHubLink target="_blank" rel="noopener" aria-label="Github button">
+                                                <SfButton CssClass="e-outline" IconCss="sbicons sf-github-logo-icon" Content="Browse code in GitHub" style="pointer-events:auto"></SfButton>
+                                            </a>
+                                        </div>
+                                   </div>
+                                    <div class="sf-showcase-progress">
+                                        <SfButton IconCss="sb-icons sf-left-arrow-icon" CssClass="e-round" IsPrimary="true" @onclick="@(()=>OnNavigationPrevClick())" aria-label="Navigate to previous showcase application" style="pointer-events:auto;float: left;margin-right: 15px;"></SfButton>
+                                        <div class="sf-showcase-steps">
+                                            @for (var i = 0; i < dataCount; i++)
+                                            {
+                                                var progressClass = dataSource.IndexOf(data) == i ? "sf-showcase-progress-selected" : string.Empty;
+                                                <span class="sf-showcase-step @progressClass"></span>
+                                            }
+                                        </div>
+                                        <SfButton IconCss="sb-icons sf-right-arrow-icon" CssClass="e-round" IsPrimary="true" @onclick="@(()=>OnNavigationNextClick())" aria-label="Navigate to next showcase application" style="pointer-events:auto"></SfButton>
+                                    </div> 
+                              </div>
+                         </div>
+                     </div>
+                 </div>
+           </CarouselItem>
+           }
+        </ChildContent>
+    </SfCarousel>
+</div>
+
+    @foreach (var data in dataSource)
+    {
+        var showcaseBg = GetBgClass(data.Header);
+        string deviceImage;
+        if (data.ImagePath.EndsWith(".webp", StringComparison.OrdinalIgnoreCase))
+        {
+            deviceImage = data.ImagePath.Replace(".webp", "-device.webp");
+        }
+        else
+        {
+            deviceImage = data.ImagePath.Replace(".png", "-device.png");
+        }
+        <style>
+        .sf-showcase-bg.@showcaseBg .sf-showcase-img {
+            background-image: url( @data.ImagePath );
+        }
+        @@media (max-width: 1024px) {
+            .sf-showcase-bg.@showcaseBg .sf-showcase-img {
+                background-image: url( @deviceImage );
+            }
+        }
+        </style>
+    }
+}
+
+
+@code {
+
+    private int dataCount;
+    private bool isLazyLoad;
+    private List<ShowCaseItem> dataSource;
+
+    SfCarousel CarouselRef;
+
+    async Task OnNavigationNextClick()
+    { 
+        await CarouselRef.NextAsync(); 
+    }
+    async Task OnNavigationPrevClick()
+    { 
+        await CarouselRef.PreviousAsync(); 
+    }
+
+    private string GetBgClass(string header)
+    {
+        return header.ToLower().Replace(" ", "-");
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        var imagePath = SampleService.ShowCaseImagePath;
+        #if WASM
+            var demoPath = "https://blazor.syncfusion.com/showcase/wasm/";
+        #else
+            var demoPath = "https://blazor.syncfusion.com/showcase/";
+        #endif
+        var gitHubPath = "https://github.com/syncfusion/blazor-showcase-";
+       dataSource = new List<ShowCaseItem>() {
+#if WASM
+           new ShowCaseItem("Appointment Planner", "An appointment scheduling application for doctors in a clinic to manage their appointments with patients.", imagePath + "appointment-planner-app.png", demoPath + "appointment-planner/", gitHubPath + "appointment-planner"),
+           new ShowCaseItem("Loan Calculator", "Effortlessly calculate your loan payment by providing details about your loan amount, interest rate, and loan term.", imagePath + "loan-calculator-app.png", demoPath + "loan-calculator/", gitHubPath + "loan-calculator"),
+           new ShowCaseItem("Health Tracker", "Track and visualize data such as calories consumed and daily activities like steps taken, water consumption, and sleep duration.", imagePath + "health-tracker-app.png", demoPath + "health-tracker/", gitHubPath + "healthtracker"),
+#else
+           new ShowCaseItem("Appointment Planner", "An appointment scheduling application for doctors in a clinic to manage their appointments with patients.", imagePath + "appointment-planner-app.png", demoPath + "appointmentplanner/", gitHubPath + "appointment-planner"),
+           new ShowCaseItem("Document Explorer", "File management tool that allows users to navigate, access, edit, and organize various document types, including Word, PowerPoint, PDF, and image files. It features file operations (open, edit, save, delete), sorting, filtering, and search functionalities.", imagePath + "document-explorer-app.png", demoPath + "documentexplorer/", gitHubPath + "document-explorer"),
+           new ShowCaseItem("Fitness Tracker", "Track and visualize data of your daily activities, diet and fasting to track fitness of daily statistics.", imagePath + "fitness-tracker-app.webp", demoPath + "fitness-tracker/", gitHubPath + "fitness-tracker"),
+           new ShowCaseItem("Sprint Management", "Sprint management involves managing the sprint board of an organization. It allows teams to track tasks, allocate work, and monitor progress during a sprint.", imagePath + "sprint-management-app.png", demoPath + "sprint-management/", gitHubPath + "sprint-management"),
+           new ShowCaseItem("Stockmarket Dashboard", "StockMarket Dashboard Showcase app is a comprehensive tool that provides real-time data, analytics, and insights for investors, displaying key financial metrics and market trends in an intuitive interface", imagePath + "stockmarket-dashboard.png", demoPath + "stockmarket-dashboard/", gitHubPath + "stockmarket-dashboard"),
+           new ShowCaseItem("Stay Reservation", "Stay Reservation App empowers hotel owners by streamlining room bookings, management, and offering real-time insights into occupancy, including current bookings and available rooms per floor.", imagePath + "hotel-booking.webp", demoPath + "stay-reservation/", gitHubPath + "stay-reservation"),
+#endif
+
+#if WEBAPP 
+           new ShowCaseItem("Loan Calculator", "Effortlessly calculate your loan payment by providing details about your loan amount, interest rate, and loan term.", imagePath + "loan-calculator-app.png", demoPath + "wasm/loan-calculator/", gitHubPath + "loan-calculator"),
+           new ShowCaseItem("Health Tracker", "Track and visualize data such as calories consumed and daily activities like steps taken, water consumption, and sleep duration.", imagePath + "health-tracker-app.png", demoPath + "wasm/health-tracker/", gitHubPath + "healthtracker"),
+#endif
+           new ShowCaseItem("Expense Tracker", "Track and visualize your daily expenses with a great UI.", imagePath + "expense-tracker-app.png", demoPath + "expensetracker/", gitHubPath + "expense-tracker"),
+           new ShowCaseItem("Diagram Builder", "Diagram Builder is a web application which is used to create the diagrams like Flow Chart, process diagrams and more.", imagePath + "diagram-builder-app.png", demoPath + "diagrambuilder/", gitHubPath + "diagram-builder"),
+
+           new ShowCaseItem("Mind Map Maker", "A mind map, a type of spider diagram, is used to visually organize information around a central concept. It helps show the relationships between groups of information.", imagePath + "mindmap-showcase-app.webp", demoPath + "mind-map/", gitHubPath + "mindmap"),
+           new ShowCaseItem("Org Chart Creator", "An organizational chart is a diagram that visually conveys a company's internal structure by detailing the roles, responsibilities, and relationships between individuals within an entity.", imagePath + "organization-chart-showcase-app.webp", demoPath + "organization-chart/", gitHubPath + "organizational-chart"),
+           new ShowCaseItem("BPMN Editor", "A business process model and notation (BPMN) diagram is like a flowchart for complex business processes, used for sharing process information across organizations and industries.", imagePath + "bpmn-editor-showcase-app.webp", demoPath + "bpmn-editor/", gitHubPath + "bpmn-editor"),
+           new ShowCaseItem("Logic Circuit Designer", "Design and simulate digital logic circuits using a wide range of logic gates, input and output components to better visualize and understand how it works, and share your design with others.", imagePath + "logic-circuit-designer-app.webp", demoPath + "logic-circuit-designer/", gitHubPath + "logic-circuit-designer"),
+           new ShowCaseItem("Floor Planner", "Design and plan the layout of a floor or building, including the placement of walls, doors, windows, furniture, and other objects.", imagePath + "floor-planner.webp", demoPath + "floor-planner/", gitHubPath + "floor-planner"),
+    };
+       
+        dataCount = dataSource.Count;
+        isLazyLoad = true;
+    }
+}

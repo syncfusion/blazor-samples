@@ -1,0 +1,82 @@
+﻿@page "/pdf-viewer-2/form-designer"
+@using Syncfusion.Blazor.SfPdfViewer
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the creation of the supported Form fields in the PDF Viewer such as Button, Textbox, Password, Checkbox, Radio Button, Drop Down, List box and Signature. We can also customize these fields and can include new fields through the user interaction by switching to the designer mode.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, form fields are dynamically added to the document using the API. This example demonstrates the following Form Designer features:</p>
+    <ul>
+        <li>Adding form fields such as <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.SfPdfViewer.TextBoxField.html">text boxes</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.SfPdfViewer.RadioButtonField.html">radio buttons</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.SfPdfViewer.CheckBoxField.html">checkboxes</a>, and <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.SfPdfViewer.SignatureField.html">signature fields</a> to a PDF document using the API and the Form Designer toolbar UI.</li>
+        <li>Interacting with and modifying form fields within the SfPdfViewer component.</li>
+    </ul>
+    <p>For more information about the Form Designer, refer to the <a target="_blank" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/form-designer/overview">documentation</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfPdfViewer2 @ref="PdfViewerInstance" Height="640px" Width="100%" DocumentPath="@DocumentPath">
+        <PdfViewerEvents DocumentLoaded="@DocumentLoaded"></PdfViewerEvents>
+    </SfPdfViewer2>
+</div>
+
+
+@code {
+    SfPdfViewer2 PdfViewerInstance { get; set; }
+    private string DocumentPath { get; set; } = string.Empty;
+    protected override void OnInitialized()
+    {
+        string fileDataPath = NavigationManager.BaseUri + SampleService.WebAssetsPath;
+
+@*Server:Block*@
+#if !(WASM || WEBAPP)
+        //Sets the PDF document path for initial loading.
+        DocumentPath = "wwwroot/data/pdfviewer2/form-designer.pdf";
+#endif
+@*End:Server*@
+
+@*WebAssembly:Block*@
+#if (WASM || WEBAPP)
+        //Sets the PDF document path for initial loading.   
+        DocumentPath= fileDataPath + "data/pdfviewer2/form-designer.pdf";
+#endif
+@*End:WebAssembly*@
+    }
+    private bool isDocumentLoaded = false;
+    // Adds form fields to the PDF document.
+    private async Task DocumentLoaded(LoadEventArgs args)
+    {
+        if (!isDocumentLoaded) {
+            List<FormFieldInfo> formFields = new List<FormFieldInfo>
+            {
+                new TextBoxField { Name = "First Name", Bounds = new Bound { X = 146, Y = 229, Width = 150, Height = 24 } },
+                new TextBoxField { Name = "Middle Name", Bounds = new Bound { X = 338, Y = 229, Width = 150, Height = 24 } },
+                new TextBoxField { Name = "Last Name", Bounds = new Bound { X = 530, Y = 229, Width = 150, Height = 24 } },
+                new RadioButtonField { Name = "Gender", Value = "Male", IsSelected = false, Bounds = new Bound { X = 148, Y = 289, Width = 18, Height = 18 } },
+                new RadioButtonField { Name = "Gender", Value = "Female", IsSelected = false, Bounds = new Bound { X = 292, Y = 289, Width = 18, Height = 18 } },
+                new TextBoxField { Name = "DOB Month", Bounds = new Bound { X = 146, Y = 320, Width = 35, Height = 24 } },
+                new TextBoxField { Name = "DOB Date", Bounds = new Bound { X = 196, Y = 320, Width = 35, Height = 24 } },
+                new TextBoxField { Name = "DOB Year", Bounds = new Bound { X = 242, Y = 320, Width = 35, Height = 24 } },
+                new SignatureField { Name = "Agree", Bounds = new Bound { X = 148, Y = 408, Width = 200, Height = 43 } },
+                new SignatureField { Name = "Do Not Agree", Bounds = new Bound { X = 148, Y = 466, Width = 200, Height = 43 } },
+                new CheckBoxField { Name = "Text Message", IsChecked = false, Bounds = new Bound { X = 56, Y = 664, Width = 20, Height = 20 } },
+                new CheckBoxField { Name = "Email", IsChecked = false, Bounds = new Bound { X = 242, Y = 664, Width = 20, Height = 20 } },
+                new CheckBoxField { Name = "Appointment Reminder", IsChecked = false, Bounds = new Bound { X = 56, Y = 740, Width = 20, Height = 20 } },
+                new CheckBoxField { Name = "Request for Customer Service", IsChecked = false, Bounds = new Bound { X = 56, Y = 778, Width = 20, Height = 20 } },
+                new CheckBoxField { Name = "Information Billing", IsChecked = false, Bounds = new Bound { X = 290, Y = 740, Width = 20, Height = 20 } },
+                new TextBoxField { Name = "My Email", Bounds = new Bound { X = 146, Y = 850, Width = 200, Height = 24 } },
+                new TextBoxField { Name = "My Phone", Bounds = new Bound { X = 482, Y = 850, Width = 200, Height = 24 } },
+                new SignatureField { Name = "Sign", Bounds = new Bound { X = 57, Y = 923, Width = 200, Height = 43 } },
+                new TextBoxField { Name = "DOS Month", Bounds = new Bound { X = 386, Y = 923, Width = 35, Height = 24 } },
+                new TextBoxField { Name = "DOS Date", Bounds = new Bound { X = 434, Y = 923, Width = 35, Height = 24 } },
+                new TextBoxField { Name = "DOS Year", Bounds = new Bound { X = 482, Y = 923, Width = 35, Height = 24 } }
+            };
+            // Adds the form fields to the PDF Viewer asynchronously.
+            await PdfViewerInstance.AddFormFieldsAsync(formFields);
+            isDocumentLoaded = true;
+        }
+    }
+}

@@ -1,0 +1,318 @@
+﻿@page "/range-selector/range-navigator"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the Bitcoin price range using an area series in the range navigator. The selected range values are enhanced with a tooltip.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the <code>AreaSeries</code> is used to represent the Bitcoin price data within the range navigator. The <code>Tooltip</code> displays the selected data range for better clarity. Additionally, you can customize the selected and unselected areas in the range navigator using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorStyleSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorStyleSettings_SelectedRegionColor' aria-label="SelectedRegionColor">SelectedRegionColor</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorStyleSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorStyleSettings_UnselectedRegionColor' aria-label="UnselectedRegionColor">UnselectedRegionColor</a> properties.
+    </p>
+    <p>More information about the range navigator can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/range-selector/getting-started' aria-label="documentation section">documentation section</a>.</p>
+</ActionDescription>
+ 
+
+@if (BitcoinPriceData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section" align="center">
+        <h4 style="font-family: Segoe UI;font-weight: 500; font-style:normal; font-size:15px;" align="center">Bitcoin (USD) Price Range</h4>
+        <div>
+            <SfRangeNavigator Value="@SelectedDateRange" ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" LabelFormat="MMM-yy" Theme="@CurrentTheme" Interval="@DateInterval" IntervalType="RangeIntervalType.Months">
+                <RangeNavigatorStyleSettings UnselectedRegionColor="transparent" SelectedRegionColor="@SelectedRegionColor"></RangeNavigatorStyleSettings>
+                <RangeNavigatorRangeTooltipSettings Enable="true" DisplayMode="TooltipDisplayMode.Always" Format="MM/dd/yyyy"></RangeNavigatorRangeTooltipSettings>
+                <RangeNavigatorSeriesCollection>
+                    <RangeNavigatorSeries Fill="@AreaFillColor" DataSource="@BitcoinPriceData" XName="x" Type="RangeNavigatorType.Area" YName="y" Width="2">
+                        <RangeNavigatorSeriesBorder Width="2" Color="@AreaBorderColor"></RangeNavigatorSeriesBorder>
+                    </RangeNavigatorSeries>
+                </RangeNavigatorSeriesCollection>
+            </SfRangeNavigator>
+        </div>
+    </div>
+}
+
+@code {
+    private Theme CurrentTheme { get; set; }
+    private ChartData[] BitcoinPriceData { get; set; }
+    private string AreaBorderColor { get; set; }
+    private string AreaFillColor { get; set; }
+    private string SelectedRegionColor { get; set; }
+    private double DateInterval { get; set; }
+    private object[] SelectedDateRange { get; set; } = new object[] { new DateTime(2017, 09, 01), new DateTime(2018, 02, 01) };
+    private readonly string ImageUrl = "url";
+
+    protected override async Task OnInitializedAsync()
+    {
+        BitcoinPriceData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/default-data.json");
+    }
+
+    protected override void OnInitialized()
+    {
+        SetThemeAndColors();
+    }
+
+    private void SetThemeAndColors()
+    {
+        string currentUri = NavigationManager.Uri;
+        DateInterval = SampleService.IsDevice ? 2 : 1;
+
+        if (currentUri.Contains("material3"))
+        {
+            if (currentUri.Contains("dark"))
+            {
+                SetTheme(Theme.Material3Dark, "#4EAAFF", "rgba(78, 170, 255, 0.6)", "material3dark-gradient-chart");
+            }
+            else
+            {
+                SetTheme(Theme.Material3, "#6355C7", "rgba(99, 85, 199, 0.3)", "material3-gradient-chart");
+            }
+        }
+        else if (currentUri.Contains("material"))
+        {
+            if (currentUri.Contains("dark"))
+            {
+                SetTheme(Theme.MaterialDark, "#9ECB08", "rgba(158, 203, 8, 0.6)", "materialdark-gradient-chart");
+            }
+            else
+            {
+                SetTheme(Theme.Material, "#00bdae", "rgba(0, 189, 174, 0.3)", "material-gradient-chart");
+            }
+        }
+        else if (currentUri.Contains("fabric"))
+        {
+            SetTheme(currentUri.Contains("dark") ? Theme.FabricDark : Theme.Fabric, "#4472c4", currentUri.Contains("dark") ? "rgba(22, 22, 22, 0.6)" : "rgba(68, 114, 196, 0.3)", "fabric-gradient-chart");
+        }
+        else if (currentUri.Contains("bootstrap5"))
+        {
+            SetTheme(currentUri.Contains("dark") ? Theme.Bootstrap5Dark : Theme.Bootstrap5, "#FD7E14", currentUri.Contains("dark") ? "rgba(173, 181, 189, 0.1)" : "rgba(52, 58, 64, 0.1)", "bootstrap5-gradient-chart");
+        }
+        else if (currentUri.Contains("fluent2"))
+        {
+            SetTheme(currentUri.Contains("highcontrast") ? Theme.Fluent2HighContrast : (currentUri.Contains("dark") ? Theme.Fluent2Dark : Theme.Fluent2), currentUri.Contains("dark") || currentUri.Contains("highcontrast") ? "#9BB449" :"#6200EE", currentUri.Contains("dark") || currentUri.Contains("highcontrast") ? "rgba(155, 180, 73, 0.6)" : "rgba(98, 0, 238, 0.6)", currentUri.Contains("highcontrast") ? "fluent2highcontrast-gradient-chart" : (currentUri.Contains("dark") ? "fluent2dark-gradient-chart" : "fluent2-gradient-chart"));
+        }
+        else if (currentUri.Contains("fluent"))
+        {
+            SetTheme(currentUri.Contains("dark") ? Theme.FluentDark : Theme.Fluent, "#1AC9E6", currentUri.Contains("dark") ? "rgba(26, 201, 230, 0.6)" : "rgba(26, 201, 230, 0.3)", "fluent-gradient-chart");
+        }
+        else if (currentUri.Contains("bootstrap4"))
+        {
+            SetTheme(Theme.Bootstrap4, "#a16ee5", "rgba(161, 110, 229, 0.3)", "bootstrap4-gradient-chart");
+        }
+        else if (currentUri.Contains("bootstrap"))
+        {
+            SetTheme(currentUri.Contains("dark") ? Theme.BootstrapDark : Theme.Bootstrap, "#a16ee5", currentUri.Contains("dark") ? "rgba(22, 22, 22, 0.6)" : "rgba(161, 110, 229, 0.3)", "bootstrap-gradient-chart");
+        }
+        else if (currentUri.Contains("highcontrast"))
+        {
+            SetTheme(Theme.HighContrast, "#79ECE4", "rgba(121, 236, 228, 0.3)", "highcontrast-gradient-chart");
+        }
+        else if (currentUri.Contains("tailwind3"))
+        {
+            SetTheme(currentUri.Contains("dark") ? Theme.Tailwind3Dark : Theme.Tailwind3, currentUri.Contains("dark") ? "#8B5CF6" : "#2F4074", currentUri.Contains("dark") ? "rgba(128, 41, 241, 0.3)" : "rgba(47, 64, 116, 0.3)", currentUri.Contains("dark") ? "tailwind3dark-gradient-chart" : "tailwind3-gradient-chart");
+        }
+        else
+        {
+            SetTheme(Theme.Bootstrap4, "#a16ee5", "rgba(161, 110, 229, 0.3)", "bootstrap4-gradient-chart");
+        }
+    }
+
+    private void SetTheme(Theme theme, string borderColor, string selectedRegionColor, string gradientName)
+    {
+        CurrentTheme = theme;
+        AreaBorderColor = borderColor;
+        SelectedRegionColor = selectedRegionColor;
+        AreaFillColor = $"{ImageUrl}(#{gradientName})";
+    }
+
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+}
+
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    #container {
+        transform: translate(0, 25%);
+    }
+
+    #material-gradient-chart stop {
+        stop-color: #00bdae;
+    }
+
+    #materialdark-gradient-chart stop {
+        stop-color: #9ECB08;
+    }
+
+    #fabric-gradient-chart stop {
+        stop-color: #4472c4;
+    }
+
+    #bootstrap-gradient-chart stop {
+        stop-color: #a16ee5;
+    }
+
+    #bootstrap4-gradient-chart stop {
+        stop-color: #a16ee5;
+    }
+
+    #highcontrast-gradient-chart stop {
+        stop-color: #79ECE4;
+    }
+
+    #bootstrap5-gradient-chart stop {
+        stop-color: #FD7E14;
+    }
+
+    #bootstrap5dark-gradient-chart stop {
+        stop-color: #FD7E14;
+    }
+	
+	#fluent-gradient-chart stop {
+        stop-color: #1AC9E6;
+    }
+
+    #fluentdark-gradient-chart stop {
+        stop-color: #1AC9E6;
+    }
+
+    #material3-gradient-chart stop {
+        stop-color: #6355C7;
+    }
+
+    #material3dark-gradient-chart stop {
+        stop-color: #4EAAFF;
+    }
+
+    #tailwind3-gradient-chart stop {
+        stop-color: #2F4074;
+    }
+
+    #tailwind3dark-gradient-chart stop {
+        stop-color: #8029F1;
+    }
+
+    #tailwind-gradient-chart stop {
+        stop-color: #5A61F6;
+    }
+
+    #tailwinddark-gradient-chart stop {
+        stop-color: #8B5CF6;
+    }
+
+    .chart-gradient stop[offset="0"] {
+        stop-opacity: 0.9;
+    }
+
+    .chart-gradient stop[offset="1"] {
+        stop-opacity: 0.3;
+    }
+
+    #fluent2-gradient-chart stop {
+        stop-color: #6200EE;
+    }
+
+    #fluent2dark-gradient-chart stop {
+        stop-color: #9BB449;
+    }
+
+    #fluent2highcontrast-gradient-chart stop {
+        stop-color: #9BB449;
+    }
+</style>
+<svg style="height: 0">
+    <defs>
+        <linearGradient id="material-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="materialdark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fabric-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap5-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap5dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluent-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluentdark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="bootstrap4-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="highcontrast-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwind3-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwind3dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwind-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="tailwinddark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="material3-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="material3dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluent2-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluent2dark-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+        <linearGradient id="fluent2highcontrast-gradient-chart" style="opacity: 0.75" class="chart-gradient" x1="0" x2="0" y1="0" y2="1">
+            <stop offset="0"></stop>
+            <stop offset="1"></stop>
+        </linearGradient>
+    </defs>
+</svg>
