@@ -346,7 +346,7 @@ namespace TextToMindMapDiagram
                     {
                         diagram.EndGroupAction();
                     }
-                    await diagram.EndUpdate();
+                    await diagram.EndUpdateAsync();
                     break;
                 case "duplicate":
                     Edit = true; IsDuplicate = true;
@@ -385,7 +385,7 @@ namespace TextToMindMapDiagram
                     view = true;
                     diagram.BeginUpdate();
                     Parent.SnapConstraint = Parent.SnapConstraint ^ SnapConstraints.ShowLines;
-                    await diagram.EndUpdate();
+                    await diagram.EndUpdateAsync();
                     ViewMenuItems[5].IconCss = ViewMenuItems[5].IconCss == "sf-icon-blank" ? "sf-icon-Selection" : "sf-icon-blank";
                     break;
                 case "fittoscreen":
@@ -512,7 +512,7 @@ namespace TextToMindMapDiagram
                 await Task.Delay(100);
                 string json = await FileUtil.LoadFile(jsRuntime, args.FileData);
                 json = json.Replace(System.Environment.NewLine, string.Empty);
-                await Parent.Diagram.LoadDiagram(json.ToString());
+                await Parent.Diagram.LoadDiagramAsync(json.ToString());
                 IsJsonLoading = false;
             }
             else
@@ -521,7 +521,7 @@ namespace TextToMindMapDiagram
                 Node Node = Diagram.SelectionSettings.Nodes[0];
                 Diagram.BeginUpdate();
                 Node.Shape = new ImageShape() { Type = NodeShapes.Image, Source = args.FileData.RawFile.ToString() };
-                await Diagram.EndUpdate();
+                await Diagram.EndUpdateAsync();
             }
         }
         /// <summary>
