@@ -138,7 +138,7 @@
             NoBranchDirection = BranchDirection.LeftInFlow
         };
     public ScrollLimitMode ScrollLimit { get; set; } = ScrollLimitMode.Diagram;
-    public SfDiagramComponent DiagramInstance { get; set; }
+    public SfDiagramComponent? DiagramInstance { get; set; }
     public LayoutType DiagramLayoutType { get; set; } = LayoutType.Flowchart;
     public LayoutOrientation LayoutOrientationType { get; set; } = LayoutOrientation.TopToBottom;
     public int HorizontalSpacing { get; set; } = 50;
@@ -149,8 +149,8 @@
 
     public class Orientationvalue
     {
-        public string Text { get; set; }
-        public string Value { get; set; }
+        public string? Text { get; set; }
+        public string? Value { get; set; }
     }
 
     private List<Orientationvalue> Orientation = new List<Orientationvalue>()
@@ -161,14 +161,14 @@
 
     public class BranchDirectionvalue
     {
-        public string Text { get; set; }
-        public string Value { get; set; }
+        public string? Text { get; set; }
+        public string? Value { get; set; }
     }
 
     public class BranchDirectionvalue1
     {
-        public string Text { get; set; }
-        public string Value { get; set; }
+        public string? Text { get; set; }
+        public string? Value { get; set; }
     }
 
     private List<BranchDirectionvalue> BranchDirection1 = new List<BranchDirectionvalue>()
@@ -185,19 +185,19 @@
     };
     private void OnDataLoaded(object obj)
     {
-        for (int i = 0; i < DiagramInstance.Connectors.Count; i++)
+        for (int i = 0; i < DiagramInstance!.Connectors!.Count; i++)
         {
             var connector = DiagramInstance.Connectors[i];
             {
                 var node = DiagramInstance.GetObject(connector.TargetID) as Node;
                 var srcNode = DiagramInstance.GetObject(connector.SourceID) as Node;
-                if (node.Data != null && node.Data is ItemInfo itemInfo)
+                if (node!.Data != null && node.Data is ItemInfo itemInfo)
                 {
                     if (itemInfo.Label != null && itemInfo.Label.Count > 0)
                     {
-                        if (itemInfo.ParentId.IndexOf((srcNode.Data as ItemInfo).Id) != -1)
+                        if (itemInfo.ParentId!.IndexOf((srcNode!.Data as ItemInfo)!.Id!) != -1)
                         {
-                            var parentIndex = itemInfo.ParentId.IndexOf((srcNode.Data as ItemInfo).Id);
+                            var parentIndex = itemInfo.ParentId.IndexOf((srcNode.Data as ItemInfo)!.Id!);
                             if (itemInfo.Label.Count > parentIndex)
                             {
                                 connector.Annotations = new DiagramObjectCollection<PathAnnotation>()
@@ -220,11 +220,11 @@
     }
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        if (node.Data != null && node.Data is ItemInfo)
+        Node? node = obj as Node;
+        if (node!.Data != null && node.Data is ItemInfo)
         {
-            ItemInfo employeeDetails = node.Data as ItemInfo;
-            node.Width = employeeDetails._Width;
+            ItemInfo? employeeDetails = node.Data as ItemInfo;
+            node.Width = employeeDetails!._Width;
             node.Height = employeeDetails._Height;
             if (employeeDetails._Shape == "Rectangle")
             {
@@ -235,8 +235,8 @@
                 node.Shape = new FlowShape() { Shape = NodeFlowShapes.Terminator };
             }
             else
-                node.Shape = new FlowShape() { Shape = (NodeFlowShapes)Enum.Parse(typeof(NodeFlowShapes), employeeDetails._Shape.ToString()) };
-            node.Style.Fill = employeeDetails._Color;
+                node.Shape = new FlowShape() { Shape = (NodeFlowShapes)Enum.Parse(typeof(NodeFlowShapes), employeeDetails._Shape!.ToString()) };
+            node.Style!.Fill = employeeDetails._Color;
             node.Style.StrokeColor = employeeDetails._Color;
             node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
             {
@@ -403,25 +403,25 @@
     };
     public class ItemInfo
     {
-        public string Name { get; set; }
-        public string Id { get; set; }
-        public List<string> Label { get; set; }
-        public List<string> ParentId { get; set; }
-        public string _Shape { get; set; }
-        public double _Width { get; set; }
-        public double _Height { get; set; }
-        public string _Color { get; set; }
+        public string? Name { get; set; }
+        public string? Id { get; set; }
+        public List<string>? Label { get; set; }
+        public List<string>? ParentId { get; set; }
+        public string? _Shape { get; set; }
+        public double? _Width { get; set; }
+        public double? _Height { get; set; }
+        public string? _Color { get; set; }
 
     }
 
     public void OrientationTypeChange(ChangeEventArgs<string, Orientationvalue> args)
     {
-        LayoutOrientationType = args.ItemData.Value == "Vertical" ? LayoutOrientation.TopToBottom : LayoutOrientation.LeftToRight;
+        LayoutOrientationType = args.ItemData!.Value == "Vertical" ? LayoutOrientation.TopToBottom : LayoutOrientation.LeftToRight;
     }
 
     public void YesBranchDirectionChange(ChangeEventArgs<string, BranchDirectionvalue> args)
     {
-        if (args.ItemData.Text == "same")
+        if (args.ItemData!.Text == "same")
         {
             FlowchartSettings.YesBranchDirection = BranchDirection.SameAsFlow;
         }
@@ -436,7 +436,7 @@
     }
     public void NoBranchDirectionChange(ChangeEventArgs<string, BranchDirectionvalue1> args)
     {
-        if (args.ItemData.Text == "same")
+        if (args.ItemData!.Text == "same")
         {
             FlowchartSettings.NoBranchDirection = BranchDirection.SameAsFlow;
         }

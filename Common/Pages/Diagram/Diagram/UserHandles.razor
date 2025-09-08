@@ -3,7 +3,7 @@
 @using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.DropDowns
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @inject NavigationManager NavigationManager
@@ -130,15 +130,15 @@
     bool shapeValue = true;
     bool userhandleValue = true;
     @*End:Hidden*@
-    public SfDiagramComponent Diagram;
+    public SfDiagramComponent? Diagram;
     // Defines interval values for GridLines
-    public double[] gridLineIntervals { get; set; }
+    public double[]? gridLineIntervals { get; set; }
     // Defines diagram's nodes collection
-    public DiagramObjectCollection<Node> nodes { get; set; }
-    UserHandle userhandle;
-    UserHandle handle;
+    public DiagramObjectCollection<Node>? nodes { get; set; }
+    UserHandle? userhandle;
+    UserHandle? handle;
     // Defines diagram's connector collection
-    public DiagramObjectCollection<Connector> connectors { get; set; }
+    public DiagramObjectCollection<Connector>? connectors { get; set; }
 
     DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
 
@@ -152,7 +152,7 @@
 
     private void OnCreated()
     {
-        Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[0] });
+        Diagram!.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes![0] });
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
         Diagram.FitToPage(mobileoptions);
     }
@@ -161,7 +161,7 @@
     {
         if (args.NewValue != null && args.NewValue.Count > 0)
         {
-            string position1 = Diagram.SelectionSettings.UserHandles[0].Side.ToString();
+            string position1 = Diagram!.SelectionSettings!.UserHandles![0].Side.ToString();
             var offset = Diagram.SelectionSettings.UserHandles[0].Offset;
             if (position1 == "Bottom" && offset == 1)
             {
@@ -177,7 +177,7 @@
             }
 
         }
-        if (Diagram.SelectionSettings.Nodes.Count > 0 || Diagram.SelectionSettings.Connectors.Count > 0)
+        if (Diagram!.SelectionSettings!.Nodes!.Count > 0 || Diagram.SelectionSettings.Connectors!.Count > 0)
         {
             background = true;
             positionValue = true;
@@ -195,14 +195,14 @@
     // Method to customize the tool
     public InteractionControllerBase GetCustomTool(DiagramElementAction action, string id)
     {
-        InteractionControllerBase tool = null;
+        InteractionControllerBase? tool = null;
         if (id == "clone")
         {
-            tool = new CloneTool(Diagram);
+            tool = new CloneTool(Diagram!);
         }
         else
         {
-            tool = new AddDeleteTool(Diagram);
+            tool = new AddDeleteTool(Diagram!);
         }
         return tool;
     }
@@ -214,12 +214,12 @@
         {
             sfDiagram = Diagram;
         }
-        public override void OnMouseUp(DiagramMouseEventArgs args)
+        public override void OnMouseUp(DiagramMouseEventArgs? args)
         {
 
             bool GroupAction = false;
             sfDiagram.BeginUpdate();
-            if(sfDiagram.SelectionSettings.Nodes.Count > 1 || sfDiagram.SelectionSettings.Connectors.Count > 1 || 
+            if(sfDiagram.SelectionSettings!.Nodes!.Count > 1 || sfDiagram.SelectionSettings.Connectors!.Count > 1 || 
                 ((sfDiagram.SelectionSettings.Nodes.Count + sfDiagram.SelectionSettings.Connectors.Count) > 1))
             {
                 GroupAction = true;
@@ -234,16 +234,16 @@
                 {
                     Node deleteNode = sfDiagram.SelectionSettings.Nodes[i];
 
-                    sfDiagram.Nodes.Remove(deleteNode);
+                    sfDiagram.Nodes!.Remove(deleteNode);
                 }
             }
-            if (sfDiagram.SelectionSettings.Connectors.Count != 0)
+            if (sfDiagram.SelectionSettings.Connectors!.Count != 0)
             {
                 for (var i = sfDiagram.SelectionSettings.Connectors.Count-1; i >=0; i--)
                 {
                     Connector deleteConnector = sfDiagram.SelectionSettings.Connectors[i];
 
-                    sfDiagram.Connectors.Remove(deleteConnector);
+                    sfDiagram.Connectors!.Remove(deleteConnector);
                 }
             }
             if (GroupAction)
@@ -267,7 +267,7 @@
         }
         public override void OnMouseDown(DiagramMouseEventArgs args)
         {
-            isNode = sfDiagram.SelectionSettings.Nodes.Count > 0 ? true : false;
+            isNode = sfDiagram.SelectionSettings!.Nodes!.Count > 0 ? true : false;
             sfDiagram.Copy();
             sfDiagram.Paste();
             base.OnMouseDown(args);
@@ -276,22 +276,22 @@
         public override bool OnMouseMove(DiagramMouseEventArgs args)
         {
             if (isNode)
-                sfDiagram.Nodes.Last().IsVisible = false;
+                sfDiagram.Nodes!.Last().IsVisible = false;
             else
-                sfDiagram.Connectors.Last().IsVisible = false;
+                sfDiagram.Connectors!.Last().IsVisible = false;
             return base.OnMouseMove(args);
         }
-        public override void OnMouseUp(DiagramMouseEventArgs args)
+        public override void OnMouseUp(DiagramMouseEventArgs? args)
         {
             if (isNode)
             {
-                sfDiagram.Nodes.Last().IsVisible = true;
-                sfDiagram.Select(new ObservableCollection<IDiagramObject>() { sfDiagram.Nodes.Last() });
+                sfDiagram.Nodes!.Last().IsVisible = true;
+                sfDiagram.Select(new ObservableCollection<IDiagramObject>() { sfDiagram.Nodes!.Last() });
             }
             else
             {
-                sfDiagram.Connectors.Last().IsVisible = true;
-                sfDiagram.Select(new ObservableCollection<IDiagramObject>() { sfDiagram.Connectors.Last() });
+                sfDiagram.Connectors!.Last().IsVisible = true;
+                sfDiagram.Select(new ObservableCollection<IDiagramObject>() { sfDiagram.Connectors!.Last() });
             }
             base.OnMouseUp(args);
             this.InAction = true;
@@ -300,7 +300,7 @@
     @*Hidden:Lines*@
     public class UserHandleShape
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<UserHandleShape> UserHandleShapeLists = new List<UserHandleShape>() {
         new UserHandleShape() { Name ="Duplicate"},
@@ -309,7 +309,7 @@
     };
     public class UserHandlePosition
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<UserHandlePosition> UserHandlePositionLists = new List<UserHandlePosition>() {
         new UserHandlePosition() { Name ="BottomLeft"},
@@ -319,7 +319,7 @@
     };
     public class UserHandleAppearance
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<UserHandleAppearance> UserHandleAppearanceLists = new List<UserHandleAppearance>() {
         new UserHandleAppearance() { Name ="Blue"},
@@ -331,7 +331,7 @@
 
     public class UserHandleConstraints
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<UserHandleConstraints> UserHandleLists = new List<UserHandleConstraints>()
     {
@@ -346,18 +346,18 @@
 
         if (args.Value == "BottomRight")
         {
-            userhandle.Offset = 1;
+            userhandle!.Offset = 1;
             userhandle.Side = Direction.Bottom;
 
         }
         else if (args.Value == "BottomLeft")
         {
-            userhandle.Offset = 0;
+            userhandle!.Offset = 0;
             userhandle.Side = Direction.Bottom;
         }
         else if (args.Value == "TopRight")
         {
-            userhandle.Offset = 0;
+            userhandle!.Offset = 0;
             userhandle.Side = Direction.Right;
         }
     }
@@ -365,13 +365,13 @@
     {
         if (args.Value == "Delete")
         {
-            userhandle.PathData = "M1.0000023,3 L7.0000024,3 7.0000024,8.75 C7.0000024,9.4399996 6.4400025,10 5.7500024,10 L2.2500024,10 C1.5600024,10 1.0000023,9.4399996 1.0000023,8.75 z M2.0699998,0 L5.9300004,0 6.3420029,0.99999994 8.0000001,0.99999994 8.0000001,2 0,2 0,0.99999994 1.6580048,0.99999994 z";
-            handle.Name = "delete";
+            userhandle!.PathData = "M1.0000023,3 L7.0000024,3 7.0000024,8.75 C7.0000024,9.4399996 6.4400025,10 5.7500024,10 L2.2500024,10 C1.5600024,10 1.0000023,9.4399996 1.0000023,8.75 z M2.0699998,0 L5.9300004,0 6.3420029,0.99999994 8.0000001,0.99999994 8.0000001,2 0,2 0,0.99999994 1.6580048,0.99999994 z";
+            handle!.Name = "delete";
         }
         if (args.Value == "Duplicate")
         {
-            userhandle.PathData = "M60.3,18H27.5c-3,0-5.5,2.4-5.5,5.5v38.2h5.5V23.5h32.7V18z M68.5,28.9h-30c-3,0-5.5,2.4-5.5,5.5v38.2c0,3,2.4,5.5,5.5,5.5h30c3,0,5.5-2.4,5.5-5.5V34.4C73.9,31.4,71.5,28.9,68.5,28.9z M68.5,72.5h-30V34.4h30V72.5z";
-            handle.Name = "clone";
+            userhandle!.PathData = "M60.3,18H27.5c-3,0-5.5,2.4-5.5,5.5v38.2h5.5V23.5h32.7V18z M68.5,28.9h-30c-3,0-5.5,2.4-5.5,5.5v38.2c0,3,2.4,5.5,5.5,5.5h30c3,0,5.5-2.4,5.5-5.5V34.4C73.9,31.4,71.5,28.9,68.5,28.9z M68.5,72.5h-30V34.4h30V72.5z";
+            handle!.Name = "clone";
         }
     }
 
@@ -379,11 +379,11 @@
     {
         if(args.Value == "Both")
         {
-            userhandle.VisibleTarget = VisibleTarget.Node | VisibleTarget.Connector;
+            userhandle!.VisibleTarget = VisibleTarget.Node | VisibleTarget.Connector;
         }
         else if(args.Value == "None")
         {
-            if(userhandle.VisibleTarget.HasFlag(VisibleTarget.Node))
+            if(userhandle!.VisibleTarget.HasFlag(VisibleTarget.Node))
             {
                 userhandle.VisibleTarget &= ~VisibleTarget.Node;
             }
@@ -394,18 +394,18 @@
         }
         else if(args.Value == "Node")
         {
-            userhandle.VisibleTarget = VisibleTarget.Node;
+            userhandle!.VisibleTarget = VisibleTarget.Node;
         }
         else if(args.Value == "Connector")
         {
-            userhandle.VisibleTarget = VisibleTarget.Connector;
+            userhandle!.VisibleTarget = VisibleTarget.Connector;
         }
     }
 
     public void SetPattern(ChangeEventArgs<string, UserHandleAppearance> args)
     {
 
-        userhandle.BackgroundColor = args.Value == "Blue" ? "#1E90FF" : (args.Value == "Green" ? "#3CB371" : (args.Value == "Black" ? "#000000" : "#FF6347"));
+        userhandle!.BackgroundColor = args.Value == "Blue" ? "#1E90FF" : (args.Value == "Green" ? "#3CB371" : (args.Value == "Black" ? "#000000" : "#FF6347"));
         userhandle.PathColor = "white";
     }
     @*End:Hidden*@
@@ -461,11 +461,11 @@
             OffsetY = y,
             Width = width,
             Height = height,
-            Shape = new FlowShape() { Type = shapes.Flow, Shape = shape },
+            Shape = new FlowShape() { Type = NodeShape.Flow, Shape = shape },
             Style = new ShapeStyle() { Fill = "#009EDF", StrokeColor = "#009FE5" },
             Annotations = new DiagramObjectCollection<ShapeAnnotation>() { annotation },
         };
-        nodes.Add(diagramNode);
+        nodes!.Add(diagramNode);
     }
 
     // Method to create connector
@@ -479,6 +479,6 @@
             SourceID = sourceId,
             TargetID = targetId,
         };
-        connectors.Add(diagramConnector);
+        connectors!.Add(diagramConnector);
     }
 }

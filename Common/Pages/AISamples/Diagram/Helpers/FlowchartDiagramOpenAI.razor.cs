@@ -43,7 +43,7 @@ namespace TextToFlowchartDiagram
             Parent.IsGeneratingFromAI = true;
             if (!string.IsNullOrWhiteSpace(OpenAIPrompt))
             {
-                await Parent.SpinnerRef.ShowAsync();
+                await Parent.SpinnerRef!.ShowAsync();
                 string result = string.Empty;
                 string systemRole = "You are an expert assistant skilled in generating Mermaid flowchart diagram data based on user queries.";
 
@@ -96,7 +96,7 @@ Use the format provided in the example below, adapting the steps, conditions, an
                     {
                         List<string> validMermaidData = lines.Skip(startIndex).ToList();
                         result = string.Join(Environment.NewLine, validMermaidData);
-                        await Parent.Diagram.LoadDiagramFromMermaidAsync(result);
+                        await Parent.Diagram!.LoadDiagramFromMermaidAsync(result);
                     }
                     else
                         await GenerateDiagramFromAI();

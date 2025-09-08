@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 MetaTitle = "Blazor Tree Grid Overview | Hierarchical Data | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Overview",
-                MetaDescription = "This Blazor Tree Grid overview demonstrates hierarchical data visualization with tree structure, expandable nodes, and comprehensive grid features for data management."
+                MetaDescription = "Blazor Tree Grid overview demo shows hierarchical data visualization with tree structure, expandable nodes, and comprehensive grid features for data management."
             },
             new Sample
             {
@@ -73,7 +73,7 @@ namespace BlazorDemos
                 FileName="Sorting.razor",
                 MetaTitle = "Blazor Tree Grid Sorting | Data Organization | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Sorting",
-                MetaDescription = "This Blazor Tree Grid Sorting demonstrates hierarchical data organization with multi-column sorting while maintaining tree structure relationships.",
+                MetaDescription = "This Blazor Tree Grid Sorting demonstrates the hierarchical data organization with multi-column sorting while maintaining tree structure relationships.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -98,7 +98,7 @@ namespace BlazorDemos
                 FileName="Paging.razor",
                 MetaTitle = "Blazor Tree Grid Paging | Data Navigation | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Paging",
-                MetaDescription = "This Blazor Tree Grid Paging demonstrates hierarchical data navigation with page-based browsing while preserving tree structure and relationships.",
+                MetaDescription = "This Blazor Tree Grid Paging demonstrates the hierarchical data navigation with page-based browsing while preserving tree structure and relationships.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -134,10 +134,45 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="Aggregatedata",
-                        FileName="ShipmentData.cs"
+                        FileName="SummaryRowData.cs"
                     }
                 }
             },
+            new Sample
+            {
+                Name = "Empty Record Template",
+                Category = "Tree Grid",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/empty-record-template",
+                Type = SampleType.New,
+                FileName="EmptyRecordTemplate.razor",
+                MetaTitle = "Blazor TreeGrid Empty Record Template | Custom Record | Syncfusion",
+                HeaderText = "Blazor Tree Grid Example - Empty Record Template",
+                NotificationDescription = new string[]{ "Tree Grid uses the 'EmptyRecordTemplate' to display custom content when there is no data present." },
+                MetaDescription = "The Tree Grid uses 'EmptyRecordTemplate' to show a custom message or HTML element when no data is available. It accepts a string or element ID as a template.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="EmptyRecordTemplate",
+                        FileName="EmptyRecordTemplate.razor"
+                    }
+                }
+            },
+#if SERVER
+            new Sample
+            {
+                Name = "Adaptive Structuring",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/TreeGrid",
+                Url = "tree-grid/ai-adaptive-datastructuring",
+                FileName = "AdaptiveDataStructuring.razor",
+                MetaTitle = "TreeGrid Adaptive Structuring - Syncfusion AI Demos",
+                HeaderText = "Blazor TreeGrid Example - AI-Powered Adaptive Structuring",
+                MetaDescription = "This Blazor TreeGrid demo uses AI to detect and repair erroneous hierarchical data, automatically organizing items into proper parent-child relationships.",
+                Type = SampleType.AI
+            },
+#endif
             new Sample
             {
                 Name = "Remote Data",
@@ -148,7 +183,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Tree Grid Remote Data | API Integration | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Remote Data",
-                MetaDescription = "This Blazor Tree Grid with Remote Data demonstrates hierarchical data binding from external APIs and remote data sources for dynamic content."
+                MetaDescription = "This Blazor Tree Grid with Remote Data demonstrates the hierarchical data binding from an external API's and the remote data sources for dynamic content."
             },
             new Sample
             {
@@ -160,7 +195,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Tree Grid ExpandoObject | Dynamic Binding | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - ExpandoObject Binding",
-                MetaDescription = "This Blazor Tree Grid ExpandoObject Binding demonstrates dynamic data binding with flexible object structures for hierarchical data visualization."
+                MetaDescription = "This Blazor Tree Grid ExpandoObject Binding demonstrates the dynamic data binding with flexible object structures for hierarchical data visualization."
             },
             new Sample
             {
@@ -172,7 +207,43 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Tree Grid DynamicObject | Flexible Data | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - DynamicObject Binding",
-                MetaDescription = "This Blazor Tree Grid DynamicObject Binding demonstrates flexible data binding with runtime object creation for dynamic hierarchical structures."
+                MetaDescription = "This Blazor Tree Grid DynamicObject Binding demonstrates the flexible data binding with runtime object creation for the dynamic hierarchical structures."
+            },
+            new Sample
+            {
+                Name = "Observable Collection",
+                Category = "Data Binding",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/observable-binding",
+                FileName = "ObservableCollection.razor",
+                Type = SampleType.New,
+                MetaTitle = "Blazor Tree Grid ObservableCollection | Real-time Updates | Syncfusion",
+                HeaderText = "Blazor Tree Grid Example - Observable Collection Binding",
+                MetaDescription = "Blazor Tree Grid observable collection demo shows automatic UI updates when data changes. Track changes for real-time grid updates without manual refresh.",
+                NotificationDescription = new string[]{ "Demonstrates real-time TreeGrid updates using ObservableCollection with hierarchical support ticket management - add, resolve, escalate, and delete operations reflect instantly."},
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="ObservableCollection",
+                        FileName="ObservableBinding.razor"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ObservableCollectionCode",
+                        FileName="ObservableBinding.razor.cs"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ObservableDataProperties",
+                        FileName="ObservableCollectionProperties.cs"
+                    },
+                    new SourceCollection
+                    {
+                        Id="ObservableData",
+                        FileName="ObservableCollectionData.cs"
+                    }
+                }
             },
 #if !(WASM)
             new Sample
@@ -185,7 +256,7 @@ namespace BlazorDemos
                 FileName="VirtualScrolling.razor",
                 MetaTitle = "Blazor Tree Grid Virtual Scrolling | Performance | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - List Binding",
-                MetaDescription = "This Blazor Tree Grid Virtual Scrolling demonstrates high-performance rendering of large hierarchical datasets with optimized memory usage.",
+                MetaDescription = "Blazor Tree Grid Virtual Scrolling showcases efficient rendering of extensive hierarchical data with optimized memory management for superior performance.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -212,7 +283,7 @@ namespace BlazorDemos
                 FileName = "RemoteDataWithVirtualization.razor",
                 MetaTitle = "Blazor Tree Grid Virtual Scrolling | Performance | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Virtual Scrolling",
-                MetaDescription = "This Blazor Tree Grid Virtual Scrolling demonstrates high-performance rendering of large hierarchical datasets with optimized memory usage.",
+                MetaDescription = "This Blazor Tree Grid Virtual Scrolling demonstrates high-performance rendering of large hierarchical datasets with optimized memory usage for performance.",
             },
 #endif
 #if !(WASM)
@@ -225,7 +296,7 @@ namespace BlazorDemos
                 FileName = "RemoteDataWithVirtualization.razor",
                 MetaTitle = "Blazor Tree Grid Remote Virtual | API Performance | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Remote Data Binding",
-                MetaDescription = "This Blazor Tree Grid Remote Data with Virtualization demonstrates high-performance hierarchical data loading from APIs with virtual scrolling.",
+                MetaDescription = "This Blazor Tree Grid Remote Data with Virtualization example demonstrates high-performance hierarchical data loading from APIs with virtual scrolling.",
             },
 #endif
 
@@ -239,7 +310,7 @@ namespace BlazorDemos
                 FileName="ColumnTemplate.razor",
                 MetaTitle = "Blazor Tree Grid Column Template | Custom Cells | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Column Template",
-                MetaDescription = "This Blazor Tree Grid Column Template demonstrates custom cell rendering with HTML templates for enhanced data visualization in hierarchical grids.",
+                MetaDescription = "This Blazor Tree Grid Column Template example demonstrates custom cell rendering with HTML templates for enhanced data visualization in hierarchical grids.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -264,7 +335,7 @@ namespace BlazorDemos
                 FileName="Headerstemplate.razor",
                 MetaTitle = "Blazor Tree Grid Header Template | Custom Headers | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Header Template",
-                MetaDescription = "This Blazor Tree Grid Header Template demonstrates custom column header design with HTML templates for enhanced grid presentation and branding.",
+                MetaDescription = "This Blazor Tree Grid Header Template example demonstrates custom column header design with HTML templates for enhanced grid presentation and branding.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -275,7 +346,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="headertemplateData",
-                        FileName="TemplateData.cs"
+                        FileName="WrapData.cs"
                     }
                 }
             },
@@ -289,7 +360,7 @@ namespace BlazorDemos
                 FileName="Reorder.razor",
                 MetaTitle = "Blazor Tree Grid Reorder | Column Management | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Reorder",
-                MetaDescription = "This Blazor Tree Grid Reorder demonstrates drag-and-drop column reordering for customizable hierarchical data layout and user preferences.",
+                MetaDescription = "This Blazor Tree Grid Reorder example demonstrates the drag-and-drop column reordering for customizable hierarchical data layout and user preferences.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -314,7 +385,7 @@ namespace BlazorDemos
                 FileName="Resizing.razor",
                 MetaTitle = "Blazor Tree Grid Resizing | Column Width | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Resizing",
-                MetaDescription = "This Blazor Tree Grid Resizing demonstrates interactive column width adjustment for optimal hierarchical data display and user customization.",
+                MetaDescription = "This Blazor Tree Grid Resizing example demonstrates an interactive column width adjustment for optimal hierarchical data display and user customization.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -364,7 +435,7 @@ namespace BlazorDemos
                 FileName="AutoWrap.razor",
                 MetaTitle = "Blazor Tree Grid Auto Wrap | Text Wrapping | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Auto Wrap Column Cells",
-                MetaDescription = "This Blazor Tree Grid Auto Wrap demonstrates automatic text wrapping in cells for better content visibility in hierarchical data grids.",
+                MetaDescription = "This Blazor Tree Grid component Auto Wrap example demonstrates automatic text wrapping in cells for better content visibility in hierarchical data grids.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -389,7 +460,7 @@ namespace BlazorDemos
                 FileName="TreeColumnChooser.razor",
                 MetaTitle = "Blazor Tree Grid Column Chooser | Visibility | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Column Chooser",
-                MetaDescription = "This Blazor Tree Grid Column Chooser demonstrates interactive column visibility management for customizable hierarchical data presentation.",
+                MetaDescription = "This Blazor Tree Grid Column Chooser example demonstrates an interactive column visibility management for customizable hierarchical data presentation.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -414,7 +485,7 @@ namespace BlazorDemos
                 FileName="ShowOrHide.razor",
                 MetaTitle = "Blazor Tree Grid Show Hide | Column Control | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Show or Hide Column",
-                MetaDescription = "This Blazor Tree Grid Show/Hide demonstrates programmatic column visibility control for dynamic hierarchical data presentation and user preferences.",
+                MetaDescription = "This Blazor Tree Grid Show/Hide example demonstrates programmatic column visibility control for dynamic hierarchical data presentation and user preferences.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -439,7 +510,7 @@ namespace BlazorDemos
                 FileName="FrozenColumn.razor",
                 MetaTitle = "Blazor Tree Grid Frozen Columns | Fixed Layout | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Frozen Columns",
-                MetaDescription = "This Blazor Tree Grid Frozen Columns demonstrates fixed column positioning for improved navigation in wide hierarchical datasets.",
+                MetaDescription = "This Blazor Tree Grid demo shows fixed column positioning for improved navigation and improved user experience when working with wide hierarchical datasets.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -456,6 +527,27 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Sticky Header",
+                Category = "Columns",
+                Directory = "TreeGrid/TreeGrid",
+                Url = "tree-grid/sticky-header",
+                Type = SampleType.New,
+                FileName="StickyHeader.razor",
+                MetaTitle = "Blazor Tree Grid Sticky Header | Fixed Headers | Syncfusion",
+                HeaderText = "Blazor Tree Grid Example - Sticky Header",
+                NotificationDescription = new string[]{"This demo shows a Tree Grid with a sticky header that stays fixed during scroll."},
+                MetaDescription = "This Blazor Tree Grid Sticky Header example demonstrates how the header stays visible during parent element scrolling, enhancing data navigation and clarity.",
+                SourceFiles = new List<SourceCollection>()
+                {
+                    new SourceCollection
+                    {
+                        Id="StickyHeader",
+                        FileName="StickyHeader.razor"
+                    }
+                }
+            },
+            new Sample
+            {
                 Name = "Row Template",
                 Category = "Rows",
                 Directory = "TreeGrid/TreeGrid",
@@ -464,7 +556,7 @@ namespace BlazorDemos
                 FileName="TreeGridRowTemplate.razor",
                 MetaTitle = "Blazor Tree Grid Row Template | Custom Rows | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Row Template",
-                MetaDescription = "This Blazor Tree Grid Row Template demonstrates custom row rendering with HTML templates for enhanced hierarchical data visualization.",
+                MetaDescription = "This Blazor Tree Grid Row Template example demonstrates the custom row rendering with HTML templates for the enhanced hierarchical data visualization.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -489,7 +581,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Tree Grid Detail Template | Expandable Rows | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Detail Template",
-                MetaDescription = "This Blazor Tree Grid Detail Template demonstrates expandable row details with custom templates for comprehensive hierarchical data display.",
+                MetaDescription = "This Blazor Tree Grid Detail Template example demonstrates an expandable row details with custom templates for comprehensive hierarchical data display.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -514,7 +606,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Tree Grid Drag Drop | Row Movement | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Drag and Drop",
-                MetaDescription = "This Blazor Tree Grid Drag and Drop demonstrates interactive row movement between different grids while maintaining hierarchical relationships.",
+                MetaDescription = "This Blazor Tree Grid Drag and Drop example demonstrates interactive row movement between different grids while maintaining hierarchical relationships.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -538,7 +630,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Tree Grid Drag and Drop within Tree Grid - Syncfusion Demos",
                 HeaderText = "Blazor Tree Grid Example - Drag and Drop within Tree Grid",
-                MetaDescription = "This Blazor Tree Grid internal drag and drop demonstrates row reordering within the same hierarchical grid while preserving tree structure.",
+                MetaDescription = "This Blazor Tree Grid internal drag and drop example demonstrates the row reordering within the same hierarchical grid while preserving tree structure.",
                 FileName="DragAndDropWithinGrid.razor",
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -565,7 +657,7 @@ namespace BlazorDemos
                 IsHideInMobile = true,
                 MetaTitle = "Blazor Tree Grid Row Hover | Visual Feedback | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Row Hover",
-                MetaDescription = "This Blazor Tree Grid Row Hover demonstrates visual feedback on mouse hover for enhanced user interaction in hierarchical data grids.",
+                MetaDescription = "This Blazor Tree Grid Row Hover demonstrates visual feedback on mouse hover for enhanced user interaction in hierarchical data structure in grid format.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -590,7 +682,7 @@ namespace BlazorDemos
                 FileName="RowHeight.razor",
                 MetaTitle = "Blazor Tree Grid Row Height | Layout Control | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Row Height",
-                MetaDescription = "This Blazor Tree Grid Row Height demonstrates customizable row sizing for optimal hierarchical data display and content accommodation.",
+                MetaDescription = "This Blazor Tree Grid Row Height example demonstrates the customizable row sizing for the optimal hierarchical data display and content accommodation.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -601,7 +693,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="RowHeightData",
-                        FileName="SelfData.cs"
+                        FileName="WrapData.cs"
                     }
                 }
             },
@@ -614,7 +706,7 @@ namespace BlazorDemos
                 FileName="InlineEditing.razor",
                 MetaTitle = "Blazor Tree Grid Inline Editing | Data Modification | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Inline Editing",
-                MetaDescription = "This Blazor Tree Grid Inline Editing demonstrates direct cell editing capabilities for efficient hierarchical data modification and updates.",
+                MetaDescription = "This Blazor Tree Grid Inline Editing example demonstrates direct cell editing capabilities for an efficient hierarchical data modification and updates.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -625,7 +717,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="Data",
-                        FileName="SelfData.cs"
+                        FileName="Dateonlytimeonlydata.cs"
                     }
                 }
             },
@@ -639,7 +731,7 @@ namespace BlazorDemos
                 FileName="DialogEditing.razor",
                 MetaTitle = "Blazor Tree Grid Dialog Editing | Form Editor | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Dialog Editing",
-                MetaDescription = "This Blazor Tree Grid Dialog Editing demonstrates popup form-based editing for comprehensive hierarchical data modification and validation.",
+                MetaDescription = "This Blazor Tree Grid Dialog Editing demo showcases popup form-based editing for hierarchical data, enabling structured modification and robust validation.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -663,7 +755,7 @@ namespace BlazorDemos
                 FileName="BatchEditing.razor",
                 MetaTitle = "Blazor Tree Grid Batch Editing | Bulk Updates | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Batch Editing",
-                MetaDescription = "This Blazor Tree Grid Batch Editing demonstrates multiple row editing with bulk save operations for efficient hierarchical data management.",
+                MetaDescription = "This Blazor Tree Grid Batch Editing example demonstrates the multiple row editing with bulk save operations for efficient hierarchical data management.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -688,7 +780,7 @@ namespace BlazorDemos
                 FileName="CommandColumn.razor",
                 MetaTitle = "Blazor Tree Grid Command Column | Action Buttons | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Command Column",
-                MetaDescription = "This Blazor Tree Grid Command Column demonstrates action buttons for edit, delete, and custom operations in hierarchical data grids.",
+                MetaDescription = "This Blazor Tree Grid Command Column example demonstrates an action buttons for edit, delete, and customizable operations in the hierarchical data grids.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -713,7 +805,7 @@ namespace BlazorDemos
                 FileName="CellEditType.razor",
                 MetaTitle = "Blazor Tree Grid Cell Edit Type | Input Controls | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Cell Edit Type",
-                MetaDescription = "This Blazor Tree Grid Cell Edit Type demonstrates various input controls for different data types in hierarchical grid editing scenarios.",
+                MetaDescription = "This Blazor Tree Grid Cell Edit Type example demonstrates the various input controls for different data types in the hierarchical grid editing scenarios.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -724,7 +816,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="CellEditTypeData",
-                        FileName="SelfData.cs"
+                        FileName="WrapData.cs"
                     }
                 }
             },
@@ -738,7 +830,7 @@ namespace BlazorDemos
                 FileName="CellEditTemplate.razor",
                 MetaTitle = "Blazor Tree Grid Edit Template | Custom Editors | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Edit Template",
-                MetaDescription = "This Blazor Tree Grid Edit Template demonstrates custom editor templates for specialized data input in hierarchical grid editing.",
+                MetaDescription = "Blazor Tree Grid Edit Template demo shows custom editor templates for specialized data input in hierarchical grid editing and providing tailored interfaces.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -749,7 +841,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="EditTemplateData",
-                        FileName="SelfData.cs"
+                        FileName="WrapData.cs"
                     }
                 }
             },
@@ -763,7 +855,7 @@ namespace BlazorDemos
                 FileName="DefaultFiltering.razor",
                 MetaTitle = "Blazor Tree Grid Filtering | Data Search | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Default Filtering",
-                MetaDescription = "This Blazor Tree Grid Filtering demonstrates data search and filter capabilities while maintaining hierarchical relationships and tree structure.",
+                MetaDescription = "This Blazor Tree Grid Filtering example demonstrates data search and filter capabilities while maintaining hierarchical relationships and tree structure.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -774,7 +866,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="Data",
-                        FileName="TreeData.cs"
+                        FileName="SelfData.cs"
                     }
                 }
             },
@@ -788,7 +880,7 @@ namespace BlazorDemos
                 FileName="FilterBarTemplate.razor",
                 MetaTitle = "Blazor Tree Grid Filter Template | Custom Filters | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Filterbar Template",
-                MetaDescription = "This Blazor Tree Grid Filter Template demonstrates custom filter controls and templates for advanced hierarchical data filtering capabilities.",
+                MetaDescription = "This Blazor Tree Grid Filter Template example demonstrates custom filter controls and templates for advanced hierarchical data filtering capabilities.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -799,7 +891,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="FilterBarTemplateData",
-                        FileName="TreeData.cs"
+                        FileName="SelfData.cs"
                     }
                 }
             },
@@ -813,7 +905,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Tree Grid Menu Filter | Advanced Search | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Menu Filter",
-                MetaDescription = "This Blazor Tree Grid Menu Filter demonstrates advanced filtering options with dropdown menus for comprehensive hierarchical data search.",
+                MetaDescription = "This Blazor Tree Grid Menu Filter example demonstrates an advanced filtering options with the dropdown menus for comprehensive hierarchical data search.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -824,7 +916,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="FilterData",
-                        FileName="TreeData.cs"
+                        FileName="Dateonlytimeonlydata.cs"
                     }
                 },
             },
@@ -838,7 +930,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Tree Grid Excel Filter | Advanced Filtering | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Excel like Filter",
-                MetaDescription = "This Blazor Tree Grid Excel Filter demonstrates Excel-style filtering with checkboxes and search for intuitive hierarchical data filtering.",
+                MetaDescription = "This Blazor Tree Grid Excel Filter example demonstrates an Excel-style filtering with checkboxes and search for intuitive hierarchical data filtering.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -849,7 +941,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="FilterData",
-                        FileName="TreeData.cs"
+                        FileName="Dateonlytimeonlydata.cs"
                     }
                 },
             },
@@ -863,7 +955,7 @@ namespace BlazorDemos
                 FileName="Search.razor",
                 MetaTitle = "Blazor Tree Grid Search | Global Search | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Search",
-                MetaDescription = "This Blazor Tree Grid Search demonstrates global search functionality across all columns while preserving hierarchical data relationships.",
+                MetaDescription = "This Blazor Tree Grid Search example demonstrates the global search functionality across all columns while preserving hierarchical data relationships.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -874,7 +966,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="Data",
-                        FileName="TreeData.cs"
+                        FileName="SelfData.cs"
                     }
                 }
             },
@@ -888,7 +980,7 @@ namespace BlazorDemos
                 FileName="Selection.razor",
                 MetaTitle = "Blazor Tree Grid Selection | Row Selection | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Default Selection",
-                MetaDescription = "This Blazor Tree Grid Selection demonstrates row and cell selection capabilities with various selection modes for hierarchical data interaction.",
+                MetaDescription = "This Blazor Tree Grid Selection example demonstrates row and cell selection capabilities with various selection modes for hierarchical data interaction.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -913,7 +1005,7 @@ namespace BlazorDemos
                 FileName="SelectionAPI.razor",
                 MetaTitle = "Blazor Tree Grid Selection API | Programmatic | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Selection API",
-                MetaDescription = "This Blazor Tree Grid Selection API demonstrates programmatic selection control with methods for managing hierarchical data selections.",
+                MetaDescription = "This Blazor Tree Grid Selection API example demonstrates the programmatic selection control with methods for the managing hierarchical data selections.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -938,7 +1030,7 @@ namespace BlazorDemos
                 FileName="CheckboxSelection.razor",
                 MetaTitle = "Blazor Tree Grid Checkbox Selection | Multi-Select | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Checkbox Selection",
-                MetaDescription = "This Blazor Tree Grid Checkbox Selection demonstrates multi-row selection with checkboxes for bulk operations in hierarchical data grids.",
+                MetaDescription = "This Blazor Tree Grid Checkbox Selection example demonstrates the multi-row selection with checkboxes for bulk operations in the hierarchical data grids.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -963,7 +1055,7 @@ namespace BlazorDemos
                 FileName="Exporting.razor",
                 MetaTitle = "Blazor Tree Grid Export | Data Export | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Default Exporting",
-                MetaDescription = "This Blazor Tree Grid Export demonstrates exporting hierarchical data to Excel and PDF formats while preserving tree structure and formatting.",
+                MetaDescription = "This Blazor Tree Grid Export example demonstrates exporting hierarchical data to Excel and PDF formats while preserving tree structure and formatting.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -988,7 +1080,7 @@ namespace BlazorDemos
                FileName="Print.razor",
                MetaTitle = "Blazor Tree Grid Print | Document Output | Syncfusion",
                HeaderText = "Blazor Tree Grid Example - Print",
-               MetaDescription = "This Blazor Tree Grid Print demonstrates printing capabilities for generating hard copies of hierarchical data with customizable print settings.",
+               MetaDescription = "This Blazor Tree Grid Print example demonstrates printing capabilities for generating hard copies of hierarchical data with customizable print settings.",
                SourceFiles = new List<SourceCollection>()
                {
                    new SourceCollection
@@ -1012,7 +1104,7 @@ namespace BlazorDemos
                 FileName = "Persistence.razor",
                 MetaTitle = "Blazor Tree Grid Persist State | Save Settings | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Persist State",
-                MetaDescription = "This Blazor Tree Grid Persist State demonstrates saving and restoring grid settings including column order, filters, and user preferences."
+                MetaDescription = "This Blazor Tree Grid Persist State example demonstrates the saving and restoring grid settings including column order, filters, and user preferences."
             },
             new Sample
             {
@@ -1023,7 +1115,7 @@ namespace BlazorDemos
                 FileName="ContextMenu.razor",
                 MetaTitle = "Blazor Tree Grid Context Menu | Right-Click Menu | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Context Menu",
-                MetaDescription = "This Blazor Tree Grid Context Menu demonstrates right-click contextual operations for enhanced user interaction in hierarchical data grids.",
+                MetaDescription = "This Blazor Tree Grid Context Menu example demonstrates the right-click contextual operations for enhanced user interaction in hierarchical data grids.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1048,7 +1140,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Tree Grid Events | Event Handling | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Events",
-                MetaDescription = "This Blazor Tree Grid Events demonstrates event handling for user interactions, data changes, and grid operations in hierarchical data grids.",
+                MetaDescription = "This Blazor Tree Grid Events example demonstrates an event handling for user interactions, data changes, and grid operations in hierarchical data grids.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1059,7 +1151,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="EventsData",
-                        FileName="TreeData.cs"
+                        FileName="SelfData.cs"
                     }
                 }
             },
@@ -1072,7 +1164,7 @@ namespace BlazorDemos
                 FileName="Clipboard.razor",
                 MetaTitle = "Blazor Tree Grid Clipboard | Copy Paste | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Clipboard",
-                MetaDescription = "This Blazor Tree Grid Clipboard demonstrates copy and paste operations for efficient data transfer in hierarchical grid applications.",
+                MetaDescription = "This Blazor Tree Grid Clipboard example demonstrates the copy and paste operations with header for efficient data transfer in hierarchical grid applications.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1097,7 +1189,7 @@ namespace BlazorDemos
                 FileName="ConditionalFormatting.razor",
                 MetaTitle = "Blazor Tree Grid Conditional Format | Visual Styling | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Conditional Formatting",
-                MetaDescription = "This Blazor Tree Grid Conditional Formatting demonstrates dynamic cell styling based on data values for enhanced hierarchical data visualization.",
+                MetaDescription = "This Blazor Tree Grid Conditional Formatting example demonstrates dynamic cell styling based on data values for enhanced hierarchical data visualization.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1122,7 +1214,7 @@ namespace BlazorDemos
                 FileName="ToolBarTemplate.razor",
                 MetaTitle = "Blazor Tree Grid Toolbar Template | Custom Toolbar | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Toolbar Template",
-                MetaDescription = "This Blazor Tree Grid Toolbar Template demonstrates custom toolbar design with action buttons for enhanced hierarchical grid functionality.",
+                MetaDescription = "This Blazor Tree Grid Toolbar Template example demonstrates the custom toolbar design with action buttons for enhanced hierarchical grid functionality.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1133,7 +1225,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="ToolBarTemplateData",
-                        FileName="TreeData.cs"
+                        FileName="SelfData.cs"
                     }
                 }
             },
@@ -1147,7 +1239,7 @@ namespace BlazorDemos
                 FileName="KeyboardInteraction.razor",
                 MetaTitle = "Blazor Tree Grid Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Tree Grid Example - Keyboard Navigation",
-                MetaDescription = "This Blazor Tree Grid Keyboard Navigation demonstrates accessibility features with keyboard shortcuts for hierarchical data grid interaction.",
+                MetaDescription = "This Blazor Tree Grid Keyboard Navigation example demonstrates an accessibility features with keyboard shortcuts for hierarchical data grid interaction.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1158,7 +1250,7 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="KeyboardInteractionData",
-                        FileName="WrapData.cs"
+                        FileName="SelfData.cs"
                     }
                 }
             }

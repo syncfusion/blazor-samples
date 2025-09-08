@@ -38,7 +38,7 @@
                                     @{
                                         var aggregate = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Sum: @aggregate.Sum</p>
+                                            <p>Sum: @aggregate?.Sum</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -52,7 +52,7 @@
                                     @{
                                         var aggregate = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Average: @aggregate.Average</p>
+                                            <p>Average: @aggregate?.Average</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -73,8 +73,8 @@
 </div>
 
 @code {
-    public static DataTable dataTable { get; set; }
-    public static IQueryable DataSource;
+    public static DataTable? dataTable { get; set; }
+    public static IQueryable? DataSource;
 
     protected override void OnInitialized()
     {
@@ -86,10 +86,10 @@
     public class CustomAdaptor : DataAdaptor
     {
         // Performs data Read operation
-        public override object Read(DataManagerRequest dm, string key = null)
+        public override object Read(DataManagerRequest dm, string? key = null)
         {
             // Performs Searching, Sorting, Filtering
-            DataSource = PerformDataOperation(dataTable, dm);
+            DataSource = PerformDataOperation(dataTable!, dm);
 
             int count = DataSource.Cast<ExpandoObject>().Count();
             if (dm.Skip != 0)
@@ -126,13 +126,13 @@
         //Performs Insert operation
         public override object Insert(DataManager dm, object value, string key)
         {
-            DataRow newRow = dataTable.NewRow();
+            DataRow newRow = dataTable?.NewRow()!;
             var data = (ExpandoObject)value;
             foreach (var item in data)
             {
                 newRow[item.Key] = item.Value ?? DBNull.Value;
             }
-            dataTable.Rows.InsertAt(newRow, 0);
+            dataTable?.Rows.InsertAt(newRow, 0);
 
             return value;
         }
@@ -140,9 +140,9 @@
         //Performs Remove operation
         public override object Remove(DataManager dm, object value, string keyField, string key)
         {
-            DataRow rowToRemove = null;
+            DataRow? rowToRemove = null;
 
-            foreach (DataRow row in dataTable.Rows)
+            foreach (DataRow row in dataTable?.Rows!)
             {
                 if (row[keyField].Equals(value))
                 {
@@ -162,13 +162,13 @@
         public override object Update(DataManager dm, object value, string keyField, string key)
         {
             var data = (IDictionary<string, object>)value;
-            var rowToUpdate = dataTable.Rows
+            var rowToUpdate = dataTable?.Rows
                 .Cast<DataRow>()
                 .FirstOrDefault(row => row[keyField].Equals(data[keyField]));
 
             if (rowToUpdate != null)
             {
-                foreach (DataColumn column in dataTable.Columns)
+                foreach (DataColumn column in dataTable?.Columns!)
                 {
                     var columnName = column.ColumnName;
                     var newValue = data[column.ColumnName] ?? column.DefaultValue;
@@ -189,9 +189,9 @@
             {
                 var colValue = row[col.ColumnName];
                 colValue = (colValue == DBNull.Value) ? null : colValue;
-                expandoDict.Add(col.ToString(), colValue);
+                expandoDict.Add(col.ToString(), colValue!);
             }
-            expandoList.Add((ExpandoObject)expandoDict);
+            expandoList.Add((ExpandoObject)expandoDict!);
         }
         return expandoList.AsQueryable();
     }

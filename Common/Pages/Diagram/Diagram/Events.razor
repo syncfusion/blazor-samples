@@ -4,7 +4,7 @@
 @using Syncfusion.Blazor.Diagram.SymbolPalette
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Navigations
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @using ClickEventArgs = Syncfusion.Blazor.Diagram.ClickEventArgs
 @using DragStartEventArgs = Syncfusion.Blazor.Diagram.DragStartEventArgs
 @using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
@@ -385,10 +385,10 @@
     bool historyChangedEvent = true;
     bool connectionChangedEvent = true;
     bool connectionChangingEvent = false;
-    public DiagramSize SymbolPreview;
-    public SymbolMargin SymbolMargin = new SymbolMargin { Left = 10, Right = 10, Top = 10, Bottom = 10 };
-    public SfDiagramComponent DiagramInstance;
-    public SfSymbolPaletteComponent PaletteInstance;
+    public DiagramSize? SymbolPreview;
+    public SymbolMargin? SymbolMargin = new SymbolMargin { Left = 10, Right = 10, Top = 10, Bottom = 10 };
+    public SfDiagramComponent? DiagramInstance;
+    public SfSymbolPaletteComponent? PaletteInstance;
     @*Hidden:Lines*@
     private int SelectedTab { get; set; } = 0;
     private bool ConnectorEvents { get; set; } = false;
@@ -400,31 +400,31 @@
     List<string> EventValue = new List<string>();
 
     //Defines Diagram's Nodes collection
-    private DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
+    private DiagramObjectCollection<Node>? DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
 
     //Defines Diagram's Connectors collection
-    private DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
+    private DiagramObjectCollection<Connector>? DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
 
     //Define palattes collection
-    private DiagramObjectCollection<Palette> DiagramPalettes { get; set; } = new DiagramObjectCollection<Palette>();
+    private DiagramObjectCollection<Palette>? DiagramPalettes { get; set; } = new DiagramObjectCollection<Palette>();
 
     // Defines palette's basic-shape collection
-    private DiagramObjectCollection<NodeBase> PalettesShapeSymbols { get; set; } = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? PalettesShapeSymbols { get; set; } = new DiagramObjectCollection<NodeBase>();
 
     // Defines palette's flow-shape collection
     private DiagramObjectCollection<NodeBase> PalettesFlowShapes { get; set; } = new DiagramObjectCollection<NodeBase>();
 
     // Defines interval values for GridLines
-    public double[] GridLineIntervals { get; set; }
+    public double[]? GridLineIntervals { get; set; }
 
     // Defines palette's connector collection
-    private DiagramObjectCollection<NodeBase> DiagramConnectorSymbols { get; set; } = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? DiagramConnectorSymbols { get; set; } = new DiagramObjectCollection<NodeBase>();
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteInstance!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             DiagramInstance
         };
@@ -432,7 +432,7 @@
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        DiagramInstance.FitToPage(mobileoptions);
+        DiagramInstance!.FitToPage(mobileoptions);
     }
     protected override void OnInitialized()
     {
@@ -508,9 +508,9 @@
 
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        node.Style.Fill = "#357BD2";
-        if (!(node.ID.StartsWith("Annotation")))
+        Node? node = obj as Node;
+        node!.Style!.Fill = "#357BD2";
+        if (!(node.ID!.StartsWith("Annotation")))
             node.Style.StrokeColor = "White";
         node.Style.Opacity = 1;
     }
@@ -529,7 +529,7 @@
             ID = NodeID,
             Shape = new FlowShape()
             {
-                Type = shapes.Flow,
+                Type = NodeShape.Flow,
                 Shape = type
             },
             Style = new ShapeStyle() { Fill = "#357BD2", StrokeWidth = 1, StrokeColor = "#757575" }
@@ -826,11 +826,11 @@
 
     private void OnConnectorCreating(IDiagramObject obj)
     {
-        Connector node = obj as Connector;
-        node.Style.Fill = "#357BD2";
+        Connector? node = obj as Connector;
+        node!.Style!.Fill = "#357BD2";
         node.Style.StrokeColor = "#357BD2";
         node.Style.Opacity = 1;
-        node.TargetDecorator.Style.Fill = "#357BD2";
+        node.TargetDecorator!.Style.Fill = "#357BD2";
         node.TargetDecorator.Style.StrokeColor = "#357BD2";
     }
 
@@ -840,10 +840,10 @@
         Node diagramNode = new Node()
         {
             ID = id,
-            Shape = new BasicShape() { Type = shapes.Basic, Shape = basicShape },
+            Shape = new BasicShape() { Type = NodeShape.Basic, Shape = basicShape },
             Style = new ShapeStyle() { Fill = "#357BD2", StrokeColor = "#757575", StrokeWidth = 1 },
         };
-        PalettesShapeSymbols.Add(diagramNode);
+        PalettesShapeSymbols!.Add(diagramNode);
     }
 
     @*Hidden:Lines*@
@@ -884,7 +884,7 @@
                 };
             diagramConnector.Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip;
         }
-        DiagramConnectorSymbols.Add(diagramConnector);
+        DiagramConnectorSymbols!.Add(diagramConnector);
     }
 
     // Method is used to create a node for the diagram.
@@ -897,10 +897,10 @@
             Height = height,
             OffsetX = x,
             OffsetY = y,
-            Shape = new FlowShape() { Type = shapes.Flow, Shape = flowShape },
+            Shape = new FlowShape() { Type = NodeShape.Flow, Shape = flowShape },
             Annotations = new DiagramObjectCollection<ShapeAnnotation> { new ShapeAnnotation { Content = content, Style = new TextStyle() { Color = "White", Fill = "transparent" } } }
         };
-        DiagramNodes.Add(diagramNode);
+        DiagramNodes!.Add(diagramNode);
     }
 
     // Method is used to create a connector for the diagram.
@@ -914,11 +914,11 @@
             Type = segmentType,
             Annotations = new DiagramObjectCollection<PathAnnotation> { new PathAnnotation { Content = content } }
         };
-        DiagramConnectors.Add(diagramConnector);
+        DiagramConnectors!.Add(diagramConnector);
     }
     public async void ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
     @*Hidden:Lines*@

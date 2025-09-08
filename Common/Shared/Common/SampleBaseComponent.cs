@@ -16,7 +16,7 @@ namespace BlazorDemos.Shared
     public class SampleBaseComponent: ComponentBase
     {
         [Inject]
-        protected SampleService SampleService { get; set; }
+        protected SampleService? SampleService { get; set; }
 
 #if WASM && NET9_0
         protected override async Task OnAfterRenderAsync(bool firstRender)
@@ -29,8 +29,8 @@ namespace BlazorDemos.Shared
             #if WASM && NET9_0
                 await Task.Delay(500); 
             #endif
-            SampleService.Spinner?.Hide();
-            SampleService.Spinner?.ShowModalSpinner();
+            SampleService?.Spinner?.Hide();
+            SampleService?.Spinner?.ShowModalSpinner();
         }
     }
 }

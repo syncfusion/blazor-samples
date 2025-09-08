@@ -29,7 +29,7 @@ namespace blazor_gantt_human_resource_data
         internal class HolidayModel
         {
             public int Id { get; set; }
-            public string HolidayName { get; set; }
+            public string HolidayName { get; set; } = string.Empty;
             public DateTime Date { get; set; }
         }
 

@@ -306,11 +306,11 @@
     string positionText = "Bottom";
     bool bind = true;
     string aligntext = "Center";
-    private SfBarcodeGenerator barcodeGenerator;
-    string CssClass { get; set; }
+    private SfBarcodeGenerator? barcodeGenerator;
+    string? CssClass { get; set; }
     public class PositionOfText
     {
-        public string Position { get; set; }
+        public string? Position { get; set; }
     }
     List<PositionOfText> positionOfText = new List<PositionOfText> {
     new PositionOfText() { Position = "Top" },
@@ -319,7 +319,7 @@
     Alignment textAlignment = Alignment.Center;
     public class TextAlignment
     {
-        public string Align { get; set; }
+        public string? Align { get; set; }
     }
     List<TextAlignment> TextAlign = new List<TextAlignment> {
     new TextAlignment() { Align = "Left" },
@@ -349,19 +349,19 @@
     }
     private void DsiplayTextValueChange(ChangeEventArgs args)
     {
-        displayTextValue = args.Value.ToString();
+        displayTextValue = args.Value!.ToString()!;
     }
     public void BackgroundColorChange(ColorPickerEventArgs args)
     {
-        backgroundColor = args.CurrentValue.Hex.ToString();
+        backgroundColor = args.CurrentValue!.Hex!.ToString();
     }
     public void ForeColorChange(ColorPickerEventArgs args)
     {
-        foreColor = args.CurrentValue.Hex.ToString();
+        foreColor = args.CurrentValue!.Hex!.ToString();
     }
     private void BarcodeValueChange(ChangeEventArgs args)
     {
-        barcodeValue = args.Value.ToString();
+        barcodeValue = args.Value!.ToString()!;
     }
     public void TopMarginChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
     {
@@ -389,32 +389,36 @@
     }
     private void TextPositionChanged(ChangeEventArgs<string, PositionOfText> args)
     {
-        if (args.ItemData.Position == "Top")
+        switch(args.ItemData!.Position)
         {
-            textPosition = TextPosition.Top;
-        }
-        if (args.ItemData.Position == "Bottom")
-        {
-            textPosition = TextPosition.Bottom;
+            case "Top":
+                textPosition = TextPosition.Top;
+                break;
+            case "Bottom":
+                textPosition = TextPosition.Bottom;
+                break;
         }
     }
     private void TextAlignChanged(ChangeEventArgs<string, TextAlignment> args)
     {
-        if (args.ItemData.Align == "Left")
+        switch(args.ItemData!.Align)
         {
-            textAlignment = Alignment.Left;
-        }
-        if (args.ItemData.Align == "Right")
-        {
-            textAlignment = Alignment.Right;
-        }
-        if (args.ItemData.Align == "Center")
-        {
-            textAlignment = Alignment.Center;
+            case "Left":
+                textAlignment = Alignment.Left;
+                break;
+            case "Right":
+                textAlignment = Alignment.Right;
+                break;
+            case "Center":
+                textAlignment = Alignment.Center;
+                break;
         }
     }
     private void ExportBarcode()
     {
-        barcodeGenerator.Export("UpcE", BarcodeExportType.JPG);
+        if (barcodeGenerator != null)
+        {
+            barcodeGenerator.Export("UpcE", BarcodeExportType.JPG);
+        }
     }
 }

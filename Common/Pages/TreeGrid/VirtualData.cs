@@ -10,18 +10,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_virtualdata
+namespace Virtualdata
 {
 
     public class SelfReferenceData
     {
         public static List<SelfReferenceData> tree = new List<SelfReferenceData>();
         public int TaskID { get; set; }
-        public string TaskName { get; set; }
+        public string? TaskName { get; set; }
         public DateTime StartDate { get; set; }
         public DateTime EndDate { get; set; }
-        public String Progress { get; set; }
-        public String Priority { get; set; }
+        public String? Progress { get; set; }
+        public String? Priority { get; set; }
         public int Duration { get; set; }
         public int? ParentItem { get; set; }
         public bool? IsParent { get; set; }
@@ -67,7 +67,7 @@ namespace ej2_blazor_virtualdata
     public class VirtualData
     {
         public int TaskID { get; set; }
-        public string FIELD1 { get; set; }
+        public string? FIELD1 { get; set; }
         public int FIELD2 { get; set; }
         public int FIELD3 { get; set; }
         public int FIELD4 { get; set; }

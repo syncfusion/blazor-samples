@@ -14,12 +14,12 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
         public int In_Stock { get; set; }
         public int Sold { get; set; }
         public double Amount { get; set; }
-        public string Country { get; set; }
-        public string Product_Categories { get; set; }
-        public string Products { get; set; }
-        public string Order_Source { get; set; }
-        public string Year { get; set; }
-        public string Quarter { get; set; }
+        public string Country { get; set; } = string.Empty;
+        public string Product_Categories { get; set; } = string.Empty;
+        public string Products { get; set; } = string.Empty;
+        public string Order_Source { get; set; } = string.Empty;
+        public string Year { get; set; } = string.Empty;
+        public string Quarter { get; set; } = string.Empty;
 
         public static List<SalesAnalysis> GetSalesAnalysisData()
         {
@@ -33,7 +33,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -44,7 +44,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -55,7 +55,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -66,7 +66,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -77,7 +77,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -88,7 +88,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -99,7 +99,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -110,7 +110,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -121,7 +121,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -132,7 +132,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -143,7 +143,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -154,7 +154,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -165,7 +165,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -176,7 +176,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -187,7 +187,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -198,7 +198,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -209,7 +209,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -220,7 +220,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -231,7 +231,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -242,7 +242,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -253,7 +253,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -264,7 +264,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -275,7 +275,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -286,7 +286,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -297,7 +297,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -308,7 +308,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -319,7 +319,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -330,7 +330,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -341,7 +341,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -352,7 +352,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -363,7 +363,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -374,7 +374,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -385,7 +385,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -396,7 +396,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -407,7 +407,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -418,7 +418,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -429,7 +429,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -440,7 +440,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -451,7 +451,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -462,7 +462,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -473,7 +473,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -484,7 +484,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -495,7 +495,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -506,7 +506,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -517,7 +517,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -528,7 +528,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -539,7 +539,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -550,7 +550,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -561,7 +561,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -572,7 +572,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -583,7 +583,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -594,7 +594,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -605,7 +605,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -616,7 +616,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -627,7 +627,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -638,7 +638,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -649,7 +649,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -660,7 +660,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -671,7 +671,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -682,7 +682,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -693,7 +693,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -704,7 +704,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -715,7 +715,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -726,7 +726,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -737,7 +737,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -748,7 +748,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -759,7 +759,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -770,7 +770,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -781,7 +781,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -792,7 +792,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -803,7 +803,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -814,7 +814,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -825,7 +825,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -836,7 +836,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -847,7 +847,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -858,7 +858,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -869,7 +869,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -880,7 +880,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -891,7 +891,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -902,7 +902,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -913,7 +913,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -924,7 +924,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -935,7 +935,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -946,7 +946,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -957,7 +957,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -968,7 +968,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -979,7 +979,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -990,7 +990,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1001,7 +1001,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1012,7 +1012,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1023,7 +1023,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1034,7 +1034,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1045,7 +1045,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1056,7 +1056,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1067,7 +1067,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1078,7 +1078,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1089,7 +1089,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1100,7 +1100,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1111,7 +1111,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1122,7 +1122,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1133,7 +1133,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1144,7 +1144,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1155,7 +1155,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1166,7 +1166,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1177,7 +1177,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1188,7 +1188,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1199,7 +1199,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1210,7 +1210,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1221,7 +1221,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1232,7 +1232,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1243,7 +1243,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1254,7 +1254,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1265,7 +1265,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1276,7 +1276,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1287,7 +1287,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1298,7 +1298,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1309,7 +1309,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1320,7 +1320,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1331,7 +1331,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1342,7 +1342,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1353,7 +1353,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1364,7 +1364,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1375,7 +1375,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1386,7 +1386,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1397,7 +1397,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1408,7 +1408,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1419,7 +1419,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1430,7 +1430,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1441,7 +1441,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1452,7 +1452,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1463,7 +1463,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1474,7 +1474,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1485,7 +1485,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1496,7 +1496,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1507,7 +1507,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1518,7 +1518,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1529,7 +1529,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1540,7 +1540,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1551,7 +1551,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1562,7 +1562,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1573,7 +1573,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1584,7 +1584,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1595,7 +1595,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1606,7 +1606,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1617,7 +1617,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1628,7 +1628,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1639,7 +1639,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1650,7 +1650,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1661,7 +1661,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1672,7 +1672,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1683,7 +1683,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1694,7 +1694,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1705,7 +1705,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1716,7 +1716,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1727,7 +1727,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1738,7 +1738,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1749,7 +1749,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1760,7 +1760,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1771,7 +1771,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1782,7 +1782,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1793,7 +1793,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1804,7 +1804,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1815,7 +1815,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1826,7 +1826,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1837,7 +1837,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1848,7 +1848,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1859,7 +1859,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -1870,7 +1870,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1881,7 +1881,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1892,7 +1892,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1903,7 +1903,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -1914,7 +1914,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1925,7 +1925,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1936,7 +1936,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1947,7 +1947,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -1958,7 +1958,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1969,7 +1969,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1980,7 +1980,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -1991,7 +1991,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2002,7 +2002,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2013,7 +2013,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2024,7 +2024,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2035,7 +2035,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2046,7 +2046,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2057,7 +2057,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2068,7 +2068,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2079,7 +2079,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2090,7 +2090,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2101,7 +2101,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2112,7 +2112,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2123,7 +2123,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2134,7 +2134,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2145,7 +2145,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2156,7 +2156,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2167,7 +2167,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2178,7 +2178,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2189,7 +2189,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2200,7 +2200,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2211,7 +2211,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2222,7 +2222,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2233,7 +2233,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2244,7 +2244,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2255,7 +2255,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2266,7 +2266,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2277,7 +2277,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2288,7 +2288,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2299,7 +2299,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2310,7 +2310,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2321,7 +2321,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2332,7 +2332,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2343,7 +2343,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2354,7 +2354,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2365,7 +2365,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2376,7 +2376,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2387,7 +2387,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2398,7 +2398,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2409,7 +2409,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2420,7 +2420,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2431,7 +2431,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2442,7 +2442,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2453,7 +2453,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2464,7 +2464,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2475,7 +2475,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2486,7 +2486,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2497,7 +2497,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2508,7 +2508,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2519,7 +2519,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2530,7 +2530,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2541,7 +2541,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2552,7 +2552,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2563,7 +2563,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2574,7 +2574,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2585,7 +2585,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2596,7 +2596,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2607,7 +2607,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2618,7 +2618,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2629,7 +2629,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2640,7 +2640,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2651,7 +2651,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2662,7 +2662,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2673,7 +2673,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2684,7 +2684,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2695,7 +2695,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2706,7 +2706,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2717,7 +2717,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2728,7 +2728,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2739,7 +2739,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2750,7 +2750,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2761,7 +2761,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2772,7 +2772,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2783,7 +2783,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2794,7 +2794,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2805,7 +2805,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2816,7 +2816,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2827,7 +2827,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -2838,7 +2838,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2849,7 +2849,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2860,7 +2860,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2871,7 +2871,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2882,7 +2882,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2893,7 +2893,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2904,7 +2904,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2915,7 +2915,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -2926,7 +2926,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2937,7 +2937,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2948,7 +2948,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2959,7 +2959,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -2970,7 +2970,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2981,7 +2981,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -2992,7 +2992,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3003,7 +3003,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3014,7 +3014,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3025,7 +3025,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3036,7 +3036,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3047,7 +3047,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3058,7 +3058,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3069,7 +3069,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3080,7 +3080,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3091,7 +3091,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3102,7 +3102,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3113,7 +3113,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3124,7 +3124,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3135,7 +3135,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3146,7 +3146,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3157,7 +3157,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3168,7 +3168,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3179,7 +3179,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3190,7 +3190,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3201,7 +3201,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3212,7 +3212,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3223,7 +3223,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3234,7 +3234,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3245,7 +3245,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3256,7 +3256,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3267,7 +3267,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3278,7 +3278,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3289,7 +3289,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3300,7 +3300,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3311,7 +3311,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3322,7 +3322,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3333,7 +3333,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3344,7 +3344,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3355,7 +3355,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3366,7 +3366,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3377,7 +3377,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3388,7 +3388,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3399,7 +3399,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3410,7 +3410,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3421,7 +3421,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3432,7 +3432,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3443,7 +3443,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3454,7 +3454,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3465,7 +3465,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3476,7 +3476,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3487,7 +3487,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3498,7 +3498,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3509,7 +3509,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3520,7 +3520,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3531,7 +3531,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3542,7 +3542,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3553,7 +3553,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3564,7 +3564,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3575,7 +3575,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3586,7 +3586,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3597,7 +3597,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3608,7 +3608,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3619,7 +3619,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3630,7 +3630,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3641,7 +3641,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3652,7 +3652,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3663,7 +3663,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3674,7 +3674,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3685,7 +3685,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3696,7 +3696,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3707,7 +3707,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3718,7 +3718,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3729,7 +3729,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3740,7 +3740,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3751,7 +3751,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3762,7 +3762,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3773,7 +3773,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3784,7 +3784,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3795,7 +3795,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3806,7 +3806,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3817,7 +3817,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3828,7 +3828,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3839,7 +3839,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3850,7 +3850,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3861,7 +3861,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3872,7 +3872,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3883,7 +3883,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -3894,7 +3894,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3905,7 +3905,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3916,7 +3916,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3927,7 +3927,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -3938,7 +3938,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3949,7 +3949,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3960,7 +3960,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3971,7 +3971,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -3982,7 +3982,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -3993,7 +3993,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4004,7 +4004,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4015,7 +4015,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4026,7 +4026,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4037,7 +4037,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4048,7 +4048,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4059,7 +4059,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4070,7 +4070,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4081,7 +4081,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4092,7 +4092,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4103,7 +4103,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4114,7 +4114,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4125,7 +4125,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4136,7 +4136,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4147,7 +4147,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4158,7 +4158,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4169,7 +4169,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4180,7 +4180,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4191,7 +4191,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4202,7 +4202,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4213,7 +4213,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4224,7 +4224,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4235,7 +4235,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4246,7 +4246,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4257,7 +4257,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4268,7 +4268,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4279,7 +4279,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4290,7 +4290,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4301,7 +4301,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4312,7 +4312,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4323,7 +4323,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4334,7 +4334,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4345,7 +4345,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4356,7 +4356,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4367,7 +4367,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4378,7 +4378,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4389,7 +4389,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4400,7 +4400,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4411,7 +4411,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4422,7 +4422,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4433,7 +4433,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4444,7 +4444,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4455,7 +4455,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4466,7 +4466,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4477,7 +4477,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4488,7 +4488,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4499,7 +4499,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4510,7 +4510,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4521,7 +4521,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4532,7 +4532,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4543,7 +4543,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4554,7 +4554,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4565,7 +4565,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4576,7 +4576,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4587,7 +4587,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4598,7 +4598,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4609,7 +4609,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4620,7 +4620,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4631,7 +4631,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4642,7 +4642,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4653,7 +4653,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4664,7 +4664,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4675,7 +4675,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4686,7 +4686,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4697,7 +4697,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4708,7 +4708,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4719,7 +4719,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4730,7 +4730,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4741,7 +4741,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4752,7 +4752,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4763,7 +4763,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4774,7 +4774,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4785,7 +4785,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4796,7 +4796,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4807,7 +4807,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4818,7 +4818,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4829,7 +4829,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4840,7 +4840,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4851,7 +4851,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -4862,7 +4862,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4873,7 +4873,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4884,7 +4884,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4895,7 +4895,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -4906,7 +4906,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4917,7 +4917,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4928,7 +4928,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4939,7 +4939,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -4950,7 +4950,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4961,7 +4961,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4972,7 +4972,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4983,7 +4983,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -4994,7 +4994,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5005,7 +5005,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5016,7 +5016,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5027,7 +5027,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5038,7 +5038,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5049,7 +5049,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5060,7 +5060,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5071,7 +5071,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5082,7 +5082,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5093,7 +5093,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5104,7 +5104,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5115,7 +5115,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5126,7 +5126,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5137,7 +5137,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5148,7 +5148,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5159,7 +5159,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5170,7 +5170,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5181,7 +5181,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5192,7 +5192,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5203,7 +5203,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5214,7 +5214,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5225,7 +5225,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5236,7 +5236,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5247,7 +5247,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5258,7 +5258,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5269,7 +5269,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5280,7 +5280,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5291,7 +5291,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5302,7 +5302,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5313,7 +5313,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5324,7 +5324,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5335,7 +5335,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5346,7 +5346,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5357,7 +5357,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5368,7 +5368,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5379,7 +5379,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5390,7 +5390,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5401,7 +5401,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5412,7 +5412,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5423,7 +5423,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5434,7 +5434,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5445,7 +5445,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5456,7 +5456,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5467,7 +5467,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5478,7 +5478,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5489,7 +5489,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5500,7 +5500,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5511,7 +5511,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5522,7 +5522,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5533,7 +5533,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5544,7 +5544,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5555,7 +5555,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5566,7 +5566,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5577,7 +5577,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5588,7 +5588,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5599,7 +5599,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5610,7 +5610,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5621,7 +5621,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5632,7 +5632,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5643,7 +5643,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5654,7 +5654,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5665,7 +5665,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5676,7 +5676,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5687,7 +5687,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5698,7 +5698,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5709,7 +5709,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5720,7 +5720,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5731,7 +5731,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5742,7 +5742,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5753,7 +5753,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5764,7 +5764,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5775,7 +5775,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5786,7 +5786,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5797,7 +5797,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5808,7 +5808,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5819,7 +5819,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5830,7 +5830,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5841,7 +5841,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5852,7 +5852,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5863,7 +5863,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -5874,7 +5874,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5885,7 +5885,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5896,7 +5896,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5907,7 +5907,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -5918,7 +5918,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5929,7 +5929,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5940,7 +5940,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5951,7 +5951,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -5962,7 +5962,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5973,7 +5973,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5984,7 +5984,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -5995,7 +5995,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6006,7 +6006,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6017,7 +6017,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6028,7 +6028,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6039,7 +6039,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6050,7 +6050,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6061,7 +6061,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6072,7 +6072,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6083,7 +6083,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6094,7 +6094,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6105,7 +6105,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6116,7 +6116,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6127,7 +6127,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6138,7 +6138,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6149,7 +6149,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6160,7 +6160,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6171,7 +6171,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6182,7 +6182,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6193,7 +6193,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6204,7 +6204,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6215,7 +6215,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6226,7 +6226,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6237,7 +6237,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6248,7 +6248,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6259,7 +6259,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6270,7 +6270,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6281,7 +6281,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6292,7 +6292,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6303,7 +6303,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6314,7 +6314,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6325,7 +6325,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6336,7 +6336,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6347,7 +6347,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6358,7 +6358,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6369,7 +6369,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6380,7 +6380,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6391,7 +6391,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6402,7 +6402,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6413,7 +6413,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6424,7 +6424,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6435,7 +6435,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6446,7 +6446,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6457,7 +6457,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6468,7 +6468,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6479,7 +6479,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6490,7 +6490,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6501,7 +6501,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6512,7 +6512,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6523,7 +6523,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6534,7 +6534,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6545,7 +6545,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6556,7 +6556,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6567,7 +6567,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6578,7 +6578,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6589,7 +6589,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6600,7 +6600,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6611,7 +6611,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6622,7 +6622,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6633,7 +6633,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6644,7 +6644,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6655,7 +6655,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6666,7 +6666,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6677,7 +6677,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6688,7 +6688,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6699,7 +6699,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6710,7 +6710,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6721,7 +6721,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6732,7 +6732,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6743,7 +6743,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6754,7 +6754,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6765,7 +6765,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6776,7 +6776,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6787,7 +6787,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6798,7 +6798,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6809,7 +6809,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6820,7 +6820,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6831,7 +6831,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -6842,7 +6842,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6853,7 +6853,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6864,7 +6864,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6875,7 +6875,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6886,7 +6886,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6897,7 +6897,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6908,7 +6908,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6919,7 +6919,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -6930,7 +6930,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6941,7 +6941,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6952,7 +6952,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6963,7 +6963,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -6974,7 +6974,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6985,7 +6985,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -6996,7 +6996,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7007,7 +7007,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7018,7 +7018,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7029,7 +7029,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7040,7 +7040,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7051,7 +7051,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7062,7 +7062,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7073,7 +7073,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7084,7 +7084,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7095,7 +7095,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7106,7 +7106,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -7117,7 +7117,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -7128,7 +7128,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -7139,7 +7139,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -7150,7 +7150,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7161,7 +7161,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7172,7 +7172,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7183,7 +7183,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7194,7 +7194,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7205,7 +7205,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7216,7 +7216,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7227,7 +7227,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7238,7 +7238,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7249,7 +7249,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7260,7 +7260,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7271,7 +7271,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7282,7 +7282,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -7293,7 +7293,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -7304,7 +7304,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -7315,7 +7315,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -7326,7 +7326,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7337,7 +7337,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7348,7 +7348,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7359,7 +7359,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -7370,7 +7370,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7381,7 +7381,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7392,7 +7392,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7403,7 +7403,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -7414,7 +7414,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7425,7 +7425,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7436,7 +7436,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7447,7 +7447,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7458,7 +7458,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7469,7 +7469,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7480,7 +7480,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7491,7 +7491,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7502,7 +7502,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7513,7 +7513,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7524,7 +7524,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7535,7 +7535,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7546,7 +7546,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7557,7 +7557,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7568,7 +7568,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7579,7 +7579,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7590,7 +7590,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7601,7 +7601,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7612,7 +7612,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7623,7 +7623,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7634,7 +7634,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7645,7 +7645,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7656,7 +7656,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7667,7 +7667,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7678,7 +7678,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7689,7 +7689,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7700,7 +7700,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7711,7 +7711,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7722,7 +7722,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7733,7 +7733,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7744,7 +7744,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7755,7 +7755,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7766,7 +7766,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7777,7 +7777,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7788,7 +7788,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7799,7 +7799,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7810,7 +7810,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7821,7 +7821,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7832,7 +7832,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7843,7 +7843,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7854,7 +7854,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7865,7 +7865,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7876,7 +7876,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7887,7 +7887,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7898,7 +7898,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7909,7 +7909,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7920,7 +7920,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7931,7 +7931,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7942,7 +7942,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7953,7 +7953,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7964,7 +7964,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7975,7 +7975,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7986,7 +7986,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -7997,7 +7997,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8008,7 +8008,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8019,7 +8019,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8030,7 +8030,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8041,7 +8041,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8052,7 +8052,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8063,7 +8063,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8074,7 +8074,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8085,7 +8085,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8096,7 +8096,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8107,7 +8107,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8118,7 +8118,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8129,7 +8129,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8140,7 +8140,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8151,7 +8151,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8162,7 +8162,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8173,7 +8173,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8184,7 +8184,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8195,7 +8195,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8206,7 +8206,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8217,7 +8217,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8228,7 +8228,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8239,7 +8239,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8250,7 +8250,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8261,7 +8261,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8272,7 +8272,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8283,7 +8283,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8294,7 +8294,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8305,7 +8305,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8316,7 +8316,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8327,7 +8327,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8338,7 +8338,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8349,7 +8349,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8360,7 +8360,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8371,7 +8371,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8382,7 +8382,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8393,7 +8393,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8404,7 +8404,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8415,7 +8415,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8426,7 +8426,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8437,7 +8437,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8448,7 +8448,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8459,7 +8459,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8470,7 +8470,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8481,7 +8481,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8492,7 +8492,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8503,7 +8503,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8514,7 +8514,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8525,7 +8525,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8536,7 +8536,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8547,7 +8547,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8558,7 +8558,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8569,7 +8569,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8580,7 +8580,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8591,7 +8591,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8602,7 +8602,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8613,7 +8613,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8624,7 +8624,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8635,7 +8635,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8646,7 +8646,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8657,7 +8657,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8668,7 +8668,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8679,7 +8679,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8690,7 +8690,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8701,7 +8701,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8712,7 +8712,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8723,7 +8723,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8734,7 +8734,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8745,7 +8745,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8756,7 +8756,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8767,7 +8767,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8778,7 +8778,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8789,7 +8789,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8800,7 +8800,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8811,7 +8811,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8822,7 +8822,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8833,7 +8833,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8844,7 +8844,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8855,7 +8855,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8866,7 +8866,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8877,7 +8877,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8888,7 +8888,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8899,7 +8899,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8910,7 +8910,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8921,7 +8921,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8932,7 +8932,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8943,7 +8943,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8954,7 +8954,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8965,7 +8965,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8976,7 +8976,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8987,7 +8987,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -8998,7 +8998,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9009,7 +9009,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9020,7 +9020,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9031,7 +9031,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9042,7 +9042,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9053,7 +9053,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9064,7 +9064,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9075,7 +9075,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9086,7 +9086,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9097,7 +9097,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9108,7 +9108,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9119,7 +9119,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9130,7 +9130,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9141,7 +9141,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9152,7 +9152,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9163,7 +9163,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9174,7 +9174,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9185,7 +9185,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9196,7 +9196,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9207,7 +9207,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9218,7 +9218,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9229,7 +9229,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9240,7 +9240,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9251,7 +9251,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9262,7 +9262,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9273,7 +9273,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9284,7 +9284,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9295,7 +9295,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9306,7 +9306,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9317,7 +9317,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9328,7 +9328,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9339,7 +9339,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9350,7 +9350,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9361,7 +9361,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9372,7 +9372,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9383,7 +9383,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9394,7 +9394,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9405,7 +9405,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9416,7 +9416,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9427,7 +9427,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9438,7 +9438,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9449,7 +9449,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9460,7 +9460,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9471,7 +9471,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9482,7 +9482,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9493,7 +9493,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9504,7 +9504,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9515,7 +9515,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9526,7 +9526,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9537,7 +9537,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9548,7 +9548,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9559,7 +9559,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9570,7 +9570,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9581,7 +9581,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9592,7 +9592,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9603,7 +9603,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9614,7 +9614,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9625,7 +9625,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9636,7 +9636,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9647,7 +9647,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -9658,7 +9658,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9669,7 +9669,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9680,7 +9680,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9691,7 +9691,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9702,7 +9702,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9713,7 +9713,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9724,7 +9724,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9735,7 +9735,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9746,7 +9746,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9757,7 +9757,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9768,7 +9768,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9779,7 +9779,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -9790,7 +9790,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9801,7 +9801,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9812,7 +9812,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9823,7 +9823,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9834,7 +9834,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9845,7 +9845,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9856,7 +9856,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9867,7 +9867,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9878,7 +9878,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9889,7 +9889,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9900,7 +9900,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9911,7 +9911,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -9922,7 +9922,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9933,7 +9933,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9944,7 +9944,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9955,7 +9955,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9966,7 +9966,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9977,7 +9977,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9988,7 +9988,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -9999,7 +9999,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10010,7 +10010,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10021,7 +10021,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10032,7 +10032,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10043,7 +10043,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10054,7 +10054,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10065,7 +10065,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10076,7 +10076,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10087,7 +10087,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10098,7 +10098,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10109,7 +10109,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10120,7 +10120,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10131,7 +10131,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10142,7 +10142,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10153,7 +10153,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10164,7 +10164,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10175,7 +10175,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10186,7 +10186,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10197,7 +10197,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10208,7 +10208,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10219,7 +10219,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10230,7 +10230,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10241,7 +10241,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10252,7 +10252,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10263,7 +10263,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10274,7 +10274,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10285,7 +10285,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10296,7 +10296,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10307,7 +10307,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10318,7 +10318,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10329,7 +10329,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10340,7 +10340,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10351,7 +10351,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10362,7 +10362,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10373,7 +10373,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10384,7 +10384,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10395,7 +10395,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10406,7 +10406,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10417,7 +10417,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10428,7 +10428,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10439,7 +10439,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10450,7 +10450,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10461,7 +10461,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10472,7 +10472,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10483,7 +10483,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10494,7 +10494,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10505,7 +10505,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10516,7 +10516,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10527,7 +10527,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10538,7 +10538,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10549,7 +10549,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10560,7 +10560,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10571,7 +10571,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10582,7 +10582,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10593,7 +10593,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10604,7 +10604,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10615,7 +10615,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10626,7 +10626,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10637,7 +10637,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10648,7 +10648,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10659,7 +10659,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10670,7 +10670,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10681,7 +10681,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10692,7 +10692,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10703,7 +10703,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10714,7 +10714,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10725,7 +10725,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10736,7 +10736,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10747,7 +10747,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10758,7 +10758,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10769,7 +10769,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10780,7 +10780,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10791,7 +10791,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -10802,7 +10802,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10813,7 +10813,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10824,7 +10824,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10835,7 +10835,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10846,7 +10846,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10857,7 +10857,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10868,7 +10868,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10879,7 +10879,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10890,7 +10890,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10901,7 +10901,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10912,7 +10912,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10923,7 +10923,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -10934,7 +10934,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10945,7 +10945,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10956,7 +10956,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10967,7 +10967,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -10978,7 +10978,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -10989,7 +10989,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11000,7 +11000,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11011,7 +11011,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11022,7 +11022,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11033,7 +11033,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11044,7 +11044,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11055,7 +11055,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11066,7 +11066,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11077,7 +11077,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11088,7 +11088,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11099,7 +11099,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11110,7 +11110,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11121,7 +11121,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11132,7 +11132,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11143,7 +11143,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11154,7 +11154,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11165,7 +11165,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11176,7 +11176,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11187,7 +11187,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11198,7 +11198,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11209,7 +11209,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11220,7 +11220,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11231,7 +11231,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11242,7 +11242,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11253,7 +11253,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11264,7 +11264,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11275,7 +11275,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11286,7 +11286,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11297,7 +11297,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11308,7 +11308,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11319,7 +11319,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11330,7 +11330,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11341,7 +11341,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11352,7 +11352,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11363,7 +11363,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11374,7 +11374,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -11385,7 +11385,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -11396,7 +11396,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -11407,7 +11407,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -11418,7 +11418,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11429,7 +11429,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11440,7 +11440,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11451,7 +11451,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11462,7 +11462,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11473,7 +11473,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11484,7 +11484,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11495,7 +11495,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11506,7 +11506,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11517,7 +11517,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11528,7 +11528,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11539,7 +11539,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11550,7 +11550,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11561,7 +11561,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11572,7 +11572,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11583,7 +11583,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11594,7 +11594,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11605,7 +11605,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11616,7 +11616,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11627,7 +11627,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11638,7 +11638,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11649,7 +11649,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11660,7 +11660,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11671,7 +11671,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -11682,7 +11682,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11693,7 +11693,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11704,7 +11704,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11715,7 +11715,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11726,7 +11726,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11737,7 +11737,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11748,7 +11748,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11759,7 +11759,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11770,7 +11770,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11781,7 +11781,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11792,7 +11792,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11803,7 +11803,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -11814,7 +11814,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -11825,7 +11825,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -11836,7 +11836,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -11847,7 +11847,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -11858,7 +11858,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11869,7 +11869,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11880,7 +11880,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11891,7 +11891,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11902,7 +11902,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11913,7 +11913,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11924,7 +11924,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11935,7 +11935,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11946,7 +11946,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11957,7 +11957,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11968,7 +11968,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11979,7 +11979,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -11990,7 +11990,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12001,7 +12001,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12012,7 +12012,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12023,7 +12023,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12034,7 +12034,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12045,7 +12045,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12056,7 +12056,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12067,7 +12067,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12078,7 +12078,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12089,7 +12089,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12100,7 +12100,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12111,7 +12111,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12122,7 +12122,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12133,7 +12133,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12144,7 +12144,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12155,7 +12155,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12166,7 +12166,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12177,7 +12177,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12188,7 +12188,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12199,7 +12199,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12210,7 +12210,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12221,7 +12221,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12232,7 +12232,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12243,7 +12243,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12254,7 +12254,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -12265,7 +12265,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -12276,7 +12276,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -12287,7 +12287,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -12298,7 +12298,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12309,7 +12309,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12320,7 +12320,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12331,7 +12331,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12342,7 +12342,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12353,7 +12353,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12364,7 +12364,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12375,7 +12375,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12386,7 +12386,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12397,7 +12397,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12408,7 +12408,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12419,7 +12419,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12430,7 +12430,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12441,7 +12441,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12452,7 +12452,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12463,7 +12463,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12474,7 +12474,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12485,7 +12485,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12496,7 +12496,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12507,7 +12507,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12518,7 +12518,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12529,7 +12529,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12540,7 +12540,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12551,7 +12551,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12562,7 +12562,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12573,7 +12573,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12584,7 +12584,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12595,7 +12595,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12606,7 +12606,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12617,7 +12617,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12628,7 +12628,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12639,7 +12639,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12650,7 +12650,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12661,7 +12661,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12672,7 +12672,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12683,7 +12683,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -12694,7 +12694,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -12705,7 +12705,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -12716,7 +12716,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -12727,7 +12727,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -12738,7 +12738,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12749,7 +12749,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12760,7 +12760,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12771,7 +12771,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12782,7 +12782,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12793,7 +12793,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12804,7 +12804,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12815,7 +12815,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12826,7 +12826,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12837,7 +12837,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12848,7 +12848,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12859,7 +12859,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -12870,7 +12870,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12881,7 +12881,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12892,7 +12892,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12903,7 +12903,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12914,7 +12914,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12925,7 +12925,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12936,7 +12936,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12947,7 +12947,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12958,7 +12958,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12969,7 +12969,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12980,7 +12980,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -12991,7 +12991,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13002,7 +13002,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13013,7 +13013,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13024,7 +13024,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13035,7 +13035,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13046,7 +13046,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13057,7 +13057,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13068,7 +13068,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13079,7 +13079,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13090,7 +13090,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13101,7 +13101,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13112,7 +13112,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13123,7 +13123,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13134,7 +13134,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -13145,7 +13145,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -13156,7 +13156,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -13167,7 +13167,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -13178,7 +13178,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13189,7 +13189,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13200,7 +13200,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13211,7 +13211,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13222,7 +13222,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13233,7 +13233,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13244,7 +13244,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13255,7 +13255,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13266,7 +13266,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13277,7 +13277,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13288,7 +13288,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13299,7 +13299,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13310,7 +13310,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13321,7 +13321,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13332,7 +13332,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13343,7 +13343,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13354,7 +13354,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13365,7 +13365,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13376,7 +13376,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13387,7 +13387,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13398,7 +13398,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13409,7 +13409,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13420,7 +13420,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13431,7 +13431,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13442,7 +13442,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13453,7 +13453,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13464,7 +13464,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13475,7 +13475,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13486,7 +13486,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13497,7 +13497,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13508,7 +13508,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13519,7 +13519,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13530,7 +13530,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13541,7 +13541,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13552,7 +13552,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13563,7 +13563,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13574,7 +13574,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -13585,7 +13585,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -13596,7 +13596,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -13607,7 +13607,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -13618,7 +13618,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13629,7 +13629,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13640,7 +13640,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13651,7 +13651,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13662,7 +13662,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13673,7 +13673,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13684,7 +13684,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13695,7 +13695,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13706,7 +13706,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13717,7 +13717,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13728,7 +13728,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13739,7 +13739,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -13750,7 +13750,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13761,7 +13761,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13772,7 +13772,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13783,7 +13783,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13794,7 +13794,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13805,7 +13805,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13816,7 +13816,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13827,7 +13827,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13838,7 +13838,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13849,7 +13849,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13860,7 +13860,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13871,7 +13871,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -13882,7 +13882,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13893,7 +13893,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13904,7 +13904,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13915,7 +13915,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13926,7 +13926,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13937,7 +13937,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13948,7 +13948,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13959,7 +13959,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13970,7 +13970,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13981,7 +13981,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -13992,7 +13992,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14003,7 +14003,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14014,7 +14014,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14025,7 +14025,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14036,7 +14036,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14047,7 +14047,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14058,7 +14058,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14069,7 +14069,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14080,7 +14080,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14091,7 +14091,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14102,7 +14102,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14113,7 +14113,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14124,7 +14124,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14135,7 +14135,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14146,7 +14146,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14157,7 +14157,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14168,7 +14168,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14179,7 +14179,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14190,7 +14190,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14201,7 +14201,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14212,7 +14212,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14223,7 +14223,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14234,7 +14234,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14245,7 +14245,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14256,7 +14256,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14267,7 +14267,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14278,7 +14278,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14289,7 +14289,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14300,7 +14300,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14311,7 +14311,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14322,7 +14322,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14333,7 +14333,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14344,7 +14344,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14355,7 +14355,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14366,7 +14366,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14377,7 +14377,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14388,7 +14388,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14399,7 +14399,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14410,7 +14410,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14421,7 +14421,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14432,7 +14432,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14443,7 +14443,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14454,7 +14454,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14465,7 +14465,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14476,7 +14476,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14487,7 +14487,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14498,7 +14498,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14509,7 +14509,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14520,7 +14520,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14531,7 +14531,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14542,7 +14542,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14553,7 +14553,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14564,7 +14564,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14575,7 +14575,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14586,7 +14586,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14597,7 +14597,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14608,7 +14608,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14619,7 +14619,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14630,7 +14630,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14641,7 +14641,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14652,7 +14652,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14663,7 +14663,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14674,7 +14674,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14685,7 +14685,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14696,7 +14696,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14707,7 +14707,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14718,7 +14718,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14729,7 +14729,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14740,7 +14740,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14751,7 +14751,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14762,7 +14762,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14773,7 +14773,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14784,7 +14784,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14795,7 +14795,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14806,7 +14806,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14817,7 +14817,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14828,7 +14828,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14839,7 +14839,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14850,7 +14850,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14861,7 +14861,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14872,7 +14872,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14883,7 +14883,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -14894,7 +14894,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14905,7 +14905,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14916,7 +14916,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14927,7 +14927,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -14938,7 +14938,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14949,7 +14949,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14960,7 +14960,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14971,7 +14971,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -14982,7 +14982,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -14993,7 +14993,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15004,7 +15004,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15015,7 +15015,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15026,7 +15026,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15037,7 +15037,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15048,7 +15048,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15059,7 +15059,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15070,7 +15070,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15081,7 +15081,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15092,7 +15092,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15103,7 +15103,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15114,7 +15114,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15125,7 +15125,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15136,7 +15136,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15147,7 +15147,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15158,7 +15158,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15169,7 +15169,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15180,7 +15180,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15191,7 +15191,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15202,7 +15202,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15213,7 +15213,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15224,7 +15224,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15235,7 +15235,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15246,7 +15246,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15257,7 +15257,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15268,7 +15268,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15279,7 +15279,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15290,7 +15290,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15301,7 +15301,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15312,7 +15312,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15323,7 +15323,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15334,7 +15334,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15345,7 +15345,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15356,7 +15356,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15367,7 +15367,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15378,7 +15378,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15389,7 +15389,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15400,7 +15400,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15411,7 +15411,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15422,7 +15422,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15433,7 +15433,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15444,7 +15444,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15455,7 +15455,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15466,7 +15466,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15477,7 +15477,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15488,7 +15488,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15499,7 +15499,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15510,7 +15510,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15521,7 +15521,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15532,7 +15532,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15543,7 +15543,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15554,7 +15554,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15565,7 +15565,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15576,7 +15576,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15587,7 +15587,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15598,7 +15598,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15609,7 +15609,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15620,7 +15620,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15631,7 +15631,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15642,7 +15642,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15653,7 +15653,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15664,7 +15664,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15675,7 +15675,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15686,7 +15686,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15697,7 +15697,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15708,7 +15708,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15719,7 +15719,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15730,7 +15730,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15741,7 +15741,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15752,7 +15752,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15763,7 +15763,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15774,7 +15774,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15785,7 +15785,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15796,7 +15796,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15807,7 +15807,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15818,7 +15818,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15829,7 +15829,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15840,7 +15840,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15851,7 +15851,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -15862,7 +15862,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15873,7 +15873,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15884,7 +15884,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15895,7 +15895,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -15906,7 +15906,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15917,7 +15917,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15928,7 +15928,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15939,7 +15939,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -15950,7 +15950,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15961,7 +15961,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15972,7 +15972,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15983,7 +15983,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -15994,7 +15994,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16005,7 +16005,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16016,7 +16016,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16027,7 +16027,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16038,7 +16038,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16049,7 +16049,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16060,7 +16060,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16071,7 +16071,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16082,7 +16082,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16093,7 +16093,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16104,7 +16104,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16115,7 +16115,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16126,7 +16126,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16137,7 +16137,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16148,7 +16148,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16159,7 +16159,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16170,7 +16170,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16181,7 +16181,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16192,7 +16192,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16203,7 +16203,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16214,7 +16214,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16225,7 +16225,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16236,7 +16236,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16247,7 +16247,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16258,7 +16258,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16269,7 +16269,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16280,7 +16280,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16291,7 +16291,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16302,7 +16302,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16313,7 +16313,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16324,7 +16324,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16335,7 +16335,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16346,7 +16346,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16357,7 +16357,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16368,7 +16368,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16379,7 +16379,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16390,7 +16390,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16401,7 +16401,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16412,7 +16412,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16423,7 +16423,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16434,7 +16434,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16445,7 +16445,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16456,7 +16456,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16467,7 +16467,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16478,7 +16478,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16489,7 +16489,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16500,7 +16500,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16511,7 +16511,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16522,7 +16522,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16533,7 +16533,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16544,7 +16544,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16555,7 +16555,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16566,7 +16566,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16577,7 +16577,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16588,7 +16588,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16599,7 +16599,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16610,7 +16610,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16621,7 +16621,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16632,7 +16632,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16643,7 +16643,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16654,7 +16654,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16665,7 +16665,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16676,7 +16676,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16687,7 +16687,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16698,7 +16698,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16709,7 +16709,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16720,7 +16720,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16731,7 +16731,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16742,7 +16742,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16753,7 +16753,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16764,7 +16764,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16775,7 +16775,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16786,7 +16786,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16797,7 +16797,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16808,7 +16808,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16819,7 +16819,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16830,7 +16830,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16841,7 +16841,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16852,7 +16852,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16863,7 +16863,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -16874,7 +16874,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16885,7 +16885,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16896,7 +16896,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16907,7 +16907,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -16918,7 +16918,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16929,7 +16929,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16940,7 +16940,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16951,7 +16951,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -16962,7 +16962,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16973,7 +16973,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16984,7 +16984,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -16995,7 +16995,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17006,7 +17006,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17017,7 +17017,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17028,7 +17028,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17039,7 +17039,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17050,7 +17050,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17061,7 +17061,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17072,7 +17072,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17083,7 +17083,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17094,7 +17094,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17105,7 +17105,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17116,7 +17116,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17127,7 +17127,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17138,7 +17138,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17149,7 +17149,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17160,7 +17160,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17171,7 +17171,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17182,7 +17182,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17193,7 +17193,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17204,7 +17204,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17215,7 +17215,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17226,7 +17226,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17237,7 +17237,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17248,7 +17248,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17259,7 +17259,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17270,7 +17270,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17281,7 +17281,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17292,7 +17292,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17303,7 +17303,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17314,7 +17314,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17325,7 +17325,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17336,7 +17336,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17347,7 +17347,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17358,7 +17358,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17369,7 +17369,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17380,7 +17380,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17391,7 +17391,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17402,7 +17402,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17413,7 +17413,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17424,7 +17424,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17435,7 +17435,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17446,7 +17446,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17457,7 +17457,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17468,7 +17468,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17479,7 +17479,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17490,7 +17490,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17501,7 +17501,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17512,7 +17512,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17523,7 +17523,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17534,7 +17534,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17545,7 +17545,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17556,7 +17556,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17567,7 +17567,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17578,7 +17578,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17589,7 +17589,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17600,7 +17600,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17611,7 +17611,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17622,7 +17622,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17633,7 +17633,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17644,7 +17644,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17655,7 +17655,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17666,7 +17666,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17677,7 +17677,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17688,7 +17688,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17699,7 +17699,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -17710,7 +17710,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17721,7 +17721,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17732,7 +17732,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17743,7 +17743,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17754,7 +17754,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17765,7 +17765,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17776,7 +17776,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17787,7 +17787,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17798,7 +17798,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17809,7 +17809,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17820,7 +17820,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17831,7 +17831,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -17842,7 +17842,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17853,7 +17853,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17864,7 +17864,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17875,7 +17875,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17886,7 +17886,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17897,7 +17897,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17908,7 +17908,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17919,7 +17919,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -17930,7 +17930,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17941,7 +17941,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17952,7 +17952,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17963,7 +17963,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17974,7 +17974,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17985,7 +17985,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -17996,7 +17996,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18007,7 +18007,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18018,7 +18018,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18029,7 +18029,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18040,7 +18040,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18051,7 +18051,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18062,7 +18062,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18073,7 +18073,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18084,7 +18084,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18095,7 +18095,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18106,7 +18106,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18117,7 +18117,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18128,7 +18128,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18139,7 +18139,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18150,7 +18150,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18161,7 +18161,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18172,7 +18172,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18183,7 +18183,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18194,7 +18194,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18205,7 +18205,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18216,7 +18216,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18227,7 +18227,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18238,7 +18238,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18249,7 +18249,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18260,7 +18260,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18271,7 +18271,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18282,7 +18282,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18293,7 +18293,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18304,7 +18304,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18315,7 +18315,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18326,7 +18326,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18337,7 +18337,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18348,7 +18348,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18359,7 +18359,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18370,7 +18370,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18381,7 +18381,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18392,7 +18392,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18403,7 +18403,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18414,7 +18414,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18425,7 +18425,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18436,7 +18436,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18447,7 +18447,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18458,7 +18458,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18469,7 +18469,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18480,7 +18480,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18491,7 +18491,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18502,7 +18502,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18513,7 +18513,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18524,7 +18524,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18535,7 +18535,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18546,7 +18546,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18557,7 +18557,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18568,7 +18568,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18579,7 +18579,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18590,7 +18590,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18601,7 +18601,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18612,7 +18612,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18623,7 +18623,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18634,7 +18634,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18645,7 +18645,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18656,7 +18656,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18667,7 +18667,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18678,7 +18678,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18689,7 +18689,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18700,7 +18700,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18711,7 +18711,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18722,7 +18722,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18733,7 +18733,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18744,7 +18744,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18755,7 +18755,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18766,7 +18766,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18777,7 +18777,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18788,7 +18788,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18799,7 +18799,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -18810,7 +18810,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18821,7 +18821,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18832,7 +18832,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18843,7 +18843,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18854,7 +18854,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18865,7 +18865,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18876,7 +18876,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18887,7 +18887,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Road Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18898,7 +18898,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18909,7 +18909,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18920,7 +18920,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18931,7 +18931,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -18942,7 +18942,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18953,7 +18953,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18964,7 +18964,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18975,7 +18975,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -18986,7 +18986,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -18997,7 +18997,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19008,7 +19008,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19019,7 +19019,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19030,7 +19030,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19041,7 +19041,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19052,7 +19052,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19063,7 +19063,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19074,7 +19074,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19085,7 +19085,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19096,7 +19096,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19107,7 +19107,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19118,7 +19118,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19129,7 +19129,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19140,7 +19140,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19151,7 +19151,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19162,7 +19162,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19173,7 +19173,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19184,7 +19184,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19195,7 +19195,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19206,7 +19206,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19217,7 +19217,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19228,7 +19228,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19239,7 +19239,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19250,7 +19250,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19261,7 +19261,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19272,7 +19272,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19283,7 +19283,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19294,7 +19294,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19305,7 +19305,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19316,7 +19316,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19327,7 +19327,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19338,7 +19338,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19349,7 +19349,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19360,7 +19360,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19371,7 +19371,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19382,7 +19382,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19393,7 +19393,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19404,7 +19404,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19415,7 +19415,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19426,7 +19426,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19437,7 +19437,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19448,7 +19448,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19459,7 +19459,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Mountain Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19470,7 +19470,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19481,7 +19481,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19492,7 +19492,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19503,7 +19503,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19514,7 +19514,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19525,7 +19525,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19536,7 +19536,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19547,7 +19547,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19558,7 +19558,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19569,7 +19569,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19580,7 +19580,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19591,7 +19591,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19602,7 +19602,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19613,7 +19613,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19624,7 +19624,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19635,7 +19635,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19646,7 +19646,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19657,7 +19657,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19668,7 +19668,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19679,7 +19679,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19690,7 +19690,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19701,7 +19701,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19712,7 +19712,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19723,7 +19723,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -19734,7 +19734,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19745,7 +19745,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19756,7 +19756,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19767,7 +19767,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19778,7 +19778,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19789,7 +19789,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19800,7 +19800,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19811,7 +19811,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -19822,7 +19822,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19833,7 +19833,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19844,7 +19844,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19855,7 +19855,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19866,7 +19866,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19877,7 +19877,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19888,7 +19888,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19899,7 +19899,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -19910,7 +19910,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19921,7 +19921,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19932,7 +19932,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19943,7 +19943,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19954,7 +19954,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19965,7 +19965,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19976,7 +19976,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19987,7 +19987,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -19998,7 +19998,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20009,7 +20009,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20020,7 +20020,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20031,7 +20031,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20042,7 +20042,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20053,7 +20053,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20064,7 +20064,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20075,7 +20075,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20086,7 +20086,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20097,7 +20097,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20108,7 +20108,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20119,7 +20119,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20130,7 +20130,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20141,7 +20141,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20152,7 +20152,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20163,7 +20163,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20174,7 +20174,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20185,7 +20185,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20196,7 +20196,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20207,7 +20207,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20218,7 +20218,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20229,7 +20229,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20240,7 +20240,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20251,7 +20251,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20262,7 +20262,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20273,7 +20273,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20284,7 +20284,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20295,7 +20295,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20306,7 +20306,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20317,7 +20317,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20328,7 +20328,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20339,7 +20339,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20350,7 +20350,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20361,7 +20361,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20372,7 +20372,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20383,7 +20383,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20394,7 +20394,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20405,7 +20405,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20416,7 +20416,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20427,7 +20427,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20438,7 +20438,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20449,7 +20449,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20460,7 +20460,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20471,7 +20471,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20482,7 +20482,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20493,7 +20493,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20504,7 +20504,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20515,7 +20515,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -20526,7 +20526,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20537,7 +20537,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20548,7 +20548,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20559,7 +20559,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20570,7 +20570,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20581,7 +20581,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20592,7 +20592,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20603,7 +20603,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Bikes",
                     Products = "Touring Bikes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20614,7 +20614,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20625,7 +20625,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20636,7 +20636,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20647,7 +20647,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20658,7 +20658,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20669,7 +20669,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20680,7 +20680,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20691,7 +20691,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20702,7 +20702,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20713,7 +20713,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20724,7 +20724,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20735,7 +20735,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20746,7 +20746,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20757,7 +20757,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20768,7 +20768,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20779,7 +20779,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -20790,7 +20790,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20801,7 +20801,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20812,7 +20812,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20823,7 +20823,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20834,7 +20834,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20845,7 +20845,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20856,7 +20856,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20867,7 +20867,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20878,7 +20878,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20889,7 +20889,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20900,7 +20900,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20911,7 +20911,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20922,7 +20922,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20933,7 +20933,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20944,7 +20944,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20955,7 +20955,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -20966,7 +20966,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20977,7 +20977,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20988,7 +20988,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -20999,7 +20999,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21010,7 +21010,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21021,7 +21021,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21032,7 +21032,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21043,7 +21043,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21054,7 +21054,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21065,7 +21065,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21076,7 +21076,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21087,7 +21087,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21098,7 +21098,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21109,7 +21109,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21120,7 +21120,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21131,7 +21131,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21142,7 +21142,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21153,7 +21153,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21164,7 +21164,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21175,7 +21175,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21186,7 +21186,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21197,7 +21197,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21208,7 +21208,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21219,7 +21219,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21230,7 +21230,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21241,7 +21241,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21252,7 +21252,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21263,7 +21263,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21274,7 +21274,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21285,7 +21285,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21296,7 +21296,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21307,7 +21307,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21318,7 +21318,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21329,7 +21329,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21340,7 +21340,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21351,7 +21351,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21362,7 +21362,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21373,7 +21373,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21384,7 +21384,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21395,7 +21395,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21406,7 +21406,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21417,7 +21417,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21428,7 +21428,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21439,7 +21439,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21450,7 +21450,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21461,7 +21461,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21472,7 +21472,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21483,7 +21483,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -21494,7 +21494,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21505,7 +21505,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21516,7 +21516,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21527,7 +21527,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21538,7 +21538,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21549,7 +21549,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21560,7 +21560,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21571,7 +21571,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21582,7 +21582,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21593,7 +21593,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21604,7 +21604,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21615,7 +21615,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21626,7 +21626,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21637,7 +21637,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21648,7 +21648,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21659,7 +21659,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -21670,7 +21670,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21681,7 +21681,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21692,7 +21692,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21703,7 +21703,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21714,7 +21714,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21725,7 +21725,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21736,7 +21736,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21747,7 +21747,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21758,7 +21758,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21769,7 +21769,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21780,7 +21780,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21791,7 +21791,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21802,7 +21802,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21813,7 +21813,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21824,7 +21824,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21835,7 +21835,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -21846,7 +21846,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21857,7 +21857,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21868,7 +21868,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21879,7 +21879,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21890,7 +21890,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21901,7 +21901,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21912,7 +21912,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21923,7 +21923,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21934,7 +21934,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21945,7 +21945,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21956,7 +21956,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21967,7 +21967,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21978,7 +21978,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -21989,7 +21989,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22000,7 +22000,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22011,7 +22011,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22022,7 +22022,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22033,7 +22033,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22044,7 +22044,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22055,7 +22055,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22066,7 +22066,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22077,7 +22077,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22088,7 +22088,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22099,7 +22099,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22110,7 +22110,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22121,7 +22121,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22132,7 +22132,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22143,7 +22143,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22154,7 +22154,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22165,7 +22165,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22176,7 +22176,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22187,7 +22187,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22198,7 +22198,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22209,7 +22209,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22220,7 +22220,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22231,7 +22231,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22242,7 +22242,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22253,7 +22253,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22264,7 +22264,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22275,7 +22275,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22286,7 +22286,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22297,7 +22297,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22308,7 +22308,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22319,7 +22319,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22330,7 +22330,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22341,7 +22341,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22352,7 +22352,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22363,7 +22363,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -22374,7 +22374,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22385,7 +22385,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22396,7 +22396,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22407,7 +22407,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22418,7 +22418,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22429,7 +22429,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22440,7 +22440,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22451,7 +22451,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22462,7 +22462,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22473,7 +22473,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22484,7 +22484,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22495,7 +22495,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22506,7 +22506,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22517,7 +22517,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22528,7 +22528,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22539,7 +22539,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -22550,7 +22550,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22561,7 +22561,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22572,7 +22572,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22583,7 +22583,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22594,7 +22594,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22605,7 +22605,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22616,7 +22616,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22627,7 +22627,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22638,7 +22638,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22649,7 +22649,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22660,7 +22660,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22671,7 +22671,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22682,7 +22682,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22693,7 +22693,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22704,7 +22704,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22715,7 +22715,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -22726,7 +22726,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22737,7 +22737,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22748,7 +22748,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22759,7 +22759,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22770,7 +22770,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22781,7 +22781,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22792,7 +22792,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22803,7 +22803,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22814,7 +22814,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22825,7 +22825,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22836,7 +22836,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22847,7 +22847,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22858,7 +22858,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Gloves",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22869,7 +22869,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Jerseys",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22880,7 +22880,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Shorts",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22891,7 +22891,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Clothing",
                     Products = "Vests",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22902,7 +22902,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22913,7 +22913,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22924,7 +22924,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22935,7 +22935,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22946,7 +22946,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22957,7 +22957,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22968,7 +22968,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22979,7 +22979,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -22990,7 +22990,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23001,7 +23001,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23012,7 +23012,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23023,7 +23023,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23034,7 +23034,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23045,7 +23045,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23056,7 +23056,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23067,7 +23067,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23078,7 +23078,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23089,7 +23089,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23100,7 +23100,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23111,7 +23111,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23122,7 +23122,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23133,7 +23133,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23144,7 +23144,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23155,7 +23155,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23166,7 +23166,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23177,7 +23177,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23188,7 +23188,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23199,7 +23199,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23210,7 +23210,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23221,7 +23221,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23232,7 +23232,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23243,7 +23243,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23254,7 +23254,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23265,7 +23265,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23276,7 +23276,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23287,7 +23287,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23298,7 +23298,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23309,7 +23309,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23320,7 +23320,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23331,7 +23331,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23342,7 +23342,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23353,7 +23353,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23364,7 +23364,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23375,7 +23375,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23386,7 +23386,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23397,7 +23397,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23408,7 +23408,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23419,7 +23419,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23430,7 +23430,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23441,7 +23441,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23452,7 +23452,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23463,7 +23463,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23474,7 +23474,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23485,7 +23485,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23496,7 +23496,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23507,7 +23507,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23518,7 +23518,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23529,7 +23529,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23540,7 +23540,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23551,7 +23551,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23562,7 +23562,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23573,7 +23573,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23584,7 +23584,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23595,7 +23595,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23606,7 +23606,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23617,7 +23617,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23628,7 +23628,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23639,7 +23639,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23650,7 +23650,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23661,7 +23661,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23672,7 +23672,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23683,7 +23683,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23694,7 +23694,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23705,7 +23705,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23716,7 +23716,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23727,7 +23727,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23738,7 +23738,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23749,7 +23749,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23760,7 +23760,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23771,7 +23771,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23782,7 +23782,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23793,7 +23793,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23804,7 +23804,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23815,7 +23815,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23826,7 +23826,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23837,7 +23837,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23848,7 +23848,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23859,7 +23859,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23870,7 +23870,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23881,7 +23881,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23892,7 +23892,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23903,7 +23903,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23914,7 +23914,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23925,7 +23925,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23936,7 +23936,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23947,7 +23947,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2018",
+                    Year = "FY 2025",
                     Quarter = "Q1"
                 },
                 new SalesAnalysis {
@@ -23958,7 +23958,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -23969,7 +23969,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -23980,7 +23980,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -23991,7 +23991,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24002,7 +24002,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24013,7 +24013,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24024,7 +24024,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24035,7 +24035,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24046,7 +24046,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24057,7 +24057,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24068,7 +24068,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24079,7 +24079,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24090,7 +24090,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24101,7 +24101,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24112,7 +24112,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24123,7 +24123,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24134,7 +24134,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24145,7 +24145,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24156,7 +24156,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24167,7 +24167,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24178,7 +24178,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24189,7 +24189,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24200,7 +24200,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24211,7 +24211,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24222,7 +24222,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24233,7 +24233,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24244,7 +24244,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24255,7 +24255,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24266,7 +24266,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24277,7 +24277,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24288,7 +24288,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24299,7 +24299,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24310,7 +24310,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24321,7 +24321,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24332,7 +24332,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24343,7 +24343,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24354,7 +24354,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24365,7 +24365,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24376,7 +24376,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24387,7 +24387,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24398,7 +24398,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24409,7 +24409,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24420,7 +24420,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24431,7 +24431,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24442,7 +24442,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24453,7 +24453,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24464,7 +24464,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24475,7 +24475,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24486,7 +24486,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24497,7 +24497,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24508,7 +24508,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24519,7 +24519,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24530,7 +24530,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24541,7 +24541,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24552,7 +24552,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24563,7 +24563,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24574,7 +24574,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24585,7 +24585,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24596,7 +24596,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24607,7 +24607,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24618,7 +24618,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24629,7 +24629,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24640,7 +24640,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24651,7 +24651,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24662,7 +24662,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24673,7 +24673,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24684,7 +24684,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24695,7 +24695,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24706,7 +24706,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24717,7 +24717,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24728,7 +24728,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24739,7 +24739,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q2"
                 },
                 new SalesAnalysis {
@@ -24750,7 +24750,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24761,7 +24761,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24772,7 +24772,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24783,7 +24783,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24794,7 +24794,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24805,7 +24805,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24816,7 +24816,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24827,7 +24827,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24838,7 +24838,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24849,7 +24849,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24860,7 +24860,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24871,7 +24871,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24882,7 +24882,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24893,7 +24893,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24904,7 +24904,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24915,7 +24915,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24926,7 +24926,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24937,7 +24937,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24948,7 +24948,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24959,7 +24959,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24970,7 +24970,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24981,7 +24981,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -24992,7 +24992,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25003,7 +25003,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25014,7 +25014,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25025,7 +25025,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25036,7 +25036,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25047,7 +25047,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25058,7 +25058,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25069,7 +25069,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25080,7 +25080,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25091,7 +25091,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25102,7 +25102,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25113,7 +25113,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25124,7 +25124,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25135,7 +25135,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25146,7 +25146,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25157,7 +25157,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25168,7 +25168,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25179,7 +25179,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25190,7 +25190,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25201,7 +25201,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25212,7 +25212,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25223,7 +25223,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25234,7 +25234,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25245,7 +25245,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25256,7 +25256,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25267,7 +25267,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25278,7 +25278,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25289,7 +25289,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25300,7 +25300,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25311,7 +25311,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25322,7 +25322,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25333,7 +25333,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25344,7 +25344,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25355,7 +25355,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25366,7 +25366,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25377,7 +25377,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25388,7 +25388,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25399,7 +25399,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25410,7 +25410,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25421,7 +25421,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25432,7 +25432,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25443,7 +25443,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25454,7 +25454,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25465,7 +25465,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25476,7 +25476,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25487,7 +25487,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25498,7 +25498,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25509,7 +25509,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25520,7 +25520,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25531,7 +25531,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q3"
                 },
                 new SalesAnalysis {
@@ -25542,7 +25542,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25553,7 +25553,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25564,7 +25564,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25575,7 +25575,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25586,7 +25586,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25597,7 +25597,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25608,7 +25608,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25619,7 +25619,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25630,7 +25630,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25641,7 +25641,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25652,7 +25652,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25663,7 +25663,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25674,7 +25674,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25685,7 +25685,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25696,7 +25696,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25707,7 +25707,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25718,7 +25718,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25729,7 +25729,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25740,7 +25740,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25751,7 +25751,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25762,7 +25762,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25773,7 +25773,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25784,7 +25784,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25795,7 +25795,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2015",
+                    Year = "FY 2022",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25806,7 +25806,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25817,7 +25817,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25828,7 +25828,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25839,7 +25839,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25850,7 +25850,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25861,7 +25861,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25872,7 +25872,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25883,7 +25883,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25894,7 +25894,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25905,7 +25905,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25916,7 +25916,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25927,7 +25927,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25938,7 +25938,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25949,7 +25949,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25960,7 +25960,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25971,7 +25971,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25982,7 +25982,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -25993,7 +25993,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26004,7 +26004,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26015,7 +26015,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26026,7 +26026,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26037,7 +26037,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26048,7 +26048,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26059,7 +26059,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2016",
+                    Year = "FY 2023",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26070,7 +26070,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26081,7 +26081,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26092,7 +26092,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26103,7 +26103,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26114,7 +26114,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26125,7 +26125,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Retail Outlets",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26136,7 +26136,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26147,7 +26147,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26158,7 +26158,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26169,7 +26169,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26180,7 +26180,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26191,7 +26191,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Sales Person",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26202,7 +26202,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26213,7 +26213,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26224,7 +26224,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26235,7 +26235,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26246,7 +26246,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26257,7 +26257,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "Teleshopping",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26268,7 +26268,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Tires and Tubes",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26279,7 +26279,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Bottles and Cages",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26290,7 +26290,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Hydration Packs",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26301,7 +26301,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Cleaners",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26312,7 +26312,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Helmets",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 },
                 new SalesAnalysis {
@@ -26323,7 +26323,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                     Product_Categories = "Accessories",
                     Products = "Fenders",
                     Order_Source = "App Store",
-                    Year = "FY 2017",
+                    Year = "FY 2024",
                     Quarter = "Q4"
                 }
             };

@@ -4285,34 +4285,34 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
 
         public class RenewableData
         {
-            public string Sector { get; set; }
-            public string EnerType { get; set; }
-            public string EneSource { get; set; }
+            public string Sector { get; set; } = string.Empty;
+            public string EnerType { get; set; } = string.Empty;
+            public string EneSource { get; set; } = string.Empty;
             public int PowUnits { get; set; }
             public int ProCost { get; set; }
-            public string Year { get; set; }
-            public string Quarter { get; set; }
-            public string HalfYear { get; set; }
+            public string Year { get; set; } = string.Empty;
+            public string Quarter { get; set; } = string.Empty;
+            public string HalfYear { get; set; } = string.Empty;
         }
         public class RData
         {
             public int Id { get; set; }
-            public string Date { get; set; }
-            public string Sector { get; set; }
-            public string EnerType { get; set; }
-            public string EneSource { get; set; }
+            public string Date { get; set; } = string.Empty;
+            public string Sector { get; set; } = string.Empty;
+            public string EnerType { get; set; } = string.Empty;
+            public string EneSource { get; set; } = string.Empty;
             public int PowUnits { get; set; }
             public int ProCost { get; set; }
-            public string Year { get; set; }
-            public string Quarter { get; set; }
-            public string HalfYear { get; set; }
+            public string Year { get; set; } = string.Empty;
+            public string Quarter { get; set; } = string.Empty;
+            public string HalfYear { get; set; } = string.Empty;
         }
         public class GroupData
         {
             public int id { get; set; }
-            public string region { get; set; }
-            public string country { get; set; }
-            public string city { get; set; }
+            public string region { get; set; } = string.Empty;
+            public string country { get; set; } = string.Empty;
+            public string city { get; set; } = string.Empty;
             public int amount { get; set; }
             public DateTime date { get; set; }
         }
@@ -4322,22 +4322,22 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             public int In_Stock { get; set; }
             public int Sold { get; set; }
             public double Amount { get; set; }
-            public string Country { get; set; }
-            public string Product_Categories { get; set; }
-            public string Products { get; set; }
-            public string Order_Source { get; set; }
-            public string Year { get; set; }
-            public string Quarter { get; set; }
+            public string Country { get; set; } = string.Empty;
+            public string Product_Categories { get; set; } = string.Empty;
+            public string Products { get; set; } = string.Empty;
+            public string Order_Source { get; set; } = string.Empty;
+            public string Year { get; set; } = string.Empty;
+            public string Quarter { get; set; } = string.Empty;
         }
 
         public class DefaultData
         {
             public int Sold { get; set; }
             public double Amount { get; set; }
-            public string Country { get; set; }
-            public string Products { get; set; }
-            public string Year { get; set; }
-            public string Quarter { get; set; }
+            public string Country { get; set; } = string.Empty;
+            public string Products { get; set; } = string.Empty;
+            public string Year { get; set; } = string.Empty;
+            public string Quarter { get; set; } = string.Empty;
         }
     }
 }

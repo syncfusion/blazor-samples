@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Dropdown List Default Functionalities - Syncfusion Demos",
                 HeaderText = "Blazor Dropdown List Example - Default Functionalities",
-                MetaDescription = "This Blazor Dropdown List example demonstrates the default functionalities with various configuration options. Learn how to create a dropdown list with standard selection behaviors.",
+                MetaDescription = "Blazor Dropdown List demo shows the default functionalities with various configuration options. Learn how to create a dropdown list with standard behaviors.",
                 Type = SampleType.None,
 
             },
@@ -37,7 +37,7 @@ namespace BlazorDemos
                 FileName = "DataBinding.razor",
                 MetaTitle = "Blazor Dropdown List Data Binding | Remote Data | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Data Binding",
-                MetaDescription = "This Blazor Dropdown List example demonstrates data binding capabilities with local and remote data sources. Learn how to bind arrays, object collections, and remote data to the dropdown.",
+                MetaDescription = "This Blazor Dropdown List example demonstrates data binding capabilities with local and remote data sources. Learn how to bind arrays, object collections.",
                 Type = SampleType.None
             },
             new Sample
@@ -49,7 +49,7 @@ namespace BlazorDemos
                 FileName = "DisabledItems.razor",
                 MetaTitle = "Blazor Dropdown List Disabled Items | Item Disabling | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Disabled Items",
-                MetaDescription = "This Blazor Dropdown List example demonstrates how to disable specific items in the dropdown. Learn to implement item-level disabling while maintaining selectability of other items.",
+                MetaDescription = "Blazor Dropdown List demo shows how to disable specific items in dropdown and implement item-level disabling while maintaining selectability of other items.",
                 Type = SampleType.None
             },
             new Sample
@@ -61,7 +61,7 @@ namespace BlazorDemos
                 FileName = "Filtering.razor",
                 MetaTitle = "Blazor Dropdown List Filtering | Search Options | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Filtering",
-                MetaDescription = "This Blazor Dropdown List example demonstrates filtering capabilities. Learn how to implement search functionality with different filter types like contains, startsWith, and custom filtering.",
+                MetaDescription = "Blazor Dropdown List example demonstrates how to implement search functionality with different filter types like contains, startsWith, and custom filtering.",
                 Type = SampleType.None
             },
             new Sample
@@ -73,7 +73,7 @@ namespace BlazorDemos
                 FileName = "Cascading.razor",
                 MetaTitle = "Blazor Dropdown List Cascading | Dependent Dropdowns | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Cascading Dropdowns",
-                MetaDescription = "This Blazor Dropdown List example demonstrates cascading (dependent) dropdowns. Learn how to filter the content of one dropdown based on the selection made in another dropdown.",
+                MetaDescription = "This Blazor Dropdown List example shows cascading dropdowns. Learn how to filter the content of one dropdown based on the selection made in another dropdown.",
                 Type = SampleType.None
             },
             new Sample
@@ -85,7 +85,7 @@ namespace BlazorDemos
                 FileName = "GroupingIcon.razor",
                 MetaTitle = "Blazor Dropdown List Grouping and Icons | Visual Cues | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Grouping and Icons",
-                MetaDescription = "This Blazor Dropdown List example demonstrates how to group items and add icons to dropdown options. Learn to create categorized lists with visual indicators for enhanced user experience.",
+                MetaDescription = "Blazor Dropdown List demo shows how to group items and add icons to dropdown options and create categorized lists with visual indicators for user experience.",
                 Type = SampleType.None
             },
             new Sample
@@ -97,7 +97,7 @@ namespace BlazorDemos
                 FileName = "Inline.razor",
                 MetaTitle = "Blazor Dropdown List Inline | Integrated UI | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Inline Display",
-                MetaDescription = "This Blazor Dropdown List example demonstrates inline display mode. Learn how to integrate the dropdown seamlessly within your interface for a more cohesive user experience.",
+                MetaDescription = "Blazor Dropdown List example demonstrates inline display mode. Learn how to integrate the dropdown seamlessly within your interface for more user experience.",
                 Type = SampleType.None
             },
             new Sample
@@ -109,7 +109,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor Dropdown List Templates | Custom UI | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Custom Templates",
-                MetaDescription = "This Blazor Dropdown List example demonstrates custom templating. Learn how to create rich dropdown items with custom HTML content, formatting and styles to enhance your user interface.",
+                MetaDescription = "This Blazor Dropdown List example demonstrates how to create rich dropdown items with custom HTML content, formatting and styles to enhance your user interface.",
                 Type = SampleType.None
             },
             new Sample
@@ -121,7 +121,7 @@ namespace BlazorDemos
                 FileName = "Resize.razor",
                 MetaTitle = "Blazor Dropdown List Popup Resize | Adaptive UI | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Popup Resize",
-                MetaDescription = "This Blazor Dropdown List example demonstrates popup resizing capabilities. Learn how to create dropdowns with customizable popup dimensions to better fit your content and layout needs.",
+                MetaDescription = "This Blazor Dropdown List example demonstrates how to create dropdowns with customizable popup dimensions to better fit your content and layout needs.",
                 Type = SampleType.None
             },
             new Sample
@@ -133,7 +133,7 @@ namespace BlazorDemos
                 FileName = "Virtualization.razor",
                 MetaTitle = "Blazor Dropdown List Virtualization | Performance | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Virtualization",
-                MetaDescription = "This Blazor Dropdown List example demonstrates UI virtualization for large data sets. Learn how to load thousands of items with optimal performance by rendering only visible items.",
+                MetaDescription = "Blazor Dropdown List demo shows UI virtualization for large data sets. Learn how to load thousands of items with optimal performance by rendering visible items.",
                 Type = SampleType.None,
             },
             new Sample
@@ -145,7 +145,7 @@ namespace BlazorDemos
                 FileName = "FormsValidation.razor",
                 MetaTitle = "Blazor Dropdown List Validation | Form Integration | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Form Validation",
-                MetaDescription = "This Blazor Dropdown List example demonstrates form validation integration. Learn how to implement required field validation and custom validation rules with Blazor's form validation system.",
+                MetaDescription = "This Blazor Dropdown List example demonstrates how to implement required field validation and custom validation rules with Blazor's form validation system.",
                 Type = SampleType.None
             },
             new Sample
@@ -157,7 +157,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor Dropdown List Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Dropdown List Example - Keyboard Navigation",
-                MetaDescription = "This Blazor Dropdown List example demonstrates keyboard navigation capabilities. Learn how to navigate, select, and operate the dropdown using keyboard shortcuts for enhanced accessibility.",
+                MetaDescription = "This Blazor Dropdown List example demonstrates how to navigate, select, and operate the dropdowns using keyboard shortcuts for enhanced accessibility.",
                 Type = SampleType.None
             }
         };
@@ -171,7 +171,7 @@ namespace BlazorDemos
                 Url = "dropdown-tree/Default-Functionalities",
                 MetaTitle = "Dropdown Tree Default Functionalities - Syncfusion Demos",
                 HeaderText = "Blazor Dropdown Tree Example - Default Functionalities",
-                MetaDescription = "This Blazor Dropdown Tree example demonstrates the default functionalities with hierarchical data selection. Learn how to create a tree-structured dropdown for intuitive navigation of nested data.",
+                MetaDescription = "Blazor Dropdown Tree example demonstrates hierarchical data selection. Learn how to create a tree-structured dropdown for intuitive navigation of nested data.",
                 FileName = "DefaultFunctionalities.razor"
             },
             new Sample
@@ -183,7 +183,7 @@ namespace BlazorDemos
                 FileName = "Customization.razor",
                 MetaTitle = "Blazor Dropdown Tree Customization | UI Flexibility | Syncfusion",
                 HeaderText = "Blazor Dropdown Tree Example - UI Customization",
-                MetaDescription = "This Blazor Dropdown Tree example demonstrates customization capabilities. Learn how to tailor the appearance, behavior, and visual aspects of the dropdown tree to match your application design."
+                MetaDescription = "This Blazor Dropdown Tree example shows how to customize the appearance, behavior, and visual aspects of the dropdown tree to match your application design."
             },
             new Sample
             {
@@ -194,7 +194,7 @@ namespace BlazorDemos
                 FileName = "Selection.razor",
                 MetaTitle = "Blazor Dropdown Tree Selection | Multi-select | Syncfusion",
                 HeaderText = "Blazor Dropdown Tree Example - Selection Modes",
-                MetaDescription = "This Blazor Dropdown Tree example demonstrates different selection modes including single, multiple, and checkbox selection. Learn how to implement hierarchical data selection patterns."
+                MetaDescription = "This Blazor Dropdown Tree example shows different selection modes including single, multiple, checkbox selection and hierarchical data selection patterns."
             },
             new Sample
             {
@@ -205,7 +205,7 @@ namespace BlazorDemos
                 FileName = "Filtering.razor",
                 MetaTitle = "Blazor Dropdown Tree Filtering | Search Capability | Syncfusion",
                 HeaderText = "Blazor Dropdown Tree Example - Filtering",
-                MetaDescription = "This Blazor Dropdown Tree example demonstrates filtering capabilities for hierarchical data. Learn how to implement search functionality within nested tree structures for quick data access."
+                MetaDescription = "This Blazor Dropdown Tree example shows filtering capabilities for hierarchical data. Learn how to implement search functionality within nested tree structures."
             },
             new Sample
             {
@@ -216,7 +216,7 @@ namespace BlazorDemos
                 FileName = "Validation.razor",
                 MetaTitle = "Blazor Dropdown Tree Validation | Form Integration | Syncfusion",
                 HeaderText = "Blazor Dropdown Tree Example - Form Validation",
-                MetaDescription = "This Blazor Dropdown Tree example demonstrates integration with form validation. Learn how to implement required field validation and custom validation rules for hierarchical data selection."
+                MetaDescription = "This Blazor Dropdown Tree example demonstrates how to implement required field validation and custom validation rules for hierarchical data selection."
             }
         };
 
@@ -230,7 +230,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor ComboBox Default Functionalities | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Default Functionalities",
-                MetaDescription = "This Blazor ComboBox example demonstrates default functionalities combining dropdown and input features. Learn how to create a flexible input with autocomplete and dropdown selection capabilities.",
+                MetaDescription = "This example shows default functionalities of Blazor ComboBox. Learn how to create a flexible input with autocomplete and dropdown selection capabilities.",
                 Type = SampleType.None
             },
               new Sample
@@ -242,7 +242,7 @@ namespace BlazorDemos
                 FileName = "DataBinding.razor",
                 MetaTitle = "Blazor ComboBox Data Binding | Remote Data | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Data Binding",
-                MetaDescription = "This Blazor ComboBox example demonstrates data binding capabilities with various data sources. Learn how to bind local arrays, object collections, and remote data to enhance your input experiences.",
+                MetaDescription = "This Blazor ComboBox example shows how to bind local arrays, object (dynamic and expando) collections, and remote data to enhance your input experiences.",
                 Type = SampleType.None
             },
             new Sample
@@ -254,7 +254,7 @@ namespace BlazorDemos
                 FileName = "DisabledItems.razor",
                 MetaTitle = "Blazor ComboBox Disabled Items | Selective Input | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Disabled Items",
-                MetaDescription = "This Blazor ComboBox example demonstrates how to disable specific items in the dropdown. Learn to restrict selection of certain options while maintaining an interactive user interface.",
+                MetaDescription = "This Blazor ComboBox example shows how to disable specific items and restrict selection of certain options while maintaining an interactive user interface.",
                 Type = SampleType.None
             },
            new Sample
@@ -266,7 +266,7 @@ namespace BlazorDemos
                 FileName = "Cascading.razor",
                 MetaTitle = "Blazor ComboBox Cascading | Dependent Selection | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Cascading ComboBoxes",
-                MetaDescription = "This Blazor ComboBox example demonstrates cascading (dependent) selection. Learn how to filter the options of one ComboBox based on the selection made in another for creating hierarchical selection flows.",
+                MetaDescription = "This Blazor ComboBox example shows how to filter the options of one ComboBox based on the selection made in another for creating hierarchical selection flows.",
                 Type = SampleType.None
             },
              new Sample
@@ -278,7 +278,7 @@ namespace BlazorDemos
                 FileName = "Filtering.razor",
                 MetaTitle = "Blazor ComboBox Filtering | Search Options | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Filtering",
-                MetaDescription = "This Blazor ComboBox example demonstrates filtering capabilities. Learn how to implement autocomplete search with different filter types like contains, startsWith, and endsWith for better data discovery.",
+                MetaDescription = "This Blazor ComboBox demo shows how to implement autocomplete search with different filter types like contains, startsWith, endsWith for better data discovery.",
                 Type = SampleType.None
             },
             new Sample
@@ -290,7 +290,7 @@ namespace BlazorDemos
                 FileName = "CustomValue.razor",
                 MetaTitle = "Blazor ComboBox Custom Value | Flexible Input | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Custom Value Entry",
-                MetaDescription = "This Blazor ComboBox example demonstrates custom value entry capability. Learn how to allow users to input values not present in the predefined dropdown list for flexible data collection.",
+                MetaDescription = "Blazor ComboBox demo shows custom value entry capability. Learn how to allow user to input values not present in the predefined dropdown list for flexible data.",
                 Type = SampleType.None
             },
              new Sample
@@ -302,7 +302,7 @@ namespace BlazorDemos
                 FileName = "GroupingIcon.razor",
                 MetaTitle = "Blazor ComboBox Grouping and Icons | Visual Cues | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Grouping and Icons",
-                MetaDescription = "This Blazor ComboBox example demonstrates item grouping and icon integration. Learn how to create categorized options with visual indicators for an enhanced selection experience.",
+                MetaDescription = "This Blazor ComboBox demo shows item grouping and icon integration. Learn how to create categorized options with visual indicators for an enhanced selection.",
                 Type = SampleType.None
             },
              new Sample
@@ -314,7 +314,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor ComboBox Templates | Custom Rendering | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Custom Templates",
-                MetaDescription = "This Blazor ComboBox example demonstrates custom templates for item rendering. Learn how to create rich dropdown items with custom HTML, formatting, and styling for enhanced user experience.",
+                MetaDescription = "This Blazor ComboBox example demonstrates how to create rich dropdown items with the custom HTML, formatting, and styling for enhanced user experience.",
                 Type = SampleType.None
             },
              new Sample
@@ -326,7 +326,7 @@ namespace BlazorDemos
                 FileName = "Resize.razor",
                 MetaTitle = "Blazor ComboBox Popup Resize | Adaptive Dropdown | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Popup Resize",
-                MetaDescription = "This Blazor ComboBox example demonstrates popup resizing capabilities. Learn how to customize the dimensions of the dropdown popup to better accommodate your content and layout requirements.",
+                MetaDescription = "This Blazor ComboBox example demonstrates how to customize the dimensions of the dropdown popup to better accommodate your content and layout requirements.",
                 Type = SampleType.None
             },
              new Sample
@@ -338,7 +338,7 @@ namespace BlazorDemos
                 FileName = "MultiColumn.razor",
                 MetaTitle = "Blazor ComboBox Multi Column | Tabular Display | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Multi-Column Layout",
-                MetaDescription = "This Blazor ComboBox example demonstrates multi-column display of dropdown items. Learn how to present complex data in a tabular format within the dropdown for better information display.",
+                MetaDescription = "This Blazor ComboBox example demonstrates how to present complex data in a tabular format within the multi column dropdown for better information display.",
                 Type = SampleType.None,
             },
              new Sample
@@ -350,7 +350,7 @@ namespace BlazorDemos
                 FileName = "Virtualization.razor",
                 MetaTitle = "Blazor ComboBox Virtualization | Performance | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - UI Virtualization",
-                MetaDescription = "This Blazor ComboBox example demonstrates UI virtualization for large datasets. Learn how to load thousands of items with optimal performance by rendering only visible items in the viewport.",
+                MetaDescription = "This Blazor ComboBox example demonstrates how to load the thousands of items with optimal performance by rendering only visible items in the viewport.",
                 Type = SampleType.None,
             },
              new Sample
@@ -362,7 +362,7 @@ namespace BlazorDemos
                 FileName = "FormsValidation.razor",
                 MetaTitle = "Blazor ComboBox Validation | Form Integration | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Form Validation",
-                MetaDescription = "This Blazor ComboBox example demonstrates form validation integration. Learn how to implement required field validation and custom validation rules within Blazor's form validation system.",
+                MetaDescription = "This Blazor ComboBox example demonstrates how to implement required field validation and custom validation rules within Blazor's form validation system.",
                 Type = SampleType.None
             },
             new Sample
@@ -374,10 +374,23 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor ComboBox Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor ComboBox Example - Keyboard Navigation",
-                MetaDescription = "This Blazor ComboBox example demonstrates keyboard navigation support. Learn how to navigate, filter, and select items using keyboard shortcuts for improved accessibility and productivity.",
+                MetaDescription = "This Blazor ComboBox example demonstrates how to navigate, filter, and select items using keyboard shortcuts for improved accessibility and productivity.",
                 Type = SampleType.None
+            },
+#if SERVER
+            new Sample
+            {
+                Name = "Semantic Searching (Embedding)",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/ComboBox",
+                Url = "combobox/embeddings",
+                FileName = "ComboBoxEmbeddings.razor",
+                MetaTitle = "Combo Box Semantic Searching - Syncfusion AI Demos",
+                HeaderText = "Blazor ComboBox Example - Semantic Searching with Embeddings",
+                MetaDescription = "This Blazor ComboBox semantic search example shows how to find related items based on meaning rather than exact keywords for a more intuitive user experience.",
+                NotificationDescription = new string[]{ @" This demo shows the semantic search AI feature in Combo Box." }
             }
-           
+#endif
         };
 
         public List<Sample> AutoComplete { get; set; } = new List<Sample> {
@@ -390,7 +403,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor AutoComplete Default Functionalities | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Default Functionalities",
-                MetaDescription = "This Blazor AutoComplete example demonstrates default suggestion capabilities. Learn how to create an intuitive input field that provides real-time suggestions as users type.",
+                MetaDescription = "Blazor AutoComplete demo shows default suggestion capabilities. Learn how to create an intuitive input field that provides real-time suggestions as users type.",
                 Type = SampleType.None
             },
             new Sample
@@ -402,7 +415,7 @@ namespace BlazorDemos
                 FileName = "DataBinding.razor",
                 MetaTitle = "Blazor AutoComplete Data Binding | Dynamic Sources | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Data Binding",
-                MetaDescription = "This Blazor AutoComplete example demonstrates data binding with various data sources. Learn how to bind local and remote data to provide contextual suggestions based on user input.",
+                MetaDescription = "This Blazor AutoComplete example shows data binding with various data sources. Learn how to bind local and remote data to provide contextual suggestions.",
                 Type = SampleType.None,
             },
             new Sample
@@ -414,7 +427,7 @@ namespace BlazorDemos
                 FileName = "DisabledItems.razor",
                 MetaTitle = "Blazor AutoComplete Disabled Items | Selective Input | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Disabled Items",
-                MetaDescription = "This Blazor AutoComplete example demonstrates how to disable specific suggestion items. Learn to create a controlled input experience with selectively disabled options.",
+                MetaDescription = "This Blazor AutoComplete demo shows how to disable specific suggestion items. Learn to create a controlled input experience with selectively disabled options.",
                 Type = SampleType.None
             },
             new Sample
@@ -424,9 +437,9 @@ namespace BlazorDemos
                 Directory = "DropDowns/AutoComplete",
                 Url = "AutoComplete/Grouping-Icon",
                 FileName = "GroupingIcon.razor",
-                MetaTitle = "Blazor AutoComplete Grouping and Icons | Visual Organization | Syncfusion",
+                MetaTitle = "Blazor AutoComplete Grouping and Icons | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Grouping and Icons",
-                MetaDescription = "This Blazor AutoComplete example demonstrates suggestion grouping with icons. Learn how to organize suggestions into logical categories with visual indicators for better user experience.",
+                MetaDescription = "This Blazor AutoComplete example demonstrates suggestion grouping with icons. Learn how to organize suggestions into logical categories with visual indicators.",
                 Type = SampleType.None
             },
             new Sample
@@ -438,7 +451,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor AutoComplete Templates | Custom Suggestions | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Custom Templates",
-                MetaDescription = "This Blazor AutoComplete example demonstrates custom suggestion templates. Learn how to create rich suggestion items with custom HTML, formatting, and styling for enhanced visual presentation.",
+                MetaDescription = "This Blazor AutoComplete example demonstrates how to create rich suggestion items with custom HTML, formatting, and styling for enhanced visual presentation.",
                 Type = SampleType.None
             },
              new Sample
@@ -450,7 +463,7 @@ namespace BlazorDemos
                 FileName = "Resize.razor",
                 MetaTitle = "Blazor AutoComplete Popup Resize | Flexible UI | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Popup Resize",
-                MetaDescription = "This Blazor AutoComplete example demonstrates suggestion popup resizing. Learn how to customize the dimensions of the suggestions popup to better accommodate your content and layout needs.",
+                MetaDescription = "This Blazor AutoComplete example demonstrates how to customize the dimensions of the suggestions popup to better accommodate your content and layout needs.",
                 Type = SampleType.None
             },
             new Sample
@@ -462,7 +475,7 @@ namespace BlazorDemos
                 FileName = "Highlight.razor",
                 MetaTitle = "Blazor AutoComplete Highlight | Search Matches | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Search Term Highlighting",
-                MetaDescription = "This Blazor AutoComplete example demonstrates search term highlighting in suggestions. Learn how to visually emphasize the matching portions of text to improve user search experience.",
+                MetaDescription = "This Blazor AutoComplete example demonstrates the search term highlighting in suggestions. Learn how to visually emphasize the matching portions of text.",
                 Type = SampleType.None
             },
             new Sample
@@ -474,7 +487,7 @@ namespace BlazorDemos
                 FileName = "Virtualization.razor",
                 MetaTitle = "Blazor AutoComplete Virtualization | Performance | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - UI Virtualization",
-                MetaDescription = "This Blazor AutoComplete example demonstrates UI virtualization for large datasets. Learn how to provide suggestions from thousands of records with optimal performance.",
+                MetaDescription = "This Blazor AutoComplete demo shows UI virtualization for large datasets. Learn how to provide suggestions from thousands of records with optimal performance.",
                 Type = SampleType.None,
             },
              new Sample
@@ -486,7 +499,7 @@ namespace BlazorDemos
                 FileName = "CustomFiltering.razor",
                 MetaTitle = "Blazor AutoComplete Custom Filtering | Advanced Search | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Custom Filtering",
-                MetaDescription = "This Blazor AutoComplete example demonstrates custom filtering logic. Learn how to implement specialized filtering algorithms beyond the standard options for more relevant suggestions.",
+                MetaDescription = "This Blazor AutoComplete example demonstrates custom filtering logic. Learn how to implement specialized filtering algorithms beyond the standard options.",
                 Type = SampleType.None,
             },
             new Sample
@@ -498,7 +511,7 @@ namespace BlazorDemos
                 FileName = "FormsValidation.razor",
                 MetaTitle = "Blazor AutoComplete Validation | Form Integration | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Form Validation",
-                MetaDescription = "This Blazor AutoComplete example demonstrates form validation integration. Learn how to implement required field validation and custom validation rules with Blazor's form validation system.",
+                MetaDescription = "This Blazor AutoComplete example demonstrates how to implement required field validation and custom validation rules with Blazor's form validation system.",
                 Type = SampleType.None
             },
             new Sample
@@ -510,7 +523,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor AutoComplete Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor AutoComplete Example - Keyboard Navigation",
-                MetaDescription = "This Blazor AutoComplete example demonstrates keyboard navigation capabilities. Learn how to navigate suggestions, select items, and operate the component using keyboard shortcuts.",
+                MetaDescription = "Blazor AutoComplete demo shows keyboard navigation capabilities. Learn how to navigate suggestions, select items, operate the component using keyboard shortcut.",
                 Type = SampleType.None
             }
         };
@@ -525,7 +538,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "MultiSelect Dropdown Default Example - Syncfusion Demos",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Default Functionalities",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates default multiple selection capabilities. Learn how to create dropdown controls that allow users to select multiple items from a list.",
+                MetaDescription = "Blazor MultiSelectDropdown demo shows multiple selection capabilities. Learn how to create dropdown controls and allow users to select multiple items from list.",
                 Type = SampleType.None
             },
             new Sample
@@ -535,9 +548,9 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Data-Binding",
                 FileName = "DataBinding.razor",
-                MetaTitle = "Blazor MultiSelect Dropdown Data Binding | Multiple Sources | Syncfusion",
+                MetaTitle = "Blazor MultiSelect Dropdown Binding | Multiple Sources | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Data Binding",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates data binding capabilities. Learn how to bind local and remote data sources to provide multiple selection options.",
+                MetaDescription = "This Blazor MultiSelect Dropdown example shows data binding capabilities. Learn how to bind local and remote data sources to provide multiple selection options.",
                 Type = SampleType.None
             },
             new Sample
@@ -549,7 +562,7 @@ namespace BlazorDemos
                 FileName = "DisabledItems.razor",
                 MetaTitle = "Blazor MultiSelect Dropdown Disabled Items | Selective UI | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Disabled Items",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates disabled items functionality. Learn how to selectively disable specific options while maintaining others as selectable.",
+                MetaDescription = "Blazor MultiSelect Dropdown demo shows disabled items functionality. Learn how to selectively disable specific options while maintaining others as selectable.",
                 Type = SampleType.None
             },
              new Sample
@@ -561,7 +574,7 @@ namespace BlazorDemos
                 FileName = "Filtering.razor",
                 MetaTitle = "Blazor MultiSelect Dropdown Filtering | Search Options | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Filtering",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates filtering capabilities. Learn how to implement search within the dropdown to quickly find items in large option sets.",
+                MetaDescription = "Blazor MultiSelect Dropdown demo shows filtering capabilities. Learn how to implement search within the dropdown to quickly find items in large option sets.",
                 Type = SampleType.None
             },
             new Sample
@@ -573,7 +586,7 @@ namespace BlazorDemos
                 FileName = "CheckBox.razor",
                 MetaTitle = "Blazor MultiSelect Dropdown Checkbox | Visual Selection | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Checkbox Selection",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates checkbox-based selection. Learn how to enhance multiple selection with visual checkbox indicators for clearer selection states.",
+                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates how to enhance the multiple selection with visual checkbox indicators for clearer selection states.",
                 Type = SampleType.None
             },
             new Sample
@@ -585,7 +598,7 @@ namespace BlazorDemos
                 FileName = "CustomValue.razor",
                 MetaTitle = "Blazor MultiSelect Dropdown Custom Values | User Input | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Custom Value Entry",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates custom value support. Learn how to allow users to add new values not present in the predefined options list.",
+                MetaDescription = "This Blazor MultiSelect Dropdown example shows custom value support. Learn how to allow users to add new values not present in the predefined options list.",
                 Type = SampleType.None
             },
             new Sample
@@ -597,7 +610,7 @@ namespace BlazorDemos
                 MetaTitle = "MultiSelect Dropdown Chip Customization - Syncfusion Demos",
                 FileName = "ChipCustomization.razor",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Chip Customization",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates chip customization. Learn how to style selected item chips with custom templates, colors, and behavior for enhanced visual feedback.",
+                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates how to style selected item chips with custom templates, colors, and behavior for enhanced visual feedback.",
                 Type = SampleType.None
             },
             new Sample
@@ -607,9 +620,9 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Grouping",
                 FileName = "Grouping.razor",
-                MetaTitle = "Blazor MultiSelect Dropdown Grouping | Categorized Options | Syncfusion",
+                MetaTitle = "Blazor MultiSelect Dropdown Grouping | Categorized Option | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Option Grouping",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates grouping capabilities. Learn how to organize selection options into logical categories for better information architecture.",
+                MetaDescription = "This Blazor MultiSelect Dropdown demo shows grouping capabilities. Learn how to organize selection options into logical categories for better information.",
                 Type = SampleType.None
             },
             new Sample
@@ -619,9 +632,9 @@ namespace BlazorDemos
                 Directory = "DropDowns/MultiSelect",
                 Url = "MultiSelect-Dropdown/Selection-Limit",
                 FileName = "SelectionLimit.razor",
-                MetaTitle = "Blazor MultiSelect Dropdown Selection Limit | Controlled Input | Syncfusion",
+                MetaTitle = "Blazor MultiSelect Dropdown Selection Limit | Input | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Selection Limits",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates selection limiting features. Learn how to set minimum and maximum selection constraints to control user input.",
+                MetaDescription = "This Blazor MultiSelect Dropdown example shows selection limiting features. Learn how to set minimum and maximum selection constraints to control user input.",
                 Type = SampleType.None
             },
             new Sample
@@ -633,7 +646,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor MultiSelect Dropdown Templates | Custom UI | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Custom Templates",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates custom templating. Learn how to create rich dropdown items and selection chips with custom HTML content and styling.",
+                MetaDescription = "This Blazor MultiSelect Dropdown demo shows custom templating. Learn how to create rich dropdown items and selection chips with custom HTML content and styling.",
                 Type = SampleType.None
             },
             new Sample
@@ -645,7 +658,7 @@ namespace BlazorDemos
                 FileName = "Virtualization.razor",
                 MetaTitle = "Blazor MultiSelect Dropdown Virtualization | Performance | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - UI Virtualization",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates UI virtualization for large datasets. Learn how to handle thousands of options with optimal performance and smooth scrolling.",
+                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates UI virtualization for large datasets. Learn how to handle thousands of options with optimal performance.",
                 Type = SampleType.None
             },
             new Sample
@@ -657,7 +670,7 @@ namespace BlazorDemos
                 FileName = "FormsValidation.razor",
                 MetaTitle = "Blazor MultiSelect Dropdown Validation | Form Integration | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Form Validation",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates form validation integration. Learn how to implement required field validation and selection constraints in Blazor forms.",
+                MetaDescription = "Blazor MultiSelect Dropdown demo shows form validation integration. Learn how to implement required field validation and selection constraints in Blazor forms.",
                 Type = SampleType.None
             },
             new Sample
@@ -669,7 +682,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "MultiSelect Dropdown Keyboard Navigation - Syncfusion Demos",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Keyboard Navigation",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates keyboard navigation capabilities. Learn how to navigate, select, and manage multiple selections using keyboard shortcuts.",
+                MetaDescription = "Blazor MultiSelect Dropdown demo shows keyboard navigation capabilities. Learn how to navigate, select, and manage multiple selections using keyboard shortcuts.",
                 Type = SampleType.None
             },
             new Sample
@@ -681,7 +694,7 @@ namespace BlazorDemos
                 FileName = "Resize.razor",
                 MetaTitle = "Blazor MultiSelect Dropdown Popup Resize | Adaptive UI | Syncfusion",
                 HeaderText = "Blazor MultiSelect Dropdown Example - Popup Resize",
-                MetaDescription = "This Blazor MultiSelect Dropdown example demonstrates popup resizing. Learn how to customize the dropdown's dimensions to better accommodate your content and layout requirements.",
+                MetaDescription = "Blazor MultiSelect Dropdown demo shows popup resizing. Learn how to customize the dropdown dimensions to better accommodate your content and layout requirement.",
                 Type = SampleType.None
             }
         };
@@ -695,7 +708,7 @@ namespace BlazorDemos
                 Url = "MultiColumn-ComboBox/Default-Functionalities",
                 MetaTitle = "MultiColumn ComboBox Default Example - Syncfusion Demos",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Default Functionalities",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates default functionalities. Learn how to create a dropdown with multiple columns for displaying complex structured data.",
+                MetaDescription = "Blazor MultiColumn ComboBox demo shows default functionalities. Learn how to create a dropdown with multiple columns for displaying complex structured data.",
                 FileName = "DefaultFunctionalities.razor",
                 Type = SampleType.None,
             },
@@ -707,7 +720,7 @@ namespace BlazorDemos
                 Url = "MultiColumn-ComboBox/Remote-Data-Binding",
                 MetaTitle = "MultiColumn ComboBox Remote Data Binding - Syncfusion Demos",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Remote Data Binding",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates remote data binding. Learn how to fetch and display data from server sources in a multi-column dropdown format.",
+                MetaDescription = "This Blazor MultiColumn ComboBox example shows remote data binding. Learn how to fetch and display data from server sources in a multi-column dropdown format.",
                 FileName = "RemoteDataBinding.razor",
                 Type = SampleType.None
             },
@@ -720,7 +733,7 @@ namespace BlazorDemos
                 FileName = "Paging.razor",
                 MetaTitle = "Blazor MultiColumn ComboBox Paging | Paginated Data | Syncfusion",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Paging",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates paging capabilities. Learn how to implement pagination for large datasets to improve user experience and performance.",
+                MetaDescription = "Blazor MultiColumn ComboBox demo shows paging capabilities. Learn how to implement pagination for large datasets to improve user experience and performance.",
                 Type = SampleType.None
             },
             new Sample
@@ -732,7 +745,7 @@ namespace BlazorDemos
                 FileName = "Filtering.razor",
                 MetaTitle = "Blazor MultiColumn ComboBox Filtering | Search Features | Syncfusion",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Filtering",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates filtering capabilities. Learn how to implement search across multiple columns of data to quickly find relevant information.",
+                MetaDescription = "Blazor MultiColumn ComboBox demo shows filtering capabilities. Learn how to implement search across multiple columns of data to find relevant information.",
                 Type = SampleType.None
             },
             new Sample
@@ -744,7 +757,7 @@ namespace BlazorDemos
                 FileName = "Virtualization.razor",
                 MetaTitle = "Blazor MultiColumn ComboBox Virtualization | Performance | Syncfusion",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Virtualization",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates UI virtualization. Learn how to render thousands of records with optimal performance by displaying only visible rows in the viewport.",
+                MetaDescription = "Blazor MultiColumn ComboBox example demonstrates how to render thousands of records with optimal performance by displaying only visible rows in the viewport.",
                 Type = SampleType.None
             },
             new Sample
@@ -755,7 +768,7 @@ namespace BlazorDemos
                 Url = "MultiColumn-ComboBox/Grouping-Sorting",
                 MetaTitle = "MultiColumn ComboBox Grouping & Sorting - Syncfusion Demos",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Grouping and Sorting",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates grouping and sorting capabilities. Learn how to organize multi-column data into logical groups with custom sorting options.",
+                MetaDescription = "Blazor MultiColumnComboBox demo shows grouping and sorting capabilities. Learn how to organize multicolumn data into logical groups with custom sorting options.",
                 FileName = "Grouping.razor",
                 Type = SampleType.None
             },
@@ -768,7 +781,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor MultiColumn ComboBox Templates | Custom UI | Syncfusion",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Custom Templates",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates custom cell templates. Learn how to create rich column content with custom HTML, formatting and conditional styling.",
+                MetaDescription = "This Blazor MultiColumn ComboBox demo shows custom cell templates. Learn how to create rich column content with custom HTML, formatting and conditional styling.",
                 Type = SampleType.None
             },
             new Sample
@@ -780,7 +793,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "MultiColumn ComboBox Keyboard Navigation - Syncfusion Demos",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Keyboard Navigation",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates keyboard navigation capabilities. Learn how to navigate multi-column data, change pages, and make selections using keyboard shortcuts.",
+                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates how to navigate the multi-column data, change pages, and make selections using keyboard shortcuts.",
                 Type = SampleType.None
             },
             new Sample
@@ -792,7 +805,7 @@ namespace BlazorDemos
                 FileName = "RowStyle.razor",
                 MetaTitle = "Blazor MultiColumn ComboBox Row Styling | Visual Cues | Syncfusion",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Row Styling",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates row styling capabilities. Learn how to apply custom CSS, conditional formatting, and visual indicators to enhance data readability.",
+                MetaDescription = "Blazor MultiColumnComboBox demo shows row styling capabilities. Learn how to apply custom CSS, conditional formatting, and visual indicator to data readability.",
                 Type = SampleType.None
             },
             new Sample
@@ -804,7 +817,7 @@ namespace BlazorDemos
                 FileName = "FormSupport.razor",
                 MetaTitle = "Blazor MultiColumn ComboBox Form Support | Validation | Syncfusion",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Form Integration",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates form integration. Learn how to use the component in Blazor forms with validation support and data submission capabilities.",
+                MetaDescription = "Blazor MultiColumnComboBox demo shows form integration. Learn how to use the component in Blazor forms with validation support and data submission capabilities.",
                 Type = SampleType.None
             },
             new Sample
@@ -816,7 +829,7 @@ namespace BlazorDemos
                 FileName = "TextWrap.razor",
                 MetaTitle = "Blazor MultiColumn ComboBox Text Wrap | Content Layout | Syncfusion",
                 HeaderText = "Blazor MultiColumn ComboBox Example - Text Wrapping",
-                MetaDescription = "This Blazor MultiColumn ComboBox example demonstrates text wrapping capabilities. Learn how to handle long text content in columns with wrapping, clipping, and tooltip options.",
+                MetaDescription = "Blazor MultiColumnComboBox demo shows text wrapping capabilities. Learn how to handle long text content in columns with wrapping, clipping, and tooltip options.",
                 Type = SampleType.None
             }
         };
@@ -831,7 +844,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor ListBox Default Functionalities | Selection UI | Syncfusion",
                 HeaderText = "Blazor ListBox Example - Default Functionalities",
-                MetaDescription = "This Blazor ListBox example demonstrates default selection capabilities. Learn how to create a versatile listbox with various selection modes and built-in keyboard navigation.",
+                MetaDescription = "Blazor ListBox demo shows default selection capabilities. Learn how to create a versatile listbox with various selection modes and built-in keyboard navigation.",
                 Type = SampleType.None
             },
             new Sample
@@ -841,9 +854,9 @@ namespace BlazorDemos
                 Directory = "DropDowns/ListBox",
                 Url = "listbox/dual-listbox",
                 FileName = "DualListBox.razor",
-                MetaTitle = "Blazor Dual ListBox | Transfer UI | Syncfusion",
+                MetaTitle = "Blazor Dual ListBox Example | Transfer UI | Syncfusion",
                 HeaderText = "Blazor ListBox Example - Dual ListBox Configuration",
-                MetaDescription = "This Blazor Dual ListBox example demonstrates item transfer between two lists. Learn how to implement a shuttle interface for moving items between source and target lists."
+                MetaDescription = "Blazor Dual ListBox demo shows item transfer between two lists. Learn how to implement a shuttle interface for moving items between source and target lists."
             },
             new Sample
             {
@@ -854,7 +867,7 @@ namespace BlazorDemos
                 FileName = "DragDrop.razor",
                 MetaTitle = "Blazor ListBox Drag and Drop | Interactive Reordering | Syncfusion",
                 HeaderText = "Blazor ListBox Example - Drag and Drop",
-                MetaDescription = "This Blazor ListBox example demonstrates drag and drop capabilities. Learn how to implement interactive item reordering and item transfer between multiple lists via drag and drop.",
+                MetaDescription = "Blazor ListBox demo shows drag and drop capabilities. Learn how to implement interactive item reordering and transfer between multiple lists via drag and drop.",
                 Type = SampleType.None
             },
             new Sample
@@ -866,7 +879,7 @@ namespace BlazorDemos
                 FileName = "Checkbox.razor",
                 MetaTitle = "Blazor ListBox Checkbox Selection | Multiple Select | Syncfusion",
                 HeaderText = "Blazor ListBox Example - Checkbox Selection",
-                MetaDescription = "This Blazor ListBox example demonstrates checkbox selection mode. Learn how to implement multiple selection with visual checkbox indicators for clearer selection states.",
+                MetaDescription = "This Blazor ListBox demo shows checkbox selection mode. Learn how to implement multiple selection with visual checkbox indicators for clearer selection states.",
                 Type = SampleType.None
             },
             new Sample
@@ -878,7 +891,7 @@ namespace BlazorDemos
                FileName = "Template.razor",
                MetaTitle = "Blazor ListBox Templates | Custom Item Rendering | Syncfusion",
                HeaderText = "Blazor ListBox Example - Custom Templates",
-               MetaDescription = "This Blazor ListBox example demonstrates custom item templates. Learn how to create rich list items with custom HTML layout, formatting, and styling for enhanced visual presentation.",
+               MetaDescription = "This Blazor ListBox example demonstrates how to create rich list items with custom HTML layout, formatting, and styling for enhanced visual presentation.",
                Type = SampleType.None
             },
             new Sample
@@ -888,9 +901,9 @@ namespace BlazorDemos
                Directory = "DropDowns/ListBox",
                Url = "listbox/api",
                FileName = "Api.razor",
-               MetaTitle = "Blazor ListBox API | Method Showcase | Syncfusion",
+               MetaTitle = "Blazor ListBox API Example | Method Showcase | Syncfusion",
                HeaderText = "Blazor ListBox Example - API Methods",
-               MetaDescription = "This Blazor ListBox example demonstrates API methods and properties. Learn how to programmatically control selection, manage items, and respond to events for complex interactions.",
+               MetaDescription = "Blazor ListBox demo shows API methods and properties. Learn how to programmatically control selection, manage items respond to events for complex interactions.",
                Type = SampleType.None
             },
             new Sample
@@ -902,7 +915,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor ListBox Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor ListBox Example - Keyboard Navigation",
-                MetaDescription = "This Blazor ListBox example demonstrates keyboard navigation capabilities. Learn how to navigate items, make selections, and operate the component using keyboard shortcuts."
+                MetaDescription = "Blazor ListBox demo shows keyboard navigation capabilities. Learn how to navigate items, make selections, and operate the component using keyboard shortcuts."
             }
         };
 
@@ -916,7 +929,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Mention Component | @mention Feature | Syncfusion",
                 HeaderText = "Blazor Mention Example - Default Functionalities",
-                MetaDescription = "This Blazor Mention component example demonstrates the default @mention functionality. Learn how to implement social media-style user tagging in text inputs and content areas.",
+                MetaDescription = "Blazor Mention component demo shows the default @mention functionality. Learn how to implement social media-style user tagging in text inputs and content areas.",
                 Type = SampleType.None
             },
             new Sample
@@ -928,7 +941,7 @@ namespace BlazorDemos
                 FileName = "MultipleList.razor",
                 MetaTitle = "Blazor Mention Multiple Lists | Multi-category | Syncfusion",
                 HeaderText = "Blazor Mention Example - Multiple Data Sources",
-                MetaDescription = "This Blazor Mention example demonstrates multiple data source integration. Learn how to implement different mention triggers for users, tags, and other content types.",
+                MetaDescription = "This Blazor Mention example shows multiple data source integration. Learn how to implement different mention triggers for users, tags, and other content types.",
                 Type = SampleType.None
             },
             new Sample
@@ -940,7 +953,7 @@ namespace BlazorDemos
                 FileName = "Templates.razor",
                 MetaTitle = "Blazor Mention Templates | Custom Suggestion UI | Syncfusion",
                 HeaderText = "Blazor Mention Example - Custom Templates",
-                MetaDescription = "This Blazor Mention example demonstrates custom suggestion templates. Learn how to create rich mention suggestions with user avatars, metadata, and styled content.",
+                MetaDescription = "This Blazor Mention example shows custom suggestion templates. Learn how to create rich mention suggestions with user avatars, metadata, and styled content.",
                 Type = SampleType.None
             },
             new Sample
@@ -952,7 +965,7 @@ namespace BlazorDemos
                 FileName = "DisabledItems.razor",
                 MetaTitle = "Blazor Mention Disabled Items | Selective Tagging | Syncfusion",
                 HeaderText = "Blazor Mention Example - Disabled Items",
-                MetaDescription = "This Blazor Mention example demonstrates disabled suggestion items. Learn how to selectively disable specific users or tags from being mentioned while keeping others available.",
+                MetaDescription = "Blazor Mention demo shows disabled suggestion items. Learn how to selectively disable specific users/tags from being mentioned while keeping others available.",
                 Type = SampleType.None,
             }
         };

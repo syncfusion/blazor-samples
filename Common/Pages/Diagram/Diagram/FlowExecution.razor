@@ -103,25 +103,25 @@
 @code
 {
     private int DiagramConnectorCount { get; set; }
-    private string currentButton = "NodesReachable";
-    private string IsRadiobuttoChecked { get; set; } = "NodesReachable";
+    private string? currentButton = "NodesReachable";
+    private string? IsRadiobuttoChecked { get; set; } = "NodesReachable";
     private bool IsDisabled { get; set; } = false;
-    private List<Connector> HighLightedConnector { get; set; } = new List<Connector>();
-    private List<Node> HighLightedNode { get; set; } = new List<Node>();
-    private List<Connector> ReachableConnectors { get; set; } = new List<Connector>();
+    private List<Connector>? HighLightedConnector { get; set; } = new List<Connector>();
+    private List<Node>? HighLightedNode { get; set; } = new List<Node>();
+    private List<Connector>? ReachableConnectors { get; set; } = new List<Connector>();
 
     public SnapConstraints Constraints { get; set; } = SnapConstraints.None;
 
     // Reference to diagram
-    public SfDiagramComponent DiagramInstance { get; set; }
+    public SfDiagramComponent? DiagramInstance { get; set; }
     // Defines diagram's nodes collection
-    public DiagramObjectCollection<Node> DiagramNodes { get; set; }
+    public DiagramObjectCollection<Node>? DiagramNodes { get; set; }
     // Defines diagram's connector collection
-    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; }
+    public DiagramObjectCollection<Connector>? DiagramConnectors { get; set; }
 
     private void OnCreated()
     {
-        DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[2] });
+        DiagramInstance!.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes![2] });
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
         DiagramInstance.FitToPage(mobileoptions);
     }
@@ -136,7 +136,7 @@
     {
         if (DiagramInstance != null)
         {
-            if (DiagramInstance.SelectionSettings.Nodes.Count > 0 || DiagramInstance.SelectionSettings.Connectors.Count > 0)
+            if (DiagramInstance.SelectionSettings!.Nodes!.Count > 0 || DiagramInstance.SelectionSettings.Connectors!.Count > 0)
             {
                 IsDisabled = false;
             }
@@ -144,7 +144,7 @@
             {
                 IsDisabled = true;
             }
-            await ApplyChanges(currentButton);
+            await ApplyChanges(currentButton!);
         }
     }
     private void InitDiagramModel()
@@ -177,7 +177,7 @@
         CreateConnector("node6", "node7");
         CreateConnector("node8", "node6");
         CreateConnector("node7", "node9");
-        CreateConnector("node4", "node5", default(string), segment1);
+        CreateConnector("node4", "node5", default(string)!, segment1);
     }
 
     private void CreateNode(string id, double x, double y, NodeFlowShapes shape, string label)
@@ -199,10 +199,10 @@
         {
             diagramNode.Height = 60;
         }
-        DiagramNodes.Add(diagramNode);
+        DiagramNodes!.Add(diagramNode);
     }
 
-    private void CreateConnector(string sourceId, string targetId, string label = default(string), OrthogonalSegment segment = null)
+    private void CreateConnector(string sourceId, string targetId, string label = default(string)!, OrthogonalSegment? segment = null)
     {
         Connector diagramConnector = new Connector()
         {
@@ -234,7 +234,7 @@
             diagramConnector.Type = ConnectorSegmentType.Orthogonal;
             diagramConnector.Segments = new DiagramObjectCollection<ConnectorSegment>() { segment };
         }
-        DiagramConnectors.Add(diagramConnector);
+        DiagramConnectors!.Add(diagramConnector);
     }
 
     private async Task OnCheckedItemChange(ChangeArgs<string> args)
@@ -245,7 +245,7 @@
 
     public async Task ApplyChanges(string selectedButton)
     {
-        DiagramInstance.BeginUpdate();
+        DiagramInstance!.BeginUpdate();
         UnHighLight();
         switch (selectedButton)
         {
@@ -278,11 +278,11 @@
 
     public void LinkedConnector(bool isOutEdge)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
             Node nodeId = this.DiagramInstance.SelectionSettings.Nodes[0];
-            List<string> inEdges = nodeId.InEdges;
-            List<string> outEdge = nodeId.OutEdges;
+            List<string> inEdges = nodeId.InEdges!;
+            List<string> outEdge = nodeId.OutEdges!;
             List<string> edges = new List<string>();
             if (isOutEdge)
             {
@@ -301,13 +301,13 @@
 
             foreach (string edge in edges)
             {
-                IDiagramObject obj = DiagramInstance.GetObject(edge);
-                Connector connector = obj as Connector;
-                HighLightedConnector.Add(connector);
+                IDiagramObject obj = DiagramInstance.GetObject(edge)!;
+                Connector? connector = obj as Connector;
+                HighLightedConnector!.Add(connector!);
                 if (connector != null)
                 {
-                    connector.Style.StrokeColor = "#1413F8";
-                    connector.TargetDecorator.Style.StrokeColor = "#1413F8";
+                    connector.Style!.StrokeColor = "#1413F8";
+                    connector.TargetDecorator!.Style.StrokeColor = "#1413F8";
                     connector.TargetDecorator.Style.Fill = "#1413F8";
                 }
             }
@@ -316,11 +316,11 @@
 
     public void LinkedNode(bool isOutEdge)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
             Node nodeId = this.DiagramInstance.SelectionSettings.Nodes[0];
-            List<string> inEdges = nodeId.InEdges;
-            List<string> outEdge = nodeId.OutEdges;
+            List<string> inEdges = nodeId.InEdges!;
+            List<string> outEdge = nodeId.OutEdges!;
             List<string> edges = new List<string>();
             if (!isOutEdge)
             {
@@ -340,15 +340,15 @@
             //string[] edges = await DiagramInstance.GetEdges(nodeId, isOutEdge);
             foreach (string edge in edges)
             {
-                IDiagramObject obj = DiagramInstance.GetObject(edge);
-                Connector connector = obj as Connector;
-                Node node = null;
+                IDiagramObject obj = DiagramInstance.GetObject(edge)!;
+                Connector? connector = obj as Connector;
+                Node? node = null;
                 if (isOutEdge)
                 {
                     if (connector != null)
                     {
-                        IDiagramObject obj1 = DiagramInstance.GetObject(connector.TargetID);
-                        Node objj = obj1 as Node;
+                        IDiagramObject obj1 = DiagramInstance.GetObject(connector.TargetID)!;
+                        Node? objj = obj1 as Node;
                         node = objj;
                     }
                 }
@@ -356,31 +356,31 @@
                 {
                     if (connector != null)
                     {
-                        IDiagramObject obj1 = DiagramInstance.GetObject(connector.SourceID) as IDiagramObject;
-                        Node objj = obj1 as Node;
+                        IDiagramObject? obj1 = DiagramInstance.GetObject(connector.SourceID) as IDiagramObject;
+                        Node? objj = obj1 as Node;
                         node = objj;
                     }
                 }
 
-                HighLightedNode.Add(node);
-                if (node != null) node.Style.StrokeColor = "#1413F8";
+                HighLightedNode!.Add(node!);
+                if (node != null) node.Style!.StrokeColor = "#1413F8";
             }
         }
     }
 
     public async Task ChildrenFlow()
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
-            string nodeId = this.DiagramInstance.SelectionSettings.Nodes[0].ID;
+            string nodeId = this.DiagramInstance.SelectionSettings.Nodes[0].ID!;
             await FindReachable(nodeId);
-            if (ReachableConnectors.Count > 0)
+            if (ReachableConnectors!.Count > 0)
             {
                 foreach (Connector connector in ReachableConnectors)
                 {
-                    HighLightedConnector.Add(connector);
-                    connector.Style.StrokeColor = "#1413F8";
-                    connector.TargetDecorator.Style.StrokeColor = "#1413F8";
+                    HighLightedConnector!.Add(connector);
+                    connector.Style!.StrokeColor = "#1413F8";
+                    connector.TargetDecorator!.Style.StrokeColor = "#1413F8";
                     connector.TargetDecorator.Style.Fill = "#1413F8";
                 }
 
@@ -391,10 +391,10 @@
 
     public async Task<List<Connector>> FindReachable(string nodeId)
     {
-        IDiagramObject node = DiagramInstance.GetObject(nodeId);
+        IDiagramObject node = DiagramInstance!.GetObject(nodeId)!;
         if (node is Node nodes)
         {
-            List<string> outEdge = nodes.OutEdges;
+            List<string> outEdge = nodes.OutEdges!;
             List<string> edges = new List<string>();
             foreach (string s in outEdge)
             {
@@ -403,34 +403,34 @@
 
             foreach (string edge in edges)
             {
-                IDiagramObject obj = DiagramInstance.GetObject(edge);
-                Connector connector = obj as Connector;
-                if (ReachableConnectors.Contains(connector))
+                IDiagramObject obj = DiagramInstance.GetObject(edge)!;
+                Connector? connector = obj as Connector;
+                if (ReachableConnectors!.Contains(connector!))
                 {
                     continue;
                 }
 
                 if (connector != null && (connector.Annotations == null || connector.Annotations.Count == 0 || connector.Annotations[0].Content != "No"))
                 {
-                    ReachableConnectors.Add(connector);
-                    await FindReachable(connector.TargetID);
+                    ReachableConnectors!.Add(connector);
+                    await FindReachable(connector.TargetID!);
                 }
             }
         }
-        return ReachableConnectors;
+        return ReachableConnectors!;
     }
 
     public void UnHighLight()
     {
-        foreach (Node node in HighLightedNode)
+        foreach (Node node in HighLightedNode!)
         {
-            node.Style.StrokeColor = "#E8DFB6";
+            node.Style!.StrokeColor = "#E8DFB6";
         }
 
-        foreach (Connector connector in HighLightedConnector)
+        foreach (Connector connector in HighLightedConnector!)
         {
-            connector.Style.StrokeColor = "#8D8D8D";
-            connector.TargetDecorator.Style.StrokeColor = "#8D8D8D";
+            connector.Style!.StrokeColor = "#8D8D8D";
+            connector.TargetDecorator!.Style.StrokeColor = "#8D8D8D";
             connector.TargetDecorator.Style.Fill = "#8D8D8D";
         }
 

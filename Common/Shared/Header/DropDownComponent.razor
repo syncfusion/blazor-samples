@@ -9,7 +9,7 @@
     </div>
     <div class="@popupClass">
         <ul class="@SampleUtils.LIST_UL_CLASS">
-            @foreach (var item in DataSource)
+            @foreach (var item in DataSource ?? new List<DropDownData>())
             {
                 var liClass = SampleUtils.LIST_LI_CLASS;
                 if (item.Text == Value)
@@ -35,7 +35,7 @@
 </div>
 
 @code {
-    public string popupClass { get; set; }
+    public string? popupClass { get; set; }
     private ElementReference inputElement { get; set; }
     public bool isthemepopupopen { get; set; }
     public bool isdemopopupopen { get; set; }
@@ -45,31 +45,31 @@
     /// ChildContent of DropDownComponent.
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Specifies the DataSource of DropDown component.
     /// </summary>
     [Parameter]
-    public List<DropDownData> DataSource { get; set; }
+    public List<DropDownData>? DataSource { get; set; }
 
     /// <summary>
     /// Specifies the value to be set in the input element.
     /// </summary>
     [Parameter]
-    public string Value { get; set; }
+    public string? Value { get; set; }
 
     /// <summary>
     /// Specifies the static default value to the input element.
     /// </summary>
     [Parameter]
-    public string DefaultValue { get; set; }
+    public string? DefaultValue { get; set; }
 
     /// <summary>
     /// Specifies the custom item template to be render in the list element.
     /// </summary>
     [Parameter]
-    public RenderFragment<DropDownData> ItemTemplate { get; set; }
+    public RenderFragment<DropDownData>? ItemTemplate { get; set; }
 
     /// <summary>
     /// Triggers the event on item selection.
@@ -80,7 +80,7 @@
     // Input container click event handler.
     private void OnInputClick()
     {
-        if (popupClass.Contains(BlazorDemos.Shared.SampleUtils.DISPLAY_NONE))
+        if (popupClass != null && popupClass.Contains(BlazorDemos.Shared.SampleUtils.DISPLAY_NONE))
         {
             popupClass = SampleUtils.RemoveClass(popupClass, SampleUtils.DISPLAY_NONE);
             isthemepopupopen = true;
@@ -89,7 +89,7 @@
         }
         else
         {
-            popupClass = SampleUtils.AddClass(popupClass, SampleUtils.DISPLAY_NONE);
+            popupClass = SampleUtils.AddClass(popupClass ?? "", SampleUtils.DISPLAY_NONE);
         }
 
     }
@@ -105,7 +105,7 @@
     {
         // Await the popup hide process for dropdown selection.
         await Task.Delay(200);
-        popupClass = SampleUtils.AddClass(popupClass, SampleUtils.DISPLAY_NONE);
+        popupClass = SampleUtils.AddClass(popupClass ?? "", SampleUtils.DISPLAY_NONE);
     }
 
     // Item selection event handler.
@@ -120,7 +120,7 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        if (Value == null && DataSource.Any())
+        if (Value == null && DataSource != null && DataSource.Any())
         {
             Value = DataSource.First().Text;
         }

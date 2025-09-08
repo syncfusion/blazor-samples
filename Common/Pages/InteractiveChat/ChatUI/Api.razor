@@ -26,6 +26,7 @@
         <li><code>ShowFooter</code>: Toggles the visibility of the chat footer.</li>
         <li><code>EnableCompactMode</code>: Reduces spacing and left-aligns all messages to display more content within the visible chat area. </li>
         <li><code>TypingUsers</code>: Allows users to manage the list of users who are typing, updated through the multi-select options in the property pane.</li>
+        <li><code>MentionUsers</code>: Configurable list of users that can be tagged using '@@' in Chat Messages.</li>
         <li><code>StatusIconCss</code>: Defines a CSS class for the status bar icon, with built-in styles for Online, Offline, Away, and Busy statuses, while allowing further customization.</li>
         <li><code>MessageOptionsToolbar</code>: Configures the toolbar that appears on individual messages, allowing customization such as copy, forward, reply, pin and delete. Supports adding, removing, or reordering toolbar items based on application needs.</li>
     </ul>
@@ -47,6 +48,8 @@
             AutoScrollToBottom="AutoScrollToBottom"
             TimestampFormat="@TimestampFormat"
             HeaderIconCss="chat_header_icon"
+            TypingUsers="@TypingUsers"
+            MentionUsers="@MentionUsers"
             HeaderText="Design Community">
             <MessageToolbar ItemClicked="MessageToolbarClicked">
                 <MessageToolbarItem IconCss="e-icons e-chat-forward" Tooltip="Forward"></MessageToolbarItem>
@@ -80,7 +83,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <div>Show timestamp</div>
+                            <div>Show timeStamp</div>
                         </td>
                         <td style="padding-left: 20px">
                             <div style="padding-left: 0;padding-top: 0">
@@ -90,7 +93,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <div>Show timebreak</div>
+                            <div>Show timeBreak</div>
                         </td>
                         <td style="padding-left: 20px">
                             <div style="padding-left: 0;padding-top: 0">
@@ -120,7 +123,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <div>Compact Mode</div>
+                            <div>Compact mode</div>
                         </td>
                         <td style="padding-left: 20px">
                             <div style="padding-left: 0;padding-top: 0">
@@ -141,6 +144,19 @@
                             </div>
                         </td>
                     </tr>
+                    <tr>
+                        <td>
+                            <div>Mention users</div>
+                        </td>
+                        <td style="padding-left: 20px">
+                            <div style="padding-left: 0;padding-top: 0">
+                                <SfMultiSelect TValue="List<UserModel>" TItem="UserModel" DataSource="@AvailabletMentionUsers" Value="@SelectedMentionUsers" Placeholder="Mention users...">
+                                    <MultiSelectFieldSettings Text="User" Value="User"></MultiSelectFieldSettings>
+                                    <MultiSelectEvents TValue="List<UserModel>" TItem="UserModel" OnValueSelect="@OnMentionUserSelected" OnValueRemove="@OnMentionUserRemoved"></MultiSelectEvents>
+                                </SfMultiSelect>
+                            </div>
+                        </td>
+                    </tr>
                 </tbody>
             </table>
         </div>
@@ -155,7 +171,7 @@
     }
 
     .api-chatui .e-header-icon.chat_header_icon {
-        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/public-event.png"));
+        background-image: url(@(SampleService!.WebAssetsPath + "images/chat-ui/public-event.png"));
         background-color: unset;
     }
 
@@ -179,7 +195,7 @@
 
 @code {
     private SfChatUI ApiChatUI = new SfChatUI();
-    private UserModel CurrentUser = new ChatMessagesData().GetSpecificUser("admin", "Alice", null, null, null);
+    private UserModel CurrentUser = new ChatMessagesData().GetSpecificUser("admin", "Alice", String.Empty, String.Empty, String.Empty);
     private string TimestampFormat = "MM/dd hh:mm tt";
     private bool ShowTimestamp = true;
     private bool ShowTimebreak = true;
@@ -188,6 +204,10 @@
     private bool EnableCompactMode = false;
     private bool AutoScrollToBottom = false;
     private List<ChatMessage> apiChatMessages = new ChatMessagesData().GetApiChatMessages();
+    private List<UserModel> MentionUsers = new ChatMessagesData().GetMentionUsers();
+    private List<UserModel> SelectedMentionUsers = new ChatMessagesData().GetMentionUsers();
+    private List<UserModel> AvailabletMentionUsers = new ChatMessagesData().GetMentionUsers();
+    private List<UserModel> TypingUsers = new List<UserModel>();
     private void ValueChanged(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args, string PropertyName)
     {
         switch (PropertyName)
@@ -222,6 +242,7 @@
                 Text = args.Message.Text,
                 ID = "chat-message-" + (ApiChatUI.Messages.Count + 1).ToString(),
                 Author = args.Message.Author,
+                MentionUsers = args.Message.MentionUsers,
                 IsForwarded = true,
                 Status = args.Message.Status,
                 Timestamp = args.Message.Timestamp,
@@ -235,7 +256,7 @@
 
     public class UserValue
     {
-        public string Value { get; set; }
+        public string Value { get; set; } = String.Empty;
     }
 
     public class TimeStampFormatValue: UserValue { }
@@ -256,25 +277,55 @@
         new UserValue() { Value="Jordan"}
     };
     private List<string> selectingUsers = new List<string> { "Laura", "Charlie" };
+    private async Task OnMentionUserSelected(SelectEventArgs<UserModel> args)
+    {
+        if (args?.ItemData != null && !MentionUsers.Any(user => user.ID == args.ItemData.ID))
+        {
+            MentionUsers.Add(args.ItemData);
+            SelectedMentionUsers.Add(args.ItemData);
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task OnMentionUserRemoved(RemoveEventArgs<UserModel> args)
+    {
+        if (args?.ItemData?.ID != null)
+        {
+            MentionUsers = MentionUsers.Where(user => user.ID != args.ItemData.ID).ToList();
+            SelectedMentionUsers = SelectedMentionUsers.Where(user => user.ID != args.ItemData.ID).ToList();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
     private void OnTypingUserSelected(SelectEventArgs<UserValue> args)
     {
-        UserModel user = new UserModel()
+        if (args?.ItemData?.Value != null)
         {
-            User = args.ItemData.Value,
-            AvatarBgColor = "#bacbe4"
-        };
-        if (selectingUsers.Contains(args.ItemData.Value)) {
-            user.AvatarBgColor = args.ItemData.Value == "Charlie" ? "#e6cdde" : "#dec287";
-            user.AvatarUrl = $"{SampleService.WebAssetsPath}images/chat-ui/{args.ItemData.Value.ToLower()}.png";
+            UserModel user = new UserModel()
+            {
+                User = args.ItemData.Value,
+                AvatarBgColor = "#bacbe4"
+            };
+            if (selectingUsers.Contains(args.ItemData.Value))
+            {
+                user.AvatarBgColor = args.ItemData.Value == "Charlie" ? "#e6cdde" : "#dec287";
+                user.AvatarUrl = $"{SampleService!.WebAssetsPath}images/chat-ui/{args.ItemData.Value.ToLower()}.png";
+            }
+            TypingUsers.Add(user);
         }
-        ApiChatUI.TypingUsers.Add(user);
     }
     private void UpdateTimestamplFormat(ChangeEventArgs<string, TimeStampFormatValue> args)
     {
-        TimestampFormat = args.Value;
+        if (args?.Value != null)
+        {
+            TimestampFormat = args.Value;
+        }
     }
     private void OnTypingUserRemoved(RemoveEventArgs<UserValue> args)
     {
-        ApiChatUI.TypingUsers = ApiChatUI.TypingUsers.Where(user => user.User != args.ItemData.Value).ToList();
+        if (args?.ItemData?.Value != null)
+        {
+            TypingUsers = TypingUsers.Where(user => user.User != args.ItemData.Value).ToList();
+        }
     }
 }

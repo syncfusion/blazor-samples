@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Barcode EAN-8 | Retail Product Labeling | Syncfusion",
                 HeaderText = "Blazor Barcode Example - EAN-8 Default Functionalities",
-                MetaDescription = "This Blazor Barcode example demonstrates EAN-8 symbology for retail product labeling. Create compact barcodes for small product packaging with customizable size and appearance."
+                MetaDescription = "This Blazor Barcode example demonstrates EAN-8 symbology for retail labeling. Create compact barcodes for small packages with customizable size and appearance."
             },
             new Sample
             {
@@ -35,7 +35,7 @@ namespace BlazorDemos
                 FileName = "Ean13.razor",
                 MetaTitle = "Blazor Barcode EAN-13 | International Product Labeling | Syncfusion",
                 HeaderText = "Blazor Barcode Example - EAN-13",
-                MetaDescription = "This Blazor Barcode EAN-13 example demonstrates standard retail product identification. Generate compliant barcodes with country code and check digit validation for international product labeling."
+                MetaDescription = "This Blazor Barcode EAN-13 demo showcases standard product ID for retail. Create compliant barcodes with country code and check digit for global labeling."
             },
             new Sample
             {
@@ -46,7 +46,7 @@ namespace BlazorDemos
                 FileName = "Code32.razor",
                 MetaTitle = "Blazor Barcode Code 32 | Pharmaceutical Identification | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Code 32",
-                MetaDescription = "This Blazor Barcode Code 32 example demonstrates pharmaceutical product identification coding. Create Italian pharma codes with proper check digit calculation and formatting for medication labeling."
+                MetaDescription = "This Blazor Barcode Code 32 example showcases pharmaceutical product coding. Create Italian pharma codes with proper check digit calculation and formatting."
             },
             new Sample
             {
@@ -57,7 +57,7 @@ namespace BlazorDemos
                 FileName = "Code39.razor",
                 MetaTitle = "Blazor Barcode Code 39 | Alphanumeric Encoding | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Code 39",
-                MetaDescription = "This Blazor Barcode Code 39 example demonstrates alphanumeric encoding for inventory tracking. Generate self-checking barcodes with support for uppercase letters, numbers, and special characters."
+                MetaDescription = "This Blazor Barcode Code 39 example demonstrates alphanumeric encoding for inventory tracking. It supports uppercase letters, numbers, and special characters."
             },
             new Sample
             {
@@ -68,7 +68,7 @@ namespace BlazorDemos
                 FileName = "Code39Extension.razor",
                 MetaTitle = "Blazor Barcode Extended Code 39 | Full ASCII Encoding | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Extended Code 39",
-                MetaDescription = "This Blazor Extended Code 39 barcode example demonstrates full ASCII character encoding. Generate barcodes with all 128 ASCII characters for enhanced data encoding in inventory and document tracking systems."
+                MetaDescription = "This Blazor Extended Code 39 barcode demo encodes 128 ASCII characters, enhancing data encoding in inventory and document tracking systems with ASCII support."
             },
             new Sample
             {
@@ -79,7 +79,7 @@ namespace BlazorDemos
                 FileName = "Code93.razor",
                 MetaTitle = "Blazor Barcode Code 93 | High-Density Encoding | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Code 93",
-                MetaDescription = "This Blazor Barcode Code 93 example demonstrates high-density alphanumeric encoding. Generate compact barcodes with full ASCII support and improved security through dual check digits."
+                MetaDescription = "This Blazor Barcode Code 93 example shows high-density alphanumeric encoding. It generates compact barcodes with full ASCII support and enhanced security."
             },
             new Sample
             {
@@ -90,7 +90,7 @@ namespace BlazorDemos
                 FileName = "Code128.razor",
                 MetaTitle = "Blazor Barcode Code 128 | High-Density Data Encoding | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Code 128",
-                MetaDescription = "This Blazor Barcode Code 128 example demonstrates high-density data encoding with full ASCII support. Generate compact, reliable barcodes for logistics, inventory, and shipping applications."
+                MetaDescription = "This Blazor Barcode Code 128 demo offers high-density data encoding with ASCII support. Create compact and reliable barcodes ideal for logistics and inventory."
             },
             new Sample
             {
@@ -101,7 +101,7 @@ namespace BlazorDemos
                 FileName = "Code128A.razor",
                 MetaTitle = "Blazor Barcode Code 128A | Uppercase & Control Codes | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Code 128A",
-                MetaDescription = "This Blazor Barcode Code 128A example demonstrates uppercase letters, numbers, and control code encoding. Generate specialized barcodes for technical documentation and system control applications."
+                MetaDescription = "This Blazor Barcode Code 128A example encodes uppercase letters, numbers, and control codes. Generate specialized barcodes for documentation and control tasks."
             },
             new Sample
             {
@@ -112,7 +112,7 @@ namespace BlazorDemos
                 FileName = "Code128B.razor",
                 MetaTitle = "Blazor Barcode Code 128B | Alphanumeric Text Encoding | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Code 128B",
-                MetaDescription = "This Blazor Barcode Code 128B example demonstrates text encoding with upper and lowercase letters. Generate barcodes for general text data with efficient space utilization in retail and inventory applications."
+                MetaDescription = "This Blazor Barcode Code 128B demo shows text encoding with upper and lowercase letters. Generate barcodes for general text with space utilization in retail."
             },
             new Sample
             {
@@ -123,7 +123,7 @@ namespace BlazorDemos
                 FileName = "Code128C.razor",
                 MetaTitle = "Blazor Barcode Code 128C | Numeric Paired Digit Encoding | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Code 128C",
-                MetaDescription = "This Blazor Barcode Code 128C example demonstrates efficient paired-digit numeric encoding. Generate compact barcodes for numeric-only data used in logistics, shipping, and product identification."
+                MetaDescription = "This Blazor Barcode Code 128C demo shows numeric encoding using paired digits, creating compact barcodes for logistics, shipping, and product ID applications."
             },
             new Sample
             {
@@ -132,9 +132,9 @@ namespace BlazorDemos
                 Directory = "Barcodes/Barcode",
                 Url = "barcodes/codabar",
                 FileName = "Codabar.razor",
-                MetaTitle = "Blazor Barcode Codabar | Blood Bank & Library Applications | Syncfusion",
+                MetaTitle = "Blazor Barcode Codabar | Blood Bank Applications | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Codabar",
-                MetaDescription = "This Blazor Barcode Codabar example demonstrates specialized encoding for healthcare and library applications. Create self-checking barcodes with customizable start/stop characters for blood banks and logistics."
+                MetaDescription = "This Blazor Barcode Codabar example showcases specialized encoding for healthcare. Create self-checking barcodes with customizable start/stop characters."
             },            
             new Sample
             {
@@ -145,7 +145,7 @@ namespace BlazorDemos
                 FileName = "UpcA.razor",
                 MetaTitle = "Blazor Barcode UPC-A | US Retail Product Identification | Syncfusion",
                 HeaderText = "Blazor Barcode Example - UPC-A",
-                MetaDescription = "This Blazor Barcode UPC-A example demonstrates standard US retail product identification. Generate 12-digit barcodes with automatic check digit calculation for point-of-sale scanning and inventory management."
+                MetaDescription = "This Blazor Barcode UPC-A demo shows how to generate 12-digit barcodes with automatic check digit calculation for point-of-sale scanning and management."
             },
             new Sample
             {
@@ -156,7 +156,7 @@ namespace BlazorDemos
                 FileName = "UpcE.razor",
                 MetaTitle = "Blazor Barcode UPC-E | Compact Retail Identification | Syncfusion",
                 HeaderText = "Blazor Barcode Example - UPC-E",
-                MetaDescription = "This Blazor Barcode UPC-E example demonstrates compressed retail product identification. Generate space-efficient 8-digit barcodes for small product packaging with zero suppression for retail applications."
+                MetaDescription = "This Blazor Barcode UPC-E sample demo compressed retail product identification. Generate 8-digit barcodes for small product packaging with zero suppression."
             },
             new Sample
             {
@@ -167,7 +167,7 @@ namespace BlazorDemos
                 FileName = "QRCode.razor",
                 MetaTitle = "Blazor QR Code Generator | Mobile-Scannable Codes | Syncfusion",
                 HeaderText = "Blazor Barcode Example - QR Code",
-                MetaDescription = "This Blazor QR Code example demonstrates high-capacity 2D barcode generation. Create scannable codes for URLs, text, and contact information with customizable error correction and sizing for mobile applications."
+                MetaDescription = "This Blazor QR Code example demonstrate how to generate scannable codes, text, and contacts with customizable error correction, sizing for mobile applications."
             },
             new Sample
             {
@@ -178,7 +178,7 @@ namespace BlazorDemos
                 FileName = "QRCodeWithLogo.razor",
                 MetaTitle = "Blazor QR Code With Logo | Branded Scannable Codes | Syncfusion",
                 HeaderText = "Blazor Barcode Example - QR Code With Logo",
-                MetaDescription = "This Blazor QR Code with logo example demonstrates brand-embedded 2D barcode generation. Create scannable codes with centered logo images for marketing, brand recognition, and enhanced user experience."
+                MetaDescription = "This Blazor QR Code with logo demo shows how to create scannable codes with centered logo images for marketing, brand recognition, and enhanced user experience."
             },
             new Sample
             {
@@ -189,7 +189,7 @@ namespace BlazorDemos
                 FileName = "DataMatrix.razor",
                 MetaTitle = "Blazor Data Matrix Barcode | High-Density 2D Encoding | Syncfusion",
                 HeaderText = "Blazor Barcode Example - Data Matrix",
-                MetaDescription = "This Blazor Data Matrix example demonstrates high-density 2D barcode generation. Create square or rectangular matrix codes for small item marking with robust error correction in industrial applications."
+                MetaDescription = "This Blazor Data Matrix example demonstrates how to create square or rectangular matrix codes for small item marking with the robust error correction."
             }
         };
     }

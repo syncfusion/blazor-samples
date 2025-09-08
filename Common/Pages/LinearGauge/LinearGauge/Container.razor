@@ -69,14 +69,14 @@
     <div class="property-panel-section">
         <div class="property-panel-header">Properties</div>
         <div class="property-panel-content">
-            <table style="width: 100%">
+            <table class="full-width-element">
                 <tbody>
                     <tr>
                         <td>
                             <div>Orientation</div>
                         </td>
                         <td>
-                            <div style="width:100%">
+                            <div class="full-width-element">
                                 <SfDropDownList TValue="string" TItem="OrientationData" DataSource="@GaugeOrientData" @bind-Value="@OrientationValue">
                                     <DropDownListEvents TValue="string" TItem="OrientationData" ValueChange="OrintationChange" />
                                     <DropDownListFieldSettings text="Name" value="Name" />
@@ -90,7 +90,7 @@
                             <div>Container Type</div>
                         </td>
                         <td>
-                            <div style="width:100%">
+                            <div class="full-width-element">
                                 <SfTooltip @ref="DropdownTooltip" ID="Tooltip" Target=".e-list-item .name[title]"></SfTooltip>
                                 <SfDropDownList TValue="string" TItem="ContainerTypeData" DataSource="@ContainerTypeDatas" @bind-Value="@ContainerTypeValue">
                                     <DropDownListEvents TValue="string" TItem="ContainerTypeData" ValueChange="ContainerTypeChange" Opened="OnOpen" OnClose="OnClose" />
@@ -110,8 +110,14 @@
     </div>
 </div>
 
+<style>
+    .full-width-element {
+        width: 100%;
+    }
+</style>
+
 @code {
-    public SfTooltip DropdownTooltip;
+    public SfTooltip? DropdownTooltip;
     public bool IsOpen { get; set; }
     public Theme Theme { get; set; }
     public Orientation GaugeOrientation = Orientation.Vertical;
@@ -156,24 +162,24 @@
 
     public void OnClose(PopupEventArgs args)
     {
-        DropdownTooltip.CloseAsync();
+        DropdownTooltip?.CloseAsync();
     }
 
     protected override async Task OnInitializedAsync()
     {
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-        if (IsOpen)
+        if (IsOpen && DropdownTooltip != null)
         {
             await DropdownTooltip.RefreshAsync();
         }
     }
     public class OrientationData
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     public class ContainerTypeData
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 }

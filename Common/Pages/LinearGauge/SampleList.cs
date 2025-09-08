@@ -20,7 +20,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Linear Gauge Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Default Functionalities",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates the default visualization of a linear gauge with essential elements like axis, range, and pointer to represent data in a linear scale.",
+                MetaDescription = "Blazor Linear Gauge demo shows default visualization of a linear gauge with essential elements like axis, range, pointer to represent data in a linear scale.",
                 Type = SampleType.None
             },
             new Sample
@@ -32,7 +32,7 @@ namespace BlazorDemos
                 FileName = "Container.razor",
                 MetaTitle = "Blazor Linear Gauge Container | Customization Options | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Container Customization",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates container customization options including background, border settings, and margin adjustments to enhance the visual presentation of the gauge.",
+                MetaDescription = "Blazor Linear Gauge demo shows container custom options including background, border settings, margin adjustments to enhance the visual presentation of gauge.",
                 Type = SampleType.None
             },
             new Sample
@@ -44,7 +44,7 @@ namespace BlazorDemos
                 FileName = "Track.razor",
                 MetaTitle = "Blazor Linear Gauge Track | Customization Features | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Track Customization",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates track customization options including color, width, and offset adjustments to create visually enhanced linear gauge displays.",
+                MetaDescription = "This Blazor Linear Gauge demo shows track customization options including color, width, offset adjustments to create visually enhanced linear gauge displays.",
                 Type = SampleType.None
             },
             new Sample
@@ -56,7 +56,7 @@ namespace BlazorDemos
                 FileName = "Ticks.razor",
                 MetaTitle = "Blazor Linear Gauge Ticks | Interval Customization | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Ticks Customization",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates tick mark customization including interval, position, height, color, and formatting options to create precisely calibrated visual scales.",
+                MetaDescription = "This LinearGauge demo shows tick mark customization including interval, position, height, color, formatting option to create precisely calibrated visual scales.",
                 Type = SampleType.None
             },
             new Sample
@@ -68,7 +68,7 @@ namespace BlazorDemos
                 FileName = "Labels.razor",
                 MetaTitle = "Blazor Linear Gauge Labels | Format Customization | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Label Customization",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates label customization including format, position, font, color, and offset adjustments to enhance readability and visual presentation.",
+                MetaDescription = "Blazor Linear Gauge demo shows label customization including format, position, font, color, and offset adjustments to enhance readability, visual presentation.",
                 Type = SampleType.None
             },
             new Sample
@@ -80,7 +80,7 @@ namespace BlazorDemos
                 FileName = "Range.razor",
                 MetaTitle = "Blazor Linear Gauge Ranges | Visual Data Segments | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Range Customization",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates range customization with multiple color bands highlighting different data segments, enhancing visual data interpretation with custom start and end points.",
+                MetaDescription = "This demo shows custom range with multiple color bands highlighting different data segments, enhancing visual data interpretation with custom start, end points.",
                 Type = SampleType.None
             },
             new Sample
@@ -92,7 +92,7 @@ namespace BlazorDemos
                 FileName = "MarkerPointer.razor",
                 MetaTitle = "Blazor Linear Gauge Marker Pointer | Shape Options | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Marker Pointer Customization",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates marker pointer customization options including shapes, colors, positioning, and animation effects for precise data value indication on linear scales.",
+                MetaDescription = "This demo shows marker pointer custom options including shapes, colors, positioning, animation effects for precise data value indication on linear scales.",
                 Type = SampleType.None
             },
             new Sample
@@ -104,7 +104,7 @@ namespace BlazorDemos
                 FileName = "BarPointer.razor",
                 MetaTitle = "Blazor Linear Gauge Bar Pointer | Progress Visualization | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Bar Pointer Customization",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates bar pointer customization options including width, color, and rounded corners for visualizing progress or level indicators in linear measurements.",
+                MetaDescription = "This example shows bar pointer custom options including width, color, rounded corners for visualizing progress/level indicators in linear measurements.",
                 Type = SampleType.None
             },
             new Sample
@@ -114,9 +114,9 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/custom-pointer",
                 FileName = "CustomPointer.razor",
-                MetaTitle = "Blazor Linear Gauge Custom Pointer | Advanced Visualization | Syncfusion",
+                MetaTitle = "Blazor Linear Gauge Custom Pointer | Visualization | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Custom Pointer Designs",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates how to implement custom-designed pointers using SVG and image elements to create unique visual indicators for specific application requirements.",
+                MetaDescription = "This demo shows how to implement custom-designed pointers using SVG, image elements to create unique visual indicators for specific application requirements.",
                 Type = SampleType.None
             },
             new Sample
@@ -128,7 +128,7 @@ namespace BlazorDemos
                FileName = "Tooltip.razor",
                MetaTitle = "Blazor Linear Gauge Tooltip | Interactive Data Display | Syncfusion",
                HeaderText = "Blazor Linear Gauge Example - Tooltip Configuration",
-               MetaDescription = "This Blazor Linear Gauge example demonstrates tooltip configuration options including custom templates, formatting, and interactive behaviors to display detailed information on pointer hover.",
+               MetaDescription = "This demo shows tooltip configuration options including custom templates, formatting, interactive behaviors to display detailed information on pointer hover.",
                Type = SampleType.None
             },
             new Sample
@@ -140,7 +140,7 @@ namespace BlazorDemos
                 FileName = "PrintExport.razor",
                 MetaTitle = "Blazor Linear Gauge Print and Export | Document Options | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Print and Export Features",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates print and export functionality allowing users to print gauges or export them to various file formats including PNG, JPEG, and PDF.",
+                MetaDescription = "This Blazor Linear Gauge demo shows print and export functionality allowing users to print gauges/export them to various file formats including PNG, JPEG, PDF.",
                 Type = SampleType.None
             },
             new Sample
@@ -152,7 +152,7 @@ namespace BlazorDemos
                 FileName = "ProgressBar.razor",
                 MetaTitle = "Blazor Linear Gauge Progress Bar | Task Completion | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Progress Bar Implementation",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates how to create a progress bar using the linear gauge component with customizable colors, animation, and value display to track completion status.",
+                MetaDescription = "This demo shows how to create a progress bar using the linear gauge component with customizable colors, animation, value display to track completion status.",
                 Type = SampleType.None
             },
             new Sample
@@ -164,7 +164,7 @@ namespace BlazorDemos
                 FileName = "StepProgressBar.razor",
                 MetaTitle = "Blazor Linear Gauge Step Progress | Multi-Stage Tracking | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Step Progress Bar Implementation",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates a step progress bar implementation showing completion status across multiple stages with distinct visual indicators for completed and pending steps.",
+                MetaDescription = "This demo shows a step progress bar implementation showing completion status across multiple stages with distinct indicators for completed and pending steps.",
                 Type = SampleType.None
             },
             new Sample
@@ -176,7 +176,7 @@ namespace BlazorDemos
                 FileName = "Slider.razor",
                 MetaTitle = "Blazor Linear Gauge Slider | Interactive Value Selection | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Interactive Slider Implementation",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates how to create an interactive slider with draggable pointer, value display, and customizable appearance for user input and value selection scenarios.",
+                MetaDescription = "This demo shows how to create an interactive slider with draggable pointer, value display, customizable appearance for user input and value selection scenarios.",
                 Type = SampleType.None
             },
             //new Sample
@@ -195,9 +195,9 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/thermometer",
                 FileName = "Thermometer.razor",
-                MetaTitle = "Blazor Linear Gauge Thermometer | Temperature Visualization | Syncfusion",
+                MetaTitle = "Blazor Linear Gauge Thermometer | Visualization | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Thermometer Visualization",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates how to create a thermometer visualization with temperature scale, custom range colors, and realistic appearance for temperature monitoring applications.",
+                MetaDescription = "This demo shows how to create a thermometer visual with temperature scale, custom range colors, realistic appearance for temperature monitoring applications.",
                 Type = SampleType.None
             },
             new Sample
@@ -209,7 +209,7 @@ namespace BlazorDemos
                 FileName = "StepsCounter.razor",
                 MetaTitle = "Blazor Linear Gauge Steps Counter | Fitness Tracking | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Steps Counter Implementation",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates a step counter visualization for fitness applications, showing daily step targets with customizable appearance and progress indication features.",
+                MetaDescription = "This demo shows a step counter visualization for fitness applications, showing daily step targets with customizable appearance and progress indication features.",
                 Type = SampleType.None
             },
             new Sample
@@ -221,7 +221,7 @@ namespace BlazorDemos
                 FileName = "VolumeSettings.razor",
                 MetaTitle = "Blazor Linear Gauge Volume Control | Audio Settings | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Volume Control Implementation",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates a volume control interface with interactive adjustment, visual feedback, and customizable appearance for audio control applications.",
+                MetaDescription = "Blazor Linear Gauge demo shows a volume control interface with interactive adjustment, visual feedback, customizable appearance for audio control applications.",
                 Type = SampleType.None
             },
             new Sample
@@ -231,9 +231,9 @@ namespace BlazorDemos
                 Directory = "LinearGauge/LinearGauge",
                 Url = "linear-gauge/battery-indicator",
                 FileName = "BatteryIndicator.razor",
-                MetaTitle = "Blazor Linear Gauge Battery Indicator | Power Level Display | Syncfusion",
+                MetaTitle = "Blazor Linear Gauge Battery Indicator | Show Power Level | Syncfusion",
                 HeaderText = "Blazor Linear Gauge Example - Battery Level Indicator",
-                MetaDescription = "This Blazor Linear Gauge example demonstrates a battery level indicator with color-coded ranges, custom shape, and realistic appearance for monitoring power status in device applications.",
+                MetaDescription = "This demo shows a battery level indicator with color-coded ranges, custom shape, realistic appearance for monitoring power status in device applications.",
                 Type = SampleType.None
             }
          };

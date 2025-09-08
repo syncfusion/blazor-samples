@@ -34,14 +34,14 @@
                 <!-- Undo Button -->
                 <ToolbarItem Type="@ItemType.Button" TooltipText="Undo (Ctrl + Z)">
                     <Template>
-                        <SfButton Disabled="@IsUndoDisabled" @ref="UndoButtonRef" IconCss="e-icons e-undo" @onclick="UndoSignature" Content="Undo"/>
+                        <SfButton Disabled="@IsUndoDisabled" @ref="UndoButtonRef" IconCss="e-icons e-undo" @onclick="UndoSignature" Content="Undo" aria-label="Undo Signature" />
                     </Template>
                 </ToolbarItem>
 
                 <!-- Redo Button -->
                 <ToolbarItem Type="@ItemType.Button" TooltipText="Redo (Ctrl + Y)">
                     <Template>
-                        <SfButton Disabled="@IsRedoDisabled" @ref="RedoButtonRef" IconCss="e-icons e-redo" @onclick="RedoSignature" Content="Redo"/>
+                        <SfButton Disabled="@IsRedoDisabled" @ref="RedoButtonRef" IconCss="e-icons e-redo" @onclick="RedoSignature" Content="Redo" aria-label="Redo Signature" />
                     </Template>
                 </ToolbarItem>
 
@@ -110,27 +110,27 @@
         <!-- Signature Canvas -->
         <div id="signature-container">
             <SfSignature id="signature" @ref="SignatureRef" style="width: 100%; height: 100%;" BackgroundColor="@BackgroundColor" StrokeColor="@StrokeColor"
-                         Disabled="@IsSignatureDisabled" MaxStrokeWidth="@StrokeWidth" Changed="OnSignatureChanged"/>
+            Disabled="@IsSignatureDisabled" MaxStrokeWidth="@StrokeWidth" Changed="OnSignatureChanged"/>
         </div>
     </div>
 </div>
 
 @code{
-    private SfSignature SignatureRef { get; set; }
-    private SfButton UndoButtonRef { get; set; }
-    private SfButton RedoButtonRef { get; set; }
-    private SfButton ClearButtonRef { get; set; }
+    private SfSignature? SignatureRef { get; set; }
+    private SfButton? UndoButtonRef { get; set; }
+    private SfButton? RedoButtonRef { get; set; }
+    private SfButton? ClearButtonRef { get; set; }
     private bool IsUndoDisabled { get; set; } = true;
     private bool IsRedoDisabled { get; set; } = true;
     private bool IsSaveDisabled { get; set; } = true;
     private bool IsClearDisabled { get; set; } = true;
     private bool IsSignatureDisabled { get; set; } = false;
     private SignatureFileType SaveFileType { get; set; } = SignatureFileType.Png;
-    private string BackgroundColor { get; set; } = "#ffffff";
-    private string StrokeColor { get; set; } = "#000000";
+    private string? BackgroundColor { get; set; } = "#ffffff";
+    private string? StrokeColor { get; set; } = "#000000";
     private double StrokeWidth { get; set; } = 2;
 
-// Palette color options for stroke and background
+    // Palette color options for stroke and background
     private Dictionary<string, string[]> StrokePaletteColors { get; set; } = new Dictionary<string, string[]>()
     {
         { "Custom", new[] { "#000000", "#e91e63", "#9c27b0", "#673ab7", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#8bc34a", "#cddc39", "#ffeb3b", "#ffc107" } }
@@ -141,10 +141,10 @@
         { "Custom", new[] { "#ffffff", "#f44336", "#e91e63", "#9c27b0", "#673ab7", "#2196f3", "#03a9f4", "#00bcd4", "#009688", "#8bc34a", "#cddc39", "#ffeb3b" } }
     };
 
-// Stroke width options
+    // Stroke width options
     private double[] StrokeWidthOptions { get; set; } = { 1, 2, 3, 4, 5 };
 
-// Event Handlers
+    // Event Handlers
 
     private async Task OnSignatureChanged()
     {
@@ -159,7 +159,7 @@
 
     private async Task UndoSignature()
     {
-        if (await SignatureRef.CanUndoAsync())
+        if (SignatureRef != null && await SignatureRef.CanUndoAsync())
         {
             await SignatureRef.UndoAsync();
             await UpdateUndoRedoState();
@@ -169,7 +169,7 @@
 
     private async Task RedoSignature()
     {
-        if (await SignatureRef.CanRedoAsync())
+        if (SignatureRef != null && await SignatureRef.CanRedoAsync())
         {
             await SignatureRef.RedoAsync();
             await UpdateUndoRedoState();
@@ -179,31 +179,40 @@
 
     private async Task UpdateUndoRedoState()
     {
-        IsUndoDisabled = !await SignatureRef.CanUndoAsync();
-        IsRedoDisabled = !await SignatureRef.CanRedoAsync();
+        if (SignatureRef != null)
+        {
+            IsUndoDisabled = !await SignatureRef.CanUndoAsync();
+            IsRedoDisabled = !await SignatureRef.CanRedoAsync();           
+        }
     }
 
     private async Task UpdateSaveClearState()
     {
-        bool isSignatureEmpty = await SignatureRef.IsEmptyAsync();
-        IsSaveDisabled = isSignatureEmpty;
-        IsClearDisabled = isSignatureEmpty;
+        if (SignatureRef != null)
+        {
+            bool isSignatureEmpty = await SignatureRef.IsEmptyAsync();
+            IsSaveDisabled = isSignatureEmpty;
+            IsClearDisabled = isSignatureEmpty;          
+        }
     }
 
     private async Task ClearSignature()
     {
-        await SignatureRef.ClearAsync();
+        if (SignatureRef != null)
+        {
+            await SignatureRef.ClearAsync();
+        }
         await UpdateSaveClearState();
     }
 
     private void OnBackgroundColorChanged(ColorPickerEventArgs args)
     {
-        BackgroundColor = args.CurrentValue.Hex;
+        BackgroundColor = args.CurrentValue?.Hex;
     }
 
     private void OnStrokeColorChanged(ColorPickerEventArgs args)
     {
-        StrokeColor = args.CurrentValue.Hex;
+        StrokeColor = args.CurrentValue?.Hex;
     }
 
     private void OnDisabledChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
@@ -213,7 +222,10 @@
 
     private void OnSaveClicked(Syncfusion.Blazor.SplitButtons.ClickEventArgs args)
     {
-        SignatureRef.SaveAsync();
+        if (SignatureRef != null)
+        {
+            SignatureRef.SaveAsync();           
+        }
     }
 
     private void OnSaveFormatSelected(MenuEventArgs args)
@@ -225,7 +237,10 @@
             "SVG" => SignatureFileType.Svg,
             _ => SaveFileType
         };
-        SignatureRef.SaveAsync(SaveFileType, "Signature");
+        if (SignatureRef != null)
+        {
+            SignatureRef.SaveAsync(SaveFileType, "Signature");           
+        }
     }
 
 }

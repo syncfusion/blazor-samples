@@ -1,4 +1,4 @@
-﻿@page "/datagrid/custom-binding"
+@page "/datagrid/custom-binding"
 
 @using Syncfusion.Blazor
 @using Syncfusion.Blazor.DropDowns
@@ -47,7 +47,7 @@
                                     @{
                                         var aggregate = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Sum: @aggregate.Sum</p>
+                                            <p>Sum: @aggregate?.Sum</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -61,7 +61,7 @@
                                     @{
                                         var aggregate = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Average: @aggregate.Average</p>
+                                            <p>Average: @aggregate?.Average</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -106,7 +106,7 @@
 
         public List<OrderDetails> Orders { get; set; } = OrderDetails.GetAllRecords();
 
-        public override async Task<Object> ReadAsync(DataManagerRequest dataManagerRequest, string key = null)
+        public override async Task<Object> ReadAsync(DataManagerRequest dataManagerRequest, string? key = null)
         {
             IEnumerable GridData = Orders;
             IEnumerable DataSource = Orders;
@@ -141,7 +141,11 @@
         public override async Task<Object> InsertAsync(DataManager dataManager, object value, string key)
         {
             await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
-            Orders.Insert(0, value as OrderDetails);
+            var order = value as OrderDetails;
+            if (order != null)
+            {
+                Orders.Insert(0, order);
+            }
             return value;
         }
 
@@ -149,7 +153,11 @@
         {
             await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
             int data = (int)value;
-            Orders.Remove(Orders.Where((Order) => Order.OrderID == data).FirstOrDefault());
+            var order = Orders.FirstOrDefault(Order => Order.OrderID == data);
+            if (order != null)
+            {
+                Orders.Remove(order);
+            }
             return value;
         }
 
@@ -157,8 +165,8 @@
         {
             await Task.Delay(100); //To mimic asynchronous operation, we delayed this operation using Task.Delay
             var val = (value as OrderDetails);
-            var data = Orders.Where((Order) => Order.OrderID == val.OrderID).FirstOrDefault();
-            if (data != null) {
+            var data = Orders.Where((Order) => Order.OrderID == val?.OrderID).FirstOrDefault();
+            if (data != null && val != null) {
                 data.CustomerID = val.CustomerID;
                 data.Freight = val.Freight;
                 data.OrderDate = val.OrderDate;

@@ -15,7 +15,7 @@
     <p>This sample demonstrates how to add an image preview of the uploaded files. Browse or drag-and-drop image files (PNG, JPG) to display preview for the selected files.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The Uploader control allows to create preview images after uploaded it. The preview images created by reading the file using success event. Also, the user can create preview images before uploading to server using select event..</p>
+    <p>The Uploader control allows to create preview images after uploaded it. The preview images created by reading the file using success event. Also, the user can create preview images before uploading to server using select event..</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
@@ -43,29 +43,41 @@
 </div>
 
 @code {
-    private SfUploader uploadObj { get; set; }
+    private SfUploader? uploadObj { get; set; }
     public string CssClass = "custom-file";
-    private string base64 { get; set; }
-    private string fileSize { get; set; }
-    
+    private string? base64 { get; set; }
+    private string? fileSize { get; set; }
+
     private async Task OnChange(UploadChangeEventArgs args)
     {
         base64 = string.Empty;
-        foreach (var file in args.Files)
+        if (args.Files != null)
         {
-            byte[] bytes;
-            using (var memoryStream = new MemoryStream())
+            foreach (var file in args.Files)
             {
-                file.Stream.CopyTo(memoryStream);
-                bytes = file.Stream.ToArray();
-            }
-            base64 = "data:image/png;base64," + Convert.ToBase64String(bytes);
-            fileSize = await uploadObj.BytesToSizeAsync(file.FileInfo.Size);
+                byte[]? bytes;
+                using (var memoryStream = new MemoryStream())
+                {
+                    file.Stream?.CopyTo(memoryStream);
+                    bytes = file.Stream?.ToArray();
+                }
+                base64 = "data:image/png;base64," + Convert.ToBase64String(bytes);
+                if (uploadObj != null)
+                {
+                    if (file != null && file.FileInfo != null)
+                    {
+                        fileSize = await uploadObj.BytesToSizeAsync(file.FileInfo.Size);
+                    }
+                }
+            }         
         }
     }
     private async Task onFileRemove()
     {
-        await uploadObj.RemoveAsync();
+        if (uploadObj != null)
+        {
+            await uploadObj.RemoveAsync();           
+        }
     }
 }
 <style>

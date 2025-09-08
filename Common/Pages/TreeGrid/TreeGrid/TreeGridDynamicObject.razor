@@ -29,7 +29,7 @@
                                     @{
                                         var SumValue = (context as Syncfusion.Blazor.Grids.AggregateTemplateContext);
                                         <div>
-                                            <p>Sum: @SumValue.Sum</p>
+                                            <p>Sum: @SumValue?.Sum</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -50,7 +50,7 @@
     </div>
 </div>
 @code {
-    private List<DynamicDictionary> TreeData { get; set; }
+    private List<DynamicDictionary> TreeData { get; set; } = new List<DynamicDictionary>();
     private static List<DynamicDictionary> DataSource = new List<DynamicDictionary>();
     private static int ParentRecordID { get; set; }
     private static int ChildRecordID { get; set; }
@@ -108,20 +108,20 @@
     {
         Dictionary<string, object> Dictionary = new Dictionary<string, object>();
 
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        public override bool TryGetMember(GetMemberBinder binder, out object? result)
         {
             string name = binder.Name;
-            return Dictionary.TryGetValue(name, out result);
+            return Dictionary.TryGetValue(name, out result!);
         }
-        public override bool TrySetMember(SetMemberBinder binder, object value)
+        public override bool TrySetMember(SetMemberBinder binder, object? value)
         {
-            Dictionary[binder.Name] = value;
+            Dictionary[binder.Name] = value!;
             return true;
         }
 
         public override System.Collections.Generic.IEnumerable<string> GetDynamicMemberNames()
         {
-            return Dictionary?.Keys;
+            return Dictionary != null ? (IEnumerable<string>)Dictionary.Keys : Array.Empty<string>();
         }
     }
 }

@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "FlowChart.razor",
                 HeaderText="Flow Chart using Blazor Diagram Component Example",
                 MetaTitle = "Blazor Flow Chart | Process Visualization | Syncfusion",
-                MetaDescription = "This Blazor Flow Chart demonstrates process visualization with decision nodes, connectors, and flowchart symbols for business process mapping and workflow design.",
+                MetaDescription = "This Blazor Flow Chart demo shows process visualization with decision nodes, connectors, and flowchart symbols for business process mapping and workflow design.",
             },
             new Sample
             {
@@ -46,7 +46,7 @@ namespace BlazorDemos
                 FileName = "Shapes.razor",
                 HeaderText="Example of Shapes in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Shapes | Built-in Symbols | Syncfusion",
-                MetaDescription = "This Blazor Diagram Shapes example demonstrates built-in shape library with basic, flowchart, and BPMN symbols for comprehensive diagram creation."
+                MetaDescription = "This Blazor Diagram Shapes example demonstrates the built-in shape library with basic, flowchart, and BPMN symbols for comprehensive diagram creations."
             },
             new Sample
             {
@@ -57,7 +57,7 @@ namespace BlazorDemos
                 FileName = "NodeTemplateSample.razor",
                 HeaderText="Example of NodeTemplate in Blazor Diagram Component",
                 MetaTitle = "Blazor HTML Shapes | Custom Templates | Syncfusion",
-                MetaDescription = "This Blazor HTML Shapes example demonstrates custom node templates with HTML content for rich, interactive diagram elements and data visualization.",
+                MetaDescription = "This Blazor HTML Shapes example demonstrates the custom node templates with HTML content for rich, interactive diagram elements and data visualization.",
             },
             new Sample
             {
@@ -68,7 +68,7 @@ namespace BlazorDemos
                 FileName = "ConnectorSample.razor",
                 HeaderText="Example of Connectors in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Connectors | Link Elements | Syncfusion",
-                MetaDescription = "This Blazor Diagram Connectors example demonstrates various connector types, routing, and styling options for linking diagram elements effectively.",
+                MetaDescription = "This Blazor Diagram Connectors example demonstrates the various connector types, routing, and styling options for linking diagram elements effectively.",
             },
             new Sample
             {
@@ -79,8 +79,8 @@ namespace BlazorDemos
                 FileName = "Routing.razor",
                 HeaderText="Example of Line Routing in Blazor Diagram Component",
                 MetaTitle = "Blazor Line Routing | Smart Connections | Syncfusion",
-                MetaDescription = "This Blazor Line Routing example demonstrates automatic connector routing to avoid obstacles and create clean, organized diagram layouts.",
-            },    
+                MetaDescription = "This Blazor Line Routing example shows automatic connector routing to avoid obstacles and create clean, organized diagram layouts. Explore to more details.",
+            },
             new Sample
             {
                 Name = "Avoid Connector Overlap",
@@ -90,9 +90,7 @@ namespace BlazorDemos
                 FileName = "AvoidConnectorOverlap.razor",
                 HeaderText="Example of Avoid Connector Overlap feature in Blazor Diagram Component",
                 MetaTitle = "Blazor Avoid Connector Overlap | Clean Layout | Syncfusion",
-                MetaDescription = "This Blazor Avoid Connector Overlap feature demonstrates automatic connector adjustment to minimize visual overlap for cleaner diagram presentation.",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"This sample demonstrates how connectors are automatically adjust to minimize visual overlap in Syncfusion Blazor Diagram."},
+                MetaDescription = "This Blazor Avoid Connector Overlap feature example demonstrates automatic connector adjustment to minimize visual overlap for cleaner diagram presentation.",
             },
             new Sample
             {
@@ -114,7 +112,7 @@ namespace BlazorDemos
                 FileName = "Ports.razor",
                 HeaderText="Example of Ports in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Ports | Connection Points | Syncfusion",
-                MetaDescription = "This Blazor Diagram Ports example demonstrates connection points on nodes for precise connector attachment and controlled diagram connectivity.",
+                MetaDescription = "This Blazor Diagram Ports example demonstrates the connection points on nodes for precise connector attachment and the controlled diagram connectivity.",
             },
             new Sample
             {
@@ -125,7 +123,7 @@ namespace BlazorDemos
                 FileName = "Rulers.razor",
                 HeaderText="Example of Rulers in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Rulers | Measurement Guide | Syncfusion",
-                MetaDescription = "This Blazor Diagram Rulers example demonstrates measurement guides and alignment tools for precise diagram element positioning and sizing.",
+                MetaDescription = "This Blazor Diagram Rulers example shows measurement guides and alignment tools for precise diagram element positioning and sizing. Explore to more details.",
             },
             new Sample
             {
@@ -135,8 +133,8 @@ namespace BlazorDemos
                 Url = "diagram/swimlane",
                 FileName = "SwimlaneSample.razor",
                 HeaderText="Example of Swimlanes in Blazor Diagram Component",
-                MetaTitle = "Blazor Swimlanes | Process Lanes | Syncfusion",
-                MetaDescription = "This Blazor Swimlanes example demonstrates process lane organization for business process modeling and workflow visualization with role separation.",
+                MetaTitle = "Blazor Swimlanes Example | Process Lanes | Syncfusion",
+                MetaDescription = "This Blazor Swimlanes example demonstrates the process lane organization for business process modeling and workflow visualization with role separation.",
             },
             new Sample
             {
@@ -147,9 +145,7 @@ namespace BlazorDemos
                 FileName = "ContainerSample.razor",
                 HeaderText="Example of Containers in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Container | Group Elements | Syncfusion",
-                MetaDescription = "This Blazor Diagram Container example demonstrates grouping and organizing diagram elements within containers for structured layout management.",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"Updated the sample by enabling the Symbol Palette, allowing users to create customized diagrams with ease. This feature provides a flexible and user-friendly way to drag and drop predefined symbols onto the diagram surface, streamlining the diagram creation process."},
+                MetaDescription = "This Blazor Diagram Container example demonstrates the grouping and organizing diagram elements within containers for the structured layout management.",
             },
             new Sample
             {
@@ -160,7 +156,7 @@ namespace BlazorDemos
                 FileName = "Events.razor",
                 HeaderText="Example of Events in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Events | Interactive Handling | Syncfusion",
-                MetaDescription = "This Blazor Diagram Events example demonstrates event handling for user interactions, selections, and diagram modifications for dynamic behavior.",
+                MetaDescription = "This Blazor Diagram Events example demonstrates an event handling for the user interactions, selections, and diagram modifications for dynamic behavior.",
             },
             new Sample
             {
@@ -182,7 +178,7 @@ namespace BlazorDemos
                 FileName = "TooltipSample.razor",
                 HeaderText="Example of Tooltip in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Tooltip | Hover Information | Syncfusion",
-                MetaDescription = "This Blazor Diagram Tooltip example demonstrates hover information display for diagram elements with customizable content and positioning.",
+                MetaDescription = "This Blazor Diagram Tooltip example shows hover information display for diagram elements with customizable content and positioning. Explore to more details.",
             },
               new Sample
             {
@@ -193,7 +189,7 @@ namespace BlazorDemos
                 FileName = "SymbolPalette.razor",
                 HeaderText="Example of Symbol Palette in Blazor Diagram Component",
                 MetaTitle = "Blazor Symbol Palette | Drag-Drop Shapes | Syncfusion",
-                MetaDescription = "This Blazor Symbol Palette example demonstrates drag-and-drop shape library for easy diagram creation with organized symbol categories.",
+                MetaDescription = "This Blazor Symbol Palette example demonstrates drag-and-drop shape library for easy diagram creation with organized symbol categories. Explore to more details.",
             },
               new Sample
             {
@@ -203,9 +199,48 @@ namespace BlazorDemos
                 Url = "diagram/zorder",
                 FileName = "ZOrder.razor",
                 HeaderText="Example of ZOrder Commands in Blazor Diagram Component",
-                MetaTitle = "Blazor Z-Order | Layer Management | Syncfusion",
-                MetaDescription = "This Blazor Z-Order example demonstrates layer management commands for controlling element stacking order and visual hierarchy in diagrams.",
+                MetaTitle = "Blazor Z-Order Example | Layer Management | Syncfusion",
+                MetaDescription = "This Blazor Z-Order example shows layer management commands for controlling element stacking order and visual hierarchy in diagrams. Explore to more details.",
             },
+            #if SERVER
+            new Sample
+            {
+                Name = "Text to Flowchart",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/Diagram",
+                Url = "diagram/ai-text-to-flowchart",
+                FileName = "TextToFlowchart.razor",
+                MetaTitle = "Blazor Diagram Text to Flowchart - Syncfusion AI Demos",
+                HeaderText = "Blazor Diagram Example - Text to Flowchart Conversion",
+                MetaDescription = "This Blazor Diagram AI demo converts plain text descriptions into professional flowcharts. Transform your textual process definitions into visual diagrams with intelligent node arrangement and connection paths.",
+                Type = SampleType.AI
+            },
+            new Sample
+            {
+                Name = "Text to MindMap",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/Diagram",
+                Url = "diagram/ai-text-to-mindmap",
+                FileName = "TextToMindMap.razor",
+                MetaTitle = "Blazor Diagram Text to MindMap Example - Syncfusion AI Demos",
+                HeaderText = "Blazor Diagram Example - Text to MindMap Generation",
+                MetaDescription = "This Blazor Diagram AI feature transforms text into interactive mind maps. Convert hierarchical information into visual knowledge structures with automatic layout and relationship mapping for improved information organization.",
+                Type = SampleType.AI
+            },
+            new Sample
+            {
+                Name = "Text to Sequence Diagram",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/Diagram",
+                Url = "diagram/ai-text-to-sequence-diagram",
+                FileName = "TextToSequence.razor",
+                Type = SampleType.AI,
+                MetaTitle = "Blazor Diagram Text to Sequence Example - Syncfusion AI Demos",
+                HeaderText = "Blazor Diagram Example - Text to Sequence Diagram Conversion",
+                MetaDescription = "This Blazor Diagram demo shows Visualize object interactions and message flows with intelligent interpretation of process sequences for better system design.",
+                NotificationDescription = new string[]{ @" This sample shows how AI generates sequence diagrams from text using the diagram component and demonstrates seamless integration of natural language processing with diagram generation." }
+            },
+#endif
                 new Sample
             {
                 Name = "Zooming and Panning",
@@ -214,8 +249,8 @@ namespace BlazorDemos
                 Url = "diagram/zooming-panning",
                 FileName = "ZoomingPanning.razor",
                 HeaderText="Example of Zooming and Panning in Blazor Diagram Component",
-                MetaTitle = "Blazor Zoom Pan | Navigation Control | Syncfusion",
-                MetaDescription = "This Blazor Zooming and Panning example demonstrates navigation controls for exploring large diagrams with smooth zoom and pan interactions.",
+                MetaTitle = "Blazor Zoom and Pan | Navigation Control | Syncfusion",
+                MetaDescription = "This Blazor Zooming and Panning example shows navigation controls for exploring large diagrams with smooth zoom and pan interactions. Explore to more details.",
             },
                 new Sample
             {
@@ -226,7 +261,7 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 HeaderText="Example of Overview in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Overview | Navigation Panel | Syncfusion",
-                MetaDescription = "This Blazor Diagram Overview example demonstrates miniature navigation panel for quick diagram exploration and viewport positioning.",
+                MetaDescription = "This Blazor Diagram Overview example demonstrates miniature navigation panel for quick diagram exploration and viewport positioning. Explore to more details.",
             },
                 new Sample
             {
@@ -236,8 +271,8 @@ namespace BlazorDemos
                 Url = "diagram/historymanager",
                 FileName = "HistoryManager.razor",
                 HeaderText="Example of History Manager in Blazor Diagram Component",
-                MetaTitle = "Blazor History Manager | Undo Redo | Syncfusion",
-                MetaDescription = "This Blazor History Manager example demonstrates undo/redo functionality for tracking and reversing diagram changes and user actions.",
+                MetaTitle = "Blazor History Manager Example | Undo Redo | Syncfusion",
+                MetaDescription = "This Blazor History Manager example demonstrates undo/redo functionality for tracking and reversing diagram changes and user actions. Explore to more details.",
             },
              new Sample
             {
@@ -248,7 +283,7 @@ namespace BlazorDemos
                 FileName = "DrawingToolSample.razor",
                 HeaderText="Example of DrawingTools in Blazor Diagram Component",
                 MetaTitle = "Blazor Drawing Tools | Interactive Creation | Syncfusion",
-                MetaDescription = "This Blazor Drawing Tools example demonstrates interactive shape and connector creation tools for dynamic diagram building and editing.",
+                MetaDescription = "This Blazor Drawing Tools example demonstrates interactive shape and connector creation tools for dynamic diagram building and editing. Explore to more details.",
             },
              new Sample
             {
@@ -259,7 +294,7 @@ namespace BlazorDemos
                 FileName = "UserHandles.razor",
                 HeaderText="Example of User Handles in Blazor Diagram Component",
                 MetaTitle = "Blazor User Handles | Custom Controls | Syncfusion",
-                MetaDescription = "This Blazor User Handles example demonstrates custom interactive controls around diagram elements for specialized operations and quick actions.",
+                MetaDescription = "This Blazor User Handles example demonstrates the custom interactive controls around diagram elements for the specialized operations and quick actions.",
             },
               new Sample
             {
@@ -270,7 +305,7 @@ namespace BlazorDemos
                 FileName = "ExpandAndCollapse.razor",
                 HeaderText="Example of Expand And Collapse in Blazor Diagram Component",
                 MetaTitle = "Blazor Expand Collapse | Hierarchical View | Syncfusion",
-                MetaDescription = "This Blazor Expand and Collapse example demonstrates hierarchical diagram navigation with expandable nodes for managing complex structures.",
+                MetaDescription = "This Blazor Expand and Collapse example shows hierarchical diagram navigation with expandable nodes for managing complex structures. Explore to more details.",
             },
             new Sample
             {
@@ -281,7 +316,7 @@ namespace BlazorDemos
                 FileName = "Snapping.razor",
                 HeaderText="Example of Snapping in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Snapping | Alignment Guide | Syncfusion",
-                MetaDescription = "This Blazor Diagram Snapping example demonstrates automatic alignment guides and snap-to-grid functionality for precise element positioning.",
+                MetaDescription = "This Blazor Diagram Snapping example shows automatic alignment guides and snap-to-grid functionality for precise element positioning. Explore to more details.",
             },
              new Sample
             {
@@ -292,7 +327,7 @@ namespace BlazorDemos
                 FileName = "Scrolling.razor",
                 HeaderText="Example of Scrolling in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Scrolling | Viewport Navigation | Syncfusion",
-                MetaDescription = "This Blazor Diagram Scrolling example demonstrates viewport navigation and scrolling behavior for exploring large diagram content areas.",
+                MetaDescription = "This Blazor Diagram Scrolling example shows viewport navigation and scrolling behavior for exploring large diagram content areas. Explore to more details.",
             },
             new Sample
             {
@@ -303,7 +338,7 @@ namespace BlazorDemos
                 FileName = "KeyboardInteraction.razor",
                 HeaderText="Example of Keyboard Interaction in Blazor Diagram Component",
                 MetaTitle = "Blazor Keyboard Interaction | Accessibility | Syncfusion",
-                MetaDescription = "This Blazor Keyboard Interaction example demonstrates accessibility features with keyboard shortcuts for diagram navigation and element manipulation.",
+                MetaDescription = "This Blazor Keyboard Interaction example demonstrates an accessibility features with keyboard shortcuts for diagram navigation and element manipulation.",
             },
                 new Sample
             {
@@ -314,7 +349,7 @@ namespace BlazorDemos
                 FileName = "NodeContent.razor",
                 HeaderText="Example of Node content in Blazor Diagram Component",
                 MetaTitle = "Blazor Node Content | Custom Elements | Syncfusion",
-                MetaDescription = "This Blazor Node Content example demonstrates custom content rendering within diagram nodes for rich data visualization and interactive elements.",
+                MetaDescription = "This Blazor Node Content example demonstrates the custom content rendering within diagram nodes for a rich data visualization and interactive elements.",
             },
             new Sample
             {
@@ -325,7 +360,7 @@ namespace BlazorDemos
                 FileName = "FlowchartLayout.razor",
                 HeaderText="Example of Flowchart Layout in Blazor Diagram Component",
                 MetaTitle = "Blazor Flowchart Layout | Auto Arrangement | Syncfusion",
-                MetaDescription = "This Blazor Flowchart Layout example demonstrates automatic arrangement of flowchart elements with intelligent positioning and routing algorithms.",
+                MetaDescription = "This Blazor Flowchart Layout example demonstrates an automatic arrangement of flowchart elements with the intelligent positioning and routing algorithms.",
             },
             new Sample
             {
@@ -336,7 +371,7 @@ namespace BlazorDemos
                 FileName = "OrganizationModel.razor",
                 HeaderText="Organization Chart Example using Blazor Diagram Component",
                 MetaTitle = "Blazor Organization Chart | Hierarchy Layout | Syncfusion",
-                MetaDescription = "This Blazor Organization Chart demonstrates hierarchical structure visualization with automatic layout for corporate and team organization mapping."
+                MetaDescription = "This Blazor Organization Chart example demonstrates hierarchical structure visualization with automatic layout for corporate and team organization mapping."
             },
             new Sample
             {
@@ -347,7 +382,7 @@ namespace BlazorDemos
                 FileName = "Mindmap.razor",
                 HeaderText="Example of Mind Map Layout in Blazor Diagram Component",
                 MetaTitle = "Blazor Mindmap Layout | Radial Structure | Syncfusion",
-                MetaDescription = "This Blazor Mindmap Layout example demonstrates radial tree structure for brainstorming, idea organization, and knowledge mapping visualization.",
+                MetaDescription = "This Blazor Mindmap Layout example demonstrates the radial tree structure for brainstorming, idea organization, and the knowledge mapping visualization.",
             },
             new Sample
             {
@@ -358,7 +393,7 @@ namespace BlazorDemos
                 FileName = "HierarchicalTree.razor",
                 HeaderText="Hierarchical Tree Example using Blazor Diagram Component",
                 MetaTitle = "Blazor Hierarchical Tree | Tree Layout | Syncfusion",
-                MetaDescription = "This Blazor Hierarchical Tree demonstrates tree structure visualization with automatic layout for data hierarchy and decision tree representation.",
+                MetaDescription = "This Blazor Hierarchical Tree example demonstrates tree structure visualization with automatic layout for data hierarchy and decision tree representation.",
             },
              new Sample
             {
@@ -379,9 +414,9 @@ namespace BlazorDemos
                 Url = "diagram/radialtree",
                 FileName = "RadialTree.razor",
                 HeaderText="Radial Tree Example using Blazor Diagram Component",
-                MetaTitle = "Blazor Radial Tree | Circular Layout | Syncfusion",
-                MetaDescription = "This Blazor Radial Tree demonstrates circular tree layout with central root node for network visualization and relationship mapping.",
-            },        
+                MetaTitle = "Blazor Radial Tree Example | Circular Layout | Syncfusion",
+                MetaDescription = "This Blazor Radial Tree demonstrates circular tree layout with central root node for network visualization and relationship mapping. Explore to more details.",
+            },
              new Sample
             {
                 Name = "PERT Chart",
@@ -391,7 +426,7 @@ namespace BlazorDemos
                 FileName = "PERTChart.razor",
                 HeaderText="PERT Chart Example using Blazor Diagram Component",
                 MetaTitle = "Blazor PERT Chart | Project Management | Syncfusion",
-                MetaDescription = "This Blazor PERT Chart demonstrates project evaluation and review technique visualization for project management and timeline planning.",
+                MetaDescription = "This Blazor PERT Chart demonstrates project evaluation and review technique visualization for project management and timeline planning. Explore to more details.",
             },
             new Sample
             {
@@ -402,7 +437,7 @@ namespace BlazorDemos
                 FileName = "LocalData.razor",
                 HeaderText="Example of Local Data in Blazor Diagram Component",
                 MetaTitle = "Blazor Local Data Binding | Static Data | Syncfusion",
-                MetaDescription = "This Blazor Local Data example demonstrates binding diagram elements to local data sources for static content visualization and data-driven diagrams."
+                MetaDescription = "This Blazor Local Data example demonstrates the binding diagram elements to local data sources for static content visualization and data-driven diagrams."
             },
             new Sample
             {
@@ -413,7 +448,7 @@ namespace BlazorDemos
                 FileName = "RemoteData.razor",
                 HeaderText="Example of Remote Data in Blazor Diagram Component",
                 MetaTitle = "Blazor Remote Data Binding | API Integration | Syncfusion",
-                MetaDescription = "This Blazor Remote Data example demonstrates binding diagram elements to remote data sources and APIs for dynamic content visualization."
+                MetaDescription = "This Blazor Remote Data example shows binding diagram elements to remote data sources and APIs for dynamic content visualization. Explore to more details."
             },
             new Sample
             {
@@ -424,7 +459,7 @@ namespace BlazorDemos
                 FileName = "Serialization.razor",
                HeaderText="Example of Serialization in Blazor Diagram Component",
                MetaTitle = "Blazor Diagram Serialization | Save Load | Syncfusion",
-               MetaDescription = "This Blazor Diagram Serialization example demonstrates saving and loading diagram data for persistence and state management across sessions."
+               MetaDescription = "This Blazor Diagram Serialization example shows saving and loading diagram data for persistence and state management across sessions. Explore to more details."
             },
             new Sample
             {
@@ -446,7 +481,7 @@ namespace BlazorDemos
                 FileName = "PrintSample.razor",
                 HeaderText="Example of Printing in Blazor Diagram Component",
                 MetaTitle = "Blazor Diagram Print | Document Output | Syncfusion",
-                MetaDescription = "This Blazor Diagram Print example demonstrates printing capabilities for generating hard copies of diagrams with customizable print settings."
+                MetaDescription = "This Blazor Diagram Print example shows printing capabilities for generating hard copies of diagrams with customizable print settings. Explore to more details."
             },
             new Sample
             {
@@ -457,7 +492,7 @@ namespace BlazorDemos
                 FileName = "BPMNEditor.razor",
                 HeaderText ="Example of BPMN Design in Blazor Diagram Component",
                 MetaTitle = "Blazor BPMN Editor | Business Process | Syncfusion",
-                MetaDescription = "This Blazor BPMN Editor demonstrates business process modeling notation for workflow design and process documentation with standard BPMN symbols.",
+                MetaDescription = "This Blazor BPMN Editor demonstrates the business process modeling notation for workflow designs and process documentation with standard BPMN symbols.",
             },
             new Sample
             {
@@ -479,7 +514,7 @@ namespace BlazorDemos
                 FileName = "LogicCircuitDiagram.razor",
                 HeaderText ="Example of Logic Circuit Diagram in Blazor Diagram Component",
                 MetaTitle = "Blazor Logic Circuit | Digital Design | Syncfusion",
-                MetaDescription = "This Blazor Logic Circuit Diagram demonstrates digital logic design with gates, inputs, and outputs for computer science and engineering education.",
+                MetaDescription = "This Blazor Logic Circuit Diagram demonstrates the digital logic design with gates, inputs, and outputs for computer science and engineering education.",
             },
             new Sample
             {
@@ -502,8 +537,133 @@ namespace BlazorDemos
                 HeaderText ="Example of UML Sequence Diagram in Blazor Diagram Component",
                 MetaTitle = "Blazor UML Sequence | Interaction Flow | Syncfusion",
                 MetaDescription = "This Blazor UML Sequence Diagram demonstrates object interaction flows and message sequences for software architecture and system design documentation.",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ @"This UML Sequence Diagram represents the flow of a transaction through a processing system. It shows a user initiating a transaction, followed by validation through a fraud detection system. Depending on the validation result, the transaction is either completed or canceled. This visualization helps demonstrate how systems handle conditional logic and interactions between components in a transactional flow."},
+            },
+            new Sample
+            {
+                Name = "Shortest Path Visualizer",
+                Category = "Use Case Diagram",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/shortest-path",
+                FileName = "ShortestPath.razor",
+                HeaderText = "Example of Shortest Path Visualization Diagram in Blazor Diagram Component",
+                MetaTitle = "Blazor Shortest Path | Pathfinding Visualization | Syncfusion",
+                MetaDescription = "Visualize shortest paths using Dijkstra’s algorithm in Syncfusion Blazor Diagram. Interactive graph with animated connectors and dynamic node styling.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Explore interactive shortest path visualization, demonstrating Dijkstra's algorithm with animated connectors and dynamic styling."
+                },
+            },
+            new Sample
+            {
+                Name = "Tournament Bracket",
+                Category = "Use Case Diagram",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/TournamentResult",
+                FileName = "TournamentResult.razor",
+                HeaderText = "Example of UEFA Tournament Bracket Diagram in Blazor Diagram Component",
+                MetaTitle = "UEFA Bracket Diagram | Interactive Bracket Visualization | Syncfusion",
+                MetaDescription = "Follow the UEFA Champions League journey with Syncfusion Blazor Diagram. Interactive bracket with match details, animated progression, and champion highlights.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"See the UEFA Champions League bracket in action! This sample showcases match results, animated team progression, and a champion highlight."
+                },
+            },
+            new Sample
+            {
+                Name = "Ticket Booking",
+                Category = "Use Case Diagram",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/ticket-booking",
+                FileName = "TicketBooking.razor",
+                HeaderText = "Interactive Cinema Seat Booking System with Real-time Selection and Multi-tier Pricing",
+                MetaTitle = "Cinema Seat Booking | Theater Reservation | Syncfusion Blazor Diagram",
+                MetaDescription = "Book movie seats with our interactive cinema booking system. This Syncfusion Blazor Diagram demo lets you select seats by tier and see real-time price updates.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Experience seamless cinema seat booking with this interactive sample: select seats, view real-time prices, and confirm your tickets effortlessly."
+                },
+            },
+            new Sample
+            {
+                Name = "Spiral Diagram",
+                Category = "Use Case Diagram",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/spiral-diagram",
+                FileName = "SpiralDiagram.razor",
+                MetaTitle = "Blazor Diagram Spiral Layout Example | Syncfusion Blazor demos",
+                MetaDescription = "Visualize a software development lifecycle with an interactive spiral diagram in Blazor. See how nodes, icons, and tooltips represent each project stage.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Explore the software development lifecycle! This sample visualizes project stages in an interactive spiral diagram with colorful nodes and icons."
+                }
+            },
+            new Sample
+            {
+                Name = "Image Puzzle",
+                Category = "Use Case Diagram",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/puzzle",
+                FileName = "Puzzle.razor",
+                HeaderText = "Interactive Image Puzzle in Blazor",
+                MetaTitle = "Blazor Diagram Interactive Puzzle Example | Syncfusion Blazor demos",
+                MetaDescription = "Play an interactive sliding image puzzle built with the Syncfusion Blazor Diagram. Drag tiles to solve the puzzle, track your moves, and use clues to win.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                     @"Challenge your mind with this interactive sliding image puzzle! Reconstruct the picture, track your moves, and beat the clock."
+                },
+            },
+            new Sample
+            {
+                Name = "History Timeline Diagram",
+                Category = "Use Case Diagram",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/history-timeline",
+                FileName = "HistoryTimeLine.razor",
+                HeaderText = "Example of Interactive Internet History Timeline in Blazor Diagram Component",
+                MetaTitle = "Blazor Internet History Timeline | Interactive Chronology | Syncfusion",
+                MetaDescription = "Explore Internet history with an interactive timeline built using Syncfusion Blazor Diagram. Add, edit, and visualize key milestones with color-coded segments.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Dive into Internet history! Explore key milestones, add new events, and edit existing ones in this interactive timeline."
+                },
+            },
+            new Sample
+            {
+                Name = "P&ID Diagram",
+                Category = "Real-time Diagrams",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/pipeline-instrumentation-diagram",
+                FileName = "PipeLineDiagram.razor",
+                HeaderText = "Example of Real-time Pipeline & Instrumentation Diagram (P&ID) in Blazor Diagram Component",
+                MetaTitle = "Pipeline Instrumentation Diagram | Process Flow - Syncfusion demos",
+                MetaDescription = "Simulate a real-time chemical reactor P&ID with Syncfusion Blazor Diagram. Control fluid flows, tank levels, and temps via interactive elements and animations.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Explore a live chemical reactor P&ID! Control flows, monitor conditions, and simulate industrial processes in real-time."
+                },
+            },
+            new Sample
+            {
+                Name = "Neural Network",
+                Category = "Real-time Diagrams",
+                Directory = "Diagram/Diagram",
+                Url = "diagram/neural-network",
+                FileName = "NeuralNetwork.razor",
+                HeaderText = "Example of Interactive Neural Network Architecture Visualizer in Blazor Diagram Component",
+                MetaTitle = "Blazor Neural Network Diagram | AI Visualization | Syncfusion",
+                MetaDescription = "Explore neural network architecture with Syncfusion Blazor Diagram. Visualize layers, weights, and data flow with interactive nodes and animated connections.",
+                Type = SampleType.New,
+                NotificationDescription = new string[]
+                {
+                    @"Explore neural network architectures! Visualize neurons, connections, and data flow in this interactive diagram."
+                },
             },
             new Sample
             {
@@ -514,8 +674,9 @@ namespace BlazorDemos
                 FileName = "VennDiagram.razor",
                 HeaderText="Example of Venn Diagram in Blazor Diagram Component",
                 MetaTitle = "Blazor Venn Diagram | Set Relationships | Syncfusion",
-                MetaDescription = "This Blazor Venn Diagram demonstrates set relationships and overlapping data visualization for statistical analysis and logical comparisons."
+                MetaDescription = "This Blazor Venn Diagram shows set relationships and overlapping data visualization for statistical analysis and logical comparisons. Explore to more details."
             },
+
             new Sample
             {
                 Name = "Network Diagram",
@@ -537,7 +698,7 @@ namespace BlazorDemos
                 FileName = "IshikawaDiagram.razor",
                 HeaderText="Example of Ishikawa Diagram in Blazor Diagram Component",
                 MetaTitle = "Blazor Ishikawa Diagram | Cause Analysis | Syncfusion",
-                MetaDescription = "This Blazor Ishikawa Diagram demonstrates cause-and-effect analysis with fishbone structure for problem-solving and quality management processes.",
+                MetaDescription = "This Blazor Ishikawa Diagram example demonstrates cause-and-effect analysis with fishbone structure for problem-solving and quality management processes.",
             },
             new Sample
             {
@@ -550,7 +711,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Fishbone Diagram | Root Cause Analysis | Syncfusion",
                 MetaDescription = "This Blazor Fishbone Diagram demonstrates root cause analysis visualization for quality control and problem-solving methodologies in business processes."
             },
-              new Sample
+            new Sample
             {
                 Name = "Workflow Diagram",
                 Category = "Real-time Diagrams",
@@ -559,8 +720,8 @@ namespace BlazorDemos
                 FileName = "WorkflowDiagram.razor",
                 HeaderText="Example of Workflow Diagram in Blazor Diagram Component",
                 MetaTitle = "Blazor Workflow Diagram | Process Flow | Syncfusion",
-                MetaDescription = "This Blazor Workflow Diagram demonstrates business process flow visualization with decision points and task sequences for operational documentation.",
-                
+                MetaDescription = "This Blazor Workflow Diagram example demonstrates business process flow visualization with decision points and task sequences for operational documentation.",
+
             },
             new Sample
             {
@@ -571,7 +732,7 @@ namespace BlazorDemos
                 FileName = "FlowExecution.razor",
                 HeaderText="Example of Flow Execution in Blazor Diagram Component",
                 MetaTitle = "Blazor Flow Execution | Dynamic Process | Syncfusion",
-                MetaDescription = "This Blazor Flow Execution demonstrates dynamic process execution visualization with real-time status updates and interactive flow control."
+                MetaDescription = "This Blazor Flow Execution shows dynamic process execution visualization with real-time status updates and interactive flow control. Explore to more details."
             },
             new Sample
             {
@@ -583,8 +744,7 @@ namespace BlazorDemos
                 MetaTitle = "Diagram Diagram Binding With TreeView - Syncfusion Demos",
                 HeaderText="Example of Treeview component in Blazor Diagram Component",
                 MetaDescription = "This Blazor Diagram with TreeView demonstrates synchronized navigation between hierarchical tree view and diagram visualization for enhanced data exploration.",
-            },
-
+            }
         };
     }
 }

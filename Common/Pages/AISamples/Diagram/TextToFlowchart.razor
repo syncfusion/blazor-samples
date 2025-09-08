@@ -1,4 +1,5 @@
 ﻿@page "/ai-diagram/text-to-flowchart"
+@page "/diagram/ai-text-to-flowchart"
 
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Diagram.SymbolPalette
@@ -96,15 +97,15 @@
 @code{
     private int connectorCount = 0;
     DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
-    public DiagramSize SymbolPreview;
+    public DiagramSize? SymbolPreview;
     public SymbolMargin SymbolMargin = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
-    public SfDiagramComponent Diagram;
-    public SfSymbolPaletteComponent PaletteInstance;
+    public SfDiagramComponent? Diagram;
+    public SfSymbolPaletteComponent? PaletteInstance;
     public bool IsDiagramLoading = false;
     public bool InitialRendering = true;
-    public SfSpinner SpinnerRef;
-    public FlowchartDiagramOpenAI DiagramOpenAIRef;
-    public FlowchartDiagramToolbar ToolbarRef;
+    public SfSpinner? SpinnerRef;
+    public FlowchartDiagramOpenAI? DiagramOpenAIRef;
+    public FlowchartDiagramToolbar? ToolbarRef;
     int HorizontalSpacing = 30;
     int VerticalSpacing = 30;
     public bool IsPasteObject = false;
@@ -125,11 +126,11 @@
     // Defines palette's connector collection
     private DiagramObjectCollection<NodeBase> connectorSymbols = new DiagramObjectCollection<NodeBase>();
     //Reference to uploder
-    SfUploader uploadFiles;
+    SfUploader? uploadFiles;
     bool CanUpdateStyle = false;
 
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
 #pragma warning restore CS8618
 
     private void Created()
@@ -146,7 +147,7 @@
             if (ToolbarRef != null)
                 ToolbarRef.Parent = this;
         }
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteInstance!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
     {
         Diagram
     };
@@ -196,7 +197,7 @@
     }
     private void ContextMenuItemClickHandler(DiagramMenuClickEventArgs args)
     {
-        if (args.Item.Text == "Paste")
+        if (args.Item!.Text == "Paste")
         {
             IsPasteObject = true;
         }
@@ -303,9 +304,9 @@
             }
             else if (CanUpdateStyle)
             {
-                node.Style.Fill = "#357BD2"; CanUpdateStyle = false;
+                node.Style!.Fill = "#357BD2"; CanUpdateStyle = false;
             }
-            node.Style.StrokeColor = "White";
+            node.Style!.StrokeColor = "White";
         }
         if (IsPasteObject) IsPasteObject = false;
     }
@@ -321,10 +322,10 @@
             }
             else if (!IsDiagramLoading && !IsPasteObject)
             {
-                connector.Style.Fill = "black";
+                connector.Style!.Fill = "black";
                 connector.Style.StrokeColor = "black";
                 connector.Style.Opacity = 1;
-                connector.TargetDecorator.Style.Fill = "black";
+                connector.TargetDecorator!.Style.Fill = "black";
                 connector.TargetDecorator.Style.StrokeColor = "black";
             }
             if (IsPasteObject) IsPasteObject = false;
@@ -467,18 +468,18 @@
 
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
     public async Task OnUploadFileSelected(UploadingEventArgs args)
     {
-        if (args.FileData.Type == "json")
+        if (args.FileData!.Type == "json")
         {
             IsDiagramLoading = true;
-            string json = await FileUtil.LoadFile(jsRuntime, args.FileData);
+            string json = await FileUtil.LoadFile(jsRuntime!, args.FileData);
             json = json.Replace(System.Environment.NewLine, string.Empty);
-            await Diagram.LoadDiagramAsync(json.ToString());
-            await uploadFiles.ClearAllAsync();
+            await Diagram!.LoadDiagramAsync(json.ToString());
+            await uploadFiles!.ClearAllAsync();
             IsDiagramLoading = false;
         }
     }
@@ -486,7 +487,7 @@
     {
         if (ToolbarRef != null)
         {
-            ToolbarRef.ZoomItemDropdownContent = FormattableString.Invariant($"{Math.Round(Diagram.ScrollSettings.CurrentZoom * 100)}") + "%";
+            ToolbarRef.ZoomItemDropdownContent = FormattableString.Invariant($"{Math.Round(Diagram!.ScrollSettings!.CurrentZoom * 100)}") + "%";
             ToolbarRef.RefreshToolbar();
         }
     }

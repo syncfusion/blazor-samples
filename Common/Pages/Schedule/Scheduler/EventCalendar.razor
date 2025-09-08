@@ -62,7 +62,7 @@
     </SfToolbar>
 </div>
 <div class="calendar-left-sidebar">
-    <SfSidebar  Width="310px" Target=".main-content" @bind-IsOpen="IsLeftSidebarOpen" Type="@SidebarType.Push" Changed="SidebarStateChange">
+    <SfSidebar  Width="310px" Target=".main-content" @bind-IsOpen="IsLeftSidebarOpen" Type="@SidebarType.Push" Changed="SidebarStateChange" EnableGestures="false">
         <ChildContent>
             <div class="content-area table-content">
                 <div class="calendar-listview-container">
@@ -406,6 +406,7 @@
         if (args.Data != null && args.Data.Id == 0)
         {
             args.Data.CalendarId = 1;
+            args.Data.OwnerId = 1;
         }
         if (args.Type == PopupType.Editor)
         {
@@ -424,7 +425,7 @@
 
     public async Task ScheduleDragStop(Syncfusion.Blazor.Schedule.DragEventArgs<ScheduleData.ResourceEventsData> args)
     {
-        var gridData = await JSRuntime.InvokeAsync<bool>("isSelectorFromPoint", args.Left, args.Top, "content-area");
+        var gridData = await JSRuntime.InvokeAsync<bool>("isSelectorFromPoint", args.MouseEventArgs.ClientX, args.MouseEventArgs.ClientY, "content-area");
         if (gridData)
         {
             args.Cancel = true;
@@ -570,6 +571,15 @@
             }
             Datas.AddRange(args.AddedRecords);
         }
+        else if (args.ActionType == ActionType.EventChange)
+        {
+            foreach (var record in args.ChangedRecords)
+            {
+                Datas.RemoveAll(d => d.Id == record.Id);
+                Datas.Add(record);
+            }
+        }
+        UpdateData();
     }
 
     private void EditRepeatDialog()
@@ -916,7 +926,8 @@
     .calendars-list .calendar-list-item .calendar-buttons .calendar-delete-button {
         padding: 0 6px;
     }
-    .e-dialog-parent .e-date-container {
+
+    .e-schedule-dialog.e-popup:not(.e-device) .e-dialog-parent .e-date-container {
         padding-right: 8px;
     }
     .e-dialog-parent .e-allday-repeat-checbox {
@@ -925,7 +936,8 @@
         padding-top: 4px;
         width: 100%;
     }
-    .e-dialog-parent .e-time-container {
+
+    .e-schedule-dialog.e-popup:not(.e-device) .e-dialog-parent .e-time-container {
         padding-left: 8px;
         width: 50%;
     }
@@ -946,8 +958,9 @@
     .e-bigger .e-repeat-checkbox .e-btn.e-icon-btn {
         padding: 0 5px;
     }
+
     @@media only screen and (max-width: 800px) {
-        .e-dialog-parent .e-date-container, .e-dialog-parent .e-time-container{
+        .e-dialog-parent .e-date-container, .e-dialog-parent .e-time-container {
             padding: unset;
             width: 100%;
         }

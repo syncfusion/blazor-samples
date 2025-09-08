@@ -18,8 +18,8 @@ namespace ej2_blazor_filterdata
     {
         public class GanttIndicator
         {
-            public string Name { get; set; }
-            public string IconClass { get; set; }
+            public string? Name { get; set; }
+            public string? IconClass { get; set; }
             public DateTime Date { get; set; }
         }
 
@@ -27,17 +27,17 @@ namespace ej2_blazor_filterdata
         {
             public int TaskId { get; set; }
             public int Id { get; set; }
-            public string Text { get; set; }
-            public string TaskName { get; set; }
+            public string? Text { get; set; }
+            public string? TaskName { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
-            public string Duration { get; set; }
+            public string? Duration { get; set; }
             public int Progress { get; set; }
             public int? ParentId { get; set; }
-            public string Predecessor { get; set; }
+            public string? Predecessor { get; set; }
             public int ID { get; set; }
-            public string Value { get; set; }
-            public List<GanttIndicator> Indicators { get; set; }
+            public string? Value { get; set; }
+            public List<GanttIndicator>? Indicators { get; set; }
         }
         public static List<TaskData> GetTaskCollection()
         {

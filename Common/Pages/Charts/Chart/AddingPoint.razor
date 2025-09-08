@@ -45,14 +45,14 @@
     ChartPrimaryXAxis? XAxis;
     private Theme Theme { get; set; }
     public string Width { get; set; } = "90%";
-    object xPoint, yPoint;
+    object? xPoint, yPoint;
     int index;
     double xInterval, yInterval;
 
     protected override void OnInitialized()
     {
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-        if (SampleService.IsDevice)
+        if (SampleService != null && SampleService.IsDevice)
         {
             Width = "100%";
         }
@@ -62,7 +62,7 @@
     {
         if (args.AxisData.Count > 0)
         {
-            if (args.AxisData.TryGetValue("PrimaryXAxis", out object xValue) && args.AxisData.TryGetValue("PrimaryYAxis", out object yValue))
+            if (args.AxisData.TryGetValue("PrimaryXAxis", out object? xValue) && args.AxisData.TryGetValue("PrimaryYAxis", out object? yValue))
             {
                 xPoint = Math.Round(Convert.ToDouble(xValue, null));
                 yPoint = Math.Round(Convert.ToDouble(yValue, null));
@@ -117,8 +117,14 @@
         {
             if (MouseClickPoints[i].X.HasValue)
             {
+                @*Hidden:Lines*@
+                #pragma warning disable CS8629
+                @*End:Hidden*@
                 maximum = Math.Max(MouseClickPoints[i].X.Value, maximum);
                 minimum = i == 0 || minimum == 0 ? MouseClickPoints[i].X.Value : Math.Min(MouseClickPoints[i].X.Value, minimum);
+                @*Hidden:Lines*@
+                #pragma warning restore CS8629
+                @*End:Hidden*@
             }
         }
         return MouseClickPoints.Count == 0 ? 1 : Math.Round((maximum - minimum) / MouseClickPoints.Count) <= 10 ? 10 : Math.Round((maximum - minimum) / MouseClickPoints.Count);
@@ -131,8 +137,14 @@
         {
             if (MouseClickPoints[i].Y.HasValue)
             {
+                @*Hidden:Lines*@
+                #pragma warning disable CS8629
+                @*End:Hidden*@
                 maximum = Math.Max(MouseClickPoints[i].Y.Value, maximum);
                 minimum = i == 0 || minimum == 0 ? MouseClickPoints[i].Y.Value : Math.Min(MouseClickPoints[i].Y.Value, minimum);
+                @*Hidden:Lines*@
+                #pragma warning restore CS8629
+                @*End:Hidden*@
             }
         }
         return MouseClickPoints.Count == 0 ? 1 : Math.Round((maximum - minimum) / MouseClickPoints.Count) <= 5 ? 5 : Math.Round((maximum - minimum) / MouseClickPoints.Count);

@@ -13,40 +13,43 @@ using System.Linq;
 using Microsoft.AspNetCore.Components;
 using static blazor_gantt_digital_marketing_data.DigitalMarketingData;
 using Syncfusion.Blazor;
+using Syncfusion.Blazor.Charts;
 
 namespace BlazorDemos.Pages.GanttChart.GanttChart
 {
     public partial class DigitalMarketing
     {
         [CascadingParameter]
-        protected MainLayout MainLayoutInstance { get; set; }
-        private SfGantt<TaskInfoModel> GanttInstance { get; set; }
+        protected MainLayout? MainLayoutInstance { get; set; }
+        private SfGantt<TaskInfoModel>? GanttInstance { get; set; }
         private List<BarChartModel> BarChartData { get; set; } = new List<BarChartModel>();
         private List<LineChartModel> LineChartData { get; set; } = new List<LineChartModel>();
         private List<Statistics> StatisticsDetails { get; set; } = new List<Statistics>();
-        private List<TaskInfoModel> DigitalMarketingCollection { get; set; }
-        public static string ChartBackgroundColor { get; set; }
-        public static string LabelTextColor { get; set; }
-        public static string LabelBackgroundColor { get; set; }
-        public static string TaskBackgroundColor { get; set; }
-        public static string ProgressBarColor { get; set; }
-        public static string ParentTaskBackgroundColor { get; set; }
-        public static string ParentProgressBarColor { get; set; }
-        public static string ChartFillColor { get; set; }
+        private List<TaskInfoModel> DigitalMarketingCollection { get; set; } = new List<TaskInfoModel>();
+        public static string ChartBackgroundColor { get; set; } = string.Empty;
+        public static string LabelTextColor { get; set; } = string.Empty;
+        public static string LabelBackgroundColor { get; set; } = string.Empty;
+        public static string TaskBackgroundColor { get; set; } = string.Empty;
+        public static string ProgressBarColor { get; set; } = string.Empty;
+        public static string ParentTaskBackgroundColor { get; set; } = string.Empty;
+        public static string ParentProgressBarColor { get; set; } = string.Empty;
+        public static string ChartFillColor { get; set; } = string.Empty;
         public Theme CurrentTheme { get; set; }
-
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
+        private ChartAxisTitleStyle ChartTitleStyle { get; set; } = new ChartAxisTitleStyle { Color = LabelTextColor };
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
         protected override void OnInitialized()
         {
             CurrentTheme = GetCurrentTheme(UriHelper.Uri);
             DigitalMarketingCollection = DigitalMarketCollection;
-            MainLayoutInstance.Collapse();
+            MainLayoutInstance?.Collapse();
             foreach (var data in DigitalMarketingCollection)
             {
                 if (!data.ParentId.HasValue && data.Activity != "SEO")
                 {
                     Statistics statistics = new Statistics();
                     LineChartModel LineChartData = new LineChartModel();
-                    string activity2 = (LineChartData.X = data.Activity);
+                    string? activity2 = LineChartData.X = data.Activity;
                     statistics.Activity = activity2;
                     statistics.Impressions = data.Impressions;
                     LineChartData.Y = data.ConversionRate * 100.0;

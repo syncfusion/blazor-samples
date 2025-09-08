@@ -10,18 +10,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_dateonlytimeonlydata
+namespace TreeDateonlytimeonlydata
 {
     public class DateOnlyTimeOnlyData
     {
         public int? TaskId { get; set; }
-        public string TaskName { get; set; }
+        public string? TaskName { get; set; }
         public DateOnly? StartDate { get; set; }
         public DateOnly? EndDate { get; set; }
         public int? Duration { get; set; }
         public TimeOnly? StartTime { get; set; }
-        public String Progress { get; set; }
-        public string Priority { get; set; }
+        public String? Progress { get; set; }
+        public string? Priority { get; set; }
         public bool Approved { get; set; }
         public int Resources { get; set; }
         public int? ParentId { get; set; }

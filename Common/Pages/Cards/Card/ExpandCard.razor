@@ -37,62 +37,42 @@
                     </table>
                     @if (Expand)
                     {
-                        <table>
-                            <tr class="DayContent" @ref="WeekdayElementRef" tabindex="0">
-                                <td>
-                                    <div class="WeekDay">Monday</div>
-                                </td>
-                                <td>
-                                    <div class="CloudyImage TextCenter"></div>
-                                </td>
-                                <td>
-                                    <div class="MinMaxClass TextCenter"><b>23°C</b> / 12°C</div>
-                                </td>
-                            </tr>
-                            <tr class="DayContent" tabindex="0">
-                                <td>
-                                    <div class="WeekDay">Tuesday</div>
-                                </td>
-                                <td>
-                                    <div class="SunnyImage TextCenter"></div>
-                                </td>
-                                <td>
-                                    <div class="MinMaxClass TextCenter"><b>28°C</b> / 15°C</div>
-                                </td>
-                            </tr>
-                            <tr class="DayContent" tabindex="0">
-                                <td>
-                                    <div class="WeekDay">Wednesday</div>
-                                </td>
-                                <td>
-                                    <div class="SunnyImage TextCenter"></div>
-                                </td>
-                                <td>
-                                    <div class="MinMaxClass TextCenter"><b>25°C</b> / 20°C</div>
-                                </td>
-                            </tr>
-                            <tr class="DayContent" tabindex="0">
-                                <td>
-                                    <div class="WeekDay">Thursday</div>
-                                </td>
-                                <td>
-                                    <div class="CloudyImage TextCenter"></div>
-                                </td>
-                                <td>
-                                    <div class="MinMaxClass TextCenter"><b>20°C</b> / 12°C</div>
-                                </td>
-                            </tr>
-                            <tr class="DayContent" tabindex="0">
-                                <td>
-                                    <div class="WeekDay">Friday</div>
-                                </td>
-                                <td>
-                                    <div class="SunnyImage TextCenter"></div>
-                                </td>
-                                <td>
-                                    <div class="MinMaxClass TextCenter"><b>23°C</b> / 15°C</div>
-                                </td>
-                            </tr>
+                        <table style="border-collapse: separate; border-spacing: 0;">
+                           @{
+                               bool isFirst = true;
+                           }
+                           @foreach(var day in weekForecast)
+                           {
+                               if (isFirst)
+                               {
+                                   <tr class="DayContent" tabindex="0" @ref="WeekdayElementRef">
+                                       <td>
+                                            <div class="WeekDay">@day.Day</div>
+                                       </td>
+                                       <td>
+                                            <div class="@(day.WeatherType)Image TextCenter" role="img" aria-label="@day.WeatherType weather"></div>
+                                       </td>
+                                       <td>
+                                            <div class="MinMaxClass TextCenter"><b>@day.HighTemp°C</b> / @day.LowTemp°C</div>
+                                       </td>
+                                   </tr>
+                                   isFirst = false;
+                               }
+                               else
+                               {
+                                   <tr class="DayContent" tabindex="0">
+                                       <td>
+                                            <div class="WeekDay">@day.Day</div>
+                                       </td>
+                                       <td>
+                                            <div class="@(day.WeatherType)Image TextCenter" role="img" aria-label="@day.WeatherType weather"></div>
+                                       </td>
+                                       <td>
+                                            <div class="MinMaxClass TextCenter"><b>@day.HighTemp°C</b> / @day.LowTemp°C</div>
+                                       </td>
+                                   </tr>
+                               }
+                           }
                         </table>
                     }
                 </CardContent>
@@ -111,15 +91,36 @@
     private bool Expand = false;
     public ElementReference WeekdayElementRef;
 
+    private class WeatherDay
+    {
+        public string Day{ get; set; }
+        public string WeatherType{ get; set; }
+        public int HighTemp{ get; set; }
+        public int LowTemp{ get; set; }
+    }
+
+    private List<WeatherDay> weekForecast = new List<WeatherDay>
+    {
+        new WeatherDay{Day = "Monday", WeatherType = "Cloudy", HighTemp = 23, LowTemp = 12},
+        new WeatherDay{Day = "Tuesday", WeatherType = "Sunny", HighTemp = 28, LowTemp = 15},
+        new WeatherDay{Day = "Wednesday", WeatherType = "Sunny", HighTemp = 25, LowTemp = 20},
+        new WeatherDay{Day = "Thursday", WeatherType = "Cloudy", HighTemp = 20, LowTemp = 12},
+        new WeatherDay{Day = "Friday", WeatherType = "Sunny", HighTemp = 23, LowTemp = 15}
+    };
+
     public async Task ExpandHandler()
     {
         Expand = !Expand;
         await Task.Delay(2);
         if (Expand)
         {
-            if (WeekdayElementRef.Id != null)
+            try
             {
                 await jsRuntime.InvokeVoidAsync("setFocusToElement", WeekdayElementRef);
+            }
+            catch
+            {
+                Console.WriteLine($"Failed to set focus: Button is not Clicked!");
             }
         }
     }
@@ -127,23 +128,34 @@
 
 <style>
     .DayContent:focus {
-        outline: solid 1px black;
-        border-radius: 5px;    
+        outline: none;
     }
-
-    .fluent-dark .DayContent:focus,
-    .fluent2-dark .DayContent:focus,
-    .fluent2-highcontrast .DayContent:focus,
-    .fabric-dark .DayContent:focus,
-    .material-dark .DayContent:focus,
-    .material3-dark .DayContent:focus,
-    .bootstrap-dark .DayContent:focus,
-    .bootstrap5-dark .DayContent:focus,
-    .tailwind-dark .DayContent:focus,
-    .tailwind3-dark .DayContent:focus,
-    .highcontrast .DayContent:focus {
-        outline: solid 1px #8a8886;
-        border-radius: 5px;
+    .DayContent:focus td {
+        border-top: 1px solid black;
+        border-bottom: 1px solid black;
+    }
+    .DayContent:focus td:first-child {
+        border-left: 1px solid black;
+        border-top-left-radius: 5px;
+        border-bottom-left-radius: 5px;
+    }
+    .DayContent:focus td:last-child {
+        border-right: 1px solid black;
+        border-top-right-radius: 5px;
+        border-bottom-right-radius: 5px;
+    }
+    .fluent-dark .DayContent:focus td,
+    .fluent2-dark .DayContent:focus td,
+    .fluent2-highcontrast .DayContent:focus td,
+    .fabric-dark .DayContent:focus td,
+    .material-dark .DayContent:focus td,
+    .material3-dark .DayContent:focus td,
+    .bootstrap-dark .DayContent:focus td,
+    .bootstrap5-dark .DayContent:focus td,
+    .tailwind-dark .DayContent:focus td,
+    .tailwind3-dark .DayContent:focus td,
+    .highcontrast .DayContent:focus td {
+        border-color: #8a8886;
     }
 
     .WeekDay {
@@ -155,21 +167,23 @@
     }
 
     .TempImage {
-        background-image: url(https://ej2.syncfusion.com/demos/src/chart/images/sunny.png);
+        background-image: url(https://cdn.syncfusion.com/blazor/images/demos/chart/sunny.webp); 
         height: 40px;
         width: 40px;
+        background-size: contain;
+        background-repeat: no-repeat;
     }
 
     .SunnyImage {
         height: 40px;
         width: 40px;
-        background-image: url(https://ej2.syncfusion.com/demos/src/chart/images/sunny.png);
-    }
+            background-image: url(https://cdn.syncfusion.com/blazor/images/demos/chart/sunny.webp);
+        }
 
     .CloudyImage {
         height: 40px;
         width: 40px;
-        background-image: url(https://ej2.syncfusion.com/demos/src/chart/images/cloud.png);
+        background-image: url(https://cdn.syncfusion.com/blazor/images/demos/chart/cloud.webp);
     }
 
     .e-card .e-card-header .e-card-header-caption .e-card-header-title {
@@ -193,7 +207,7 @@
     .RainImage {
         height: 20px;
         width: 20px;
-        background-image: url(https://ej2.syncfusion.com/demos/src/chart/images/cloud.png);
+        background-image: url(https://cdn.syncfusion.com/blazor/images/demos/chart/cloud.webp);
     }
 
     .e-card-layout {

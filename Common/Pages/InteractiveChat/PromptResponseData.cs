@@ -5,6 +5,7 @@
 // licensing@syncfusion.com. Any infringement will be prosecuted under
 // applicable laws. 
 #endregion
+using Syncfusion.Blazor.InteractiveChat;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -15,9 +16,26 @@ namespace Syncfusion.Blazor.InteractiveChatDemo
 {
     public class PromptResponseData
     {
-        public string Prompt { get; set; }
-        public string Response { get; set; }
-        public List<string> SuggestionData { get; set; }
+        public string Prompt { get; set; } = string.Empty;
+        public string Response { get; set; } = string.Empty;
+        public List<string> SuggestionData { get; set; } = new List<string>();
+
+        public class ConversationItem
+        {
+            public string Id { get; set; }
+            public string Text { get; set; }
+            public long NumericId { get; set; }
+            public string Category { get; set; }
+            public string Time { get; set; }
+        }
+
+        public class ConversationData
+        {
+            public string Name { get; set; }
+            public List<AssistViewPrompt> Prompts { get; set; }
+            public List<string> PromptSuggestions { get; set; }
+        }
+
 
         public List<string> GetAllSuggestionData()
         {
@@ -26,6 +44,11 @@ namespace Syncfusion.Blazor.InteractiveChatDemo
         public List<string> GetStreamingSuggestionData()
         {
             return new List<string> {  "What are the main features of the AI AssistView component?", "What is Markdown and how is it used?" };
+        }
+
+        public List<string> GetAssistantSuggestionData()
+        {
+            return new List<string> { "How is AI used in everyday life?", "What are the benefits of using AI?", "C# console app to manage library books" };
         }
 
         public List<PromptResponseData> GetAllPromptResponseData()
@@ -184,6 +207,42 @@ namespace Syncfusion.Blazor.InteractiveChatDemo
                 {
                     Prompt = "What are common mistakes to avoid in e-book covers?",
                     Response = "<p>Here are some common mistakes to avoid when designing an e-book cover:</p> <ol><li><strong>Cluttered design:</strong> Overloading the cover with too many elements can make it look messy and unprofessional. Keep it simple and focused.</li> <li><strong>Poor quality images:</strong> Using low-resolution or generic stock images can detract from the overall appeal. Always opt for high-quality, relevant visuals.</li> <li><strong>Unreadable fonts:</strong> Fancy or overly intricate fonts can be hard to read, especially in thumbnail size. Choose clear, legible fonts for the title and author name.</li> <li><strong>Ignoring genre conventions:</strong> Each genre has its own visual cues. Not adhering to these can confuse potential readers about the book’s content.</li> <li><strong>Inconsistent branding:</strong> If you have a series or multiple books, ensure a consistent style across all covers to build a recognizable brand.</li></ol> <p>Would you like any specific advice on designing your cover?</p>",
+                    SuggestionData = new List<string>()
+                }
+            };
+        }
+        public List<PromptResponseData> GetAssistantPromptResponseData()
+        {
+            return new List<PromptResponseData>
+            {
+                new PromptResponseData
+                {
+                    Prompt = "How is AI used in everyday life?",
+                    Response = "<p>AI is integrated into many aspects of daily life. Common examples include:</p> <ol><li>Voice assistants like Siri and Alexa.</li><li>Recommendation systems on Netflix and YouTube.</li><li>Spam filters in email.</li><li>Navigation apps like Google MapsSmart home devices and appliances.</li><ol>",
+                    SuggestionData = new List<string> { "C# console app to manage library books", "Prime number checking C# example?", "What are the benefits of using AI?" }
+                },
+                new PromptResponseData
+                {
+                    Prompt = "What are the benefits of using AI?",
+                    Response = "<p>Artificial Intelligence (AI) is revolutionizing the way we live, work, and interact with the world. Here are the key benefits of using AI:<br></p><ol><li><strong>Automation of Repetitive Tasks:</strong> AI automates routine tasks, increasing efficiency and allowing humans to focus on creative and strategic work.</li><br><li><strong>Enhanced Decision-Making:</strong> AI analyzes large datasets to uncover patterns and insights, supporting better decisions in fields like finance, healthcare, and logistics.</li><br><li><strong>Personalization and Customer Experience:</strong> AI tailors experiences to individual users, improving satisfaction through personalized recommendations and services.</li><br><li><strong>Healthcare Advancements:</strong> AI improves diagnostics, treatment planning, and patient monitoring, enabling early disease detection and personalized medicine.</li><br><li><strong>Increased Productivity and Cost Savings:</strong> By optimizing processes and reducing errors, AI boosts productivity and lowers operational costs.</li><br><li><strong>Real-Time Data Processing:</strong> AI processes data in real time, enabling instant responses in areas like fraud detection, autonomous vehicles, and emergency services.</li><br><li><strong>Accessibility and Inclusion:</strong> AI-powered tools support people with disabilities through speech-to-text, real-time translation, and assistive technologies.</li><br><li><strong>Innovation and Scientific Discovery:</strong> AI accelerates research in fields like climate science, genomics, and space exploration by handling complex computations.</li><br><li><strong>Improved Safety and Security:</strong> AI enhances security through surveillance, threat detection, and predictive maintenance in industrial environments.</li><br><li><strong>Economic Growth and Job Creation:</strong> AI creates new roles in development, data science, and ethics, while fostering innovation and entrepreneurship.</li><br><li><strong>Environmental Sustainability:</strong> AI supports sustainability by optimizing energy use, improving agriculture, and guiding conservation efforts.</li><br><li><strong>Creative and Artistic Expression:</strong> AI contributes to the arts by generating music, visual art, and literature, opening new creative possibilities.</li></ol><br><p>In conclusion, AI offers transformative benefits across industries and society. When used responsibly, it can enhance human capabilities, solve complex problems, and drive progress in countless areas.</p>",
+                    SuggestionData = new List<string> { "What are the risks or challenges of AI?", "C# console app to manage library books", "Prime number checking C# example?" }
+                },
+                new PromptResponseData
+                {
+                    Prompt = "What are the risks or challenges of AI?",
+                    Response = "<p>While AI has many benefits, it also presents challenges such as:</p><ol><li><strong>Bias:</strong> AI can reflect and amplify biases in training data.</li><li><strong>Privacy:</strong> AI systems often rely on large amounts of personal data.</li> <li><strong>Job Displacement:</strong> Automation may replace certain human jobs.</li></ol>",
+                    SuggestionData = new List<string> { "Prime number checking C# example?", "How is AI used in everyday life?", "C# console app to manage library books" }
+                },
+                new PromptResponseData
+                {
+                    Prompt = "C# console app to manage library books",
+                    Response = "<p>Creating a C# console application for Library Management involves building a simple system to manage books, members, and transactions like borrowing and returning books. Here's a basic structure to get you started:</p><ol><li><strong>Features to Include:</strong><ul><li>Add/Remove Books</li><li>Register Members</li><li>Borrow/Return Books</li><li>View Book List</li><li>View Member List</li></ul></li><li><strong>Project Structure:</strong><ul><li>Book</li><li>Member</li><li>Library</li><li>Program</li></ul></li></ol><pre><code class=\"csharp language-csharp\">using System;\nusing System.Collections.Generic;\n\nclass Book {\n    public int Id { get; set; }\n    public string Title { get; set; }\n    public bool IsBorrowed { get; set; } = false;\n}\n\nclass Member {\n    public int Id { get; set; }\n    public string Name { get; set; }\n}\n\nclass Library {\n    private List<Book> books = new List<Book>();\n    private List<Member> members = new List<Member>();\n\n    public void AddBook(string title) {\n        int id = books.Count + 1;\n        books.Add(new Book { Id = id, Title = title });\n        Console.WriteLine($\"Book '{title}' added with ID {id}.\");\n    }\n\n    public void RegisterMember(string name) {\n        int id = members.Count + 1;\n        members.Add(new Member { Id = id, Name = name });\n        Console.WriteLine($\"Member '{name}' registered with ID {id}.\");\n    }\n\n    public void BorrowBook(int bookId) {\n        var book = books.Find(b => b.Id == bookId);\n        if (book != null && !book.IsBorrowed) {\n            book.IsBorrowed = true;\n            Console.WriteLine($\"Book '{book.Title}' borrowed.\");\n        } else {\n            Console.WriteLine(\"Book not available.\");\n        }\n    }\n\n    public void ReturnBook(int bookId) {\n        var book = books.Find(b => b.Id == bookId);\n        if (book != null && book.IsBorrowed) {\n            book.IsBorrowed = false;\n            Console.WriteLine($\"Book '{book.Title}' returned.\");\n        } else {\n            Console.WriteLine(\"Invalid return.\");\n        }\n    }\n\n    public void ListBooks() {\n        foreach (var book in books) {\n            Console.WriteLine($\"ID: {book.Id}, Title: {book.Title}, Borrowed: {book.IsBorrowed}\");\n        }\n    }\n\n    public void ListMembers() {\n        foreach (var member in members) {\n            Console.WriteLine($\"ID: {member.Id}, Name: {member.Name}\");\n        }\n    }\n}\n\nclass Program {\n    static void Main() {\n        Library library = new Library();\n        while (true) {\n            Console.WriteLine(\"\\nLibrary Menu:\\n1. Add Book\\n2. Register Member\\n3. Borrow Book\\n4. Return Book\\n5. List Books\\n6. List Members\\n7. Exit\");\n            Console.Write(\"Choose an option: \");\n            int choice = int.Parse(Console.ReadLine());\n\n            switch (choice) {\n                case 1:\n                    Console.Write(\"Enter book title: \");\n                    library.AddBook(Console.ReadLine());\n                    break;\n                case 2:\n                    Console.Write(\"Enter member name: \");\n                    library.RegisterMember(Console.ReadLine());\n                    break;\n                case 3:\n                    Console.Write(\"Enter book ID to borrow: \");\n                    library.BorrowBook(int.Parse(Console.ReadLine()));\n                    break;\n                case 4:\n                    Console.Write(\"Enter book ID to return: \");\n                    library.ReturnBook(int.Parse(Console.ReadLine()));\n                    break;\n                case 5:\n                    library.ListBooks();\n                    break;\n                case 6:\n                    library.ListMembers();\n                    break;\n                case 7:\n                    return;\n                default:\n                    Console.WriteLine(\"Invalid option.\");\n                    break;\n            }\n        }\n    }\n}</code></pre>",
+                    SuggestionData = new List<string>()
+                },
+                new PromptResponseData
+                {
+                    Prompt = "Prime number checking C# example?",
+                    Response = "<pre><code class=\"csharp language-csharp\">using System;\n\nclass Program\n{\n    static bool IsPrime(int n)\n    {\n        if (n <= 1) return false;\n        for (int i = 2; i <= Math.Sqrt(n); i++)\n            if (n % i == 0) return false;\n        return true;\n    }\n\n    static void Main()\n    {\n        Console.WriteLine(IsPrime(11)); // True\n    }\n}\n</code></pre>",
                     SuggestionData = new List<string>()
                 }
             };

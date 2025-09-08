@@ -9,7 +9,7 @@
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.DropDowns
 @*End:Hidden*@
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @using SymbolExpandMode = Syncfusion.Blazor.Navigations.ExpandMode
 @*Hidden:Lines*@
 @inject NavigationManager NavigationManager
@@ -440,31 +440,31 @@
     double PageHeight = 300;
     string change = "EnableAutoScroll";
     @*End:Hidden*@
-    ScrollSettings ScrollSettings;
+    ScrollSettings? ScrollSettings;
     bool canEnable = true;
     DiagramMargin autoScrollBorder = new DiagramMargin() { Left = 30, Right = 30, Top = 30, Bottom = 30 };
     DiagramMargin scrollBorder = new DiagramMargin() { Left = 50, Right = 50, Top = 50, Bottom = 50 };
     DiagramRect scrollableArea = new DiagramRect() { X = 0, Y = 0, Width = 300, Height = 300 };
     ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Infinity;
-    public SfDiagramComponent diagram;
-    public SfSymbolPaletteComponent PaletteInstance;
+    public SfDiagramComponent? diagram;
+    public SfSymbolPaletteComponent? PaletteInstance;
 
-    public DiagramSize SymbolPreview;
-    public SymbolMargin SymbolMargin = new SymbolMargin { Left = 10, Right = 10, Top = 10, Bottom = 10 };
+    public DiagramSize? SymbolPreview;
+    public SymbolMargin? SymbolMargin = new SymbolMargin { Left = 10, Right = 10, Top = 10, Bottom = 10 };
     DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
     DiagramObjectCollection<UserHandle> handles = new DiagramObjectCollection<UserHandle>();
 
     //Defines Diagram's Nodes collection
-    private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    private DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
     //Defines Diagram's Connectors collection
     private DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
 
 
     //Define palattes collection
-    private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
+    private DiagramObjectCollection<Palette>? palettes = new DiagramObjectCollection<Palette>();
 
     // Defines palette's basic-shape collection
-    private DiagramObjectCollection<NodeBase> basicShapeSymbols = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? basicShapeSymbols = new DiagramObjectCollection<NodeBase>();
 
     // Defines palette's flow-shape collection
     private DiagramObjectCollection<NodeBase> flowShapes = new DiagramObjectCollection<NodeBase>();
@@ -474,10 +474,10 @@
  
 
     // Defines interval values for GridLines
-    public double[] GridLineIntervals { get; set; }
+    public double[]? GridLineIntervals { get; set; }
 
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -486,7 +486,7 @@
         {
             UpdateHandle();
         }
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteInstance!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             diagram
         };
@@ -547,14 +547,14 @@
     }
     public InteractionControllerBase GetCustomTool(DiagramElementAction action, string id)
     {
-        InteractionControllerBase tool = null;
+        InteractionControllerBase? tool = null;
         if (id == "Draw")
         {
-            tool = new DrawTool(diagram);
+            tool = new DrawTool(diagram!);
         }
         else
         {
-            tool = new AddDeleteTool(diagram);
+            tool = new AddDeleteTool(diagram!);
         }
         return tool;
     }
@@ -562,26 +562,26 @@
     public class AddDeleteTool : InteractionControllerBase
     {
         SfDiagramComponent sfDiagram;
-        Node deleteObject = null;
+        Node? deleteObject = null;
         public AddDeleteTool(SfDiagramComponent Diagram) : base(Diagram)
         {
             sfDiagram = Diagram;
         }
         public override void OnMouseDown(DiagramMouseEventArgs args)
         {
-            if (sfDiagram.SelectionSettings.Nodes.Count > 0 && ((sfDiagram.SelectionSettings.Nodes[0]) is Node))
+            if (sfDiagram.SelectionSettings!.Nodes!.Count > 0 && ((sfDiagram.SelectionSettings.Nodes[0]) is Node))
             {
                 deleteObject = (sfDiagram.SelectionSettings.Nodes[0]) as Node;
             }
             base.OnMouseDown(args);
         }
-        public override void OnMouseUp(DiagramMouseEventArgs args)
+        public override void OnMouseUp(DiagramMouseEventArgs? args)
         {
             if (deleteObject != null)
             {
                 sfDiagram.StartGroupAction();
                 sfDiagram.BeginUpdate();
-                sfDiagram.Nodes.Remove(deleteObject);
+                sfDiagram.Nodes!.Remove(deleteObject);
                 _ = sfDiagram.EndUpdateAsync();
                 sfDiagram.EndGroupAction();
             }
@@ -593,14 +593,14 @@
     public class DrawTool : ConnectorDrawingController
     {
         SfDiagramComponent sfDiagram;
-        Connector newConnector = null;
+        Connector? newConnector = null;
         public DrawTool(SfDiagramComponent Diagram) : base(Diagram, DiagramElementAction.ConnectorSourceEnd)
         {
             sfDiagram = Diagram;
             newConnector = new Connector()
                 {
                     ID = "OrthogonalConnector",
-                    SourceID = sfDiagram.SelectionSettings.Nodes[0].ID,
+                    SourceID = sfDiagram.SelectionSettings!.Nodes![0].ID,
                     Type = ConnectorSegmentType.Orthogonal,
                 };
             @*Hidden:Lines*@
@@ -616,7 +616,7 @@
         {
             base.OnMouseDown(args);
         }
-        public override void OnMouseUp(DiagramMouseEventArgs args)
+        public override void OnMouseUp(DiagramMouseEventArgs? args)
         {
             base.OnMouseUp(args);
         }
@@ -644,7 +644,7 @@
 
     private void OnScrollLimitChange(ChangeEventArgs<string, Games> args)
     {
-        if (args.ItemData.Text == "Diagram")
+        if (args.ItemData!.Text == "Diagram")
         {
             scrollLimit = ScrollLimitMode.Diagram;
             clipBounds = false;
@@ -661,6 +661,7 @@
             clipBounds = false;
         }
     }
+#pragma warning disable BL0005
     private void TopvalueChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
     {
         top = args.Value;
@@ -703,7 +704,7 @@
         leftScroll = args.Value;
         scrollBorder = new DiagramMargin() { Left = leftScroll, Right = rightScroll, Top = topScroll, Bottom = bottomScroll };
     }
-
+#pragma warning restore BL0005
     private void CanAutoScroll()
     {
         if (change == "EnableAutoScroll")
@@ -790,9 +791,9 @@
 
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        node.Style.Fill = "#357BD2";
-        if (!(node.ID.StartsWith("Annotation")))
+        Node? node = obj as Node;
+        node!.Style!.Fill = "#357BD2";
+        if (!(node.ID!.StartsWith("Annotation")))
             node.Style.StrokeColor = "White";
         node.Style.Opacity = 1;
     }
@@ -811,7 +812,7 @@
             ID = NodeID,
             Shape = new FlowShape()
             {
-                Type = shapes.Flow,
+                Type = NodeShape.Flow,
                 Shape = type
             },
             Style = new ShapeStyle() { Fill = "#357BD2", StrokeWidth = 1, StrokeColor = "#757575" }
@@ -830,11 +831,11 @@
 
     private void OnConnectorCreating(IDiagramObject obj)
     {
-        Connector node = obj as Connector;
-        node.Style.Fill = "#357BD2";
+        Connector? node = obj as Connector;
+        node!.Style!.Fill = "#357BD2";
         node.Style.StrokeColor = "#357BD2";
         node.Style.Opacity = 1;
-        node.TargetDecorator.Style.Fill = "#357BD2";
+        node.TargetDecorator!.Style.Fill = "#357BD2";
         node.TargetDecorator.Style.StrokeColor = "#357BD2";
     }
 
@@ -844,10 +845,10 @@
         Node diagramNode = new Node()
             {
                 ID = id,
-                Shape = new BasicShape() { Type = shapes.Basic, Shape = basicShape },
+            Shape = new BasicShape() { Type = NodeShape.Basic, Shape = basicShape },
                 Style = new ShapeStyle() { Fill = "#6495ed", StrokeColor = "#757575", StrokeWidth = 1 },
             };
-        basicShapeSymbols.Add(diagramNode);
+        basicShapeSymbols!.Add(diagramNode);
     }
     // Method to create connector
     private Connector CreateConnector(string id, ConnectorSegmentType type, DecoratorShape shape)
@@ -883,16 +884,16 @@
                 Height = height,
                 OffsetX = x,
                 OffsetY = y,
-                Shape = new FlowShape() { Type = shapes.Flow, Shape = flowShape },
+            Shape = new FlowShape() { Type = NodeShape.Flow, Shape = flowShape },
 
                 Annotations = new DiagramObjectCollection<ShapeAnnotation> { new ShapeAnnotation { Content = content, Style = new TextStyle() { Color = "White", Fill = "transparent" } } }
             };
-        nodes.Add(diagramNode);
+        nodes!.Add(diagramNode);
     }
     public class Games
     {
-        public string ID { get; set; }
-        public string Text { get; set; }
+        public string? ID { get; set; }
+        public string? Text { get; set; }
     }
     List<Games> LocalData = new List<Games> {
     new Games() { ID= "Game1", Text= "Limited" },
@@ -903,7 +904,7 @@
 
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
     @*Hidden:Lines*@

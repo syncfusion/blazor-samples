@@ -29,13 +29,13 @@
 
 <div class="control-section">
     <div class="views-aiassistview">
-        <SfAIAssistView ID="aiAssistView" @ref="AIAssistView">
+        <SfAIAssistView ID="aiAssistView" @ref="AIAssistView" @bind-ActiveView="@activeIndex">
             <ChildContent>
                 <AssistViews>
                     <AssistView Header="Prompt">
                         <ViewTemplate>
                             <div class="view-container">
-                                <SfTextArea @ref="TextArea" ResizeMode="Syncfusion.Blazor.Inputs.Resize.None" RowCount="5" Placeholder="Enter your prompt..." @oninput="OnInput"></SfTextArea>
+                                <SfTextArea @bind-Value="@Value" ResizeMode="Syncfusion.Blazor.Inputs.Resize.None" RowCount="5" Placeholder="Enter your prompt..." @oninput="OnInput"></SfTextArea>
                                 <SfButton CssClass="e-primary generate-btn" @onclick="GenerateContent" Disabled="@disable">Generate Prompt</SfButton>
                                 <ul class="suggestions">
                                     @foreach (var suggestion in suggestions)
@@ -121,11 +121,9 @@
 </div>
 
 @code {
-    private SfAIAssistView AIAssistView;
-    private SfTextArea TextArea;
+    private SfAIAssistView AIAssistView = new SfAIAssistView();
+    private string Value = string.Empty;
     private int activeIndex;
-    private string copyClass;
-    private string response = "For real-time prompt processing, connect the AIAssistView component to your preferred AI service, such as OpenAI or Azure Cognitive Services.";
     private List<string> Prompt = new List<string>();
     private List<string> copyClasses = new List<string>();
     private bool isDefaultResponse = true;
@@ -144,7 +142,7 @@
 
     private void OnInput(ChangeEventArgs e)
     {
-        disable = string.IsNullOrEmpty(e.Value.ToString());
+        disable = string.IsNullOrEmpty(e?.Value?.ToString());
         InvokeAsync(StateHasChanged);
     }
 
@@ -152,21 +150,21 @@
     {
         if (!string.IsNullOrEmpty(content))
         {
-            TextArea.Value = content;
+            Value = content;
             disable = false;
         }
     }
 
     private void GenerateContent ()
     {
-        var promptValue = TextArea.Value;
+        var promptValue = Value;
         promptList.Add(promptValue);
         contentResponse = string.Empty;
         if (!string.IsNullOrEmpty(promptValue))
         {
-            TextArea.Value = string.Empty;
+            Value = string.Empty;
             disable = true;
-            AIAssistView.ActiveView = 1;
+            activeIndex = 1;
             currentPrompt = promptValue;
             UpdateResponseView(promptValue);
         }

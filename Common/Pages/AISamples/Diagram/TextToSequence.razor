@@ -1,4 +1,5 @@
 ﻿@page "/ai-diagram/text-to-sequence-diagram"
+@page "/diagram/ai-text-to-sequence-diagram"
 
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Diagram.SymbolPalette
@@ -90,39 +91,41 @@
 
 @code{
         DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
-    public SfDiagramComponent Diagram;
+    public SfDiagramComponent? Diagram;
     public bool IsDiagramLoading = false;
     public bool InitialRendering = true;
-    public SfSpinner SpinnerRef;
-    public SequenceDiagramOpenAI DiagramOpenAIRef;
-    public SequenceDiagramToolbar ToolbarRef;
+    public SfSpinner? SpinnerRef;
+    public SequenceDiagramOpenAI? DiagramOpenAIRef;
+    public SequenceDiagramToolbar? ToolbarRef;
     public string ExtensionType = ".json";
     public bool IsGeneratingFromAI = false;
     public DiagramInteractions DiagramTool = DiagramInteractions.Default;
     // Defines interval values for GridLines
     public double[] GridLineIntervals { get; set; } = new double[] { };
     //Reference to uploder
-    SfUploader uploadFiles;
+    SfUploader? uploadFiles;
+#pragma warning disable CS0414
     bool CanUpdateStyle = false;
+#pragma warning restore CS0414
     private double newWidth = 0;
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
 #pragma warning restore CS8618
     private void OnNodeCreating(IDiagramObject obj){
-        Node node=obj as Node;
-        if (node.ID.Contains("1_Fragment"))
+        Node? node=obj as Node;
+        if (node!.ID!.Contains("1_Fragment"))
         {
-            node.Style.StrokeColor = "#0067C0";
+            node.Style!.StrokeColor = "#0067C0";
         }
-        foreach (ShapeAnnotation annotation in node.Annotations)
+        foreach (ShapeAnnotation annotation in node.Annotations!)
         {
             if (node.ID.Contains("Transaction") || node.ID.Contains("FraudDetectionSystem"))
             {
-                annotation.Style.Color = "white";
+                annotation.Style!.Color = "white";
             }
             if (!node.ID.Contains("User")){
 
-            UpdateNodeWidth(node, annotation.Content);
+            UpdateNodeWidth(node, annotation.Content!);
         }
             if (node.Width < newWidth)
             {
@@ -158,7 +161,7 @@
                 ToolbarRef.Parent = this;
         }
     }
-    DiagramModel umlModel;
+    DiagramModel? umlModel;
     protected override void OnInitialized()
     {
         selectionSettings.Constraints = SelectorConstraints.All & ~SelectorConstraints.Rotate & ~SelectorConstraints.ResizeAll;
@@ -290,13 +293,13 @@
 
     public async Task OnUploadFileSelected(UploadingEventArgs args)
     {
-        if (args.FileData.Type == "json")
+        if (args.FileData!.Type == "json")
         {
-            IsDiagramLoading = true;
-            string json = await FileUtil.LoadFile(jsRuntime, args.FileData);
+            IsDiagramLoading = true; newWidth = 0;
+            string json = await FileUtil.LoadFile(jsRuntime!, args.FileData);
             json = json.Replace(System.Environment.NewLine, string.Empty);
-            await Diagram.LoadDiagramAsync(json.ToString());
-            await uploadFiles.ClearAllAsync();
+            await Diagram!.LoadDiagramAsync(json.ToString());
+            await uploadFiles!.ClearAllAsync();
             IsDiagramLoading = false;
         }
     }

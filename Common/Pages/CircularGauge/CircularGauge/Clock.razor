@@ -110,9 +110,9 @@
 
 @code{
     public Theme Theme { get; set; }
-    public SfCircularGauge NeedleRef;
+    public SfCircularGauge? NeedleRef;
     public double NeedlePointer = 0.2;
-    private Timer _syncTimer = null;
+    private Timer _syncTimer = null!;
     public string SubGaugeOneRadius = "56%";
     public string SubGaugeTwoRadius = "44%";
     public double SubGaugeOneAngle = 133;
@@ -121,11 +121,17 @@
     protected override void OnInitialized()
     {
         _syncTimer = new Timer(1000);
+        @*Hidden:Lines*@
+        #pragma warning disable CS8622
+        @*End:Hidden*@
         _syncTimer.Elapsed += this.NeedlePointerUpdate;
+        @*Hidden:Lines*@
+        #pragma warning restore CS8622
+        @*End:Hidden*@
         _syncTimer.AutoReset = true;
         _syncTimer.Enabled = true;
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-        if (SampleService.IsDevice)
+        if (SampleService != null && SampleService.IsDevice)
         {
             SubGaugeOneRadius = "64%";
             SubGaugeOneAngle = 136;
@@ -140,10 +146,25 @@
             SubGaugeTwoAngle = 118;
         }
     }
-
+    public void Dispose()
+    {
+        if(_syncTimer!=null)
+        {
+            @*Hidden:Lines*@
+            #pragma warning disable CS8622
+            @*End:Hidden*@
+            _syncTimer.Elapsed -= NeedlePointerUpdate;
+            @*Hidden:Lines*@
+            #pragma warning restore CS8622
+            @*End:Hidden*@
+            _syncTimer.Stop();
+            _syncTimer.Dispose();
+            _syncTimer = null!;
+        }
+    }
     private void NeedlePointerUpdate(Object source, ElapsedEventArgs e)
     {
         NeedlePointer += 0.2;
-        NeedleRef.SetPointerValueAsync(0, 2, NeedlePointer);
+        NeedleRef?.SetPointerValueAsync(0, 2, NeedlePointer);
     }
 }

@@ -17,32 +17,33 @@ namespace Overview.Pages
         {
             public int Id { get; set; }
             public int? ParentId { get; set; }
-            public string Task { get; set; }
+            public string Task { get; set; } = string.Empty;
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
             public int Progress { get; set; }
-            public string Department { get; set; }
-            public string Assignee { get; set; }
-            public string Priority { get; set; }
+            public string Department { get; set; } = string.Empty;
+            public string Assignee { get; set; } = string.Empty;
+            public string Priority { get; set; } = string.Empty;
             public double? Budget { get; set; }
             public double? ActualCost { get; set; }
-            public string Status { get; set; }
-            public string Dependencies { get; set; }
-            public string Risks { get; set; }
-            public string Notes { get; set; }
-            public string Category { get; set; }
-            public string Location { get; set; }
-            public string TechStack { get; set; }
+            public string Status { get; set; } = string.Empty;
+            public string Dependencies { get; set; } = string.Empty;
+            public string Risks { get; set; } = string.Empty;
+            public string Notes { get; set; } = string.Empty;
+            public string Category { get; set; } = string.Empty;
+            public string Location { get; set; } = string.Empty;
+            public string TechStack { get; set; } = string.Empty;
             public int? EstimatedStoryPoints { get; set; }
-            public string Initiative { get; set; }
-            public string PriorityLevel { get; set; }
+            public string Initiative { get; set; } = string.Empty;
+            public string PriorityLevel { get; set; } = string.Empty;
             public bool IsManual { get; set; }
+            public string? Duration { get; set; }
         }
 
         public class ResourceInfoModel
         {
             public int Id { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
         }
 
         public class AssignmentModel
@@ -171,7 +172,7 @@ namespace Overview.Pages
             public int TaskId { get; set; }
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
-            public string Duration { get; set; }
+            public string? Duration { get; set; }
         }
 
         public static List<SegmentModel> GetSegmentCollection()
@@ -199,7 +200,7 @@ namespace Overview.Pages
         internal class HolidayModel
         {
             public int Id { get; set; }
-            public string HolidayName { get; set; }
+            public string HolidayName { get; set; } = string.Empty;
             public DateTime Date { get; set; }
         }
         internal static List<HolidayModel> HolidayCollection = new List<HolidayModel>()

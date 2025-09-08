@@ -22,7 +22,7 @@
 
     <p><b>See also</b></p>
     <ul>
-       <li><a href="https://blazor.syncfusion.com/documentation//toast/template/" target="_blank" aria-label="Blazor Toast Template documentation">Blazor Toast template</a></li>
+        <li><a href="https://blazor.syncfusion.com/documentation//toast/template/" target="_blank" aria-label="Blazor Toast Template documentation">Blazor Toast template</a></li>
     </ul>
 </ActionDescription>
 
@@ -86,31 +86,31 @@
 </div>
 
 @code
-{ 
+{
     private int? _index { get; set; } = 0;
-    private SfToast MailToastObj;
-    private SfToast AlarmToastObj;
-    private SfDropDownList<string, DropDownValues> DropDownObj;
+    private SfToast? MailToastObj;
+    private SfToast? AlarmToastObj;
+    private SfDropDownList<string, DropDownValues>? DropDownObj;
     private int ToastFlag { get; set; } = 0;
-    private string ToastFieldData { get; set; }
-    private string ToastImageData { get; set; }
-    private string ToastSubjectData { get; set; }
+    private string? ToastFieldData { get; set; }
+    private string? ToastImageData { get; set; }
+    private string? ToastSubjectData { get; set; }
     private bool SnoozeFlag { get; set; } = false;
     private string DropValue { get; set; } = "2";
     private int AlarmTimeout { get; set; } = 120000;
     private bool ShowButton { get; set; } = true;
-    
+
     public class ToastFields
     {
-        public string From { get; set; }
-        public string Subject { get; set; }
-        public string Image { get; set; }
+        public string? From { get; set; }
+        public string? Subject { get; set; }
+        public string? Image { get; set; }
     }
 
     public class DropDownValues
     {
-        public string Value { get; set; }
-        public string Text { get; set; }
+        public string? Value { get; set; }
+        public string? Text { get; set; }
     }
 
     private List<ToastFields> ToastData = new List<ToastFields>() 
@@ -132,7 +132,10 @@
     private async Task MailButtonclick()
     {
         string template = "<div id=\"toastEmail_template\"><div class=\"e-toast-template\"><img class=\"e-toast-icon e-toast-image\" src=\"" + this.ToastData[ToastFlag].Image + "\" /><div class=\"e-toast-message\"><div class=\"e-toast-title\">" + this.ToastData[ToastFlag].From + "</div><div class=\"e-toast-content\">" + this.ToastData[ToastFlag].Subject + "</div></div></div></div>";
-        await this.MailToastObj.ShowAsync(new ToastModel { Content = template, ShowCloseButton = true });
+        if (this.MailToastObj != null)
+        {
+            await this.MailToastObj.ShowAsync(new ToastModel { Content = template, ShowCloseButton = true });           
+        }
         ToastFlag++;
         if (ToastFlag == ToastData.Count)
         {
@@ -142,27 +145,42 @@
 
     private async Task AlarmButtonclick()
     {
-        await this.AlarmToastObj.ShowAsync();
+        if (this.AlarmToastObj != null)
+        {
+            await this.AlarmToastObj.ShowAsync();          
+        }
     }
 
     private async Task SnoozeButtonclick()
     {
-        await this.AlarmToastObj.HideAsync();
+        if (this.AlarmToastObj !=null)
+        {
+            await this.AlarmToastObj.HideAsync();         
+        }
         this.SnoozeFlag = true;
     }
 
     private async Task DismissButtonclick()
     {
-        await this.AlarmToastObj.HideAsync();
+        if (this.AlarmToastObj != null)
+        {
+            await this.AlarmToastObj.HideAsync();          
+        }
     }
 
     private async Task OnToastClose()
     {
         if (this.SnoozeFlag)
         {
-            this.AlarmTimeout = Int32.Parse(this.DropDownObj.Value) * 60000;
+            if (this.DropDownObj != null && this.DropDownObj.Value != null)
+            {
+                this.AlarmTimeout = Int32.Parse(this.DropDownObj.Value) * 60000;
+            }
             this.StateHasChanged();
-            await this.AlarmToastObj.ShowAsync();
+            if (this.AlarmToastObj != null)
+            {
+                await this.AlarmToastObj.ShowAsync();             
+            }
             this.SnoozeFlag = false;
         }
         else
@@ -179,7 +197,10 @@
     private async Task ListChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownValues> args)
     {
         this.SnoozeFlag = true;
-        await this.AlarmToastObj.HideAsync();
+        if (this.AlarmToastObj != null)
+        {
+            await this.AlarmToastObj.HideAsync();
+        }
     }
 }
 

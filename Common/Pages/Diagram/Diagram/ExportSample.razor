@@ -64,7 +64,7 @@
 
         .e-custom {
             border-radius: 5px;
-            height: 28px;
+            height: 38px;
             border-color: transparent;
             width: 90px;
             font-family: 'Segoe UI';
@@ -203,17 +203,17 @@
     private PageOrientation orientation = PageOrientation.Portrait;
 
     //Refer to diagram
-    public SfDiagramComponent DiagramInstance { get; set; }
+    public SfDiagramComponent? DiagramInstance { get; set; }
     //Define node's collection
-    public DiagramObjectCollection<Node> DiagramNodes { get; set; }
+    public DiagramObjectCollection<Node>? DiagramNodes { get; set; }
     //Define connector's collection
-    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; }
+    public DiagramObjectCollection<Connector>? DiagramConnectors { get; set; }
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        if (SampleService.IsDevice)
+        if (SampleService!.IsDevice)
         {
-            DiagramInstance.FitToPage(mobileoptions);
+            DiagramInstance!.FitToPage(mobileoptions);
 
         }
     }
@@ -244,11 +244,11 @@
     }
     public void FileFormateChange(ChangeEventArgs<string, FileFomatItem> args)
     {
-        ExportFormat = args.Value.ToString() == "PNG" ? DiagramExportFormat.PNG : args.Value.ToString() == "JPEG" ? DiagramExportFormat.JPEG : args.Value.ToString() == "SVG" ? DiagramExportFormat.SVG : DiagramExportFormat.PNG;
+        ExportFormat = args.Value!.ToString() == "PNG" ? DiagramExportFormat.PNG : args.Value.ToString() == "JPEG" ? DiagramExportFormat.JPEG : args.Value.ToString() == "SVG" ? DiagramExportFormat.SVG : DiagramExportFormat.PNG;
     }
     public void ExportModeChange(ChangeEventArgs<string, ExportMode> args)
     {
-        PrintExportRegion = args.Value.ToString() == "PageSettings" ? DiagramPrintExportRegion.PageSettings : args.Value.ToString() == "Content" ? DiagramPrintExportRegion.Content : args.Value.ToString() == "ClipBounds" ? DiagramPrintExportRegion.ClipBounds : DiagramPrintExportRegion.PageSettings;
+        PrintExportRegion = args.Value!.ToString() == "PageSettings" ? DiagramPrintExportRegion.PageSettings : args.Value.ToString() == "Content" ? DiagramPrintExportRegion.Content : args.Value.ToString() == "ClipBounds" ? DiagramPrintExportRegion.ClipBounds : DiagramPrintExportRegion.PageSettings;
         if (PrintExportRegion == DiagramPrintExportRegion.Content || PrintExportRegion == DiagramPrintExportRegion.PageSettings)
         {
             ClipWidth = "0";
@@ -338,7 +338,7 @@
         {
             diagramNode.Annotations[0].Margin = new DiagramThickness() { Left = 15, Top = 15, Right = 15, Bottom = 15 };
         }
-        DiagramNodes.Add(diagramNode);
+        DiagramNodes!.Add(diagramNode);
     }
 
     private void CreateConnector(string id, string sourceID, string targetID)
@@ -350,12 +350,12 @@
             TargetID = targetID,
             Style = new ShapeStyle() { StrokeColor = "Black" },
         };
-        DiagramConnectors.Add(connector);
+        DiagramConnectors!.Add(connector);
     }
     @*Hidden:Lines*@
     public class FileFomatItem
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<FileFomatItem> FileFomatLists = new List<FileFomatItem>() {
         new FileFomatItem() { Name ="PNG"},
@@ -365,7 +365,7 @@
     };
     public class ExportMode
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<ExportMode> ExportModeLists = new List<ExportMode>() {
         new ExportMode() { Name ="PageSettings"},
@@ -392,7 +392,7 @@
         else
         {
             //To export the diagram
-            await DiagramInstance.ExportAsync("diagram", ExportFormat, print);
+            await DiagramInstance!.ExportAsync("diagram", ExportFormat, print);
         }
     }
 
@@ -407,10 +407,10 @@
         print.Margin = new DiagramThickness() { Left = MarginLeft, Top = MarginTop, Right = MarginRight, Bottom = MarginBottom };
         print.ClipBounds = new DiagramRect() { X = double.Parse(ClipX), Y = double.Parse(ClipY), Width = double.Parse(ClipWidth), Height = double.Parse(ClipHeight) };
         //To export the diagram into base64
-        var images = await DiagramInstance.ExportAsync(ExportFormat, print);
+        var images = await DiagramInstance!.ExportAsync(ExportFormat, print);
         var pdforientation = orientation == PageOrientation.Landscape ? PdfPageOrientation.Landscape : PdfPageOrientation.Portrait;
-        await ExportToPdf("diagram", pdforientation, true, images);
-        return images;
+        await ExportToPdf("diagram", pdforientation, true, images!);
+        return images!;
     }
 
     private async Task<string> ExportToPdf(string fileName, PdfPageOrientation orientation, bool allowDownload, string[] images)

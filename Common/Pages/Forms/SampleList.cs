@@ -25,7 +25,7 @@ namespace BlazorDemos
                 MetaTitle = "Query Builder Default Functionalities - Syncfusion Demos",
                 FileName = "DefaultFunctionalities.razor",
                 HeaderText = "Blazor Query Builder - Default Functionalities",
-                MetaDescription = "This Blazor Query Builder example demonstrates the default rendering with essential features like rule building, condition selection, and value filtering for creating structured queries."
+                MetaDescription = "Blazor Query Builder demo shows the default rendering with features like rule building, condition selection, value filtering for creating structured queries."
             },
             new Sample
             {
@@ -36,7 +36,7 @@ namespace BlazorDemos
                 FileName = "ComplexDataBinding.razor",
                 MetaTitle = "Blazor Query Builder | Complex Data Binding | Syncfusion",
                 HeaderText = "Blazor Query Builder - Complex Data Binding",
-                MetaDescription = "This Blazor Query Builder complex data binding example demonstrates connecting to nested data structures and complex objects with hierarchical field mapping for advanced query creation."
+                MetaDescription = "Blazor QueryBuilder complex data binding demo shows connecting to nested data structures and complex objects with hierarchical field mapping for query creation."
             },
             new Sample
             {
@@ -47,7 +47,7 @@ namespace BlazorDemos
                 FileName = "MongoQuery.razor",
                 MetaTitle = "Blazor Query Builder | MongoDB and SQL Queries | Syncfusion",
                 HeaderText = "Blazor Query Builder - MongoDB and SQL Query Generation",
-                MetaDescription = "This Blazor Query Builder example demonstrates generation of MongoDB and SQL queries from the same interface. Convert visual conditions into database-specific query formats for multiple platforms."
+                MetaDescription = "Blazor Query Builder demo shows generation of MongoDB and SQL queries from the same interface. Convert visual conditions into database-specific query formats."
             },
             new Sample
             {
@@ -58,7 +58,7 @@ namespace BlazorDemos
                 FileName = "LockGroup.razor",
                 MetaTitle = "Blazor Query Builder | Lock Groups and Rules | Syncfusion",
                 HeaderText = "Blazor Query Builder - Lock Groups and Rules",
-                MetaDescription = "This Blazor Query Builder example demonstrates locking groups and rules to prevent modification. Secure critical query conditions while allowing edits to other parts of the query structure."
+                MetaDescription = "Blazor QueryBuilder demo shows locking groups and rules to prevent modification. Secure critical query condition while editing to other part of query structure."
             },
             new Sample
             {
@@ -69,7 +69,7 @@ namespace BlazorDemos
                 FileName = "CloneGroup.razor",
                 MetaTitle = "Blazor Query Builder | Clone Groups and Rules | Syncfusion",
                 HeaderText = "Blazor Query Builder - Clone Groups and Rules",
-                MetaDescription = "This Blazor Query Builder example demonstrates duplicating existing groups and rules. Create similar query conditions quickly by cloning and modifying without rebuilding from scratch."
+                MetaDescription = "Blazor QueryBuilder demo shows how to duplicate existing groups and rules.Create similar query conditions by cloning and modifying, avoiding a complete rebuild."
             },
             new Sample
             {
@@ -78,9 +78,9 @@ namespace BlazorDemos
                 Directory = "Forms/QueryBuilder",
                 Url = "query-builder/drag-and-drop",
                 FileName = "DragAndDrop.razor",
-                MetaTitle = "Blazor Query Builder | Drag and Drop | Syncfusion",
+                MetaTitle = "Blazor Query Builder Example | Drag and Drop | Syncfusion",
                 HeaderText = "Blazor Query Builder - Drag and Drop Functionality",
-                MetaDescription = "This Blazor Query Builder example demonstrates drag and drop capabilities for query construction. Reposition rules and groups intuitively to restructure queries with simple mouse interactions.",
+                MetaDescription = "Blazor QueryBuilder demo shows drag drop capabilities for query construction. Reposition rules and groups to restructure query with simple mouse interaction.",
                 NotificationDescription = new string[]{ @"The Query Builder component now includes a drag-and-drop feature, allowing users to reposition rules or groups within the component effortlessly. This enhancement provides a more intuitive and flexible way to construct and modify queries." }
             },
             new Sample
@@ -92,9 +92,24 @@ namespace BlazorDemos
                 FileName = "SeparateConnector.razor",
                 MetaTitle = "Blazor Query Builder | Separate Connectors | Syncfusion",
                 HeaderText = "Blazor Query Builder - Separate Connector Logic",
-                MetaDescription = "This Blazor Query Builder example demonstrates using different logical operators (AND/OR) between rules within the same group. Create complex mixed-logic conditions with individualized connectors.",
+                MetaDescription = "Blazor Query Builder demo shows using different logical operators between rules within the same group. Create complex mixed-logic conditions with connectors.",
                 NotificationDescription = new string[]{ @"The separate connector feature in the Query Builder component enables users to integrate standalone connectors between rules or groups within the same group. This allows for greater flexibility, as users can connect rules or groups using different connectors, enhancing the complexity and precision of query construction." }
             },
+#if SERVER
+            new Sample
+            {
+                Name = "Natural Language Query",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/QueryBuilder",
+                Url = "query-builder/ai-natural-languagequery",
+                FileName = "NaturalLanguageQuery.razor",
+                MetaTitle = "Blazor Natural Language Query - Syncfusion AI Demos",
+                HeaderText = "Blazor Query Builder Example - Natural Language Query Processing",
+                MetaDescription = "This demo shows how to convert plain English queries into structured filter conditions automatically for intuitive data filtering without complex syntax.",
+                NotificationDescription = new string[]{ @" This demo shows the natural language querying AI feature in Query Builder." },
+                Type = SampleType.AI
+            },
+#endif
             new Sample
             {
                 Name = "Value Template",
@@ -104,7 +119,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor Query Builder | Value Templates | Syncfusion",
                 HeaderText = "Blazor Query Builder - Value Templates",
-                MetaDescription = "This Blazor Query Builder value template example demonstrates custom value editors. Replace default input controls with specialized components like sliders, dropdowns, or date pickers."
+                MetaDescription = "Blazor QueryBuilder value template demo shows custom value editor. Replace default input controls with special components like sliders, dropdowns, date pickers."
             },
             new Sample
             {
@@ -115,7 +130,7 @@ namespace BlazorDemos
                 FileName = "ColumnTemplate.razor",
                 MetaTitle = "Blazor Query Builder | Column Templates | Syncfusion",
                 HeaderText = "Blazor Query Builder - Column Templates",
-                MetaDescription = "This Blazor Query Builder column template example demonstrates customizing column selection UI. Create advanced field selectors with grouping, filtering, and enhanced visualization for available fields."
+                MetaDescription = "Blazor QueryBuilder column template demo shows customizing column selection.Create advanced field selector with grouping, filtering, and enhanced visualization."
             },
              new Sample
             {
@@ -126,7 +141,7 @@ namespace BlazorDemos
                 FileName = "Grid.razor",
                 MetaTitle = "Blazor Query Builder | DataGrid Integration | Syncfusion",
                 HeaderText = "Blazor Query Builder - Integration with Data Grid",
-                MetaDescription = "This Blazor Query Builder and DataGrid integration example demonstrates dynamic filtering of grid data. Apply complex query conditions to filter grid records in real-time with visual query building."
+                MetaDescription = "Blazor Query Builder demo shows dynamic filtering of grid data. Apply complex query conditions to filter grid records in real-time with visual query building."
             },
             new Sample
             {
@@ -137,7 +152,7 @@ namespace BlazorDemos
                 FileName = "HeaderTemplate.razor",
                 MetaTitle = "Blazor Query Builder | Header Templates | Syncfusion",
                 HeaderText = "Blazor Query Builder - Header Templates",
-                MetaDescription = "This Blazor Query Builder header template example demonstrates customizing group headers. Create enhanced header designs with additional controls, information displays, or styling options."
+                MetaDescription = "This Blazor Query Builder header template demo shows customizing group headers. Create enhanced header designs with additional controls, information displays."
             }
         };
 
@@ -152,7 +167,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Data Form Example | Default Functionalities | Syncfusion Demos",
                 HeaderText = "Blazor Data Form Example - Default Functionalities",
-                MetaDescription = "This Blazor Data Form example demonstrates the default rendering of the Data Form with a minimum configuration.",
+                MetaDescription = "This Blazor Data Form example showcases the default rendering of the form using minimal configurations, highlighting its simplicities and efficiencies.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -176,7 +191,7 @@ namespace BlazorDemos
                 FileName = "ColumnLayout.razor",
                 MetaTitle = "Blazor Data Form Example | Column Layout | Syncfusion Demos",
                 HeaderText = "Blazor Data Form Example - Column Layout",
-                MetaDescription = "This example of Blazor Data Form demonstrates the rendering of the Data Form component using a column layout.",
+                MetaDescription = "This Blazor Data Form demo shows the component's rendering using a column layout, offering a structured and organized appearance for displaying form elements.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -248,7 +263,7 @@ namespace BlazorDemos
                 FileName = "Templates.razor",
                 MetaTitle = "Blazor Data Form Example | Data Form Templates | Syncfusion Demos",
                 HeaderText = "Blazor Data Form Example - Data Form Templates",
-                MetaDescription = "This example of Blazor Data Form demonstrates the template functionality in the Blazor Data Form component.",
+                MetaDescription = "Blazor DataForm example highlights the template functionality within it, showcasing how to enhance form customization with tailored layouts and designs.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -272,7 +287,7 @@ namespace BlazorDemos
                 FileName = "CustomEditor.razor",
                 MetaTitle = "Blazor Data Form Example | Custom Editors | Syncfusion Demos",
                 HeaderText = "Blazor Data Form Example - Custom Editors",
-                MetaDescription = "This example of Blazor Data Form demonstrates the process of using custom editors instead of the default editors in a Blazor Data Form component.",
+                MetaDescription = "This example of Blazor Data Form example demonstrates the process of using custom editors instead of the default editors in a Blazor Data Form component.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -319,7 +334,7 @@ namespace BlazorDemos
                 Directory = "Forms/DataForm",
                 Url = "data-form/api",
                 FileName = "Api.razor",
-                MetaTitle = "Blazor Data Form Example | API | Syncfusion Demos",
+                MetaTitle = "Blazor Data Form Example | API Forms | Syncfusion Demos",
                 HeaderText = "Blazor Data Form Example - API",
                 MetaDescription = "This Blazor Data Form example demonstrates how to dynamically adjust label position and button alignment in the Data Form component using its properties.",
                 IsHideInMobile = true,

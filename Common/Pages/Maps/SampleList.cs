@@ -20,7 +20,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Maps Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Maps Example - Default Functionalities",
-                MetaDescription = "This Blazor Maps example demonstrates the default functionality of the component. Explore geographic data visualization with customizable shapes, colors, and interactive features.",
+                MetaDescription = "This Maps demo shows the default functionality of the component. Explore geographic data visualization with customizable shapes, colors, interactive features.",
                 Type = SampleType.None
             },
             new Sample
@@ -32,7 +32,7 @@ namespace BlazorDemos
                 FileName = "Projection.razor",
                 MetaTitle = "Blazor Maps Projection Types | Geographic Rendering | Syncfusion",
                 HeaderText = "Blazor Maps Example - Map Projections",
-                MetaDescription = "This Blazor Maps example demonstrates different projection types. Learn how to display spherical earth data on a flat surface with various projection techniques like Mercator, Miller, and Equirectangular.",
+                MetaDescription = "This Blazor Maps demo shows how to display spherical earth data on a flat surface with various projection techniques like Mercator, Miller, Equirectangular.",
                 Type = SampleType.None
             },
             new Sample
@@ -44,9 +44,24 @@ namespace BlazorDemos
                 FileName = "Multilayer.razor",
                 MetaTitle = "Blazor Maps Multi-layer | Layered Visualization | Syncfusion",
                 HeaderText = "Blazor Maps Example - Multiple Layers",
-                MetaDescription = "This Blazor Maps example demonstrates multi-layer functionality. Learn to overlay multiple geographical layers with different data sets to create comprehensive visualizations with combined information.",
+                MetaDescription = "Blazor Maps demo shows how to overlay multiple geographical layers with different data sets to create comprehensive visualizations with combined information.",
                 Type = SampleType.None
             },
+#if SERVER
+            new Sample
+            {
+                Name = "Weather Prediction",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/Maps",
+                Url = "maps/ai-weather-prediction",
+                FileName = "WeatherPrediction.razor",
+                MetaTitle = "Maps Forecasting Weather Condition - Syncfusion AI Demos",
+                HeaderText = "Blazor Maps Example - Weather Prediction",
+                MetaDescription = "This Blazor Maps demo uses AI to forecast five-day weather conditions across the United States, displaying predictions with intuitive marker templates.",
+                NotificationDescription = new string[]{ @" This demo shows the weather prediction in Maps." },
+                Type = SampleType.AI
+            },
+#endif
             new Sample
             {
                 Name = "Marker",
@@ -56,7 +71,7 @@ namespace BlazorDemos
                 FileName = "Marker.razor",
                 MetaTitle = "Blazor Maps Markers | Point Indicators | Syncfusion",
                 HeaderText = "Blazor Maps Example - Markers",
-                MetaDescription = "This Blazor Maps example demonstrates how to add markers to specific locations. Learn to highlight points of interest on maps with customizable markers for visualizing location-specific data.",
+                MetaDescription = "This demo shows how to add markers to specific locations and highlight points of interest on maps with custom markers for visualizing location-specific data.",
                 Type = SampleType.None,
             },
              new Sample
@@ -68,7 +83,7 @@ namespace BlazorDemos
                 FileName = "MarkerTemplate.razor",
                 MetaTitle = "Blazor Maps Marker Templates | Custom Markers | Syncfusion",
                 HeaderText = "Blazor Maps Example - Custom Marker Templates",
-                MetaDescription = "This Blazor Maps example demonstrates marker template customization. Learn to create personalized markers with custom HTML content, images, and interactive elements for enhanced map visualization.",
+                MetaDescription = "This Blazor Maps example demonstrates how to create personalized markers with custom HTML content, images, interactive elements for enhanced map visualization.",
                 Type = SampleType.None
              },
             new Sample
@@ -80,7 +95,7 @@ namespace BlazorDemos
                 FileName = "MarkerClustering.razor",
                 MetaTitle = "Blazor Maps Marker Clustering | Grouped Indicators | Syncfusion",
                 HeaderText = "Blazor Maps Example - Marker Clustering",
-                MetaDescription = "This Blazor Maps example demonstrates marker clustering functionality. Learn to group nearby markers into clusters for better visualization when dealing with large numbers of markers in close proximity.",
+                MetaDescription = "This Blazor Maps demo shows how to group nearby markers into clusters for better visualization when dealing with large numbers of markers in close proximity.",
                 Type = SampleType.None
             },
             
@@ -93,7 +108,7 @@ namespace BlazorDemos
                 FileName = "Bubble.razor",
                 MetaTitle = "Blazor Maps Bubbles | Size-based Visualization | Syncfusion",
                 HeaderText = "Blazor Maps Example - Bubble Visualization",
-                MetaDescription = "This Blazor Maps example demonstrates bubble visualization. Learn to represent data magnitude with sized bubbles on geographical regions, providing visual comparison of numerical values across locations.",
+                MetaDescription = "This demo shows how to represent data magnitude with sized bubbles on geographical regions, providing visual comparison of numerical values across locations.",
                 Type = SampleType.None
             },
              new Sample
@@ -105,7 +120,7 @@ namespace BlazorDemos
                  FileName = "ColorMapping.razor",
                  MetaTitle = "Blazor Maps Color Mapping | Data-based Coloring | Syncfusion",
                  HeaderText = "Blazor Maps Example - Color Mapping",
-                 MetaDescription = "This Blazor Maps example demonstrates color mapping techniques. Learn to dynamically color map regions based on data values using range-based colors to represent different data categories or intensities.",
+                 MetaDescription = "This Blazor Maps demo shows dynamic regions color based on data values using range-based colors mapping to represent different data categories or intensities.",
                  Type = SampleType.None
              },
              new Sample
@@ -117,7 +132,7 @@ namespace BlazorDemos
                 FileName = "Annotation.razor",
                 MetaTitle = "Blazor Maps Annotations | Custom Overlays | Syncfusion",
                 HeaderText = "Blazor Maps Example - Map Annotations",
-                MetaDescription = "This Blazor Maps example demonstrates annotation functionality. Learn to add custom text, images, and HTML elements at specific positions on maps to provide additional context or information.",
+                MetaDescription = "This Blazor Maps example shows how to add custom text, images, and HTML elements at specific positions on maps to provide additional context or information.",
                 Type = SampleType.None
             },
              new Sample
@@ -129,7 +144,7 @@ namespace BlazorDemos
                 FileName = "Label.razor",
                 MetaTitle = "Blazor Maps Data Labels | Region Identification | Syncfusion",
                 HeaderText = "Blazor Maps Example - Data Labels",
-                MetaDescription = "This Blazor Maps example demonstrates data label functionality. Learn to display names or values for map regions with customizable text formatting and positioning options.",
+                MetaDescription = "This Blazor Maps demo shows data label functionality. Learn to display names/values for map regions with customizable text formatting and positioning options.",
                 Type = SampleType.None
             },
               new Sample
@@ -141,7 +156,7 @@ namespace BlazorDemos
                 FileName = "NavigationLines.razor",
                 MetaTitle = "Blazor Maps Navigation Lines | Path Visualization | Syncfusion",
                 HeaderText = "Blazor Maps Example - Navigation Lines",
-                MetaDescription = "This Blazor Maps example demonstrates navigation lines functionality. Learn to visualize routes, paths, or connections between different geographical points with customizable line styles.",
+                MetaDescription = "This demo shows navigation lines functionality. Learn to visualize routes, paths/connections between different geographical point with customizable line styles.",
                 Type = SampleType.None
             },
            new Sample
@@ -151,9 +166,9 @@ namespace BlazorDemos
                Directory = "Maps/Maps",
                Url = "maps/polygon",
                FileName = "Polygon.razor",
-               MetaTitle = "Blazor Maps Polygon | Custom Regions | Syncfusion",
+               MetaTitle = "Blazor Maps Polygon Example | Custom Regions | Syncfusion",
                HeaderText = "Blazor Maps Example - Polygon Customization",
-               MetaDescription = "This Blazor Maps example demonstrates polygon functionality. Learn to create and customize polygons to highlight specific geographical regions or define custom areas on the map."
+               MetaDescription = "This Blazor Maps example demonstrates how to create and customize polygons to highlight specific geographical regions or define custom areas on the map."
            },
            new Sample
             {
@@ -164,7 +179,7 @@ namespace BlazorDemos
                 FileName = "Shapefile.razor",
                 MetaTitle = "Blazor Maps Shapefile | GIS Data Integration | Syncfusion",
                 HeaderText = "Blazor Maps Example - Shapefile Integration",
-                MetaDescription = "This Blazor Maps example demonstrates shapefile integration. Learn to load and render geographic data from ESRI shapefiles for displaying custom geographical boundaries and regions.",
+                MetaDescription = "This Blazor Maps example demonstrates how to load and render geographic data from ESRI shapefiles for displaying custom geographical boundaries and regions.",
                 Type = SampleType.None
             },
             new Sample
@@ -176,7 +191,7 @@ namespace BlazorDemos
                 FileName = "OpenStreetMap.razor",
                 MetaTitle = "Blazor Maps with OpenStreetMap | OSM Integration | Syncfusion",
                 HeaderText = "Blazor Maps Example - OpenStreetMap Integration",
-                MetaDescription = "This Blazor Maps example demonstrates OpenStreetMap integration. Learn to incorporate detailed street-level map tiles from the OpenStreetMap service as a base layer for your geographic visualizations.",
+                MetaDescription = "This Blazor Maps demo shows how to incorporate detailed street-level map tiles from the OpenStreetMap service as a base layer for your geographic visualization.",
                 Type = SampleType.None
             },
             new Sample
@@ -188,7 +203,7 @@ namespace BlazorDemos
                 FileName = "OSMSublayer.razor",
                 MetaTitle = "Blazor Maps OSM with Sublayers | Layered Maps | Syncfusion",
                 HeaderText = "Blazor Maps Example - OpenStreetMap with Sublayers",
-                MetaDescription = "This Blazor Maps example demonstrates adding sublayers to OpenStreetMap. Learn to overlay additional geographical data on top of OpenStreetMap base tiles for enhanced visualization.",
+                MetaDescription = "This demo shows adding sublayers to OpenStreetMap. Learn to overlay additional geographical data on top of OpenStreetMap base tiles for enhanced visualization.",
                 Type = SampleType.None
             },
             new Sample
@@ -200,7 +215,7 @@ namespace BlazorDemos
                 FileName = "OSMWithMarkerClustering.razor",
                 MetaTitle = "Blazor Maps OSM Marker Clustering | Grouped Locations | Syncfusion",
                 HeaderText = "Blazor Maps Example - OpenStreetMap with Marker Clustering",
-                MetaDescription = "This Blazor Maps example demonstrates marker clustering on OpenStreetMap. Learn to efficiently display large numbers of markers by grouping nearby points into clusters on street-level maps.",
+                MetaDescription = "This Blazor Maps example demonstrates how to efficiently display large numbers of markers by grouping nearby points into clusters on street-level maps.",
                 Type = SampleType.None,
             },
              new Sample
@@ -212,7 +227,7 @@ namespace BlazorDemos
                 FileName = "OSMNavigationlines.razor",
                 MetaTitle = "Blazor Maps OSM Navigation Lines | Route Display | Syncfusion",
                 HeaderText = "Blazor Maps Example - OpenStreetMap with Navigation Lines",
-                MetaDescription = "This Blazor Maps example demonstrates adding navigation lines to OpenStreetMap. Learn to visualize routes, connections, or paths between different locations on a detailed street map.",
+                MetaDescription = "This demo shows adding navigation lines to OpenStreetMap and visualize routes, connections, or paths between different locations on a detailed street map.",
                 Type = SampleType.None
             },
             new Sample
@@ -224,7 +239,7 @@ namespace BlazorDemos
                 FileName = "OSMLegend.razor",
                 MetaTitle = "Blazor Maps OSM with Legend | Map Interpretation | Syncfusion",
                 HeaderText = "Blazor Maps Example - OpenStreetMap with Legend",
-                MetaDescription = "This Blazor Maps example demonstrates adding legends to OpenStreetMap. Learn to provide context and interpretation guides for data visualization elements overlaid on street-level maps.",
+                MetaDescription = "Blazor Maps demo shows adding legends to OpenStreetMap. Provide context and interpretation guides for data visualization elements overlaid on street-level maps.",
 				 Type = SampleType.None
             },
             new Sample
@@ -236,7 +251,7 @@ namespace BlazorDemos
                 FileName = "BingMap.razor",
                 MetaTitle = "Blazor Maps with Bing Maps | Microsoft Maps | Syncfusion",
                 HeaderText = "Blazor Maps Example - Bing Maps Integration",
-                MetaDescription = "This Blazor Maps example demonstrates Bing Maps integration. Learn to incorporate Microsoft's detailed map tiles as a base layer for your geographic visualizations with satellite imagery options.",
+                MetaDescription = "This Blazor Maps demo shows how to incorporate Microsoft's detailed map tiles as a base layer for your geographic visualizations with satellite imagery options.",
                 Type = SampleType.None
             },
             new Sample
@@ -248,7 +263,7 @@ namespace BlazorDemos
                 FileName = "Legend.razor",
                 MetaTitle = "Blazor Maps Legend | Data Interpretation | Syncfusion",
                 HeaderText = "Blazor Maps Example - Legend Configuration",
-                MetaDescription = "This Blazor Maps example demonstrates legend functionality. Learn to add and customize map legends that help users interpret color-coded regions, bubbles, or other data visualizations.",
+                MetaDescription = "This Blazor Maps example shows how to add and customize map legends that help users interpret color-coded regions, bubbles, or other data visualizations.",
                 Type = SampleType.None
             },
             new Sample
@@ -260,7 +275,7 @@ namespace BlazorDemos
                 FileName = "ZoomingPanning.razor",
                 MetaTitle = "Blazor Maps Zooming & Panning | Interactive Navigation | Syncfusion",
                 HeaderText = "Blazor Maps Example - Zoom and Pan Controls",
-                MetaDescription = "This Blazor Maps example demonstrates zooming and panning capabilities. Learn to implement interactive map navigation with zoom controls and mouse/touch panning for exploring detailed areas.",
+                MetaDescription = "This Blazor Maps example demonstrates how to implement interactive map navigation with zoom controls and mouse/touch panning for exploring detailed areas.",
                 Type = SampleType.None
             },            
              new Sample
@@ -272,7 +287,7 @@ namespace BlazorDemos
                 FileName = "Selection.razor",
                 MetaTitle = "Blazor Maps Selection & Highlight | Interactive Regions | Syncfusion",
                 HeaderText = "Blazor Maps Example - Region Selection and Highlighting",
-                MetaDescription = "This Blazor Maps example demonstrates selection and highlighting features. Learn to enable interactive selection of map regions with visual feedback for improved user engagement.",
+                MetaDescription = "This demo shows selection and highlighting features. Learn to enable interactive selection of map regions with visual feedback for improved user engagement.",
                 Type = SampleType.None
             },            
             // new Sample
@@ -293,7 +308,7 @@ namespace BlazorDemos
                 FileName = "Drilldown.razor",
                 MetaTitle = "Blazor Maps Drill Down | Hierarchical Navigation | Syncfusion",
                 HeaderText = "Blazor Maps Example - Drill Down Navigation",
-                MetaDescription = "This Blazor Maps example demonstrates drill-down functionality. Learn to create interactive maps that allow users to click on regions to navigate to more detailed sub-region maps.",
+                MetaDescription = "This demo shows drill-down functionality. Learn to create interactive maps that allow users to click on regions to navigate to more detailed sub-region maps.",
                 Type = SampleType.None
             },
             new Sample
@@ -305,7 +320,7 @@ namespace BlazorDemos
                 FileName = "Tooltip.razor",
                 MetaTitle = "Blazor Maps Tooltip | Information Display | Syncfusion",
                 HeaderText = "Blazor Maps Example - Tooltip Configuration",
-                MetaDescription = "This Blazor Maps example demonstrates tooltip functionality. Learn to display additional information when users hover over map regions or markers with customizable content and formatting.",
+                MetaDescription = "This Blazor Maps example shows how to display additional information when users hover over map regions or markers with customizable content and formatting.",
                 Type = SampleType.None
             },
             //new Sample
@@ -326,7 +341,7 @@ namespace BlazorDemos
                 FileName = "Print.razor",
                 MetaTitle = "Blazor Maps Print Feature | Document Generation | Syncfusion",
                 HeaderText = "Blazor Maps Example - Print Functionality",
-                MetaDescription = "This Blazor Maps example demonstrates print functionality. Learn to implement printing capabilities allowing users to generate physical or PDF copies of map visualizations for documentation.",
+                MetaDescription = "This Blazor Maps demo shows how to implement printing capabilities allowing users to generate physical or PDF copies of map visualizations for documentation.",
                 Type = SampleType.None
             },
             new Sample
@@ -338,7 +353,7 @@ namespace BlazorDemos
                 FileName = "Export.razor",
                 MetaTitle = "Blazor Maps Export | Image Generation | Syncfusion",
                 HeaderText = "Blazor Maps Example - Export Options",
-                MetaDescription = "This Blazor Maps example demonstrates export functionality. Learn to save maps as image files (PNG, JPEG, SVG) for use in presentations, reports, or sharing across various platforms.",
+                MetaDescription = "This Blazor Maps example shows export functionality. Learn to save maps as image files for use in presentations, reports, or sharing across various platforms.",
                 Type = SampleType.None
             },
             new Sample
@@ -350,7 +365,7 @@ namespace BlazorDemos
                 FileName = "HeatMap.razor",
                 MetaTitle = "Blazor Maps Heat Map | Density Visualization | Syncfusion",
                 HeaderText = "Blazor Maps Example - Heat Map Visualization",
-                MetaDescription = "This Blazor Maps example demonstrates heat map functionality. Learn to visualize data intensity across geographic areas using color gradients to represent data concentration or magnitude.",
+                MetaDescription = "This Blazor Maps example shows how to visualize data intensity across geographic areas using color gradients to represent data concentration or magnitude.",
                 Type = SampleType.None
             },
              new Sample
@@ -362,7 +377,7 @@ namespace BlazorDemos
                 FileName = "FlightRoute.razor",
                 MetaTitle = "Blazor Maps Flight Routes | Air Travel Paths | Syncfusion",
                 HeaderText = "Blazor Maps Example - Flight Route Visualization",
-                MetaDescription = "This Blazor Maps example demonstrates flight route visualization. Learn to display air travel paths between cities with curved navigation lines and customizable styling for transport network analysis.",
+                MetaDescription = "This Blazor Maps demo shows how to display air travel paths between cities with curved navigation lines and customizable styling for transport network analysis.",
                 Type = SampleType.None
             },
             new Sample
@@ -374,7 +389,7 @@ namespace BlazorDemos
                 FileName = "EarthquakeIndication.razor",
                 MetaTitle = "Blazor Maps Earthquake Data | Seismic Visualization | Syncfusion",
                 HeaderText = "Blazor Maps Example - Earthquake Visualization",
-                MetaDescription = "This Blazor Maps example demonstrates earthquake data visualization. Learn to plot seismic activities using bubbles with varying sizes to represent magnitude and custom colors to indicate intensity.",
+                MetaDescription = "This Blazor Maps example shows how to plot seismic activities using bubbles with varying sizes to represent magnitude and custom colors to indicate intensity.",
                 Type = SampleType.None
             },
              new Sample
@@ -386,7 +401,7 @@ namespace BlazorDemos
                 FileName = "HighlightedRegion.razor",
                 MetaTitle = "Blazor Maps Highlighted Regions | Focus Areas | Syncfusion",
                 HeaderText = "Blazor Maps Example - Region Highlighting",
-                MetaDescription = "This Blazor Maps example demonstrates region highlighting. Learn to emphasize specific geographical areas with custom colors or patterns to draw attention to particular regions of interest.",
+                MetaDescription = "This Blazor Maps demo shows how to emphasize specific geographical areas with custom colors or patterns to draw attention to particular regions of interest.",
                 Type = SampleType.None
             },
             new Sample
@@ -398,7 +413,7 @@ namespace BlazorDemos
                 FileName = "MapsWithPie.razor",
                 MetaTitle = "Blazor Maps with Pie Charts | Combined Visualization | Syncfusion",
                 HeaderText = "Blazor Maps Example - Integrated Pie Charts",
-                MetaDescription = "This Blazor Maps example demonstrates integration of pie charts with maps. Learn to overlay pie charts on geographical locations to display proportional data distribution for specific regions.",
+                MetaDescription = "This Blazor Maps example demonstrates how to overlay pie charts on geographical locations to display proportional data distribution for specific regions.",
                 Type = SampleType.None
             },
             new Sample
@@ -410,7 +425,7 @@ namespace BlazorDemos
                 FileName = "MapsWithSlider.razor",
                 MetaTitle = "Blazor Maps with Slider | Temporal Data | Syncfusion",
                 HeaderText = "Blazor Maps Example - Slider Integration",
-                MetaDescription = "This Blazor Maps example demonstrates integration with slider control. Learn to create interactive time-based visualizations that update map data based on slider position for temporal analysis."
+                MetaDescription = "This Blazor Maps example demonstrates how to create interactive time-based visualizations that update map data based on slider position for temporal analysis."
             },
               new Sample
             {
@@ -421,7 +436,7 @@ namespace BlazorDemos
                 FileName = "SaleMap.razor",
                 MetaTitle = "Blazor Maps Sales Visualization | Business Analytics | Syncfusion",
                 HeaderText = "Blazor Maps Example - Sales Data Visualization",
-                MetaDescription = "This Blazor Maps example demonstrates sales data visualization. Learn to represent regional sales performance with color-coded territories and data markers for business intelligence applications.",
+                MetaDescription = "This Blazor Maps demo shows how to represent regional sales performance with color-coded territories and data markers for business intelligence applications.",
                 Type = SampleType.None
             },
               new Sample
@@ -433,7 +448,7 @@ namespace BlazorDemos
                   FileName= "BusSeatSelection.razor",
                   MetaTitle = "Blazor Maps Seat Selection | Interactive Booking | Syncfusion",
                   HeaderText = "Blazor Maps Example - Bus Seat Selection Interface",
-                  MetaDescription = "This Blazor Maps example demonstrates a creative use case for seat selection. Learn to implement an interactive bus seating chart that allows users to select and book seats with visual feedback.",
+                  MetaDescription = "This Blazor Maps example demonstrates how to implement an interactive bus seating chart that allows users to select and book seats with visual feedback.",
                   Type = SampleType.None
               }
         };

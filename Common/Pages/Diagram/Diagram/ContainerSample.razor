@@ -7,7 +7,7 @@
 @using Syncfusion.Blazor.DropDowns
 @using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
 @using Syncfusion.Blazor.Diagram.SymbolPalette
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @implements IDisposable
@@ -215,35 +215,35 @@
                 StrokeWidth = 1
             }
         };
-    private string TextStyle { get; set; } = "background-color:#cccccc;color:black;width:40px";
+    private string TextStyle { get; set; } = "background-color:#cccccc;color:black;width:50px";
 
     @*End:Hidden*@
     //Define sfdiagramComponent
-    private SfDiagramComponent DiagramInstance { get; set; }
+    private SfDiagramComponent? DiagramInstance { get; set; }
 
     public DiagramConstraints Constraints { get; set; } = DiagramConstraints.Default | DiagramConstraints.Bridging;
 
     //Defines diagrams's nodes collection
-    public DiagramObjectCollection<Node> Nodes { get; set; } = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node>? Nodes { get; set; } = new DiagramObjectCollection<Node>();
 
     //Defines diagrams's connectors collection
-    public DiagramObjectCollection<Connector> Connectors { get; set; } = new DiagramObjectCollection<Connector>();
-    public DiagramSize SymbolPreview;
-    public SymbolMargin SymbolMargin = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
+    public DiagramObjectCollection<Connector>? Connectors { get; set; } = new DiagramObjectCollection<Connector>();
+    public DiagramSize? SymbolPreview;
+    public SymbolMargin? SymbolMargin = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
 
-    public SfSymbolPaletteComponent PaletteInstance;
+    public SfSymbolPaletteComponent? PaletteInstance;
 
     //Define palettes collection
-    private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
-    public DiagramObjectCollection<NodeBase> basicShapes { get; set; }
-    public DiagramObjectCollection<NodeBase> connectors { get; set; }
-    DiagramObjectCollection<NodeBase> ContainerNodes { get; set; }
+    private DiagramObjectCollection<Palette>? palettes = new DiagramObjectCollection<Palette>();
+    public DiagramObjectCollection<NodeBase>? basicShapes { get; set; }
+    public DiagramObjectCollection<NodeBase>? connectors { get; set; }
+    DiagramObjectCollection<NodeBase>? ContainerNodes { get; set; }
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteInstance!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             DiagramInstance
         };
@@ -303,7 +303,7 @@
                 Children = new string[] { "node2", "node3", "node4", "node5", "node6" }
             };
 
-        Nodes.Add(container);
+        Nodes!.Add(container);
         CreateConnector("connector1", "node1", "node2");
         CreateConnector("connector2", "node4", "node10");
         CreateConnector("connector3", "node5", "node11");
@@ -311,22 +311,22 @@
         CreateConnector("connector5", "node8", "node9");
         CreateConnector("connector6", "container", "node13");
         CreateConnector("connector7", "container", "node15");
-        CreateConnector("connector8", "node3", "node4", Nodes[2].Ports[0].ID);
-        CreateConnector("connector9", "node3", "node5", Nodes[2].Ports[1].ID);
-        CreateConnector("connector10", "node3", "node6", Nodes[2].Ports[2].ID);
-        CreateConnector("connector11", "node2", "node7", "", Nodes[6].Ports[0].ID);
-        CreateConnector("connector12", "node7", "node3", Nodes[6].Ports[1].ID);
-        CreateConnector("connector13", "node13", "node14", Nodes[12].Ports[0].ID);
-        CreateConnector("connector14", "node15", "node14", Nodes[14].Ports[0].ID);
-        CreateConnector("connector16", "node8", "node5", Nodes[7].Ports[0].ID, Nodes[4].Ports[0].ID, decoratorSettings);
-        CreateConnector("connector17", "node8", "node6", Nodes[7].Ports[1].ID, Nodes[5].Ports[0].ID, decoratorSettings);
+        CreateConnector("connector8", "node3", "node4", Nodes[2].Ports![0].ID);
+        CreateConnector("connector9", "node3", "node5", Nodes[2].Ports![1].ID);
+        CreateConnector("connector10", "node3", "node6", Nodes[2].Ports![2].ID);
+        CreateConnector("connector11", "node2", "node7", "", Nodes[6].Ports![0].ID);
+        CreateConnector("connector12", "node7", "node3", Nodes[6].Ports![1].ID);
+        CreateConnector("connector13", "node13", "node14", Nodes[12].Ports![0].ID);
+        CreateConnector("connector14", "node15", "node14", Nodes[14].Ports![0].ID);
+        CreateConnector("connector16", "node8", "node5", Nodes[7].Ports![0].ID, Nodes[4].Ports![0].ID, decoratorSettings);
+        CreateConnector("connector17", "node8", "node6", Nodes[7].Ports![1].ID, Nodes[5].Ports![0].ID, decoratorSettings);
         InitPaletteModel();
     }
     // DiagramInstance connector defaults
     private void OnConnectorCreating(IDiagramObject obj)
     {
-        Connector connector = obj as Connector;
-        connector.Style = new ShapeStyle() { StrokeColor = "#5E5E5E", StrokeWidth = 1 };
+        Connector? connector = obj as Connector;
+        connector!.Style = new ShapeStyle() { StrokeColor = "#5E5E5E", StrokeWidth = 1 };
         if (connector.TargetDecorator != null)
             connector.TargetDecorator.Style = new ShapeStyle()
             {
@@ -338,10 +338,10 @@
     private void OnCreated()
     {
         FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        DiagramInstance.FitToPage(options);
+        DiagramInstance!.FitToPage(options);
     }
     // Create connector
-    private void CreateConnector(string id, string node1, string node2, string sourcePortId = "", string targetPortId = "", DecoratorSettings sourceDecorator = null)
+    private void CreateConnector(string id, string node1, string node2, string sourcePortId = "", string targetPortId = "", DecoratorSettings? sourceDecorator = null)
     {
         Connector connector = new Connector()
             {
@@ -355,7 +355,7 @@
         connector.Type = ConnectorSegmentType.Orthogonal;
         if (sourceDecorator != null)
             connector.SourceDecorator = sourceDecorator;
-        Connectors.Add(connector);
+        Connectors!.Add(connector);
     }
     // Create node.
     private void CreateNode(string id, int offsetx, int offsety, int height, int width, string content)
@@ -444,7 +444,7 @@
                 };
         }
 
-        Nodes.Add(node);
+        Nodes!.Add(node);
     }
     // Create ports for nodes
     private PointPort CreatePort(DiagramPoint offset)
@@ -483,7 +483,7 @@
     //Update annotation fontfamily
     private void FontChange(ChangeEventArgs<string, FontFamily> args)
     {
-        UpdateAnnotation("fontfamily", args.Value);
+        UpdateAnnotation("fontfamily", args.Value!);
     }
 
     //Update annotation fontsize value
@@ -496,35 +496,35 @@
     //Update fill color for annotations
     public void OnFillColorChange(ColorPickerEventArgs args)
     {
-        styleValue = "background-color:" + args.CurrentValue.Hex;
-        UpdateAnnotation("fontcolor", args.CurrentValue.Hex);
+        styleValue = "background-color:" + args.CurrentValue!.Hex;
+        UpdateAnnotation("fontcolor", args.CurrentValue.Hex!);
 
     }
     //Update annotation
     private void UpdateAnnotation(string name, object value)
     {
-        DiagramInstance.StartGroupAction();
-        if (DiagramInstance.SelectionSettings.Connectors.Count > 0)
+        DiagramInstance!.StartGroupAction();
+        if (DiagramInstance.SelectionSettings!.Connectors!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Connectors.Count; i++)
             {
                 var connector = DiagramInstance.SelectionSettings.Connectors[i];
-                for (var j = 0; j < connector.Annotations.Count; j++)
+                for (var j = 0; j < connector.Annotations!.Count; j++)
                 {
-                    TextStyle annotationStyle = connector.Annotations[j].Style;
+                    TextStyle annotationStyle = connector.Annotations[j].Style!;
                     UpdateAnnotationStyle(name, annotationStyle, value);
 
                 }
             }
         }
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
                 var node = DiagramInstance.SelectionSettings.Nodes[i];
                 if (node is Container container && container.Header != null)
                 {
-                    UpdateAnnotationStyle(name, container.Header.Annotation.Style, value);
+                    UpdateAnnotationStyle(name, container.Header.Annotation.Style!, value);
                 }
                 else
                     UpdateNodeAnnotationStyles(node, name, value);
@@ -535,9 +535,9 @@
 
     private void UpdateNodeAnnotationStyles(Node node, string name, object value)
     {
-        for (var j = 0; j < node.Annotations.Count; j++)
+        for (var j = 0; j < node.Annotations!.Count; j++)
         {
-            TextStyle annotationStyle = node.Annotations[j].Style;
+            TextStyle annotationStyle = node.Annotations[j].Style!;
             UpdateAnnotationStyle(name, annotationStyle, value);
         }
     }
@@ -547,7 +547,7 @@
         switch (option)
         {
             case "fontsize":
-                textStyle.FontSize = Double.Parse(value.ToString());
+                textStyle.FontSize = Double.Parse(value.ToString()!);
                 break;
             case "underline":
                 textStyle.TextDecoration = textStyle.TextDecoration == TextDecoration.Underline ? TextDecoration.None : TextDecoration.Underline;
@@ -576,7 +576,7 @@
     @*Hidden:Lines*@
     public class FontFamily
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     private List<FontFamily> FontFamilyLists = new List<FontFamily>()
@@ -592,7 +592,7 @@
 
     public class TextWrapping
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     private List<TextWrapping> TextWrappingList = new List<TextWrapping>()
@@ -604,7 +604,7 @@
 
     public class TextOverFlow
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     private List<TextOverFlow> TextOverFlowList = new List<TextOverFlow>()
@@ -615,21 +615,21 @@
     };
     private void SelectionChanged(SelectionChangedEventArgs args)
     {
-        if (args.NewValue.Count > 0)
+        if (args.NewValue!.Count > 0)
         {
             var item = args.NewValue[0];
 
-            if (item is Node node && node.Annotations.Count > 0)
+            if (item is Node node && node.Annotations!.Count > 0)
             {
                 var shapeAnnotation = node.Annotations[0];
-                FontSizeValue = (int)shapeAnnotation.Style.FontSize;
-                FontStyle = shapeAnnotation.Style.FontFamily;
+                FontSizeValue = (int)shapeAnnotation.Style!.FontSize;
+                FontStyle = shapeAnnotation.Style.FontFamily!;
             }
             else if (item is Container container && container.Header?.Annotation != null)
             {
                 var shapeAnnotation = container.Header.Annotation;
-                FontSizeValue = (int)shapeAnnotation.Style.FontSize;
-                FontStyle = shapeAnnotation.Style.FontFamily;
+                FontSizeValue = (int)shapeAnnotation.Style!.FontSize;
+                FontStyle = shapeAnnotation.Style.FontFamily!;
             }
         }
     }
@@ -734,7 +734,7 @@
                 ID = id,
                 Shape = new BasicShape()
                 {
-                    Type = shapes.Basic,
+                Type = NodeShape.Basic,
                     Shape = type
                 },
                 SearchTags = new List<string>() { "Basic" },
@@ -763,7 +763,7 @@
     }
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
 

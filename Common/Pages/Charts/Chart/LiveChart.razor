@@ -43,19 +43,19 @@
 
 @code{
     
-    private static Timer timer;
+    private static Timer? timer;
     public string Width { get; set; } = "90%";
-    private SfChart liveChart;
+    private SfChart? liveChart;
     private double dataLength = 100;
     private Random randomNum = new Random();
     private Theme theme { get; set; }
-    public ObservableCollection<ChartDataPoint> DataPoints;
+    public ObservableCollection<ChartDataPoint>? DataPoints;
 
     protected override void OnInitialized()
     {
         
         theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-        if (SampleService.IsDevice)
+        if (SampleService != null && SampleService.IsDevice)
         {
             Width = "100%";
         }
@@ -71,7 +71,13 @@
 
         // Starting live update in the chart.
         timer = new Timer(400);
+        @*Hidden:Lines*@
+        #pragma warning disable CS8622
+        @*End:Hidden*@
         timer.Elapsed += AddData;
+        @*Hidden:Lines*@
+        #pragma warning restore CS8622
+        @*End:Hidden*@
         timer.AutoReset = true;
         timer.Enabled = true;
     }
@@ -81,8 +87,8 @@
         if (liveChart == null)
             return;
         dataLength++;
-        DataPoints.RemoveAt(0);
-        DataPoints.Add(new ChartDataPoint
+        DataPoints?.RemoveAt(0);
+        DataPoints?.Add(new ChartDataPoint
         {
             Time = DateTime.Now.AddSeconds(dataLength + 10),
             CPU_Usage = randomNum.Next(30, 80)

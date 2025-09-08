@@ -78,7 +78,7 @@
                                     <CircularGaugeAnnotation Angle="160" ZIndex="1" Radius="45%">
                                         <ContentTemplate>
                                             <div id="templateWrap">
-                                                <img src="@(SampleService.WebAssetsPath + "images/circular-gauge/positive.png")" alt="Positive"/>
+                                                <img src="@(SampleService?.WebAssetsPath + "images/circular-gauge/positive.png")" alt="Positive"/>
                                                 <div class='des'>
                                                     <div class="annotationTextValue">@GermanAnnotationText</div>
                                                 </div>
@@ -125,7 +125,7 @@
                                     <CircularGaugeAnnotation Angle="160" ZIndex="1" Radius="45%">
                                         <ContentTemplate>
                                             <div id="templateWrap">
-                                                <img src="@(SampleService.WebAssetsPath + "images/circular-gauge/positive.png")" alt="Positive" />
+                                                <img src="@(SampleService?.WebAssetsPath + "images/circular-gauge/positive.png")" alt="Positive" />
                                                 <div class='des'>
                                                     <div class="annotationTextValue">@USAAnnotationText</div>
                                                 </div>
@@ -170,7 +170,7 @@
                                     <CircularGaugeAnnotation Angle="160" ZIndex="1" Radius="45%">
                                         <ContentTemplate>
                                             <div id="templateWrap">
-                                                <img src="@(SampleService.WebAssetsPath + "images/circular-gauge/negative.png")" alt="Negative" />
+                                                <img src="@(SampleService?.WebAssetsPath + "images/circular-gauge/negative.png")" alt="Negative" />
                                                 <div class='des'>
                                                     <div class="annotationTextValue">@UKAnnotationText</div>
                                                 </div>
@@ -208,9 +208,9 @@
 </div>
 @code{
     public Theme Theme { get; set; }
-    public SfCircularGauge GermanRef;
-    public SfCircularGauge USARef;
-    public SfCircularGauge UKRef;
+    public SfCircularGauge? GermanRef;
+    public SfCircularGauge? USARef;
+    public SfCircularGauge? UKRef;
     public string TextColor = "#000000";
     public double GermanPointerValue = 75;
     public double UsaPointerValue = 60;
@@ -220,10 +220,10 @@
     public string UKAnnotationText = "-25%";
     public ObservableCollection<GaugeGridData> GridData { get; set; } = new ObservableCollection<GaugeGridData>();
     private Random _random = new Random();
-    private string _grid1;
-    private string _grid2;
-    private string _grid3;
-    private Timer _syncTimer = null;
+    private string? _grid1;
+    private string? _grid2;
+    private string? _grid3;
+    private Timer _syncTimer = null!;
 
     private void PointerValueUpdate(Object source, System.Timers.ElapsedEventArgs e)
     {
@@ -268,9 +268,9 @@
             @*Hidden:Lines*@
             #pragma warning restore BL0005
             @*End:Hidden*@
-            GermanRef.SetPointerValueAsync(0, 0, GermanPointerValue);
-            USARef.SetPointerValueAsync(0, 0, UsaPointerValue);
-            UKRef.SetPointerValueAsync(0, 0, UkPointerValue);
+            GermanRef?.SetPointerValueAsync(0, 0, GermanPointerValue);
+            USARef?.SetPointerValueAsync(0, 0, UsaPointerValue);
+            UKRef?.SetPointerValueAsync(0, 0, UkPointerValue);
             StartTimer();
         });
     }
@@ -278,7 +278,13 @@
     private void StartTimer()
     {
         _syncTimer = new System.Timers.Timer();
+        @*Hidden:Lines*@
+        #pragma warning disable CS8622
+        @*End:Hidden*@
         _syncTimer.Elapsed += new System.Timers.ElapsedEventHandler(PointerValueUpdate);
+        @*Hidden:Lines*@
+        #pragma warning restore CS8622
+        @*End:Hidden*@
         _syncTimer.Interval = 2000;
         _syncTimer.Enabled = true;
         _syncTimer.Start();
@@ -286,7 +292,13 @@
     protected override void OnInitialized()
     {
         _syncTimer = new Timer(2000);
+        @*Hidden:Lines*@
+        #pragma warning disable CS8622
+        @*End:Hidden*@
         _syncTimer.Elapsed += this.PointerValueUpdate;
+        @*Hidden:Lines*@
+        #pragma warning restore CS8622
+        @*End:Hidden*@
         _syncTimer.AutoReset = true;
         _syncTimer.Enabled = true;
         List<GaugeGridData> GaugeData = new List<GaugeGridData>
@@ -302,9 +314,9 @@
 
     public class GaugeGridData
     {
-        public string Country { get; set; }
+        public string? Country { get; set; }
         public double Sales { get; set; }
         public double Target { get; set; }
-        public string VsTarget { get; set; }
+        public string? VsTarget { get; set; }
     }
 }

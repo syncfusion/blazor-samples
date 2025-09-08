@@ -9,8 +9,8 @@
     <p>A column template is used to customize the column’s look and appearance. The following example explains how to define the template in Gantt Chart column.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>The Gantt Chart provides a way to use a custom layout for each cell using the column template feature. By using the <a aria-label="Navigate to the Template property reference for gantt column" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html#Syncfusion_Blazor_Gantt_GanttColumn_Template">Template</a> component of <a aria-label="Navigate to the class reference for gantt column" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html">GanttColumn</a> component, custom content can be placed. Inside the Template, you can access the data using the implicit named parameter <code>Context</code>.</p>
-    <p>In this demo, using column template, resource column has been presented with employee photo.</p>
+    <p>The Gantt Chart provides a way to use a custom layout for each cell using the column template feature. By using the <a aria-label="Navigate to the Template property reference for gantt column" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html#Syncfusion_Blazor_Gantt_GanttColumn_Template">Template</a> component of <a aria-label="Navigate to the class reference for gantt column" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html">GanttColumn</a> component, custom content can be placed. Inside the Template, you can access the data using the implicit named parameter <code>Context</code>. 
+    In this demo, using column template, resource column has been presented with employee photo.</p>
     <p>More information about Column Template feature can be found in this <a aria-label="Navigate to the documentation for column template in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/column-template">documentation</a> section.</p>
 </ActionDescription>
 
@@ -26,21 +26,22 @@
                     <GanttColumn Field="TaskId" HeaderText="ID" Visible="false"></GanttColumn>
                     <GanttColumn Field="TaskName" HeaderText="Task Name"
                                  ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="250px"></GanttColumn>
-                    <GanttColumn Field="ResourceName" HeaderText="Resources" Width="220px">
+                    <GanttColumn Field="ResourceName" HeaderText="Resources" 
+								 ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="250px">
                         <Template>
                             @{
-                            var taskData = context as ColumnTemplateData.TaskData;
-                            if (taskData.ResourceName != null)
-                            {
-                            var resourceName = taskData.ResourceName.Trim().Replace(" ", "").ToLower();
-                            <div class="image">
-                                <img role="presentation"
-                                     src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png")" />
-                                <div style="display:inline-block;width:100%;position:relative;left:30px">
-                                    @(taskData.ResourceName)
-                                </div>
-                            </div>
-                            }
+                                var taskData = context as ColumnTemplateData.TaskData;
+                                if (!string.IsNullOrEmpty(taskData?.ResourceName))
+                                {
+                                    var resourceName = taskData.ResourceName.Trim().Replace(" ", "").ToLower();
+                                    <div class="image">
+                                        <img role="presentation"
+                                             src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png")" />
+                                        <div style="display:inline-block;width:100%;position:relative;left:30px">
+                                            @(taskData.ResourceName)
+                                        </div>
+                                    </div>
+                                }
                             }
                         </Template>
                     </GanttColumn>
@@ -59,7 +60,7 @@
 @code {
     private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 23);
     private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 28);
-    public List<ColumnTemplateData.TaskData> TaskCollection { get; set; }
+    public List<ColumnTemplateData.TaskData> TaskCollection { get; set; } = new List<ColumnTemplateData.TaskData>();
 
     protected override void OnInitialized()
     {

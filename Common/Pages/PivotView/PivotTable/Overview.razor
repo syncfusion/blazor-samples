@@ -32,9 +32,10 @@
                     var data = (context as AxisSet);
                     if (data != null)
                     {
-                        if (data.Axis == "value" && !(data.RowHeaders as string).Contains('.'))                    
+                        string? rowHeaderStr = data.RowHeaders as string;
+                        if (data.Axis == "value" && !(rowHeaderStr?.Contains('.') ?? false) && Pivot != null)                    
                         {
-                            Pivot.PivotValues[data.RowIndex][data.ColIndex].CssClass = null;
+                            Pivot.PivotValues[data.RowIndex][data.ColIndex].CssClass = null!;
                                 @data.FormattedText
                         }
                         else
@@ -127,7 +128,7 @@
 </Style>
 
 @code {
-    public SfPivotView<UniversityData> Pivot;
+    public SfPivotView<UniversityData>? Pivot;
     public List<UniversityData> Data = new List<UniversityData>();
     public List<ToolbarItems> PivotToolbar = new List<ToolbarItems>
     {
@@ -158,7 +159,7 @@
 #pragma warning disable BL0005
     private void ChartSeriesCreated(ChartSeriesCreatedEventArgs args)
     {
-        if (Pivot.ChartSettings.ChartSeries.Type == ChartSeriesType.Polar)
+        if (Pivot?.ChartSettings.ChartSeries.Type == ChartSeriesType.Polar)
         {
             foreach(var series in args.Series)
             {
@@ -200,7 +201,10 @@
                 j = i;
             }
         }
-        await this.Pivot.LoadPersistDataAsync(_report[j]);
+        if(Pivot != null)
+        {
+            await this.Pivot.LoadPersistDataAsync(_report[j]);
+        }
     }
     private async Task RemoveReport(RemoveReportArgs args)
     {

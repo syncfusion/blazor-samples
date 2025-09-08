@@ -4,7 +4,7 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Popups;
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
@@ -336,7 +336,7 @@
 @code {
     @*Hidden:Lines*@
     DiagramInteractions DiagramTool = DiagramInteractions.ZoomPan;
-    public SfDiagramComponent Diagram;
+    public SfDiagramComponent? Diagram;
     public LayoutType Type = LayoutType.RadialTree;
     public int HorizontalSpacing = 30;
     public int VerticalSpacing = 30;
@@ -345,6 +345,7 @@
     public double Right = 30;
     public double Left = 30;
     public double currentZoom;
+#pragma warning disable CS0414
     string PanItemCssClass = "tb-item-middle tb-item-selected";
     string PointerItemCssClass = "tb-item-start";
     string ZoomInItemCssClass = "tb-item-start";
@@ -353,36 +354,37 @@
     string CenterCssClass = "tb-item-start";
     string FitCssClass = "tb-item-start";
     string ResetCssClass = "tb-item-start";
+#pragma warning restore CS0414
     public bool reset = true;
     public bool view = true;
     public bool center = true;
 
-    ToolbarItem ZoomInItem;
-    ToolbarItem ZoomOutItem;
-    ToolbarItem ResetItem;
+    ToolbarItem? ZoomInItem;
+    ToolbarItem? ZoomOutItem;
+    ToolbarItem? ResetItem;
     @*End:Hidden*@
 
     //Defines sfdiagramComponent
-    SfDiagramComponent diagram;
+    SfDiagramComponent? diagram;
 
     //Defines diagram constraints
     public DiagramConstraints constraints { get; set; }
 
     //Defines diagrams's nodes collection
-    public DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
 
     //Defines diagrams's connectors collection
-    public DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector>? connectors = new DiagramObjectCollection<Connector>();
 
     private void OnCreated()
     {
         FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        diagram.FitToPage(options);
+        diagram!.FitToPage(options);
     }
 
     private void OnConnectorCreating(IDiagramObject connector)
     {
-        (connector as Connector).Type = ConnectorSegmentType.Straight;
+        (connector as Connector)!.Type = ConnectorSegmentType.Straight;
     }
     private void OnResetClick()
     {
@@ -403,7 +405,7 @@
         CenterCssClass = "tb-item-start";
         ResetCssClass = "tb-item-start";
         FitCssClass = "tb-item-start";
-        diagram.ResetZoom();
+        diagram!.ResetZoom();
         OnCreated();
         reset = true;
     }
@@ -426,26 +428,26 @@
         CenterCssClass = "tb-item-start";
         ResetCssClass = "tb-item-start";
         FitCssClass = "tb-item-start";
-        diagram.FitToPage(new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content });
+        diagram!.FitToPage(new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content });
         reset = false;
     }
 
     private void CurrentZoomChanged(double args)
     {
-       reset = (diagram.ScrollSettings.CurrentZoom) == 1 ? true : false;
+       reset = (diagram!.ScrollSettings!.CurrentZoom) == 1 ? true : false;
     }
 
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        if (node.Data is System.Text.Json.JsonElement)
+        Node? node = obj as Node;
+        if (node!.Data is System.Text.Json.JsonElement)
         {
-            node.Data = System.Text.Json.JsonSerializer.Deserialize<RadialTreeDetails>(node.Data.ToString());
+            node.Data = System.Text.Json.JsonSerializer.Deserialize<RadialTreeDetails>(node.Data.ToString()!);
         }
-        RadialTreeDetails radialData = node.Data as RadialTreeDetails;
+        RadialTreeDetails? radialData = node.Data as RadialTreeDetails;
         double size = 0;
         string color;
-        if (radialData.Id == "parent")
+        if (radialData!.Id == "parent")
         {
             size = 50;
             color="white";
@@ -468,13 +470,13 @@
                 };
             node.Width = 400;
             node.Height = 400;
-            node.Style.Fill = "black";
+            node.Style!.Fill = "black";
         }
         else if (radialData.Designation == "Project Manager")
         {
             node.Width = 130;
             node.Height = 130;
-            node.Style.Fill = "#f8ab52";
+            node.Style!.Fill = "#f8ab52";
         }
         else
         {
@@ -484,7 +486,7 @@
                     Shape = NodeBasicShapes.Ellipse,
                     CornerRadius = 10
                 };
-            node.Style.Fill = "#afeeee";
+            node.Style!.Fill = "#afeeee";
             node.Width = 100;
             node.Height = 100;
         }
@@ -497,11 +499,11 @@
 
     public class RadialTreeDetails
     {
-        public string Id { get; set; }
-        public string Role { get; set; }
-        public string Name { get; set; }
-        public string Designation { get; set; }
-        public string ReportingPerson { get; set; }
+        public string? Id { get; set; }
+        public string? Role { get; set; }
+        public string? Name { get; set; }
+        public string? Designation { get; set; }
+        public string? ReportingPerson { get; set; }
     }
     //Initialize Data Source
     public List<RadialTreeDetails> DataSource = new List<RadialTreeDetails>()
@@ -705,7 +707,7 @@
         CenterCssClass = "tb-item-start";
         FitCssClass = "tb-item-start";
         ResetCssClass = "tb-item-start";
-        diagram.Zoom(1.2, new DiagramPoint() { X = 100, Y = 100 });
+        diagram!.Zoom(1.2, new DiagramPoint() { X = 100, Y = 100 });
         reset = false;
     }
     public void ZoomChanged()
@@ -730,7 +732,7 @@
         CenterCssClass = "tb-item-start";
         FitCssClass = "tb-item-start";
         ResetCssClass = "tb-item-start";
-        diagram.Zoom(1 / 1.2, new DiagramPoint() { X = 100, Y = 100 });
+        diagram!.Zoom(1 / 1.2, new DiagramPoint() { X = 100, Y = 100 });
         reset = false;
     }
 }

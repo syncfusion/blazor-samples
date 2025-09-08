@@ -171,10 +171,10 @@ namespace blazor_inventordata
             return inventor;
         }
         public int? NumberofPatentFamilies { get; set; }
-        public string Inventor { get; set; }
+        public string Inventor { get; set; } = string.Empty;
         public int? NumberofINPADOCpatents { get; set; }
-        public string Country { get; set; }
-        public string Mainfieldsofinvention { get; set; }
-        public string Active { get; set; }
+        public string Country { get; set; } = string.Empty;
+        public string Mainfieldsofinvention { get; set; } = string.Empty;
+        public string Active { get; set; } = string.Empty;
     }
 }

@@ -26,7 +26,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
     public partial class Overview
     {
         public bool IsSidebarToggled { get; set; }
-        public SfSwitch<bool?> SidebarSwitch { get; set; }
+        public SfSwitch<bool?>? SidebarSwitch { get; set; }
         public bool IsSideBar { get; set; } = false;
         public bool Settings { get; set; } = true;
         private int RowHeightValue { get; set; } = 45;
@@ -38,27 +38,28 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         private int DefaultUnitWidth { get; set; } = 75;
         private string MarginTop { get; set; } = "3px";
         private string ManualTaskbarWidth { get; set; } = "11px";
-        private SfGantt<OverviewData.TaskData> GanttInstance { get; set; }
-        public List<OverviewData.TaskData> TaskCollection { get; set; }
+        private SfGantt<OverviewData.TaskData>? GanttInstance { get; set; }
+        public List<OverviewData.TaskData> TaskCollection { get; set; } = new List<OverviewData.TaskData>();
         private DateTime KickOffDate = new DateTime(2025, 2, 11);
         private DateTime DesignCompletionDate = new DateTime(2025, 5, 15);
         private DateTime DeploymentDate = new DateTime(2025, 11, 17);
         public Theme CurrentTheme { get; set; }
-        public string CurrentUri { get; set; }
+        public string CurrentUri { get; set; } = string.Empty;
         public bool Checked { get; set; } = true;
         public bool ShowDependency { get; set; } = true;
-        private List<OverviewData.ResourceInfoModel> ResourceCollection { get; set; }
+        private List<OverviewData.ResourceInfoModel> ResourceCollection { get; set; } = new List<OverviewData.ResourceInfoModel>();
         private List<string> Status { get; set; } = new List<string>() { "Open", "Inprogress", "On Hold", "Complete" };
         private List<string> Priority { get; set; } = new List<string>() { "Low", "Normal", "High", "Critical" };
         public string BorderRadius { get; set; } = "4px";
-        public string TextColor { get; set; }
-        public string BackgroundColor { get; set; }
+        public string TextColor { get; set; } = string.Empty;
+        public string BackgroundColor { get; set; } = string.Empty;
         private List<Theme> AvailableThemes { get; set; } = new List<Theme>() { Theme.Fluent, Theme.Fabric, Theme.Bootstrap5, Theme.Bootstrap, Theme.Bootstrap4, Theme.Tailwind, Theme.Material, Theme.Tailwind3 };
         private string DropdownWidth { get; set; } = "80px";
         //***API properties
         public Syncfusion.Blazor.Gantt.GridLine gridlines = Syncfusion.Blazor.Gantt.GridLine.Both;
         private ViewType SelectedViewType { get; set; } = ViewType.ProjectView;
         public string SelectedViewTypes { get; set; } = "Project view";
+        private string SelectedViewMode { get; set; } = "Default";
         public string DurationUnitValue { get; set; } = "Day";
         public Syncfusion.Blazor.Gantt.DurationUnit DurationValue { get; set; } = DurationUnit.Day;
         private bool IsEventMarkerVisible { get; set; } = false;
@@ -68,21 +69,24 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         public int BindValue { get; set; } = 11;
         public string CurrentHeaderTitle { get; set; } = "Project Settings";
         public string[] WorkWeekDays { get; set; } = new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday" };
-        private string FilterHeaderFontSize { get; set; }
-        private string FilterHeaderFontSizeTouch { get; set; }
-        private string FilterHeaderHeight { get; set; }
-        private string FilterHeaderHeightTouch { get; set; }
-        private string FilterHeaderFontWeight { get; set; }
-        private string FilterBackgroundColor { get; set; }
-        private string LabelTextColor { get; set; }
+        public string[]? Selectweek { get; set; }
+        private string FilterHeaderFontSize { get; set; } = string.Empty;
+        private string FilterHeaderFontSizeTouch { get; set; } = string.Empty;
+        private string FilterHeaderHeight { get; set; } = string.Empty;
+        private string FilterHeaderHeightTouch { get; set; } = string.Empty;
+        private string FilterHeaderFontWeight { get; set; } = string.Empty;
+        private string FilterBackgroundColor { get; set; } = string.Empty;
+        private string LabelTextColor { get; set; } = string.Empty;
         private bool IsDarkMode => CurrentUri.Contains("dark") || CurrentUri.Contains("highcontrast");
-        private static List<OverviewData.AssignmentModel> AssignmentCollection { get; set; }
-        private List<OverviewData.SegmentModel> SegmentCollection { get; set; }
+        private static List<OverviewData.AssignmentModel> AssignmentCollection { get; set; } = new List<OverviewData.AssignmentModel>();
+        private List<OverviewData.SegmentModel> SegmentCollection { get; set; } = new List<OverviewData.SegmentModel>();
         private bool IsCustomSchedulingEnabled { get; set; }
         private bool IsCriticalPathEnabled { get; set; }
         private DateTime? ProjectStartDate { get; set; }
         private DateTime? ProjectEndDate { get; set; }
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
         public List<Object> Toolbaritems { get; set; } = new List<Object>() { "ExpandAll", "CollapseAll", "ZoomIn", "ZoomOut", "ZoomToFit", "Indent", "Outdent", "ExcelExport", new ToolbarItem() { TooltipText = "PdfExport", Id = "PdfExport", PrefixIcon = "e-pdfexport" }, new ToolbarItem() { Text = "Settings", TooltipText = "Settings", Id = "Settings", PrefixIcon = "e-settings-icon", Align = ItemAlign.Right } };
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
         // Specifies the ListView datasource.
         public List<DataModel> ListViewData { get; set; } = new List<DataModel>();
         private Dictionary<string, string> pdfExportImage = new Dictionary<string, string>();
@@ -90,11 +94,11 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
 
         public class DataModel
         {
-            public string Id { get; set; }
-            public string Text { get; set; }
-            public string Category { get; set; }
+            public string Id { get; set; } = string.Empty;
+            public string Text { get; set; } = string.Empty;
+            public string Category { get; set; } = string.Empty;
             public int Order { get; set; }
-            public List<DataModel> Child { get; set; }
+            public List<DataModel>? Child { get; set; }
         }
 
         private void GanttViewTypes(ChangeEventArgs<string, ViewTypes> args)
@@ -218,7 +222,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
 
         public class WorkWeek
         {
-            public string Week { get; set; }
+            public string Week { get; set; } = string.Empty;
         }
 
         public List<WorkWeek> Weeks = new List<WorkWeek>
@@ -233,7 +237,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
 
         public class Duration
         {
-            public string Unit { get; set; }
+            public string Unit { get; set; } = string.Empty;
         }
 
         public List<Duration> Duration1 = new List<Duration>
@@ -245,7 +249,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
 
         public class ViewTypes
         {
-            public string Type { get; set; }
+            public string Type { get; set; } = string.Empty;
         }
 
         public List<ViewTypes> Types = new List<ViewTypes>
@@ -264,10 +268,11 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             else
             {
                 WorkWeekDays = args.Value;
+                Selectweek = WorkWeekDays;
             }
         }
 
-        private async void ValueChangeHandler2(ChangeEventArgs<string, Duration> args)
+        private void ValueChangeHandler2(ChangeEventArgs<string, Duration> args)
         {
             if (args.Value.Contains("Hour"))
             {
@@ -288,8 +293,8 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
 
         public class SplitterView
         {
-            public string ID { get; set; }
-            public string Text { get; set; }
+            public string ID { get; set; } = string.Empty;
+            public string Text { get; set; } = string.Empty;
         }
 
         public List<SplitterView> SplitterViews = new List<SplitterView>
@@ -328,6 +333,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             Syncfusion.Blazor.Grids.ExcelExportProperties ExportProperties = new Syncfusion.Blazor.Grids.ExcelExportProperties();
             Syncfusion.Blazor.Gantt.GanttPdfExportProperties PdfExportProperties = new Syncfusion.Blazor.Gantt.GanttPdfExportProperties();
             List<GridColumn> gridColumns = new List<GridColumn>() {
+                #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
                 new GridColumn() { Field = "Task", HeaderText = "Task Name", Width = "300" },
                 new GridColumn() { Field = "Assignee", HeaderText = "Assigned Person", Width= "180" }, // Template logic not directly transferable
                 new GridColumn() { Field = "StartDate", HeaderText = "Start Date", Width = "130", TextAlign = TextAlign.Right, Format = "M/d/yyyy"},
@@ -363,6 +369,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 new GanttColumn() { Field = "TechStack", HeaderText = "Technology Stack", Width = "350" },
                 new GanttColumn() { Field = "Initiative", HeaderText = "Initiative/Story Points",Width = "300" },
                 new GanttColumn() { Field = "PriorityLevel", HeaderText = "Strategic Priority", Width = "230" }
+                #pragma warning restore BL0005 // Component parameter should not be set outside of its component.
             };
             ExportProperties.Columns = gridColumns;
             ExportProperties.IncludeTemplateColumn = true;
@@ -413,7 +420,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
                 var randomItem = OverviewData.GetResources[randomIndex];
 
                 string resourceName = randomItem.Name.Trim().Replace(" ", "").ToLower();
-                if (pdfExportImage.TryGetValue(resourceName, out string base64String))
+                if (pdfExportImage.TryGetValue(resourceName, out string? base64String))
                 {
                     byte[] imageBytes = Convert.FromBase64String(base64String);
                     using MemoryStream imageStream = new MemoryStream(imageBytes);

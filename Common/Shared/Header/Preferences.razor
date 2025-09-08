@@ -122,13 +122,13 @@ else
 
 
 @code {
-    private string touchClass { get; set; }
-    private string mouseClass { get; set; }
-    private string popupClass { get; set; }
+    private string? touchClass { get; set; }
+    private string? mouseClass { get; set; }
+    private string? popupClass { get; set; }
     private bool isPopupClicked { get; set; }
-    private CultureSwitcher cultureRef { get; set; }
-    private DropDownComponent ThemeDropDownRefForMobile { get; set; }
-    private DropDownComponent ThemeModeRefForMobile { get; set; }
+    private CultureSwitcher? cultureRef { get; set; }
+    private DropDownComponent? ThemeDropDownRefForMobile { get; set; }
+    private DropDownComponent? ThemeModeRefForMobile { get; set; }
 
     /// <summary>
     /// Specifies the rendering mode of preferences.
@@ -145,16 +145,16 @@ else
     // Touch mode click handler.
     private async Task OnTouchClick()
     {
-        touchClass = SampleUtils.AddClass(touchClass, SampleUtils.ACTIVE_CLASS);
-        mouseClass = SampleUtils.RemoveClass(mouseClass, SampleUtils.ACTIVE_CLASS);
+        touchClass = SampleUtils.AddClass(touchClass ?? "", SampleUtils.ACTIVE_CLASS);
+        mouseClass = SampleUtils.RemoveClass(mouseClass ?? "", SampleUtils.ACTIVE_CLASS);
         await SetBiggerSizeAsync(true, true);
     }
 
     // Mouse mode click handler.
     private async Task OnMouseClick()
     {
-        mouseClass = SampleUtils.AddClass(mouseClass, SampleUtils.ACTIVE_CLASS);
-        touchClass = SampleUtils.RemoveClass(touchClass, SampleUtils.ACTIVE_CLASS);
+        mouseClass = SampleUtils.AddClass(mouseClass ?? "", SampleUtils.ACTIVE_CLASS);
+        touchClass = SampleUtils.RemoveClass(touchClass ?? "", SampleUtils.ACTIVE_CLASS);
         await SetBiggerSizeAsync(false);
     }
 
@@ -224,9 +224,9 @@ else
         }
         if (currentTheme != args.ID)
         {
-            var url = SampleUtils.GetThemeUrl(UriHelper, args.ID);
+            var url = SampleUtils.GetThemeUrl(UriHelper, args?.ID ?? "");
             // Check if the current theme contains "dark"
-            if (themeModeCheck.Contains("dark") && args.ID != "highcontrast" && args.ID != "fluent2-highcontrast" && args.ID != "bootstrap4")
+            if (themeModeCheck.Contains("dark") && args?.ID != "highcontrast" && args?.ID != "fluent2-highcontrast" && args?.ID != "bootstrap4")
             {
                 // Append "-dark" to the URL
                 url += "-dark";
@@ -273,14 +273,14 @@ else
     {
         if (isOpen)
         {
-            popupClass = SampleUtils.RemoveClass(popupClass, SampleUtils.DISPLAY_NONE);
+            popupClass = SampleUtils.RemoveClass(popupClass ?? "", SampleUtils.DISPLAY_NONE);
         }
         else
         {
-            popupClass = SampleUtils.AddClass(popupClass, SampleUtils.DISPLAY_NONE);
-            if (cultureRef.DropDownRef.isthemepopupopen)
+            popupClass = SampleUtils.AddClass(popupClass ?? "", SampleUtils.DISPLAY_NONE);
+            if (cultureRef?.DropDownRef != null && cultureRef.DropDownRef.isthemepopupopen)
             {
-                cultureRef.DropDownRef.popupClass = SampleUtils.AddClass(cultureRef.DropDownRef.popupClass, SampleUtils.DISPLAY_NONE);
+                cultureRef.DropDownRef.popupClass = SampleUtils.AddClass(cultureRef.DropDownRef.popupClass ?? "", SampleUtils.DISPLAY_NONE);
                 cultureRef.DropDownRef.Refresh();
                 cultureRef.DropDownRef.isthemepopupopen = false;
             }
@@ -290,19 +290,19 @@ else
 
     public void HideDevicePopup()
     {
-        if (!cultureRef.DropDownRef.isthemepopupopen)
+        if ( cultureRef?.DropDownRef != null && !cultureRef.DropDownRef.isthemepopupopen)
         {
-            cultureRef.DropDownRef.popupClass = SampleUtils.AddClass(cultureRef.DropDownRef.popupClass, SampleUtils.DISPLAY_NONE);
+            cultureRef.DropDownRef.popupClass = SampleUtils.AddClass(cultureRef.DropDownRef.popupClass ?? "", SampleUtils.DISPLAY_NONE);
             cultureRef.DropDownRef.Refresh();
         }
-        if (!ThemeDropDownRefForMobile.isthemepopupopen)
+        if (ThemeDropDownRefForMobile!= null && !ThemeDropDownRefForMobile.isthemepopupopen)
         {
-            ThemeDropDownRefForMobile.popupClass = SampleUtils.AddClass(ThemeDropDownRefForMobile.popupClass, SampleUtils.DISPLAY_NONE);
+            ThemeDropDownRefForMobile.popupClass = SampleUtils.AddClass(ThemeDropDownRefForMobile.popupClass ?? "", SampleUtils.DISPLAY_NONE);
             ThemeDropDownRefForMobile.Refresh();
         }
         if (ThemeModeRefForMobile != null && !ThemeModeRefForMobile.isthemepopupopen)
         {
-            ThemeModeRefForMobile.popupClass = SampleUtils.AddClass(ThemeModeRefForMobile.popupClass, SampleUtils.DISPLAY_NONE);
+            ThemeModeRefForMobile.popupClass = SampleUtils.AddClass(ThemeModeRefForMobile.popupClass ?? "", SampleUtils.DISPLAY_NONE);
             ThemeModeRefForMobile.Refresh();
         }
     }
@@ -336,18 +336,18 @@ else
             // Set touch button as default for higher resolution displays.
             if (preferenceMode != SampleUtils.DEFAULT_MODE)
             {
-                touchClass = SampleUtils.AddClass(touchClass, SampleUtils.ACTIVE_CLASS);
-                mouseClass = SampleUtils.RemoveClass(mouseClass, SampleUtils.ACTIVE_CLASS);
+                touchClass = SampleUtils.AddClass(touchClass ?? "", SampleUtils.ACTIVE_CLASS);
+                mouseClass = SampleUtils.RemoveClass(mouseClass ?? "", SampleUtils.ACTIVE_CLASS);
                 StateHasChanged();
             }
         }
         if (this.IsMobile)
         {
-            if (cultureRef.DropDownRef.isthemepopupopen)
+            if (cultureRef?.DropDownRef != null && cultureRef.DropDownRef.isthemepopupopen)
             {
                 cultureRef.DropDownRef.isthemepopupopen = false;
             }
-            if (ThemeDropDownRefForMobile.isthemepopupopen)
+            if (ThemeDropDownRefForMobile != null && ThemeDropDownRefForMobile.isthemepopupopen)
             {
                 ThemeDropDownRefForMobile.isthemepopupopen = false;
             }

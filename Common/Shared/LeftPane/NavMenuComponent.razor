@@ -47,23 +47,23 @@
 @code {
     private bool isCurrentComponent { get; set; }
     private string samplesClass = "sb-component-samples";
-    protected TreeComponent TreeRef { get; set; }
-    protected ListComponent ListRef { get; set; }
+    protected TreeComponent? TreeRef { get; set; }
+    protected ListComponent? ListRef { get; set; }
     public bool isNavigate { get; set; }
-    protected List<Sample> ListDataSource { get; set; } = new List<Sample>();
-    protected List<SampleListType> TreeDataSource { get; set; } = new List<SampleListType>();
+    protected List<Sample>? ListDataSource { get; set; } = new List<Sample>();
+    protected List<SampleListType>? TreeDataSource { get; set; } = new List<SampleListType>();
 
     [CascadingParameter]
-    protected MainLayout Layout { get; set; }
+    protected MainLayout? Layout { get; set; }
 
     // List to tree navigation handler.
     private void OnTreeNavigation()
     {   
-        Layout.CloseThemePrefPopups();
+        Layout?.CloseThemePrefPopups();
         // Hides list component and show tree component.
         samplesClass = SampleUtils.AddClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
         JsRuntime.InvokeVoidAsync("ScrollToSelected");
-        TreeRef.ShowTree();
+        TreeRef?.ShowTree();
     }
 
     // List sample selection handler.
@@ -71,24 +71,34 @@
     {
         this.isCurrentComponent = true;
         // SampleService.Spinner.ShowModalSpinner();
-        Layout.RightPaneRef.TabSelectedItemChange();
-        Layout.CollapseSideBar();
-        var currentUrl = item.Url.ToLower();
-        if (item.Directory.StartsWith("Buttons"))
+        Layout?.RightPaneRef?.TabSelectedItemChange();
+        Layout?.CollapseSideBar();
+        var currentUrl = item?.Url?.ToLower();
+        if (item?.Name != null)
         {
-            this.SelectTreeNode(item.Name);
-        } 
-        if( item.Directory.Contains("ColorPicker"))
+            if (item != null && item.Directory != null && item.Directory.StartsWith("Buttons"))
+            {
+                this.SelectTreeNode(item.Name); // No need for ?. since item is guaranteed non-null
+            }
+            if (item != null && item.Category != null && item.Directory != null && item.Directory.Contains("ColorPicker"))
+            {
+                if (item.Name.Equals("Inline Mode"))
+                {
+                    var controlIfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.DemoPath != null && control.DemoPath.ToLower().Equals(currentUrl));
+                    if (controlIfo != null)
+                    {
+                        this.SelectTreeNode(controlIfo.Name ?? string.Empty);
+                    }
+                }
+                else
+                {
+                    this.SelectTreeNode(item.Category);
+                }
+            }
+        }
+        if (currentUrl == null)
         {
-            if (item.Name.Equals("Inline Mode"))
-            {
-                var controlIfo = SampleBrowser.SampleList.First<SampleList>(control => control.DemoPath.ToLower().Equals(currentUrl));
-                this.SelectTreeNode(controlIfo.Name);
-            }
-            else
-            {
-                this.SelectTreeNode(item.Category);
-            }
+            return;
         }
         RefreshSampleNavigator(currentUrl);
 
@@ -142,31 +152,31 @@
 #endif
 
         // Hides tree component and show list component.
-        TreeRef.ShowTree(false);
+        TreeRef?.ShowTree(false);
         samplesClass = SampleUtils.RemoveClass(samplesClass, SampleUtils.COMPONENTS_HIDE);
 
-        Sample sampleItem;
+        Sample? sampleItem;
         if (nodeItem.Category == "Buttons" || nodeItem.Category == "Inputs")
         {
             // Select specific button and color Palette sample.
-            sampleItem = this.ListDataSource.Where(sample => sample.Name == nodeItem.Name).FirstOrDefault();
+            sampleItem = this.ListDataSource?.Where(sample => sample.Name == nodeItem.Name).FirstOrDefault();
         }
         else
         {
             // Select first item in list component.
-            sampleItem = this.ListDataSource.FirstOrDefault();
+            sampleItem = this.ListDataSource?.FirstOrDefault();
         }
-        ListRef.SelectItem(sampleItem);
+        if (sampleItem != null) ListRef?.SelectItem(sampleItem);
 
-        Layout.RightPaneRef.TabSelectedItemChange();
-        Layout.CollapseSideBar();
-        if (nodeItem.Samples[0].IsHideInMobile && nodeItem.DemoPath.Equals(nodeItem.Samples[0].Url) && DeviceMode.Isdevice)
+        Layout?.RightPaneRef?.TabSelectedItemChange();
+        Layout?.CollapseSideBar();
+        if (nodeItem.Samples != null && nodeItem.DemoPath != null && nodeItem.Samples[0].IsHideInMobile && nodeItem.DemoPath.Equals(nodeItem.Samples[0].Url) && DeviceMode.Isdevice)
         {
             nodeItem.DemoPath = nodeItem.Samples[1].Url;
         }
-        RefreshSampleNavigator(nodeItem.DemoPath);
+        RefreshSampleNavigator(nodeItem.DemoPath ?? "");
 #if SERVER
-		this.NavigatePage(nodeItem.DemoPath, true);
+		this.NavigatePage(nodeItem.DemoPath ?? "", true);
 #else
         this.NavigatePage(nodeItem.DemoPath);
 #endif
@@ -214,17 +224,18 @@
     // Refresh sample navigator button states for device and desktop.
     private void RefreshSampleNavigator(string url)
     {
-        this.Layout.SampleNavigatorRef?.RefreshState(url, true);
-        this.Layout.RightPaneRef?.SampleNavigatorRef?.RefreshState(url, true);
+        this.Layout?.SampleNavigatorRef?.RefreshState(url, true);
+        this.Layout?.RightPaneRef?.SampleNavigatorRef?.RefreshState(url, true);
     }
 
     // Select tree node for the current sample.
     private void SelectTreeNode(string componentName, string demoPath = "")
     {
+        if (TreeRef == null || TreeDataSource == null) { return; }
         foreach (var parentData in TreeDataSource)
         {
-            var treeSelectedNode = parentData.SourceData.Where(data => data.Name == componentName && data.DemoPath == demoPath).ToList();
-            if (treeSelectedNode.Count > 0)
+            var treeSelectedNode = parentData?.SourceData?.Where(data => data.Name == componentName && data.DemoPath == demoPath).ToList();
+            if (treeSelectedNode?.Count > 0)
             {
                 if (treeSelectedNode.Count > 1 && !string.IsNullOrEmpty(demoPath))
                 {
@@ -255,7 +266,7 @@
             // Iterate and get the sample list from overall collections.
             foreach (var samplesInfo in SampleBrowser.SampleList)
             {
-                var currentSample = samplesInfo.Samples.Where<Sample>(sample => sample.Url.ToLower() == currentUri.Trim('/')).ToList();
+                var currentSample = samplesInfo.Samples.Where<Sample>(sample => sample?.Url?.ToLower() == currentUri.Trim('/')).ToList();
                 if (currentSample.Count > 0)
                 {
                     sampleData = samplesInfo.Samples;
@@ -264,18 +275,18 @@
                     {
                         if (samplesInfo.Directory == "Buttons" || samplesInfo.Directory == "Inputs/ColorPicker")
                         {
-                            this.SelectTreeNode(currentSample.FirstOrDefault().Name);
+                            this.SelectTreeNode(currentSample?.FirstOrDefault()?.Name ?? "");
                         }
                         else
                         {
-                            this.SelectTreeNode(samplesInfo.Name, samplesInfo.DemoPath);
+                            this.SelectTreeNode(samplesInfo?.Name ?? "", samplesInfo?.DemoPath ?? "");
                         }
                     }
                     break;
                 }
             }
         }
-        return sampleData;
+        return sampleData ?? new List<Sample>();
     }
 
     /// <summary>
@@ -284,15 +295,15 @@
     /// <param name="item">Item that need to be selected.</param>
     public void SelectItem(Sample item)
     {
-        var currentSample = this.ListDataSource.Where(sample => sample.Url == item.Url).ToList();
+        var currentSample = this.ListDataSource?.Where(sample => sample.Url == item.Url).ToList();
         // Update list datasource when the current selected sample is not in the component source data.
-        if (currentSample.Count == 0)
+        if (currentSample?.Count == 0)
         {
             this.isCurrentComponent = false;
             this.ListDataSource = GetSampleDataSource();
             StateHasChanged();
         }
-        this.ListRef.SelectItem(item);
+        this.ListRef?.SelectItem(item);
     }
 
     protected override void OnParametersSet()
@@ -307,7 +318,7 @@
         base.OnAfterRender(firstRender);
         if (firstRender)
         {
-            this.SelectTreeNode(SampleService.ComponentName, SampleService.CurrentSampleUrl);
+            this.SelectTreeNode(SampleService.ComponentName ?? "", SampleService.CurrentSampleUrl ?? "");
         }
         else
         {
@@ -339,7 +350,7 @@
 
                 sampleItems.ForEach(item =>
             {
-                if (GetDeviceMode(userAgent) == "Mobile")
+                if (GetDeviceMode(userAgent) == "Mobile" || GetDeviceMode(userAgent) == "Tablet")
                 {
                     listData = item.Samples.Where(sample => !sample.IsHideInMobile).GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
                 }
@@ -351,9 +362,9 @@
                 {
                     for (var j = 0; j < listData[i].Count; j++)
                     {
-                        if (!SampleBrowser.SampleUrls.Contains(listData[i][j].Url.ToLower()))
+                        if (!SampleBrowser.SampleUrls.Contains(listData[i][j]?.Url?.ToLower() ?? ""))
                         {
-                            SampleBrowser.SampleUrls.Add(listData[i][j].Url.ToLower());
+                            SampleBrowser.SampleUrls.Add(listData[i][j]?.Url?.ToLower() ?? "");
                         }
                     }
                 }
@@ -407,11 +418,11 @@
 
     public string GetDeviceMode(string userAgent)
     {
-        if (userAgent.Contains("Mobile") && !userAgent.Contains("iPad"))
+        if (SampleService.IsDevice && userAgent.Contains("Mobile") && !userAgent.Contains("iPad"))
         {
             return "Mobile";
         }
-        else if (userAgent.Contains("Tablet") || userAgent.Contains("iPad"))
+        else if ((SampleService.IsDevice && !userAgent.Contains("Mobile")) || userAgent.Contains("Tablet") || userAgent.Contains("iPad") || userAgent.Contains("Macintosh"))
         {
             return "Tablet";
         }

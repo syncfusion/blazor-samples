@@ -17,13 +17,13 @@ namespace ej2_blazor_formatdata
     {
         public TreeDataFormat() { }
         public int? OrderID { get; set; }
-        public string OrderName { get; set; }
+        public string? OrderName { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime ShippedDate { get; set; }
         public double Units { get; set; }
         public double Price { get; set; }
         public double UnitPrice { get; set; }
-        public string Category { get; set; }
+        public string? Category { get; set; }
         public int? ParentID { get; set; }
         public static List<TreeDataFormat> GetDataFormat()
         {

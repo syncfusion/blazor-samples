@@ -11,8 +11,8 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
 {
     public class ProductSales
     {
-        public string ProductType { get; set; }
-        public string Product { get; set; }
+        public string ProductType { get; set; } = string.Empty;
+        public string Product { get; set; } = string.Empty;
         public int Year { get; set; }
         public double SoldAmount { get; set; }
 
@@ -21,361 +21,361 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 737
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 862
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1160
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 715
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1284
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 221
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 179
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1872
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1447
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 771
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1510
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1083
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1654
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1750
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1622
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1048
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1714
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 15
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 779
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1081
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1741
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1491
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1740
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1476
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 886
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1323
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1882
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1557
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1014
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1381
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1450
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1684
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1717
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1918
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 648
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 439
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 950
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 843
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1364
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1453
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 461
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1398
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1178
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 879
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1675
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1785
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1924
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1370
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 671
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 377
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 794
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1838
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 568
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1619
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 590
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 163
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 104
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1905
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 703
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1935
             },
             new ProductSales {
@@ -1461,361 +1461,361 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 410
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 897
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 317
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1803
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1077
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1229
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1655
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 684
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 335
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1664
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 114
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1579
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1512
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1023
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 905
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 618
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1437
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 54
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1151
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1313
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 721
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 91
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 817
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1400
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1354
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 937
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1387
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1472
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 229
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1087
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 450
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 635
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 733
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1729
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1900
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1952
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 982
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1612
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 564
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1997
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1488
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1345
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1816
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 325
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1776
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1182
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 77
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1124
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1762
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1016
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 295
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 954
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 253
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 499
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 640
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 51
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1082
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1174
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1730
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 391
             },
             new ProductSales {
@@ -2901,361 +2901,361 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1890
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 946
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 144
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 840
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1601
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 821
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 698
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 123
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 397
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1276
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 974
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1091
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 815
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 428
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1572
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 91
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 604
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1322
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1189
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1014
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 179
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 162
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 873
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1882
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1607
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 357
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 127
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1458
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 750
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 5
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1140
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1008
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1176
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1261
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 533
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 559
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1783
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 911
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 863
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 455
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 972
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1844
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 114
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1363
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 534
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 710
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1559
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1981
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 554
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1037
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1393
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 904
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1880
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1078
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1059
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1125
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 397
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 205
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1225
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1599
             },
             new ProductSales {
@@ -4341,361 +4341,361 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 728
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1930
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1026
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 371
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 722
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 84
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1827
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1470
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 672
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1390
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 272
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1490
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 214
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1012
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 694
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 443
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 958
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1939
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 312
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1866
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 460
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1650
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1480
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 9
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1080
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 111
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1082
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 948
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 54
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1299
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1212
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 493
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 943
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1336
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1872
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1281
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1457
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 469
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 119
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 139
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1738
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 143
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 946
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1305
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1608
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1868
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 603
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 737
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 701
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1032
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 980
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 595
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 838
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1468
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 311
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 827
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 776
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 435
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 882
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2005,
+                Year = 2025,
                 SoldAmount = 1141
             },
             new ProductSales {
@@ -5781,241 +5781,241 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1450
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1571
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1758
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 390
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1389
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1295
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1810
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1678
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1023
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1079
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1176
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2001,
+                Year = 2021,
                 SoldAmount = 1932
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1265
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 764
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 261
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1969
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1503
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 1191
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 478
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 640
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 87
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 956
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 673
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2002,
+                Year = 2022,
                 SoldAmount = 458
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1131
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Gaming Console",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1151
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 159
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1886
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Handbag",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1707
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Mobile",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 502
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 30
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Furniture",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1915
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Apparel",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 458
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "PC",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 1350
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Cosmetics",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 197
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Home Decor",
-                Year = 2003,
+                Year = 2023,
                 SoldAmount = 912
             },
             new ProductSales {
                 ProductType = "Fashion",
                 Product = "Watch",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1184
             },
             new ProductSales {
                 ProductType = "Electronics",
                 Product = "Laptop",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1805
             },
             new ProductSales {
                 ProductType = "Beauty and Personal Care",
                 Product = "Fragrance",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1940
             },
             new ProductSales {
                 ProductType = "Household",
                 Product = "Kitchenware",
-                Year = 2004,
+                Year = 2024,
                 SoldAmount = 1188
             }
         };

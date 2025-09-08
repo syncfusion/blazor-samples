@@ -22,14 +22,14 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
     public partial class HumanResourceManagement
     {
         [CascadingParameter]
-        protected MainLayout MainLayoutInstance { get; set; }
+        protected MainLayout? MainLayoutInstance { get; set; }
         private SfGantt<RecruitmentPlanModel> GanttChartInstance { get; set; }= new SfGantt<RecruitmentPlanModel>();
         public string SelectedDepartment { get; set; } = "Recruitment Team";
         private List<RecruitmentPlanModel> GanttTaskCollection { get; set; } = new List<RecruitmentPlanModel>();
         public DateTime CurrentDate { get; set; } = new DateTime(2024, 06, 06);
         private List<RecruitmentPlanModel> ScheduleCollection { get; set; } = new List<RecruitmentPlanModel>();
         public bool IsGanttRendered { get; set; }
-        public string CurrentUri { get; set; }
+        public string CurrentUri { get; set; } = string.Empty;
         public List<string> HRDepartmentTypes => new List<string>() { "Recruitment Team", "Accounts Team", "Inventory Team" };
         private string ProgressBarColor  { get; set; } = string.Empty;
         protected async override Task OnInitializedAsync()

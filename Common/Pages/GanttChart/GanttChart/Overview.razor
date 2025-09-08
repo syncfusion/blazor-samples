@@ -20,11 +20,10 @@
 @inherits SampleBaseComponent;
 
 <SampleDescription>
-    <p>This sample shows an overview of the <a aria-label="Navigate to the explore Syncfusion Blazor gantt chart component" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-gantt-chart'>Blazor Gantt Chart</a> features that visualize the progress of each feature of the product towards its release and make it easier to monitor the scheduling of the dependent items.</p>
+    <p>This sample provides an overview of the <a aria-label="Navigate to the explore Syncfusion Blazor gantt chart component" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-gantt-chart'>Blazor Gantt Chart</a> features. It visualizes the project plan for redesigning an e-commerce platform, showcasing the progress of various tasks and milestones from initial planning to final deployment. The chart helps monitor dependencies, track deadlines, and manage resources efficiently.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>This example showcases the e-commerce platform redesign project visualized in the Blazor Gantt Chart. It provides a clear roadmap for the redesign process, tracking key milestones, task progress, resource allocation, and deadlines. With this interactive timeline, teams can efficiently manage the entire revamp from initial planning to final deployment ensuring a seamless and successful transformation of the e-commerce platform.</p>
-    <p>Blazor Gantt Chart features such as <a aria-label="Navigate to the documentation for sorting in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/sorting'>Sorting</a>, <a aria-label="Navigate to the documentation for filtering in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/filtering'>Filtering</a>, <a aria-label="Navigate to the documentation for column resizing in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-resizing'>Column resizing</a>, <a aria-label="Navigate to the documentation for column menu in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-menu'>Column menu</a>, and so on are used in this demo.</p>
+    <p> The Gantt Chart enables efficient management of tasks, milestones, dependencies, and resource allocation. It also demonstrates key features such as <a aria-label="Navigate to the documentation for sorting in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/sorting'>Sorting</a>, <a aria-label="Navigate to the documentation for filtering in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/filtering'>Filtering</a>, <a aria-label="Navigate to the documentation for column resizing in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-resizing'>Column resizing</a>, <a aria-label="Navigate to the documentation for column menu in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/column-menu'>Column menu</a>, and so on are used in this demo.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section e-gantt-overview-sample">
@@ -33,21 +32,21 @@
             <SfGantt @ref="GanttInstance" ID="GanttOverview" DataSource="TaskCollection" Height="100%" Width="100%" ScrollToTaskbarOnClick="true" TreeColumnIndex="1" RowHeight="@RowHeightValue"
             TValue="OverviewData.TaskData" Toolbar="Toolbaritems" AllowExcelExport="true" AllowPdfExport="true" GridLines="@gridlines" EnableCriticalPath="@IsCriticalPathEnabled"
             WorkWeek="@WorkWeekDays" WorkUnit="WorkUnit.Hour" HighlightWeekends="true" DurationUnit="@DurationValue" EnableRowHover="true" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" AutoCalculateDateScheduling="true" EnablePredecessorValidation="true"
-            ViewType="@SelectedViewType" AllowSorting="true" AllowFiltering="true" EnableContextMenu="true" AllowResizing="true">
+            ViewType="@SelectedViewType" AllowSorting="true" AllowFiltering="true" AllowResizing="true">
 
                 @if (!ShowDependency)
                 {
-                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Progress="Progress" ParentID="ParentId" Notes="Notes">
+                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Notes="Notes">
                     </GanttTaskFields>
                 }
                 else if (IsCustomSchedulingEnabled)
                 {
-                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Progress="Progress" ParentID="ParentId" Dependency="Dependencies" Manual="IsManual" Notes="Notes">
+                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Dependencies" Manual="IsManual" Notes="Notes">
                     </GanttTaskFields>
                 }
                 else
                 {
-                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Dependency="Dependencies" Progress="Progress" ParentID="ParentId" Notes="Notes">
+                    <GanttTaskFields Id="Id" Name="Task" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Dependency="Dependencies" Progress="Progress" ParentID="ParentId" Notes="Notes">
                     </GanttTaskFields>
                 }
                 <GanttColumns>
@@ -62,7 +61,7 @@
                             }
                             <div class="e-assigned-person">
                                 @{
-                                    if (taskData.Assignee != null)
+                                    if (taskData!=null && !string.IsNullOrEmpty(taskData.Assignee))
                                     {
                                         int randomIndex = 0;
                                         if (taskData.Id % 2 == 0)
@@ -91,7 +90,7 @@
                                     }
                                 }
                                 <div class="assignee-column">
-                                    <span class="assignee-text">@taskData.Assignee</span>
+                                    <span class="assignee-text">@taskData?.Assignee</span>
                                     <span class="@departmentClass">@taskData.Department</span>
                                 </div>
                             </div>
@@ -103,14 +102,14 @@
                         <Template>
                             @{
                                 var employee = (context as OverviewData.TaskData);
-                                if (employee.Priority == "Medium")
+                                if (employee?.Priority == "Medium")
                                 {
                                     <div class="e-priority">
                                         <SfIcon class="icon-style medium-icon" style="color: #107C10 !important;" Name="IconName.ArrowRight" />
                                         <span class="e-priority-text">@employee.Priority</span>
                                     </div>
                                 }
-                                else if (employee.Priority == "High")
+                                else if (employee?.Priority == "High")
                                 {
                                     string iconColor = IsDarkMode ? "#DC626D" : "#D13438";
                                     string iconStyle = $"color: {iconColor} !important;";
@@ -126,7 +125,7 @@
                         <Template>
                             @{
                                 var employee = (context as OverviewData.TaskData);
-                                if (employee.Budget != null)
+                                if (employee?.Budget != null)
                                 {
                                     string budgetClass = IsDarkMode ? "e-budget-dark" : "e-budget-light";
                                     <div class="@budgetClass">
@@ -140,7 +139,7 @@
                         <Template>
                             @{
                                 var employee = (context as OverviewData.TaskData);
-                                if (employee.ActualCost != null)
+                                if (employee?.ActualCost != null)
                                 {
                                     string actualCostClass = IsDarkMode ? "e-actualcost-dark" : "e-actualcost-light";
                                     <div class="@actualCostClass">
@@ -175,7 +174,7 @@
                             @{
                                 var employee = (context as OverviewData.TaskData);
                                 string themeSuffix = IsDarkMode ? "dark" : "light";
-                                if (!string.IsNullOrEmpty(employee.Status))
+                                if (!string.IsNullOrEmpty(employee?.Status))
                                 {
                                     string statusClassPrefix = employee.Status switch
                                     {
@@ -200,13 +199,13 @@
                         <Template>
                             @{
                                 var employee = (context as OverviewData.TaskData);
-                                if (employee.Dependencies != string.Empty)
+                                if (employee?.Dependencies != string.Empty)
                                 {
                                     string themeSuffix = IsDarkMode ? "dark" : "light";
                                     string dependenciesClass = $"e-dependencies e-dependencies-{themeSuffix}";
 
                                     <div class="@dependenciesClass">
-                                        @employee.Dependencies
+                                        @employee?.Dependencies
                                     </div>
                                 }
                                 else 
@@ -221,7 +220,7 @@
                             @{
                                 var employee = (context as OverviewData.TaskData);
                                 string themeSuffix = IsDarkMode ? "dark" : "light";
-                                if (!string.IsNullOrEmpty(employee.Risks))
+                                if (!string.IsNullOrEmpty(employee?.Risks))
                                 {
                                     string riskLevel = employee.Risks switch
                                     {
@@ -282,7 +281,7 @@
                         <Template>
                             @{
                                 var employee = (context as OverviewData.TaskData);
-                                if (employee.TechStack != "N/A" && employee.TechStack != null)
+                                if (employee?.TechStack != "N/A" && employee?.TechStack != null)
                                 {
                                     List<string> techStackList = employee.TechStack
                                     .Split(new char[] { ',' }, StringSplitOptions.RemoveEmptyEntries)
@@ -311,7 +310,7 @@
                                 string storyPointsClass = IsDarkMode ? "e-story-points-dark" : "e-story-points-light";
                                 <div class="e-initiative-story">
                                     <div class="e-initiative">
-                                        @employee.Initiative
+                                        @employee?.Initiative
                                     </div>
                                     @if (employee.EstimatedStoryPoints != null)
                                     {
@@ -336,7 +335,7 @@
                         <RightLabelTemplate>
                             @{
                                 var taskData = context as OverviewData.TaskData;
-                                if (taskData.Assignee != null)
+                                if (taskData != null && !string.IsNullOrEmpty(taskData.Assignee))
                                 {
                                     int randomIndex = 0;
                                     if (taskData.Id % 2 == 0)
@@ -415,7 +414,7 @@
         <div style="padding-left: 10px; padding-right: 20px;">
             @if (IsSideBar)
             {
-                <SfSidebar class="default-sidebar" Width="260px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="IsSidebarToggled">
+                <SfSidebar Width="260px" Target="#GanttOverview" EnableGestures="false" Position="SidebarPosition.Right" Type="SidebarType.Over" @bind-IsOpen="IsSidebarToggled">
                     <ChildContent>
 
                         <SfListView DataSource="@ListViewData" CssClass="groupedList" ShowHeader="true" HeaderTitle="@CurrentHeaderTitle" ShowIcon="true" Width="260px" TValue="DataModel">
@@ -473,7 +472,7 @@
                                         {
                                             <label class="labels">Work week:</label>
                                             <div>
-                                                <SfMultiSelect TValue="string[]" TItem="WorkWeek" Placeholder="Select week" Mode="@VisualMode.CheckBox" DataSource="@Weeks" PopupHeight="350px">
+                                                <SfMultiSelect TValue="string[]" TItem="WorkWeek" Placeholder="Select week" Mode="@VisualMode.CheckBox" DataSource="@Weeks" PopupHeight="350px" @bind-Value="@WorkWeekDays">
                                                     <MultiSelectEvents TItem="WorkWeek" TValue="string[]" ValueChange="@ValueChangeHandler"></MultiSelectEvents>
                                                     <MultiSelectFieldSettings Text="Week" Value="Week"></MultiSelectFieldSettings>
                                                 </SfMultiSelect>
@@ -512,7 +511,7 @@
                                         {
                                             <label class="labels">View mode:</label>
                                             <div>
-                                                <SfDropDownList TValue="string" TItem="SplitterView" DataSource="@SplitterViews" Placeholder="View" CssClass="e-custom">
+                                                <SfDropDownList TValue="string" TItem="SplitterView" DataSource="@SplitterViews" Placeholder="@SelectedViewMode" @bind-Value="@SelectedViewMode" CssClass="e-custom">
                                                     <DropDownListFieldSettings Value="ID" Text="Text"></DropDownListFieldSettings>
                                                     <DropDownListEvents TValue="string" TItem="SplitterView" ValueChange="OnChange"></DropDownListEvents>
                                                 </SfDropDownList>
@@ -586,7 +585,7 @@
 @code {
 
     [CascadingParameter]
-    protected MainLayout Layout { get; set; }
+    protected MainLayout? Layout { get; set; }
 
     protected override void OnInitialized()
     {
@@ -601,7 +600,7 @@
         CurrentUri = Navigation.Uri;
         UpdateTheme(CurrentUri);
         ConvertImageToBase64(Navigation, JSRunTime);
-        Layout.Collapse();
+        Layout?.Collapse();
     }
 
 }
@@ -973,7 +972,11 @@
     body.tailwind3-dark .groupedList.e-listview .e-list-group-item {
         color: inherit !important;
     }
-
+	
+	.bootstrap4 .e-listview .e-list-item.e-focused {
+		color: #212529 !important;
+	}
+	
     .bootstrap5\.3 .e-listview .e-list-item.e-focused {
         color: #212529;
     }

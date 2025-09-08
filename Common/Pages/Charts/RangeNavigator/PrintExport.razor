@@ -87,17 +87,17 @@ else
 
 @code {
     
-    public ChartData[] ExportData { get; set; }
-    public SfRangeNavigator RangeObj { get; set; }
+    public ChartData[]? ExportData { get; set; }
+    public SfRangeNavigator? RangeObj { get; set; }
     public Theme RangeNavigatorTheme { get; set; }
     public object RangeValue { get; set; } = new object[] { new DateTime(2013, 05, 01), new DateTime(2013, 08, 01) };
     public string RangeNavigatorExportType { get; set; } = "JPEG";
     public string FileName { get; set; } = "RangeNavigator";
-    string SelectedRegionColor;
+    string? SelectedRegionColor;
     public double interval { get; set; }
     protected override async Task OnInitializedAsync()
     {
-        ExportData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/range-navigator/export-data.json");
+        ExportData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/range-navigator/export-data.json");
     }
 
     public class ChartData
@@ -111,13 +111,14 @@ else
 
     public async Task PrintRangeNavigator(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
+        if (RangeObj != null)
         await RangeObj.PrintAsync();
     }
 
     public class FileFormatType
     {
-        public string Id { get; set; }
-        public string Text { get; set; }
+        public string? Id { get; set; }
+        public string? Text { get; set; }
     }
     private List<FileFormatType> ExportTypes = new List<FileFormatType>() {
         new FileFormatType(){ Id= "JPEG", Text= "JPEG" },
@@ -164,11 +165,12 @@ else
                 ExportFileType = ExportType.CSV;
                 break;
         }
+        if (RangeObj != null)
         await RangeObj.ExportAsync(ExportFileType, FileName);
     }
     protected override void OnInitialized()
     {
-        interval = SampleService.IsDevice ? 2 : 1;
+        interval = SampleService != null && SampleService.IsDevice ? 2 : 1;
         SetThemeAndColor();
     }
     private void SetThemeAndColor()

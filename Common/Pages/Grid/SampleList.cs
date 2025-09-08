@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 MetaTitle = "Blazor DataGrid Example | Grid Overview | Syncfusion Demos",
                 HeaderText = "Blazor DataGrid Example - Overview",
-                MetaDescription = "This Blazor DataGrid example is an overview of the Blazor DataGrid features with its performance metrics calculated for huge volume of data.",
+                MetaDescription = "This Blazor DataGrid example provides an overview of its features, focusing on performance metrics calculated for managing large volumes of data efficiently.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -50,7 +50,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Grid Example | Default Functionalities | Syncfusion Demos",
                 HeaderText = "Blazor Grid Example - Default Functionalities",
-                MetaDescription = "This Blazor Grid example demonstrates the default rendering of the DataGrid with a minimum configuration.",
+                MetaDescription = "This demo highlights the default rendering of the Blazor Grid using minimal configuration, demonstrating its core functionalities with basic setup requirements.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -75,7 +75,7 @@ namespace BlazorDemos
                 FileName = "AdaptiveRendering.razor",
                 MetaTitle = "Blazor DataGrid Adaptive Layout | Responsive Grid | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Adaptive Rendering",
-                MetaDescription = "This Blazor DataGrid adaptive layout example demonstrates responsive design for various screen sizes. The grid dynamically adjusts its layout for optimal viewing on mobile and desktop devices.",
+                MetaDescription = "Blazor Grid adaptive layout demo shows design for various screen sizes. It dynamically adjusts its layout for optimal viewing on mobile and desktop devices.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -87,10 +87,37 @@ namespace BlazorDemos
                     new SourceCollection
                     {
                         Id="Data",
-                        FileName="OrdersDetails.cs"
+                        FileName="OrdersDetail.cs"
                     }
                 }
             },
+            #if SERVER
+            new Sample
+            {
+                Name = "Semantic Filtering (Embedding)",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/DataGrid",
+                Url = "datagrid/semantic-filtering",
+                FileName = "GridSemanticFiltering.razor",
+                MetaTitle = "DataGrid Semantic Filtering Example - Syncfusion AI Demos",
+                HeaderText = "Blazor DataGrid Example - Semantic Filtering with Embedding",
+                MetaDescription = "This semantic filtering demo shows advanced filtering using natural language processing. Users can filter data using context-aware queries to find information.",
+                NotificationDescription = new string[]{ @"This demo shows the semantic filtering AI feature in Data Grid." },
+                Type = SampleType.AI
+            },
+            new Sample
+            {
+                Name = "Anomaly Detection",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/DataGrid",
+                Url = "datagrid/ai-anomaly-detection",
+                FileName = "AnomalyData.razor",
+                MetaTitle = "Blazor DataGrid Anomaly Detection - Syncfusion AI Demos",
+                HeaderText = "Blazor DataGrid Example - AI-Powered Anomaly Detection",
+                MetaDescription = "This demo shows AI integration to identify unusual pattern in your data. Quickly spot outliers, statistical anomalies for better data analysis, decision making.",
+                Type = SampleType.AI
+            },
+#endif
             new Sample
             {
                 Name = "FIFA Statistics",
@@ -100,9 +127,8 @@ namespace BlazorDemos
                 FileName = "FifaStatistics.razor",
                 MetaTitle = "Blazor DataGrid | FIFA World Cup Statistics | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - FIFA World Cup Statistics",
-                MetaDescription = "This Blazor DataGrid example showcases FIFA World Cup data with rich visuals including flags, icons, and tooltips. Display historical tournament data with customized templates and interactive elements.",
-                Type = SampleType.New,
-                NotificationDescription = new string[]{ @"Display FIFA World Cup statistics using the Syncfusion Blazor DataGrid and Tooltip. Present the year, host, champion, top scorer, best player, and coach details with rich visuals like flags, icons, and quick-access links."},
+                MetaDescription = "Blazor DataGrid demo shows FIFA World Cup data with rich visuals including flags, icons, and tooltips. Display historical tournament data with custom templates.",
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -126,7 +152,7 @@ namespace BlazorDemos
                 FileName = "LocalData.razor",
                 MetaTitle = "Blazor DataGrid List Binding | Local Data Source | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - List Data Binding",
-                MetaDescription = "This Blazor DataGrid list binding example demonstrates how to bind local collection data to the grid. Display and manipulate in-memory data collections with full CRUD capabilities.",
+                MetaDescription = "This Blazor DataGrid list binding example shows how to bind local collection and display and manipulate in-memory data collections with full CRUD capabilities.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -151,7 +177,7 @@ namespace BlazorDemos
                 FileName = "RemoteData.razor",
                 MetaTitle = "Blazor DataGrid Remote Data | Web API Integration | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Remote Data Binding",
-                MetaDescription = "This Blazor DataGrid remote data example demonstrates fetching and binding data from web services. Connect to RESTful APIs with built-in data operations for server-side processing.",
+                MetaDescription = "Blazor Grid remote data demo shows fetching and binding data from web services. Connect to RESTful API with built-in data operations for server-side processing.",
                 Type = SampleType.None
             },
              new Sample
@@ -163,7 +189,7 @@ namespace BlazorDemos
                 FileName = "FlexibleData.razor",
                 MetaTitle = "Blazor DataGrid Flexible Data | Dynamic Schema | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Flexible Data Binding",
-                MetaDescription = "This Blazor DataGrid flexible data example demonstrates handling dynamic data structures. Adapt to varying data schemas with auto-generated columns and dynamic field mapping.",
+                MetaDescription = "Blazor DataGrid flexible data demo shows handling dynamic data structures. Adapt to varying data schemas with auto-generated columns and dynamic field mapping.",
                 Type = SampleType.None,
             },
             new Sample
@@ -175,7 +201,7 @@ namespace BlazorDemos
                 FileName = "CustomBinding.razor",
                 MetaTitle = "Blazor DataGrid Custom Binding | Data Adapters | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Custom Data Binding",
-                MetaDescription = "This Blazor DataGrid custom binding example demonstrates connecting to specialized data sources. Implement custom data adapters for advanced scenarios with manual data operations.",
+                MetaDescription = "Blazor Grid custom binding demo shows connecting to specialized data sources. Implement custom data adapters for advanced scenarios with manual data operations.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -200,7 +226,7 @@ namespace BlazorDemos
                 FileName = "DataTableBinding.razor",
                 MetaTitle = "Blazor DataGrid DataTable Binding | ADO.NET | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - DataTable Binding",
-                MetaDescription = "This Blazor DataGrid DataTable binding example demonstrates connecting to System.Data.DataTable objects. Easily display ADO.NET results with automatic column generation and full CRUD capabilities.",
+                MetaDescription = "Blazor Grid DataTable binding demo shows connecting to DT objects. Easily display ADO.NET results with automatic column generation and full CRUD capabilities.",
                 Type = SampleType.None
             },
             new Sample
@@ -212,7 +238,7 @@ namespace BlazorDemos
                 FileName = "DataAnnotation.razor",
                 MetaTitle = "Blazor DataGrid Data Annotation | Validation | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Data Annotations",
-                MetaDescription = "This Blazor DataGrid data annotation example demonstrates using model attributes for validation. Apply display, format, and validation rules directly through C# model annotations.",
+                MetaDescription = "Blazor DataGrid data annotation demo shows using model attributes for validation. Apply display, format, and validation rules directly via C# model annotations.",
                 Type = SampleType.None
             },
             new Sample
@@ -224,7 +250,7 @@ namespace BlazorDemos
                 FileName="ObservableBinding.razor",
                 MetaTitle = "Blazor DataGrid Observable Collection | Real-time Updates | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Observable Collection Binding",
-                MetaDescription = "This Blazor DataGrid observable collection example demonstrates automatic UI updates when data changes. Track collection modifications for real-time grid updates without manual refresh.",
+                MetaDescription = "Blazor Grid observable collection demo shows automatic UI updates when data changes. Track collection changes for real-time grid updates without manual refresh.",
                 Type = SampleType.None
             },
             new Sample
@@ -234,9 +260,9 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/expandoobject",
                 FileName = "GridExpandoObject.razor",
-                MetaTitle = "Blazor DataGrid ExpandoObject Binding | Dynamic Properties | Syncfusion",
+                MetaTitle = "Blazor DataGrid ExpandoObject Binding | Dynamic Property | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - ExpandoObject Binding",
-                MetaDescription = "This Blazor DataGrid ExpandoObject binding example demonstrates working with dynamic objects. Bind to objects with runtime-defined properties for flexible data structures.",
+                MetaDescription = "This Blazor Grid ExpandoObject binding demo shows working with dynamic objects. Bind to objects with runtime-defined properties for flexible data structures.",
                 Type = SampleType.None,
             },
             new Sample
@@ -248,7 +274,7 @@ namespace BlazorDemos
                 FileName = "GridDynamicObject.razor",
                 MetaTitle = "Blazor DataGrid DynamicObject Binding | Custom Objects | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - DynamicObject Binding",
-                MetaDescription = "This Blazor DataGrid DynamicObject binding example demonstrates working with custom dynamic types. Display and edit objects with custom property resolution for advanced scenarios.",
+                MetaDescription = "Blazor Grid DynamicObject binding demo shows working with custom dynamic types. Display and edit objects with custom property resolution for advanced scenarios.",
                 Type = SampleType.None,
             },
             new Sample
@@ -260,7 +286,7 @@ namespace BlazorDemos
                 FileName = "ColumnTemplate.razor",
                 MetaTitle = "Blazor DataGrid Column Template | Custom Cell Content | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Column Templates",
-                MetaDescription = "This Blazor DataGrid column template example demonstrates custom cell content rendering. Create rich data visualizations with images, buttons, and interactive elements within cells.",
+                MetaDescription = "Blazor Grid column template demo shows custom cellcontent rendering. Create rich data visualization with images, buttons, and interactive elements within cells.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -285,7 +311,7 @@ namespace BlazorDemos
                 FileName = "GridHeaderTemplate.razor",
                 MetaTitle = "Blazor DataGrid Header Template | Custom Headers | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Header Templates",
-                MetaDescription = "This Blazor DataGrid header template example demonstrates custom column header rendering. Create interactive headers with filters, sorting indicators, and custom styling.",
+                MetaDescription = "This Blazor DataGrid header template demo shows custom column header rendering. Create interactive headers with filters, sorting indicators, and custom styling.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -310,7 +336,7 @@ namespace BlazorDemos
                 FileName = "GridStackedHeader.razor",
                 MetaTitle = "Blazor DataGrid Stacked Header | Grouped Columns | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Stacked Headers",
-                MetaDescription = "This Blazor DataGrid stacked header example demonstrates hierarchical column organization. Group related columns under common header titles for better data categorization.",
+                MetaDescription = "Blazor DataGrid stacked header demo shows hierarchical column organization. Group related columns under common header titles for better data categorization.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -335,7 +361,7 @@ namespace BlazorDemos
                 FileName = "ForeignKeyColumn.razor",
                 MetaTitle = "Blazor DataGrid Foreign Key Column | Lookup Values | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Foreign Key Columns",
-                MetaDescription = "This Blazor DataGrid foreign key column example demonstrates displaying lookup values from related tables. Convert ID values to their meaningful display text from reference collections.",
+                MetaDescription = "Blazor DataGrid foreign key column demo shows displaying lookup values from related tables. Convert ID values to their display text from reference collections.",
                 Type = SampleType.None
             },
             new Sample
@@ -347,7 +373,7 @@ namespace BlazorDemos
                 FileName = "Reorder.razor",
                 MetaTitle = "Blazor DataGrid Column Reorder | Drag Columns | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Column Reordering",
-                MetaDescription = "This Blazor DataGrid column reorder example demonstrates drag and drop column rearrangement. Let users customize their view by changing column positions with intuitive interactions.",
+                MetaDescription = "Blazor Grid column reorder demo shows drag and drop column rearrangement. Allows customize their view by changing column positions with intuitive interactions.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -372,7 +398,7 @@ namespace BlazorDemos
                 FileName = "Columnresize.razor",
                 MetaTitle = "Blazor DataGrid Column Resize | AutoFit Columns | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Column Resizing and AutoFit",
-                MetaDescription = "This Blazor DataGrid column resize example demonstrates adjustable column widths and automatic sizing. Resize columns manually or fit to content with built-in autofit capabilities.",
+                MetaDescription = "This Blazor DataGrid column resize demo shows adjustable column widths and automatic sizing. Resize columns fit to content with built-in autofit capabilities.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -397,7 +423,7 @@ namespace BlazorDemos
                 FileName = "Columnmenu.razor",
                 MetaTitle = "Blazor DataGrid Column Menu | Header Options | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Column Menu",
-                MetaDescription = "This Blazor DataGrid column menu example demonstrates header-based operations menu. Access sorting, filtering, and column visibility options directly from each column header.",
+                MetaDescription = "Blazor DataGrid column menu demo shows header-based operations menu. Access sorting, filtering, and column visibility options directly from each column header.",
                 Type = SampleType.None,
 		IsHideInMobile = true,
                 SourceFiles = new List<SourceCollection>()
@@ -423,7 +449,7 @@ namespace BlazorDemos
                 FileName = "AutoWrap.razor",
                 MetaTitle = "Blazor DataGrid Autowrap | Text Wrapping | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Autowrap Column Cells",
-                MetaDescription = "This Blazor DataGrid autowrap example demonstrates text wrapping in cells with long content. Handle large text values gracefully with automatic line breaks and adjustable row heights.",
+                MetaDescription = "Blazor Grid autowrap demo shows text wrapping in cells with long content. Handle large text values graceful with automatic line break and adjustable row height.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -448,7 +474,7 @@ namespace BlazorDemos
                 FileName = "ColumnChooser.razor",
                 MetaTitle = "Blazor DataGrid Column Chooser | Column Selection | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Column Chooser",
-                MetaDescription = "This Blazor DataGrid column chooser example demonstrates dynamic column visibility control. Allow users to show or hide columns through an interactive dialog for personalized views.",
+                MetaDescription = "This Blazor DataGrid column chooser demo shows dynamic column visibility control. Allow users to show or hide columns through an interactive dialog for views.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -473,7 +499,7 @@ namespace BlazorDemos
                 FileName = "ColumnChooserTemplate.razor",
                 MetaTitle = "Blazor DataGrid Column Chooser Template | Custom UI | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Column Chooser Template",
-                MetaDescription = "This Blazor DataGrid column chooser template example demonstrates custom column selection interface. Design a tailored column visibility dialog with grouping, search, and additional options.",
+                MetaDescription = "Blazor DataGrid column chooser template demo shows custom column selection. Design a tailored column visibility dialog with grouping, search, and other options.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -498,7 +524,7 @@ namespace BlazorDemos
                 FileName = "ShoworHideColumn.razor",
                 MetaTitle = "Blazor DataGrid Show Hide Columns | Dynamic Visibility | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Show or Hide Columns",
-                MetaDescription = "This Blazor DataGrid show/hide column example demonstrates programmatic column visibility control. Toggle column display at runtime with animation effects and retain grid layout.",
+                MetaDescription = "Blazor Grid show/hide column demo shows programmatic column visibility control. Toggle column display at runtime with animation effects and retain grid layout.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -523,7 +549,7 @@ namespace BlazorDemos
                 FileName = "Cellformatting.razor",
                 MetaTitle = "Blazor DataGrid Cell Formatting | Custom Display | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Cell Formatting",
-                MetaDescription = "This Blazor DataGrid cell formatting example demonstrates custom cell value presentation. Apply conditional formatting, number/date formats, and styling based on cell values.",
+                MetaDescription = "Blazor DataGrid cell formatting demo shows custom cell value presentation. Apply conditional formatting, number/date formats, and styling based on cell values.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -548,7 +574,7 @@ namespace BlazorDemos
                 FileName = "CustomCommand.razor",
                 MetaTitle = "Blazor DataGrid Custom Command | Action Buttons | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Custom Command Buttons",
-                MetaDescription = "This Blazor DataGrid custom command example demonstrates adding action buttons to rows. Create interactive operations like view details, edit, or delete with customizable button styling.",
+                MetaDescription = "Blazor Grid custom command demo shows adding action buttons to rows. Create interactive operations like view details, edit or delete with custom button styling.",
                 Type = SampleType.None
             },
             new Sample
@@ -560,7 +586,7 @@ namespace BlazorDemos
                 FileName = "FixedColumn.razor",
                 MetaTitle = "Blazor DataGrid Fixed Columns | Freeze Columns | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Fixed Columns",
-                MetaDescription = "This Blazor DataGrid fixed columns example demonstrates freezing columns during horizontal scrolling. Keep important columns visible while navigating through wide datasets.",
+                MetaDescription = "Blazor DataGrid fixed columns demo shows freezing columns during horizontal scrolling. Keep important columns visible while navigating through wide datasets.",
                 Type = SampleType.None,
             },
             new Sample
@@ -572,7 +598,7 @@ namespace BlazorDemos
                 FileName = "GridRowTemplate.razor",
                 MetaTitle = "Blazor DataGrid Row Template | Custom Row Layout | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Row Templates",
-                MetaDescription = "This Blazor DataGrid row template example demonstrates custom row rendering. Create highly customized row layouts with complex content, images, and mixed components per row.",
+                MetaDescription = "Blazor DataGrid row template demo shows custom row rendering. Create highly customized row layouts with complex content, images, and mixed components per row.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -597,7 +623,7 @@ namespace BlazorDemos
                 FileName = "GridDetailTemplate.razor",
                 MetaTitle = "Blazor DataGrid Detail Template | Expandable Rows | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Detail Templates",
-                MetaDescription = "This Blazor DataGrid detail template example demonstrates expandable row details. Display additional information or related data in collapsible sections within each row.",
+                MetaDescription = "This Blazor DataGrid detail template demo shows expandable row details. Display additional information or related data in collapsible sections within each row.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -627,9 +653,8 @@ namespace BlazorDemos
                  FileName = "RowDragAndDrop.razor",
                  MetaTitle = "Blazor DataGrid Drag Drop | Row Reordering | Syncfusion",
                  HeaderText = "Blazor DataGrid Example - Drag and Drop Rows",
-                 MetaDescription = "This Blazor DataGrid drag and drop example demonstrates row reordering between grids. Move rows across different grids with drag handles and visual indicators for intuitive data management.",
-                 Type = SampleType.Updated,
-                 NotificationDescription = new string[]{ "Updated the samples by enabling the AllowEmptyAreaDrop feature, which allows the DataGrid to drop rows onto the empty area of the grid." },
+                 MetaDescription = "This Blazor DataGrid drag and drop example demonstrates row reordering between grids. Move rows across different grids with drag handles and visual indicators.",
+                 Type = SampleType.None,
                  SourceFiles = new List<SourceCollection>()
                  {
                     new SourceCollection
@@ -653,7 +678,7 @@ namespace BlazorDemos
                FileName = "DragAndDropWithinGrid.razor",
                MetaTitle = "Blazor DataGrid Row Reordering | Internal Drag Drop | Syncfusion",
                HeaderText = "Blazor DataGrid Example - Drag and Drop within Grid",
-               MetaDescription = "This Blazor DataGrid internal drag and drop example demonstrates row reordering within the same grid. Resequence rows with intuitive drag handles and visual drop indicators.",
+               MetaDescription = "Blazor DataGrid internal drag and drop demo shows row reordering within the same grid. Resequence rows with intuitive drag handles and visual drop indicators.",
                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -679,7 +704,7 @@ namespace BlazorDemos
                 FileName = "RowHover.razor",
                 MetaTitle = "Blazor DataGrid Row Hover | Interactive Rows | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Row Hover Effects",
-                MetaDescription = "This Blazor DataGrid row hover example demonstrates interactive row highlighting. Apply visual feedback when users hover over rows with customizable colors and transition effects.",
+                MetaDescription = "Blazor Grid row hover demo shows interactive row highlighting. Apply visual feedback when users hover over rows with customizable colors and transition effects.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -704,7 +729,7 @@ namespace BlazorDemos
                 FileName = "RowHeight.razor",
                 MetaTitle = "Blazor DataGrid Row Height | Custom Row Sizing | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Row Height Customization",
-                MetaDescription = "This Blazor DataGrid row height example demonstrates customizing row dimensions. Apply uniform or varying heights to rows for better content accommodation and visual presentation.",
+                MetaDescription = "This Blazor DataGrid row height demo shows customizing row dimensions. Apply varying heights to rows for better content accommodation and visual presentation.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -729,7 +754,7 @@ namespace BlazorDemos
                 FileName = "InlineEditing.razor", 
                 MetaTitle = "Blazor DataGrid Inline Editing | Cell Editing | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Inline Editing",
-                MetaDescription = "This Blazor DataGrid inline editing example demonstrates direct cell editing. Edit data without dialogs using keyboard navigation and built-in validation for quick data updates.",
+                MetaDescription = "Blazor Grid inline editing demo shows direct cell editing. Edit data without dialogs using keyboard navigation and built-in validation for quick data updates.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -754,7 +779,7 @@ namespace BlazorDemos
                 FileName = "DialogEditing.razor",
                 MetaTitle = "Blazor DataGrid Dialog Editing | Form Editing | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Dialog Editing",
-                MetaDescription = "This Blazor DataGrid dialog editing example demonstrates form-based data editing. Edit records in a modal dialog with validation, multi-field forms, and customizable layout.",
+                MetaDescription = "Blazor DataGrid dialog editing demo shows form-based data editing. Edit records in a modal dialog with validation, multi-field forms, and customizable layout.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -779,7 +804,7 @@ namespace BlazorDemos
                 FileName = "GridDialogTemplate.razor",
                 MetaTitle = "Blazor DataGrid Dialog Template | Custom Edit Forms | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Dialog Template",
-                MetaDescription = "This Blazor DataGrid dialog template example demonstrates custom edit form designs. Create specialized edit interfaces with complex layouts, validation, and advanced input controls.",
+                MetaDescription = "This Blazor DataGrid dialog template example demonstrates custom edit form designs. Create specialized edit interfaces with complex layouts, validation.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -803,7 +828,7 @@ namespace BlazorDemos
                 FileName = "BatchEditing.razor",
                 MetaTitle = "Blazor DataGrid Batch Editing | Multiple Cell Edits | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Batch Editing",
-                MetaDescription = "This Blazor DataGrid batch editing example demonstrates multiple cell editing with deferred saving. Edit multiple cells across rows and save all changes at once for efficient data updates.",
+                MetaDescription = "Blazor Grid batch editing demo shows multiple cell editing with deferred saving. Edit multiple cells across rows and save all changes at once for data updates.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -828,7 +853,7 @@ namespace BlazorDemos
                 FileName = "CommandColumn.razor",
                 MetaTitle = "Blazor DataGrid Command Column | Action Buttons | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Command Column",
-                MetaDescription = "This Blazor DataGrid command column example demonstrates built-in action buttons for CRUD operations. Add edit, delete, save, and cancel buttons with customizable appearance and behavior.",
+                MetaDescription = "Blazor Grid command column demo shows built-in action button for CRUD operations. Add edit, delete, save and cancel buttons with custom appearance and behavior.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -853,7 +878,7 @@ namespace BlazorDemos
                 FileName = "ExternalFormEditing.razor",
                 MetaTitle = "Blazor DataGrid External Form | Custom Form Editing | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - External Form Editing",
-                MetaDescription = "This Blazor DataGrid external form example demonstrates separate form-based editing. Create custom edit interfaces outside the grid with full integration for adding and updating records.",
+                MetaDescription = "Blazor Grid external form demo shows separate form-based editing. Create custom edit interface outside grid with full integration for adding & updating records.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -879,7 +904,7 @@ namespace BlazorDemos
                 FileName = "CustomValidation.razor",
                 MetaTitle = "Blazor DataGrid Custom Validation | Edit Validation | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Custom Validation",
-                MetaDescription = "This Blazor DataGrid custom validation example demonstrates advanced input validation. Apply business rules, cross-field validation, and custom error messages during data editing.",
+                MetaDescription = "Blazor Grid custom validation demo shows advanced input validation. Apply business rules, cross-field validation, and custom error messages during data editing.",
                 Type = SampleType.None
             },
             new Sample
@@ -891,7 +916,7 @@ namespace BlazorDemos
                 FileName = "Sorting.razor",
                 MetaTitle = "Blazor DataGrid Multi Sorting | Multiple Column Sort | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Multi-Column Sorting",
-                MetaDescription = "This Blazor DataGrid multi-sorting example demonstrates ordering by multiple columns simultaneously. Create complex sorting scenarios with column precedence and mixed sort directions.",
+                MetaDescription = "Blazor Grid multisorting demo shows orders by multiple columns simultaneously. Create complex sorting scenarios with column precedence and mixed sort direction.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -917,7 +942,7 @@ namespace BlazorDemos
                 FileName = "CustomSorting.razor",
                 MetaTitle = "Blazor DataGrid Custom Sorting | Sort Comparer | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Custom Sorting Logic",
-                MetaDescription = "This Blazor DataGrid custom sorting example demonstrates specialized sorting algorithms. Implement custom comparison logic for complex data types or unique sorting requirements.",
+                MetaDescription = "Blazor DataGrid custom sorting demo shows specialized sorting algorithms. Implement custom comparison logic for complex data types/unique sorting requirements.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -943,7 +968,7 @@ namespace BlazorDemos
                 FileName = "Filtering.razor",
                 MetaTitle = "Blazor DataGrid Filtering | Data Filters | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Default Filtering",
-                MetaDescription = "This Blazor DataGrid filtering example demonstrates built-in filter operations. Apply text, numeric, date, and boolean filters with various operators for precise data filtering.",
+                MetaDescription = "Blazor Grid filtering demo shows built-in filter operations. Apply text, numeric, date, and boolean filters with various operators for precise data filtering.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -969,9 +994,8 @@ namespace BlazorDemos
                 FileName = "FilterMenu.razor",
                 MetaTitle = "Blazor DataGrid Menu Filter | Filter UI | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Menu Filter Interface",
-                MetaDescription = "This Blazor DataGrid menu filter example demonstrates dropdown-based filtering. Apply filters through a convenient menu interface with type-specific input controls and multiple conditions.",
-                Type = SampleType.Updated,
-                NotificationDescription = new string[]{ "The samples have been updated to demonstrate the use of the FilterEditorSettings property in GridColumn components, enabling customization of filter components such as NumericTextBox, AutoComplete, and TimePicker within the DataGrid filter menu." },
+                MetaDescription = "Blazor Grid menu filter demo shows dropdown-based filtering. Apply filters via a convenient menu interface with specific input controls and multiple conditions.",
+                Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -996,7 +1020,7 @@ namespace BlazorDemos
                 FileName = "FilterCheckbox.razor",
                 MetaTitle = "Blazor DataGrid Checkbox Filter | Multi-Select Filter | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Checkbox Filtering",
-                MetaDescription = "This Blazor DataGrid checkbox filter example demonstrates multi-select value filtering. Choose multiple values from checkboxes to create OR-combined filters for categorical data.",
+                MetaDescription = "Blazor Grid checkbox filter demo shows multi-select value filtering. Choose multiple values from checkboxes to create OR-combined filters for categorical data.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1022,7 +1046,7 @@ namespace BlazorDemos
                 FileName = "FilterExcel.razor",
                 MetaTitle = "Blazor DataGrid Excel Filter | Excel-Style Filtering | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Excel-like Filtering",
-                MetaDescription = "This Blazor DataGrid Excel filter example demonstrates Microsoft Excel-style filtering interface. Apply multiple value filters and custom conditions with an intuitive filtering experience.",
+                MetaDescription = "Blazor Grid Excel filter demo shows MS Excel-style filtering interface. Apply multiple value filters and custom conditions with an intuitive filter experience.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1048,9 +1072,8 @@ namespace BlazorDemos
                FileName = "Search.razor",
                MetaTitle = "Blazor DataGrid Search | Global Data Search | Syncfusion",
                HeaderText = "Blazor DataGrid Example - Global Searching",
-               MetaDescription = "This Blazor DataGrid search example demonstrates cross-column text search functionality. Find matching data across all columns with highlighting, accent insensitivity, and case options.",
-               Type = SampleType.Updated,
-               NotificationDescription = new string[]{ "The sample has been updated to enable the IgnoreAccent feature, allowing the DataGrid to ignore accent marks and diacritic characters during search operations." },
+               MetaDescription = "Blazor Grid search demo shows cross-column text search process. Find matching data across all columns with highlighting, accent insensitivity, and case options.",
+               Type = SampleType.None,
                SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1075,7 +1098,7 @@ namespace BlazorDemos
                 FileName = "PagerDropdown.razor",
                 MetaTitle = "Blazor DataGrid Pager Dropdown | Page Size Options | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Pager with Dropdown",
-                MetaDescription = "This Blazor DataGrid pager dropdown example demonstrates selectable page sizes. Allow users to change records per page through a dropdown menu for flexible data viewing.",
+                MetaDescription = "This Blazor DataGrid pager dropdown demo shows selectable page sizes. Allow users to change records per page through a dropdown menu for flexible data viewing.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1101,7 +1124,7 @@ namespace BlazorDemos
                 FileName = "PagerTemplate.razor",
                 MetaTitle = "Blazor DataGrid Pager Template | Custom Pager | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Custom Pager Template",
-                MetaDescription = "This Blazor DataGrid pager template example demonstrates customized pagination interface. Design custom pager layouts with additional features like page size selectors and page information.",
+                MetaDescription = "This Blazor DataGrid pager template demo shows how to design custom pager layouts with additional features like page size selectors and page information.",
                 Type = SampleType.None,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1127,22 +1150,35 @@ namespace BlazorDemos
                 FileName = "Grouping.razor",
                 MetaTitle = "Blazor DataGrid Grouping | Data Categorization | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Row Grouping",
-                MetaDescription = "This Blazor DataGrid grouping example demonstrates hierarchical data organization. Group rows by one or more columns with expand/collapse capabilities and customizable group headers.",
-                Type = SampleType.None,
-                SourceFiles = new List<SourceCollection>()
-                {
-                    new SourceCollection
+                NotificationDescription = new string[]{ "This sample has been updated to demonstrate the persistence of group expand or collapse states across paging, sorting, filtering, and editing operations." },
+                MetaDescription = "This Blazor DataGrid grouping example demonstrates how to group rows by one or more columns with expand or collapse capabilities and customizable group headers.",
+                    Type = SampleType.Updated,
+                    SourceFiles = new List<SourceCollection>()
                     {
-                        Id="Default",
-                        FileName="Grouping.razor"
+                        new SourceCollection
+                        {
+                            Id="Default",
+                            FileName="Grouping.razor"
+                        },
+                        new SourceCollection
+                        {
+                            Id="Data",
+                            FileName="Orders.cs"
+                        }
                     },
-                    new SourceCollection
-                    {
-                        Id="Data",
-                        FileName="Orders.cs"
-                    }
-                 
                 },
+                new Sample
+                {
+                Name = "Lazy Load with Paging",
+                Category = "Grouping",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/lazyload-paging",
+                FileName = "LazyLoadPaging.razor",
+                Type = SampleType.New,
+                NotificationDescription = new string[] {"This sample demonstrates lazy loading with paging in the Blazor DataGrid, enabling efficient display of grouped data by loading only page-sized records on demand."},
+                MetaTitle = "Blazor DataGrid Lazy Loading | Paging | Syncfusion",
+                HeaderText = "Blazor DataGrid Example - Lazy Load with Paging",
+                MetaDescription = "This Blazor DataGrid example showcases lazy loading with paging, rendering rows on-demand to enhance performance and provide a seamless user experience."
             },
 #if !(WASM)
 			new Sample
@@ -1153,9 +1189,9 @@ namespace BlazorDemos
                 Url = "datagrid/lazyload-virtualization",
                 FileName = "LazyLoadVirtualization.razor",
                 Type = SampleType.None,
-                MetaTitle = "Lazy Load Infinite Scroll Example - Syncfusion Demos",
+                MetaTitle = "Blazor DataGrid Lazy Loading | Virtual Scrolling | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Lazy Load with Virtual Scrolling",
-                MetaDescription = "This Blazor DataGrid lazy load virtual scrolling example demonstrates on-demand data loading during scroll. Load large datasets progressively with virtualized rendering for optimal performance."
+                MetaDescription = "This Blazor DataGrid example demonstrates lazy load virtual scrolling with on-demand data loading as you scroll, progressively handling large datasets."
             },
 #endif
             new Sample
@@ -1168,7 +1204,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Lazy Loading | Infinite Scroll | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Lazy Load with Infinite Scrolling",
-                MetaDescription = "This Blazor DataGrid lazy load infinite scrolling example demonstrates progressive data loading when scrolling. Fetch additional records automatically when users reach the bottom of the grid."
+                MetaDescription = "Blazor Grid demo shows lazy load infinite scrolling for progressive data while during scroll. Automatically fetch more records when users reach the grid bottom."
             },
             new Sample 
             {
@@ -1180,7 +1216,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Aggregates | Summary Values | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Default Aggregation",
-                MetaDescription = "This Blazor DataGrid aggregation example demonstrates built-in summary calculations. Display sum, average, count, and other statistical values in footer rows with automatic formatting.",
+                MetaDescription = "Blazor Grid aggregation demo shows built-in summary calculations. Display sum, average, count, other statistical values in footer row with automatic formatting.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1205,7 +1241,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Group Aggregates | Group Summaries | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Group and Caption Aggregates",
-                MetaDescription = "This Blazor DataGrid group aggregate example demonstrates summary values within grouped data. Display statistics for each group with caption and footer summaries for multi-level insights.",
+                MetaDescription = "Blazor Grid group aggregate demo shows summary values within grouped data. Display statistics for each group with caption/footer summaries for multi insights.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1230,7 +1266,7 @@ namespace BlazorDemos
                 Type= SampleType.None,
                 MetaTitle = "Blazor DataGrid Reactive Aggregates | Dynamic Summaries | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Reactive Aggregation",
-                MetaDescription = "This Blazor DataGrid reactive aggregate example demonstrates real-time summary updates. Automatically recalculate aggregates when data changes, filtering occurs, or rows are edited.",
+                MetaDescription = "Blazor Grid reactive aggregate demo shows real-time summary updates. Automatically recalculate aggregate when data changes, filtering occurs or rows are edited.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1255,7 +1291,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Selection | Row Selection | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Default Selection",
-                MetaDescription = "This Blazor DataGrid selection example demonstrates row, cell, and column selection modes. Configure single or multiple selections with keyboard navigation and programmatic selection.",
+                MetaDescription = "Blazor Grid selection demo shows row, cell and column selection modes. Configure single/multiple selections with keyboard navigation and programmatic selection.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1277,10 +1313,9 @@ namespace BlazorDemos
                 Directory = "Grid/DataGrid",
                 Url = "datagrid/checkbox-selection",
                 FileName = "CheckboxSelection.razor",
-                Type = SampleType.Updated,
                 MetaTitle = "Blazor DataGrid Checkbox Selection | Multi-Select | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Checkbox Selection",
-                MetaDescription = "This Blazor DataGrid checkbox selection example demonstrates multi-row selection with checkboxes. Select individual or all rows with header checkbox and persist selection across data changes.",
+                MetaDescription = "This Blazor DataGrid Checkbox selection example demonstrates how to select individual/all rows with header checkbox and persist selection across data changes.",
                 NotificationDescription = new string[]{ "Updated the sample by enabling dynamic data source switching alongside persist selection in Blazor DataGrid." },
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1306,7 +1341,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Drag Selection | Range Select | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Drag Selection",
-                MetaDescription = "This Blazor DataGrid drag selection example demonstrates selecting multiple rows or cells by dragging. Select contiguous ranges of cells or rows with mouse drag for efficient multi-selection.",
+                MetaDescription = "This Blazor DataGrid drag selection example demonstrates how to select contiguous ranges of cells or rows with mouse drag for efficient multi-selection.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1331,7 +1366,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Hierarchy | Nested Grids | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Hierarchy Grid",
-                MetaDescription = "This Blazor DataGrid hierarchy example demonstrates nested child grids within expandable parent rows. Display related data in multi-level hierarchical structure with independent operations per level."
+                MetaDescription = "This Blazor DataGrid hierarchy example demonstrates how to display related data in multi-level hierarchical structure with independent operations per level."
             },
             new Sample
             {
@@ -1342,7 +1377,7 @@ namespace BlazorDemos
                 FileName = "MasterDetails.razor",
                 MetaTitle = "Blazor Master Detail Grid Example - Syncfusion Demos",
                 HeaderText = "Blazor Master Detail Grid Example",
-                MetaDescription = "This Blazor DataGrid master-detail example shows parent-child related data views. Display detail records in a separate grid based on master row selection with synchronized data operations.",
+                MetaDescription = "This Blazor DataGrid master-detail demo shows how to display detail records in a separate grid based on master row selection with synchronized data operations.",
                 Type = SampleType.None
             },
             new Sample
@@ -1355,7 +1390,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Scrolling | Grid Scroll Options | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Default Scrolling",
-                MetaDescription = "This Blazor DataGrid scrolling example demonstrates basic horizontal and vertical scrolling. Navigate through large datasets with configurable height, width and smooth scrolling behavior.",
+                MetaDescription = "Blazor Grid scrolling demo shows basic horizontal and vertical scrolling. Navigate via large dataset with configurable height, width, smooth scrolling behavior.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1380,7 +1415,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Sticky Header | Fixed Headers | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Sticky Header",
-                MetaDescription = "This Blazor DataGrid sticky header example demonstrates fixed headers during scrolling. Keep column headers visible while scrolling through data rows for better context and usability.",
+                MetaDescription = "This Blazor DataGrid sticky header example demonstrates how to show column headers visible while scrolling through data rows for better context and usability.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1405,7 +1440,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Frozen Rows & Columns | Pinned Content | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Frozen Rows and Columns",
-                MetaDescription = "This Blazor DataGrid frozen rows and columns example demonstrates pinning rows and columns during scrolling. Keep important data visible while navigating through large datasets.",
+                MetaDescription = "Blazor Grid frozen rows and columns demo shows pinning rows and columns during scrolling. Keep important data visible while navigating through large datasets.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1430,7 +1465,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Virtual Scrolling | DOM Virtualization | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Virtual Scrolling",
-                MetaDescription = "This Blazor DataGrid virtual scrolling example demonstrates efficient rendering of large datasets. Render only visible rows in the DOM for optimal performance with large data volumes."
+                MetaDescription = "This Blazor DataGrid virtual scrolling example demonstrates how to render only visible rows in the DOM for optimal performance with large data volumes."
             },
             new Sample
             {
@@ -1442,7 +1477,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Virtual Mask Row | Scroll Placeholders | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Virtual Mask Rows",
-                MetaDescription = "This Blazor DataGrid virtual mask row example demonstrates placeholder rows during scrolling. Show loading indicators while asynchronously fetching data for smoother scrolling experience.",
+                MetaDescription = "This Blazor DataGrid virtual mask row example demonstrates how to show loading indicators while asynchronously fetching data for smoother scrolling experience.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1467,7 +1502,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Infinite Scrolling | Progressive Loading | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Infinite Scrolling",
-                MetaDescription = "This Blazor DataGrid infinite scrolling example demonstrates loading data on demand during scrolling. Load additional records automatically as users scroll to the bottom for seamless browsing."
+                MetaDescription = "This Blazor DataGrid infinite scrolling example demonstrates how to load additional records automatically as users scroll to the bottom for seamless browsing."
             },
             new Sample
             {
@@ -1479,7 +1514,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Export | PDF Excel Export | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Default Exporting",
-                MetaDescription = "This Blazor DataGrid exporting example demonstrates built-in data export capabilities. Export grid data to Excel, PDF, and CSV formats with configurable options and styling.",
+                MetaDescription = "Blazor DataGrid exporting demo shows built-in data export capabilities. Export grid data to Excel, PDF, and CSV formats with configurable options and styling.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1504,7 +1539,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Advanced Export | Custom Export | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Advanced Exporting",
-                MetaDescription = "This Blazor DataGrid advanced export example demonstrates customized export options. Configure headers, footers, file names, and styling for Excel and PDF exports with multiple customization options.",
+                MetaDescription = "Blazor Grid advanced export demo shows how to configure headers, footers, file names, and styling for Excel and PDF exports with multiple customization options.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1529,7 +1564,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Detail Export | Hierarchical Export | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Detail Template Exporting",
-                MetaDescription = "This Blazor DataGrid detail template export example demonstrates hierarchical data exporting. Include expanded detail content in exports with parent-child relationships preserved in PDF and Excel formats."
+                MetaDescription = "Blazor Grid detail template export demo shows how to include expanded detail content in exports with parent-child relationships preserved in PDF and Excel file."
             },
             new Sample
             {
@@ -1541,7 +1576,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Template Export | Rich Content Export | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Template Column Exporting",
-                MetaDescription = "This Blazor DataGrid template export example demonstrates exporting custom-templated columns. Convert rich HTML content to appropriate formats in Excel and PDF while preserving visual information.",
+                MetaDescription = "This Blazor DataGrid template export demo shows how to convert rich HTML content to appropriate formats in Excel and PDF while preserving visual information.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1566,7 +1601,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Print | Grid Printing | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Print Functionality",
-                MetaDescription = "This Blazor DataGrid print example demonstrates grid printing capabilities. Print the entire grid or selected rows with customizable headers, footers and print media styles.",
+                MetaDescription = "Blazor DataGrid print demo shows grid printing capabilities. Print the entire grid or selected rows with customizable headers, footers and print media styles.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1591,7 +1626,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Context Menu | Right-Click Menu | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Context Menu",
-                MetaDescription = "This Blazor DataGrid context menu example demonstrates right-click menu integration. Add custom actions and commands through contextual menus for rows, cells, and headers.",
+                MetaDescription = "Blazor DataGrid context menu demo shows right-click menu integration. Add custom actions and commands through contextual menus for rows, cells, and headers.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1616,7 +1651,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Clipboard | Copy Paste | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Clipboard Operations",
-                MetaDescription = "This Blazor DataGrid clipboard example demonstrates copy and paste functionality. Copy selected cells or rows to clipboard with formatting preserved for pasting into spreadsheets or other applications.",
+                MetaDescription = "Blazor Grid clipboard example shows how to copy selected cells/rows to clipboard with formatting preserved for pasting into spreadsheets/other applications.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1633,6 +1668,19 @@ namespace BlazorDemos
             },
             new Sample
             {
+                Name = "Tooltip",
+                Category = "Miscellaneous",
+                Directory = "Grid/DataGrid",
+                Url = "datagrid/tooltip",
+                FileName = "Tooltip.razor",
+                Type = SampleType.New,
+                MetaTitle = "Blazor DataGrid Tooltip | Custom Tooltip | Syncfusion",
+                HeaderText = "Blazor DataGrid Example - Tooltip",
+                NotificationDescription = new string[] {"This sample demonstrates tooltip support in the Blazor DataGrid, displaying both header and cell content with rich visuals like images and icons on hover."},
+                MetaDescription = "This Blazor DataGrid example showcases tooltip support, displaying header and cell content with rich elements like images and icons for better interactivity.",
+            },
+            new Sample
+            {
                 Name = "Keyboard Navigation",
                 Category = "Miscellaneous",
                 Directory = "Grid/DataGrid",
@@ -1641,7 +1689,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor DataGrid Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor DataGrid Example - Keyboard Navigation",
-                MetaDescription = "This Blazor DataGrid keyboard navigation example demonstrates accessibility features. Navigate, select, and perform operations using keyboard shortcuts for improved accessibility compliance.",
+                MetaDescription = "Blazor Grid keyboard navigation example shows how to navigate, select, and perform operations using keyboard shortcuts for improved accessibility compliance.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -1655,7 +1703,7 @@ namespace BlazorDemos
                         FileName="OrdersDetails.cs"
                     }
                 }
-            },
+            }
             //new Sample
             //{
             //    Name = "Cell Edit Template",

@@ -17,7 +17,7 @@ namespace BlazorDemos.Pages.TreeGrid
     {
         public OverViewObject() { }
 
-        public string name { get; set; }
+        public string? name { get; set; }
 
         public int? CountryId { get; set; }
 
@@ -31,17 +31,17 @@ namespace BlazorDemos.Pages.TreeGrid
 
         public double unemployment { get; set; }
 
-        public string coordinates { get; set; }
+        public string? coordinates { get; set; }
 
-        public string timezone { get; set; }
+        public string? timezone { get; set; }
 
-        public string capital { get; set; }
+        public string? capital { get; set; }
 
 
         public int? ParentID { get; set; }
 
 
-        public string Parentname { get; set; }
+        public string? Parentname { get; set; }
 
         public static List<OverViewObject> GetDatas()
         {

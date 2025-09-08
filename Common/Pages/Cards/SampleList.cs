@@ -54,7 +54,7 @@ namespace BlazorDemos
                 FileName = "RevealCard.razor",
                 MetaTitle = "Blazor Card Reveal | Interactive Content Display | Syncfusion",
                 HeaderText = "Blazor Card Example - Reveal Card",
-                MetaDescription = "This Blazor Card reveal example demonstrates interactive content display with hover effects and hidden content reveal for engaging user experiences.",
+                MetaDescription = "This Blazor Card reveal example demonstrates an interactive content display with the hover effects and hidden content reveal for engaging user experiences.",
                 Type = SampleType.None
             },
             new Sample
@@ -78,7 +78,7 @@ namespace BlazorDemos
                 FileName = "MultipleContent.razor",
                 MetaTitle = "Blazor Card Multiple Content | Rich Content Areas | Syncfusion",
                 HeaderText = "Blazor Card Example - Multiple Content",
-                MetaDescription = "This Blazor Card multiple content example demonstrates rich content areas with various content types including text, images, and actions for comprehensive information display.",
+                MetaDescription = "This Blazor Card multiple content example shows rich content areas with various types including text, images, and actions for comprehensive information display.",
                 Type = SampleType.None
             },
             new Sample
@@ -114,7 +114,7 @@ namespace BlazorDemos
                 FileName = "DynamicUpdate.razor",
                 MetaTitle = "Blazor Card Dynamic Update | Real-Time Content | Syncfusion",
                 HeaderText = "Blazor Card Example - Dynamic Update",
-                MetaDescription = "This Blazor Card dynamic update example demonstrates real-time content updates with data binding and state management for live information display.",
+                MetaDescription = "This Blazor Card dynamic update example demonstrates the real-time content updates with data binding and state management for live information display.",
                 Type = SampleType.None
             },
             new Sample

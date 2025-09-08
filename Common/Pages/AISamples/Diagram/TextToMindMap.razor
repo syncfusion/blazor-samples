@@ -1,4 +1,5 @@
 ﻿@page "/ai-diagram/text-to-mindmap"
+@page "/diagram/ai-text-to-mindmap"
 
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Buttons
@@ -12,7 +13,7 @@
 @using DiagramShapes = Syncfusion.Blazor.Diagram.NodeShapes
 @using DiagramSegments = Syncfusion.Blazor.Diagram.ConnectorSegment
 @using Orientation= Syncfusion.Blazor.Diagram.Orientation
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @using BlazorDemos.Service
 
 @inject AzureAIService ChatGptService
@@ -73,12 +74,12 @@
     </div>
 </div>
 @code{
-    public SfDiagramComponent Diagram;
-        public SfSpinner SpinnerRef;
-        public DiagramOpenAI DiagramOpenAIRef;
-        public DiagramShortCutKey DiagramShortCutKeyRef;
-        public DiagramMenuBar MenubarRef;
-        public DiagramToolBar Toolbar;
+    public SfDiagramComponent? Diagram;
+        public SfSpinner? SpinnerRef;
+        public DiagramOpenAI? DiagramOpenAIRef;
+        public DiagramShortCutKey? DiagramShortCutKeyRef;
+        public DiagramMenuBar? MenubarRef;
+        public DiagramToolBar? Toolbar;
         public SnapConstraints SnapConstraint = SnapConstraints.ShowLines;
         public double CurrentZoom { get; set; } = 1;
         public bool IsGeneratingFromAI = false;
@@ -164,7 +165,7 @@
         {
             if (args.Action == CollectionChangedAction.Add && IsGeneratingFromAI)
             {
-                Connector connector = args.Element as Connector;
+                Connector? connector = args.Element as Connector;
                 if (connector != null)
                 {
                     UpdateMermaidNodeInfo(connector);
@@ -174,28 +175,28 @@
         BranchType CurrentBranch = BranchType.Left;
         private void UpdateMermaidNodeInfo(Connector connector)
         {
-            Node sourceNode = Diagram.GetObject(connector.SourceID) as Node;
-            Node targetNode = Diagram.GetObject(connector.TargetID) as Node;
-            if (connector.ID == Diagram.Connectors[0].ID)
+            Node? sourceNode = Diagram!.GetObject(connector.SourceID) as Node;
+            Node? targetNode = Diagram.GetObject(connector.TargetID) as Node;
+            if (connector.ID == Diagram.Connectors![0].ID)
             {
                 CurrentBranch = BranchType.Left;
-                sourceNode.AdditionalInfo["ParentId"] = "";
+                sourceNode!.AdditionalInfo!["ParentId"] = "";
                 sourceNode.AdditionalInfo["Orientation"] = BranchType.Root;
                 sourceNode.AdditionalInfo["Level"] = 0;
-                sourceNode.Style.Fill = "#D0ECFF";
+                sourceNode.Style!.Fill = "#D0ECFF";
                 sourceNode.Style.StrokeColor = "#80BFEA";
             }
-            if (sourceNode != null && (BranchType)sourceNode.AdditionalInfo["Orientation"] == BranchType.Root)
+            if (sourceNode != null && (BranchType)sourceNode.AdditionalInfo!["Orientation"] == BranchType.Root)
             {
-                targetNode.AdditionalInfo["ParentId"] = sourceNode.ID;
+                targetNode!.AdditionalInfo!["ParentId"] = sourceNode.ID;
                 targetNode.AdditionalInfo["Orientation"] = CurrentBranch;
                 targetNode.AdditionalInfo["Level"] = 1;
                 CurrentBranch = (CurrentBranch == BranchType.Left) ? BranchType.Right : BranchType.Left;
             }
             else
             {
-                BranchType sourceNodeBranch = (BranchType)sourceNode.AdditionalInfo["Orientation"];
-                targetNode.AdditionalInfo["ParentId"] = sourceNode.ID;
+                BranchType sourceNodeBranch = (BranchType)sourceNode!.AdditionalInfo!["Orientation"];
+                targetNode!.AdditionalInfo!["ParentId"] = sourceNode.ID;
                 targetNode.AdditionalInfo["Orientation"] = (sourceNodeBranch == BranchType.Left || sourceNodeBranch == BranchType.SubLeft) ? BranchType.SubLeft : BranchType.SubRight;
                 targetNode.AdditionalInfo["Level"] = Convert.ToDouble(sourceNode.AdditionalInfo["Level"]) + 1;
             }
@@ -204,13 +205,13 @@
             BranchType targetNodeBranch = (BranchType)targetNode.AdditionalInfo["Orientation"];
             if (targetNodeBranch == BranchType.Right || targetNodeBranch == BranchType.SubRight)
             {
-                connector.SourcePortID = sourceNode.Ports[0].ID;
-                connector.TargetPortID = targetNode.Ports[1].ID;
+                connector.SourcePortID = sourceNode.Ports![0].ID;
+                connector.TargetPortID = targetNode.Ports![1].ID;
             }
             else if (targetNodeBranch == BranchType.Left || targetNodeBranch == BranchType.SubLeft)
             {
-                connector.SourcePortID = sourceNode.Ports[1].ID;
-                connector.TargetPortID = targetNode.Ports[0].ID;
+                connector.SourcePortID = sourceNode.Ports![1].ID;
+                connector.TargetPortID = targetNode.Ports![0].ID;
             }
         }
         /// <summary>
@@ -221,10 +222,10 @@
 
             if (obj.Name == "leftChild")
             {
-                if (Diagram.SelectionSettings != null && Diagram.SelectionSettings.Nodes.Count > 0)
+                if (Diagram!.SelectionSettings != null && Diagram.SelectionSettings.Nodes!.Count > 0)
                 {
                     Diagram.StartGroupAction();
-                    BranchType type = (BranchType)Diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"];
+                    BranchType type = (BranchType)Diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Orientation"];
                     if (type == BranchType.SubRight || type == BranchType.Right)
                     {
                         await TextToMindMap.AddLeftChild(Diagram);
@@ -234,17 +235,16 @@
                         await TextToMindMap.AddRightChild(Diagram);
                     }
                     Diagram.ClearSelection();
-                    Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[Diagram.Nodes.Count - 1] });
-                    Diagram.StartTextEdit(Diagram.Nodes[Diagram.Nodes.Count - 1]);
+                    Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes![Diagram.Nodes.Count - 1] });
                     Diagram.EndGroupAction();
                 }
             }
             if (obj.Name == "rightChild")
             {
-                if (Diagram.SelectionSettings != null && Diagram.SelectionSettings.Nodes.Count > 0)
+                if (Diagram!.SelectionSettings != null && Diagram.SelectionSettings.Nodes!.Count > 0)
                 {
                     Diagram.StartGroupAction();
-                    BranchType type = (BranchType)Diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"];
+                    BranchType type = (BranchType)Diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Orientation"];
                     if (type == BranchType.SubLeft || type == BranchType.Left)
                     {
                         await TextToMindMap.AddRightChild(Diagram);
@@ -254,22 +254,21 @@
                         await TextToMindMap.AddLeftChild(Diagram);
                     }
                     Diagram.ClearSelection();
-                    Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[Diagram.Nodes.Count - 1] });
-                    Diagram.StartTextEdit(Diagram.Nodes[Diagram.Nodes.Count - 1]);
+                    Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes![Diagram.Nodes.Count - 1] });
                     Diagram.EndGroupAction();
                 }
             }
             if (obj.Name == "sibilingChildTop")
             {
-                Node rootNode = Diagram.Nodes.Where(node => node.InEdges.Count == 0).ToList()[0];
-                if (rootNode.ID != Diagram.SelectionSettings.Nodes[0].ID)
+                Node rootNode = Diagram!.Nodes!.Where(node => node.InEdges!.Count == 0).ToList()[0];
+                if (rootNode.ID != Diagram.SelectionSettings!.Nodes![0].ID)
                 {
                     Diagram.StartGroupAction();
-                    string nodeParent = Convert.ToString(Diagram.SelectionSettings.Nodes[0].AdditionalInfo["ParentId"]);
+                    string nodeParent = Convert.ToString(Diagram.SelectionSettings.Nodes[0].AdditionalInfo!["ParentId"])!;
                     string parentID = nodeParent;
-                    Node parentNode = Diagram.GetObject(parentID) as Node;
-                    BranchType branch = (BranchType)(parentNode.AdditionalInfo["Orientation"]);
-                    BranchType nodeBranch = (BranchType)(Diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"]);
+                    Node? parentNode = Diagram.GetObject(parentID) as Node;
+                    BranchType branch = (BranchType)(parentNode!.AdditionalInfo!["Orientation"]);
+                    BranchType nodeBranch = (BranchType)(Diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Orientation"]);
                     if (branch == BranchType.SubRight || branch == BranchType.Right || (branch == BranchType.Root && nodeBranch == BranchType.Right))
                     {
                         await TextToMindMap.AddLeftChild(Diagram, true);
@@ -279,8 +278,7 @@
                         await TextToMindMap.AddRightChild(Diagram, true);
                     }
                     Diagram.ClearSelection();
-                    Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[Diagram.Nodes.Count - 1] });
-                    Diagram.StartTextEdit(Diagram.Nodes[Diagram.Nodes.Count - 1]);
+                    Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes![Diagram.Nodes.Count - 1] });
                     Diagram.EndGroupAction();
                 }
             }
@@ -302,10 +300,10 @@
             }
             if (obj.Name == "deleteChid" || obj.Name == "delete" || obj.Name == "backspace")
             {
-                Diagram.BeginUpdate();
-                RemoveData(Diagram.SelectionSettings.Nodes[0], Diagram);
-                _ = Diagram.EndUpdate();
-                await Diagram.DoLayout();
+                Diagram!.BeginUpdate();
+                RemoveData(Diagram.SelectionSettings!.Nodes![0], Diagram);
+            _ = Diagram.EndUpdateAsync();
+            await Diagram.DoLayoutAsync();
             }
             if (obj.Name == "fitPage")
             {
@@ -314,7 +312,7 @@
                     Mode = FitMode.Both,
                     Region = DiagramRegion.PageSettings,
                 };
-                Diagram.FitToPage(fitoption);
+                Diagram?.FitToPage(fitoption);
             }
             if (obj.Name == "showShortCut")
             {
@@ -322,20 +320,20 @@
             }
             if (obj.Name == "duplicate")
             {
-                MenubarRef.IsDuplicate = true;
-                Diagram.Copy();
-                Diagram.Paste(); MenubarRef.IsDuplicate = false;
+                MenubarRef!.IsDuplicate = true;
+                Diagram?.Copy();
+                Diagram?.Paste(); MenubarRef.IsDuplicate = false;
             }
             if (obj.Name == "fileNew")
             {
-                Diagram.Clear();
-                MenubarRef.enablePasteButten = false;
-                Diagram.BeginUpdate();
+                Diagram?.Clear();
+                MenubarRef!.enablePasteButten = false;
+                Diagram?.BeginUpdate();
                 MenubarRef.ViewMenuItems[7].IconCss = "sf-icon-blank";
                 MenubarRef.WindowMenuItems[1].IconCss = "sf-icon-Selection";
-                DiagramShortCutKeyRef.ShowShortCutKey = "block";
-                Toolbar.PointerItemCssClass = "tb-item-middle tb-item-selected tb-item-pointer";
-                Toolbar.PanItemCssClass = "tb-item-start tb-item-pan";
+                DiagramShortCutKeyRef!.ShowShortCutKey = "block";
+                Toolbar!.PointerItemCssClass = "tb-item-middle tb-item-selected tb-item-pointer";
+                Toolbar!.PanItemCssClass = "tb-item-start tb-item-pan";
                 await Toolbar.HideElements("hide-toolbar", true);
                 MenubarRef.WindowMenuItems[0].IconCss = "sf-icon-Selection";
                 Toolbar.StateChanged();
@@ -345,12 +343,12 @@
             }
             if (obj.Name == "fileOpen")
             {
-                await MenubarRef.OpenUploadBox(true, ".json");
+                await MenubarRef!.OpenUploadBox(true, ".json");
             }
             if (obj.Name == "fileSave")
             {
                 string fileName = "diagram";
-                await MenubarRef.Download(fileName);
+                await MenubarRef!.Download(fileName);
             }
         }
 
@@ -359,13 +357,13 @@
         /// </summary>
         public void NavigateChild(string direction)
         {
-            SfDiagramComponent diagram = Diagram;
+            SfDiagramComponent diagram = Diagram!;
             Node? node = null;
             List<Node> sameLevelNodes = new List<Node>();
             if (direction == "Top" || direction == "Bottom")
             {
                 sameLevelNodes = GetSameLevelNodes();
-                int index = sameLevelNodes.IndexOf(diagram.SelectionSettings.Nodes[0]);
+                int index = sameLevelNodes.IndexOf(diagram.SelectionSettings!.Nodes![0]);
                 node = direction == "Top" ? sameLevelNodes[index == 0 ? 0 : index - 1] : sameLevelNodes[index == (sameLevelNodes.Count - 1) ? index : index + 1];
             }
             else
@@ -382,7 +380,7 @@
         /// </summary>
         private Node GetMinDistanceNode(SfDiagramComponent diagram, string direction)
         {
-            Node node = diagram.SelectionSettings.Nodes[0];
+            Node node = diagram.SelectionSettings!.Nodes![0];
             double? nodeWidth = (node.Width == null) ? node.MinWidth : node.Width;
             DiagramRect parentBounds = new DiagramRect((node.OffsetX - (nodeWidth / 2)), node.OffsetY - (node.Height / 2), nodeWidth, node.Height);
             DiagramRect childBounds = new DiagramRect();
@@ -391,15 +389,15 @@
             Node? lastChildNode = null;
             Node? leftOrientationFirstChild = null;
             Node? rightOrientationFirstChild = null;
-            Node rootNode = diagram.Nodes.Where(node => node.InEdges.Count == 0).ToList()[0];
+            Node rootNode = diagram.Nodes!.Where(node => node.InEdges!.Count == 0).ToList()[0];
             if (node.ID == rootNode.ID)
             {
-                List<string> edges = node.OutEdges;
-                for (int i = 0; i < edges.Count; i++)
+                List<string> edges = node.OutEdges!;
+                for (int i = 0; i < edges!.Count; i++)
                 {
-                    Connector connector = GetConnector(diagram.Connectors, edges[i]);
-                    childNode = GetNode(diagram.Nodes, connector.TargetID);
-                    if (Convert.ToString((BranchType)childNode.AdditionalInfo["Orientation"]) == direction)
+                    Connector connector = GetConnector(diagram.Connectors!, edges[i])!;
+                    childNode = GetNode(diagram.Nodes!, connector!.TargetID!);
+                    if (Convert.ToString((BranchType)childNode!.AdditionalInfo!["Orientation"]) == direction)
                     {
                         if (direction == "Left" && leftOrientationFirstChild == null)
                             leftOrientationFirstChild = childNode;
@@ -419,9 +417,9 @@
             }
             else
             {
-                List<string> edges = new List<string>();
+                List<string>? edges = new List<string>();
                 string selectType = string.Empty;
-                string orientation = ((BranchType)node.AdditionalInfo["Orientation"]).ToString();
+                string orientation = ((BranchType)node.AdditionalInfo!["Orientation"]).ToString();
                 if (orientation == "Left" || orientation == "SubLeft")
                 {
                     edges = direction == "Left" ? node.OutEdges : node.InEdges;
@@ -432,11 +430,11 @@
                     edges = direction == "Right" ? node.OutEdges : node.InEdges;
                     selectType = direction == "Right" ? "Target" : "Source";
                 }
-                for (int i = 0; i < edges.Count; i++)
+                for (int i = 0; i < edges!.Count; i++)
                 {
-                    Connector connector = GetConnector(diagram.Connectors, edges[i]);
-                    childNode = GetNode(diagram.Nodes, selectType == "Target" ? connector.TargetID : connector.SourceID);
-                    if (childNode.ID == rootNode.ID)
+                    Connector connector = GetConnector(diagram.Connectors!, edges[i]!)!;
+                    childNode = GetNode(diagram.Nodes!, selectType == "Target" ? connector!.TargetID! : connector!.SourceID!);
+                    if (childNode!.ID == rootNode.ID)
                         lastChildNode = childNode;
                     else
                     {
@@ -455,7 +453,7 @@
                     }
                 }
             }
-            return lastChildNode;
+            return lastChildNode!;
         }
 
         /// <summary>
@@ -465,20 +463,20 @@
         private List<Node> GetSameLevelNodes()
         {
             List<Node> sameLevelNodes = new List<Node>();
-            SfDiagramComponent diagram = Diagram;
-            if (diagram.SelectionSettings.Nodes.Count > 0)
+            SfDiagramComponent? diagram = Diagram;
+            if (diagram!.SelectionSettings!.Nodes!.Count > 0)
             {
                 Node node = diagram.SelectionSettings.Nodes[0];
-                string orientation = ((BranchType)node.AdditionalInfo["Orientation"]).ToString();
-                Connector connector = GetConnector(diagram.Connectors, node.InEdges[0]);
-                Node parentNode = GetNode(diagram.Nodes, connector.SourceID);
-                for (int i = 0; i < parentNode.OutEdges.Count; i++)
+                string orientation = ((BranchType)node.AdditionalInfo!["Orientation"]).ToString();
+                Connector connector = GetConnector(diagram.Connectors!, node.InEdges![0])!;
+                Node parentNode = GetNode(diagram.Nodes!, connector.SourceID!)!;
+                for (int i = 0; i < parentNode.OutEdges!.Count; i++)
                 {
-                    connector = GetConnector(diagram.Connectors, parentNode.OutEdges[i]);
-                    Node childNode = GetNode(diagram.Nodes, connector.TargetID);
+                    connector = GetConnector(diagram.Connectors!, parentNode.OutEdges[i])!;
+                    Node childNode = GetNode(diagram.Nodes!, connector!.TargetID!)!;
                     if (childNode != null)
                     {
-                        string childOrientation = Convert.ToString((BranchType)childNode.AdditionalInfo["Orientation"]);
+                        string? childOrientation = Convert.ToString((BranchType)childNode.AdditionalInfo!["Orientation"]);
                         if (orientation == childOrientation)
                         {
                             sameLevelNodes.Add(childNode);
@@ -492,9 +490,9 @@
         /// <summary>
         /// This method is used to get the Nodes by connectors sourceID and targetID.
         /// </summary>
-        public Node GetNode(DiagramObjectCollection<Node> diagramNodes, string name)
+        public Node? GetNode(DiagramObjectCollection<Node> diagramNodes, string name)
         {
-            for (int i = 0; i < diagramNodes.Count; i++)
+            for (int i = 0; i < diagramNodes!.Count; i++)
             {
                 if (diagramNodes[i].ID == name)
                 {
@@ -506,7 +504,7 @@
         /// <summary>
         /// This method is used to get the connectors by node's inedges and outedges
         /// </summary>
-        public Connector GetConnector(DiagramObjectCollection<Connector> diagramConnectors, string name)
+        public Connector? GetConnector(DiagramObjectCollection<Connector> diagramConnectors, string name)
         {
             for (int i = 0; i < diagramConnectors.Count; i++)
             {
@@ -526,15 +524,15 @@
         }
         private BranchType getbranch(IDiagramObject obj)
         {
-            Node node = obj as Node;
-            BranchType Branch = (BranchType)node.AdditionalInfo["Orientation"];
+            Node? node = obj as Node;
+            BranchType Branch = (BranchType)node!.AdditionalInfo!["Orientation"];
 
             return Branch;
         }
 
         private void OnCreated()
         {
-            Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[0] });
+            Diagram!.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes![0] });
         }
 
         /// <summary>
@@ -542,12 +540,12 @@
         /// </summary>
         private void SelectionChanged(Syncfusion.Blazor.Diagram.SelectionChangedEventArgs args)
         {
-            Toolbar.EnableToolbarItems(args.NewValue, "selectionchange");
-            int ObjectsLength = Diagram.SelectionSettings.Nodes.Count + Diagram.SelectionSettings.Connectors.Count;
+            Toolbar!.EnableToolbarItems(args.NewValue, "selectionchange");
+            int ObjectsLength = Diagram!.SelectionSettings!.Nodes!.Count + Diagram.SelectionSettings.Connectors!.Count;
             if (ObjectsLength > 1 && (Diagram.SelectionSettings.Nodes.Count > 0 || (Diagram.SelectionSettings.Connectors.Count > 0)))
             {
                 diagramSelected = false;
-                this.MultipleSelectionSettings(args.NewValue);
+                this.MultipleSelectionSettings(args.NewValue!);
             }
             else if (ObjectsLength == 1 && (Diagram.SelectionSettings.Nodes.Count == 1 || Diagram.SelectionSettings.Connectors.Count == 1))
             {
@@ -565,22 +563,22 @@
         /// </summary>
         private void HistoryChange(HistoryChangedEventArgs args)
         {
-            Toolbar.EnableToolbarItems(new object() { }, "historychange");
+            Toolbar!.EnableToolbarItems(new object() { }, "historychange");
         }
         /// <summary>
         /// This method is used to enable the tool bar items in multiple selection.
         /// </summary>
         private void MultipleSelectionSettings(ObservableCollection<IDiagramObject> SelectedItems)
         {
-            Toolbar.MutipleSelectionToolbarItems();
+            Toolbar!.MutipleSelectionToolbarItems();
         }
         /// <summary>
         /// This method is used show or hide the shortcut key.
         /// </summary>
         public void ShowHideShortcutKey()
         {
-            DiagramShortCutKeyRef.ShowShortCutKey = DiagramShortCutKeyRef.ShowShortCutKey == "none" ? "block" : "none";
-            int shortcutIndex = MenubarRef.WindowMenuItems.FindIndex(item => item.Text == "Show Shortcuts");
+            DiagramShortCutKeyRef!.ShowShortCutKey = DiagramShortCutKeyRef.ShowShortCutKey == "none" ? "block" : "none";
+            int shortcutIndex = MenubarRef!.WindowMenuItems.FindIndex(item => item.Text == "Show Shortcuts");
             MenubarRef.WindowMenuItems[shortcutIndex].IconCss = MenubarRef.WindowMenuItems[shortcutIndex].IconCss == "sf-icon-blank" ? "sf-icon-Selection" : "sf-icon-blank";
             MenubarRef.StateChanged();
             DiagramShortCutKeyRef.RefreshShortcutKeyPanel();
@@ -589,25 +587,25 @@
         {
             if (CurrentZoom >= 0.25 && CurrentZoom <= 30)
             {
-                Toolbar.ZoomItemDropdownContent = FormattableString.Invariant($"{Math.Round(CurrentZoom * 100)}") + "%";
+                Toolbar!.ZoomItemDropdownContent = FormattableString.Invariant($"{Math.Round(CurrentZoom * 100)}") + "%";
                 Toolbar.StateChanged();
             }
         }
         // Method to customize the tool
         public InteractionControllerBase GetCustomTool(DiagramElementAction action, string id)
         {
-            InteractionControllerBase tool = null;
+            InteractionControllerBase? tool = null;
             if (id == "AddLeft")
             {
-                tool = new AddRightTool(Diagram);
+                tool = new AddRightTool(Diagram!);
             }
             else if (id == "AddRight")
             {
-                tool = new AddLeftTool(Diagram);
+                tool = new AddLeftTool(Diagram!);
             }
             else
             {
-                tool = new DeleteTool(Diagram);
+                tool = new DeleteTool(Diagram!);
             }
             return tool;
         }
@@ -615,15 +613,15 @@
         public static async Task AddRightChild(SfDiagramComponent diagram, bool isSibling = false)
         {
             string newChildID = RandomId();
-            string newchildColor = ""; BranchType type = BranchType.Left; Node parentNode = null;
-            string parentId = Convert.ToString(diagram.SelectionSettings.Nodes[0].AdditionalInfo["ParentId"]);
-            BranchType nodeBranch = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"];
-            double currentLevel = Convert.ToDouble(diagram.SelectionSettings.Nodes[0].AdditionalInfo["Level"]);
+            string newchildColor = ""; BranchType type = BranchType.Left; Node? parentNode = null;
+            string parentId = Convert.ToString(diagram.SelectionSettings!.Nodes![0].AdditionalInfo!["ParentId"])!;
+            BranchType nodeBranch = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Orientation"];
+            double currentLevel = Convert.ToDouble(diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Level"]);
             double parentLevel = 0;
             if (!string.IsNullOrEmpty(parentId))
             {
                 parentNode = diagram.GetObject(parentId) as Node;
-                BranchType parentNodeBranch = (BranchType)parentNode.AdditionalInfo["Orientation"];
+                BranchType parentNodeBranch = (BranchType)parentNode!.AdditionalInfo!["Orientation"];
                 type = isSibling ? parentNodeBranch : nodeBranch;
             }
             else
@@ -631,7 +629,7 @@
                 type = nodeBranch;
             }
             BranchType childType = BranchType.Left;
-            if (parentNode != null) parentLevel = Convert.ToDouble(parentNode.AdditionalInfo["Level"]);
+            if (parentNode != null) parentLevel = Convert.ToDouble(parentNode.AdditionalInfo!["Level"]);
             switch (type.ToString())
             {
                 case "Root":
@@ -653,13 +651,13 @@
             }
             else
             {
-                newchildColor = diagram.SelectionSettings.Nodes[0].Style.Fill;
+                newchildColor = diagram.SelectionSettings.Nodes[0].Style!.Fill!;
             }
 
             MindMapDetails childNode = new MindMapDetails()
             {
                 Id = newChildID.ToString(),
-                ParentId = isSibling ? parentId : diagram.SelectionSettings.Nodes[0].ID,
+                ParentId = isSibling ? parentId : diagram.SelectionSettings.Nodes[0].ID!,
                 Fill = newchildColor,
                 Branch = childType,
                 Label = "New Child",
@@ -667,7 +665,7 @@
             };
             diagram.BeginUpdate();
             await UpdatePortConnection(childNode, diagram, isSibling);
-            await diagram.EndUpdate();
+        await diagram.EndUpdateAsync();
         }
         // Custom tool to add the node.
         public class AddLeftTool : InteractionControllerBase
@@ -682,8 +680,7 @@
                 await AddRightChild(diagram);
                 diagram.ClearSelection();
                 base.OnMouseDown(args);
-                diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[diagram.Nodes.Count - 1] });
-                diagram.StartTextEdit(diagram.Nodes[diagram.Nodes.Count - 1]);
+                diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes![diagram.Nodes.Count - 1] });
                 this.InAction = true;
             }
         }
@@ -707,39 +704,39 @@
                 AdditionalInfo = new Dictionary<string, object>()
             {
                 {"Orientation", childNode.Branch},
-                {"ParentId", childNode.ParentId},
+                {"ParentId", childNode.ParentId!},
                 {"Level", childNode.Level},
             }
             };
             Connector connector = new Connector()
             {
                 TargetID = node.ID,
-                SourceID = isSibling ? childNode.ParentId : diagram.SelectionSettings.Nodes[0].ID
+                SourceID = isSibling ? childNode.ParentId : diagram.SelectionSettings!.Nodes![0].ID
             };
-            await diagram.AddDiagramElements(new DiagramObjectCollection<NodeBase>() { node, connector });
-            Node sourceNode = diagram.GetObject((connector as Connector).SourceID) as Node;
-            Node targetNode = diagram.GetObject((connector as Connector).TargetID) as Node;
-            if (targetNode != null && targetNode.AdditionalInfo.Count > 0)
+        await diagram.AddDiagramElementsAsync(new DiagramObjectCollection<NodeBase>() { node, connector });
+            Node? sourceNode = diagram.GetObject((connector as Connector).SourceID) as Node;
+            Node? targetNode = diagram.GetObject((connector as Connector).TargetID) as Node;
+            if (targetNode != null && targetNode.AdditionalInfo!.Count > 0)
             {
                 BranchType nodeBranch = (BranchType)targetNode.AdditionalInfo["Orientation"];
                 if (nodeBranch == BranchType.Right || nodeBranch == BranchType.SubRight)
                 {
-                    (connector as Connector).SourcePortID = sourceNode.Ports[0].ID;
-                    (connector as Connector).TargetPortID = targetNode.Ports[1].ID;
+                    (connector as Connector).SourcePortID = sourceNode!.Ports![0].ID;
+                    (connector as Connector).TargetPortID = targetNode.Ports![1].ID;
                 }
                 else if (nodeBranch == BranchType.Left || nodeBranch == BranchType.SubLeft)
                 {
-                    (connector as Connector).SourcePortID = sourceNode.Ports[1].ID;
-                    (connector as Connector).TargetPortID = targetNode.Ports[0].ID;
+                    (connector as Connector).SourcePortID = sourceNode!.Ports![1].ID;
+                    (connector as Connector).TargetPortID = targetNode.Ports![0].ID;
                 }
             }
-            await diagram.DoLayout();
+        await diagram.DoLayoutAsync();
         }
         public void ZoomTo(ZoomOptions options)
         {
             double factor = options.ZoomFactor != 0 ? options.ZoomFactor : 0.2;
             factor = options.Type == "ZoomOut" ? 1 / (1 + factor) : (1 + factor);
-            Diagram.Zoom(factor, null);
+            Diagram!.Zoom(factor, null);
         }
 
         /// <summary>
@@ -765,21 +762,21 @@
         public class ZoomOptions
         {
             public double ZoomFactor { get; set; }
-            public string Type { get; set; }
+            public string? Type { get; set; }
         }
 
         public static async Task AddLeftChild(SfDiagramComponent diagram, bool isSibling = false)
         {
             string newChildID = RandomId();
-            string newchildColor = ""; BranchType type = BranchType.Left; Node parentNode = null;
-            string parentId = Convert.ToString(diagram.SelectionSettings.Nodes[0].AdditionalInfo["ParentId"]);
-            BranchType nodeBranch = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"];
-            double currentLevel = Convert.ToDouble(diagram.SelectionSettings.Nodes[0].AdditionalInfo["Level"]);
+            string newchildColor = ""; BranchType type = BranchType.Left; Node? parentNode = null;
+            string parentId = Convert.ToString(diagram.SelectionSettings!.Nodes![0].AdditionalInfo!["ParentId"])!;
+            BranchType nodeBranch = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Orientation"];
+            double currentLevel = Convert.ToDouble(diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Level"]);
             double parentLevel = 0;
             if (!string.IsNullOrEmpty(parentId))
             {
                 parentNode = diagram.GetObject(parentId) as Node;
-                BranchType parentNodeBranch = (BranchType)parentNode.AdditionalInfo["Orientation"];
+                BranchType parentNodeBranch = (BranchType)parentNode!.AdditionalInfo!["Orientation"];
                 type = isSibling ? parentNodeBranch : nodeBranch;
             }
             else
@@ -788,7 +785,7 @@
             }
 
             BranchType childType = BranchType.Left;
-            if (parentNode != null) parentLevel = Convert.ToDouble(parentNode.AdditionalInfo["Level"]);
+            if (parentNode != null) parentLevel = Convert.ToDouble(parentNode.AdditionalInfo!["Level"]);
             switch (type.ToString())
             {
                 case "Root":
@@ -809,12 +806,12 @@
             }
             else
             {
-                newchildColor = diagram.SelectionSettings.Nodes[0].Style.Fill;
+                newchildColor = diagram.SelectionSettings.Nodes[0].Style!.Fill!;
             }
             MindMapDetails childNode = new MindMapDetails()
             {
                 Id = newChildID.ToString(),
-                ParentId = isSibling ? parentId : diagram.SelectionSettings.Nodes[0].ID,
+                ParentId = isSibling ? parentId : diagram.SelectionSettings.Nodes[0].ID!,
                 Fill = newchildColor,
                 Branch = childType,
                 Label = "New Child",
@@ -822,7 +819,7 @@
             };
             diagram.BeginUpdate();
             await UpdatePortConnection(childNode, diagram, isSibling);
-            await diagram.EndUpdate();
+        await diagram.EndUpdateAsync();
         }
         // Custom tool to add the node.
         public class AddRightTool : InteractionControllerBase
@@ -837,8 +834,7 @@
                 await AddLeftChild(diagram);
                 diagram.ClearSelection();
                 base.OnMouseDown(args);
-                diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[diagram.Nodes.Count - 1] });
-                diagram.StartTextEdit(diagram.Nodes[diagram.Nodes.Count - 1]);
+                diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes![diagram.Nodes.Count - 1] });
                 this.InAction = true;
             }
         }
@@ -846,23 +842,23 @@
         public class DeleteTool : InteractionControllerBase
         {
             SfDiagramComponent sfDiagram;
-            Node deleteObject = null;
+            Node? deleteObject = null;
             public DeleteTool(SfDiagramComponent Diagram) : base(Diagram)
             {
                 sfDiagram = Diagram;
             }
             public override void OnMouseDown(DiagramMouseEventArgs args)
             {
-                deleteObject = (sfDiagram.SelectionSettings.Nodes[0]) as Node;
+                deleteObject = (sfDiagram.SelectionSettings!.Nodes![0]) as Node;
             }
-            public override async void OnMouseUp(DiagramMouseEventArgs args)
+            public override async void OnMouseUp(DiagramMouseEventArgs? args)
             {
                 if (deleteObject != null)
                 {
                     sfDiagram.BeginUpdate();
                     RemoveData(deleteObject, sfDiagram);
-                    _ = sfDiagram.EndUpdate();
-                    await sfDiagram.DoLayout();
+                _ = sfDiagram.EndUpdateAsync();
+                await sfDiagram.DoLayoutAsync();
                 }
                 base.OnMouseUp(args);
                 this.InAction = true;
@@ -871,15 +867,15 @@
 
         private static void RemoveData(Node node, SfDiagramComponent diagram)
         {
-            if (node.OutEdges.Count > 0)
+            if (node.OutEdges!.Count > 0)
             {
                 List<string> outEdges = new List<string>();
                 node.OutEdges.ForEach(edges => outEdges.Add(edges));
                 for (int i = 0; i < outEdges.Count; i++)
                 {
-                    Connector connector = diagram.GetObject(outEdges[i]) as Connector;
-                    Node targetnode = diagram.GetObject(connector.TargetID) as Node;
-                    if (targetnode.OutEdges.Count > 0)
+                    Connector? connector = diagram.GetObject(outEdges[i]) as Connector;
+                    Node? targetnode = diagram.GetObject(connector!.TargetID) as Node;
+                    if (targetnode!.OutEdges!.Count > 0)
                     {
                         RemoveData(targetnode, diagram);
                     }
@@ -898,28 +894,28 @@
 
         private void OnSelectionChanging(SelectionChangingEventArgs args)
         {
-            if (args.NewValue.Count > 0)
+            if (args.NewValue!.Count > 0)
             {
-                if (args.NewValue[0] is Node && (args.NewValue[0] as Node).AdditionalInfo.Count > 0)
+                if (args.NewValue[0] is Node && (args.NewValue[0] as Node)!.AdditionalInfo!.Count > 0)
                 {
-                    BranchType type = (BranchType)((args.NewValue[0] as Node).AdditionalInfo["Orientation"]);
+                    BranchType type = (BranchType)((args.NewValue[0] as Node)!.AdditionalInfo!["Orientation"]);
                     if (type == BranchType.Root)
                     {
-                        selectionSettings.UserHandles[0].Visible = false;
+                        selectionSettings.UserHandles![0].Visible = false;
                         selectionSettings.UserHandles[1].Visible = false;
                         selectionSettings.UserHandles[2].Visible = true;
                         selectionSettings.UserHandles[3].Visible = true;
                     }
                     else if (type == BranchType.Left || type == BranchType.SubLeft)
                     {
-                        selectionSettings.UserHandles[0].Visible = false;
+                        selectionSettings.UserHandles![0].Visible = false;
                         selectionSettings.UserHandles[1].Visible = true;
                         selectionSettings.UserHandles[2].Visible = true;
                         selectionSettings.UserHandles[3].Visible = false;
                     }
                     else if (type == BranchType.Right || type == BranchType.SubRight)
                     {
-                        selectionSettings.UserHandles[0].Visible = true;
+                        selectionSettings.UserHandles![0].Visible = true;
                         selectionSettings.UserHandles[1].Visible = false;
                         selectionSettings.UserHandles[2].Visible = false;
                         selectionSettings.UserHandles[3].Visible = true;
@@ -930,11 +926,11 @@
 
         private void NodeCreating(IDiagramObject obj)
         {
-            Node node = obj as Node;
+            Node? node = obj as Node;
 
-            node.Height = 50;
+            node!.Height = 50;
             node.Width = 100;
-            node.Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Ellipse };
+            node.Shape = new BasicShape() { Type = NodeShape.Basic, Shape = NodeBasicShapes.Ellipse };
             PointPort port21 = new PointPort()
             {
                 ID = "left",
@@ -955,9 +951,9 @@
             {
                 port21,port22
             };
-            if (MenubarRef.IsJsonLoading)
+            if (MenubarRef!.IsJsonLoading)
             {
-                if (node.AdditionalInfo["Level"] is JsonElement level)
+                if (node.AdditionalInfo!["Level"] is JsonElement level)
                 {
                     double levelString = level.GetDouble();
                     node.AdditionalInfo["Level"] = levelString;
@@ -970,7 +966,7 @@
                 }
                 if (node.AdditionalInfo["ParentId"] is JsonElement parentId)
                 {
-                    string parent = parentId.GetString();
+                    string? parent = parentId.GetString();
                     node.AdditionalInfo["ParentId"] = parent;
                 }
             }
@@ -979,27 +975,27 @@
 
         private void ConnectorCreating(IDiagramObject obj)
         {
-            Connector connector = obj as Connector;
-            connector.Type = ConnectorSegmentType.Bezier;
+            Connector? connector = obj as Connector;
+            connector!.Type = ConnectorSegmentType.Bezier;
             connector.BezierConnectorSettings = new BezierConnectorSettings() { AllowSegmentsReset = false };
             connector.Constraints = ConnectorConstraints.Default & ~ConnectorConstraints.Select;
             connector.Style = new ShapeStyle() { StrokeColor = "#4f4f4f", StrokeWidth = 1 };
             connector.TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None };
-            connector.SourceDecorator.Shape = DecoratorShape.None;
-            Node sourceNode = Diagram.GetObject((connector as Connector).SourceID) as Node;
-            Node targetNode = Diagram.GetObject((connector as Connector).TargetID) as Node;
-            if (targetNode != null && targetNode.AdditionalInfo.Count > 0)
+            connector.SourceDecorator!.Shape = DecoratorShape.None;
+            Node? sourceNode = Diagram!.GetObject((connector as Connector).SourceID) as Node;
+            Node? targetNode = Diagram.GetObject((connector as Connector).TargetID) as Node;
+            if (targetNode != null && targetNode.AdditionalInfo!.Count > 0)
             {
                 BranchType nodeBranch = (BranchType)targetNode.AdditionalInfo["Orientation"];
                 if (nodeBranch == BranchType.Right || nodeBranch == BranchType.SubRight)
                 {
-                    (connector as Connector).SourcePortID = sourceNode.Ports[0].ID;
-                    (connector as Connector).TargetPortID = targetNode.Ports[1].ID;
+                    (connector as Connector).SourcePortID = sourceNode!.Ports![0].ID;
+                    (connector as Connector).TargetPortID = targetNode.Ports![1].ID;
                 }
                 else if (nodeBranch == BranchType.Left || nodeBranch == BranchType.SubLeft)
                 {
-                    (connector as Connector).SourcePortID = sourceNode.Ports[1].ID;
-                    (connector as Connector).TargetPortID = targetNode.Ports[0].ID;
+                    (connector as Connector).SourcePortID = sourceNode!.Ports![1].ID;
+                    (connector as Connector).TargetPortID = targetNode.Ports![0].ID;
                 }
             }
         }
@@ -1007,10 +1003,10 @@
         {
             if (node != null && parentNode != null)
             {
-                double levelValue = Convert.ToDouble(node.AdditionalInfo["Level"]);
+                double levelValue = Convert.ToDouble(node.AdditionalInfo!["Level"]);
                 if (levelValue == 1)
                 {
-                    node.Style.Fill = fillColorCode[lastFillIndex];
+                    node.Style!.Fill = fillColorCode[lastFillIndex];
                     node.Style.StrokeColor = borderColorCode[lastFillIndex];
                     node.Style.StrokeWidth = 2;
                     if (lastFillIndex + 1 >= fillColorCode.Length)
@@ -1019,7 +1015,7 @@
                         lastFillIndex++;
                 }
                 else
-                    node.Style.StrokeColor = node.Style.Fill = parentNode.Style.Fill;
+                    node.Style!.StrokeColor = node.Style.Fill = parentNode.Style!.Fill;
             }
         }
 
@@ -1073,11 +1069,11 @@
 
         public class MindMapDetails
         {
-            public string Id { get; set; }
-            public string Label { get; set; }
-            public string ParentId { get; set; }
+            public string? Id { get; set; }
+            public string? Label { get; set; }
+            public string? ParentId { get; set; }
             public BranchType Branch { get; set; }
-            public string Fill { get; set; }
+            public string? Fill { get; set; }
             public double Level { get; set; }
         }
 
@@ -1105,13 +1101,13 @@
             new KeyboardCommand() { Name = "backspace", Gesture = new KeyGesture(){ Key = DiagramKeys.BackSpace, Modifiers = ModifierKeys.None  } },
         };
             MindMapDetails rootNodeData = MindmapData[0];
-            CreateNode(rootNodeData.Id, rootNodeData.ParentId, rootNodeData.Label, rootNodeData.Fill, rootNodeData.Branch, rootNodeData.Level);
+            CreateNode(rootNodeData.Id!, rootNodeData.ParentId!, rootNodeData.Label!, rootNodeData.Fill!, rootNodeData.Branch, rootNodeData.Level);
             for (int i = 1; i < MindmapData.Count; i++)
             {
                 MindMapDetails nodeData = MindmapData[i];
                 string sourcePortID = string.Empty;
                 string targetPortID = string.Empty;
-                CreateNode(nodeData.Id, nodeData.ParentId, nodeData.Label, nodeData.Fill, nodeData.Branch, nodeData.Level);
+                CreateNode(nodeData.Id!, nodeData.ParentId!, nodeData.Label!, nodeData.Fill!, nodeData.Branch, nodeData.Level);
                 if (nodeData.Branch == BranchType.Right || nodeData.Branch == BranchType.SubRight)
                 {
                     sourcePortID = "left";

@@ -15,7 +15,7 @@
     <p>This sample demonstrates advanced exporting features of Gantt, specifically focusing on exporting Gantt data to PDF format. It includes functionality for adding custom headers, footers and handling taskbar customization in the PDF.</p>
 </SampleDescription>
 <ActionDescription>
-    <p>In this demo, PDF exporting is managed using the <a aria-label="Navigate to the ExportToPdfAsync method reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_ExportToPdfAsync'>ExportToPdfAsync</a> method. Custom headers, footers, and taskbar customization is handled using the <a aria-label="Navigate to the PdfQueryTaskbarInfo event reference" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEvents-1.html#Syncfusion_Blazor_Gantt_GanttEvents_1_PdfQueryTaskbarInfo'>PdfQueryTaskbarInfo</a> event.</p>
+    <p>In this demo, PDF exporting is managed using the <a aria-label="Navigate to the ExportToPdfAsync method reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_ExportToPdfAsync_Syncfusion_Blazor_Gantt_GanttPdfExportProperties_'>ExportToPdfAsync</a> method. Custom headers, footers, and taskbar customization is handled using the <a aria-label="Navigate to the PdfQueryTaskbarInfo event reference" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEvents-1.html#Syncfusion_Blazor_Gantt_GanttEvents_1_PdfQueryTaskbarInfo'>PdfQueryTaskbarInfo</a> event.</p>
     <p>
         More information about advanced PDF exporting features in Gantt can be found in the <a aria-label="Navigate to the documentation for advanced exporting in gantt chart component" target='_blank' href='https://blazor.syncfusion.com/documentation/gantt-chart/pdf-export'>documentation section</a>.
     </p>
@@ -24,7 +24,7 @@
     <div class="content-wrapper">
         <div class="row">
             <SfGantt @ref="@ganttChartRef" DataSource="@ProjectTasks" EnableCriticalPath="true" AllowResizing="true" AllowPdfExport="true" AllowExcelExport="true" Width="100%" Height="700px" Toolbar="ToolbarItems" ProjectStartDate="@ProjectStartDate" 
-                     ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true">
+            ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate"
                 EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
                 </GanttTaskFields>
@@ -34,7 +34,7 @@
                     <RightLabelTemplate>
                         @{
                             var taskData = context as TaskData;
-                            if (taskData.ResourceName != null)
+                            if (!string.IsNullOrEmpty(taskData?.ResourceName))
                             {
                                 var resourceName = taskData.ResourceName.Trim().Replace(" ", "").ToLower();
                                 <div class="e-right-label-inner-div">
@@ -85,15 +85,16 @@
     </div>
 </div>
 @code {
-
-    private List<TaskData> ProjectTasks { get; set; }
+    private List<TaskData> ProjectTasks { get; set; } = new List<TaskData>();
     private DateTime Holiday1 { get; set; } = new DateTime(2025, 03, 29);
     private DateTime Holiday2 { get; set; } = new DateTime(2025, 03, 29);
     private DateTime ProjectStartDate { get; set; } = new DateTime(2025, 3, 25);
     private DateTime ProjectEndDate { get; set; } = new DateTime(2025, 5, 18);
     private string HeaderText { get; set; } = "Product Development Lifecycle\nGantt Chart Report\nApril 2021 - May 2021";
     private string FooterText { get; set; } = $"© 2024 Syncfusion Inc. All Rights Reserved.\nGenerated on: {DateTime.Now:MMMM dd, yyyy h:mm tt}";
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
     private List<Object> ToolbarItems { get; set; } = new List<Object>() { new ToolbarItem() { Text = "PDF Export", TooltipText = "PDF Export", Id = "PdfExport", PrefixIcon = "e-pdfexport" } };
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     private SfGantt<TaskData> ganttChartRef;
     private Dictionary<string, string> pdfExportImage = new Dictionary<string, string>();
 
@@ -129,15 +130,15 @@
     public class TaskData
     {
         public int TaskId { get; set; }
-        public string TaskName { get; set; }
+        public string TaskName { get; set; } = string.Empty;
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string Duration { get; set; }
+        public string? Duration { get; set; }
         public int Progress { get; set; }
-        public string Predecessor { get; set; }
-        public string Notes { get; set; }
+        public string Predecessor { get; set; } = string.Empty;
+        public string Notes { get; set; } = string.Empty;
         public int? ParentId { get; set; }
-        public string ResourceName { get; set; }
+        public string ResourceName { get; set; } = string.Empty;
 
     }
     private async void ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
@@ -269,7 +270,7 @@
         {
             var resourceName = args.Data.ResourceName.Trim().Replace(" ", "").ToLower();
 
-            if (pdfExportImage.TryGetValue(resourceName, out string base64String))
+            if (pdfExportImage.TryGetValue(resourceName, out string? base64String))
             {
                 byte[] imageBytes = Convert.FromBase64String(base64String);
                 using MemoryStream imageStream = new MemoryStream(imageBytes);
@@ -334,7 +335,7 @@
         height: 22px;
     }
     .e-bigger .image{
-        width:100%;
+        width:32px;
         height:32px;
     }
     .e-left-label-inner-div{

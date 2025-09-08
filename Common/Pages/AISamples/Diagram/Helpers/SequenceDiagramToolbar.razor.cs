@@ -29,7 +29,7 @@ namespace TextToSequenceDiagram
             switch (value)
             {
                 case "New Diagram":
-                    Parent.Diagram.Clear();
+                    Parent.Diagram!.Clear();
                     SetElements();
                     break;
                 case "Open Diagram":
@@ -41,7 +41,7 @@ namespace TextToSequenceDiagram
                     break;
                 case "Print Diagram":
                     DiagramPrintSettings print = new DiagramPrintSettings();
-                    await Parent.Diagram.PrintAsync(print);
+                    await Parent.Diagram!.PrintAsync(print);
                     break;
                 case "Pan":
                     Parent.DiagramTool = DiagramInteractions.ZoomPan;
@@ -69,7 +69,7 @@ namespace TextToSequenceDiagram
         private void SelectedZoomItem(Syncfusion.Blazor.SplitButtons.MenuEventArgs args)
         {
             var value = args.Item.Text;
-            var currentZoom = Parent.Diagram.ScrollSettings.CurrentZoom;
+            var currentZoom = Parent.Diagram!.ScrollSettings!.CurrentZoom;
             switch (value)
             {
                 case "Zoom In":
@@ -108,14 +108,14 @@ namespace TextToSequenceDiagram
         }
         public void SetElements()
         {
-            Parent.Diagram.ClearHistory();
+            Parent.Diagram!.ClearHistory();
             Parent.Diagram.ResetZoom();
             StateHasChanged();
         }
 
         public async Task LoadDiagram()
         {
-            Parent.Diagram.BeginUpdate();
+            Parent.Diagram!.BeginUpdate();
             Parent.ExtensionType = ".json";
             await FileUtil.Click(jsRuntime);
             await Parent.Diagram.EndUpdateAsync();
@@ -123,7 +123,7 @@ namespace TextToSequenceDiagram
 
         public async Task Download(string fileName)
         {
-            string data = Parent.Diagram.SaveDiagram();
+            string data = Parent.Diagram!.SaveDiagram();
             await FileUtil.SaveAs(jsRuntime, data, fileName);
         }
 
@@ -132,11 +132,11 @@ namespace TextToSequenceDiagram
             DiagramExportSettings export = new DiagramExportSettings();
             export.FitToPage = true;
             if (value == "JPG")
-                await Parent.Diagram.ExportAsync("Diagram", DiagramExportFormat.JPEG, export);
+                await Parent.Diagram!.ExportAsync("Diagram", DiagramExportFormat.JPEG, export);
             else if (value == "PNG")
-                await Parent.Diagram.ExportAsync("Diagram", DiagramExportFormat.PNG, export);
+                await Parent.Diagram!.ExportAsync("Diagram", DiagramExportFormat.PNG, export);
             else if (value == "SVG")
-                await Parent.Diagram.ExportAsync("Diagram", DiagramExportFormat.SVG, export);
+                await Parent.Diagram!.ExportAsync("Diagram", DiagramExportFormat.SVG, export);
         }
     }
 }

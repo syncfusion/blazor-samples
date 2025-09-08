@@ -283,10 +283,10 @@
     TextPosition textPosition = TextPosition.Bottom;
     string positionText = "Bottom";
     string aligntext = "Center";
-    SfBarcodeGenerator sfBarcodeGenerator;
+    SfBarcodeGenerator? sfBarcodeGenerator;
     public class PositionOfText
     {
-        public string Position { get; set; }
+        public string? Position { get; set; }
     }
     private List<PositionOfText> positionOfText = new List<PositionOfText>() {
     new PositionOfText() { Position = "Top" },
@@ -295,7 +295,7 @@
     Alignment textAlignment = Alignment.Center;
     public class TextAlignment
     {
-        public string Align { get; set; }
+        public string? Align { get; set; }
     }
     private List<TextAlignment> TextAlign = new List<TextAlignment>() {
     new TextAlignment() { Align = "Left" },
@@ -304,7 +304,7 @@
     };
     private void BarcodeValueChange(ChangeEventArgs args)
     {
-        barcodeValue = args.Value.ToString();
+        barcodeValue = args.Value!.ToString()!;
     }
     private void BarcodeWidthChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
     {
@@ -325,11 +325,11 @@
     }
     public void BackgroundColorChange(ColorPickerEventArgs args)
     {
-        backgroundColor = args.CurrentValue.Hex.ToString();
+        backgroundColor = args.CurrentValue!.Hex!.ToString();
     }
     public void ForeColorChange(ColorPickerEventArgs args)
     {
-        foreColor = args.CurrentValue.Hex.ToString();
+        foreColor = args.CurrentValue!.Hex!.ToString();
     }
     public void TopMarginChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
     {
@@ -368,21 +368,24 @@
     }
     private void TextAlignChanged(ChangeEventArgs<string, TextAlignment> args)
     {
-        if (args.Value == "Left")
+        switch (args.Value)
         {
-            textAlignment = Alignment.Left;
-        }
-        if (args.Value == "Right")
-        {
-            textAlignment = Alignment.Right;
-        }
-        if (args.Value == "Center")
-        {
-            textAlignment = Alignment.Center;
+            case "Left":
+                textAlignment = Alignment.Left;
+                break;
+            case "Right":
+                textAlignment = Alignment.Right;
+                break;
+            case "Center":
+                textAlignment = Alignment.Center;
+                break;
         }
     }
     private void Export()
     {
-        sfBarcodeGenerator.Export("EAN-8", BarcodeExportType.JPG);
+        if (sfBarcodeGenerator != null)
+        {
+            sfBarcodeGenerator.Export("EAN-8", BarcodeExportType.JPG);
+        }
     }
 }

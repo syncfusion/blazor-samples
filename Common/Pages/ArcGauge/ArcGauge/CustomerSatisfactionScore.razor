@@ -43,7 +43,7 @@
                 </CircularGaugeRanges>
                 <CircularGaugeTooltipSettings Enable="true">
                     <TooltipTemplate>
-                        <div style="font-size:18px;background:white;color:#595959;border:1px solid #e8e8e8;">Current Score: 7.5 </div>
+                        <div class="satisfaction-tooltip">Current Score: @SatisfactionScore </div>
                     </TooltipTemplate>
                 </CircularGaugeTooltipSettings>
                 <CircularGaugePointers>
@@ -52,17 +52,23 @@
                             <CircularGaugeCapBorder Width="2"></CircularGaugeCapBorder>
                         </CircularGaugeCap>
                     </CircularGaugePointer>
-                    <CircularGaugePointer Type="PointerType.Marker" MarkerShape="GaugeShape.Rectangle" MarkerWidth="40" MarkerHeight="0.5" Radius="78%" Value="6.5" Color="#0477c2">
-                        <CircularGaugePointerAnimation Enable="false"></CircularGaugePointerAnimation>
-                    </CircularGaugePointer>
-                    <CircularGaugePointer Type="PointerType.Marker" MarkerShape="GaugeShape.Rectangle" MarkerWidth="40" MarkerHeight="0.5" Radius="78%" Value="9.5" Color="#0477c2">
-                        <CircularGaugePointerAnimation Enable="false"></CircularGaugePointerAnimation>
-                    </CircularGaugePointer>
+                    @foreach (var markerValue in RangeMarkerValues)
+                    {
+                        <CircularGaugePointer Type="PointerType.Marker" 
+                                            MarkerShape="GaugeShape.Rectangle" 
+                                            MarkerWidth="40" 
+                                            MarkerHeight="0.5" 
+                                            Radius="78%" 
+                                            Value="@markerValue" 
+                                            Color="#0477c2">
+                            <CircularGaugePointerAnimation Enable="false"></CircularGaugePointerAnimation>
+                        </CircularGaugePointer>
+                    }
                 </CircularGaugePointers>
                 <CircularGaugeAnnotations>
                     <CircularGaugeAnnotation Angle="179" ZIndex="1" Radius="15%">
                         <ContentTemplate>
-                            <div style="font-size:16px;margin-top:5px;margin-left:-2px;font-family:inherit;">7.5</div>
+                            <div class="score-annotation">@SatisfactionScore</div>
                         </ContentTemplate>
                     </CircularGaugeAnnotation>
                 </CircularGaugeAnnotations>
@@ -71,10 +77,27 @@
     </SfCircularGauge>
 </div>
 
+<style>
+    .satisfaction-tooltip {
+        font-size: 18px;
+        background: white;
+        color: #595959;
+        border: 1px solid #e8e8e8;
+    }
+    
+    .score-annotation {
+        font-size: 16px;
+        margin-top: 5px;
+        margin-left: -2px;
+        font-family: inherit;
+    }
+</style>
+
 @code {
     public Theme Theme { get; set; }
     public string FontWeight = "500";
-
+    public double SatisfactionScore { get; set; } = 7.5;
+    public List<double> RangeMarkerValues { get; set; } = new List<double> { 6.5, 9.5 };
     protected override void OnInitialized()
     {
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);

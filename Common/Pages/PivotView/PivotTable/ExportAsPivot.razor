@@ -1,0 +1,125 @@
+@page "/pivot-table/export-as-pivot"
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates exporting a server-side Syncfusion Pivot Table as a fully interactive Excel Pivot Table.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample shows how to export a <strong>server-side</strong> Syncfusion Pivot Table to an Excel file while
+        preserving its native pivot structure. The exported Excel file supports full interactivity, allowing users to
+        customize pivot configurations directly within Excel.
+    </p>
+    <p>
+        The Pivot Table uses a server-side pivot engine powered by the <a target="_blank" href="https://www.nuget.org/packages/Syncfusion.Pivot.Engine/" aria-label="NuGet package reference of Pivot Engine"> Syncfusion.Pivot.Engine</a> package.
+        This engine runs on a separate hosted server, performing all pivot operations—including <a target="_blank"
+            href="https://blazor.syncfusion.com/documentation/pivot-table/aggregation" aria-label="Blazor PivotTable Aggregation documentation">
+            Aggregation</a>, <a target="_blank"
+            href="https://blazor.syncfusion.com/documentation/pivot-table/filtering" aria-label="Blazor PivotTable Filtering documentation">
+            Filtering</a>, <a target="_blank"
+            href="https://blazor.syncfusion.com/documentation/pivot-table/sorting" aria-label="Blazor PivotTable Sorting documentation">
+            Sorting</a>, <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/grouping" aria-label="Blazor PivotTable Grouping documentation">
+            Grouping</a>, and returns only paged data to the client.
+        The connection to the remote service is configured using the <a target="_blank"
+            href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.IPivotViewDataSourceSettings.html#Syncfusion_Blazor_PivotView_IPivotViewDataSourceSettings_Url" aria-label="Class reference of DataSourceSettings property in PivotView">
+            DataSourceSettings-&gt;Url</a> property.
+    </p>
+    <p>
+        <strong>Excel Export</strong> is available via the built-in toolbar and generates a true Excel Pivot Table, not
+        just static data. This enables users to interact with and manipulate the exported report directly in Excel.
+    </p>
+    <p>
+        More information about server-side aggregation can be found in this <a target="_blank"
+            href="https://blazor.syncfusion.com/documentation/pivot-table/server-side-pivot-engine">
+            documentation section
+        </a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfPivotView TValue="SalesAnalysis" Width="100%" Height="450" @ref="pivotView" ShowToolbar="true" Toolbar="@PivotToolbar" AllowExcelExport="true" AllowPdfExport="true" AllowDataCompression="true" ShowFieldList="true" ShowGroupingBar="true">
+            <PivotViewEvents TValue="SalesAnalysis" ToolbarRendered="ToolbarRender"></PivotViewEvents>
+            <PivotViewDataSourceSettings TValue="SalesAnalysis" Url="https://blazor.syncfusion.com/services/development/api/pivotengine/post" EnableServerSideAggregation="true" ExpandAll="true" EnableSorting="true">
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year" Caption="Production Year"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewValues>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0"></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N0"></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewDisplayOption View=View.Both></PivotViewDisplayOption>
+            <PivotChartSettings Title="Sales Analysis" Theme="@Theme">
+                <PivotChartLegendSettings Visible="false"></PivotChartLegendSettings>
+                <PivotChartSeries Type="@ChartType">
+                    <PivotChartSeriesAnimation Enable="false"></PivotChartSeriesAnimation>
+                </PivotChartSeries>
+                <PivotChartPrimaryYAxis>
+                    <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
+                </PivotChartPrimaryYAxis>
+            </PivotChartSettings>
+        </SfPivotView>
+    </div>
+</div>
+
+@code{
+    public ChartSeriesType ChartType = ChartSeriesType.Bar;
+    private SfPivotView<SalesAnalysis>? pivotView;
+    public List<Syncfusion.Blazor.PivotView.ToolbarItems> PivotToolbar = new List<Syncfusion.Blazor.PivotView.ToolbarItems>
+    {
+        Syncfusion.Blazor.PivotView.ToolbarItems.Grid,
+        Syncfusion.Blazor.PivotView.ToolbarItems.Chart,
+        Syncfusion.Blazor.PivotView.ToolbarItems.FieldList
+    };
+    private Theme Theme { get; set; }
+    public void ToolbarRender(ToolbarArgs args)
+    {
+        // Insert Excel Export button at the beginning of the toolbar
+        args.CustomToolbar.Insert(0, new ItemModel
+            {
+                PrefixIcon = "e-menu-icon e-pivotview-excel-export e-icons",
+                TooltipText = "Excel Export as Pivot",
+                Click = EventCallback.Factory.Create<ClickEventArgs>(this, ButtonClick)
+            });
+            // Add separator after Excel Export button
+        args.CustomToolbar.Insert(1, new ItemModel()
+        {
+            Type = ItemType.Separator
+        });
+         args.CustomToolbar.Insert(3, new ItemModel()
+        {
+            Type = ItemType.Separator
+        });
+    }
+    public void ButtonClick(ClickEventArgs args)
+    {
+        if(pivotView != null)
+        {
+            this.pivotView.ExportAsPivotAsync(ExportType.Excel);
+        }
+    }  
+      protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }  
+}

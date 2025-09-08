@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 MetaTitle = "Blazor In-place Editor Overview | Edit-in-Place UI | Syncfusion",
                 HeaderText = "Blazor In-place Editor Example - Overview",
-                MetaDescription = "This Blazor In-place Editor example demonstrates how to edit text inline without navigating to separate edit forms. Enable seamless content editing directly within your Blazor applications."
+                MetaDescription = "This Blazor In-place Editor example demonstrates how to edit text inline without navigating to separate edit forms. Enable seamless content editing directly."
             },
             new Sample
             {
@@ -35,7 +35,7 @@ namespace BlazorDemos
                 FileName = "DropDown.razor",
                 MetaTitle = "Blazor In-place Editor with DropDown | Inline Selection | Syncfusion",
                 HeaderText = "Blazor In-place Editor Example - DropDown Components",
-                MetaDescription = "This Blazor In-place Editor example showcases integration with dropdown components like ComboBox, DropDownList, and AutoComplete for inline editing with selection options."
+                MetaDescription = "Blazor In-place Editor demo shows integration with dropdown components like ComboBox, DropDownList, and AutoComplete for inline editing with selection options."
             },
             new Sample
             {
@@ -46,7 +46,7 @@ namespace BlazorDemos
                 FileName = "DatePickers.razor",
                 MetaTitle = "Blazor In-place Editor with DatePicker | Inline Calendar | Syncfusion",
                 HeaderText = "Blazor In-place Editor Example - Date Components",
-                MetaDescription = "This Blazor In-place Editor example demonstrates integration with date components like DatePicker, DateTimePicker, and TimePicker for seamless inline date and time selection."
+                MetaDescription = "Blazor In-place Editor demo shows integration with date components like DatePicker, DateTimePicker, and TimePicker for seamless inline date and time selection."
             },
             new Sample
             {
@@ -55,9 +55,9 @@ namespace BlazorDemos
                 Directory = "Editors/InPlaceEditor",
                 Url = "in-place-editor/edit-post",
                 FileName = "EditPost.razor",
-                MetaTitle = "Blazor In-place Editor Blog Post Example | Content Editing | Syncfusion",
+                MetaTitle = "Blazor In-place Editor Blog Post | Content Editing | Syncfusion",
                 HeaderText = "Blazor In-place Editor Example - Edit Blog Post",
-                MetaDescription = "This Blazor In-place Editor use case demonstrates how to implement inline editing for blog posts with rich text editing capabilities, enabling seamless content management for blog applications."
+                MetaDescription = "Blazor In-place Editor use case demo how to implement inline editing for blog posts with rich text editing capabilities, enabling seamless content management."
             }
         };
     }

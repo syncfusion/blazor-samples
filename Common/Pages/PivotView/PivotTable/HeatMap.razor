@@ -25,7 +25,7 @@
                         {
                             if (data.Axis == "value")
                             {
-                                if (!data.IsGrandSum)
+                                if (!data.IsGrandSum && _pivotref != null)
                                 {
                                     _pivotref.PivotValues[data.RowIndex][data.ColIndex].CssClass = CellColour(data.Value);
                                 }
@@ -196,8 +196,8 @@
 </style>
 
 @code {
-    private SfPivotView<ProductSales> _pivotref;
-    private List<ProductSales> _pivotDataSource;
+    private SfPivotView<ProductSales>? _pivotref;
+    private List<ProductSales>? _pivotDataSource;
     private List<string> _colourScheme = new List<string> { "range1", "range2", "range3", "range4", "range5", "range6", "range7", "range8", "range9", "range10", "range11", "range12", "range13", "range14" };
     private double? _maxValue = 0;
     private double? _minValue = 0;
@@ -208,9 +208,14 @@
 
     private string ConvertValue(double? value)
     {
-        decimal value1 = Math.Round((decimal)value / 1000, 1);
-        string Convert = value1.ToString() + "K";
-        return Convert;
+        if(value != null)
+        {
+            decimal value1 = Math.Round((decimal)value / 1000, 1);
+            string Convert = value1.ToString() + "K";
+            return Convert;
+        }
+        return "NULL";
+      
     }
 
     private string CellColour(double? value)

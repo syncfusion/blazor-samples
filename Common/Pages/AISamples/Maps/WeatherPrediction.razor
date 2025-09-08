@@ -1,0 +1,243 @@
+﻿@page "/ai-maps/weather-prediction"
+@page "/maps/ai-weather-prediction"
+
+
+@inject AzureAIService ChatGptService
+@using BlazorDemos.Service
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Spinner
+@using System.Collections.ObjectModel
+@using System.Net.Http.Json;
+@using Newtonsoft.Json;
+@using Newtonsoft.Json.Linq;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JSRuntime
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<AINotification></AINotification>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<AIToastNotification></AIToastNotification>
+@*End:Hidden*@
+
+<style>
+    .spacing {
+        margin: 5px;
+    }
+</style>
+<SampleDescription>
+    <p>
+        This sample demonstrates the integration of AI for automatically forecasting weather conditions in the United States for the next five days using marker templates in the Syncfusion Blazor Maps component.
+    </p>
+    <p>
+        Explore our <strong>Smart AI demos</strong> with limited AI token usage directly in your browser. To dive deeper and try out these features locally using your own API key, check out our
+        <a href="https://github.com/syncfusion/smart-ai-samples/tree/master/blazor" target="_blank" aria-label="Navigate to the Syncfusion Smart AI Samples GitHub repository">
+            <strong>Syncfusion Smart AI Samples</strong>
+        </a> on GitHub.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>In this sample, users can view weather predictions for the next five days provided by AI. The data is then converted into a source for the<code><a target='_blank' class='code' href='https://help.syncfusion.com/cr/blazor Syncfusion.Blazor.Maps.MapsMarker-1.html' aria-label="Class reference of MapsMarker">MapsMarker</a></code>, which renders the weather forecasts as marker templates in the Syncfusion Blazor Maps component.	
+.   </p>
+</ActionDescription>
+
+<SfMaps Height="630px">
+    <SfSpinner @bind-Visible="@SpinnerVisibility"></SfSpinner>
+    <MapsEvents Loaded="Loaded"></MapsEvents>
+    <MapsCenterPosition Latitude="35.07653392014242" Longitude="-95.40586193773237"></MapsCenterPosition>
+    <MapsMargin Top="0" Bottom="0" Left="0" Right="0"></MapsMargin>
+    <MapsZoomSettings Enable=false MaxZoom="19" ZoomFactor="5">
+        <MapsZoomToolbarSettings>
+            <MapsZoomToolbarButton ToolbarItems="new List<ToolbarItem>() { ToolbarItem.Zoom, ToolbarItem.ZoomIn, ToolbarItem.ZoomOut, ToolbarItem.Pan, ToolbarItem.Reset }"></MapsZoomToolbarButton>
+        </MapsZoomToolbarSettings>
+    </MapsZoomSettings>
+    <MapsLayers>
+        <MapsLayer UrlTemplate="https://a.tile.openstreetmap.org/level/tileX/tileY.png" TValue="string">
+            <MapsMarkerSettings>
+                @if (MarkerCollection.Count > 0)
+                {
+                    <MapsMarker TValue="Markers" Visible="true" DataSource="MarkerCollection" AnimationDuration="0">
+                        <MarkerTemplate>
+                            @{
+                                var Data = context as Markers;
+                                string currentImage = string.Empty;
+                                if (Data.WeatherCondition == "sunny day")
+                                {
+                                    currentImage = "weather-clear";
+                                }
+                                else if (Data.WeatherCondition == "snowy day")
+                                {
+                                    currentImage = "weather-snow";
+                                }
+                                else if (Data.WeatherCondition == "foggy day")
+                                {
+                                    currentImage = "weather-foggy";
+                                }
+                                else if (Data.WeatherCondition == "cloudy day")
+                                {
+                                    currentImage = "weather-clouds";
+                                }
+                                else if (Data.WeatherCondition == "rainy day")
+                                {
+                                    currentImage = "weather-rain";
+                                }
+
+                                <div style="display:flex;transform:translate(-50%, -50%)">
+                                    <div style="background-color:black; opacity:0.8; align-content:center; padding-left:5px;padding-right:5px">
+                                        <img class="markerTemplate" src="@NavigationManager.ToAbsoluteUri($" {SampleService.WebAssetsPath}images/smartcomponents/maps/{currentImage}.svg")" alt="Weather" height="35px" width="35px" />
+                                    </div>
+                                    <div style="background-color:#fff; opacity:0.8; padding-left:5px;padding-right:5px">
+                                        <span style="font-size:12px;font-weight:bold">@Data.Name</span><br />
+                                        <span style="font-size:16px;font-weight:bold">@Data.Temperature °C</span>
+                                    </div>
+                                </div>
+                            }
+                        </MarkerTemplate>
+                    </MapsMarker>
+                }
+            </MapsMarkerSettings>
+            <MapsAnnotations>
+                <MapsAnnotation X="80%" Y="0%" ZIndex="10">
+                    <ContentTemplate>
+                        <div style="display: flex">
+                            <div style="background-color: #4f46e5; color:white; font-size: 16px; padding:5px 10px 5px; width: max-content;">Weather Forecast</div>
+                            <div style="background-color: white; color:black; font-size: 16px; padding:5px 10px 5px">@Day</div>
+                        </div>
+                    </ContentTemplate>
+                </MapsAnnotation>
+            </MapsAnnotations>
+        </MapsLayer>
+    </MapsLayers>
+</SfMaps>
+
+<div style="display:flex; justify-content: center; align-items: center;">
+    <SfButton IsPrimary="true" CssClass="e-outline spacing" OnClick="GetTomorrowWeather">Tomorrow</SfButton>
+    <SfButton IsPrimary="true" CssClass="e-outline spacing" OnClick="GetSecondDayWeather">@SecondButtonContent</SfButton>
+    <SfButton IsPrimary="true" CssClass="e-outline spacing" OnClick="GetThirdDayWeather">@ThirdButtonContent</SfButton>
+    <SfButton IsPrimary="true" CssClass="e-outline spacing" OnClick="GetFourthDayWeather">@FourthButtonContent</SfButton>
+    <SfButton IsPrimary="true" CssClass="e-outline spacing" OnClick="GetFifthDayWeather">@FifthButtonContent</SfButton>
+</div>
+
+
+@code {
+    public bool SpinnerVisibility { get; set; } = true;
+    public string SecondButtonContent { get; set; }
+    public string ThirdButtonContent { get; set; }
+    public string FourthButtonContent { get; set; }
+    public string FifthButtonContent { get; set; }
+    public string Day { get; set; }
+    ObservableCollection<Markers> MarkerCollection = new ObservableCollection<Markers>();
+
+    protected override async Task OnInitializedAsync()
+    {
+        DateTime dateTime = DateTime.Now;
+        SecondButtonContent = dateTime.AddDays(2).DayOfWeek.ToString();
+        ThirdButtonContent = dateTime.AddDays(3).DayOfWeek.ToString();
+        FourthButtonContent = dateTime.AddDays(4).DayOfWeek.ToString();
+        FifthButtonContent = dateTime.AddDays(5).DayOfWeek.ToString();
+    }
+
+    private async Task Loaded()
+    {
+        if (MarkerCollection.Count == 0)
+        {
+            Day = "Today";
+            string result = await ChatGptService.GetCompletionAsync("Generate today's temperature in Celsius for 15 important cities in USA as a JSON object, with fields such as 'cityName', 'temperature', 'latitude', 'longitude' and 'weatherCondition'. The weather conditions must be sunny day, rainy day, cloudy day, snowy day and foggy day based on the temperature of the state. Strictly provide flat JSON list without nested objects.");
+            if (!string.IsNullOrEmpty(result))
+            {
+                MarkerCollection = JsonConvert.DeserializeObject<ObservableCollection<Markers>>(result);
+            }
+            SpinnerVisibility = false;
+        }
+    }
+
+    private async Task GetTomorrowWeather()
+    {
+        SpinnerVisibility = true;
+        DateTime dateTime = (DateTime.Now.Date).AddDays(1);
+        string date = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString();
+        string result = await ChatGptService.GetCompletionAsync("Generate " + date + "'s temperature in Celsius for 15 important cities in USA as a JSON object, with fields such as 'cityName', 'temperature', 'latitude', 'longitude' and 'weatherCondition'. The weather conditions must be sunny day, rainy day, cloudy day, snowy day and foggy day based on the temperature of the state. Strictly provide flat JSON list without nested objects.");
+        if (!string.IsNullOrEmpty(result))
+        {
+            Day = "Tomorrow";
+            MarkerCollection = JsonConvert.DeserializeObject<ObservableCollection<Markers>>(result);
+        }
+        SpinnerVisibility = false;
+    }
+
+    private async Task GetSecondDayWeather()
+    {
+        SpinnerVisibility = true;
+        DateTime dateTime = (DateTime.Now.Date).AddDays(2);
+        string date = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString();
+        string result = await ChatGptService.GetCompletionAsync("Generate " + date + "'s temperature in Celsius for 15 important cities in USA as a JSON object, with fields such as 'cityName', 'temperature', 'latitude', 'longitude' and 'weatherCondition'. The weather conditions must be sunny day, rainy day, cloudy day, snowy day and foggy day based on the temperature of the state. Strictly provide flat JSON list without nested objects.");
+        if (!string.IsNullOrEmpty(result))
+        {
+            Day = dateTime.DayOfWeek.ToString();
+            MarkerCollection = JsonConvert.DeserializeObject<ObservableCollection<Markers>>(result);
+        }
+        SpinnerVisibility = false;
+    }
+
+    private async Task GetThirdDayWeather()
+    {
+        SpinnerVisibility = true;
+        DateTime dateTime = (DateTime.Now.Date).AddDays(3);
+        string date = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString();
+        string result = await ChatGptService.GetCompletionAsync("Generate " + date + "'s temperature in Celsius for 15 important cities in USA as a JSON object, with fields such as 'cityName', 'temperature', 'latitude', 'longitude' and 'weatherCondition'. The weather conditions must be sunny day, rainy day, cloudy day, snowy day and foggy day based on the temperature of the state. Strictly provide flat JSON list without nested objects.");
+        if (!string.IsNullOrEmpty(result))
+        {
+            Day = dateTime.DayOfWeek.ToString();
+            MarkerCollection = JsonConvert.DeserializeObject<ObservableCollection<Markers>>(result);
+        }
+        SpinnerVisibility = false;
+    }
+
+    private async Task GetFourthDayWeather()
+    {
+        SpinnerVisibility = true;
+        DateTime dateTime = (DateTime.Now.Date).AddDays(4);
+        string date = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString();
+        string result = await ChatGptService.GetCompletionAsync("Generate " + date + "'s temperature in Celsius for 15 important cities in USA as a JSON object, with fields such as 'cityName', 'temperature', 'latitude', 'longitude' and 'weatherCondition'. The weather conditions must be sunny day, rainy day, cloudy day, snowy day and foggy day based on the temperature of the state. Strictly provide flat JSON list without nested objects.");
+        if (!string.IsNullOrEmpty(result))
+        {
+            Day = dateTime.DayOfWeek.ToString();
+            MarkerCollection = JsonConvert.DeserializeObject<ObservableCollection<Markers>>(result);
+        }
+        SpinnerVisibility = false;
+    }
+
+    private async Task GetFifthDayWeather()
+    {
+        SpinnerVisibility = true;
+        DateTime dateTime = (DateTime.Now.Date).AddDays(5);
+        string date = dateTime.Day.ToString() + "/" + dateTime.Month.ToString() + "/" + dateTime.Year.ToString();
+        string result = await ChatGptService.GetCompletionAsync("Generate " + date + "'s temperature in Celsius for 15 important cities in USA as a JSON object, with fields such as 'cityName', 'temperature', 'latitude', 'longitude' and 'weatherCondition'. The weather conditions must be sunny day, rainy day, cloudy day, snowy day and foggy day based on the temperature of the state. Strictly provide flat JSON list without nested objects.");
+        if (!string.IsNullOrEmpty(result))
+        {
+            Day = dateTime.DayOfWeek.ToString();
+            MarkerCollection = JsonConvert.DeserializeObject<ObservableCollection<Markers>>(result);
+        }
+        SpinnerVisibility = false;
+    }
+    public class Markers
+    {
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+
+        [JsonProperty("cityName")]
+        public string Name { get; set; }
+        public double Temperature { get; set; }
+
+        [JsonProperty("weatherCondition")]
+        public string WeatherCondition { get; set; }
+    }
+}

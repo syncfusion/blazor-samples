@@ -17,7 +17,7 @@ namespace ej2_blazor_defaultdata
         public class ResourceInfoModel
         {
             public int Id { get; set; }
-            public string Name { get; set; }
+            public string Name { get; set; } = string.Empty;
             public double MaxUnit { get; set; }
         }
         public static List<ResourceInfoModel> GetResources = new List<ResourceInfoModel>()
@@ -43,11 +43,11 @@ namespace ej2_blazor_defaultdata
         public class TaskInfoModel
         {
             public int Id { get; set; }
-            public string Name { get; set; }
-            public string TaskType { get; set; }
+            public string Name { get; set; } = string.Empty;
+            public string TaskType { get; set; } = string.Empty;
             public DateTime StartDate { get; set; }
             public DateTime? EndDate { get; set; }
-            public string Duration { get; set; }
+            public string? Duration { get; set; }
             public int Progress { get; set; }
             public int? ParentId { get; set; }
             public double? Work { get; set; }

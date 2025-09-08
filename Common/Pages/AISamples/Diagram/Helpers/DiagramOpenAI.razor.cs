@@ -44,7 +44,7 @@ namespace TextToMindMapDiagram
             ShowAIAssistDialog = false;
             if (!string.IsNullOrWhiteSpace(OpenAIPrompt))
             {
-                await Parent.SpinnerRef.ShowAsync();
+                await Parent.SpinnerRef!.ShowAsync();
                 string result = string.Empty;
                 string systemRole = "You are an expert in creating mind map diagram data sources. Generate a structured data source for a mind map based on the user's query, using tab indentation to indicate hierarchy. The root parent should have no indentation, while each subsequent child level should be indented by one tab space. Avoid using any symbols such as '+' or '-' before any level of data.";
                 string userPrompt = $"Based on the following input, create a mind map diagram data source: {OpenAIPrompt}.";
@@ -59,7 +59,7 @@ namespace TextToMindMapDiagram
                         filteredData.Insert(0, "mindmap");
                     filteredData[1].TrimStart('-', '+');
                     result = string.Join("\n", filteredData);
-                    Parent.Diagram.BeginUpdate();
+                    Parent.Diagram!.BeginUpdate();
                     Parent.Diagram.StartGroupAction();
                     await Parent.Diagram.LoadDiagramFromMermaidAsync(result);
                     Parent.Diagram.EndGroupAction();

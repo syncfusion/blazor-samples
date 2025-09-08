@@ -102,7 +102,7 @@ namespace TextToMindMapDiagram
         /// </summary>
         private void PaperChanged(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, PaperListFields> args)
         {
-            PaperSize Size = this.GetPaperSize(args.Value);
+            PaperSize Size = this.GetPaperSize(args.Value!);
             PageHeight = Size.PageHeight;
             PageWidth = Size.PageWidth;
         }

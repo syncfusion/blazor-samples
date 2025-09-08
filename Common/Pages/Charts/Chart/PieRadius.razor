@@ -45,7 +45,7 @@
     public AccumulationLabelPosition DataLabelPosition = AccumulationLabelPosition.Outside;
     public string ConnectorLength { get; set; } = "20px";
     public string Size { get; set; } = "12px";
-    private string Name { get; set; }
+    private string? Name { get; set; }
 
     public List<PieData> PieChartPoints = new List<PieData>
     {
@@ -60,15 +60,15 @@
 
     public void PieTooltipRender(TooltipRenderEventArgs args)
     {
-        args.Text = args.Text.Replace(args.Data.PointY.ToString(), Convert.ToDouble(args.Data.PointY).ToString("#,#"));
+        args.Text = args.Text.Replace(args.Data.PointY.ToString() ?? null!, Convert.ToDouble(args.Data.PointY).ToString("#,#"));
     }
 
     protected override void OnInitialized()
     {
         
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
-        Name = SampleService.IsDevice ? "MappingName" : "Country";
-        if(SampleService.IsDevice)
+        Name = SampleService != null && SampleService.IsDevice ? "MappingName" : "Country";
+        if(SampleService != null && SampleService.IsDevice)
         {
             DataLabelPosition = AccumulationLabelPosition.Inside;
             Wrap = TextWrap.Wrap;
@@ -80,9 +80,9 @@
 
     public class PieData
     {
-        public string Country { get; set; }
+        public string? Country { get; set; }
         public double Population { get; set; }
-        public string Radius { get; set; }
-        public string MappingName { get; set; }
+        public string? Radius { get; set; }
+        public string? MappingName { get; set; }
     }
 }

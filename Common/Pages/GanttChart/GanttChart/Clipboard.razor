@@ -24,9 +24,9 @@
     <div class="content-wrapper">
         <div class="row">
             <SfGantt DataSource="@TaskCollection" @ref="GanttChartInstance" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1"
-                     ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true">
+                     ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true" Toolbar="@toolbarItems">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
-                                 Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+                Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
                 <GanttColumns>
                     <GanttColumn Field="TaskId"></GanttColumn>
                     <GanttColumn Field="TaskName" Width="250"></GanttColumn>
@@ -38,12 +38,7 @@
                 </GanttColumns>
                 <GanttLabelSettings LeftLabel="TaskName" TValue="DefaultData.TaskData"></GanttLabelSettings>
                 <GanttSplitterSettings Position="50%"></GanttSplitterSettings>
-                <SfToolbar ID="Gantt_Toolbar">
-                    <ToolbarItems>
-                        <ToolbarItem Id="copyHeader" Text="Copy With Header" OnClick="OnToolbarItemClick" PrefixIcon="e-copy"></ToolbarItem>
-                        <ToolbarItem Id="copy" Text="Copy" OnClick="OnToolbarItemClick" PrefixIcon="e-copy"></ToolbarItem>
-                    </ToolbarItems>
-                </SfToolbar>
+                <GanttEvents OnToolbarClick="ToolbarClickHandler" TValue="DefaultData.TaskData"></GanttEvents>
             </SfGantt>
         </div>
     </div>
@@ -52,15 +47,21 @@
 @code {
     private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 24);
     private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 18);
-    public List<DefaultData.TaskData> TaskCollection { get; private set; }
-    private SfGantt<DefaultData.TaskData> GanttChartInstance { get; set; }
-
+    public List<DefaultData.TaskData> TaskCollection { get; private set; } = new List<DefaultData.TaskData>();
+    private SfGantt<DefaultData.TaskData>? GanttChartInstance { get; set; }
+    public List<Object> toolbarItems = new List<Object>()
+    {
+        #pragma warning disable BL0005 // Component parameter should not be set outside of its component.
+        new ToolbarItem() { Id = "copyHeader", Text = "Copy With Header", PrefixIcon = "e-copy"},
+        new ToolbarItem() { Id = "copy", Text = "Copy", PrefixIcon = "e-copy"}
+        #pragma warning restore BL0005 // Component parameter should not be set outside of its component.
+    };
     protected override void OnInitialized()
     {
         TaskCollection = DefaultData.ProjectNewData();
     }
 
-    public async Task OnToolbarItemClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    public async Task ToolbarClickHandler(Syncfusion.Blazor.Navigations.ClickEventArgs args)
     {
         var selectedRecords = await GanttChartInstance.GetSelectedRecordsAsync();
         if (selectedRecords.Any())

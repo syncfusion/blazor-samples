@@ -10,13 +10,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_summarydata
+namespace Summarydata
 {
     public class SummaryRowData
     {
         public int ID { get; set; }
-        public string FreightID { get; set; }
-        public string FreightName { get; set; }
+        public string? FreightID { get; set; }
+        public string? FreightName { get; set; }
         public int TotalUnits { get; set; }
         public int TotalCosts { get; set; }
         public int UnitWeight { get; set; }

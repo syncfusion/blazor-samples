@@ -25,7 +25,10 @@ using System;
 using System.Net.Http;
 using Microsoft.AspNetCore.Components;
 using Syncfusion.Blazor.AI;
-
+using Microsoft.Extensions.AI;
+using OpenAI;
+using Microsoft.Extensions.FileProviders;
+using System.IO;
 
 
 var licenseKey = "";
@@ -51,16 +54,18 @@ builder.Services.AddSingleton<LocalEmbedder>();
 /* OpenAI Service */
 string apiKey = "your api key";
 string deploymentName = "your deployment name";
-var creds = new AIServiceCredentials(apiKey, deploymentName);
 
+OpenAIClient openAIClient = new OpenAIClient(apiKey);
+IChatClient openAiChatClient = openAIClient.GetChatClient(deploymentName).AsIChatClient();
+builder.Services.AddChatClient(openAiChatClient);
 builder.Services.AddSyncfusionSmartComponents()
-    .ConfigureCredentials(creds).InjectOpenAIInference();
+    .InjectOpenAIInference();
 builder.Services.AddSingleton<SyncfusionAIService>();
 builder.Services.AddScoped<UserTokenService>();
 builder.Services.AddScoped<AzureAIService>(sp =>
 {
     var userTokenService = sp.GetRequiredService<UserTokenService>();
-    return new AzureAIService(userTokenService, creds);
+    return new AzureAIService(userTokenService, openAiChatClient);
 });
 
 #endregion
@@ -120,6 +125,12 @@ if (!app.Environment.IsDevelopment())
     app.UseDefaultFiles();
 #if NET9_0
     app.MapStaticAssets();
+    app.UseStaticFiles(new StaticFileOptions
+    {
+        FileProvider = new PhysicalFileProvider(
+        Path.Combine(app.Environment.ContentRootPath, "wwwroot", "DemoBaseDirectory")),
+        RequestPath = "/DemoBaseDirectory"
+    });
 #else
     app.UseStaticFiles();
 #endif

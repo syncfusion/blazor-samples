@@ -179,38 +179,38 @@
     List<ContextMenuItem> ContextMenuItems = new List<ContextMenuItem>();
     SnapConstraints snapConstraints = SnapConstraints.All & ~SnapConstraints.ShowLines;
     DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings() { Constraints = SelectorConstraints.All & ~SelectorConstraints.Rotate };
-    public DiagramSize SymbolPreview;
-    public SymbolMargin SymbolMargin = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
-    public SfDiagramComponent Diagram;
-    public SfSymbolPaletteComponent PaletteInstance;
+    public DiagramSize? SymbolPreview;
+    public SymbolMargin? SymbolMargin = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
+    public SfDiagramComponent? Diagram;
+    public SfSymbolPaletteComponent? PaletteInstance;
 
     //Defines Diagram's nodes collection
-    private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    private DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
 
     //Defines Diagram's swimlane collection
-    private DiagramObjectCollection<Swimlane> swimlanes = new DiagramObjectCollection<Swimlane>();
+    private DiagramObjectCollection<Swimlane>? swimlanes = new DiagramObjectCollection<Swimlane>();
 
     //Defines Diagram's connectors collection
-    private DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    private DiagramObjectCollection<Connector>? connectors = new DiagramObjectCollection<Connector>();
 
     //Define palettes collection
-    private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
+    private DiagramObjectCollection<Palette>? palettes = new DiagramObjectCollection<Palette>();
 
     // Defines palette's flow-shape collection
-    private DiagramObjectCollection<NodeBase> flowShapeSymbols = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? flowShapeSymbols = new DiagramObjectCollection<NodeBase>();
     // Defines palette's swimlane-shape collection
     DiagramObjectCollection<NodeBase> SwimlaneNodes = new DiagramObjectCollection<NodeBase>();
     // Defines interval values for GridLines
-    public double[] GridLineIntervals { get; set; }
+    public double[]? GridLineIntervals { get; set; }
 
     // Defines palette's connector collection
-    private DiagramObjectCollection<NodeBase> connectorSymbols = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? connectorSymbols = new DiagramObjectCollection<NodeBase>();
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteInstance!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             Diagram
         };
@@ -235,24 +235,24 @@
 
     private void ContextMenuOpening(DiagramMenuOpeningEventArgs args)
     {
-        if (args.Items.Count > 0)
+        if (args.Items!.Count > 0)
         {
             foreach (ContextMenuItem item in args.Items)
             {
-                if ((Diagram.SelectionSettings.Nodes.Count + Diagram.SelectionSettings.Connectors.Count + Diagram.SelectionSettings.Swimlanes.Count +
-                Diagram.SelectionSettings.Lanes.Count + Diagram.SelectionSettings.Phases.Count) > 0)
+                if ((Diagram!.SelectionSettings!.Nodes!.Count + Diagram.SelectionSettings.Connectors!.Count + Diagram.SelectionSettings.Swimlanes!.Count +
+                Diagram.SelectionSettings.Lanes!.Count + Diagram.SelectionSettings.Phases!.Count) > 0)
                 {
                     if (item.ID == "InsertLaneBefore" || item.ID == "InsertLaneAfter")
                     {
                         if (Diagram.SelectionSettings.Lanes.Count == 0)
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                     }
                 }
                 else
                 {
-                    args.HiddenItems.Add(item.ID);
+                    args.HiddenItems!.Add(item.ID);
                 }
             }
         }
@@ -260,14 +260,14 @@
 
     private void ContextMenuItemClicked(DiagramMenuClickEventArgs args)
     {
-        if (args.Item.ID == "InsertLaneBefore" || args.Item.ID == "InsertLaneAfter")
+        if (args.Item!.ID == "InsertLaneBefore" || args.Item.ID == "InsertLaneAfter")
         {
-            if(Diagram.SelectionSettings.Lanes.Count > 0)
+            if(Diagram!.SelectionSettings!.Lanes!.Count > 0)
             {
                 Lane lane = Diagram.SelectionSettings.Lanes[0];
-                Swimlane swimlaneObj = lane.GetParent() as Swimlane;
-                Swimlane swimlane = Diagram.GetObject(swimlaneObj.ID) as Swimlane;
-                Lane existingLane = swimlane.Lanes[0].Clone() as Lane;
+                Swimlane? swimlaneObj = lane.GetParent() as Swimlane;
+                Swimlane? swimlane = Diagram.GetObject(swimlaneObj!.ID) as Swimlane;
+                Lane? existingLane = swimlane!.Lanes[0].Clone() as Lane;
                 int index = swimlane.Lanes.IndexOf(lane);
 
                 Lane newLane = new Lane()
@@ -275,7 +275,7 @@
                         Header = new SwimlaneHeader()
                         {
                             Annotation = new ShapeAnnotation(){Content = "Function"},
-                            Width = existingLane.Header.Width,
+                            Width = existingLane!.Header!.Width,
                             Height = existingLane.Header.Height,
                             Style = existingLane.Header.Style
                         },
@@ -306,11 +306,11 @@
             }
         }
         else if (args.Item.ID == "Cut")
-            Diagram.Cut();
+            Diagram!.Cut();
         else if (args.Item.ID == "Copy")
-            Diagram.Copy();
+            Diagram!.Copy();
         else if (args.Item.ID == "Paste")
-            Diagram.Paste();
+            Diagram!.Paste();
     }
         // Create Nodes and Connectors for the diagram.
     private void InitDiagramModel()
@@ -336,7 +336,7 @@
                             Fill = "#E7F4FF", StrokeColor = "#CCCCCC"
                     }
                 },
-                Phases = new DiagramObjectCollection<Phase>()
+                Phases = new DiagramObjectCollection<Phase?>()
                 {
                     new Phase()
                     {
@@ -514,10 +514,10 @@
     }
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
+        Node? node = obj as Node;
         if (node != null)
         {
-            node.Style.StrokeColor = "#717171";
+            node.Style!.StrokeColor = "#717171";
         }
         if(obj is Swimlane swimlane)
         {
@@ -526,9 +526,9 @@
                 Fill = "#E7F4FF",
                 StrokeColor = "#717171"
             };
-            foreach (Phase phase in swimlane.Phases)
+            foreach (Phase? phase in swimlane.Phases)
             {
-                phase.Style = new ShapeStyle() { StrokeColor = "#717171", Fill = "#FFFFFF" };
+                phase!.Style = new ShapeStyle() { StrokeColor = "#717171", Fill = "#FFFFFF" };
             }
             foreach (Lane lane in swimlane.Lanes)
             {
@@ -538,8 +538,8 @@
     }
     private void OnConnectorCreating(IDiagramObject obj)
     {
-        Connector connector = obj as Connector;
-        if(connector.ID.IndexOf("Link21") != -1)
+        Connector? connector = obj as Connector;
+        if(connector!.ID!.IndexOf("Link21") != -1)
         {
             connector.Type = ConnectorSegmentType.Straight;
         }
@@ -551,9 +551,9 @@
         {
             connector.Type = ConnectorSegmentType.Orthogonal;
         }
-        connector.Style.StrokeColor = "#717171";
-        connector.SourceDecorator.Style.StrokeColor = "#717171";
-        connector.TargetDecorator.Style.StrokeColor = "#717171";
+        connector.Style!.StrokeColor = "#717171";
+        connector.SourceDecorator!.Style.StrokeColor = "#717171";
+        connector.TargetDecorator!.Style.StrokeColor = "#717171";
         connector.SourceDecorator.Style.Fill = "#717171";
         connector.TargetDecorator.Style.Fill = "#717171";
     }
@@ -600,7 +600,7 @@
         double ratio = 100 / oldWidth;
         diagramNode.Width = 100;
         diagramNode.Height *= ratio;
-        flowShapeSymbols.Add(diagramNode);
+        flowShapeSymbols!.Add(diagramNode);
     }
 
     private void DragDrop(DropEventArgs args)
@@ -661,7 +661,7 @@
         return defaultsPorts;
     }
     // Method is used to create a Connector for the diagram.
-    private void CreateConnector(string sourceId, string targetId, string label = default(string), bool isDashLine = false, string sport = "", string tport = "")
+    private void CreateConnector(string sourceId, string targetId, string label = default(string)!, bool isDashLine = false, string sport = "", string tport = "")
     {
         Connector diagramConnector = new Connector()
             {
@@ -691,10 +691,10 @@
         }
         diagramConnector.Type = ConnectorSegmentType.Orthogonal;
 
-        connectors.Add(diagramConnector);
+        connectors!.Add(diagramConnector);
     }
     // Method is used to create a Connector for the palette.
-    private void CreatePaletteConnector(string id, ConnectorSegmentType type, DiagramPoint targetPoint, string dasharray = null)
+    private void CreatePaletteConnector(string id, ConnectorSegmentType type, DiagramPoint targetPoint, string? dasharray = null)
     {
         string connectorID = id;
         bool isSpace = id.Contains(" ");
@@ -723,12 +723,12 @@
                 };
             diagramConnector.Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip;
         }
-        connectorSymbols.Add(diagramConnector);
+        connectorSymbols!.Add(diagramConnector);
     }
 
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
 

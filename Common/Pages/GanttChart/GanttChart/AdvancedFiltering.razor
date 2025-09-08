@@ -22,18 +22,15 @@
     </p>
 </ActionDescription>
 
-
-
-
 <div id="control-section" class="col-lg-12 control-section">
     <div class="row">
         <div style="padding-left: 10px; padding-right: 20px;">
             @if (IsSidebarVisible)
             {
-                <SfSidebar Animate="false" class="default-sidebar" Width="65%" Type="SidebarType.Over" Target="#GanttAdvancedFilter" Position="SidebarPosition.Right" @bind-IsOpen="IsSidebarOpen">
+                <SfSidebar Animate="false"  Width="65%" Type="SidebarType.Over" Target="#GanttAdvancedFilter" Position="SidebarPosition.Right" @bind-IsOpen="IsSidebarOpen">
                     <ChildContent>
                         <div class="title-header">
-                            <div style="display: flex; justify-content: center; align-items: center; padding: 8px;" class="title">
+                            <div class="e-gantt-advance-filtering-title">
                                 Advanced Filters
                             </div>
                             <span id="close" class="e-close" @onclick="@CloseSidebar" style="position: absolute; top: 2%; right: 4%;"></span>
@@ -60,9 +57,9 @@
         </div>
 
         <SfGantt @ref="Gantt" ID="GanttAdvancedFilter" DataSource="@TaskCollection" AllowResizing="true" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate"
-                 Query="@SearchQuery" ScrollToTaskbarOnClick="true" Toolbar="@Toolbaritems">
+        Query="@SearchQuery" ScrollToTaskbarOnClick="true" Toolbar="@Toolbaritems">
             <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
-                             Duration="Duration" ParentID="ParentId" Dependency="Predecessor"></GanttTaskFields>
+            Duration="Duration" ParentID="ParentId" Dependency="Predecessor"></GanttTaskFields>
             <GanttColumns>
                 <GanttColumn Field="TaskId" HeaderText="ID"></GanttColumn>
                 <GanttColumn Field="TaskName" HeaderText="Task Name" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="280px"></GanttColumn>
@@ -82,20 +79,20 @@
     public bool IsSidebarVisible { get; set; }
     public string FilterQuery { get; set; } = string.Empty;
     public bool Querybuilderevent { get; set; } = false;
-    public SfGantt<FilterData.TaskData> Gantt { get; set; }
-    public Query SearchQuery { get; set; }
+    public SfGantt<FilterData.TaskData>? Gantt { get; set; }
+    public Query? SearchQuery { get; set; }
     public WhereFilter ColumnPredicate { get; set; } = new WhereFilter();
     public List<WhereFilter> FilterPredicates { get; set; } = new List<WhereFilter>();
     public WhereFilter PredicateValue { get; set; }
 
     private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 24);
     private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 6);
-    private IEnumerable<ColumnDetail> QueryBuilderDataSource { get; set; } = new List<ColumnDetail>();
+    private IEnumerable<ColumnDetail> QueryBuilderDataSource { get; set; }
     private SfQueryBuilder<ColumnDetail> QueryBuilder { get; set; }
-    private List<FilterData.TaskData> TaskCollection { get; set; }
-    
+    private List<FilterData.TaskData> TaskCollection { get; set; } = new List<FilterData.TaskData>();
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
     public List<Object> Toolbaritems { get; set; } = new List<Object>() { new ToolbarItem() { Text = "Advanced Filters", TooltipText = "Advanced Filters", Id = "Advanced_Filters", PrefixIcon = "e-filter-icon", Align = ItemAlign.Right } };
-
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     protected override void OnInitialized()
     {
         TaskCollection = FilterData.GetTaskCollection();
@@ -203,11 +200,15 @@
         content: '\e109';
     }
 
-    .title {
+    .e-gantt-advance-filtering-title {
         font-weight: 500;
         line-height: 24px;
         font-size: 18px;
         margin-top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
     }
 
 
@@ -306,7 +307,8 @@
         font-size: 13px;
     }
 
-    .highcontrast .e-filter-icon::before,
+    .fabric .e-filter-icon::before,
+    .fabric-dark .e-filter-icon::before,
     .highcontrast .e-filter-icon::before {
         content: '\e250';
         font-family: 'e-icons';
@@ -315,7 +317,7 @@
     .fluent .e-filter-icon::before, .fluent-dark .e-filter-icon::before,
     .tailwind3 .e-filter-icon::before, .tailwind3-dark .e-filter-icon::before,
     .fluent2 .e-filter-icon::before, .fluent2-dark .e-filter-icon::before, .fluent2-highcontrast .e-filter-icon::before, 
-    .bootstrap5\.3 .e-filter-icon::before, .bootstrap5\.3-dark .e-filter-icon::before {
+    .bootstrap5\.3 .e-filter-icon::before, .bootstrap5\.3-dark .e-filter-icon::before, .bootstrap5 .e-filter-icon::before, .bootstrap5-dark .e-filter-icon::before {
         content: '\e7f7';
         font-family: 'e-icons';
         font-size: 13px;
@@ -363,8 +365,9 @@
         .e-bigger .e-sidebar {
             width: 100% !important;
     }
+    }
 
-    .title{
+    .e-bigger .e-gantt-advance-filtering-title {
         height: 48px;
     }
     

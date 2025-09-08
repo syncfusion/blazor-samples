@@ -15,10 +15,10 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
 {
     public class PivotLargeData
     {
-        public string ProductID { get; set; }
-        public string Year { get; set; }
-        public string Country { get; set; }
-        public string City { get; set; }
+        public string ProductID { get; set; } = string.Empty;
+        public string Year { get; set; } = string.Empty;
+        public string Country { get; set; } = string.Empty;
+        public string City { get; set; } = string.Empty;
         public decimal Price { get; set; }
         public DateTime Date { get; set; }
         public decimal Sold { get; set; }
@@ -56,7 +56,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
                 PivotLargeData p = new PivotLargeData
                 {
                     ProductID = "PRO-" + (round),
-                    Year = (new string[] { "FY 2014", "FY 2015", "FY 2016", "FY 2017" })[new Random().Next(4)],
+                    Year = (new string[] { "FY 2022", "FY 2023", "FY 2024", "FY 2025" })[new Random().Next(4)],
                     Country = "USA",
                     City = "New York",
                     Price = Math.Round((decimal)rnd1 * 5000) + 5000,

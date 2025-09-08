@@ -11,18 +11,18 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using BlazorDemos;
-namespace ej2_blazor_selfdata
+namespace Selfdata
 {
     public class SelfReferenceData
     {
         public static List<SelfReferenceData> tree = new List<SelfReferenceData>();
         [Key]
         public int? TaskID { get; set; }
-        public string TaskName { get; set; }
+        public string? TaskName { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public String Progress { get; set; }
-        public String Priority { get; set; }
+        public String? Progress { get; set; }
+        public String? Priority { get; set; }
         public double? Duration { get; set; }
         public int? ParentID { get; set; }
         public bool? IsParent { get; set; }

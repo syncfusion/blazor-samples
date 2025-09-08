@@ -16,7 +16,7 @@ namespace TextToMindMapDiagram
         public void ShowHideShortcutKey()
         {
             ShowShortCutKey = "none";
-            int shortcutIndex = Parent.MenubarRef.WindowMenuItems.FindIndex(item => item.Text == "Show Shortcuts");
+            int shortcutIndex = Parent.MenubarRef!.WindowMenuItems.FindIndex(item => item.Text == "Show Shortcuts");
             Parent.MenubarRef.WindowMenuItems[shortcutIndex].IconCss = Parent.MenubarRef.WindowMenuItems[shortcutIndex].IconCss == "sf-icon-blank" ? "sf-icon-Selection" : "sf-icon-blank";
             Parent.MenubarRef.StateChanged();
         }

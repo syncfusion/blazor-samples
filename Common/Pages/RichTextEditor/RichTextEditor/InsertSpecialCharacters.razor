@@ -30,7 +30,7 @@
                     <RichTextEditorCustomToolbarItems>
                         <RichTextEditorCustomToolbarItem Name="Symbol">
                             <Template>
-                                <SfButton cssClass="@ButtonCssClass" @onclick="ClickHandler">
+                                <SfButton aria-label="Open Special Character Insertion Menu" cssClass="@ButtonCssClass" @onclick="ClickHandler">
                                     <div class="e-tbar-btn-text" style="font-weight: 400;"> &#937;</div>
                                 </SfButton>
                             </Template>
@@ -43,7 +43,7 @@
 </div>
 
 <div>
-    <SfDialog @bind-Visible="@DialogVisible" CssClass="e-rte-elements" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="45%" Target="#rteSection">
+    <SfDialog @bind-Visible="@DialogVisible" CssClass="e-rte-elements" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="45%" Target="#rteSection" aria-label="Open Special Character Picker">
         <DialogTemplates>
             <Header> Special Characters </Header>
             <Content>
@@ -125,9 +125,10 @@
         this.CurrentIndex = index;
     }
 
-    private void ClickHandler()
+    private async Task ClickHandler()
     {
         this.DialogVisible = true;
+        await this.RteObj.SaveSelectionAsync();
     }
 
     private async Task OnInsert()
@@ -136,6 +137,7 @@
         {
             ExecuteCommandOption executeCommandOption = new ExecuteCommandOption();
             executeCommandOption.Undo = true;
+            await this.RteObj.RestoreSelectionAsync();
             await this.RteObj.ExecuteCommandAsync(CommandName.InsertText, this.CharactersArray[this.CurrentIndex], executeCommandOption);
             this.DialogVisible = false;
             this.CurrentIndex = -1;

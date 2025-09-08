@@ -13,7 +13,7 @@
     <SfTab ID='sb-source-tab' Items="@sourceCodeItems" HeaderPlacement="@HeaderPosition.Bottom" @bind-SelectedItem="tabSelectedIndex">
         <TabEvents Selected="OnSourceClicked"></TabEvents>
     </SfTab>
-</div> 
+</div>
 @if (!isSourceCodeRequired)
 {
     <div class='sb-tab-content'>
@@ -24,12 +24,12 @@
 
 
 @code {
-    private List<TabItem> sourceCodeItems;
-    private string sourceCode { get; set; }
-    private string fileName { get; set; }
+    private List<TabItem>? sourceCodeItems;
+    private string? sourceCode { get; set; }
+    private string? fileName { get; set; }
     private bool isSourceCodeRequired { get; set; }
     private int tabSelectedIndex { get; set; }
-    private string pageTitle { get; set; }
+    private string? pageTitle { get; set; }
 
     // Source code tab selected event handler.
     private async Task OnSourceClicked(SelectEventArgs args)
@@ -45,24 +45,20 @@
          #if NET8_0 
             #if WASM
                 string projectPath = "Blazor_WASM_Common_NET8";
-            #elif SERVER
-                string projectPath = "Blazor_Server_Common_NET8";
             #else
-                string projectPath = "Blazor_WebApp_Common_NET8";
+                string projectPath = "Blazor_Server_Common_NET8";
             #endif
         #else
             #if WASM
                 string projectPath = "Blazor_WASM_Common_NET9";
-            #elif SERVER
-                string projectPath = "Blazor_Server_Common_NET9";
             #else
-                string projectPath = "Blazor_WebApp_Common_NET9";
+                string projectPath = "Blazor_Server_Common_NET9";
             #endif
         #endif
             sourceCode = string.Empty;
             fileName = string.Empty;
-            string directory = SampleService.SampleInfo.Directory;
-            if (SampleService.SampleInfo.SourceFiles.Count > index && SampleService.SampleInfo.Directory != null)
+            string? directory = SampleService?.SampleInfo?.Directory ;
+            if (SampleService?.SampleInfo?.SourceFiles.Count > index && SampleService.SampleInfo.Directory != null)
             {
                 fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
                 var filePath = $"_content/{projectPath}/scripts/Pages/{directory}/{fileName}.txt";
@@ -72,13 +68,13 @@
                     directory = directory;
                 }
                 else {
-                    directory = directory.Split("/")[0];
+                    directory = directory?.Split("/")[0];
                 }
                 sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt"); 
             }
             else
             {
-                fileName = SampleService.SampleInfo.FileName;
+                fileName = SampleService?.SampleInfo?.FileName;
                 sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
             }
             pageTitle = this.PageTitleContent(sourceCode);
@@ -175,14 +171,14 @@
     /// Renders the dynamic source code tab for showcase the source codes.
     /// </summary>
     /// <param name="args">Arguments used to render the dynamic tab items.</param>
-    public async Task OnSourceTabSelected(SelectEventArgs args)
+    public async Task OnSourceTabSelected(SelectEventArgs? args)
     {
         sourceCodeItems = new List<TabItem>();
         if (args == null || (args != null && args.SelectedIndex == 1))
         {
-            if (SampleService.SampleInfo.SourceFiles.Count != 0)
+            if (SampleService.SampleInfo?.SourceFiles.Count != 0)
             {
-                for (var i = 0; i < SampleService.SampleInfo.SourceFiles.Count; i++)
+                for (var i = 0; i < SampleService.SampleInfo?.SourceFiles.Count; i++)
                 {
 #pragma warning disable
                     sourceCodeItems.Add(

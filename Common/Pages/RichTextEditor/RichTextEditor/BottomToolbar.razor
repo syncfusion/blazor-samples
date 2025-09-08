@@ -5,6 +5,7 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Notifications
 @using Syncfusion.Blazor.InteractiveChat
+@using System.Text.RegularExpressions;
  
 @*Hidden:Lines*@
  
@@ -34,8 +35,8 @@
                             <SfRichTextEditor @ref="Editor" Placeholder="@PlaceHolderText">
                                 <RichTextEditorToolbarSettings Items="@Tools" Position="ToolbarPosition.Bottom"></RichTextEditorToolbarSettings>
                             </SfRichTextEditor>
-                            <SfButton id="sendMessage" class="e-btn e-primary e-icon-btn e-small" IconCss="e-icons e-send  e-send-1" style="float: right; margin: 4px;" @onclick="SendMessage"></SfButton>
-                            <SfButton id="cancelMessage" class=" e-btn e-secondary e-icon-btn e-small" IconCss="e-icons e-trash e-delete-3" style="float: right; margin: 4px;" @onclick="CancelMessage"></SfButton>
+                            <SfButton id="sendMessage" aria-label="Send Message" class="e-btn e-primary e-icon-btn e-small" IconCss="e-icons e-send  e-send-1" style="float: right; margin: 4px;" @onclick="SendMessage"></SfButton>
+                            <SfButton id="cancelMessage" aria-label="Cancel Message" class=" e-btn e-secondary e-icon-btn e-small" IconCss="e-icons e-trash e-delete-3" style="float: right; margin: 4px;" @onclick="CancelMessage"></SfButton>
                         </div>
                     </FooterTemplate>
                 </SfChatUI>
@@ -113,7 +114,7 @@
 
     .chat_user2_avatar {
  
-    background-image: url('https://ej2.syncfusion.com/demos/src/chat-ui/images/andrew.png');
+    background-image: url('https://cdn.syncfusion.com/blazor/images/demos/chat-ui/andrew.webp');
  
     background-color: unset;
  
@@ -151,9 +152,11 @@
         bottom: 57px;
         right: 60px;
     }
+    
     .chat-section {
         height: 600px;
-    }
+   }
+
 </style>
 
 @code {
@@ -166,7 +169,7 @@
  
     private static UserModel CurrentUserModel = new UserModel() { ID = "User1", User = "Albert" };
  
-    private static UserModel MichaleUserModel = new UserModel() { ID = "User2", User = "Michale Suyama", AvatarUrl = "https://ej2.syncfusion.com/demos/src/chat-ui/images/andrew.png" };
+    private static UserModel MichaleUserModel = new UserModel() { ID = "User2", User = "Michale Suyama", AvatarUrl = "https://cdn.syncfusion.com/blazor/images/demos/chat-ui/andrew.webp" };
 
     private List<ChatMessage> ChatUserMessages = new List<ChatMessage>()
  
@@ -176,7 +179,7 @@
  
         new ChatMessage() { Author = MichaleUserModel, Text = "Yes, the design phase is complete." },
  
-            new ChatMessage() { Author = CurrentUserModel, Text = "I will review it and send feedback by today." },
+        new ChatMessage() { Author = CurrentUserModel, Text = "I will review it and send feedback by today." },
  
         new ChatMessage() { Author = MichaleUserModel, Text = "Okay." },
  
@@ -236,29 +239,21 @@
  
     }
 
-    private async Task SendMessage()
- 
+    private async Task SendMessage() 
     {
- 
         var text = Editor?.Value;
- 
-        if (!string.IsNullOrEmpty(text))
- 
+        if (!string.IsNullOrEmpty(text) && IsValidContent(text)) 
         {
- 
-            ChatUserMessages.Add(new ChatMessage() { Author = CurrentUserModel, Text = text });
- 
+            ChatUserMessages.Add(new ChatMessage() 
+            {
+                Author = CurrentUserModel,
+                Text = text
+            });
             Editor.Value = string.Empty;
-
             StateHasChanged();
- 
             await Editor.ClearUndoRedoAsync();
- 
-            await Editor.FocusAsync();
- 
- 
+            await Editor.FocusAsync();        
         }
- 
     }
 
     private async Task CancelMessage()
@@ -273,6 +268,27 @@
 
         await Editor.FocusAsync();
  
+    }
+
+    private bool IsValidContent(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+            return false;
+        html = Regex.Replace(html, @"<br\s*/?>", "", RegexOptions.IgnoreCase);
+        
+        html = html.Replace("&nbsp;", "", StringComparison.OrdinalIgnoreCase);
+        
+        string cleanedText = Regex.Replace(html, "<[^>]*>", string.Empty).Trim();
+        if (!string.IsNullOrEmpty(cleanedText))
+            return true;
+        // Check for presence of any media tags
+        string[] mediaTags = { "img", "table", "audio", "video" , "iframe" };
+        foreach (var tag in mediaTags)
+        {
+            if (Regex.IsMatch(html, $@"<\s*{tag}[^>]*>", RegexOptions.IgnoreCase))
+                return true;
+        }
+        return false;
     }
 
 }

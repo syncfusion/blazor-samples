@@ -48,7 +48,7 @@
                 </Content>
             </TooltipTemplates>
             @*Initialize the Toolbar component*@
-            <SfToolbar ID="toolbar-menu">
+            <SfToolbar ID="toolbar-menu" aria-label="Tooltip Menu Toolbar">
                 <ToolbarItems>
                     <ToolbarItem CssClass="custom" Id="Wireless" Type="ItemType.Button" Text="Wireless" TooltipText="Wireless" Overflow=OverflowOption.Hide PrefixIcon="e-wifi"></ToolbarItem>
                     <ToolbarItem CssClass="custom" Id="Device" Type="ItemType.Button" Text="Device" TooltipText="Device" Overflow=OverflowOption.Hide PrefixIcon="e-battery"></ToolbarItem>
@@ -61,15 +61,15 @@
 
 @code {
     // Specifies the instance of Tooltip component.
-    public SfTooltip tooltipInstance;
+    public SfTooltip? tooltipInstance;
     // Specifies the current Toolbar item.
     public string DynamicContent = string.Empty;
-    private DotNetObjectReference<Menu> dotnetObjectRef { get; set; }
+    private DotNetObjectReference<Menu>? dotnetObjectRef { get; set; }
     public class DataModel
     {
-        public string Text { get; set; }
-        public string IconCss { get; set; }
-        public string Id { get; set; }
+        public string? Text { get; set; }
+        public string? IconCss { get; set; }
+        public string? Id { get; set; }
     }
     // Specifies the wireless data of the ListView component.
     public DataModel[] ConnectionData =
@@ -108,19 +108,31 @@
     // Specifies the event handler for before rendering the Tooltip component.
     public void OnTooltipRender(TooltipEventArgs args)
     {
-        DynamicContent = args.Target.ID;
-        tooltipInstance.RefreshPositionAsync();
+        if (args.Target != null)
+        {
+            DynamicContent = args.Target.ID;
+        }
+        if (tooltipInstance != null)
+        {
+            tooltipInstance.RefreshPositionAsync();         
+        }
     }
     // Specifies the event handler to close the tooltip while selecting the item.
 
     public void CloseTooltip(ClickEventArgs<DataModel> args)
     {
-        tooltipInstance.CloseAsync();
+        if (tooltipInstance != null)
+        {
+            tooltipInstance.CloseAsync();         
+        }
     }
     [JSInvokable]
     public void CloseTooltipPopup()
     {
-        tooltipInstance.CloseAsync();
+        if (tooltipInstance != null)
+        {
+            tooltipInstance.CloseAsync();
+        }
     }
     public void Dispose()
     {

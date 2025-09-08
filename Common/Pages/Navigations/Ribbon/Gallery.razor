@@ -282,8 +282,8 @@
 </div>
 
 @code {
-    SfToast toast;
-    SfRibbon ribbonRef;
+    SfToast toast = new SfToast();
+    SfRibbon ribbonRef = new SfRibbon();
     bool isDisabled = true;
     private int gallerySelectedItemIndex = 2;
     bool isPasteDisabled = true;
@@ -296,6 +296,53 @@
         ribbonRef?.EnableItem("pastebtn");
         isPasteDisabled = false;
     }
+
+    private async void HandleFilemenuSelection(FileMenuItemSelectEventArgs args)
+    {
+        var id = args.Item.Id;
+        var text = args.Item.Text;
+        if (id == "word" || id == "word97" || id == "pdf")
+        {
+            await UpdateContent("File -> Save as -> " + text);
+        }
+        else
+        {
+            await UpdateContent("File -> " + text);
+        }
+    }
+
+    private async Task UpdateContent(string text)
+    {
+        var toastModel = new ToastModel()
+        {
+            Target = "#ribbonPlaceHolder",
+            CssClass = "e-toast-info",
+            Height = "25",
+            Width = "auto",
+            Timeout = 2000,
+            ShowCloseButton = true,
+            NewestOnTop = true,
+            Content = "Last clicked item is " + text
+        };
+        await this.toast.ShowAsync(toastModel);            
+    }
+
+    private async Task LauncherIconClick(LauncherClickEventArgs args)
+    {
+        if (args.GroupId == "clipboard") {
+            await UpdateContent("Clipboard LauncherIcon");
+        }
+        else if (args.GroupId == "illustration") {
+            await UpdateContent("Illustration LauncherIcon");
+        }
+        else if (args.GroupId == "header_footer") {
+            await UpdateContent("Header & Footer LauncherIcon");
+        }
+    }
+
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
 
     List<GalleryGroup> galleryGroups = new List<GalleryGroup>
     {
@@ -343,49 +390,6 @@
             }
         }
     };
-
-    private async void HandleFilemenuSelection(FileMenuItemSelectEventArgs args)
-    {
-        var id = args.Item.Id;
-        var text = args.Item.Text;
-        if (id == "word" || id == "word97" || id == "pdf")
-        {
-            await UpdateContent("File -> Save as -> " + text);
-        }
-        else
-        {
-            await UpdateContent("File -> " + text);
-        }
-    }
-
-    private async Task UpdateContent(string text)
-    {
-        var toastModel = new ToastModel()
-        {
-            Target = "#ribbonPlaceHolder",
-            CssClass = "e-toast-info",
-            Height = "25",
-            Width = "auto",
-            Timeout = 2000,
-            ShowCloseButton = true,
-            NewestOnTop = true,
-            Content = "Last clicked item is " + text
-        };
-        await this.toast.ShowAsync(toastModel);            
-    }
-
-    private async Task LauncherIconClick(LauncherClickEventArgs args)
-    {
-        if (args.GroupId == "clipboard") {
-            await UpdateContent("Clipboard LauncherIcon");
-        }
-        else if (args.GroupId == "illustration") {
-            await UpdateContent("Illustration LauncherIcon");
-        }
-        else if (args.GroupId == "header_footer") {
-            await UpdateContent("Header & Footer LauncherIcon");
-        }
-    }
 
     List<DropDownMenuItem> formatItems = new List<DropDownMenuItem>()
     {
@@ -480,6 +484,9 @@
             }
         }
     };
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
 }
 
 <style>

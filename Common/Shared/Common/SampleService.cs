@@ -25,41 +25,41 @@ namespace BlazorDemos.Shared
         /// <summary>
         /// Specifies spinner component reference.
         /// </summary>
-        public SpinnerComponent Spinner { get; set; }
+        public SpinnerComponent? Spinner { get; set; }
         /// <summary>
         /// Specifies the current component name.
         /// </summary>
-        public string ComponentName { get; set; }
+        public string? ComponentName { get; set; }
         /// <summary>
         /// Specifies the current sample details.
         /// </summary>
-        public Sample SampleInfo { get; set; }
+        public Sample? SampleInfo { get; set; }
         /// <summary>
         /// Specifies the meta data component reference.
         /// </summary>
-        public SampleMetaData MetaData { get; set; }
+        public SampleMetaData? MetaData { get; set; }
         /// <summary>
         /// Specifies the very first sample url.
         /// </summary>
-        public string FirstSampleUrl { get; set; }
+        public string? FirstSampleUrl { get; set; }
         /// <summary>
         /// Specifies the last sample url.
         /// </summary>
-        public string LastSampleUrl { get; set; }
+        public string? LastSampleUrl { get; set; }
         /// <summary>
         /// Specifies the current sample url.
         /// </summary>
-        public string CurrentSampleUrl { get; set; }
+        public string? CurrentSampleUrl { get; set; }
 
         /// <summary>
         /// Specifies the documentation link.
         /// </summary>
-        public string DocumentLink { get; set; }
+        public string? DocumentLink { get; set; }
 
         /// <summary>
         /// Specifies the image url starts path.
         /// </summary>
-        public string ImagePath { get; set; }
+        public string? ImagePath { get; set; }
         /// <summary>
         /// Specifies the showcase image url starts path.
         /// </summary>
@@ -154,12 +154,6 @@ namespace BlazorDemos.Shared
     #else
             "_content/Blazor_WASM_Common_NET9/";
     #endif
-#elif WEBAPP
-    #if NET8_0
-            "_content/Blazor_WebApp_Common_NET8/";
-    #else
-            "_content/Blazor_WebApp_Common_NET9/";
-    #endif
 #else
     #if NET8_0
             "_content/Blazor_Server_Common_NET8/";
@@ -170,11 +164,9 @@ namespace BlazorDemos.Shared
         public SampleService()
         {
 #if WASM
-            DemoType = "Blazor WASM Demos";
-#elif WEBAPP
-            DemoType = "Blazor WebApp Demos";
+            DemoType = "Blazor Web App WASM Demos";
 #else
-            DemoType = "Blazor Server Demos";
+            DemoType = "Blazor Web App Server Demos";
 #endif
             WebAssetsPath = AssetsPath;
 #if DEBUG || STAGING
@@ -206,34 +198,25 @@ namespace BlazorDemos.Shared
 #if DEBUG || STAGING
     #if NET8_0
         #if SERVER
-            Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net8/demos", "wasm/net8/demos") :  Navigation_Url.Replace("net8/demos", "webapp/demos");
-        #endif
-        #if WEBAPP
-            Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/net8/demos") : Navigation_Url.Replace("webapp/demos", "net8/demos");
+            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url.Replace("net8/demos", "wasm/net8/demos");
         #endif
         #if WASM
-            Navigation_Url =  id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/net8/demos", "net8/demos") : Navigation_Url.Replace("wasm/net8/demos", "webapp/demos");
+            Navigation_Url =  id == "wasm" ? Navigation_Url : Navigation_Url.Replace("wasm/net8/demos", "net8/demos");
         #endif
     #else
         #if SERVER
-            Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("net9/demos", "wasm/net9/demos") : Navigation_Url.Replace("net9/demos", "webapp/net9/demos");
-        #endif
-        #if WEBAPP
-            Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/net9/demos", "wasm/net9/demos") : Navigation_Url.Replace("webapp/net9/demos", "net9/demos");
+            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url.Replace("net9/demos", "wasm/net9/demos");
         #endif
         #if WASM
-            Navigation_Url =  id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/net9/demos", "net9/demos") : Navigation_Url.Replace("wasm/net9/demos", "webapp/net9/demos");
+            Navigation_Url =  id == "wasm" ? Navigation_Url : Navigation_Url.Replace("wasm/net9/demos", "net9/demos");
         #endif
     #endif
 #else
     #if SERVER
-        Navigation_Url = id == "server" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("demos", "wasm/demos") : Navigation_Url.Replace("demos", "webapp/demos");
-    #endif
-    #if WEBAPP
-        Navigation_Url = id == "webapp" ? Navigation_Url : id == "wasm" ? Navigation_Url.Replace("webapp/demos", "wasm/demos") : Navigation_Url.Replace("webapp/demos", "demos");
+            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url.Replace("demos", "wasm/demos");
     #endif
     #if WASM
-        Navigation_Url = id == "wasm" ? Navigation_Url : id == "server" ? Navigation_Url.Replace("wasm/demos", "demos") : Navigation_Url.Replace("wasm/demos", "webapp/demos");
+            Navigation_Url =  id == "wasm" ? Navigation_Url : Navigation_Url.Replace("wasm/demos", "demos");
     #endif
 #endif
             await JsRuntime.InvokeVoidAsync("open", Navigation_Url, "_blank");
@@ -245,108 +228,119 @@ namespace BlazorDemos.Shared
             if (urlHelper.Uri.IndexOf("?theme") != -1)
             {
                 var themeName = System.Web.HttpUtility.ParseQueryString(new Uri(urlHelper.Uri).Query).Get("theme");
-                var queryString = urlHelper.Uri.Substring(urlHelper.Uri.IndexOf(themeName) + themeName.Length);
-                if (queryString != "")
+                if (themeName != null && urlHelper != null && urlHelper.Uri != null)
                 {
-                    string[] themeurl = urlHelper.Uri.Split("?");
-                    var url = themeurl[0] + "?theme=" + themeName;
-                    urlHelper.NavigateTo(url);
+                    var queryString = urlHelper.Uri.Substring(urlHelper.Uri.IndexOf(themeName, StringComparison.OrdinalIgnoreCase) + themeName.Length);
+                    if (queryString != "")
+                    {
+                        string[] themeurl = urlHelper.Uri.Split("?");
+                        var url = themeurl[0] + "?theme=" + themeName;
+                        urlHelper.NavigateTo(url);
+                    }
                 }
             }
-            string updatedUrl = urlHelper.ToBaseRelativePath(urlHelper.Uri);
+            if (urlHelper != null) {string updatedUrl = urlHelper.ToBaseRelativePath(urlHelper.Uri ?? "");
             if (updatedUrl.Contains("?"))
             {
                 updatedUrl = updatedUrl.Substring(0, updatedUrl.IndexOf("?"));
             }
-            if (updatedUrl != string.Empty)
-            {
-                if (updatedUrl.LastIndexOf("/") == updatedUrl.Length - 1)
+                if (updatedUrl != string.Empty)
                 {
-                    updatedUrl = updatedUrl.Substring(0, updatedUrl.LastIndexOf("/"));
-                }
-                updatedUrl = updatedUrl.Replace("//", "/");
-                string[] splittedUrl = updatedUrl.Split("/");
-                if (splittedUrl.Length >= 2)
-                {
-                    try
+                    if (updatedUrl.LastIndexOf("/") == updatedUrl.Length - 1)
                     {
-                        string categoryName = splittedUrl[splittedUrl.Length - 2];
+                        updatedUrl = updatedUrl.Substring(0, updatedUrl.LastIndexOf("/"));
+                    }
+                    updatedUrl = updatedUrl.Replace("//", "/");
+                    string[] splittedUrl = updatedUrl.Split("/");
+                    if (splittedUrl.Length >= 2)
+                    {
+                        try
+                        {
+                            string categoryName = splittedUrl[splittedUrl.Length - 2];
+                            categoryName = categoryName.Replace("-", string.Empty);
+                            SampleList controlInfo;
+                            var sampleName = splittedUrl[splittedUrl.Length - 1];
+                            if (categoryName == "buttons" && sampleName != "default-functionalities" && sampleName != "keyboard-navigation" || categoryName == "colorpicker" && sampleName == "inline")
+                            {
+                                controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.DemoPath != null && control.DemoPath.ToLower().Contains(sampleName ?? "")) ?? new SampleList();
+                            }
+                            else
+                            {
+                                if (categoryName.IndexOf("assistview")!=-1)
+                                {
+                                    controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName != null && control.ControllerName.ToLower().Equals(categoryName ?? "")) ?? new SampleList();
+                                }
+                                else
+                                {
+                                    controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => (control.ControllerName != null && control.ControllerName.ToLower().Equals(categoryName ?? "")) || (categoryName != null && control.ControllerName != null && categoryName.StartsWith(control.ControllerName.ToLower() ?? ""))) ?? new SampleList();
+                                }
+                            }
+                            this.ComponentName = controlInfo.Name;
+                            var sampleInfo = controlInfo.Samples.Where(control => control.Url?.ToLower() == updatedUrl).ToList();
+                            if (sampleInfo.Count > 0)
+                            {
+                                this.SampleInfo = sampleInfo.First();
+                            }
+                            else
+                            {
+                                sampleName = sampleName.Replace("-", string.Empty);
+                                this.SampleInfo = controlInfo.Samples.Where(control => control.FileName?.ToLower() == (sampleName + ".razor")).First();
+                            }
+                            this.CurrentSampleUrl = this.SampleInfo.Url;
+                        }
+                        catch
+                        {
+
+                        }
+                    }
+                    // Navigate a Sample using Component Name
+                    else if (splittedUrl.Length < 2 && splittedUrl.Length > 0)
+                    {
+                        string categoryName = splittedUrl[splittedUrl.Length - 1];
                         categoryName = categoryName.Replace("-", string.Empty);
-                        SampleList controlInfo;
-                        var sampleName = splittedUrl[splittedUrl.Length - 1];
-                        if (categoryName == "buttons" && sampleName != "default-functionalities" && sampleName != "keyboard-navigation" || categoryName == "colorpicker" && sampleName == "inline")
+                        var controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName != null && control.ControllerName.ToLower().Equals(categoryName ?? "")) ?? new SampleList();
+                        if (controlInfo != null)
                         {
-                            controlInfo = SampleBrowser.SampleList.First<SampleList>(control => control.DemoPath.ToLower().Contains(sampleName));
+                            if (controlInfo.Samples.Count > 0)
+                            {
+                                this.SampleInfo = controlInfo.Samples.First();
+                            }
+                            this.ComponentName = controlInfo.Name;
+                            this.CurrentSampleUrl = this.SampleInfo?.Url;
+                            var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo?.Url?? "".ToLower(), new Dictionary<string, object?>
+                            {
+                                ["theme"] = "fluent2"
+                            });
+                            urlHelper.NavigateTo(newUri);
                         }
-                        else
-                        {
-                            controlInfo = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(categoryName));
-                        }
-                        this.ComponentName = controlInfo.Name;
-                        var sampleInfo = controlInfo.Samples.Where(control => control.Url.ToLower() == updatedUrl).ToList();
-                        if (sampleInfo.Count > 0)
-                        {
-                            this.SampleInfo = sampleInfo.First();
-                        }
-                        else
-                        {
-                            sampleName = sampleName.Replace("-", string.Empty);
-                            this.SampleInfo = controlInfo.Samples.Where(control => control.FileName.ToLower() == (sampleName + ".razor")).First();
-                        }
-                        this.CurrentSampleUrl = this.SampleInfo.Url;
-                    }
-                    catch
-                    {
 
                     }
-                }
-                // Navigate a Sample using Component Name
-                else if (splittedUrl.Length < 2 && splittedUrl.Length > 0)
-                {
-                    string categoryName = splittedUrl[splittedUrl.Length - 1];
-                    categoryName = categoryName.Replace("-", string.Empty);
-                    var controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName.ToLower().Equals(categoryName));
-                    if (controlInfo != null)
-                    {
-                        if (controlInfo.Samples.Count > 0)
-                        {
-                            this.SampleInfo = controlInfo.Samples.First();
-                        }
-                        this.ComponentName = controlInfo.Name;
-                        this.CurrentSampleUrl = this.SampleInfo.Url;
-                        var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo.Url.ToLower(), new Dictionary<string, object>
-                        {
-                            ["theme"] = "fluent2"
-                        });
-                        urlHelper.NavigateTo(newUri);
-                    }
-
                 }
             }
         }
 
         // Updates the documentation link based on current loaded uri.
-        internal void UpdateFooter(string currentUrl)
+        internal void UpdateFooter(string? currentUrl)
         {
             
-            currentUrl = Uri.UnescapeDataString(currentUrl);
+            currentUrl = currentUrl != null ? Uri.UnescapeDataString(currentUrl) : "";
             var queryString = System.Web.HttpUtility.ParseQueryString(new Uri(currentUrl).Query);
             // Handled condition to avoid a Culture switching navigation problem.
             if (queryString.Get("redirectUri") != null)
             {
                 currentUrl = queryString.Get("redirectUri");
-                currentUrl = currentUrl.Split('?')[currentUrl.Split('?').Length - 2];
+                currentUrl = currentUrl?.Split('?')[currentUrl.Split('?').Length - 2];
             }
             else
             {
-                currentUrl = queryString.Count != 0 ? currentUrl.Replace(queryString.ToString(), "") : currentUrl;
+                currentUrl = queryString.Count != 0 ? currentUrl.Replace(queryString.ToString() ?? "", "") : currentUrl;
             }
-            currentUrl = ((currentUrl.LastIndexOf('/') != -1)  || (currentUrl.LastIndexOf('?') != -1) || (currentUrl.LastIndexOf('&') != -1)) ? currentUrl.Remove(currentUrl.Length - 1) : currentUrl;
-            currentUrl = currentUrl.EndsWith("/") ? currentUrl.TrimEnd('/') : currentUrl;
+            currentUrl = ((currentUrl?.LastIndexOf('/') != -1)  || (currentUrl.LastIndexOf('?') != -1) || (currentUrl.LastIndexOf('&') != -1)) ? currentUrl?.Remove(currentUrl.Length - 1) : currentUrl;
+            currentUrl = currentUrl != null ? currentUrl.EndsWith("/") ? currentUrl.TrimEnd('/') : currentUrl : "";
             var splittedUrl = currentUrl.Split("/");
             var ComponentName = splittedUrl[splittedUrl.Length - 2];
-            var ComponentInfo = SampleBrowser.SampleList.First<SampleList>(control => control.ControllerName.ToLower().Equals(ComponentName.Replace("-", string.Empty)));
-            if (ComponentInfo.Category.Equals("File Formats"))
+            var ComponentInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName != null && control.ControllerName.ToLower().Equals(ComponentName.Replace("-", "") ?? "")) ?? new SampleList();
+            if (ComponentInfo.Category != null && ComponentInfo.Category.Equals("File Formats"))
             {
                 this.DocumentLink = "https://help.syncfusion.com/" + ComponentInfo.Category.ToLower().Replace(" ", "-") + "/" + ComponentName + "/overview";
             }

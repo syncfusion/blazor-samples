@@ -43,7 +43,7 @@
                     <CaptionTemplate>
                         @{
                             var order = (context as CaptionTemplateContext);
-                            <div>@order.Field - @order.Key</div>
+                            <div>@order?.Field - @order?.Key</div>
                         }
                     </CaptionTemplate>
                 </GridGroupSettings>
@@ -56,7 +56,7 @@
                                     @{
                                         var SumValue = (context as AggregateTemplateContext);
                                         <div>
-                                            Total: @SumValue.Sum
+                                            Total: @SumValue?.Sum
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -66,7 +66,7 @@
                                     @{
                                         var Maxcount = (context as AggregateTemplateContext);
                                         <div>
-                                            Maximum: @Maxcount.Max
+                                            Maximum: @Maxcount?.Max
                                         </div>
                                     }
                                 </GroupCaptionTemplate>
@@ -83,7 +83,7 @@
                                 var con = (context as OrdersDetails);
                             }
                             <div class="link">
-                                <a href="mailto:@con.Email">@con.Email</a>
+                                <a href="mailto:@con!.Email">@con.Email</a>
                             </div>
                         </Template>
                     </GridColumn>
@@ -97,9 +97,9 @@
 </div>
 
 @code {
-    public List<OrdersDetails> GridData { get; set; }
+    public List<OrdersDetails>? GridData { get; set; }
     private string[] GroupedColumn = new string[] { "CustomerID" };
-    public SfGrid<OrdersDetails> Grid { get; set; }
+    public SfGrid<OrdersDetails>? Grid { get; set; }
 
     protected override void OnInitialized()
     {
@@ -109,17 +109,20 @@
 
     public async Task ToolbarClickHandler(ClickEventArgs args)
     {
-        if (args.Item.Id == "Grid_excelexport")
+        if (Grid != null)
         {
-            ExcelExportProperties ExportProperties = new ExcelExportProperties();
-            ExportProperties.IncludeTemplateColumn = true;
-            await Grid.ExportToExcelAsync(ExportProperties);
-        }
-        else if (args.Item.Id == "Grid_pdfexport")
-        {
-            PdfExportProperties ExportProperties = new PdfExportProperties();
-            ExportProperties.IncludeTemplateColumn = true;
-            await Grid.ExportToPdfAsync(ExportProperties);
+            if (args.Item.Id == "Grid_excelexport")
+            {
+                ExcelExportProperties ExportProperties = new ExcelExportProperties();
+                ExportProperties.IncludeTemplateColumn = true;
+                await Grid.ExportToExcelAsync(ExportProperties);
+            }
+            else if (args.Item.Id == "Grid_pdfexport")
+            {
+                PdfExportProperties ExportProperties = new PdfExportProperties();
+                ExportProperties.IncludeTemplateColumn = true;
+                await Grid.ExportToPdfAsync(ExportProperties);
+            }
         }
     }
 

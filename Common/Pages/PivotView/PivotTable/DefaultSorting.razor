@@ -136,9 +136,9 @@
     </style>
 
 @code{
-    public SfPivotView<PivotProductDetails> Pivot;
-    public SfDropDownList<string, DataId> Fields;
-    public SfDropDownList<string, DataId> Order;
+    public SfPivotView<PivotProductDetails>? Pivot;
+    public SfDropDownList<string, DataId>? Fields;
+    public SfDropDownList<string, DataId>? Order;
     public bool SortOrder = true;
     public bool ShowOption = true;
     public bool HideButton = false;
@@ -152,7 +152,7 @@
         {"Year", "Ascending" },
         {"Order_Source", "Ascending" }
     };
-    public List<PivotProductDetails> PivotViewDataSource { get; set; }
+    public List<PivotProductDetails>? PivotViewDataSource { get; set; }
 
     protected override void OnInitialized()
     {
@@ -172,7 +172,10 @@
 
     private void ChangeOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string,DataId> args)
     {
-        this.FieldCollection[this.Fields.Value] = args.Value;
+        if(Fields != null)
+        {
+            this.FieldCollection[this.Fields.Value] = args.Value;
+        }
     }
 
     public void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
@@ -193,19 +196,25 @@
 #pragma warning restore BL0005
 @*End:Hidden*@
             }
-            Pivot.DataSourceSettings.SortSettings = sortSettings;
+            if(Pivot != null)
+            {
+                Pivot.DataSourceSettings.SortSettings = sortSettings;
+            }
         }
         else
         {
-            Pivot.DataSourceSettings.EnableSorting = false;
-            Pivot.DataSourceSettings.SortSettings = new List<PivotViewSortSetting>();
+            if(Pivot != null)
+            {
+                Pivot.DataSourceSettings.EnableSorting = false;
+                Pivot.DataSourceSettings.SortSettings = new List<PivotViewSortSetting>();
+            }
         }
     }
 
     public class DataId
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
 
     private List<DataId> DropDownData = new List<DataId>()

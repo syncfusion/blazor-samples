@@ -22,7 +22,7 @@ namespace BlazorDemos
                 FileName = "SmartTextArea.razor",
                 MetaTitle = "Blazor Smart TextArea Smart TextArea - Syncfusion AI Demos",
                 HeaderText = "Blazor Smart TextArea Example - AI-Powered Text Editing",
-                MetaDescription = "This Blazor Smart TextArea example demonstrates AI-powered text input with intelligent suggestions, auto-completion, and context-aware assistance to enhance user productivity and writing experience."
+                MetaDescription = "This Blazor Smart TextArea example demonstrates AI-powered text input with intelligent suggestions and context-aware assistance to enhance writing experience."
             }
         };
     }

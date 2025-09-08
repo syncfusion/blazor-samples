@@ -9,10 +9,10 @@
 <DropDownComponent @ref="DropDownRef" DataSource="@cultureData" Value="@culture" OnSelect="@OnSelected"></DropDownComponent>
 
 @code {
-    private string culture { get; set; }
-    internal DropDownComponent DropDownRef { get; set; }
+    private string? culture { get; set; }
+    internal DropDownComponent? DropDownRef { get; set; }
 
-    private List<DropDownData> cultureData = new List<DropDownData> {
+    private List<DropDownData>? cultureData = new List<DropDownData> {
         new DropDownData() { ID = "en-US", Text = "English" },
         new DropDownData() { ID = "de-DE", Text = "German - Germany*" },
         new DropDownData() { ID = "fr-CH", Text = "French - Switzerland*" },
@@ -31,12 +31,12 @@
                  }
     #elif SERVER
             var culture = args.ID;
-            string currentUri = SampleService.SampleInfo.Url.ToLower();
-            string themeName = (NavigationManager.Uri.IndexOf('?') >= 0) ? (NavigationManager.Uri.Split('?')[1]) : null;
-            string replacedContent = (themeName != null) ? (currentUri + '?' + themeName) : currentUri;
+            string? currentUri = SampleService?.SampleInfo?.Url?.ToLower();
+            string? themeName = (NavigationManager.Uri.IndexOf('?') >= 0) ? (NavigationManager.Uri.Split('?')[1]) : null;
+            string? replacedContent = (themeName != null) ? (currentUri + '?' + themeName) : currentUri;
             var uri = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
-            var path = uri.Replace(replacedContent, "").Trim('/');
-            var query = $"?culture={Uri.EscapeDataString(culture)}&" + $"redirectUri={Uri.EscapeDataString(uri)}";
+            var path = uri.Replace(replacedContent ?? "", "").Trim('/');
+            var query = $"?culture={Uri.EscapeDataString(culture ?? "")}&" + $"redirectUri={Uri.EscapeDataString(uri)}";
             if (String.IsNullOrEmpty(path))
             {
                 NavigationManager.NavigateTo("/Culture/SetCulture" + query, forceLoad: true);
@@ -83,8 +83,8 @@
         protected override void OnInitialized()
         {
             base.OnInitialized();
-            var currentCulture = cultureData.Where(item => item.ID == System.Globalization.CultureInfo.CurrentCulture.Name).ToList();
-            if (currentCulture.Any())
+            var currentCulture = cultureData?.Where(item => item.ID == System.Globalization.CultureInfo.CurrentCulture.Name).ToList();
+            if (currentCulture != null && currentCulture.Any())
             {
                 culture = currentCulture.First().Text;
             }

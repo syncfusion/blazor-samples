@@ -172,13 +172,10 @@ namespace BlazorDemos.Shared
         /// </summary>
         public static List<DropDownData> Blazor_Platform = new List<DropDownData> {
         #if !SERVER
-            new DropDownData { ID = "server", Text = "Server" },
-        #endif
-        #if !WEBAPP
-            new DropDownData { ID = "webapp", Text = "WebApp" },
+            new DropDownData { ID = "server", Text = "Web App Server" },
         #endif
         #if !WASM
-            new DropDownData { ID = "wasm", Text = "WASM" }
+            new DropDownData { ID = "wasm", Text = "Web App WASM" }
         #endif
         };
 
@@ -188,13 +185,10 @@ namespace BlazorDemos.Shared
 
         public static List<ListData> BlazorPlatform = new List<ListData> {
             #if !SERVER
-                        new ListData { ID = "server", Text = "Server" },
-            #endif
-            #if !WEBAPP
-                        new ListData { ID = "webapp", Text = "WebApp" },
+                        new ListData { ID = "server", Text = "Web App Server" },
             #endif
             #if !WASM
-                        new ListData { ID = "wasm", Text = "WASM" }
+                        new ListData { ID = "wasm", Text = "Web App WASM" }
             #endif
         };
 
@@ -215,7 +209,7 @@ namespace BlazorDemos.Shared
                 string[] splittedUrl = url.Split("?theme=");
                 url = splittedUrl[0];
             }
-            url = UriHelper.GetUriWithQueryParameters(url, new Dictionary<string, object>
+            url = UriHelper.GetUriWithQueryParameters(url, new Dictionary<string, object?>
             {
                 ["theme"] = themeName
             });
@@ -229,7 +223,7 @@ namespace BlazorDemos.Shared
         public static string GetThemeName(string url)
         {
             var uri = new Uri(url);
-            string themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
+            string? themeName = HttpUtility.ParseQueryString(uri.Query).Get("theme");
             themeName = themeName != null ? themeName : "fluent2";
 #if !STAGING || DEBUG
             themeName = themeName.Equals("bootstrap5") ? "bootstrap5.3" : themeName.Equals("bootstrap5-dark") ? "bootstrap5.3-dark" : themeName;
@@ -272,7 +266,7 @@ namespace BlazorDemos.Shared
         public static string GetThemeMode(string url)
         {
             var uri = new Uri(url);
-            string themeMode = HttpUtility.ParseQueryString(uri.Query).Get("theme");
+            string? themeMode = HttpUtility.ParseQueryString(uri.Query).Get("theme");
             themeMode = themeMode == null ? "Light Mode" : !themeMode.Contains("-dark") ? "Light Mode" : "Dark Mode";
             return themeMode;
         }
@@ -378,8 +372,8 @@ namespace BlazorDemos.Shared
     /// </summary>
     public class DropDownData
     {
-        public string ID { get; set; }
-        public string Text { get; set; }
+        public string? ID { get; set; }
+        public string? Text { get; set; }
     }
 
     /// <summary>
@@ -387,8 +381,8 @@ namespace BlazorDemos.Shared
     /// </summary>
     public class ListData
     {
-        public string ID { get; set; }
-        public string Text { get; set; }
+        public string? ID { get; set; }
+        public string? Text { get; set; }
     }
 
 #pragma warning disable
@@ -402,7 +396,7 @@ namespace BlazorDemos.Shared
         public string Category { get; set; }
         public List<SearchResult> SampleList { get; set; }
         public bool IsMultiSearch { get; set; }
-#if SERVER || WEBAPP
+#if SERVER
         public async Task<List<SearchList>> GetSearchListAsync()
 #else
         public List<SearchList> GetSearchList()
@@ -411,7 +405,7 @@ namespace BlazorDemos.Shared
             bool isButtonsAdded = false;
             var searchlist = new List<SearchList>();
             var sampleList = SampleBrowser.SampleList;
-#if SERVER || WEBAPP
+#if SERVER
             await Task.Run(() => { 
 #endif
             for (int i = 0; i < sampleList.Count; i++)
@@ -436,7 +430,7 @@ namespace BlazorDemos.Shared
                     }
                     searchlist.Add(new SearchList { Category = sampleList[i].ControllerName, SampleList = searchResult });
                 }
-#if SERVER || WEBAPP
+#if SERVER
             });
 #endif
             return searchlist;
@@ -536,13 +530,16 @@ namespace BlazorDemos.Shared
         /// <summary>
         /// Constructor for updating properties.
         /// </summary>
-        public ShowCaseItem(string header, string content, string imagePath, string demoLink, string gitHubLink)
+        public ShowCaseItem(string header, string content, string imagePath, string demourl, string gitHubLink, string bgColor, bool isServer, bool isWasm)
         {
             this.Header = header;
             this.Content = content;
             this.ImagePath = imagePath;
-            this.DemoLink = demoLink;
+            this.DemoUrl = demourl;
             this.GitHubLink = gitHubLink;
+            this.BgColor = bgColor;
+            this.isServer = isServer;
+            this.isWasm = isWasm;
         }
         /// <summary>
         /// Specifies the header content of the item.
@@ -559,11 +556,23 @@ namespace BlazorDemos.Shared
         /// <summary>
         /// Specifies the hyper link of the item.
         /// </summary>
-        public string DemoLink { get; set; }
+        public string DemoUrl { get; set; }
         /// <summary>
         /// Specifies the GitHub link of the item.
         /// </summary>
         public string GitHubLink { get; set; }
+        /// <summary>
+        /// Specifies the Background color of the item.
+        /// </summary>
+        public string BgColor { get; set; }
+        /// <summary>
+        /// Specifies the server mode.
+        /// </summary>
+        public bool isServer { get; set; }
+        /// <summary>
+        /// Specifies the wasm mode.
+        /// </summary>
+        public bool isWasm { get; set; }
     }
 
     public class CarouselModel
@@ -628,8 +637,8 @@ namespace BlazorDemos.Shared
                 components.Add(new PopularComponents("Charts", "charts", "chart/overview"));
                 components.Add(new PopularComponents("Scheduler", "scheduler", "scheduler/overview"));
                 components.Add(new PopularComponents("Diagram", "diagram", "diagram/flowchart"));
-                components.Add(new PopularComponents("Word Processor", "document-editor", "document-editor/default-functionalities"));
-                components.Add(new PopularComponents("PDF Viewer", "pdf-viewer", "pdf-viewer-2/default-functionalities"));
+                components.Add(new PopularComponents("Rich Text Editor", "rich-text-editor", "rich-text-editor/overview"));
+                components.Add(new PopularComponents("Tree Grid", "tree-grid", "tree-grid/overview"));
             }
             return components;
         }

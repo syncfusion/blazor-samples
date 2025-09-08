@@ -159,8 +159,8 @@
 #pragma warning disable BL0005
     @*End:Hidden*@
 
-    private SfPivotView<GroupData> Pivot;
-    private SfNumericTextBox<double?> NumberGroup;
+    private SfPivotView<GroupData>? Pivot;
+    private SfNumericTextBox<double?>? NumberGroup;
     public string[] SelectedGroup { get; set; } = new string[] { "Years", "Months", "Days" };
     public List<PivotViewGroupSetting> Groups = new List<PivotViewGroupSetting>();
 
@@ -169,7 +169,7 @@
         DateGroup.Years, DateGroup.Months, DateGroup.Days
     };
 
-    public List<GroupData> Data { get; set; }
+    public List<GroupData>? Data { get; set; }
 
     protected override void OnInitialized()
     {
@@ -190,12 +190,14 @@
             groupSettings.Add(new PivotViewGroupSetting() { Name = "TimeLine", Type = GroupType.Date, GroupInterval = dateGroup });
         }
 
-        if (this.NumberGroup.Value > 1)
+        if (this.NumberGroup?.Value > 1)
         {
             groupSettings.Add(new PivotViewGroupSetting() { Name = "Id", Type = GroupType.Number, RangeInterval = Convert.ToDouble(this.NumberGroup.Value), StartingAt = "1001", EndingAt = "1020" });
         }
-
-        Pivot.DataSourceSettings.GroupSettings = groupSettings;
+        if(Pivot != null)
+        {
+            Pivot.DataSourceSettings.GroupSettings = groupSettings;
+        }
     }
     @*Hidden:Lines*@
     #pragma warning restore BL0005
@@ -211,7 +213,7 @@
 
     public class DropDownData
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
     }
 }

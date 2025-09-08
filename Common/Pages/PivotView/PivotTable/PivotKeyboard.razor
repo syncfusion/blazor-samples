@@ -3,7 +3,7 @@
 @using Syncfusion.Blazor.PivotView
 
 @*Hidden:Lines*@
-@inherits SampleBaseComponent;
+@inherits SampleBaseComponent; 
 @*End:Hidden*@
 
 <SampleDescription>
@@ -446,7 +446,7 @@
 </style>
 
 @code{
-    private SfPivotView<PivotProductDetails> Pivot;
+    private SfPivotView<PivotProductDetails>? Pivot;
 
     public List<ToolbarItems> PivotToolbar = new List<ToolbarItems>
     {
@@ -462,7 +462,7 @@
         ToolbarItems.Formatting,
         ToolbarItems.FieldList
     };
-    public List<PivotProductDetails> PivotDataSource { get; set; }
+    public List<PivotProductDetails>? PivotDataSource { get; set; }
     
 
     protected override void OnInitialized()
@@ -470,8 +470,8 @@
         this.PivotDataSource = PivotProductDetails.GetProductData();
     }
 
-    public string InitReport { get; set; }
-    public string[] Name { get; set; }
+    public string InitReport { get; set; } = string.Empty;
+    public string[]? Name { get; set; }
     public List<string> Report = new List<string>();
     public List<string> ReportName = new List<string>();
     public void SaveReport(SaveReportArgs args)
@@ -507,7 +507,10 @@
                 j = i;
             }
         }
-        await this.Pivot.LoadPersistDataAsync(Report[j]);
+        if(Pivot != null)
+        {
+            await this.Pivot.LoadPersistDataAsync(Report[j]);
+        }
     }
     public async Task RemoveReport(RemoveReportArgs args)
     {
@@ -521,7 +524,7 @@
                 break;
             }
         }
-        if (Report.Count > 0)
+        if (Report.Count > 0 && Pivot != null)
         {
             await this.Pivot.LoadPersistDataAsync(Report[0]);
         }

@@ -28,13 +28,13 @@
     <div class="usecase-speechToText-section e-message">
         <div class="stt-container">
             <!-- Microphone button for Speech-to-Text -->
-            <SfSpeechToText @ref="speechToText" TranscriptChanging="@OnTranscriptChange" SpeechRecognitionStarted="@OnListeningStart" SpeechRecognitionStopped="@OnListeningStop"
+            <SfSpeechToText @ref="speechToText" Transcript="@Transcript" TranscriptChanging="@OnTranscriptChange" SpeechRecognitionStarted="@OnListeningStart" SpeechRecognitionStopped="@OnListeningStop"
             SpeechRecognitionError="@OnError" Disabled="@DisabledState" ButtonSettings="@ButtonSettings" CssClass="@($"usecase-stt-btn {SttStateClass}")"></SfSpeechToText>
             <span class="speech-recognition-status">@SpeechRecognitionStatus</span>
         </div>
         <div class="transcript-container">
             <!-- Transcription output -->
-            <SfChatUI @ref="ChatUI" ID="transcript-content" ShowFooter="false" ShowHeader="false" User="UserAlbert" TimeStampFormat="MMM d h:mm tt" AutoScrollToBottom="true" Messages="Messages">
+            <SfChatUI @ref="ChatUI" TypingUsers="@TypingUsers" ID="transcript-content" ShowFooter="false" ShowHeader="false" User="UserAlbert" TimeStampFormat="MMM d h:mm tt" AutoScrollToBottom="true" Messages="Messages">
                 <EmptyChatTemplate>
                     <div class="empty-chat">
                         <span class="e-icons e-multiple-comment"></span>
@@ -58,8 +58,8 @@
 </div>
 
 @code {
-    private SfSpeechToText speechToText;
-    private SfChatUI ChatUI;
+    private SfSpeechToText speechToText = new SfSpeechToText();
+    private SfChatUI ChatUI = new SfChatUI();
     private int MsgIdx = -1;
     private bool IsIndicatorVisible = false;
     private bool DisabledState = false;
@@ -68,6 +68,8 @@
     private UserModel UserAlbert = new UserModel() { ID = "User1", User = "Albert" };
     private UserModel CurrentUserModel = new UserModel() { ID = "testing-user", User = "Testing User" };
     private string SttStateClass = String.Empty;
+    private string Transcript = String.Empty;
+    private List<UserModel> TypingUsers = new List<UserModel>();
     private SpeechToTextButtonSettings ButtonSettings = new SpeechToTextButtonSettings
     {
         StopIconCss = "e-icons e-listen-icon"
@@ -100,15 +102,15 @@
 
         if (!IsIndicatorVisible)
         {
-            ChatUI.TypingUsers = new List<UserModel> { CurrentUserModel };
+            TypingUsers = new List<UserModel> { CurrentUserModel };
             IsIndicatorVisible = true;
         }
 
         if (!args.IsInterimResult)
         {
             MsgIdx++;
-            speechToText.Transcript = "";
-            ChatUI.TypingUsers.Clear();
+            Transcript = "";
+            TypingUsers.Clear();
             IsIndicatorVisible = false;
         }
         await Task.Delay(100);
@@ -123,7 +125,7 @@
 
     private void OnListeningStop(SpeechRecognitionStoppedEventArgs args)
     {
-        ChatUI.TypingUsers.Clear();
+        TypingUsers.Clear();
         SttStateClass = String.Empty;
         UpdateSpeechStatus("Click the mic button to start speaking...");
     }

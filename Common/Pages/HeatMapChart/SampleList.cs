@@ -23,7 +23,7 @@ namespace BlazorDemos
                 Url = "heatmap-chart/default-functionalities",
                 MetaTitle = "HeatMap Chart Default Functionalities - Syncfusion Demos",
                 HeaderText = "Blazor HeatMap Chart Example - Default Functionalities",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates the basic configuration and visualization of data intensity with a color gradient representation for identifying patterns and correlations in complex datasets.",
+                MetaDescription = "This Blazor HeatMap Chart demo shows the basic configuration and visualization of data intensity with a color gradient representation for identifying patterns.",
                 FileName = "DefaultFunctionalities.razor"
             }, 
             new Sample
@@ -35,7 +35,7 @@ namespace BlazorDemos
                 FileName = "CalendarHeatmap.razor",
                 MetaTitle = "Blazor HeatMap Calendar Chart | Time-based Analysis | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Calendar Visualization",
-                MetaDescription = "This Blazor HeatMap Calendar example demonstrates date-based data visualization showing intensity patterns across days, weeks, and months, perfect for tracking activities or metrics over time."
+                MetaDescription = "Blazor HeatMap Calendar demo shows date-based intensity patterns across days, weeks, and months, ideal for tracking activities or metrics over time effectively."
             },
             new Sample
             {
@@ -46,7 +46,7 @@ namespace BlazorDemos
                 FileName = "BubbleTypes.razor",
                 MetaTitle = "Blazor Bubble HeatMap Chart | Size Variations | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Bubble Type Visualization",
-                MetaDescription = "This Blazor Bubble HeatMap example demonstrates various bubble types and configurations, where both color and size represent data values, enhancing the visualization of complex multi-dimensional data."
+                MetaDescription = "This Blazor HeatMap demo shows various bubble types and configurations, where both color and size represent data values, enhancing the complex multiple data."
             },
             new Sample
             {
@@ -56,7 +56,7 @@ namespace BlazorDemos
                 Url = "heatmap-chart/color-and-size-attributes",
                 MetaTitle = "HeatMap Chart Color and Size Attributes - Syncfusion Demos",
                 HeaderText = "Blazor HeatMap Chart Example - Color and Size Attributes",
-                MetaDescription = "This Blazor Bubble HeatMap example demonstrates how to visualize data using both color and size attributes, allowing the representation of two different data dimensions simultaneously in one chart.",
+                MetaDescription = "Blazor Bubble HeatMap demo shows data visualization using color, size, enabling two different data dimensions to be represented simultaneously within a chart.",
                 FileName = "ColorAndSizeAttributes.razor",
             },
             new Sample
@@ -68,7 +68,7 @@ namespace BlazorDemos
                 FileName = "Row.razor",
                 MetaTitle = "Blazor HeatMap Row Data Binding | Array Binding | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Row Data Binding",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates row-wise data binding capabilities, showing how to map array or collection data to rows for creating heatmaps from structured data sources."
+                MetaDescription = "Blazor HeatMap Chart demo shows row-wise data binding, showing how to map array or collection data to rows for creating heatmaps from structured data sources."
             },
             new Sample
             {
@@ -79,7 +79,7 @@ namespace BlazorDemos
                 FileName = "Cell.razor",
                 MetaTitle = "Blazor HeatMap Cell Data Binding | Per-Cell Data | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Cell Data Binding",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates cell-level data binding, allowing direct mapping of individual data points to specific cells for precise control over the visualization."
+                MetaDescription = "This Blazor HeatMap Chart example demonstrates cell-level data binding, allowing direct mapping of individual data points to specific cells for precise control."
             },
             new Sample
             {
@@ -90,7 +90,7 @@ namespace BlazorDemos
                 FileName = "JsonRow.razor",
                 MetaTitle = "Blazor HeatMap JSON Row Data | Web Data Integration | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - JSON Row Data Binding",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates how to bind JSON-formatted row data, ideal for integrating with web services and APIs that return data in JSON format."
+                MetaDescription = "This Blazor HeatMap Chart example shows how to bind JSON-formatted row data, ideal for integrating with web services and APIs that return data in JSON format."
             },
             new Sample
             {
@@ -101,7 +101,7 @@ namespace BlazorDemos
                 FileName = "JsonCell.razor",
                 MetaTitle = "Blazor HeatMap JSON Cell Data | API Integration | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - JSON Cell Data Binding",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates cell-level JSON data binding, allowing flexible integration with various data sources that provide cell-specific values in JSON format."
+                MetaDescription = "This Blazor HeatMap Chart demo shows cell-level JSON data binding, allowing flexible integration with various data sources that provide cell-specific values."
             },
             new Sample
             {
@@ -112,7 +112,7 @@ namespace BlazorDemos
                 FileName = "Emptypoints.razor",
                 MetaTitle = "Blazor HeatMap Empty Points | Missing Data Handling | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Empty Points Handling",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates how to handle missing or empty data points with custom styling, allowing for clear visualization of incomplete datasets in your applications."
+                MetaDescription = "Blazor HeatMap Chart demo shows how to handle missing/empty data point with custom styling, allowing for clear visualization of incomplete datasets in your app."
             },
             new Sample 
             {
@@ -123,7 +123,7 @@ namespace BlazorDemos
                 FileName = "InversedAxis.razor",
                 MetaTitle = "Blazor HeatMap Inversed Axis | Reversed Direction | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Inversed Axis Configuration",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates inversed axis configuration, allowing visualization with reversed axis direction for specialized analytical views and comparison scenarios."
+                MetaDescription = "This Blazor HeatMap Chart example shows inversed axis configuration, allowing visualization with reversed axis direction for specialized analytical views."
             },
             new Sample
             {
@@ -134,7 +134,7 @@ namespace BlazorDemos
                 FileName = "OpposedAxis.razor",
                 MetaTitle = "Blazor HeatMap Opposed Axis | Custom Positioning | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Opposed Axis Placement",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates opposed axis placement, allowing you to position axes on opposite sides for enhanced visualization and comparison of data patterns."
+                MetaDescription = "Blazor HeatMap Chart demo shows opposed axis placement, allowing you to position axes on opposite sides for enhanced visualization, comparison of data patterns."
             },
             new Sample
             {
@@ -145,7 +145,7 @@ namespace BlazorDemos
                 FileName = "LabelTemplate.razor",
                 MetaTitle = "Blazor HeatMap Label Templates | Custom Formatting | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Label Template Customization",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates custom label templates for axis labels and data points, enabling rich formatting, conditional styling, and embedding HTML content in labels."
+                MetaDescription = "Blazor HeatMap Chart demo shows custom label templates for axis labels, data points, enabling rich format, conditional style, embedding HTML content in labels."
             }, 
              new Sample
             {
@@ -156,7 +156,7 @@ namespace BlazorDemos
                 FileName = "MultiLevelLabels.razor",
                 MetaTitle = "Blazor HeatMap Multi-Level Labels | Hierarchical Display | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Multi-Level Label Visualization",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates multi-level axis labels for displaying hierarchical categories, enabling complex data organization and easier interpretation of multi-dimensional data.",
+                MetaDescription = "Blazor HeatMap Chart demo shows multi-level axis labels for displaying hierarchical categories, enabling complex data organization and easier interpretation.",
             },
              new Sample
             {
@@ -167,7 +167,7 @@ namespace BlazorDemos
                 FileName = "Selection.razor",
                 MetaTitle = "Blazor HeatMap Selection | Interactive Cell Selection | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Cell Selection Capability",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates cell selection functionality, enabling users to select individual cells or regions for detailed analysis, data export, or triggering context-specific actions.",
+                MetaDescription = "Blazor HeatMap Chart demo shows how to enable users to select individual cells/regions for detailed analysis, data export/triggering context-specific actions.",
             },
             new Sample
             {
@@ -178,7 +178,7 @@ namespace BlazorDemos
                 FileName = "LegendPlacement.razor",
                 MetaTitle = "Blazor HeatMap Legend Positioning | Layout Options | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Legend Placement Customization",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates various legend placement options, allowing you to position the color scale legend optimally for different layout requirements and screen sizes."
+                MetaDescription = "Blazor HeatMap Chart demo shows different legend placement options, helping you optimally position the color scale for various layout needs and screen sizes."
             },
             new Sample
             {
@@ -189,7 +189,7 @@ namespace BlazorDemos
                 FileName = "PaletteMode.razor",
                 MetaTitle = "Blazor HeatMap Palette Modes | Color Schemes | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Color Palette Options",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates different palette modes and color schemes, enabling you to choose fixed or gradient color patterns that best represent your data intensity patterns."
+                MetaDescription = "Blazor HeatMap Chart demo shows different palette modes and color schemes, enabling you to choose fixed/gradient color patterns that best represent your data."
             },
             new Sample
             {
@@ -201,7 +201,7 @@ namespace BlazorDemos
                 FileName = "ColorRange.razor",
                 MetaTitle = "Blazor HeatMap Color Range | Custom Color Scales | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Custom Color Range Definition",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates custom color range configuration with user-defined segments, allowing precise control over color distribution across different data value ranges."
+                MetaDescription = "Blazor HeatMap Chart demo shows segment for custom color range configuration, enabling precise control over color distribution across various data value ranges."
             },
             new Sample
             {
@@ -210,9 +210,9 @@ namespace BlazorDemos
                 Directory = "HeatMapChart/HeatMapChart",
                 Url = "heatmap-chart/tooltip-template",
                 FileName = "TooltipTemplate.razor",
-                MetaTitle = "Blazor HeatMap Tooltip Templates | Interactive Data Display | Syncfusion",
+                MetaTitle = "Blazor HeatMap Tooltip Templates | Interactive Data | Syncfusion",
                 HeaderText = "Blazor HeatMap Chart Example - Custom Tooltip Templates",
-                MetaDescription = "This Blazor HeatMap Chart example demonstrates custom tooltip templates, allowing rich data previews with formatting, additional context, and even embedded visualizations when users hover over cells."
+                MetaDescription = "Blazor HeatMap Chart demo features custom tooltip templates, enables rich data previews, additional context, and embedded visualization when hovering over cell."
             }
         };    
     }

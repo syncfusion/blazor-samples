@@ -12,7 +12,7 @@
 @inherits SampleBaseComponent
 @implements IDisposable
 @*End:Hidden*@
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @*Hidden:Lines*@
 @inject NavigationManager NavigationManager
 
@@ -158,9 +158,9 @@
     bool disablePicker = true;
     bool enableNumeric = false;
     bool enableDropDown = false;
-    SfNumericTextBox<double> strokeWidth;
-    SfNumericTextBox<double> sizeTextBox;
-    SfDropDownList<string, DiagramShapeModel> dropDownList;
+    SfNumericTextBox<double>? strokeWidth;
+    SfNumericTextBox<double>? sizeTextBox;
+    SfDropDownList<string, DiagramShapeModel>? dropDownList;
     public string styleValue = "background-color:#008000";
     @*End:Hidden*@
     string portVisibility = "Visible";
@@ -170,19 +170,19 @@
     string selectedDirection = "Auto";
     string fillColor = "#1916C1";
     string strokeColor = "#000";
-    SfDiagramComponent Diagram;
+    SfDiagramComponent? Diagram;
     // Defines interval values for GridLines
-    public double[] gridLineIntervals { get; set; }
+    public double[]? gridLineIntervals { get; set; }
 
     //Defines diagrams's nodes collection
-    DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
 
     //Defines diagrams's connectors collection
-    DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    DiagramObjectCollection<Connector>? connectors = new DiagramObjectCollection<Connector>();
 
     private void OnCreated()
     {
-        Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[0] });
+        Diagram!.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes![0] });
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
         Diagram.FitToPage(mobileoptions);
     }
@@ -190,17 +190,17 @@
     @*Hidden:Lines*@
     public async void OnVisibilityChange(ChangeEventArgs<string, DiagramShapeModel> args)
     {
-        await ApplyPortStyle("visibility", args.Value);
+        await ApplyPortStyle("visibility", args.Value!);
     }
 
     public async void OnShapeChange(ChangeEventArgs<string, DiagramShapeModel> args)
     {
-        await ApplyPortStyle("shape", args.Value);
+        await ApplyPortStyle("shape", args.Value!);
     }
 
     public async void OnDirectionChange(ChangeEventArgs<string, DiagramShapeModel> args)
     {
-        await ApplyPortStyle("direction", args.Value);
+        await ApplyPortStyle("direction", args.Value!);
     }
 
     List<DiagramShapeModel> shape = new List<DiagramShapeModel>()
@@ -229,8 +229,8 @@
 
     public async Task OnBorderChange(ColorPickerEventArgs args)
     {
-        this.styleValue = "background-color:" + args.CurrentValue.Hex;
-        await ApplyPortStyle("strokecolor", args.CurrentValue.Hex);
+        this.styleValue = "background-color:" + args.CurrentValue!.Hex;
+        await ApplyPortStyle("strokecolor", args.CurrentValue.Hex!);
     }
 
     public async Task OnBorderWidthChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
@@ -245,23 +245,23 @@
 
     public async Task OnFillColorChange(ColorPickerEventArgs args)
     {
-        this.styleValue = "background-color:" + args.CurrentValue.Hex;
-        await ApplyPortStyle("fill", args.CurrentValue.Hex);
+        this.styleValue = "background-color:" + args.CurrentValue!.Hex;
+        await ApplyPortStyle("fill", args.CurrentValue.Hex!);
     }
 
     public class DiagramShapeModel
     {
-        public string Value { get; set; }
-        public string Text { get; set; }
+        public string? Value { get; set; }
+        public string? Text { get; set; }
     }
 
     private async Task ApplyPortStyle(string propertyName, Object propertyValue)
     {
-        Diagram.StartGroupAction();
+        Diagram!.StartGroupAction();
         Diagram.BeginUpdate();
         if (Diagram.SelectionSettings != null && Diagram.SelectionSettings.Nodes != null && Diagram.SelectionSettings.Nodes.Count > 0)
         {
-            List<PointPort> ports = Diagram.SelectionSettings.Nodes[0].Ports.ToList();
+            List<PointPort> ports = Diagram.SelectionSettings.Nodes[0].Ports!.ToList();
             for (int j = 0; j < ports.Count; j++)
             {
                 PointPort port = ports[j];
@@ -280,17 +280,17 @@
                         port.Style.StrokeWidth = Convert.ToInt32(propertyValue);
                         break;
                     case "visibility":
-                        port.Visibility = (PortVisibility)Enum.Parse(typeof(PortVisibility), propertyValue.ToString());
+                        port.Visibility = (PortVisibility)Enum.Parse(typeof(PortVisibility), propertyValue.ToString()!);
                         break;
                     case "shape":
-                        port.Shape = (PortShapes)Enum.Parse(typeof(PortShapes), propertyValue.ToString());
+                        port.Shape = (PortShapes)Enum.Parse(typeof(PortShapes), propertyValue.ToString()!);
                         if (propertyValue.ToString() == "Custom")
                         {
                             port.PathData = "M540.3643,137.9336L546.7973,159.7016L570.3633,159.7296L550.7723,171.9366L558.9053,194.9966L540.3643,179.4996L521.8223,194.9966L529.9553,171.9366L510.3633,159.7296L533.9313,159.7016L540.3643,137.9336z";
                         }
                         break;
                     case "direction":
-                        port.ConnectionDirection = (PortConnectionDirection)Enum.Parse(typeof(PortConnectionDirection), propertyValue.ToString());
+                        port.ConnectionDirection = (PortConnectionDirection)Enum.Parse(typeof(PortConnectionDirection), propertyValue.ToString()!);
                         break;
                 }
             }
@@ -310,8 +310,8 @@
             enableNumeric = true;
             if (arg.NewValue[0] is Node)
             {
-                Node node = arg.NewValue[0] as Node;
-                List<PointPort> ports = node.Ports.ToList();
+                Node? node = arg.NewValue[0] as Node;
+                List<PointPort> ports = node!.Ports!.ToList();
                 if (ports.Count > 0)
                 {
                     PointPort port = ports[0];
@@ -319,8 +319,8 @@
                     selectedShape = port.Shape.ToString();
                     sizeNumeric = port.Width;
                     widthNumeric = port.Style.StrokeWidth;
-                    fillColor = port.Style.Fill;
-                    strokeColor = port.Style.StrokeColor;
+                    fillColor = port.Style.Fill!;
+                    strokeColor = port.Style.StrokeColor!;
                     selectedDirection = port.ConnectionDirection.ToString();
                 }
             }
@@ -414,12 +414,12 @@
             Width = id == "Secondreview" ? 115 : 110,
             OffsetX = offsetX,
             OffsetY = offsetY,
-            Shape = new BasicShape() { Type = shapes.Basic, Shape = shape },
+            Shape = new BasicShape() { Type = NodeShape.Basic, Shape = shape },
             Style = new ShapeStyle() { Fill = "WhiteSmoke", StrokeColor = "#777778" },
             Annotations = new DiagramObjectCollection<ShapeAnnotation>() { new ShapeAnnotation() { Content = content, Style = new TextStyle() { FontSize = 13, Color = "black" } } },
             Ports = new DiagramObjectCollection<PointPort>(ports)
         };
-        nodes.Add(node);
+        nodes!.Add(node);
     }
 
     // Method to create connector
@@ -442,7 +442,7 @@
                 Style = new ShapeStyle() { Fill = "black", StrokeColor = "black" }
             }
         };
-        connectors.Add(connector);
+        connectors!.Add(connector);
     }
 
     // Method to create port

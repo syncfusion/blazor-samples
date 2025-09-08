@@ -41,13 +41,13 @@
 </div>
 
 @code{
-    private SfAutoComplete<string, Countries> AutocompleteObj { get; set; }
+    private SfAutoComplete<string, Countries>? AutocompleteObj { get; set; }
     private int NumericValue = 300;
     
     public class Countries
     {
-        public string Name { get; set; }
-        public string Code { get; set; }
+        public string? Name { get; set; }
+        public string? Code { get; set; }
     }
 
     private List<Countries> Country = new List<Countries>
@@ -64,7 +64,10 @@
         args.PreventDefaultAction = true;
         var query = new Query().Where(new WhereFilter() { Field = "Name", Operator = "contains", value = args.Text, IgnoreCase = true });
         query = !string.IsNullOrEmpty(args.Text) ? query : new Query();
-        await AutocompleteObj.FilterAsync(Country, query);
+        if (AutocompleteObj != null)
+        {
+            await AutocompleteObj.FilterAsync(Country, query);
+        }
     }
 }
 

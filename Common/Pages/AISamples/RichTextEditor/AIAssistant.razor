@@ -1,4 +1,5 @@
 ﻿@page "/ai-richtexteditor/ai-assistant"
+@page "/rich-text-editor/ai-assistant"
 
 @using BlazorDemos.Service
 @inject AzureAIService semanticKernelAI
@@ -69,14 +70,14 @@
                 </RichTextEditorCustomToolbarItem>
                 <RichTextEditorCustomToolbarItem Name="Rephrase">
                     <Template>
-                        <SfButton CssClass="e-tbar-btn" @onclick="Rephrase" Disabled="@enabelAIAssitantButton">
+                        <SfButton CssClass="@ButtonClass" @onclick="Rephrase" Disabled="@enabelAIAssitantButton">
                             <div class="e-tbar-btn-text">Rephrase</div>
                         </SfButton>
                     </Template>
                 </RichTextEditorCustomToolbarItem>
             </RichTextEditorCustomToolbarItems>
         </RichTextEditorToolbarSettings>
-        <RichTextEditorEvents ValueChange="UpdateStatus" />
+        <RichTextEditorEvents ValueChange="UpdateStatus" OnActionComplete="@(args => OnActionCompleteHandler(args))" />
     </SfRichTextEditor>
 </div>
 <div class="scroll-restricted">
@@ -135,7 +136,7 @@
                             <div class="col-12 col-md-6 mt-6 mt-md-0 d-flex cuscol-2 cuscol-noresult justify-content-center">
                                 <div class="w-100">
                                     <div class="no-results-found">
-                                        <img height="50" width="50" src="https://storage.googleapis.com/cdn-bolddesk/agent-angular-app/images/light/no-records-warning.svg">
+                                        <span class="e-icons e-warning"></span>
                                         <div>No results found</div>
                                     </div>
                                 </div>
@@ -215,11 +216,24 @@
     private MarkdownPipeline pipeline { get; set; } = new MarkdownPipelineBuilder().UseAdvancedExtensions().Build();
     private string sentiment = "";
     private string apiResultData = "";
+    private string ButtonClass = "e-tbar-btn";
 
     private void UpdateStatus(Syncfusion.Blazor.RichTextEditor.ChangeEventArgs args)
     {
         Value = args.Value;
         enabelAIAssitantButton = string.IsNullOrWhiteSpace(Value);
+    }
+
+    private void OnActionCompleteHandler(Syncfusion.Blazor.RichTextEditor.ActionCompleteEventArgs args)
+    {
+        if (args.RequestType == "SourceCode")
+        {
+            this.ButtonClass = "e-tbar-btn e-overlay";
+        }
+        if (args.RequestType == "Preview")
+        {
+            this.ButtonClass = "e-tbar-btn";
+        }
     }
 
     private void UpdateTextAreaStatus(InputEventArgs args)
@@ -256,7 +270,7 @@
         }
     }
 
-    private async Task SelectedChipsChanged(SelectionChangedEventArgs args)
+    private async Task SelectedChipsChanged(Syncfusion.Blazor.Buttons.SelectionChangedEventArgs args)
     {
         if (chipValue.Length == 0 && args != null && args.RemovedItems.Length > 0)
         {
@@ -597,6 +611,11 @@
 
     .sentiment {
         color: #000 !important;
+    }
+
+    .e-icons.e-warning { 
+        font-size: 30px;
+        color: initial;
     }
 
     .justify-content-end{

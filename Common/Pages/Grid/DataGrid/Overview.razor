@@ -302,7 +302,7 @@
                 </SfDropDownList>
             </div>
             <div id="container">
-                <SfGrid DataSource="@GridData" EnableHeaderFocus="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableVirtualMaskRow="true" EnableHover="false" Height="600" RowHeight="38">
+                <SfGrid DataSource="@GridData" AllowSelection="true" AllowSorting="true" AllowFiltering="true" EnableVirtualization="true" EnableVirtualMaskRow="true" EnableHover="false" Height="600" RowHeight="38">
                     <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
                     <GridPageSettings PageSize="40"></GridPageSettings>
                     <GridSelectionSettings CheckboxOnly="true" PersistSelection="true" Type="SelectionType.Multiple"></GridSelectionSettings>
@@ -315,16 +315,16 @@
                                     var employee = (context as OverviewData);
                                     <div>
                                         <div class="empimg">
-                                            @if (employee.EmployeeImg == "usermale")
+                                            @if (employee?.EmployeeImg == "usermale")
                                             {
                                                 <span class="e-userimg sf-icon-Male"></span>
                                             }
-                                            @if (employee.EmployeeImg == "userfemale")
+                                            @if (employee?.EmployeeImg == "userfemale")
                                             {
                                                 <span class="e-userimg sf-icon-FeMale"></span>
                                             }
                                         </div>
-                                        <span id="Emptext">@employee.Employees</span>
+                                        <span id="Emptext">@employee?.Employees</span>
                                     </div>
                                 }
                             </Template>
@@ -336,8 +336,8 @@
                                 @{
                                     var location = (context as OverviewData);
                                     <div class="loc">
-                                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/data-grid/map.png")" class="e-image" alt=@location.Location />
-                                        <span id="locationtext">@location.Location</span>
+                                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/map.png")" class="e-image" alt=@location?.Location />
+                                        <span id="locationtext">@location?.Location</span>
                                     </div>
                                 }
                             </Template>
@@ -347,7 +347,7 @@
                                 @{
                                     var employee = (context as OverviewData);
 
-                                    if (employee.Status == "Active")
+                                    if (employee?.Status == "Active")
                                     {
                                         <div class="statustemp e-activecolor">
                                             <span class="statustxt e-activecolor">@employee.Status</span>
@@ -356,7 +356,7 @@
                                     else
                                     {
                                         <div class="statustemp e-inactivecolor">
-                                            <span class="statustxt e-inactivecolor">@employee.Status</span>
+                                            <span class="statustxt e-inactivecolor">@employee?.Status</span>
                                         </div>
                                     }
 
@@ -368,8 +368,8 @@
                                 @{
                                     var trust = (context as OverviewData);
                                     <div class="trust">
-                                        <img style="width: 31px; height: 24px" src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/data-grid/{trust.Trustworthiness?.ToLowerInvariant()}.png")" alt=@trust.Trustworthiness />
-                                        <span id="Trusttext">@trust.Trustworthiness</span>
+                                        <img style="width: 31px; height: 24px" src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/{trust?.Trustworthiness?.ToLowerInvariant()}.png")" alt=@trust?.Trustworthiness />
+                                        <span id="Trusttext">@trust?.Trustworthiness</span>
                                     </div>
                                 }
                             </Template>
@@ -382,7 +382,7 @@
                                         <div class="rating">
                                             @for (var i = 0; i < 5; i++)
                                             {
-                                                if (i < rate.Rating)
+                                                if (i < rate?.Rating)
                                                 {
                                                     <span class="star checked"></span>
                                                 }
@@ -401,7 +401,7 @@
                                 @{
                                     var employee = (context as OverviewData);
 
-                                    @if (employee.Status == "Inactive")
+                                    @if (employee?.Status == "Inactive")
                                     {
                                         <div id="myProgress" class="pbar">
                                             <div id="myBar" style="width:@employee.Software%" class="bar progressdisable">
@@ -409,7 +409,7 @@
                                             </div>
                                         </div>
                                     }
-                                    @if (employee.Status == "Active")
+                                    @if (employee?.Status == "Active")
                                     {
                                         <div id="myProgress" class="pbar">
                                             <div id="myBar" style="width:@employee.Software%" class="bar">
@@ -432,16 +432,16 @@
 
 @code{
     //Hidden:Lines
-    private string cURL { get; set; }
+    private string? cURL { get; set; }
     //End:Hidden
 
-    public List<OverviewData> GridData { get; set; }
+    public List<OverviewData> ?GridData { get; set; }
     public int Value { get; set; } = 1000;
-    SfSpinner SpinnerObj;
+    SfSpinner? SpinnerObj;
     public class DDData
     {
-        public string Text { get; set; }
-        public string Value { get; set; }
+        public string? Text { get; set; }
+        public string? Value { get; set; }
     }
     public List<DDData> DLData = new List<DDData>() {
         new DDData(){ Text= "1,000 Rows and 11 Columns", Value= "1000" },
@@ -455,13 +455,13 @@
         if (PreviousIndex != index)
         {
             GridData = OverviewData.GetAllRecords(Value);
-            await SpinnerObj.HideAsync();
+            await SpinnerObj?.HideAsync()!;
             PreviousIndex = index;
         }
     }
     public async Task Changedata(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DDData> args)
     {
-        if (PreviousIndex != index)
+        if (PreviousIndex != index && SpinnerObj != null)
         {
             await SpinnerObj.ShowAsync();
         }

@@ -96,10 +96,10 @@ namespace TextToMindMapDiagram
         /// </summary>
         public class ContextMenuItemModel
         {
-            public List<ContextMenuItemModel> Items { get; set; }
-            public string Text { get; set; }
-            public string Id { get; set; }
-            public string IconCss { get; set; }
+            public List<ContextMenuItemModel>? Items { get; set; }
+            public string? Text { get; set; }
+            public string? Id { get; set; }
+            public string? IconCss { get; set; }
             public Boolean Separator { get; set; }
             public Boolean Disabled { get; set; }
         }
@@ -110,7 +110,7 @@ namespace TextToMindMapDiagram
             this.ItemSelection();
             for (int i = 0; i < FileMenuItems.Count; i++)
             {
-                if (disableCollection.IndexOf(FileMenuItems[i].Text) > -1)
+                if (disableCollection.IndexOf(FileMenuItems[i].Text!) > -1)
                 {
                     FileMenuItems[i].Disabled = true;
                 }
@@ -136,7 +136,7 @@ namespace TextToMindMapDiagram
             this.ItemSelection();
             for (int i = 0; i < EditMenuItems.Count; i++)
             {
-                if (disableCollection.IndexOf(EditMenuItems[i].Text) > -1)
+                if (disableCollection.IndexOf(EditMenuItems[i].Text!) > -1)
                 {
                     EditMenuItems[i].Disabled = true;
                 }
@@ -156,7 +156,7 @@ namespace TextToMindMapDiagram
             this.ItemSelection();
             for (int i = 0; i < ViewMenuItems.Count; i++)
             {
-                if (disableCollection.IndexOf(ViewMenuItems[i].Text) > -1)
+                if (disableCollection.IndexOf(ViewMenuItems[i].Text!) > -1)
                 {
                     ViewMenuItems[i].Disabled = true;
                 }
@@ -248,8 +248,8 @@ namespace TextToMindMapDiagram
             bool File = false;
             bool Window = false;
             bool view = false;
-            Syncfusion.Blazor.Diagram.SfDiagramComponent diagram = Parent.Diagram;
-            string commandType = args.Item.Text.Replace(" ", "");
+            Syncfusion.Blazor.Diagram.SfDiagramComponent diagram = Parent.Diagram!;
+            string commandType = args.Item.Text!.Replace(" ", "");
             switch (commandType.ToLower())
             {
                 case "new":
@@ -258,9 +258,9 @@ namespace TextToMindMapDiagram
                     enablePasteButten = false;
                     diagram.BeginUpdate();
                     WindowMenuItems[1].IconCss = "sf-icon-Selection";
-                    Parent.DiagramShortCutKeyRef.ShowShortCutKey = "block";
+                    Parent.DiagramShortCutKeyRef!.ShowShortCutKey = "block";
                     Parent.UpdatePointerTool();
-                    Parent.Toolbar.PointerItemCssClass = "tb-item-middle tb-item-selected tb-item-pointer";
+                    Parent.Toolbar!.PointerItemCssClass = "tb-item-middle tb-item-selected tb-item-pointer";
                     Parent.Toolbar.PanItemCssClass = "tb-item-start tb-item-pan";
                     await Parent.Toolbar.HideElements("hide-toolbar", true);
                     WindowMenuItems[0].IconCss = "sf-icon-Selection";
@@ -276,24 +276,24 @@ namespace TextToMindMapDiagram
                     break;
                 case "undo":
                     Edit = true;
-                    if (diagram.SelectionSettings.Nodes.Count > 1 || diagram.SelectionSettings.Connectors.Count > 1)
+                    if (diagram.SelectionSettings!.Nodes!.Count > 1 || diagram.SelectionSettings.Connectors!.Count > 1)
                     {
                         diagram.StartGroupAction();
                     }
                     diagram.Undo();
-                    if (diagram.SelectionSettings.Nodes.Count > 1 || diagram.SelectionSettings.Connectors.Count > 1)
+                    if (diagram.SelectionSettings.Nodes.Count > 1 || diagram.SelectionSettings.Connectors!.Count > 1)
                     {
                         diagram.EndGroupAction();
                     }
                     break;
                 case "redo":
                     Edit = true;
-                    if (diagram.SelectionSettings.Nodes.Count > 1 || diagram.SelectionSettings.Connectors.Count > 1)
+                    if (diagram.SelectionSettings!.Nodes!.Count > 1 || diagram.SelectionSettings.Connectors!.Count > 1)
                     {
                         diagram.StartGroupAction();
                     }
                     diagram.Redo();
-                    if (diagram.SelectionSettings.Nodes.Count > 1 || diagram.SelectionSettings.Connectors.Count > 1)
+                    if (diagram.SelectionSettings.Nodes.Count > 1 || diagram.SelectionSettings.Connectors!.Count > 1)
                     {
                         diagram.EndGroupAction();
                     }
@@ -316,7 +316,7 @@ namespace TextToMindMapDiagram
                     Edit = true;
                     bool GroupAction = false;
                     diagram.BeginUpdate();
-                    if (diagram.SelectionSettings.Nodes.Count > 1 || diagram.SelectionSettings.Connectors.Count > 1 || ((diagram.SelectionSettings.Nodes.Count + diagram.SelectionSettings.Connectors.Count) > 1))
+                    if (diagram.SelectionSettings!.Nodes!.Count > 1 || diagram.SelectionSettings.Connectors!.Count > 1 || ((diagram.SelectionSettings.Nodes.Count + diagram.SelectionSettings.Connectors.Count) > 1))
                     {
                         GroupAction = true;
                     }
@@ -330,23 +330,23 @@ namespace TextToMindMapDiagram
                         {
                             var item = diagram.SelectionSettings.Nodes[i];
 
-                            diagram.Nodes.Remove(item);
+                            diagram.Nodes!.Remove(item);
                         }
                     }
-                    if (diagram.SelectionSettings.Connectors.Count != 0)
+                    if (diagram.SelectionSettings.Connectors!.Count != 0)
                     {
                         for (var i = diagram.SelectionSettings.Connectors.Count - 1; i >= 0; i--)
                         {
                             var item1 = diagram.SelectionSettings.Connectors[i];
 
-                            diagram.Connectors.Remove(item1);
+                            diagram.Connectors!.Remove(item1);
                         }
                     }
                     if (GroupAction)
                     {
                         diagram.EndGroupAction();
                     }
-                    await diagram.EndUpdate();
+                    await diagram.EndUpdateAsync();
                     break;
                 case "duplicate":
                     Edit = true; IsDuplicate = true;
@@ -374,7 +374,7 @@ namespace TextToMindMapDiagram
                 case "showtoolbar":
                     Window = true;
                     WindowMenuItems[0].IconCss = WindowMenuItems[0].IconCss == "sf-icon-Selection" ? "sf-icon-Remove" : "sf-icon-Selection";
-                    await Parent.Toolbar.HideElements("hide-toolbar");
+                    await Parent.Toolbar!.HideElements("hide-toolbar");
                     StateHasChanged();
                     break;
                 case "showshortcuts":
@@ -385,7 +385,7 @@ namespace TextToMindMapDiagram
                     view = true;
                     diagram.BeginUpdate();
                     Parent.SnapConstraint = Parent.SnapConstraint ^ SnapConstraints.ShowLines;
-                    await diagram.EndUpdate();
+                    await diagram.EndUpdateAsync();
                     ViewMenuItems[5].IconCss = ViewMenuItems[5].IconCss == "sf-icon-blank" ? "sf-icon-Selection" : "sf-icon-blank";
                     break;
                 case "fittoscreen":
@@ -395,17 +395,17 @@ namespace TextToMindMapDiagram
                         Mode = FitMode.Both,
                         Region = DiagramRegion.Content,
                     };
-                    Parent.Diagram.FitToPage(fitoption);
+                    Parent.Diagram!.FitToPage(fitoption);
                     break;
                 case "zoomin":
                     view = true;
                     Parent.ZoomTo(new TextToMindMap.ZoomOptions() { Type = "ZoomIn", ZoomFactor = 0.2 });
-                    Parent.Toolbar.DiagramZoomValueChange();
+                    Parent.Toolbar!.DiagramZoomValueChange();
                     break;
                 case "zoomout":
                     view = true;
                     Parent.ZoomTo(new TextToMindMap.ZoomOptions() { Type = "ZoomOut", ZoomFactor = 0.2 });
-                    Parent.Toolbar.DiagramZoomValueChange();
+                    Parent.Toolbar!.DiagramZoomValueChange();
                     break;
             }
             if (Edit)
@@ -432,22 +432,22 @@ namespace TextToMindMapDiagram
         public void ItemSelection()
         {
             List<string> DisableCollection = new List<string>();
-            double DiagramCount = Parent.Diagram.Nodes.Count + Parent.Diagram.Connectors.Count;
+            double DiagramCount = Parent.Diagram!.Nodes!.Count + Parent.Diagram.Connectors!.Count;
             ObservableCollection<object> collection = new ObservableCollection<object>();
-            var nodes = Parent.Diagram.SelectionSettings.Nodes;
+            var nodes = Parent.Diagram.SelectionSettings!.Nodes;
             var connectors = Parent.Diagram.SelectionSettings.Connectors;
 
-            foreach (Node node in nodes)
+            foreach (Node node in nodes!)
             {
                 collection.Add(node);
             }
-            foreach (Connector connector in connectors)
+            foreach (Connector connector in connectors!)
             {
                 collection.Add(connector);
             }
-            Node node1 = new Node();
-            Node node2 = new Node();
-            Connector connector1 = new Connector();
+            Node? node1 = new Node();
+            Node? node2 = new Node();
+            Connector? connector1 = new Connector();
             if (collection != null)
             {
                 node1 = collection.Count > 0 ? collection[0] as Node : null;
@@ -487,7 +487,7 @@ namespace TextToMindMapDiagram
         /// </summary>
         public async Task Download(string fileName)
         {
-            string data = Parent.Diagram.SaveDiagram();
+            string data = Parent.Diagram!.SaveDiagram();
             await FileUtil.SaveAs(jsRuntime, data, fileName);
         }
 
@@ -496,8 +496,8 @@ namespace TextToMindMapDiagram
             if (args.Operation != "remove")
             {
                 var file1 = args.File;
-                var file = file1.RawFile;
-                var fileType = file1.Type.ToString();
+                var file = file1?.RawFile;
+                var fileType = file1?.Type?.ToString();
             }
         }
         /// <summary>
@@ -505,23 +505,23 @@ namespace TextToMindMapDiagram
         /// </summary>
         private async Task OnUploadFileSelected(Syncfusion.Blazor.Inputs.UploadingEventArgs args)
         {
-            SfDiagramComponent Diagram = Parent.Diagram;
-            if (args.FileData.Type == "json")
+            SfDiagramComponent Diagram = Parent.Diagram!;
+            if (args.FileData?.Type == "json")
             {
                 IsJsonLoading = true;
                 await Task.Delay(100);
                 string json = await FileUtil.LoadFile(jsRuntime, args.FileData);
                 json = json.Replace(System.Environment.NewLine, string.Empty);
-                await Parent.Diagram.LoadDiagram(json.ToString());
+                await Parent.Diagram!.LoadDiagramAsync(json.ToString());
                 IsJsonLoading = false;
             }
             else
             {
 
-                Node Node = Diagram.SelectionSettings.Nodes[0];
+                Node Node = Diagram!.SelectionSettings!.Nodes![0];
                 Diagram.BeginUpdate();
-                Node.Shape = new ImageShape() { Type = NodeShapes.Image, Source = args.FileData.RawFile.ToString() };
-                await Diagram.EndUpdate();
+                Node.Shape = new ImageShape() { Type = NodeShapes.Image, Source = args.FileData?.RawFile?.ToString() };
+                await Diagram.EndUpdateAsync();
             }
         }
         /// <summary>
@@ -531,11 +531,11 @@ namespace TextToMindMapDiagram
         {
             var diagram = Parent.Diagram;
             DiagramExportFormat exportFormat = DiagramExportFormat.JPEG;
-            var images = await diagram.ExportAsync(exportFormat, exportOptions);
+            var images = await diagram!.ExportAsync(exportFormat, exportOptions);
             var Orientation = PdfPageOrientation.Landscape;
             if (exportType.ToString() == "PDF")
             {
-                await ExportToPdf(fileName, Orientation, true, images);
+                await ExportToPdf(fileName, Orientation, true, images!);
             }
             else
             {
@@ -597,7 +597,7 @@ namespace TextToMindMapDiagram
         {
             var diagram = Parent.Diagram;
 
-            await diagram.PrintAsync(printOptions);
+            await diagram!.PrintAsync(printOptions);
         }
         /// <summary>
         /// This method is used to enable the diagram menu items.

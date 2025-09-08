@@ -17,19 +17,19 @@ namespace ej2_blazor_zoomingdata
         public class TaskData
         {
             public int TaskId { get; set; }
-            public string TaskName { get; set; }
+            public string TaskName { get; set; } = string.Empty;
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
             public DateTime? BaselineStartDate { get; set; }
             public DateTime? BaselineEndDate { get; set; }
-            public string Duration { get; set; }
+            public string? Duration { get; set; }
             public int Progress { get; set; }
-            public string Predecessor { get; set; }
-            public List<TaskData> SubTasks { get; set; }
-            public object ResourceId { get; set; }
-            public int?ParentId { get; set; }
-            public string Notes { get; set; }
-            public string TaskType { get; set; }
+            public string Predecessor { get; set; } = string.Empty;
+            public List<TaskData>? SubTasks { get; set; }
+            public object? ResourceId { get; set; }
+            public int? ParentId { get; set; }
+            public string? Notes { get; set; }
+            public string TaskType { get; set; } = string.Empty;
         }
         public static List<TaskData> ZoomData()
         {

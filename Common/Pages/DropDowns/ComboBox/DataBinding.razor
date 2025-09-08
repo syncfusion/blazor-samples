@@ -108,11 +108,11 @@
     public string ColorValue { get; set; } = "#75523C";
     public string VehicleValue { get; set; } = "1011";
     public string ComboValue { get; set; } = "Michael";
-    
+
     public class GameFields
     {
-        public string Id { get; set; }
-        public string Text { get; set; }
+        public string? Id { get; set; }
+        public string? Text { get; set; }
     }
 
     public List<GameFields> Games = new List<GameFields>()
@@ -132,21 +132,21 @@
     public class OrderDetails
     {
         public int? OrderId { get; set; }
-        public string CustomerId { get; set; }
+        public string? CustomerId { get; set; }
         public int? EmployeeId { get; set; }
         public double? Freight { get; set; }
-        public string ShipCity { get; set; }
+        public string? ShipCity { get; set; }
         public bool Verified { get; set; }
         public DateTime? OrderDate { get; set; }
-        public string ShipName { get; set; }
-        public string ShipCountry { get; set; }
+        public string? ShipName { get; set; }
+        public string? ShipCountry { get; set; }
         public DateTime? ShippedDate { get; set; }
-        public string ShipAddress { get; set; }
+        public string? ShipAddress { get; set; }
     }
     public class Colors
     {
-        public string Code { get; set; }
-        public string Color { get; set; }
+        public string? Code { get; set; }
+        public string? Color { get; set; }
     }
 
     private ObservableCollection<Colors> ColorsData = new ObservableCollection<Colors>()
@@ -172,7 +172,7 @@
     public List<DynamicDictionary> Orders = new List<DynamicDictionary>() { };
     protected override void OnInitialized()
     {
-        
+
         VehicleData = Enumerable.Range(1, 15).Select((x) =>
         {
             dynamic d = new ExpandoObject();
@@ -193,20 +193,23 @@
     public class DynamicDictionary : System.Dynamic.DynamicObject
     {
         Dictionary<string, object> dictionary = new Dictionary<string, object>();
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        public override bool TryGetMember(GetMemberBinder binder, out object? result)
         {
             string name = binder.Name;
             return dictionary.TryGetValue(name, out result);
         }
-        public override bool TrySetMember(SetMemberBinder binder, object value)
+        public override bool TrySetMember(SetMemberBinder binder, object? value)
         {
-            dictionary[binder.Name] = value;
+            if (value != null)
+            {
+                dictionary[binder.Name] = value;            
+            }
             return true;
         }
         //The GetDynamicMemberNames method of DynamicObject class must be overridden and return the property names to perform data operation and editing while using DynamicObject.
         public override System.Collections.Generic.IEnumerable<string> GetDynamicMemberNames()
         {
-            return this.dictionary?.Keys;
+            return this.dictionary.Keys;
         }
     }
 }

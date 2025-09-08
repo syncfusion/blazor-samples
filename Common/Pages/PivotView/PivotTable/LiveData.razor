@@ -56,7 +56,7 @@
                         {
                             if (data.Axis == "value")
                             {
-                                if (!data.IsGrandSum && data.ActualText.ToString() == "Change")
+                                if (!data.IsGrandSum && data.ActualText.ToString() == "Change" && _pivotObj !=  null)
                                 {
                                     _pivotObj.PivotValues[data.RowIndex][data.ColIndex].CssClass = _colorScheme[CellColour(data.Value)];
                                 }
@@ -147,7 +147,7 @@
 </style>
 
 @code {
-    private SfPivotView<PivotLiveData> _pivotObj;
+    private SfPivotView<PivotLiveData>? _pivotObj;
     private List<PivotChartToolbarItems> _pivotChartToolbarItems = new List<PivotChartToolbarItems>();
     private Theme Theme { get; set; }
     private int _feedDelayInput = 5000;
@@ -155,9 +155,9 @@
     private bool _enableInput;
     private bool _start;
     private bool _stop = true;
-    private List<PivotLiveData> _dataSource;
-    private List<PivotLiveData> _updatedData;
-    private System.Threading.Timer _timer;
+    private List<PivotLiveData>? _dataSource;
+    private List<PivotLiveData>? _updatedData;
+    private System.Threading.Timer? _timer;
     private bool _allowDataUpdate;
     private PivotChartZoomSettings pivotChartZoomSettings = new PivotChartZoomSettings() { ToolbarItems = new List<PivotChartToolbarItems>(), EnableSelectionZooming = false, EnableScrollbar = false };
     
@@ -172,7 +172,7 @@
 
     private void StopInterval()
     {
-        _timer.Dispose();
+        _timer?.Dispose();
         _stop = true;
         _start = false;
         _enableInput = true;
@@ -226,22 +226,26 @@
         int j = 0;
         int l = 0;
         bool startRandom = false;
-        for (int i = 0; i < count; i++)
+        if (_dataSource != null)
         {
-            int rand = startRandom ? (int)Math.Floor(new Random().NextDouble() * Convert.ToDouble((Math.Floor((decimal)_dataSource.Count)))) : 0;
-            RegionData region = RegionData.Data[j];
-            for (int k = 0; k < region.Country.Count; k++)
+            for (int i = 0; i < count; i++)
             {
-                PivotLiveData dataObj = startRandom ? new PivotLiveData { Buy = _dataSource[rand].Buy, Category = _dataSource[rand].Category, Change = _dataSource[rand].Change, Change_Percentage = _dataSource[rand].Change_Percentage, Country = _dataSource[rand].Country, OpenPrice = _dataSource[rand].OpenPrice, Price = _dataSource[rand].Price, Region = _dataSource[rand].Region, Sell = _dataSource[rand].Sell, Spread = _dataSource[rand].Spread, Type = _dataSource[rand].Type, Volume = _dataSource[rand].Volume } : new PivotLiveData { Buy = _dataSource[l].Buy, Category = _dataSource[l].Category, Change = _dataSource[l].Change, Change_Percentage = _dataSource[l].Change_Percentage, Country = _dataSource[l].Country, OpenPrice = _dataSource[l].OpenPrice, Price = _dataSource[l].Price, Region = _dataSource[l].Region, Sell = _dataSource[l].Sell, Spread = _dataSource[l].Spread, Type = _dataSource[l].Type, Volume = _dataSource[l].Volume };
-                dataObj.Region = region.Region;
-                dataObj.Country = region.Country[k];
-                randomizeObjectData(dataObj);
-                data.Add(dataObj);
+                int rand = startRandom ? (int)Math.Floor(new Random().NextDouble() * Convert.ToDouble((Math.Floor((decimal)_dataSource.Count)))) : 0;
+                RegionData region = RegionData.Data[j];
+                for (int k = 0; k < region.Country?.Count; k++)
+                {
+                    PivotLiveData dataObj = startRandom ? new PivotLiveData { Buy = _dataSource[rand].Buy, Category = _dataSource[rand].Category, Change = _dataSource[rand].Change, Change_Percentage = _dataSource[rand].Change_Percentage, Country = _dataSource[rand].Country, OpenPrice = _dataSource[rand].OpenPrice, Price = _dataSource[rand].Price, Region = _dataSource[rand].Region, Sell = _dataSource[rand].Sell, Spread = _dataSource[rand].Spread, Type = _dataSource[rand].Type, Volume = _dataSource[rand].Volume } : new PivotLiveData { Buy = _dataSource[l].Buy, Category = _dataSource[l].Category, Change = _dataSource[l].Change, Change_Percentage = _dataSource[l].Change_Percentage, Country = _dataSource[l].Country, OpenPrice = _dataSource[l].OpenPrice, Price = _dataSource[l].Price, Region = _dataSource[l].Region, Sell = _dataSource[l].Sell, Spread = _dataSource[l].Spread, Type = _dataSource[l].Type, Volume = _dataSource[l].Volume };
+                    dataObj.Region = region.Region;
+                    dataObj.Country = region.Country[k];
+                    randomizeObjectData(dataObj);
+                    data.Add(dataObj);
+                }
+                l++;
+                startRandom = l > 5;
+                j++;
+                j = j > 5 ? 0 : j;
             }
-            l++;
-            startRandom = l > 5;
-            j++;
-            j = j > 5 ? 0 : j;
+            return data;
         }
         return data;
     }

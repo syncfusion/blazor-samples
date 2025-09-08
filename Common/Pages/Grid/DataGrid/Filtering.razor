@@ -40,7 +40,7 @@
                         <FilterTemplate>
                             @{
                                 var FilterContext = (context as PredicateModel);
-                                bool? fValue = string.IsNullOrEmpty(FilterContext.Value.ToString()) ? null : (bool?)FilterContext.Value;
+                                bool? fValue = string.IsNullOrEmpty(FilterContext?.Value.ToString()) ? null : (bool?)FilterContext.Value;
                             }
                             <SfCheckBox Checked="@fValue"  EnableTriState="true" ValueChange="OnValueChange" TChecked="bool?"></SfCheckBox>
                         </FilterTemplate>
@@ -53,8 +53,8 @@
 
 @code{
 
-    public SfGrid<Category> Grid { get; set; }
-    public List<Category> GridData { get; set; }
+    public SfGrid<Category>? Grid { get; set; }
+    public List<Category>? GridData { get; set; }
     
     protected override void OnInitialized()
     {
@@ -64,20 +64,11 @@
 
     private async Task OnValueChange(ChangeEventArgs<bool?> args)
     {
+        if(Grid != null){
         if (args.Checked != null)
             await Grid.FilterByColumnAsync("Discontinued", "equal", args.Checked); //Perform filtering while check/uncheck the checkbox
         else
             await Grid.ClearFilteringAsync("Discontinued");
+        }
     }
 }
- @*Hidden:Lines*@
-<style>
-    .fluent2 .e-grid .e-filterbarcell .e-icons::before, .fluent2-dark .e-grid .e-filterbarcell .e-icons::before {
-    color: var(--color-sf-icon-color) !important;
-}
-
-    .fluent2 .e-icons.e-frame.e-stop, .fluent2-dark .e-icons.e-frame.e-stop {
-    background-color: var(--color-sf-content-bg-color) !important;
-}
-</style>
-    @*End:Hidden*@

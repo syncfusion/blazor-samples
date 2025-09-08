@@ -21,9 +21,9 @@ namespace BlazorDemos
                 Directory = "TreeMap/TreeMap",
                 Url = "treemap/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                MetaTitle = "Blazor TreeMap Component | Hierarchical Data Visualization | Syncfusion",
+                MetaTitle = "Blazor TreeMap Component | Data Visualization | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Default Functionalities",
-                MetaDescription = "This Blazor TreeMap example demonstrates the basic functionalities of TreeMap component. Visualize hierarchical data with nested rectangles sized proportionally to data values.",
+                MetaDescription = "Blazor TreeMap demo shows basic functionalities of TreeMap component. Visualize hierarchical data with nested rectangles sized proportionally to data values.",
                 Type = SampleType.None
             },
             new Sample {
@@ -34,7 +34,7 @@ namespace BlazorDemos
                 FileName = "Layout.razor",
                 MetaTitle = "Blazor TreeMap Layout Types | Slice, Dice, and Algorithm | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Layout Types",
-                MetaDescription = "This Blazor TreeMap example demonstrates different layout types including Slice, Dice, SliceAndDice and Squarified algorithms for optimal data representation based on your visualization needs.",
+                MetaDescription = "This Blazor TreeMap example demonstrates different layout types including Slice, Dice, SliceAndDice and Squarified algorithms for optimal data representation.",
                 Type = SampleType.None
             },
             new Sample {
@@ -45,7 +45,7 @@ namespace BlazorDemos
                 FileName = "Drilldown.razor",
                 MetaTitle = "Blazor TreeMap Drill Down | Hierarchical Data Navigation | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Drill Down Functionality",
-                MetaDescription = "This Blazor TreeMap example demonstrates drill-down functionality that allows users to navigate through hierarchical data levels. Click on tiles to explore deeper levels of your data structure.",
+                MetaDescription = "This demo shows drill-down functionality that allows users to navigate via hierarchical data levels. Click on tiles to explore deeper levels of data structure.",
                 Type = SampleType.None
             },
             new Sample {
@@ -56,7 +56,7 @@ namespace BlazorDemos
                 FileName = "ColorMapping.razor",
                 MetaTitle = "Blazor TreeMap Color Mapping | Data Visualization | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Color Mapping",
-                MetaDescription = "This Blazor TreeMap example demonstrates various color mapping techniques including range, equal, and desaturation color mapping to enhance data visualization with meaningful color representation.",
+                MetaDescription = "This Blazor TreeMap example demonstrates various color mapping techniques including range, equal, and desaturation color mapping to enhance data visualization.",
                 Type = SampleType.None
             },
             new Sample {
@@ -65,9 +65,9 @@ namespace BlazorDemos
                 Directory = "TreeMap/TreeMap",
                 Url = "treemap/selection-highlight",
                 FileName = "Selection.razor",
-                MetaTitle = "Blazor TreeMap Selection & Highlight | Interactive Features | Syncfusion",
+                MetaTitle = "Blazor TreeMap Selection & Highlight | Features | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Selection and Highlighting",
-                MetaDescription = "This Blazor TreeMap example demonstrates selection and highlighting capabilities that allow users to interact with TreeMap items. Enhance user experience with visual feedback on hover and selection.",
+                MetaDescription = "This demo shows selection and highlight capabilities that allow user to interact with TreeMap items.User experience with visual feedback on hover and selection.",
                 Type = SampleType.None
             },
              new Sample {
@@ -78,7 +78,7 @@ namespace BlazorDemos
                 FileName = "TreeMapLabel.razor",
                 MetaTitle = "Blazor TreeMap Labels | Text Formatting and Positioning | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Label Customization",
-                MetaDescription = "This Blazor TreeMap example shows how to customize labels with various formatting options including position, alignment, overflow handling, and styling to improve data readability.",
+                MetaDescription = "This demo shows how to customize labels with various formatting options including position, alignment, overflow handling, styling to improve data readability.",
                 Type = SampleType.None
             },
              new Sample {
@@ -89,7 +89,7 @@ namespace BlazorDemos
                 FileName = "Legend.razor",
                 MetaTitle = "Blazor TreeMap Legend | Data Interpretation Guide | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Legend Configuration",
-                MetaDescription = "This Blazor TreeMap example demonstrates legend configuration options including positioning, orientation, and customization. Add contextual information to help users interpret color-coded data.",
+                MetaDescription = "This demo shows legend configuration options including positioning, orientation, customization. Contextual information to help users interpret color-coded data.",
                 Type = SampleType.None
             },
             new Sample {
@@ -100,7 +100,7 @@ namespace BlazorDemos
                 FileName = "Customization.razor",
                 MetaTitle = "Blazor TreeMap Templating | Custom UI Elements | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Custom Templates",
-                MetaDescription = "This Blazor TreeMap example demonstrates template customization capabilities that allow you to create rich, personalized visualizations with custom HTML content and styling for TreeMap items.",
+                MetaDescription = "This demo shows custom template capabilities that allow you to create rich, personalized visualizations with custom HTML content and styling for TreeMap items.",
                 Type = SampleType.None
             },
               new Sample {
@@ -111,7 +111,7 @@ namespace BlazorDemos
                 FileName = "Tooltip.razor",
                 MetaTitle = "Blazor TreeMap Tooltip | Interactive Data Details | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Tooltip Configuration",
-                MetaDescription = "This Blazor TreeMap example demonstrates tooltip functionality that provides additional information when users hover over TreeMap tiles. Customize tooltip content and appearance for better insights.",
+                MetaDescription = "This demo shows how to provides additional information when users hover over TreeMap tiles. Customize tooltip content and appearance for better insights.",
                 Type = SampleType.None
             },
             new Sample {
@@ -122,7 +122,7 @@ namespace BlazorDemos
                 FileName = "Print.razor",
                 MetaTitle = "Blazor TreeMap Print & Export | Image & PDF Generation | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Print and Export Functionality",
-                MetaDescription = "This Blazor TreeMap example demonstrates print and export capabilities allowing users to generate PNG, JPEG, SVG, and PDF files from the TreeMap visualization for reports and presentations.",
+                MetaDescription = "This demo shows print and export capabilities allowing users to generate PNG, JPEG, SVG, PDF files from the TreeMap visualization for reports and presentations.",
                 Type = SampleType.None
             },
                 new Sample
@@ -134,7 +134,7 @@ namespace BlazorDemos
                 FileName = "Rtl.razor",
                 MetaTitle = "Blazor TreeMap RTL Support | Right-to-Left Layout | Syncfusion",
                 HeaderText = "Blazor TreeMap Example - Right-to-Left (RTL) Mode",
-                MetaDescription = "This Blazor TreeMap example demonstrates Right-to-Left (RTL) support for languages like Arabic and Hebrew. The TreeMap layout and elements are aligned from right to left for proper localization.",
+                MetaDescription = "This demo shows RTL support for languages like Arabic and Hebrew. The TreeMap layout and elements are aligned from right to left for proper localization.",
                 Type = SampleType.None
             }
         };

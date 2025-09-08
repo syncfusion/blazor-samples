@@ -5,7 +5,7 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.DropDowns
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using Nodeshape = Syncfusion.Blazor.Diagram.NodeShapes
 @using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
 
 @*Hidden:Lines*@
@@ -297,19 +297,19 @@
     @*End:Hidden*@
 
     //Define sfdiagramComponent
-    private SfDiagramComponent DiagramInstance { get; set; }
+    private SfDiagramComponent? DiagramInstance { get; set; }
 
     public DiagramConstraints Constraints { get; set; }
 
     //Defines diagrams's nodes collection
-    public DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node>? DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
 
     //Defines diagrams's connectors collection
-    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector>? DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
 
     private void OnCreated()
     {
-        DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[2] });
+        DiagramInstance!.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes![2] });
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
         DiagramInstance.FitToPage(mobileoptions);
     }
@@ -388,7 +388,7 @@
         {
             if (!(arg.EntryType == HistoryEntryType.PropertyChanged))
             {
-                string entrylog = null;
+                string? entrylog = null;
                 if (arg.EntryType == HistoryEntryType.RotationChanged)
                 {
                     entrylog = "Rotation\nchanged";
@@ -454,12 +454,12 @@
     {
         if (ChangedAction == "Start Group Action")
         {
-            DiagramInstance.StartGroupAction();
+            DiagramInstance!.StartGroupAction();
             ChangedAction = "End Group Action";
         }
         else if (ChangedAction == "End Group Action")
         {
-            DiagramInstance.EndGroupAction();
+            DiagramInstance!.EndGroupAction();
             ChangedAction = "Start Group Action";
         }
     }
@@ -468,19 +468,19 @@
     {
         UndoStack.Clear();
         RedoStack.Clear();
-        DiagramInstance.ClearHistory();
+        DiagramInstance!.ClearHistory();
         IsUndoDisabled = true;
         IsRedoDisabled = true;
     }
 
     private void OnUndo()
     {
-        DiagramInstance.Undo();
+        DiagramInstance!.Undo();
     }
 
     private void OnRedo()
     {
-        DiagramInstance.Redo();
+        DiagramInstance!.Redo();
     }
 
     //Create nodes
@@ -496,10 +496,10 @@
             OffsetY = offsety,
             ID = id,
             Style = new ShapeStyle() { Fill = fill },
-            Shape = new FlowShape() { Shape = shape, Type = shapes.Flow },
+            Shape = new FlowShape() { Shape = shape, Type = Nodeshape.Flow },
             Annotations = new DiagramObjectCollection<ShapeAnnotation>() { shapeAnnotation }
         };
-        DiagramNodes.Add(node);
+        DiagramNodes!.Add(node);
         return node;
     }
 
@@ -512,12 +512,12 @@
             Offset = new DiagramPoint() { X = nodeoffsetx, Y = nodeoffsety },
         };
 
-        node.Ports.Add(nodePort);
+        node.Ports!.Add(nodePort);
     }
 
     //Create DiagramConnectors
     private void CreateConnector(string sourceNode, string targetNode, string text,
-        string sourcePort, string targetPort, DiagramObjectCollection<ConnectorSegment> segment = null)
+        string sourcePort, string targetPort, DiagramObjectCollection<ConnectorSegment>? segment = null)
     {
         TextStyle textStyle = new TextStyle() { FontSize = 13, TextWrapping = TextWrap.WrapWithOverflow, Bold = true };
         PathAnnotation pathAnnotation = new PathAnnotation() { Content = text, Style = textStyle };
@@ -536,7 +536,7 @@
             connector.Segments = segment;
         }
 
-        DiagramConnectors.Add(connector);
+        DiagramConnectors!.Add(connector);
     }
 
     //Update annotation bold property
@@ -563,7 +563,7 @@
     //Update annotation fontfamily
     private void FontChange(ChangeEventArgs<string, FontFamily> args)
     {
-        UpdateAnnotation("fontfamily", args.Value);
+        UpdateAnnotation("fontfamily", args.Value!);
 
     }
 
@@ -583,7 +583,7 @@
 
     private void SelectionChanged(SelectionChangedEventArgs args)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0 || DiagramInstance.SelectionSettings.Connectors.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0 || DiagramInstance.SelectionSettings.Connectors!.Count > 0)
         {
             IsBold = false;
             IsItalic = false;
@@ -608,17 +608,17 @@
     //Update fill color for annotations
     public void OnFillColorChange(ColorPickerEventArgs args)
     {
-        styleValue = "background-color:" + args.CurrentValue.Hex;
-        UpdateAnnotation("fontcolor", args.CurrentValue.Hex);
+        styleValue = "background-color:" + args.CurrentValue!.Hex;
+        UpdateAnnotation("fontcolor", args.CurrentValue.Hex!);
 
     }
 
     //Update fill color for annotations
     public void OnNodeFillColorChange(ColorPickerEventArgs args)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
-            DiagramInstance.SelectionSettings.Nodes[0].Style.Fill = args.CurrentValue.Hex;
+            DiagramInstance.SelectionSettings.Nodes[0].Style!.Fill = args.CurrentValue!.Hex!;
             string stackvaluenodefill = "\nNode" + "\nstyle" + "\nchanged";
             UndoStack.Add(stackvaluenodefill);
         }
@@ -627,15 +627,15 @@
     //Update fill color for annotations
     public void OnStrokeFillColorChange(ColorPickerEventArgs args)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
-            DiagramInstance.SelectionSettings.Nodes[0].Style.StrokeColor = args.CurrentValue.Hex;
+            DiagramInstance.SelectionSettings.Nodes[0].Style!.StrokeColor = args.CurrentValue!.Hex;
             string stackvaluenodestroke = "\nNode" + "\nstyle" + "\nchanged";
             UndoStack.Add(stackvaluenodestroke);
         }
         else
         {
-            DiagramInstance.SelectionSettings.Connectors[0].Style.StrokeColor = args.CurrentValue.Hex;
+            DiagramInstance.SelectionSettings.Connectors![0].Style!.StrokeColor = args.CurrentValue!.Hex;
             string stackvaluenodestroke = "\nConnector" + "\nstyle" + "\nchanged";
             UndoStack.Add(stackvaluenodestroke);
         }
@@ -644,29 +644,29 @@
     //Update annotation
     private void UpdateAnnotation(string name, object value)
     {
-        if (DiagramInstance.SelectionSettings.Connectors.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Connectors!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Connectors.Count; i++)
             {
                 var connector = DiagramInstance.SelectionSettings.Connectors[i];
-                for (var j = 0; j < connector.Annotations.Count; j++)
+                for (var j = 0; j < connector.Annotations!.Count; j++)
                 {
-                    TextStyle annotationStyle = connector.Annotations[j].Style;
+                    TextStyle annotationStyle = connector.Annotations[j].Style!;
                     UpdateAnnotationStyle(name, annotationStyle, value);
 
                 }
             }
         }
 
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
                 var node = DiagramInstance.SelectionSettings.Nodes[i];
-                for (var j = 0; j < node.Annotations.Count; j++)
+                for (var j = 0; j < node.Annotations!.Count; j++)
                 {
-                    TextStyle annotationStyle = node.Annotations[j].Style;
-                    UpdateAnnotationStyle(name, annotationStyle, value);
+                    TextStyle annotationStyle = node.Annotations[j].Style!;
+                    UpdateAnnotationStyle(name, annotationStyle!, value);
                 }
             }
         }
@@ -678,7 +678,7 @@
         switch (option)
         {
             case "fontsize":
-                textStyle.FontSize = Double.Parse(value.ToString());
+                textStyle.FontSize = Double.Parse(value.ToString()!);
                 string stackvaluesize = "\nAnnotation" + "\nfontsize" + "\nchanged";
                 UndoStack.Add(stackvaluesize);
                 break;
@@ -720,15 +720,15 @@
     //Update pathannotation property panel value
     private void UpateProprtyPanelValue(PathAnnotation annotation)
     {
-        FontSizeValue = int.Parse(annotation.Style.FontSize.ToString());
-        FontStyle = annotation.Style.FontFamily;
-        FillColor = annotation.Style.Color;
+        FontSizeValue = int.Parse(annotation.Style!.FontSize.ToString());
+        FontStyle = annotation.Style.FontFamily!;
+        FillColor = annotation.Style.Color!;
     }
 
     //Update shapeannotation alignment
     private void UpdateAnnotation(string id, ShapeAnnotation annotation)
     {
-        DiagramInstance.BeginUpdate();
+        DiagramInstance!.BeginUpdate();
         if (!IsUpdatePanelOnly)
         {
             switch (id)
@@ -762,9 +762,9 @@
     //Update shapeannotation property panel
     private void UpateProprtyPanel(ShapeAnnotation annotation)
     {
-        FontSizeValue = int.Parse(annotation.Style.FontSize.ToString());
-        FontStyle = annotation.Style.FontFamily;
-        FillColor = annotation.Style.Color;
+        FontSizeValue = int.Parse(annotation.Style!.FontSize.ToString());
+        FontStyle = annotation.Style.FontFamily!;
+        FillColor = annotation.Style.Color!;
     }
 
     //Update selection
@@ -837,7 +837,7 @@
     @*Hidden:Lines*@
     public class FontFamily
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     private List<FontFamily> FontFamilyLists = new List<FontFamily>()
@@ -853,7 +853,7 @@
 
     public class TextWrapping
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     private List<TextWrapping> TextWrappingList = new List<TextWrapping>()
@@ -865,7 +865,7 @@
 
     public class TextOverFlow
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
 
     private List<TextOverFlow> TextOverFlowList = new List<TextOverFlow>()

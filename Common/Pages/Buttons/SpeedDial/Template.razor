@@ -1,6 +1,7 @@
 ﻿@page "/speeddial/template"
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
+@using BlazorDemos.Shared
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @*End:Hidden*@
@@ -17,7 +18,7 @@
 
 <div class="speeddial-template-target fab-index" id="target"></div>
 
-<SfSpeedDial CssClass="speeddial1" Mode="SpeedDialMode.Linear" Target="#target" Content="Edit" OpenIconCss="speeddial-icons speeddial-icon-edit" IconPosition="IconPosition.Right" Position="FabPosition.BottomRight">
+<SfSpeedDial CssClass="speeddial1" Visible="@isVisible" Mode="SpeedDialMode.Linear" Target="#target" aria-label="Bottom Right Speed Dial Menu" Content="Edit" OpenIconCss="speeddial-icons speeddial-icon-edit" IconPosition="IconPosition.Right" Position="FabPosition.BottomRight">
     <ChildContent>
         <SpeedDialItems>
             <SpeedDialItem Text="Cut" IconCss="speeddial-icons speeddial-icon-cut" />
@@ -35,13 +36,13 @@
     </ItemTemplate>
 </SfSpeedDial>
 
-<SfSpeedDial @ref="speeddial2" Target="#target" CssClass="popupSpeedDial" Content="Feedback" OpenIconCss="speeddial-icons speeddial-icon-feedback" Position="FabPosition.BottomLeft">
+<SfSpeedDial @ref="speeddial2" Target="#target" Opening="OpenedEvent" Closed="ClosedEvent" aria-label="Bottom Left Speed Dial Menu" CssClass="popupSpeedDial" Content="Feedback" OpenIconCss="speeddial-icons speeddial-icon-feedback" Position="FabPosition.BottomLeft">
     <PopupTemplate>
         <div class="popuptempContent">
             <div class="speeddial-form">
                 <div class="head">
                     <div class="textEle">Feedback & Question</div>
-                    <div class="iconEle"><span class="speeddial-icons speeddial-icon-close closeicon" @onclick=@(async ()=>await speeddial2.HideAsync())></span></div>
+                    <div class="iconEle"><span class="speeddial-icons speeddial-icon-close closeicon" @onclick=@(async ()=> { if (speeddial2 != null) {await speeddial2.HideAsync();}})></span></div>
                 </div>
                 <div class="content">
                     <SfTextBox id="name" FloatLabelType="FloatLabelType.Always" ShowClearButton="true" Placeholder="Enter your name" style="width: 100%"></SfTextBox>
@@ -49,7 +50,7 @@
                     <SfTextBox id="comment" Multiline="true" FloatLabelType="FloatLabelType.Always" ShowClearButton="true" Placeholder="Share your comments" style="width: 100%"></SfTextBox>
                 </div>
                 <div class="footer">
-                    <button id="primarybtn" class="e-btn e-success" @onclick=@(async ()=>await speeddial2.HideAsync())> Submit </button>
+                    <button id="primarybtn" class="e-btn e-success" @onclick=@(async ()=> { if (speeddial2 != null) {await speeddial2.HideAsync();}})> Submit </button>
                 </div>
             </div>
         </div>
@@ -60,7 +61,21 @@
 #nullable enable
     SfSpeedDial? speeddial2;
 #nullable disable
-
+    public bool isVisible = true;
+    public void OpenedEvent(SpeedDialBeforeOpenCloseEventArgs args)
+    {
+        if (SampleService.IsDevice)
+        {
+            isVisible = false;
+        }
+    }
+    public void ClosedEvent(SpeedDialOpenCloseEventArgs args)
+    {
+        if (SampleService.IsDevice)
+        {
+            isVisible = true;
+        }
+    }
 }
 <style>
     .speeddial-template-target {
@@ -81,15 +96,14 @@
             margin: 0 5% 35px;
         }
 
-        .speeddial-template-target .e-speeddial-popup.popupSpeedDial {
-            width: 90%;
-            position: fixed;
-            top: 48%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            z-index: 500;
-        }
-    }    
+            .speeddial-template-target .e-speeddial-popup.popupSpeedDial {
+                position: fixed;
+                top: 48%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                z-index: 500;
+            }
+    }
 
     .e-bigger .popuptempContent .e-btn,
     .popuptempContent .e-btn {

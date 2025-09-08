@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor TextArea | Default Functionalities | Syncfusion Demos",
                 HeaderText = "Blazor TextArea - Default Functionalities",
-                MetaDescription = "This example of Blazor TextArea demonstrates the rendering of the textArea component using a default functionalities.",
+                MetaDescription = "This Blazor TextArea example shows the rendering of the TextArea component using a default functionalities. It allows users to input multiple lines of text.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -43,7 +43,7 @@ namespace BlazorDemos
                 FileName = "FloatingLabel.razor",
                 MetaTitle = "Blazor TextArea | Floating Label | Syncfusion Demos",
                 HeaderText = "Blazor TextArea - Floating Label",
-                MetaDescription = "The example below demonstrates the floating label functionality in the Blazor textArea component.",
+                MetaDescription = "This example shows the floating label functionality of TextArea control. The placeholder text while the user enters text/focus on textarea element with a value.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -60,9 +60,9 @@ namespace BlazorDemos
                 Directory = "Inputs/TextArea",
                 Url = "TextArea/Resize",
                 FileName = "Resize.razor",
-                MetaTitle = "Blazor TextArea | Resize | Syncfusion Demos",
+                MetaTitle = "Blazor TextArea Example | Resize | Syncfusion Demos",
                 HeaderText = "Blazor TextArea - Resize",
-                MetaDescription = "This Blazor TextArea example demonstrates how to adjust the size of the TextArea component dynamically using the ResizeMode property.",
+                MetaDescription = "This Blazor TextArea demo shows how to adjust the size of TextArea dynamically using ResizeMode property such as Both, Vertical, Horizontal, or None options.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -79,7 +79,7 @@ namespace BlazorDemos
                 Directory = "Inputs/TextArea",
                 Url = "TextArea/FormsValidation",
                 FileName = "FormsValidation.razor",
-                MetaTitle = "Blazor TextArea | Validation | Syncfusion Demos",
+                MetaTitle = "Blazor TextArea Example | Validation | Syncfusion Demos",
                 HeaderText = "Blazor TextArea - Validation",
                 MetaDescription = "This Blazor TextArea example showcases how to implement and validate the TextArea component, ensuring user input meets specified requirements and constraints.",
                 SourceFiles = new List<SourceCollection>()
@@ -98,7 +98,7 @@ namespace BlazorDemos
                 Directory = "Inputs/TextArea",
                 Url = "TextArea/Api",
                 FileName = "Api.razor",
-                MetaTitle = "Blazor TextArea | API | Syncfusion Demos",
+                MetaTitle = "Blazor TextArea Example | API Feature | Syncfusion Demos",
                 HeaderText = "Blazor TextArea - API",
                 MetaDescription = "This Blazor TextArea example shows how to dynamically update column count, row count, max-length, enable/disable, read-only mode, toggle the clear button.",
                 SourceFiles = new List<SourceCollection>()
@@ -122,7 +122,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor TextBox | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor TextBox - Default Functionalities",
-                MetaDescription = "This Blazor TextBox example demonstrates the default functionalities including basic text input, placeholder support, floating labels, and value binding in a responsive interface."
+                MetaDescription = "Blazor TextBox demo shows the default functionalities including basic text input, placeholder support, floating labels, value binding in a responsive interface."
             },
             new Sample
             {
@@ -133,7 +133,7 @@ namespace BlazorDemos
                 FileName = "Multiline.razor",
                 MetaTitle = "Blazor TextBox | Multiline Text Input | Syncfusion",
                 HeaderText = "Blazor TextBox - Multiline Input",
-                MetaDescription = "This Blazor TextBox example demonstrates multiline text input functionality. The component adapts to display multiple lines of text with customizable rows, columns, and auto-resize capabilities."
+                MetaDescription = "Blazor TextBox demo shows multiline text input functionality. It adapts to display multiple lines of text with custom rows, columns, auto-resize capabilities."
             },
             new Sample
             {
@@ -142,9 +142,9 @@ namespace BlazorDemos
                 Directory = "Inputs/TextBox",
                 Url = "TextBox/Forms-Validation",
                 FileName = "FormsValidation.razor",
-                MetaTitle = "Blazor TextBox | Form Validation | Syncfusion",
+                MetaTitle = "Blazor TextBox Example | Form Validation | Syncfusion",
                 HeaderText = "Blazor TextBox - Form Validation",
-                MetaDescription = "This Blazor TextBox validation example demonstrates how to integrate with forms validation. Includes built-in validators for required fields, pattern matching, and custom validation rules."
+                MetaDescription = "Blazor TextBox validation demo shows how to integrate with forms validation. Built-in validators for required fields, pattern matching, custom validation rules."
             }
         };
 
@@ -159,7 +159,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Color Picker | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Color Picker - Default Functionalities",
-                MetaDescription = "This Blazor Color Picker example demonstrates the default color selection capabilities with RGB, HSV, and hex color models. Features include color palettes, opacity control, and live preview."
+                MetaDescription = "Blazor Color Picker demo shows default color selection capabilities with RGB, HSV, Hex color models. It include color palettes, opacity control, live preview."
             },
             new Sample
             {
@@ -168,9 +168,9 @@ namespace BlazorDemos
                 Directory = "Inputs/ColorPicker",
                 Url = "color-picker/inline",
                 FileName = "Inline.razor",
-                MetaTitle = "Blazor Color Picker | Inline Mode | Syncfusion",
+                MetaTitle = "Blazor Color Picker Example | Inline Mode | Syncfusion",
                 HeaderText = "Blazor Color Picker - Inline Mode",
-                MetaDescription = "This Blazor Color Picker inline mode example shows how to embed the color selection interface directly in the page layout without a popup, providing immediate accessibility to all color options."
+                MetaDescription = "Blazor Color Picker inline mode demo shows embedding color selection interface directly into page layout without a popup, allowing access to all color options."
             },
             new Sample
             {
@@ -181,7 +181,7 @@ namespace BlazorDemos
                 FileName = "Custom.razor",
                 MetaTitle = "Blazor Color Picker | Custom Palettes | Syncfusion",
                 HeaderText = "Blazor Color Picker - Custom Color Palettes",
-                MetaDescription = "This Blazor Color Picker custom palettes example demonstrates how to define and use custom color collections. Create branded color themes or predefined color sets for consistent selection."
+                MetaDescription = "Blazor ColorPicker custom palettes demo shows how to define and use custom color collections.Create color themes/predefined color sets for consistent selection."
             },
             new Sample
             {
@@ -190,9 +190,9 @@ namespace BlazorDemos
                 Directory = "Inputs/ColorPicker",
                 Url = "color-picker/api",
                 FileName = "Api.razor",
-                MetaTitle = "Blazor Color Picker | API Options | Syncfusion",
+                MetaTitle = "Blazor Color Picker Example | API Options | Syncfusion",
                 HeaderText = "Blazor Color Picker - API Functionalities",
-                MetaDescription = "This Blazor Color Picker API example showcases programmatic control over the component. Dynamically change modes, toggle features, set colors, and control the interface through code."
+                MetaDescription = "Blazor Color Picker API demo shows programmatic control over the contorl. Dynamically change modes, toggle features, set colors, control the interface via code."
             },
              new Sample
             {
@@ -203,7 +203,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor Color Picker | Keyboard Navigation | Syncfusion",
                 HeaderText = "Blazor Color Picker - Keyboard Navigation",
-                MetaDescription = "This Blazor Color Picker keyboard navigation example demonstrates accessibility features for keyboard users. Navigate through color options, adjust values, and select colors using keyboard shortcuts."
+                MetaDescription = "This Blazor Color Picker keyboard navigation example demonstrates how to use browse color options, adjust values, and select colors using keyboard shortcuts."
             }
         };
 
@@ -217,7 +217,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Input Mask | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Input Mask - Default Functionalities",
-                MetaDescription = "This Blazor Input Mask example demonstrates standard mask formats including phone numbers, social security numbers, and zip codes with automatic formatting as users type."
+                MetaDescription = "This Blazor Input Mask demo shows standard mask formats including phone numbers, social security numbers, and zip codes with automatic formatting as users type."
             },
              new Sample
             {
@@ -229,7 +229,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Input Mask | Custom Mask Patterns | Syncfusion",
                 HeaderText = "Blazor Input Mask - Custom Mask Patterns",
-                MetaDescription = "This Blazor Input Mask custom pattern example demonstrates creating specialized input formats with custom rules. Define precise data entry patterns for unique information types."
+                MetaDescription = "Blazor InputMask custom pattern demo shows creating specialized input formats with custom rules. Define precise data entry pattern for unique information types."
             },
               new Sample
             {
@@ -241,7 +241,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Input Mask | Literals and Prompts | Syncfusion",
                 HeaderText = "Blazor Input Mask - Literals and Prompt Characters",
-                MetaDescription = "This Blazor Input Mask example shows how to configure literal characters and prompt symbols. Customize the visual indicators that guide users through proper data entry format."
+                MetaDescription = "Blazor InputMask demo shows how to configure literal characters and prompt symbols. Customize visual indicators that guide users via proper data entry format."
             },
               new Sample
             {
@@ -250,9 +250,9 @@ namespace BlazorDemos
                 Directory = "Inputs/MaskedTextBox",
                 Url = "Input-Mask/Forms-Validation",
                 FileName = "FormsValidation.razor",
-                MetaTitle = "Blazor Input Mask | Form Validation | Syncfusion",
+                MetaTitle = "Blazor Input Mask Example | Form Validation | Syncfusion",
                 HeaderText = "Blazor Input Mask - Form Validation Integration",
-                MetaDescription = "This Blazor Input Mask validation example demonstrates integration with forms validation. Ensure properly formatted input with built-in validation features for masked data entry fields."
+                MetaDescription = "Blazor InputMask validation demo shows integration with forms validation. Ensure formatted input with built-in validation features for masked data entry fields."
             }
         };
 
@@ -266,7 +266,7 @@ namespace BlazorDemos
                 MetaTitle = "Numeric Textbox Default Functionalities - Syncfusion Demos",
                 FileName = "DefaultFunctionalities.razor",
                 HeaderText = "Blazor Numeric TextBox - Default Functionalities",
-                MetaDescription = "This Blazor Numeric TextBox example demonstrates the essential features including value binding, increment/decrement buttons, and numeric input validation with configurable step values."
+                MetaDescription = "Blazor Numeric TextBox demo shows the features including value binding, increment/decrement buttons, numeric input validation with configurable step values."
             },
             new Sample
             {
@@ -277,7 +277,7 @@ namespace BlazorDemos
                 FileName = "CustomFormat.razor",
                 MetaTitle = "Blazor Numeric TextBox | Custom Formatting | Syncfusion",
                 HeaderText = "Blazor Numeric TextBox - Custom Format",
-                MetaDescription = "This Blazor Numeric TextBox formatting example shows how to customize the display of numeric values with currency symbols, percentages, and custom number formats."
+                MetaDescription = "This Blazor Numeric TextBox formatting demo shows how to customize the display of numeric values with currency symbols, percentages, and custom number formats."
             },
             new Sample
             {
@@ -288,7 +288,7 @@ namespace BlazorDemos
                 FileName = "RestrictDecimals.razor",
                 MetaTitle = "Blazor Numeric TextBox | Decimal Precision | Syncfusion",
                 HeaderText = "Blazor Numeric TextBox - Restrict Decimals",
-                MetaDescription = "This Blazor Numeric TextBox decimal precision example demonstrates how to control and limit decimal places in numeric input. Configure exact decimal precision for different data types."
+                MetaDescription = "Blazor NumericTextBox decimal precision demo shows how to control and limit decimal places in input. Configure exact decimal precision for different data types."
             },
             new Sample
             {
@@ -299,7 +299,7 @@ namespace BlazorDemos
                 FileName = "RangeValidation.razor",
                 MetaTitle = "Blazor Numeric TextBox | Range Validation | Syncfusion",
                 HeaderText = "Blazor Numeric TextBox - Range Validation",
-                MetaDescription = "This Blazor Numeric TextBox range validation example demonstrates setting minimum and maximum value constraints. Ensure numeric input falls within acceptable boundaries with visual feedback."
+                MetaDescription = "This Blazor Numeric TextBox range validation demo shows setting minimum and maximum value constraints. Ensure numeric input falls within acceptable boundaries."
             },
             new Sample
             {
@@ -310,7 +310,7 @@ namespace BlazorDemos
                 FileName = "FormsValidation.razor",
                 MetaTitle = "Blazor Numeric TextBox | Forms Validation | Syncfusion",
                 HeaderText = "Blazor Numeric TextBox - Form Validation",
-                MetaDescription = "This Blazor Numeric TextBox validation example showcases integration with form validation. Implement required field validation, range checking, and custom validation rules for numeric input."
+                MetaDescription = "Blazor Numeric TextBox validation demo shows integration with form validation. Implement required field validation, range checking, and custom validation rules."
             },
              new Sample
             {
@@ -322,7 +322,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Numeric TextBox | Keyboard Navigation | Syncfusion",
                 HeaderText = "Blazor Numeric TextBox - Keyboard Navigation",
-                MetaDescription = "This Blazor Numeric TextBox keyboard navigation example demonstrates accessibility features for keyboard users. Control and edit numeric values using arrow keys and keyboard shortcuts."
+                MetaDescription = "This Blazor Numeric TextBox example shows accessibility features for keyboard users. Control and edit numeric values using arrow keys and keyboard shortcuts."
             }
         };
         public List<Sample> FileUpload { get; set; } = new List<Sample>{
@@ -335,7 +335,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "File Upload default functionalities - Syncfusion Demos",
                 HeaderText = "Blazor File Upload Example of default functionalities",
-                MetaDescription = "This Blazor File Upload example demonstrates essential features including file selection, progress tracking, and upload/cancel operations. Handle single or multiple file uploads with intuitive UI."
+                MetaDescription = "This Blazor File Upload demo shows how to include file selection, progress tracking, upload/cancel operations. Handle single/multiple file uploads with UI."
             },
              new Sample
             {
@@ -344,9 +344,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Uploader",
                 Url = "File-Upload/Chunk-Upload",
                 FileName = "ChunkUpload.razor",
-                MetaTitle = "Blazor File Upload | Chunk Upload | Syncfusion",
+                MetaTitle = "Blazor File Upload Example | Chunk Upload | Syncfusion",
                 HeaderText = "Blazor File Upload - Chunk Upload",
-                MetaDescription = "This Blazor File Upload chunk upload example demonstrates how to upload large files in smaller pieces. Improve reliability and performance when handling large file uploads with pause/resume capability."
+                MetaDescription = "This demo shows chunk upload functionalities of the File Upload component. Browse or drag-and-drop a large file to upload with pause, resume, and retry options."
             },
                new Sample
             {
@@ -355,9 +355,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Uploader",
                 Url = "File-Upload/Preload-Files",
                 FileName = "PreloadFiles.razor",
-                MetaTitle = "Blazor File Upload | Preload Files | Syncfusion",
+                MetaTitle = "Blazor File Upload Example | Preload Files | Syncfusion",
                 HeaderText = "Blazor File Upload - Preload Files",
-                MetaDescription = "This Blazor File Upload preload example shows how to display previously uploaded files. Present existing files with options to view, download or remove them alongside new upload functionality."
+                MetaDescription = "Blazor File Upload preload demo shows displaying existing uploaded files with view, download, remove options while maintaining the ability to upload new files."
             },
                new Sample
             {
@@ -366,9 +366,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Uploader",
                 Url = "File-Upload/File-Validation",
                 FileName = "FileValidation.razor",
-                MetaTitle = "Blazor File Upload | File Validation | Syncfusion",
+                MetaTitle = "Blazor File Upload Example | File Validation | Syncfusion",
                 HeaderText = "Blazor File Upload - File Validation",
-                MetaDescription = "This Blazor File Upload validation example demonstrates how to validate files before upload. Set restrictions for file types, size limits, and count with appropriate error messages."
+                MetaDescription = "Blazor FileUpload validation demo shows how to validate files before upload. Set restriction for file types, size limits, count with appropriate error messages."
             },
                new Sample
             {
@@ -379,7 +379,7 @@ namespace BlazorDemos
                 FileName = "CustomDropArea.razor",
                 MetaTitle = "Blazor File Upload | Custom Drop Area | Syncfusion",
                 HeaderText = "Blazor File Upload - Custom Drop Area",
-                MetaDescription = "This Blazor File Upload custom drop area example shows how to create a personalized drag-and-drop zone. Design intuitive file drop regions with custom styling and behavior."
+                MetaDescription = "Blazor FileUpload custom drop area demo shows how to create a personalized drag-and-drop zone. Design intuitive file drop region with custom style and behavior."
             },
                 new Sample
             {
@@ -391,7 +391,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor File Upload | Keyboard Navigation | Syncfusion",
                 HeaderText = "Blazor File Upload - Keyboard Navigation",
-                MetaDescription = "This Blazor File Upload keyboard navigation example demonstrates accessibility features. Navigate through upload controls, select files, and manage uploads using keyboard shortcuts."
+                MetaDescription = "Blazor FileUpload keyboard navigation demo shows accessibility features.Navigate through upload controls, select files, manage uploads using keyboard shortcuts."
             }
         };
         public List<Sample> RangeSlider { get; set; } = new List<Sample>{
@@ -404,7 +404,7 @@ namespace BlazorDemos
                 FileName = "Default.razor",
                 MetaTitle = "Blazor Range Slider | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Range Slider - Default Functionalities",
-                MetaDescription = "This Blazor Range Slider example demonstrates basic slider functionality with single and range selection modes. Easily select numeric values or ranges with an intuitive drag interface."
+                MetaDescription = "Blazor RangeSlider demo shows basic slider functionality with single and range selection modes. Easily select numeric values with an intuitive drag interface."
             },
             new Sample
             {
@@ -413,9 +413,9 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/ticks",
                 FileName = "Ticks.razor",
-                MetaTitle = "Blazor Range Slider | Tick Marks | Syncfusion",
+                MetaTitle = "Blazor Range Slider Example | Tick Marks | Syncfusion",
                 HeaderText = "Blazor Range Slider - Tick Marks",
-                MetaDescription = "This Blazor Range Slider ticks example demonstrates customizable tick marks for visual reference. Configure major and minor ticks with labels to indicate value positions along the slider."
+                MetaDescription = "Blazor Range Slider ticks demo shows customizable visual reference. Configure major and minor ticks with labels to indicate value positions along the slider."
             },
             new Sample
             {
@@ -424,9 +424,9 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/tooltip",
                 FileName = "Tooltip.razor",
-                MetaTitle = "Blazor Range Slider | Tooltips | Syncfusion",
+                MetaTitle = "Blazor Range Slider Example | Tooltips | Syncfusion",
                 HeaderText = "Blazor Range Slider - Tooltips",
-                MetaDescription = "This Blazor Range Slider tooltip example shows how to display value tooltips during interaction. Configure tooltip positioning, formatting, and behavior for improved value visualization."
+                MetaDescription = "Blazor Range Slider tooltip example shows value tooltips during user interaction. Customize tooltip position, format, behavior to enhance value visualization."
             },
             new Sample
             {
@@ -438,7 +438,7 @@ namespace BlazorDemos
                 Type= SampleType.None,
                 MetaTitle = "Blazor Range Slider | Vertical Orientation | Syncfusion",
                 HeaderText = "Blazor Range Slider - Vertical Orientation",
-                MetaDescription = "This Blazor Range Slider vertical orientation example demonstrates top-to-bottom slider layout. Implement space-efficient vertical sliders with all the features of horizontal sliders."
+                MetaDescription = "Blazor RangeSlider vertical orientation demo shows top-to-bottom slider layout. Implement space-efficient vertical sliders with features of horizontal slider."
             },
              new Sample
             {
@@ -450,7 +450,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Range Slider | Value Formatting | Syncfusion",
                 HeaderText = "Blazor Range Slider - Value Formatting",
-                MetaDescription = "This Blazor Range Slider formatting example demonstrates custom value display formats. Apply currency, percentage, or custom formats to slider values and tooltips for intuitive representation."
+                MetaDescription = "Blazor Range Slider formatting demo shows custom value display formats. Apply currency, percentage/custom formats to slider values, tooltips for representation."
             },
             new Sample
             {
@@ -459,9 +459,9 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/limits",
                 FileName = "Limits.razor",
-                MetaTitle = "Blazor Range Slider | Range Limits | Syncfusion",
+                MetaTitle = "Blazor Range Slider Example | Range Limits | Syncfusion",
                 HeaderText = "Blazor Range Slider - Range Limits",
-                MetaDescription = "This Blazor Range Slider limits example demonstrates setting constraints on selectable ranges. Define minimum and maximum selectable values, enforced limits, and minimum range spans."
+                MetaDescription = "Blazor RangeSlider limits demo shows setting constraint on selectable ranges. Define minimum and maximum selectable value, enforced limit, minimum range spans."
             },
             new Sample
             {
@@ -470,9 +470,9 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/api",
                 FileName = "API.razor",
-                MetaTitle = "Blazor Range Slider | API Options | Syncfusion",
+                MetaTitle = "Blazor Range Slider Example | API Options | Syncfusion",
                 HeaderText = "Blazor Range Slider - API Functionalities",
-                MetaDescription = "This Blazor Range Slider API example showcases programmatic control over the component. Dynamically change values, ranges, steps, and other properties through code interaction."
+                MetaDescription = "Blazor Range Slider API demo shows programmatic control over the component. Dynamically change values, ranges, steps, other properties through code interaction."
             },
             new Sample
             {
@@ -481,9 +481,9 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/events",
                 FileName = "Events.razor",
-                MetaTitle = "Blazor Range Slider | Events | Syncfusion",
+                MetaTitle = "Blazor Range Slider Example | Handle Events | Syncfusion",
                 HeaderText = "Blazor Range Slider - Events",
-                MetaDescription = "This Blazor Range Slider events example demonstrates handling various user interactions. Respond to value changes, drag start/end events, and user selection with custom event handlers."
+                MetaDescription = "Blazor RangeSlider events demo shows handling more user interactions.Respond to value changes, drag start/end events, user selection with custom event handlers."
             },
             new Sample
             {
@@ -495,7 +495,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Range Slider | Keyboard Navigation | Syncfusion",
                 HeaderText = "Blazor Range Slider - Keyboard Navigation",
-                MetaDescription = "This Blazor Range Slider keyboard navigation example demonstrates accessibility features. Control slider values precisely using arrow keys and keyboard shortcuts for better accessibility."
+                MetaDescription = "This Blazor Range Slider keyboard navigation example shows accessibility features. Control slider values precisely using arrow keys and keyboard shortcuts."
             },
             new Sample
             {
@@ -504,9 +504,9 @@ namespace BlazorDemos
                 Directory = "Inputs/RangeSlider",
                 Url = "range-slider/custom-thumb",
                 FileName = "CustomThumb.razor",
-                MetaTitle = "Blazor Range Slider | Custom Thumb | Syncfusion",
+                MetaTitle = "Blazor Range Slider Example | Custom Thumb | Syncfusion",
                 HeaderText = "Blazor Range Slider - Custom Thumb",
-                MetaDescription = "This Blazor Range Slider custom thumb example shows how to create personalized slider handles. Replace default thumbs with custom designs, icons, or elements for unique slider appearance."
+                MetaDescription = "This Blazor Range Slider custom thumb example shows how to replace default thumbs with custom designs, icons, or elements for unique slider appearance."
             },
             new Sample
             {
@@ -516,9 +516,9 @@ namespace BlazorDemos
                 Url = "range-slider/custom-bar",
                 FileName = "CustomBar.razor",
                 Type = SampleType.None,
-                MetaTitle = "Blazor Range Slider | Custom Bar | Syncfusion",
+                MetaTitle = "Blazor Range Slider Example | Custom Bar | Syncfusion",
                 HeaderText = "Blazor Range Slider - Custom Bar",
-                MetaDescription = "This Blazor Range Slider custom bar example demonstrates how to style the slider track. Apply gradients, patterns, or segmented designs to the slider bar for visual enhancement."
+                MetaDescription = "Blazor Range Slider custom bar demo shows how to style the slider track. Apply gradients, patterns/segmented designs to the slider bar for visual enhancement."
             },          
                   new Sample
             {
@@ -528,9 +528,9 @@ namespace BlazorDemos
                 Url = "range-slider/custom-tooltip",
                 FileName = "CustomTooltip.razor",
                 Type = SampleType.None,
-                MetaTitle = "Blazor Range Slider | Custom Tooltip | Syncfusion",
+                MetaTitle = "Blazor Range Slider Example | Custom Tooltip | Syncfusion",
                 HeaderText = "Blazor Range Slider - Custom Tooltip",
-                MetaDescription = "This Blazor Range Slider custom tooltip example demonstrates creating enhanced value tooltips. Display rich content in tooltips including formatting, icons, and additional context information."
+                MetaDescription = "This Blazor Range Slider custom tooltip example shows how to display rich content in tooltips including formatting, icons, and additional context information."
             },
              new Sample
             {
@@ -542,7 +542,7 @@ namespace BlazorDemos
                 Type = SampleType.None,
                 MetaTitle = "Blazor Range Slider | Cloud Pricing Calculator | Syncfusion",
                 HeaderText = "Blazor Range Slider - Cloud Pricing Calculator",
-                MetaDescription = "This Blazor Range Slider cloud pricing example demonstrates a real-world application with interactive cost calculation. Adjust resource allocations and see dynamic pricing updates."
+                MetaDescription = "Blazor RangeSlider cloud pricing demo shows a real-world application with interactive cost calculation. Adjust resource allocation and dynamic pricing update."
             },
         };
         public List<Sample> Signature { get; set; } = new List<Sample> {
@@ -553,9 +553,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Signature",
                 Url = "Signature/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                MetaTitle = "Blazor Signature | Digital Signing | Syncfusion",
+                MetaTitle = "Blazor Signature Example | Digital Signing | Syncfusion",
                 HeaderText = "Blazor Signature - Default Functionalities",
-                MetaDescription = "This Blazor Signature example demonstrates basic digital signature capture with smooth drawing. Create, save, and clear handwritten signatures with built-in responsive drawing canvas."
+                MetaDescription = "This Blazor Signature example demonstrates basic digital signature capture with smooth drawing. Users can create, save, and clear handwritten signatures."
             },
              new Sample
              {
@@ -564,9 +564,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Signature",
                 Url = "Signature/Toolbar",
                 FileName = "Toolbar.razor",
-                MetaTitle = "Blazor Signature | Toolbar Options | Syncfusion",
+                MetaTitle = "Blazor Signature Example | Toolbar Options | Syncfusion",
                 HeaderText = "Blazor Signature - Toolbar",
-                MetaDescription = "This Blazor Signature toolbar example showcases configurable drawing tools. Adjust stroke width, color, and opacity, with options to save, clear, and undo signature strokes."
+                MetaDescription = "Blazor Signature toolbar demo shows configurable drawing tools. Adjust stroke width, color, and opacity, with options to save, clear, undo signature strokes."
              }
         };
         public List<Sample> Rating { get; set; } = new List<Sample> {
@@ -579,7 +579,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Rating | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Rating - Default Functionalities",
-                MetaDescription = "This Blazor Rating example demonstrates the basic star rating functionality. Collect user feedback with interactive rating selection, responsive hover effects, and value binding."
+                MetaDescription = "Blazor Rating demo shows the basic star rating functionality. Collect user feedback with interactive rating selection, responsive hover effects, value binding."
             },
             new Sample
             {
@@ -588,9 +588,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Rating",
                 Url = "rating/precision",
                 FileName = "Precision.razor",
-                MetaTitle = "Blazor Rating | Precision Control | Syncfusion",
+                MetaTitle = "Blazor Rating Example | Precision Control | Syncfusion",
                 HeaderText = "Blazor Rating - Precision",
-                MetaDescription = "This Blazor Rating precision example demonstrates different rating granularity options. Configure full, half, or quarter-step ratings to collect feedback with varying levels of precision."
+                MetaDescription = "Blazor Rating precision demo shows different rating granularity options. Configure full, half, or quarter-step ratings to collect feedback with varying levels."
             },
             new Sample
             {
@@ -599,9 +599,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Rating",
                 Url = "rating/tooltip",
                 FileName = "Tooltip.razor",
-                MetaTitle = "Blazor Rating | Tooltips | Syncfusion",
+                MetaTitle = "Blazor Rating Example | Display Tooltip | Syncfusion",
                 HeaderText = "Blazor Rating - Tooltips",
-                MetaDescription = "This Blazor Rating tooltip example shows how to display descriptive text hints for each rating value. Add contextual information to guide users in selecting appropriate ratings."
+                MetaDescription = "Blazor Rating tooltip example shows how to display text hints for each rating value. Add contextual information to guide users in selecting appropriate ratings."
             },
             new Sample
             {
@@ -610,9 +610,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Rating",
                 Url = "rating/label",
                 FileName = "Label.razor",
-                MetaTitle = "Blazor Rating | Labels | Syncfusion",
+                MetaTitle = "Blazor Rating Example | Text Label Options | Syncfusion",
                 HeaderText = "Blazor Rating - Labels",
-                MetaDescription = "This Blazor Rating label example demonstrates adding descriptive text labels to the rating component. Provide context and meaning to rating values with custom label placement and styling."
+                MetaDescription = "Blazor Rating label demo shows adding text labels to the rating component. Provide context and meaning to rating values with custom label placement and styling."
             },
             new Sample
             {
@@ -621,9 +621,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Rating",
                 Url = "rating/template",
                 FileName = "Template.razor",
-                MetaTitle = "Blazor Rating | Custom Templates | Syncfusion",
+                MetaTitle = "Blazor Rating Example | Custom Templates | Syncfusion",
                 HeaderText = "Blazor Rating - Custom Templates",
-                MetaDescription = "This Blazor Rating template example shows how to customize the rating items' appearance. Replace default stars with custom icons, images, or content for themed rating experiences."
+                MetaDescription = "This Blazor Rating demo shows how to customize the rating items appearance. Replace default stars with custom icon, image/content for themed rating experiences."
             },
             new Sample
             {
@@ -632,9 +632,9 @@ namespace BlazorDemos
                 Directory = "Inputs/Rating",
                 Url = "rating/navigation",
                 FileName = "KeyboardNavigation.razor",
-                MetaTitle = "Blazor Rating | Keyboard Navigation | Syncfusion",
+                MetaTitle = "Blazor Rating Example | Keyboard Navigation | Syncfusion",
                 HeaderText = "Blazor Rating - Keyboard Navigation",
-                MetaDescription = "This Blazor Rating keyboard navigation example demonstrates accessibility features. Select ratings using arrow keys and keyboard shortcuts for better accessibility compliance."
+                MetaDescription = "Blazor Rating keyboard navigation demo shows accessibility features. Select ratings using arrow keys and keyboard shortcuts for better accessibility compliance."
             }
         };
         public List<Sample> OtpInput { get; set; } = new List<Sample> {
@@ -645,9 +645,9 @@ namespace BlazorDemos
                 Directory = "Inputs/OtpInput",
                 Url = "otp-input/default-functionalities",
                 FileName = "Default.razor",
-                MetaTitle = "Blazor OTP Input | One-Time Password | Syncfusion",
+                MetaTitle = "Blazor OTP Input Example | One-Time Password | Syncfusion",
                 HeaderText = "Blazor OTP Input - Default Functionalities",
-                MetaDescription = "This Blazor OTP Input example demonstrates one-time password entry with individual character boxes. Capture verification codes with automatic focus progression and validation feedback."
+                MetaDescription = "This Blazor OTP Input demo shows OTP entry with individual character boxes. Capture verification codes with automatic focus progression, validation feedback."
             },
             new Sample
             {
@@ -656,9 +656,9 @@ namespace BlazorDemos
                 Directory = "Inputs/OtpInput",
                 Url = "otp-input/api",
                 FileName = "Api.razor",
-                MetaTitle = "Blazor OTP Input | API Options | Syncfusion",
+                MetaTitle = "Blazor OTP Input Example | API Options | Syncfusion",
                 HeaderText = "Blazor OTP Input - API Functionalities",
-                MetaDescription = "This Blazor OTP Input API example showcases programmatic control over the component. Configure input length, character masking, focus behavior, and value handling through code interaction."
+                MetaDescription = "Blazor OTP Input demo shows programmatic control over the component. Configure length, character masking, focus behavior, value handling via code interaction."
             }
         };
         public List<Sample> SpeechToText { get; set; } = new List<Sample> {
@@ -671,7 +671,7 @@ namespace BlazorDemos
                 FileName = "Default.razor",
                 MetaTitle = "Speech To Text Default Functionalities - Syncfusion Demos",
                 HeaderText = "Blazor Speech To Text - Default Functionalities",
-                MetaDescription = "This Blazor Speech To Text example demonstrates voice-to-text conversion with basic configurations. Capture spoken words in real-time with support for multiple languages and dialects."
+                MetaDescription = "Blazor SpeechToText demo shows voice-to-text conversion with basic configuration.Capture spoken words in real-time with support for multiple languages, dialect."
             },
             new Sample
             {
@@ -682,7 +682,7 @@ namespace BlazorDemos
                 FileName = "UseCase.razor",
                 MetaTitle = "Blazor Speech To Text | Real-time Transcription | Syncfusion",
                 HeaderText = "Blazor Speech To Text - Use Case Scenario",
-                MetaDescription = "This Blazor Speech To Text use case demonstrates real-world implementation with user management and message display. Create voice-enabled interfaces for note-taking, dictation, and accessibility."
+                MetaDescription = "This use case shows real-world implementation with user management, message display. Create voice-enabled interfaces for note-taking, dictation, accessibility."
             },
             new Sample
             {
@@ -693,7 +693,7 @@ namespace BlazorDemos
                 FileName = "Integration.razor",
                 MetaTitle = "Blazor Speech To Text | AI Assist Integration | Syncfusion",
                 HeaderText = "Blazor Speech To Text - AI AssistView Integration",
-                MetaDescription = "This Blazor Speech To Text AI integration example shows how to combine voice input with editable text areas. Create intelligent voice assistants with real-time transcription and text editing capabilities."
+                MetaDescription = "This Blazor Speech To Text AI demo shows how to combine voice input with editable text areas. Create intelligent voice assistant with real-time transcription."
             }
         };
     }

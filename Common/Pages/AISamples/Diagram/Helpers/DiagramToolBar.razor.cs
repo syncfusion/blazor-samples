@@ -179,7 +179,7 @@ namespace TextToMindMapDiagram
                         Mode = FitMode.Both,
                         Region = DiagramRegion.Content,
                     };
-                    diagram.FitToPage(fitoption);
+                    diagram!.FitToPage(fitoption);
                     break;
                 case "Zoom to 50%":
                     Parent.ZoomTo(new TextToMindMap.ZoomOptions() { ZoomFactor = ((0.5 / currentZoom) - 1) });
@@ -203,16 +203,16 @@ namespace TextToMindMapDiagram
             switch (commandType)
             {
                 case "undo":
-                    diagram.Undo();
+                    diagram!.Undo();
                     EnableToolbarItems(new object() { }, "historychange");
                     break;
                 case "redo":
-                    diagram.Redo();
+                    diagram!.Redo();
                     EnableToolbarItems(new object() { }, "historychange");
                     break;
                 case "pan tool":
                     Parent.UpdateTool();
-                    diagram.ClearSelection();
+                    diagram!.ClearSelection();
 
                     break;
                 case "pointer":
@@ -223,46 +223,44 @@ namespace TextToMindMapDiagram
                     toolbarClassName = "db-toolbar-container db-undo";
                     break;
                 case "add child":
-                    if (diagram.SelectionSettings != null && diagram.SelectionSettings.Nodes.Count > 0)
+                    if (diagram!.SelectionSettings != null && diagram.SelectionSettings.Nodes!.Count > 0)
                     {
                         diagram.StartGroupAction();
-                        BranchType type = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"];
+                        BranchType type = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Orientation"];
                         if (type == BranchType.SubRight || type == BranchType.Right)
                         {
-                            await TextToMindMap.AddLeftChild(Parent.Diagram);
+                            await TextToMindMap.AddLeftChild(Parent.Diagram!);
                         }
                         else if (type == BranchType.SubLeft || type == BranchType.Left || type == BranchType.Root)
                         {
-                            await TextToMindMap.AddRightChild(Parent.Diagram);
+                            await TextToMindMap.AddRightChild(Parent.Diagram!);
                         }
                         diagram.ClearSelection();
-                        diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[diagram.Nodes.Count - 1] });
-                        diagram.StartTextEdit(diagram.Nodes[diagram.Nodes.Count - 1]);
+                        diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes![diagram.Nodes.Count - 1] });
                         diagram.EndGroupAction();
                     }
                     break;
                 case "add sibling":
-                    if (diagram.SelectionSettings != null && diagram.SelectionSettings.Nodes.Count > 0)
+                    if (diagram!.SelectionSettings != null && diagram.SelectionSettings.Nodes!.Count > 0)
                     {
-                        string nodeParent = Convert.ToString(diagram.SelectionSettings.Nodes[0].AdditionalInfo["ParentId"]);
+                        string nodeParent = Convert.ToString(diagram.SelectionSettings.Nodes[0].AdditionalInfo!["ParentId"])!;
                         string parentID = nodeParent;
-                        Node parentNode = diagram.GetObject(parentID) as Node;
+                        Node? parentNode = diagram.GetObject(parentID) as Node;
                         if (parentNode != null)
                         {
                             diagram.StartGroupAction();
-                            BranchType branch = (BranchType)parentNode?.AdditionalInfo["Orientation"];
-                            BranchType nodeBranch = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo["Orientation"];
+                            BranchType branch = (BranchType)parentNode?.AdditionalInfo!["Orientation"]!;
+                            BranchType nodeBranch = (BranchType)diagram.SelectionSettings.Nodes[0].AdditionalInfo!["Orientation"];
                             if (branch == BranchType.SubRight || branch == BranchType.Right || (branch == BranchType.Root && nodeBranch == BranchType.Right))
                             {
-                                await TextToMindMap.AddLeftChild(Parent.Diagram, true);
+                                await TextToMindMap.AddLeftChild(Parent.Diagram!, true);
                             }
                             else
                             {
-                                await TextToMindMap.AddRightChild(Parent.Diagram, true);
+                                await TextToMindMap.AddRightChild(Parent.Diagram!, true);
                             }
                             diagram.ClearSelection();
-                            diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes[diagram.Nodes.Count - 1] });
-                            diagram.StartTextEdit(diagram.Nodes[diagram.Nodes.Count - 1]);
+                            diagram.Select(new ObservableCollection<IDiagramObject>() { diagram.Nodes![diagram.Nodes.Count - 1] });
                             diagram.EndGroupAction();
                         }
                     }
@@ -290,8 +288,8 @@ namespace TextToMindMapDiagram
         public void DeleteData()
         {
             bool GroupAction = false;
-            SfDiagramComponent diagram = Parent.Diagram;
-            if ((diagram.SelectionSettings.Nodes.Count > 1 || diagram.SelectionSettings.Connectors.Count > 1 || ((diagram.SelectionSettings.Nodes.Count + diagram.SelectionSettings.Connectors.Count) > 1)))
+            SfDiagramComponent diagram = Parent.Diagram!;
+            if ((diagram.SelectionSettings!.Nodes!.Count > 1 || diagram.SelectionSettings.Connectors!.Count > 1 || ((diagram.SelectionSettings.Nodes.Count + diagram.SelectionSettings.Connectors.Count) > 1)))
             {
                 GroupAction = true;
             }
@@ -305,16 +303,16 @@ namespace TextToMindMapDiagram
                 {
                     var item = diagram.SelectionSettings.Nodes[i];
 
-                    diagram.Nodes.Remove(item);
+                    diagram.Nodes!.Remove(item);
                 }
             }
-            if (diagram.SelectionSettings.Connectors.Count != 0)
+            if (diagram.SelectionSettings.Connectors!.Count != 0)
             {
                 for (var i = diagram.SelectionSettings.Connectors.Count - 1; i >= 0; i--)
                 {
                     var item1 = diagram.SelectionSettings.Connectors[i];
 
-                    diagram.Connectors.Remove(item1);
+                    diagram.Connectors!.Remove(item1);
                 }
             }
             if (GroupAction)
@@ -323,7 +321,9 @@ namespace TextToMindMapDiagram
         /// <summary>
         /// This is used to remove the selected toolbar item.
         /// </summary>
+#pragma warning disable CS1998 // Async method lacks 'await' operators and will run synchronously
         private async Task removeSelectedToolbarItem(string tool)
+#pragma warning restore CS1998 // Async method lacks 'await' operators and will run synchronously
         {
 #pragma warning disable CA1307 // Specify StringComparison
 
@@ -377,7 +377,7 @@ namespace TextToMindMapDiagram
         public void EnableToolbarItems<T>(T obj, string eventname)
         {
 
-            SfDiagramComponent diagram = Parent.Diagram;
+            SfDiagramComponent diagram = Parent.Diagram!;
             ObservableCollection<NodeBase> collection = new ObservableCollection<NodeBase>();
             if (eventname == "selectionchange")
             {
@@ -397,7 +397,7 @@ namespace TextToMindMapDiagram
             {
                 RemoveUndo();
                 RemoveRedo();
-                if (diagram.HistoryManager.CanUndo)
+                if (diagram.HistoryManager!.CanUndo)
                 {
                     this.Parent.IsUndo = diagram.HistoryManager.CanUndo;
                     this.Parent.IsRedo = diagram.HistoryManager.CanRedo;
@@ -441,7 +441,7 @@ namespace TextToMindMapDiagram
         /// </summary>
         public void UtilityMethods_enableToolbarItems(ObservableCollection<NodeBase> SelectedObjects)
         {
-            SfDiagramComponent diagram = Parent.Diagram;
+            SfDiagramComponent diagram = Parent.Diagram!;
             removeClassElement();
             if (this.Parent.IsUndo)
             {
@@ -453,7 +453,7 @@ namespace TextToMindMapDiagram
             }
             if (SelectedObjects.Count > 0)
             {
-                Node rootNode = diagram.Nodes.Where(node => node.InEdges.Count == 0).ToList()[0];
+                Node rootNode = diagram.Nodes!.Where(node => node.InEdges!.Count == 0).ToList()[0];
                 toolbarClassName = toolbarClassName + " db-child-sibling";
                 addSiblingCssName = SelectedObjects[0].ID == rootNode.ID ? "tb-item-start tb-item-sibling" : "tb-item-start tb-item-child";
             }
@@ -501,7 +501,7 @@ namespace TextToMindMapDiagram
         {
             if (jsRuntime != null)
             {
-                int adjustableHeight = Parent.MenubarRef.WindowMenuItems[0].IconCss == "sf-icon-Selection" ? 0 : 40;
+                int adjustableHeight = Parent.MenubarRef!.WindowMenuItems[0].IconCss == "sf-icon-Selection" ? 0 : 40;
                 Parent.height = (await jsRuntime.InvokeAsync<int>("UtilityMethods_hideElements", eventname, isNewClick).ConfigureAwait(true) + adjustableHeight).ToString() + "px";
                 Parent.StateChanged();
             }

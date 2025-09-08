@@ -28,7 +28,7 @@
                 <GridEvents OnActionBegin="UpdatePageNumber" TValue="OrderPage"></GridEvents>
                 <GridPageSettings PageSize="10">
                     <Template>
-                        @if (SampleService.IsDevice && !Layout.isTablet)
+                        @if (SampleService.IsDevice && (Layout != null && !Layout.isTablet))
                         {
                             <div class="PagerTemplate">
                                 <div class="@($"e-mfirst e-icons e-icon-first {ValidateFirst()} align-icons e-firstpage")" @onclick="ShowFirstPage" title="Go to first page">
@@ -140,8 +140,8 @@
 
 @code
 {
-    public SfGrid<OrderPage> defaultGrid;
-    public List<OrderPage> Orders { get; set; }
+    public SfGrid<OrderPage>? defaultGrid;
+    public List<OrderPage>? Orders { get; set; }
     public int pageNo { get; set; }
     public int totalPages { get; set; }
     public bool DisableBackIcon = false;
@@ -152,7 +152,7 @@
     public string numericWidth = "4%";
     @*Hidden:Lines*@
     [CascadingParameter]
-    protected MainLayout Layout { get; set; }
+    protected MainLayout? Layout { get; set; }
     @*End:Hidden*@
     
 
@@ -166,13 +166,13 @@
     protected override void OnAfterRender(bool firstRender)
     {
         base.OnAfterRender(firstRender);
-        if (firstRender)
+        if (firstRender && defaultGrid != null)
         {
             totalPages = defaultGrid.TotalItemCount / defaultGrid.PageSettings.PageSize;
             @*Hidden:Lines*@
             if (this.SampleService.IsDevice)
             {
-                if (Layout.isTablet)
+                if (Layout != null && Layout.isTablet)
                 {
                     numericWidth = "8%";
                 }
@@ -183,9 +183,9 @@
             }
             @*End:Hidden*@
         }
-        pageNo = defaultGrid.PageSettings.CurrentPage;
+        pageNo = defaultGrid?.PageSettings?.CurrentPage ?? 0;
 
-        if (defaultGrid.PageSettings.CurrentPage == totalPages)
+        if (defaultGrid?.PageSettings.CurrentPage == totalPages)
         {
             DisableForwardIcon = true;
             DisableLastIcon = true;
@@ -196,7 +196,7 @@
             DisableLastIcon = false;
         }
 
-        if (defaultGrid.PageSettings.CurrentPage == 1)
+        if (defaultGrid?.PageSettings.CurrentPage == 1)
         {
             DisableBackIcon = true;
             DisableFirstIcon = true;
@@ -210,7 +210,7 @@
         if (pageNo != previouspageNo)
         {
             StateHasChanged();
-            previouspageNo = defaultGrid.PageSettings.CurrentPage;
+            previouspageNo = defaultGrid?.PageSettings?.CurrentPage ?? 0;
         }
     }
 
@@ -257,33 +257,37 @@
 
     public async Task ShowNextPage()
     {
+        if (defaultGrid != null)
         await defaultGrid.GoToPageAsync((defaultGrid.PageSettings.CurrentPage) + 1);
     }
 
     public async Task ShowPreviousPage()
     {
+        if (defaultGrid != null)
         await defaultGrid.GoToPageAsync((defaultGrid.PageSettings.CurrentPage) - 1);
     }
 
     public async Task ShowFirstPage()
     {
+        if (defaultGrid != null)
         await defaultGrid.GoToPageAsync(1);
     }
 
     public async Task ShowLastPage()
     {
+        if (defaultGrid != null)
         await defaultGrid.GoToPageAsync(totalPages);
     }
 
     public async Task LaunchEnteredPage(ChangeEventArgs page)
     {
-        await ChangePage(page.Value.ToString());
+        await ChangePage(page.Value?.ToString()!);
     }
     private async Task OnValueChange(ChangeEventArgs<int> page)
     {
         await ChangePage(page.Value.ToString(), page.Name);
     }
-    public async Task ChangePage(string page = null, string name = null)
+    public async Task ChangePage(string? page = null, string? name = null)
     {
         if (string.IsNullOrEmpty(page))
         {
@@ -294,14 +298,14 @@
             double enteredPage;
             if (double.TryParse(page, System.Globalization.NumberStyles.Any, CultureInfo.CurrentCulture, out enteredPage))
             {
-                if (enteredPage < 1 && string.IsNullOrEmpty(name))
+                if (enteredPage < 1 && string.IsNullOrEmpty(name) && defaultGrid != null)
                 {
                     await defaultGrid.GoToPageAsync(1);
                     pageNo = 1;
                 }
-                if (enteredPage > totalPages && string.IsNullOrEmpty(name))
+                if (enteredPage > totalPages && string.IsNullOrEmpty(name) && defaultGrid != null)
                     await defaultGrid.GoToPageAsync(totalPages);
-                if (enteredPage <= totalPages)
+                if (enteredPage <= totalPages && defaultGrid != null)
                     await defaultGrid.GoToPageAsync((int)enteredPage);
             }
         }

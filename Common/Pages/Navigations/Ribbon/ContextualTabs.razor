@@ -180,7 +180,7 @@
                                         </RibbonItem>
                                         <RibbonItem Type=RibbonItemType.ColorPicker AllowedSizes="RibbonItemSize.Small"
                                         DisplayOptions="@((DisplayMode)DisplayMode.Classic | DisplayMode.Simplified)">
-                                            <RibbonColorPickerSettings @bind-Value="@colorValue" ValueChange="@(args => UpdateContent(args.CurrentValue.Hex + "color"))"></RibbonColorPickerSettings>
+                                            <RibbonColorPickerSettings @bind-Value="@colorValue" ValueChange="@(args => UpdateContent(args?.CurrentValue?.Hex + "color"))"></RibbonColorPickerSettings>
                                         </RibbonItem>
                                     </RibbonItems>
                                 </RibbonCollection>
@@ -431,7 +431,7 @@
                             }
                         </tbody>
                     </table>
-                    <img id="ribbonImage" class="@GetImageClass()" src="@(SampleService.WebAssetsPath + "images/ribbon/empire-state-building.png")" alt="building image" @onclick=HandleImageClick />
+                    <img id="ribbonImage" class="@GetImageClass()" src="@(SampleService!.WebAssetsPath + "images/ribbon/empire-state-building.png")" alt="building image" @onclick=HandleImageClick />
                 </div>
             </div>
             <div id="toast">
@@ -448,8 +448,8 @@
 </div>
 
 @code {
-    SfToast toast;
-    SfRibbon ribbonRef;
+    SfToast toast = new SfToast();
+    SfRibbon ribbonRef = new SfRibbon();
     bool isDisabled = true;
     bool isPasteDisabled = true;
     bool isTableContextualVisible = true;
@@ -558,8 +558,11 @@
 
     private async void HandleComboBoxSelection(ComboBoxSelectEventArgs args)
     {
-        var data = (ComboBoxItem)args.ItemData;
-        await UpdateContent($"Font Style -> {data.Text}");
+        if (args.ItemData != null)
+        {
+            var data = (ComboBoxItem)args.ItemData;
+            await UpdateContent($"Font Style -> {data.Text}");
+        }
     }
 
     private async Task LauncherIconClick(LauncherClickEventArgs args)
@@ -582,6 +585,63 @@
     {
         await UpdateContent(args.CurrentItem.Content);
     }
+
+    private class ComboBoxItem
+    {
+        public string Text { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
+    }
+
+    FieldSettingsModel fieldSetings = new FieldSettingsModel
+        {
+            Text = "Text",
+            Value = "Value"
+        };
+
+    List<ComboBoxItem> fontFamilyItems = new List<ComboBoxItem>
+    {
+        new ComboBoxItem { Text = "Algerian", Value = "Algerian" },
+        new ComboBoxItem { Text = "Arial", Value = "Arial" },
+        new ComboBoxItem { Text = "Calibri", Value = "Calibri" },
+        new ComboBoxItem { Text = "Cambria", Value = "Cambria" },
+        new ComboBoxItem { Text = "Cambria Math", Value = "Cambria Math" },
+        new ComboBoxItem { Text = "Courier New", Value = "Courier New" },
+        new ComboBoxItem { Text = "Candara", Value = "Candara" },
+        new ComboBoxItem { Text = "Georgia", Value = "Georgia" },
+        new ComboBoxItem { Text = "Impact", Value = "Impact" },
+        new ComboBoxItem { Text = "Segoe Print", Value = "Segoe Print" },
+        new ComboBoxItem { Text = "Segoe Script", Value = "Segoe Script" },
+        new ComboBoxItem { Text = "Segoe UI", Value = "Segoe UI" },
+        new ComboBoxItem { Text = "Symbol", Value = "Symbol" },
+        new ComboBoxItem { Text = "Times New Roman", Value = "Times New Roman" },
+        new ComboBoxItem { Text = "Verdana", Value = "Verdana" },
+        new ComboBoxItem { Text = "Windings", Value = "Windings" }
+    };
+
+    List<ComboBoxItem> fontSizeItems = new List<ComboBoxItem>
+    {
+        new ComboBoxItem { Text = "8", Value = "8" },
+        new ComboBoxItem { Text = "9", Value = "9" },
+        new ComboBoxItem { Text = "10", Value = "10" },
+        new ComboBoxItem { Text = "11", Value = "11" },
+        new ComboBoxItem { Text = "12", Value = "12" },
+        new ComboBoxItem { Text = "14", Value = "14" },
+        new ComboBoxItem { Text = "16", Value = "16" },
+        new ComboBoxItem { Text = "18", Value = "18" },
+        new ComboBoxItem { Text = "20", Value = "20" },
+        new ComboBoxItem { Text = "22", Value = "22" },
+        new ComboBoxItem { Text = "24", Value = "24" },
+        new ComboBoxItem { Text = "26", Value = "26" },
+        new ComboBoxItem { Text = "28", Value = "28" },
+        new ComboBoxItem { Text = "36", Value = "36" },
+        new ComboBoxItem { Text = "48", Value = "48" },
+        new ComboBoxItem { Text = "72", Value = "72" },
+        new ComboBoxItem { Text = "96", Value = "96" }
+    };
+
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
 
     List<GroupButtonItem> alignGroupItems = new List<GroupButtonItem>
     {
@@ -636,59 +696,6 @@
             IconCss = "e-icons e-change-case",
             Content = "Change Case"
         },
-    };
-
-    private class ComboBoxItem
-    {
-        public string Text { get; set; }
-        public string Value { get; set; }
-    }
-
-    FieldSettingsModel fieldSetings = new FieldSettingsModel
-        {
-            Text = "Text",
-            Value = "Value"
-        };
-
-    List<ComboBoxItem> fontFamilyItems = new List<ComboBoxItem>
-    {
-        new ComboBoxItem { Text = "Algerian", Value = "Algerian" },
-        new ComboBoxItem { Text = "Arial", Value = "Arial" },
-        new ComboBoxItem { Text = "Calibri", Value = "Calibri" },
-        new ComboBoxItem { Text = "Cambria", Value = "Cambria" },
-        new ComboBoxItem { Text = "Cambria Math", Value = "Cambria Math" },
-        new ComboBoxItem { Text = "Courier New", Value = "Courier New" },
-        new ComboBoxItem { Text = "Candara", Value = "Candara" },
-        new ComboBoxItem { Text = "Georgia", Value = "Georgia" },
-        new ComboBoxItem { Text = "Impact", Value = "Impact" },
-        new ComboBoxItem { Text = "Segoe Print", Value = "Segoe Print" },
-        new ComboBoxItem { Text = "Segoe Script", Value = "Segoe Script" },
-        new ComboBoxItem { Text = "Segoe UI", Value = "Segoe UI" },
-        new ComboBoxItem { Text = "Symbol", Value = "Symbol" },
-        new ComboBoxItem { Text = "Times New Roman", Value = "Times New Roman" },
-        new ComboBoxItem { Text = "Verdana", Value = "Verdana" },
-        new ComboBoxItem { Text = "Windings", Value = "Windings" }
-    };
-
-    List<ComboBoxItem> fontSizeItems = new List<ComboBoxItem>
-    {
-        new ComboBoxItem { Text = "8", Value = "8" },
-        new ComboBoxItem { Text = "9", Value = "9" },
-        new ComboBoxItem { Text = "10", Value = "10" },
-        new ComboBoxItem { Text = "11", Value = "11" },
-        new ComboBoxItem { Text = "12", Value = "12" },
-        new ComboBoxItem { Text = "14", Value = "14" },
-        new ComboBoxItem { Text = "16", Value = "16" },
-        new ComboBoxItem { Text = "18", Value = "18" },
-        new ComboBoxItem { Text = "20", Value = "20" },
-        new ComboBoxItem { Text = "22", Value = "22" },
-        new ComboBoxItem { Text = "24", Value = "24" },
-        new ComboBoxItem { Text = "26", Value = "26" },
-        new ComboBoxItem { Text = "28", Value = "28" },
-        new ComboBoxItem { Text = "36", Value = "36" },
-        new ComboBoxItem { Text = "48", Value = "48" },
-        new ComboBoxItem { Text = "72", Value = "72" },
-        new ComboBoxItem { Text = "96", Value = "96" }
     };
 
     private List<DropDownMenuItem> tableStyleItems = new List<DropDownMenuItem>
@@ -805,6 +812,9 @@
             }
         }
     };
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
 }
 
 <style>

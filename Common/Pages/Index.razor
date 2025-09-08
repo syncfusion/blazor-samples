@@ -15,6 +15,10 @@
         background-size: 100% 100%;
     }
 
+    .sf-blazor-home .sf-ad-strip-img {
+        background: url( @(SampleService.ImagePath + "home-ad-strip.webp") ) no-repeat center top;
+    }
+
     .sf-blazor-home .sf-trusted-companies {
         background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-v1.png) no-repeat center top;
         background-size: contain;
@@ -26,6 +30,10 @@
             background-size: 100% 100%;
         }
 
+        .sf-blazor-home .sf-ad-strip-img {
+            background: url( @(SampleService.ImagePath + "home-ad-strip.webp") ) no-repeat center;
+        }
+
         .sf-blazor-home .sf-trusted-companies {
             background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-v1.png) no-repeat center top;
         }
@@ -35,6 +43,9 @@
         .sf-blazor-home .sf-banner-image {
             background: url( @(SampleService.ImagePath + "home-banner-mobile.webp") ) no-repeat center top;
             background-size: 100% 100%;
+        }
+        .sf-blazor-home .sf-ad-strip-img {
+            background: url( @(SampleService.ImagePath + "home-ad-strip-mobile.webp") ) no-repeat center top;
         }
         .sf-blazor-home .sf-trusted-companies {
             background: url(https://cdn.syncfusion.com/content/images/FT/common/syncfusion-trusted-companies-mobile-v1.png) no-repeat center top;
@@ -181,11 +192,14 @@
                                         @if (!component.IsHideFromHomePageList)
                                         {
                                             <li>
-                                                <a aria-label="Syncfusion components" href=@component.DemoPath @onclick="@(() => NavSample(component))" @onclick:preventDefault
+                                                @{
+                                                    var demoPath = component?.DemoPath ?? string.Empty;
+                                                }
+                                                <a aria-label="Syncfusion components" href=@demoPath @onclick="() => { if (component != null) NavSample(component); }" @onclick:preventDefault
                                                    rel="noopener noreferrer">
-                                                    <span class="sf-home-icon sf-icon-@string.Join("", (component.ComponentIconName != null ? component.ComponentIconName : component.Name).ToLower().Split(" "))"></span>
-                                                        <span class="sf-component-name">@component.Name</span>
-                                                    @if (component.IsPreview)
+                                                    <span class="sf-home-icon sf-icon-@string.Join("", (component?.ComponentIconName != null ? component.ComponentIconName ?? "" : component?.Name ?? "").ToLower().Split(" "))"></span>
+                                                        <span class="sf-component-name">@component?.Name</span>
+                                                    @if (component != null && component.IsPreview)
                                                     {
                                                         <span class="sf-preview">PREVIEW</span>
                                                     }
@@ -401,26 +415,23 @@
         background-size: contain;
         transform-box: view-box;
     }
-    .sf-blazor-home .sf-ad-strip-img {
-        background: url(@(SampleService.ImagePath + "home-ad-strip.webp")) no-repeat center top;
-    }
     .sf-blazor-home .sf-g2-img {
         background: url( @(SampleService.ImagePath + "syncfusion-g2-review.png") ) no-repeat center top;
     }
 </style>
 @code {
-    private string headerLogo { get; set; }
-    private string searchIcon { get; set; }
+    private string? headerLogo { get; set; }
+    private string? searchIcon { get; set; }
     private bool isPrerendering { get; set; }
-    private string searchContainer { get; set; }
-    private SearchComponent searchRef { get; set; }
+    private string? searchContainer { get; set; }
+    private SearchComponent? searchRef { get; set; }
     private List<List<string>> categoryOrders { get; set; } = new List<List<string>>();
     private bool isWasmSample { get; set; }
-    private string SampleName { get; set; }
-    private DropDownComponent dropdownRef { get; set; }
-    private string DemoName { get; set; }
-    private string selectedItemID { get; set; }
-    private string searchContainerClass {get;set;}
+    private string? SampleName { get; set; }
+    private DropDownComponent? dropdownRef { get; set; }
+    private string? DemoName { get; set; }
+    private string? selectedItemID { get; set; }
+    private string? searchContainerClass {get;set;}
 
     [CascadingParameter(Name = "IsDevice")]
     protected bool IsDevice { get; set; }
@@ -442,7 +453,7 @@
         await this.ShowSearchContainer(false);
         if(dropdownRef != null && !dropdownRef.isdemopopupopen)
         {
-            dropdownRef.popupClass = SampleUtils.AddClass(dropdownRef.popupClass, SampleUtils.DISPLAY_NONE);
+            dropdownRef.popupClass = SampleUtils.AddClass(dropdownRef.popupClass ?? "", SampleUtils.DISPLAY_NONE);
         }
         if(dropdownRef != null){
             dropdownRef.isdemopopupopen = false;
@@ -463,9 +474,6 @@
         #if SERVER
             selectedItemID = "server";
         #endif
-        #if WEBAPP
-            selectedItemID = "webapp";
-        #endif
         #if WASM
             selectedItemID = "wasm";
         #endif
@@ -482,21 +490,21 @@
 
     private void NavSample(SampleList sample)
     {
-        if(sample.Samples[0].IsHideInMobile && sample.DemoPath.Equals(sample.Samples[0].Url) && SampleService.IsDevice)
+        if(sample.Samples[0].IsHideInMobile && sample.DemoPath != null && sample.DemoPath.Equals(sample.Samples[0].Url) && SampleService.IsDevice)
         {
-            NavToSample(sample.Samples[1].Url);
+            NavToSample(sample.Samples[1].Url ?? "");
         }
         else
         {
-            NavToSample(sample.DemoPath);
+            NavToSample(sample.DemoPath ?? "");
         }
     }
 
     // Sample click event handler method.
     private void NavToSample(string path)
     {
-        SampleService.Spinner.Show();
-        var newUri = UriHelper.GetUriWithQueryParameters(path, new Dictionary<string, object>{
+        SampleService?.Spinner?.Show();
+        var newUri = UriHelper.GetUriWithQueryParameters(path, new Dictionary<string, object?>{
             ["theme"] = "fluent2"
         });
         UriHelper.NavigateTo(newUri, true);
@@ -505,18 +513,18 @@
     // Show or hide the search container in device mode.
     private async Task ShowSearchContainer(bool isFocus = true)
     {
-        if (isFocus)
+        if (isFocus && this.searchRef != null)
         {
-            headerLogo = SampleUtils.AddClass(headerLogo, SampleUtils.DISPLAY_NONE);
-            searchIcon = SampleUtils.AddClass(searchIcon, SampleUtils.DISPLAY_NONE);
-            searchContainer = SampleUtils.RemoveClass(searchContainer, SampleUtils.DISPLAY_NONE);
+            headerLogo = SampleUtils.AddClass(headerLogo ?? "", SampleUtils.DISPLAY_NONE);
+            searchIcon = SampleUtils.AddClass(searchIcon ?? "", SampleUtils.DISPLAY_NONE);
+            searchContainer = SampleUtils.RemoveClass(searchContainer ?? "", SampleUtils.DISPLAY_NONE);
             await this.searchRef.InputFocus();
         }
         else
         {
-            headerLogo = SampleUtils.RemoveClass(headerLogo, SampleUtils.DISPLAY_NONE);
-            searchIcon = SampleUtils.RemoveClass(searchIcon, SampleUtils.DISPLAY_NONE);
-            searchContainer = SampleUtils.AddClass(searchContainer, SampleUtils.DISPLAY_NONE);
+            headerLogo = SampleUtils.RemoveClass(headerLogo ?? "", SampleUtils.DISPLAY_NONE);
+            searchIcon = SampleUtils.RemoveClass(searchIcon ?? "", SampleUtils.DISPLAY_NONE);
+            searchContainer = SampleUtils.AddClass(searchContainer ?? "", SampleUtils.DISPLAY_NONE);
         }
     }
 
@@ -527,25 +535,22 @@
         searchIcon = SampleUtils.SEARCH_ICON;
         searchContainer = SampleUtils.MOBILE_SEARCH_CONTAINER + SampleUtils.SPACE + SampleUtils.DISPLAY_NONE;
         searchContainerClass = SampleUtils.IsLocalSample(UriHelper.Uri) ?  "desktop-search-container" : "desktop-search-container sf-table-cell";
+        this.categoryOrders.Add(new List<string> { "Data Management", "File Viewers & Editors", "Layout", "Notifications" });
+        this.categoryOrders.Add(new List<string> { "Data Visualization","Diagrams and Maps", "Buttons & Actions" });
+        this.categoryOrders.Add(new List<string> { "Scheduling & Calendars","File Management", "Inputs", "Forms","Kanban" });
 #if SERVER
-        this.categoryOrders.Add(new List<string> { "Smart Components", "Grids", "File Viewers & Editors", "Document Processing Libraries", "Layout" });
+        this.categoryOrders.Add(new List<string> { "DropDowns", "Navigation", "Interactive Chat","Smart Components" });
 #else
-        this.categoryOrders.Add(new List<string> { "Grids", "File Viewers & Editors", "Document Processing Libraries", "Layout" });
+        this.categoryOrders.Add(new List<string> { "DropDowns", "Navigation", "Interactive Chat" });
 #endif
-        this.categoryOrders.Add(new List<string> { "Data Visualization", "Buttons", "Interactive Chat" });
-        this.categoryOrders.Add(new List<string> { "Calendars", "Inputs", "Forms" });
-        this.categoryOrders.Add(new List<string> { "DropDowns", "Navigation", "Notifications" });
 
 #if (WASM)
         isWasmSample = true;
-        SampleName = "Blazor Components - WebAssembly Demos";
-        DemoName = "WASM";
-#elif WEBAPP
-        SampleName = "Blazor Components - WebApp Demos";
-        DemoName = "WebApp";
+        SampleName = "Blazor Components - Web App WASM Demos";
+        DemoName = "Web App WASM";
 #else
-        SampleName = "Blazor Components - Server Demos";
-        DemoName = "Server";
+        SampleName = "Blazor Components - Web App Server Demos";
+        DemoName = "Web App Server";
 #endif
     }
 
@@ -554,7 +559,7 @@
         await base.OnAfterRenderAsync(firstRender);
         // await for mobile or desktop rendering.
         await Task.Delay(500);
-        SampleService.Spinner.Hide();
+        SampleService?.Spinner?.Hide();
     }
 }
 

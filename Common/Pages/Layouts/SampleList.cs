@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor ListView Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor ListView Example - Default Functionalities",
-                MetaDescription = "This Blazor ListView example demonstrates the default functionalities including data binding, selection, and rendering customizable list items for efficient data presentation."
+                MetaDescription = "Blazor ListView demo shows the default functionalities including data binding, selection, rendering customizable list items for efficient data presentation."
             },
             new Sample
             {
@@ -35,7 +35,7 @@ namespace BlazorDemos
                 FileName = "Checklist.razor",
                 MetaTitle = "Blazor ListView with Checkbox | Checklist Example | Syncfusion",
                 HeaderText = "Blazor ListView Example - Checkbox Selection",
-                MetaDescription = "This Blazor ListView checklist example demonstrates multiple item selection with checkboxes, allowing users to select, deselect, and manage multiple items simultaneously."
+                MetaDescription = "This Blazor ListView checklist demo shows multiple item selection with checkboxes, allowing users to select, deselect, and manage multiple items simultaneously."
             },
             new Sample
             {
@@ -46,7 +46,7 @@ namespace BlazorDemos
                 FileName = "RemoteData.razor",
                 MetaTitle = "Blazor ListView with Remote Data | Data Binding | Syncfusion",
                 HeaderText = "Blazor ListView Example - Remote Data Binding",
-                MetaDescription = "This Blazor ListView example demonstrates binding to remote data sources using RESTful services. Learn how to fetch and display dynamic data in a ListView component."
+                MetaDescription = "This Blazor ListView example shows binding to remote data sources using RESTful services. Learn how to fetch and display dynamic data in a ListView component."
             },
             new Sample
             {
@@ -57,7 +57,7 @@ namespace BlazorDemos
                 FileName = "NestedList.razor",
                 MetaTitle = "Blazor Nested ListView | Hierarchical Data Display | Syncfusion",
                 HeaderText = "Blazor ListView Example - Nested Lists",
-                MetaDescription = "This Blazor ListView example demonstrates hierarchical data visualization with nested lists. Create multi-level lists to display parent-child relationships in your data."
+                MetaDescription = "This Blazor ListView demo shows hierarchical data visualization with nested lists. Create multi-level lists to display parent-child relationships in your data."
             },
             new Sample
             {
@@ -68,7 +68,7 @@ namespace BlazorDemos
                 FileName = "ListTemplates.razor",
                 MetaTitle = "Blazor ListView Templates | Custom Item Rendering | Syncfusion",
                 HeaderText = "Blazor ListView Example - Custom Templates",
-                MetaDescription = "This Blazor ListView template example demonstrates custom item rendering with templates. Create visually appealing lists with personalized layouts for each item."
+                MetaDescription = "This Blazor ListView template example shows custom item rendering with templates. Create visually appealing lists with personalized layouts for each item."
             },
             new Sample
             {
@@ -79,7 +79,7 @@ namespace BlazorDemos
                 FileName = "ListGroupTemplate.razor",
                 MetaTitle = "Blazor ListView Group Template | Categorized Lists | Syncfusion",
                 HeaderText = "Blazor ListView Example - Group Templates",
-                MetaDescription = "This Blazor ListView group template example demonstrates categorized list items with custom group headers. Organize and visually separate data into logical sections."
+                MetaDescription = "This Blazor ListView group template example shows categorized list items with custom group headers. Organize and visually separate data into logical sections."
             },
             new Sample
             {
@@ -90,7 +90,7 @@ namespace BlazorDemos
                 FileName = "Virtualization.razor",
                 MetaTitle = "Blazor ListView Virtualization | Performance Optimization | Syncfusion",
                 HeaderText = "Blazor ListView Example - UI Virtualization",
-                MetaDescription = "This Blazor ListView virtualization example demonstrates loading large datasets with optimal performance. Only visible items are rendered, improving rendering performance with large data."
+                MetaDescription = "This virtualization demo shows loading large datasets with optimal performance.Only visible items are rendered, improving rendering performance with large data."
             },
             new Sample
             {
@@ -101,7 +101,7 @@ namespace BlazorDemos
                 FileName = "CallHistory.razor",
                 MetaTitle = "Blazor ListView Call History | Real-World Application | Syncfusion",
                 HeaderText = "Blazor ListView Example - Call History Application",
-                MetaDescription = "This Blazor ListView example demonstrates a practical call history application. Display call logs with date, time, and contact details in a mobile-like interface."
+                MetaDescription = "This Blazor ListView example shows a practical call history application. Display call logs with date, time, and contact details in a mobile-like interface."
             },
             new Sample
             {
@@ -113,7 +113,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor ListView Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor ListView Example - Keyboard Navigation",
-                MetaDescription = "This Blazor ListView keyboard navigation example demonstrates accessibility features for keyboard users. Navigate and interact with list items using keyboard shortcuts."
+                MetaDescription = "This Blazor ListView keyboard navigation demo shows accessibility features for keyboard users. Navigate and interact with list items using keyboard shortcuts."
             },
         };
          public List<Sample> DashboardLayout { get; set; } = new List<Sample>{
@@ -127,7 +127,7 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 MetaTitle = "Blazor Dashboard Layout Component | Overview | Syncfusion",
                 HeaderText = "Blazor Dashboard Layout Example - Overview",
-                MetaDescription = "This Blazor Dashboard Layout overview demonstrates the flexible panel-based layout system for creating dashboards. Arrange, resize, and organize content in a responsive grid."
+                MetaDescription = "Blazor Dashboard Layout overview shows the flexible panel-based layout system for creating dashboards. Arrange, resize, organize content in a responsive grid."
             },
             new Sample
             {
@@ -138,7 +138,7 @@ namespace BlazorDemos
                 MetaTitle = "Dashboard Layout Default Functionalities - Syncfusion Demos",
                 FileName = "Default.razor",
                 HeaderText = "Blazor Dashboard Layout Example - Default Functionalities",
-                MetaDescription = "This Blazor Dashboard Layout example demonstrates the core features including panels, drag and drop functionality, resizing, and responsive behavior for creating interactive dashboards."
+                MetaDescription = "Blazor Dashboard Layout demo shows core features including panel, drag and drop functionality, resizing, responsive behavior for creating interactive dashboard."
             },
             new Sample
             {
@@ -150,7 +150,7 @@ namespace BlazorDemos
                 FileName = "PredefinedLayouts.razor",
                 MetaTitle = "Blazor Dashboard Layout Templates | Predefined Layouts | Syncfusion",
                 HeaderText = "Blazor Dashboard Layout Example - Predefined Templates",
-                MetaDescription = "This Blazor Dashboard Layout example demonstrates ready-to-use layout templates. Apply and customize predefined panel arrangements for common dashboard scenarios."
+                MetaDescription = "This Blazor Dashboard Layout example shows ready-to-use layout templates. Apply and customize predefined panel arrangements for common dashboard scenarios."
             },
             new Sample
             {
@@ -161,7 +161,7 @@ namespace BlazorDemos
                 FileName = "API.razor",
                 MetaTitle = "Blazor Dashboard Layout API | Programmatic Control | Syncfusion",
                 HeaderText = "Blazor Dashboard Layout Example - API Usage",
-                MetaDescription = "This Blazor Dashboard Layout API example demonstrates programmatic control over panels. Add, remove, resize, and rearrange panels with code-based operations and event handling."
+                MetaDescription = "Blazor Dashboard Layout API demo shows programmatic control over panels. Add, remove, resize, rearrange panels with code-based operations and event handling."
             },
             new Sample
             {
@@ -172,7 +172,7 @@ namespace BlazorDemos
                 FileName = "EditableDashboardLayout.razor",
                 MetaTitle = "Blazor Editable Dashboard Layout | Dynamic Panels | Syncfusion",
                 HeaderText = "Blazor Dashboard Layout Example - Editable Dashboard",
-                MetaDescription = "This Blazor Dashboard Layout example demonstrates a fully customizable interface with dynamic panel management. Add and configure new panels with predefined content at runtime.",
+                MetaDescription = "Blazor DashboardLayout demo shows a fully customizable interface with dynamic panel management. Add and configure new panels with predefined content at runtime.",
 		        NotificationDescription = new string[]{ "This demo showcases the editable Dashboard Layout which allows you to dynamically add panels with Blazor components rendered as predefined panel content." }
             },
         };
@@ -186,7 +186,7 @@ namespace BlazorDemos
                 FileName = "Default.razor",
                 MetaTitle = "Blazor Splitter Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Splitter Example - Default Functionalities",
-                MetaDescription = "This Blazor Splitter example demonstrates responsive pane management with resizable and collapsible panels. Divide screen space efficiently with horizontal and vertical splitters."
+                MetaDescription = "Blazor Splitter demo shows responsive pane management with resizable and collapsible panel. Divide screen space efficiently with horizontal, vertical splitters."
             },
             new Sample
             {
@@ -197,7 +197,7 @@ namespace BlazorDemos
                 FileName = "ExpandandCollapse.razor",
                 MetaTitle = "Blazor Splitter Expand Collapse | Collapsible Panes | Syncfusion",
                 HeaderText = "Blazor Splitter Example - Expand and Collapse Panes",
-                MetaDescription = "This Blazor Splitter example demonstrates expandable and collapsible panes. Toggle panel visibility with expand/collapse buttons to maximize working space for important content."
+                MetaDescription = "Blazor Splitter demo shows expandable and collapsible panes.Toggle panel visibility with expand/collapse button to maximize working space for important content."
             },
               new Sample
             {
@@ -208,7 +208,7 @@ namespace BlazorDemos
                 FileName = "AccordionMenu.razor",
                 MetaTitle = "Blazor Splitter Navigation Menu | Accordion Layout | Syncfusion",
                 HeaderText = "Blazor Splitter Example - Accordion Navigation Menu",
-                MetaDescription = "This Blazor Splitter example demonstrates creating an accordion-style navigation menu. Combine splitter with accordion for a collapsible, space-efficient navigation interface."
+                MetaDescription = "Blazor Splitter demo shows creating an accordion-style navigation menu. Combine splitter with accordion for a collapsible, space-efficient navigation interface."
             },
              new Sample
             {
@@ -219,7 +219,7 @@ namespace BlazorDemos
                 FileName = "DetailsView.razor",
                 MetaTitle = "Blazor Splitter Details View | Master-Detail Layout | Syncfusion",
                 HeaderText = "Blazor Splitter Example - Details View Layout",
-                MetaDescription = "This Blazor Splitter example demonstrates a master-detail view layout. Create an efficient interface for browsing lists and viewing detailed information simultaneously."
+                MetaDescription = "This Blazor Splitter demo shows a master-detail view layout. Create an efficient interface for browsing lists and viewing detailed information simultaneously."
             },
             new Sample
             {
@@ -230,7 +230,7 @@ namespace BlazorDemos
                 FileName = "OutlookStyleLayout.razor",
                 MetaTitle = "Blazor Splitter Outlook Layout | Email Interface | Syncfusion",
                 HeaderText = "Blazor Splitter Example - Outlook-style Email Layout",
-                MetaDescription = "This Blazor Splitter example demonstrates an Outlook-inspired email interface. Create a familiar three-panel layout with folders, message list, and reading pane using nested splitters."
+                MetaDescription = "Blazor Splitter demo shows an Outlook-inspired email interface. Create a three-panel layout with folders, message list, and reading pane using nested splitters."
             },
              new Sample
             {
@@ -241,7 +241,7 @@ namespace BlazorDemos
                 FileName = "CodeEditorLayout.razor",
                 MetaTitle = "Blazor Splitter Code Editor | Developer UI | Syncfusion",
                 HeaderText = "Blazor Splitter Example - Code Editor Layout",
-                MetaDescription = "This Blazor Splitter example demonstrates a code editor layout. Create a development environment with file explorer, code editor, and preview panes using nested splitters."
+                MetaDescription = "This Blazor Splitter demo shows a code editor layout. Create a development environment with file explorer, code editor, preview panes using nested splitters."
             }
         };
         public List<Sample> Avatar { get; set; } = new List<Sample>{
@@ -254,7 +254,7 @@ namespace BlazorDemos
                 FileName = "Default.razor",
                 HeaderText = "Example of Default Functionalities in Blazor CSS Avatar Component",
                 MetaTitle = "Blazor Avatar Component | Default Functionalities | Syncfusion",
-                MetaDescription = "This Blazor Avatar example demonstrates the default functionalities including various sizes, types, and customization options for displaying user profile images or initials."
+                MetaDescription = "This Blazor Avatar demo shows default functionalities including various sizes, types, and customization options for displaying user profile images or initials."
             },
             new Sample
             {
@@ -265,7 +265,7 @@ namespace BlazorDemos
                 FileName = "Types.razor",
                 HeaderText = "Example of Types in Blazor CSS Avatar Component",
                 MetaTitle = "Blazor Avatar Types | Circle, Square, Custom | Syncfusion",
-                MetaDescription = "This Blazor Avatar example demonstrates different types including circle, square, and custom shapes. Display profile pictures, initials or icons with various style options."
+                MetaDescription = "This Blazor Avatar demo shows different types including circle, square, custom shapes. Display profile pictures, initials or icons with various style options."
             },
             new Sample
             {
@@ -276,7 +276,7 @@ namespace BlazorDemos
                 FileName = "ListView.razor",
                 HeaderText = "Example of Blazor CSS Avatar Component in ListView",
                 MetaTitle = "Blazor Avatar with ListView | Component Integration | Syncfusion",
-                MetaDescription = "This Blazor Avatar integration example demonstrates using avatars within ListView items. Create contact lists, user directories, and message threads with profile images."
+                MetaDescription = "This Blazor Avatar integration demo shows using avatars within ListView items. Create contact lists, user directories, and message threads with profile images."
             },
             new Sample
             {
@@ -287,7 +287,7 @@ namespace BlazorDemos
                 FileName = "Badge.razor",
                 HeaderText = "Example of Blazor CSS Avatar Component with Badge",
                 MetaTitle = "Blazor Avatar with Badge | Status Indicators | Syncfusion",
-                MetaDescription = "This Blazor Avatar example demonstrates integration with badges for status indicators. Add notification counts or online status indicators to user avatars for interactive interfaces."
+                MetaDescription = "This Blazor Avatar example demonstrates integration with badges for status indicators. Add notification counts or online status indicators to user avatars."
             },
             new Sample
             {
@@ -298,7 +298,7 @@ namespace BlazorDemos
                 FileName = "Card.razor",
                 HeaderText = "Example of Blazor CSS Avatar Component with Card",
                 MetaTitle = "Blazor Avatar with Card | Profile Cards | Syncfusion",
-                MetaDescription = "This Blazor Avatar integration example demonstrates using avatars within Card components. Create user profile cards, team member listings, and contact information displays."
+                MetaDescription = "This Blazor Avatar integration demo shows using avatars within Card components. Create user profile cards, team member listings, contact information displays."
             }
         };
 
@@ -312,7 +312,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Timeline Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Timeline Example - Default Functionalities",
-                MetaDescription = "This Blazor Timeline example demonstrates chronological event visualization with default styling. Display sequential events with timestamps, content, and connecting lines."
+                MetaDescription = "This Blazor Timeline demo shows chronological event visualization with default styling. Display sequential events with timestamps, content, connecting lines."
             },
             new Sample
             {
@@ -323,7 +323,7 @@ namespace BlazorDemos
                 FileName = "API.razor",
                 MetaTitle = "Blazor Timeline API | Programmatic Control | Syncfusion",
                 HeaderText = "Blazor Timeline Example - API Configuration",
-                MetaDescription = "This Blazor Timeline API example demonstrates programmatic control and configuration options. Customize orientation, item alignment, dot customization and responsive behavior."
+                MetaDescription = "Blazor Timeline API demo shows programmatic control and configuration options. Customize orientation, item alignment, dot customization, responsive behavior."
             },
             new Sample
             {
@@ -334,7 +334,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor Timeline Templates | Custom Item Design | Syncfusion",
                 HeaderText = "Blazor Timeline Example - Custom Templates",
-                MetaDescription = "This Blazor Timeline template example demonstrates custom content rendering for timeline items. Create visually appealing timelines with rich content, images, and interactive elements."
+                MetaDescription = "This Timeline template demo shows custom content rendering for timeline items. Create visually appeal timelines with rich content, images, interactive elements."
             }
         };
     }

@@ -89,17 +89,17 @@ namespace blazor_overviewdata
 
 
         public int EmployeeID { get; set; }
-        public string Employees { get; set; }
-        public string Designation { get; set; }
-        public string Location { get; set; }
-        public string Status { get; set; }
-        public string Trustworthiness { get; set; }
+        public string? Employees { get; set; }
+        public string? Designation { get; set; }
+        public string? Location { get; set; }
+        public string? Status { get; set; }
+        public string? Trustworthiness { get; set; }
         public int Rating { get; set; }
         public int Software { get; set; }
-        public string EmployeeImg { get; set; }
+        public string? EmployeeImg { get; set; }
         public int CurrentSalary { get; set; }
-        public string Address { get; set; }
-        public string Mail { get; set; }
+        public string? Address { get; set; }
+        public string? Mail { get; set; }
     }
 
 }

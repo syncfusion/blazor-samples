@@ -43,7 +43,7 @@
                 <DropDownComponent  @ref="dropdownRef" DataSource="@SampleUtils.ThemeData" DefaultValue="CHOOSE THEME" OnSelect="OnThemeChange">
                     <ItemTemplate>
                       
-                        @if (currentTheme.Contains("-dark"))
+                        @if (currentTheme != null && currentTheme.Contains("-dark"))
                          {
                          // Remove "-dark" from the current theme
                           currentTheme = currentTheme.Replace("-dark", "");
@@ -146,7 +146,7 @@
     </div>
     <hr />
     <div>
-        @foreach (var ComponentList in componentnotificationlist)
+        @foreach (var ComponentList in componentnotificationlist ?? new List<NotificationList>())
         {
             @if (ComponentList.NotificationContent.Length > 0)
             {
@@ -173,7 +173,7 @@
             }
 
         }
-        @foreach (var ComponentList in notificationlist)
+        @foreach (var ComponentList in notificationlist ?? new List<NotificationList>())
         {
              var listclass = "sb-notification-list";
              <div class="sb-notification-content-container">
@@ -214,21 +214,21 @@
 }
 </div>
 @code {
-    private string searchClass { get; set; }
-    private string currentTheme { get; set; }
-    private string preferenceClass { get; set; }
-    private string notificationClass { get; set; }
-    private string overlayClass{ get; set; }
+    private string? searchClass { get; set; }
+    private string? currentTheme { get; set; }
+    private string? preferenceClass { get; set; }
+    private string? notificationClass { get; set; }
+    private string? overlayClass{ get; set; }
     private bool isPreferenceClicked { get; set; }
-    private List<NotificationList> notificationlist { get; set; }
-    private List<NotificationList> componentnotificationlist { get; set; }
+    private List<NotificationList>? notificationlist { get; set; }
+    private List<NotificationList>? componentnotificationlist { get; set; }
     public bool isNotifyClicked { get; set; }
     public int count { get; set; } = 0;
-    private string DemoLink { get; set; }
-    private Preferences preferenceRef { get; set; }
-    private SearchComponent searchRef { get; set; }
-    public DropDownComponent dropdownRef { get; set; }
-     public DropDownComponent dropdowndemoRef { get; set; }
+    private string? DemoLink { get; set; }
+    private Preferences? preferenceRef { get; set; }
+    private SearchComponent? searchRef { get; set; }
+    public DropDownComponent? dropdownRef { get; set; }
+     public DropDownComponent? dropdowndemoRef { get; set; }
 
     /// <summary>
     /// Triggers event callback on left toggle button action.
@@ -265,9 +265,9 @@
         }
         if (currentTheme != args.ID)
         {
-            var url = SampleUtils.GetThemeUrl(UriHelper, args.ID);
+            var url = SampleUtils.GetThemeUrl(UriHelper, args?.ID ?? "");
             // Check if the current theme contains "dark"
-            if (themeModeCheck.Contains("dark") && args.ID != "highcontrast" && args.ID != "fluent2-highcontrast" && args.ID != "bootstrap4")
+            if (themeModeCheck.Contains("dark") && args?.ID != "highcontrast" && args?.ID != "fluent2-highcontrast" && args?.ID != "bootstrap4")
             {
                 // Append "-dark" to the URL
                 url += "-dark";
@@ -289,23 +289,25 @@
     {
         if (!UriHelper.BaseUri.Contains("localhost"))
         {
-            SampleService.SwicthToDemo(args.ID, UriHelper, JsRuntime);
+            SampleService.SwicthToDemo(args?.ID ?? "", UriHelper, JsRuntime);
         }
     }
     public void NotifyClicked() {
-        if (notificationClass.Contains(SampleUtils.ACTIVE_CLASS))
-        {
-            notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.ACTIVE_CLASS);
-            notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.DISPLAY_NONE);
-            overlayClass = SampleUtils.AddClass(overlayClass, SampleUtils.HIDDEN);
-            isNotifyClicked = false;
-        }
-        else
-        {
-            notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.DISPLAY_NONE);
-            notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.ACTIVE_CLASS);
-            overlayClass = SampleUtils.RemoveClass(overlayClass, SampleUtils.HIDDEN);
-            isNotifyClicked = true;
+        if(notificationClass != null && overlayClass != null) {
+            if (notificationClass.Contains(SampleUtils.ACTIVE_CLASS))
+            {
+                notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.ACTIVE_CLASS);
+                notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.DISPLAY_NONE);
+                overlayClass = SampleUtils.AddClass(overlayClass, SampleUtils.HIDDEN);
+                isNotifyClicked = false;
+            }
+            else
+            {
+                notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.DISPLAY_NONE);
+                notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.ACTIVE_CLASS);
+                overlayClass = SampleUtils.RemoveClass(overlayClass, SampleUtils.HIDDEN);
+                isNotifyClicked = true;
+            }
         }
     }
 
@@ -318,16 +320,22 @@
     }
 
     public void OnPopupHide() {
-        notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.DISPLAY_NONE);
-        notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.ACTIVE_CLASS);
-        isNotifyClicked = false;
-        overlayClass = SampleUtils.AddClass(overlayClass, SampleUtils.HIDDEN);
-        StateHasChanged();
+        if(notificationClass != null && overlayClass != null) {
+            notificationClass = SampleUtils.AddClass(notificationClass, SampleUtils.DISPLAY_NONE);
+            notificationClass = SampleUtils.RemoveClass(notificationClass, SampleUtils.ACTIVE_CLASS);
+            isNotifyClicked = false;
+            overlayClass = SampleUtils.AddClass(overlayClass, SampleUtils.HIDDEN);
+            StateHasChanged();
+        }
     }
 
     // Preferences icon click handler.
     private void OnPreferenceClick()
     {
+        if (preferenceRef == null || preferenceClass == null)
+        {
+            return;
+        }
         isPreferenceClicked = true;
         var isActive = preferenceClass.Contains(SampleUtils.ACTIVE_CLASS);
         if (isActive)
@@ -346,7 +354,7 @@
     /// </summary>
     public void HidePreferences()
     {
-        if (!isPreferenceClicked && !preferenceRef.IsPopupClicked())
+        if (!isPreferenceClicked && preferenceRef != null && !preferenceRef.IsPopupClicked() && preferenceClass != null)
         {
             preferenceClass = SampleUtils.RemoveClass(preferenceClass, SampleUtils.ACTIVE_CLASS);
             preferenceRef.ShowPopup(false);
@@ -355,7 +363,7 @@
         isPreferenceClicked = false;
     }
 
-#if SERVER || WEBAPP
+#if SERVER
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();

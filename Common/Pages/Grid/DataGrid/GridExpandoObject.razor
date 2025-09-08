@@ -3,6 +3,7 @@
 @using System.Dynamic
 @using Syncfusion.Blazor.Grids
 @using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @inject NavigationManager NavigationManager
@@ -22,7 +23,7 @@
 <div class="col-lg-12 control-section">
     <div class="content-wrapper">
         <div class="row">
-            <SfGrid DataSource="@Orders" Height="400" AllowPaging="true" AllowGrouping="true" AllowFiltering="true" AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+            <SfGrid @ref="Grid" DataSource="@Orders" Height="400" AllowPaging="true" AllowGrouping="true" AllowFiltering="true" AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
                 <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Normal"></GridEditSettings>
                 <GridGroupSettings ShowGroupedColumn="true"></GridGroupSettings>
                 <GridAggregates>
@@ -33,7 +34,7 @@
                                     @{
                                         var aggregate = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Sum: @aggregate.Sum</p>
+                                            <p>Sum: @aggregate?.Sum</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -43,7 +44,7 @@
                                     @{
                                         var aggregate = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>True Count: @aggregate.TrueCount</p>
+                                            <p>True Count: @aggregate?.TrueCount</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -57,7 +58,7 @@
                                     @{
                                         var aggregate = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>Average: @aggregate.Average</p>
+                                            <p>Average: @aggregate?.Average</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -67,7 +68,7 @@
                                     @{
                                         var aggregate = (context as AggregateTemplateContext);
                                         <div>
-                                            <p>False Count: @aggregate.FalseCount</p>
+                                            <p>False Count: @aggregate?.FalseCount</p>
                                         </div>
                                     }
                                 </FooterTemplate>
@@ -81,7 +82,15 @@
                     <GridColumn Field="Freight" Format="C2" TextAlign="TextAlign.Right" AllowGrouping=false ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" Type="ColumnType.Double" Width="120"></GridColumn>
                     <GridColumn Field="OrderDate" HeaderText=" Order Date" ValidationRules="@(new ValidationRules{ Required=true})" Format="d" TextAlign="TextAlign.Right" Width="130" Type="ColumnType.Date"></GridColumn>
                     <GridColumn Field="ShipCountry" HeaderText="Ship Country" EditType="EditType.DropDownEdit" EditorSettings="@ShipCountryEditParams" Width="150"></GridColumn>
-                    <GridColumn Field="Verified" HeaderText="Active" TextAlign="TextAlign.Center" DisplayAsCheckBox="true" DefaultValue="false" Width="150"></GridColumn>
+                    <GridColumn Field="Verified" HeaderText="Active" TextAlign="TextAlign.Center" Width="150" Type="ColumnType.Boolean">
+                        <FilterTemplate>
+                            @{
+                                var FilterContext = (context as PredicateModel);
+                                bool? fValue = string.IsNullOrEmpty(FilterContext?.Value.ToString()) ? null : (bool?)FilterContext.Value;
+                            }
+                            <SfCheckBox Checked="@fValue"  EnableTriState="true" ValueChange="OnValueChange" TChecked="bool?"></SfCheckBox>
+                        </FilterTemplate>
+                    </GridColumn>
                 </GridColumns>
             </SfGrid>
         </div>
@@ -90,6 +99,7 @@
 
 
 @code {
+    public SfGrid<ExpandoObject>? Grid { get; set; }
     public List<ExpandoObject> Orders { get; set; } = new List<ExpandoObject>();
 
     private List<string> DefaultShipCountrys = new List<string> { "USA", "UK" };
@@ -132,5 +142,16 @@
         }).Cast<ExpandoObject>().ToList<ExpandoObject>();
         InitializeDropdownDataSource();
 
+    }
+
+    private async Task OnValueChange(ChangeEventArgs<bool?> args)
+    {
+        if (Grid != null)
+        {
+            if (args.Checked != null)
+                await Grid.FilterByColumnAsync("Verified", "equal", args.Checked); //Perform filtering while check/uncheck the checkbox
+            else
+                await Grid.ClearFilteringAsync("Verified");
+        }
     }
 }

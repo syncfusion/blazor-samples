@@ -69,7 +69,7 @@
         <MapsEvents ShapeSelected="ShapeSelection" />
         <MapsZoomSettings Enable="false" />
         <MapsLayers>
-            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/world-map.json"}' ShapePropertyPath="@ShapePropertyPath"
+            <MapsLayer ShapeData='new {dataOptions = SampleService?.WebAssetsPath + "data/maps/world-map.json"}' ShapePropertyPath="@ShapePropertyPath"
                        ShapeDataPath="Continent" DataSource="@MapLayerDataSource" TValue="MapDataSource">
                 <MapsShapeSettings ColorValuePath="DrillColor" />
                 <MapsMarkerSettings>
@@ -78,7 +78,7 @@
                             @{
                                 var Data = context as MarkerDataSource;
                                 <div class="markers">
-                                    <p>@Data.Name</p>
+                                    <p>@Data?.Name</p>
                                 </div>
                             }
                         </MarkerTemplate>
@@ -88,7 +88,7 @@
                             @{
                                 var Data = context as MarkerDataSource;
                                 <div class="markers">
-                                    <p>@Data.Name</p>
+                                    <p>@Data?.Name</p>
                                 </div>
                             }
                         </MarkerTemplate>
@@ -98,7 +98,7 @@
                             @{
                                 var Data = context as MarkerDataSource;
                                 <div class="markers">
-                                    <p>@Data.Name</p>
+                                    <p>@Data?.Name</p>
                                 </div>
                             }
                         </MarkerTemplate>
@@ -108,7 +108,7 @@
                             @{
                                 var Data = context as MarkerDataSource;
                                 <div class="markers">
-                                    <p>@Data.Name</p>
+                                    <p>@Data?.Name</p>
                                 </div>
                             }
                         </MarkerTemplate>
@@ -118,7 +118,7 @@
                             @{
                                 var Data = context as MarkerDataSource;
                                 <div class="markers">
-                                    <p>@Data.Name</p>
+                                    <p>@Data?.Name</p>
                                 </div>
                             }
                         </MarkerTemplate>
@@ -143,34 +143,34 @@
                     </MapsMarker>
                 </MapsMarkerSettings>
             </MapsLayer>
-            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/africa.json"}' TValue="string">
+            <MapsLayer ShapeData='new {dataOptions = SampleService?.WebAssetsPath + "data/maps/africa.json"}' TValue="string">
                 <MapsShapeSettings Fill="#80306A" />
             </MapsLayer>
-            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/asia.json"}' TValue="string">
+            <MapsLayer ShapeData='new {dataOptions = SampleService?.WebAssetsPath + "data/maps/asia.json"}' TValue="string">
                 <MapsShapeSettings Fill="#462A6D" />
                 <MapsLayerTooltipSettings Visible="true" ValuePath="name">
                     <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
                 </MapsLayerTooltipSettings>
             </MapsLayer>
-            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/north-america.json"}' TValue="string">
+            <MapsLayer ShapeData='new {dataOptions = SampleService?.WebAssetsPath + "data/maps/north-america.json"}' TValue="string">
                 <MapsShapeSettings Fill="#C13664" />
                 <MapsLayerTooltipSettings Visible="true" ValuePath="name">
                     <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
                 </MapsLayerTooltipSettings>
             </MapsLayer>
-            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/south-america.json"}' TValue="string">
+            <MapsLayer ShapeData='new {dataOptions = SampleService?.WebAssetsPath + "data/maps/south-america.json"}' TValue="string">
                 <MapsShapeSettings Fill="#9C3367" />
                 <MapsLayerTooltipSettings Visible="true" ValuePath="name">
                     <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
                 </MapsLayerTooltipSettings>
             </MapsLayer>
-            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/europe.json"}' TValue="string">
+            <MapsLayer ShapeData='new {dataOptions = SampleService?.WebAssetsPath + "data/maps/europe.json"}' TValue="string">
                 <MapsShapeSettings Fill="#2A2870" />
                 <MapsLayerTooltipSettings Visible="true" ValuePath="name">
                     <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
                 </MapsLayerTooltipSettings>
             </MapsLayer>
-            <MapsLayer ShapeData='new {dataOptions = SampleService.WebAssetsPath + "data/maps/australia.json"}' TValue="string">
+            <MapsLayer ShapeData='new {dataOptions = SampleService?.WebAssetsPath + "data/maps/australia.json"}' TValue="string">
                 <MapsShapeSettings Fill="#2A2870" />
                 <MapsLayerTooltipSettings Visible="true" ValuePath="STATE_NAME">
                     <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
@@ -194,13 +194,13 @@
     public string Text = "";
     public string[] ShapePropertyPath = { "continent" };
     public string Drill = "Click on a shape to drill";
-    public SfMaps MapRef;
+    public SfMaps? MapRef;
     public int LayerIndex = 0;
     
     public class MapDataSource
     {
-        public string DrillColor { get; set; }
-        public string Continent { get; set; }
+        public string? DrillColor { get; set; }
+        public string? Continent { get; set; }
     };
 
     public List<MapDataSource> MapLayerDataSource = new List<MapDataSource>
@@ -216,7 +216,7 @@
     {
         public double Latitude { get; set; }
         public double Longitude { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
     };
 
     public List<MarkerDataSource> AsiaMarker = new List<MarkerDataSource>
@@ -247,44 +247,35 @@
     private void ShapeSelection(ShapeSelectedEventArgs args)
     {
         Dictionary<string, string> DrillData = args.Data;
-        if (MapRef.BaseLayerIndex == 0 && DrillData != null)
+        if (MapRef?.BaseLayerIndex == 0 && DrillData != null)
         {
-            if (DrillData["Continent"] == "Africa")
+            switch(DrillData["Continent"])
             {
-                LayerIndex = 1;
-                this.StateHasChanged();
-
-            }
-            else if (DrillData["Continent"] == "Asia")
-            {
-                LayerIndex = 2;
-                this.StateHasChanged();
-            }
-            else if (DrillData["Continent"] == "North America")
-            {
-                LayerIndex = 3;
-                this.StateHasChanged();
-            }
-            else if (DrillData["Continent"] == "South America")
-            {
-                LayerIndex = 4;
-                this.StateHasChanged();
-            }
-            else if (DrillData["Continent"] == "Europe")
-            {
-                LayerIndex = 5;
-                this.StateHasChanged();
-            }
-            else if (DrillData["Continent"] == "Australia")
-            {
-                LayerIndex = 6;
-                this.StateHasChanged();
+                case "Africa":
+                    LayerIndex = 1;
+                    break;
+                case "Asia":
+                    LayerIndex = 2;
+                    break;
+                case "North America":
+                    LayerIndex = 3;
+                    break;
+                case "South America":
+                    LayerIndex = 4;
+                    break;
+                case "Europe":
+                    LayerIndex = 5;
+                    break;
+                case "Australia":
+                    LayerIndex = 6;
+                    break;
             }
             Button = "block";
             Category = "visible";
             Text = DrillData["Continent"];
             Symbol = "visible";
             Drill = "";
+            this.StateHasChanged();
         }
     }
     public void WorldMapDisplay()

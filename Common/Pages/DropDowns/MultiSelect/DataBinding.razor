@@ -107,8 +107,8 @@
     
     public class Countries
     {
-        public string Name { get; set; }
-        public string Code { get; set; }
+        public string? Name { get; set; }
+        public string? Code { get; set; }
     }
 
     private List<Countries> country = new List<Countries>
@@ -138,14 +138,14 @@
     public class EmployeeData
     {
         public int EmployeeId { get; set; }
-        public string FirstName { get; set; }
-        public string Designation { get; set; }
-        public string Country { get; set; }
+        public string? FirstName { get; set; }
+        public string? Designation { get; set; }
+        public string? Country { get; set; }
     }
     public class Colors
     {
-        public string Code { get; set; }
-        public string Color { get; set; }
+        public string? Code { get; set; }
+        public string? Color { get; set; }
     }
     private ObservableCollection<Colors> ColorsData = new ObservableCollection<Colors>() 
     {
@@ -188,20 +188,23 @@
     public class DynamicDictionary : System.Dynamic.DynamicObject
     {
         Dictionary<string, object> dictionary = new Dictionary<string, object>();
-        public override bool TryGetMember(GetMemberBinder binder, out object result)
+        public override bool TryGetMember(GetMemberBinder binder, out object? result)
         {
             string name = binder.Name;
             return dictionary.TryGetValue(name, out result);
         }
-        public override bool TrySetMember(SetMemberBinder binder, object value)
+        public override bool TrySetMember(SetMemberBinder binder, object? value)
         {
-            dictionary[binder.Name] = value;
+            if (value != null)
+            {
+                dictionary[binder.Name] = value;
+            }
             return true;
         }
         //The GetDynamicMemberNames method of DynamicObject class must be overridden and return the property names to perform data operation and editing while using DynamicObject.
         public override System.Collections.Generic.IEnumerable<string> GetDynamicMemberNames()
         {
-            return this.dictionary?.Keys;
+            return this.dictionary.Keys;
         }
     }
 }

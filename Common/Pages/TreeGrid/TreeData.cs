@@ -11,7 +11,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using BlazorDemos;
-namespace ej2_blazor_treedata
+namespace Treedata
 {
 
     public class BusinessObject
@@ -22,7 +22,7 @@ namespace ej2_blazor_treedata
             set;
         }
 
-        public string TaskName
+        public string? TaskName
         {
             get;
             set;
@@ -46,12 +46,12 @@ namespace ej2_blazor_treedata
             set;
         }
 
-        public string Progress
+        public string? Progress
         {
             get;
             set;
         }
-        public string Priority
+        public string? Priority
         {
             get;
             set;
@@ -73,7 +73,7 @@ namespace ej2_blazor_treedata
             set;
         }
 
-        public List<BusinessObject> Children
+        public List<BusinessObject>? Children
         {
             get;
             set;
@@ -96,7 +96,7 @@ namespace ej2_blazor_treedata
         {
             List<BusinessObject> BusinessObjectCollection = new List<BusinessObject>();
 
-            BusinessObject Record1 = null;
+            BusinessObject? Record1 = null;
 
             Record1 = new BusinessObject()
             {

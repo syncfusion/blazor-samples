@@ -3,6 +3,8 @@ var isUpdatedDevice = false;
 var isTouchEnabled = false;
 const DEFAULT_THEME = 'fluent2';
 var dotnetTooltipRef;
+var dotnetFileManagerRef;
+window.diagramIntervals = window.diagramIntervals || new Map();
 var currentURL;
 window.sfBlazorSB = {
   dotnetRef: null,
@@ -359,8 +361,44 @@ function focusInput(id) {
     }, 500);
 }
 
-function uploadClick() {
-    document.querySelector('.e-file-select-wrap button').click();
+function fileManagerInstance(dotnetRef) {
+    dotnetFileManagerRef = dotnetRef;
+};
+
+function bindUploadMenuEvents() {
+    const folderMenu = document.querySelector('li#Folder');
+    const filesMenu = document.querySelector('li#Files');
+
+    if (folderMenu) {
+        folderMenu.onclick = function () {
+            handleUploadClick(true);
+        };
+    }
+
+    if (filesMenu) {
+        filesMenu.onclick = function () {
+            handleUploadClick(false);
+        };
+    }
+};
+
+function handleUploadClick(isFolder) {
+    const fileInput = document.querySelector('.e-file-select-wrap input[type="file"]');
+
+    fileInput.removeAttribute("webkitdirectory");
+    fileInput.removeAttribute("multiple");
+
+    if (isFolder) {
+        fileInput.setAttribute("webkitdirectory", "");
+    } else {
+        fileInput.setAttribute("multiple", "");
+    }
+
+    if (dotnetFileManagerRef) {
+        dotnetFileManagerRef.invokeMethodAsync("SetUploadType", isFolder);
+    }
+
+    fileInput.click();
 }
 
 document.addEventListener("keydown", function (e) {
@@ -405,7 +443,7 @@ document.addEventListener("keydown", function (e) {
 });
 
 window.addEventListener('load', function () {
-    //To replace theme in Link Tag for WASM, WebApp and MAUI
+    //To replace theme in Link Tag for WASM
     let ThemeEle = document.getElementById('theme');
     if (ThemeEle) {
         let url = window.location.href.split("?theme=");
@@ -943,6 +981,14 @@ function isMobileDevice(isRtl) {
     return isDevice;
 }
 
+function hidePdfviewerSearchBox(viewerID) {
+    var viewer = window.sfBlazor.getCompInstance(viewerID);
+    if (viewer && viewer.textSearchModule && viewer.textSearchModule.searchBox.style.display == "block") {
+        viewer.toolbarModule.isTextSearchBoxDisplayed = false;
+        viewer.textSearchModule.showSearchBox(false);
+    }
+}
+
 function checkClickedDiv() {
     //Check the clicked div is the child of ViewerContainer
     var activeElement = document.activeElement;
@@ -1058,6 +1104,52 @@ function saveDiagram(data, filename) {
         a.click();
         a.remove();
     }
+}
+
+function removeConnectorDash(connectorId) {
+    const element = document.querySelector('[id="' + connectorId + '_path"]');
+    if (element) {
+        element.style.strokeDasharray = '';
+        element.removeAttribute('stroke-dasharray');
+        element.removeAttribute('stroke-dashoffset');
+    }
+}
+
+function applyMovingDash(pathId) {
+    var applyAnimationInterval = setInterval(function () {
+        const element = document.getElementById(pathId);
+        if (element) {
+            element.style.strokeDasharray = '8,4';
+
+            let offset = 0;
+            const dashInterval = setInterval(() => {
+                offset -= 1;
+                element.setAttribute('stroke-dashoffset', offset);
+            }, 50);
+
+            // Store in global scope
+            window.diagramIntervals.set(pathId, dashInterval);
+            clearInterval(applyAnimationInterval);
+        }
+    }, 10);
+}
+
+function removeMovingDash(pathId) {
+    var removeAnimationInterval = setInterval(function () {
+        const element = document.getElementById(pathId);
+        if (element) {
+            const interval = window.diagramIntervals.get(pathId);
+            if (interval) {
+                clearInterval(interval);
+                window.diagramIntervals.delete(pathId);
+            }
+
+            element.removeAttribute('stroke-dasharray');
+            element.removeAttribute('stroke-dashoffset');
+            clearInterval(removeAnimationInterval);
+            element.style.strokeDasharray = '5,5';
+        }
+    }, 10);
 }
 function loadFile(file) {
     var base64 = file.rawFile.replace("data:application/json;base64,", "");
@@ -1218,6 +1310,217 @@ window.preventTabDefault = function (textareaId, dotnetRef) {
             }
         });
 }
+
+// P & ID Diagram scripts start
+// wwwroot/js/pid-interop.js
+
+// --- Global State for Animations ---
+let animationIntervals = {};
+let gradualStopIntervals = {};
+let pressureInterval = null;
+let dotNetRef = null;
+
+// --- Core Functions ---
+
+/**
+ * Initializes the script and saves the .NET object reference.
+ * Called from Blazor's OnAfterRenderAsync.
+ */
+function initialize(objectReference) {
+    dotNetRef = objectReference;
+}
+
+/**
+ * This function is kept for compatibility with the existing Blazor call,
+ * but its original purpose (dynamically creating UI controls) is now handled
+ * directly within the Razor component.
+ */
+function appendHTMLElements() {
+    // No longer needed. Elements are defined in PipeLineDiagram.razor.
+}
+
+/**
+ * Injects the necessary CSS keyframes for the animated dashed lines.
+ * This should only run once.
+ */
+function addFlowAnimationClass() {
+    if (!document.getElementById('flow-animation-style')) {
+        const style = document.createElement('style');
+        style.id = 'flow-animation-style';
+        // Using a large stroke-dashoffset target gives a continuous flow animation
+        style.textContent = `
+            @keyframes dashFlow {
+                to {
+                    stroke-dashoffset: -1000;
+                }
+            }`;
+        document.head.appendChild(style);
+    }
+}
+
+/**
+ * Starts or stops the animation for a specific connector path.
+ * @param {string} pathId - The ID of the SVG path element.
+ * @param {boolean} animate - True to start animation, false to stop.
+ * @param {string} color - The color to set for the path.
+ * @param {boolean} [slow] - If stopping, true for a gradual stop, false for immediate.
+ * @param {string} [flowState] - The ID of the corresponding valve box to change its background.
+ */
+function animatePathFlow(pathId, animate, color, slow, flowState) {
+    const dashArray = '10,5';
+    const speed = 30; // Animation interval in milliseconds
+    const path = document.getElementById(pathId);
+    const flowContainer = document.getElementById(flowState);
+
+    if (!path) return;
+
+    // Clear any existing intervals for this path to prevent duplicates
+    if (animationIntervals[pathId]) {
+        clearInterval(animationIntervals[pathId]);
+        delete animationIntervals[pathId];
+    }
+    if (gradualStopIntervals[pathId]) {
+        clearInterval(gradualStopIntervals[pathId]);
+        delete gradualStopIntervals[pathId];
+    }
+
+    if (animate) {
+        let offset = 0;
+        if (flowContainer) {
+            flowContainer.style.background = color;
+        }
+        path.setAttribute('stroke', color);
+        path.setAttribute('stroke-dasharray', dashArray);
+
+        // Start a new interval to animate the stroke-dashoffset
+        const intervalId = setInterval(() => {
+            offset -= 1;
+            path.setAttribute('stroke-dashoffset', offset);
+        }, speed);
+        animationIntervals[pathId] = intervalId;
+    } else { // Stop animation
+        if (flowContainer) {
+            flowContainer.style.background = '#e5e7eb'; // Set to grey
+        }
+
+        if (slow) {
+            // Animate for a short duration before stopping completely
+            let step = 0;
+            const steps = 30; // Number of frames for the gradual stop
+            const interval = 1000 / steps; // ~33ms interval for 1 second duration
+
+            gradualStopIntervals[pathId] = setInterval(() => {
+                step++;
+                path.setAttribute('stroke-dashoffset', (path.getAttribute('stroke-dashoffset') - 1).toString());
+                path.setAttribute('stroke', color);
+                if (step >= steps) {
+                    clearInterval(gradualStopIntervals[pathId]);
+                    delete gradualStopIntervals[pathId];
+                    path.setAttribute('stroke-dasharray', 'none');
+                }
+            }, interval);
+        } else {
+            // Immediate stop
+            path.setAttribute('stroke', color || 'black');
+            path.setAttribute('stroke-dasharray', 'none');
+        }
+    }
+}
+
+/**
+ * Adds or removes the CSS class that rotates the pump's fan.
+ * @param {boolean} start - True to start the rotation, false to stop.
+ */
+function startPumpAnimation(start) {
+    const pumpElement = document.getElementById('fan');
+    if (pumpElement) {
+        if (start) {
+            pumpElement.classList.add('rotate-animation');
+        } else {
+            pumpElement.classList.remove('rotate-animation');
+        }
+    }
+}
+
+/**
+ * Animates all primary connectors on initial load.
+ */
+function startConnectorAnimation() {
+    const connectors = document.querySelectorAll('[id$="_path"]');
+    connectors.forEach(connector => {
+        const connectorId = connector.id;
+        // Exclude coolant and instrument lines from initial animation
+        if (connectorId.includes('Connector') &&
+            !['Connector5', 'Connector6', 'Connector13', 'Connector14'].some(c => connectorId.includes(c))) {
+            const color = connector.getAttribute('stroke');
+            animatePathFlow(connectorId, true, color);
+        }
+    });
+}
+
+/**
+ * Updates the pressure gauge needle and text display.
+ * @param {number} psi - The pressure value to display.
+ */
+function updatePressure(psi) {
+    const needle = document.getElementById('needle');
+    const valueDisplay = document.getElementById('pressureValue');
+    if (needle && valueDisplay) {
+        const pressure = Math.max(0, Math.min(psi, 100));
+        const angle = -90 + (pressure / 100) * 90; // Map 0-100 PSI to -90 to 0 degrees
+        needle.style.transform = `rotate(${angle}deg)`;
+        valueDisplay.textContent = `${pressure.toFixed(0)} PSI`;
+    }
+}
+
+/**
+ * Controls the pressure gauge animation loop.
+ * @param {boolean} highPressureMode - True for high pressure values, false for low.
+ */
+function updatePressureAnimation(highPressureMode) {
+    if (pressureInterval) {
+        clearInterval(pressureInterval);
+    }
+    pressureInterval = setInterval(() => {
+        const randomPressure = highPressureMode ?
+            Math.random() * 15 + 85 : // High pressure: 85-100
+            Math.random() * 20 + 20;  // Low pressure: 20-40
+        updatePressure(randomPressure);
+    }, 2000);
+}
+
+/**
+ * Kicks off the initial set of animations when the diagram is ready.
+ */
+function runAnimation() {
+    addFlowAnimationClass();
+    startConnectorAnimation();
+    updatePressureAnimation(false); // Default to low pressure
+}
+
+/**
+ * Clears all active intervals to prevent memory leaks when the component is disposed.
+ */
+function cleanupAllIntervals() {
+    Object.values(animationIntervals).forEach(clearInterval);
+    Object.values(gradualStopIntervals).forEach(clearInterval);
+    if (pressureInterval) {
+        clearInterval(pressureInterval);
+    }
+    animationIntervals = {};
+    gradualStopIntervals = {};
+    pressureInterval = null;
+}
+
+// --- Expose Functions to Blazor ---
+// Functions that are called from the .NET code must be attached to the window object.
+window.initialize = initialize;
+window.appendHTMLElements = appendHTMLElements;
+window.runAnimation = runAnimation;
+window.animatePathFlow = animatePathFlow;
+window.updatePressureAnimation = updatePressureAnimation;
+window.cleanupAllIntervals = cleanupAllIntervals;
+
 
 //Diagram scripts end 
 
@@ -1580,3 +1883,136 @@ function hideToast() {
     }
 }
 
+// code for showcase demos in the home page
+let carousel = null;
+let cards = null;
+let cardWidth = 0;
+
+let currentIndex = 0;
+let scrollIndex;
+let cardLength;
+let isScroll = false;
+
+
+window.initializeCarousel = function (elementId) {
+    if (!carousel) {
+        carousel = document.querySelector(elementId);
+        cards = document.querySelectorAll('.card-control-section');
+        cardWidth = cards[0].offsetWidth;
+
+        if (document.body.offsetWidth > 1200 && document.body.offsetWidth <= 1400) {
+            scrollIndex = 120;
+            cardLength = 2;
+        }
+        else if (document.body.offsetWidth > 1024 && document.body.offsetWidth <= 1200) {
+            scrollIndex = 70;
+            cardLength = 2;
+        }
+        else if (document.body.offsetWidth > 980 && document.body.offsetWidth <= 1024) {
+            scrollIndex = 100;
+            cardLength = 2;
+        }
+        else if (document.body.offsetWidth > 920 && document.body.offsetWidth <= 980) {
+            scrollIndex = 65;
+            cardLength = 2;
+        }
+        else if (document.body.offsetWidth > 850 && document.body.offsetWidth <= 920) {
+            scrollIndex = 60;
+            cardLength = 2;
+        }
+        else if (document.body.offsetWidth > 767 && document.body.offsetWidth <= 850) {
+            scrollIndex = 0;
+            cardLength = 2;
+        }
+        else if (document.body.offsetWidth > 344 && document.body.offsetWidth <= 767) {
+            scrollIndex = 0;
+            cardLength = 1;
+        }
+        else {
+            scrollIndex = 120;
+            cardLength = 3;
+        }
+
+        updateButtons();
+
+        // Handle scroll events to update current index
+        carousel.addEventListener('scroll', function () {
+            if (isScroll) {
+                return;
+            }
+            const scrollPosition = carousel.scrollLeft;
+            currentIndex = Math.ceil(scrollPosition / cardWidth);
+            updateButtons();
+        });
+    }
+};
+
+
+// Update button states
+function updateButtons() {
+    var steps = document.querySelectorAll('.sf-showcase-step');
+    steps.forEach(step => step.classList.remove('sf-showcase-progress-selected'));
+    steps[currentIndex].classList.add('sf-showcase-progress-selected');
+}
+
+// Scroll to specific card
+function scrollToCard(index) {
+    isScroll = true;
+    currentIndex = index;
+    carousel.scrollTo({
+        left: index * cardWidth - scrollIndex,
+        behavior: 'smooth'
+    });
+    updateButtons();
+}
+
+window.scrollNext = function () {
+    if (currentIndex <= cards.length - cardLength) {
+        if (currentIndex == cards.length - cardLength) {
+            scrollToCard(0);
+        }
+        else {
+            scrollToCard(currentIndex + 1);
+        }
+        setTimeout(() => {
+            isScroll = false;
+        }, 200);
+    }
+}
+
+window.scrollPrev = function () {
+    if (currentIndex >= 0) {
+        if (currentIndex == 0) {
+            scrollToCard(cards.length - cardLength);
+        }
+        else {
+            scrollToCard(currentIndex - 1);
+        }
+        setTimeout(() => {
+            isScroll = false;
+        }, 200);
+    }
+}
+
+function updateProgressSteps() {
+    if (document.body.offsetWidth > 1400) {
+        return 2;
+    }
+    else if (document.body.offsetWidth > 700 && document.body.offsetWidth <= 1400) {
+        return 1;
+    }
+    else {
+        return 0;
+    }
+}
+
+// Retrieve the value associated with the 'aiassist-view' key from localStorage.
+function getPromptsLocalStorage() {
+    const localStorageData = localStorage.getItem('aiassist-view');
+    return localStorageData;
+}
+
+// Store the provided value in localStorage under the 'aiassist-view' key.
+function setPromptsLocalStorage(value) {
+    localStorage.setItem('aiassist-view', value);
+}

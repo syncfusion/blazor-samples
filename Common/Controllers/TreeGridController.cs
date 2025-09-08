@@ -13,7 +13,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Collections;
-using ej2_blazor_virtualdata;
+using Virtualdata;
 using Microsoft.Extensions.Primitives;
 
 namespace BlazorDemos.Controllers

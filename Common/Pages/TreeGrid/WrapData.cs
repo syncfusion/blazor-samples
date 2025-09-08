@@ -10,17 +10,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_wrapdata
+namespace TreeWrapdata
 {
     public class WrapData
     {
         public int? TaskId { get; set; }
-        public string TaskName { get; set; }
+        public string? TaskName { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
         public int? Duration { get; set; }
-        public String Progress { get; set; }
-        public string Priority { get; set; }
+        public String? Progress { get; set; }
+        public string? Priority { get; set; }
         public bool Approved { get; set; }
         public int Resources { get; set; }
         public int? ParentId { get; set; }

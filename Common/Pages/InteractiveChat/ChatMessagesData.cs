@@ -17,20 +17,61 @@ namespace Syncfusion.Blazor.InteractiveChatDemo
 {
     public class TemplateMessageData
     {
-        public string Reply { get; set; }
-        public string Text { get; set; }
-        public List<string> Suggestions { get; set; }
+        public string Reply { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+        public List<string> Suggestions { get; set; } = new List<string>();
 
     }
     public class ListViewData
     {
-        public string ID { get; set; }
-        public string Title { get; set; }
-        public string ImgSrc { get; set; }
-        public string Message { get; set; }
+        public string ID { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string ImgSrc { get; set; } = string.Empty;
+        public string Message { get; set; } = string.Empty;
     }
     public class ChatMessagesData
     {
+        public List<UserModel> GetMentionUsers()
+        {
+            return new List<UserModel>()
+            {
+                new UserModel()
+                {
+                    ID = "admin",
+                    User = "Alice Brown",
+                    StatusIconCss = "e-icons e-user-busy"
+                },
+                new UserModel()
+                {
+                    ID = "user1",
+                    User = "Michale Suyama",
+                    AvatarBgColor = "#bacbe4",
+                    StatusIconCss = "e-icons e-user-online"
+                },
+                new UserModel()
+                {
+                    ID = "user2",
+                    User = "Charlie",
+                    AvatarBgColor = "#e6cdde",
+                    AvatarUrl = "https://cdn.syncfusion.com/blazor/images/demos/avatar/pic01.webp",
+                    StatusIconCss = "e-icons e-user-away"
+                },
+                new UserModel()
+                {
+                    ID = "user3",
+                    User = "Janet",
+                    AvatarBgColor = "#dec287",
+                    AvatarUrl = "https://cdn.syncfusion.com/blazor/images/demos/avatar/pic04.webp",
+                    StatusIconCss = "e-icons e-user-offline"
+                },
+                new UserModel()
+                {
+                    ID = "user4",
+                    User = "Jordan Peele",
+                    StatusIconCss = "e-icons e-user-busy"
+                }
+            };
+        }
         public List<ChatMessage> GetApiChatMessages() {
             List<ChatMessage> ApiChatMessages = new List<ChatMessage>
             {
@@ -195,7 +236,7 @@ namespace Syncfusion.Blazor.InteractiveChatDemo
             };
             return UserChatMessages;
         }
-        public UserModel GetSpecificUser(string Id, string Username, string ImageDir, string BgColor, string StatusIconCss = null)
+        public UserModel GetSpecificUser(string Id, string Username, string ImageDir, string BgColor, string StatusIconCss = "")
         {
             return new UserModel()
             {

@@ -17,24 +17,24 @@ namespace ej2_blazor_defaultdata
         public class TaskData
         {
             public int TaskId { get; set; }
-            public string TaskName { get; set; }
+            public string? TaskName { get; set; }
             public DateTime? StartDate { get; set; }
             public DateTime? EndDate { get; set; }
             public DateTime? BaselineStartDate { get; set; }
             public DateTime? BaselineEndDate { get; set; }
-            public string Duration { get; set; }
+            public string? Duration { get; set; }
             public int Progress { get; set; }
-            public string Predecessor { get; set; }
-            public object ResourceId { get; set; }
-            public string Notes { get; set; }
-            public string TaskType { get; set; }
+            public string? Predecessor { get; set; }
+            public object? ResourceId { get; set; }
+            public string? Notes { get; set; }
+            public string? TaskType { get; set; }
             public int? ParentId { get; set; }
         }
 
         public class HolidayModel
         {
             public DateTime HolidayDate { get; set; }
-            public string HolidayName { get; set; }
+            public string? HolidayName { get; set; }
         }
         public static List<TaskData> ProjectNewData()
         {

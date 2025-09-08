@@ -10,8 +10,8 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
 {
     public class RegionData
     {
-        public List<string> Country { get; set; }
-        public string Region { get; set; }
+        public List<string>? Country { get; set; }
+        public string Region { get; set; } = string.Empty;
 
         public static List<RegionData> Data = new List<RegionData>()
         {

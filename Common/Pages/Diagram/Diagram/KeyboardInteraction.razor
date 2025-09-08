@@ -2,7 +2,7 @@
 
 @using Syncfusion.Blazor.Diagram
 @using System.Collections.ObjectModel
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @*End:Hidden*@
@@ -181,13 +181,13 @@
 @*End:Hidden*@
 @code
 {
-    private SfDiagramComponent DiagramInstance { get; set; }
+    private SfDiagramComponent? DiagramInstance { get; set; }
     private LayoutType DiagramLayoutType { get; set; } = LayoutType.HierarchicalTree;
 
-    private DiagramObjectCollection<KeyboardCommand> KeyboardCommands { get; set; }
+    private DiagramObjectCollection<KeyboardCommand>? KeyboardCommands { get; set; }
 
     // Defines interval values for GridLines
-    public double[] GridLineIntervals { get; set; }
+    public double[]? GridLineIntervals { get; set; }
 
     protected override void OnInitialized()
     {
@@ -218,22 +218,22 @@
     // Method to create common style for node
     private void NodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        if (node.Data is System.Text.Json.JsonElement)
+        Node? node = obj as Node;
+        if (node!.Data is System.Text.Json.JsonElement)
         {
-            node.Data = System.Text.Json.JsonSerializer.Deserialize<DataModel>(node.Data.ToString());
+            node.Data = System.Text.Json.JsonSerializer.Deserialize<DataModel>(node.Data.ToString()!);
         }
 
         if (node.Data != null)
         {
-            DataModel organizationData = node.Data as DataModel;
-            ShapeAnnotation annotation = new ShapeAnnotation() { Content = organizationData.Id, Offset = new DiagramPoint(0.5, 0.5), Style = new TextStyle() { Color = "white" } };
+            DataModel? organizationData = node.Data as DataModel;
+            ShapeAnnotation annotation = new ShapeAnnotation() { Content = organizationData!.Id, Offset = new DiagramPoint(0.5, 0.5), Style = new TextStyle() { Color = "white" } };
             node.Width = 70;
             node.Height = 70;
-            node.Shape = new BasicShape() { Type = shapes.Basic, Shape = NodeBasicShapes.Ellipse, CornerRadius = 10 };
-            node.Style.Fill = organizationData.Fill;
+            node.Shape = new BasicShape() { Type = NodeShape.Basic, Shape = NodeBasicShapes.Ellipse, CornerRadius = 10 };
+            node.Style!.Fill = organizationData.Fill;
             node.Style.StrokeColor = "white";
-            if (node.Annotations.Count == 0)
+            if (node.Annotations!.Count == 0)
             {
                 node.Annotations = new DiagramObjectCollection<ShapeAnnotation>() { annotation };
             }
@@ -242,9 +242,9 @@
 
     public class DataModel
     {
-        public string Id { get; set; }
-        public string Fill { get; set; }
-        public string Ancestor { get; set; }
+        public string? Id { get; set; }
+        public string? Fill { get; set; }
+        public string? Ancestor { get; set; }
     }
 
     // Method to determine whether this command can execute or not.
@@ -256,7 +256,7 @@
     // Method to execute the custom command
     public void ExecuteCommand(CommandKeyArgs obj)
     {
-        DiagramInstance.BeginUpdate();
+        DiagramInstance!.BeginUpdate();
         switch (obj.Name)
         {
             case "customGroup":
@@ -310,13 +310,13 @@
     private DiagramObjectCollection<IDiagramObject> GetNode(string name, bool isParent)
     {
         DiagramObjectCollection<IDiagramObject> nodes = new DiagramObjectCollection<IDiagramObject>();
-        Node node;
-        Connector connector = DiagramInstance.GetObject(name) as Connector;
+        Node? node;
+        Connector? connector = DiagramInstance!.GetObject(name) as Connector;
         if (connector != null)
         {
-            string Id = (isParent ? connector.SourceID : connector.TargetID);
+            string Id = (isParent ? connector.SourceID : connector.TargetID)!;
             node = DiagramInstance.GetObject(Id) as Node;
-            nodes.Add(node);
+            nodes.Add(node!);
         }
 
         return nodes;
@@ -330,7 +330,7 @@
     {
         if (node != null && node.Count > 0)
         {
-            DiagramInstance.ClearSelection();
+            DiagramInstance!.ClearSelection();
             DiagramInstance.Select(node, false);
         }
     }
@@ -341,13 +341,13 @@
     // This method is used to select the node(up or down) through arrow key
     private async Task NavigateLevels(Boolean isParent)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
             Node node = DiagramInstance.SelectionSettings.Nodes[0] as Node;
             if (node.ID != "")
             {
-                List<string> inEdges = node.InEdges;
-                List<string> outEdges = node.OutEdges;
+                List<string> inEdges = node.InEdges!;
+                List<string> outEdges = node.OutEdges!;
                 List<string> edges = isParent ? outEdges : inEdges;
                 if (edges.Count > 0)
                 {
@@ -362,12 +362,12 @@
     // This method is used to select the sibling node(left or right) through arrow key
     private async Task NavigateToSiblings(bool isRightSibling)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
             Node child = DiagramInstance.SelectionSettings.Nodes[0] as Node;
             if (child != null)
             {
-                List<string> inEdges = child.InEdges;
+                List<string> inEdges = child.InEdges!;
                 if (inEdges.Count > 0)
                 {
                     string connectorId = inEdges[0];
@@ -375,7 +375,7 @@
                     DiagramObjectCollection<IDiagramObject> parent = this.GetNode(connectorId, true);
                     if (parent != null && parent.Count > 0)
                     {
-                        List<string> edges = (parent[0] as Node).OutEdges;
+                        List<string> edges = (parent[0] as Node)!.OutEdges!;
                         for (int i = 0; i < edges.Count; i++)
                         {
                             if (edges[i] == connectorId)

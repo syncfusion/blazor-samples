@@ -18,10 +18,10 @@ namespace BlazorDemos.Shared
     public class SampleMetaData : ComponentBase, IDisposable
     {
         [Inject]
-        protected NavigationManager UriHelper { get; set; }
+        protected NavigationManager? UriHelper { get; set; }
 
         [Inject]
-        protected SampleService SampleService { get; set; }
+        protected SampleService? SampleService { get; set; }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
@@ -33,24 +33,24 @@ namespace BlazorDemos.Shared
         {
 
             string ogImage = "https://cdn.syncfusion.com/content/images/company-logos/Syncfusion_Logo_Image.png";
-            SampleService.Update(UriHelper);
+            if(UriHelper != null)SampleService?.Update(UriHelper);
             StringBuilder sb = new StringBuilder();
             sb.Append(Environment.NewLine);
             // Meta data content generation for component demos.
-            if (SampleService.ComponentName != null && SampleService.SampleInfo != null)
+            if (SampleService?.ComponentName != null && SampleService.SampleInfo != null)
             {
                 var componentName = SampleService.SampleInfo.Directory == "Buttons/Button" ? "Button" : SampleService.ComponentName;
-                componentName = (SampleService.SampleInfo.Directory).IndexOf("DocumentProcessing/") >= 0 ? componentName + " Library -" : componentName;
+                componentName = (SampleService.SampleInfo.Directory)?.IndexOf("DocumentProcessing/") >= 0 ? componentName + " Library -" : componentName;
                 var sampleInfo = SampleService.SampleInfo;
-                var sampleName = sampleInfo.MappingSampleName != null && !UriHelper.Uri.Contains(sampleInfo.Url) ? sampleInfo.MappingSampleName : sampleInfo.Name;
+                var sampleName = sampleInfo.MappingSampleName != null && UriHelper != null && !UriHelper.Uri.Contains(sampleInfo?.Url ?? "") ? sampleInfo?.MappingSampleName : sampleInfo?.Name;
                 sb.Append($"<title>");
-                var metaTitle = string.IsNullOrEmpty(sampleInfo.MetaTitle) ? "Blazor " + componentName + SampleUtils.SPACE + sampleName + " Example - Syncfusion Demos" : sampleInfo.MetaTitle ;
+                var metaTitle = string.IsNullOrEmpty(sampleInfo?.MetaTitle) ? "Blazor " + componentName + SampleUtils.SPACE + sampleName + " Example - Syncfusion Demos" : sampleInfo.MetaTitle ;
                 sb.Append(metaTitle);
                 sb.Append($"</title>");
                 sb.Append(Environment.NewLine);
                 sb.Append($"<meta");
                 sb.Append($" name =\"description\"");
-                var metaDescription = string.IsNullOrEmpty(sampleInfo.MetaDescription) ? "This example demonstrates the essential features and functionalities of " + sampleName + " in Blazor " + componentName + " Component. Explore more details here for additional insights." : sampleInfo.MetaDescription;
+                var metaDescription = string.IsNullOrEmpty(sampleInfo?.MetaDescription) ? "This example demonstrates the essential features and functionalities of " + sampleName + " in Blazor " + componentName + " Component. Explore more details here for additional insights." : sampleInfo.MetaDescription;
                 sb.Append($" content =\"{metaDescription}\"");
                 sb.Append(">");
                 sb.Append(Environment.NewLine);
@@ -97,11 +97,10 @@ namespace BlazorDemos.Shared
         private string RenderCanonicalTag()
         {
             StringBuilder sb = new StringBuilder();
-            string[] canonicalUrl = UriHelper.Uri.Split("?");
             sb.Append(Environment.NewLine);
             sb.Append($"    <link");
             sb.Append($" rel=\"canonical\"");
-            sb.Append($" href=\"{canonicalUrl[0]}\"");
+            sb.Append($" href=\"{UriHelper.Uri}\"");
             sb.Append(" />");
             sb.Append(Environment.NewLine);
             return sb.ToString();
@@ -114,7 +113,7 @@ namespace BlazorDemos.Shared
         {
             sb.AppendLine($"<meta property=\"og:title\" content=\"{title}\" />");
             sb.AppendLine($"<meta property=\"og:description\" content=\"{description}\" />");
-            sb.AppendLine($"<meta property=\"og:url\" content=\"{UriHelper.Uri}\" />");
+            sb.AppendLine($"<meta property=\"og:url\" content=\"{UriHelper?.Uri}\" />");
             sb.AppendLine($"<meta property=\"og:type\" content=\"website\" />");
             sb.AppendLine($"<meta property=\"og:site_name\" content=\"Syncfusion Blazor Demos\" />");
             sb.AppendLine($"<meta property=\"og:image\" content=\"{image}\" />");
@@ -126,7 +125,7 @@ namespace BlazorDemos.Shared
         private void AppendTwitterCardTags(StringBuilder sb, string title, string description, string image)
         {
             sb.AppendLine($"<meta name=\"twitter:account_id\" content=\"41152441\" />");
-            sb.AppendLine($"<meta name=\"twitter:url\" content=\"{UriHelper.Uri}\" />");
+            sb.AppendLine($"<meta name=\"twitter:url\" content=\"{UriHelper?.Uri}\" />");
             sb.AppendLine($"<meta name=\"twitter:title\" content=\"{title}\" />");
             sb.AppendLine($"<meta name=\"twitter:card\" content=\"summary\" />");
             sb.AppendLine($"<meta name=\"twitter:description\" content=\"{description}\" />");
@@ -138,7 +137,7 @@ namespace BlazorDemos.Shared
         /// </summary>
         private string GetSchemaJson()
         {
-            if (SampleService.ComponentName != null && SampleService.SampleInfo != null)
+            if (SampleService?.ComponentName != null && SampleService.SampleInfo != null)
             {
                 var sampleInfo = SampleService.SampleInfo;
                 var headline = sampleInfo.MetaTitle ?? $"Blazor {SampleService.ComponentName} - {sampleInfo.Name}";
@@ -202,7 +201,7 @@ namespace BlazorDemos.Shared
             base.OnAfterRender(firstRender);
             
             // Assign meta data ref to sample service for outside usage.
-            if (firstRender)
+            if (firstRender && SampleService != null)
             {
                 SampleService.MetaData = this;
             }
@@ -210,7 +209,7 @@ namespace BlazorDemos.Shared
 
         public void Dispose()
         {
-            SampleService.MetaData = null;
+            if (SampleService != null) SampleService.MetaData = null;
         }
     }
 }

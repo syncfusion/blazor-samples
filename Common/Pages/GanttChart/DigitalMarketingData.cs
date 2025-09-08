@@ -14,38 +14,38 @@ namespace blazor_gantt_digital_marketing_data
     {
         internal class LineChartModel
         {
-            public string X { get; set; }
+            public string X { get; set; } = string.Empty;
             public double Y { get; set; }
         }
 
         internal class BarChartModel
         {
-            public string Month { get; set; }
+            public string? Month { get; set; }
             public double Revenue { get; set; }
         }
 
         internal class Statistics
         {
-            public string Activity { get; set; }
+            public string? Activity { get; set; }
             public double Impressions { get; set; }
         }
 
         internal class TaskInfoModel
         {
             public int Id { get; set; }
-            public string Activity { get; set; }
+            public string Activity { get; set; } = string.Empty;
             public DateTime? StartDate { get; set; }
-            public string Duration { get; set; }
+            public string? Duration { get; set; }
             public int Progress { get; set; }
-            public string Predecessor { get; set; }
+            public string? Predecessor { get; set; }
             public int? ParentId { get; set; }
-            public string Metrics { get; set; }
-            public string AudienceReach { get; set; }
-            public string Improvement { get; set; }
+            public string Metrics { get; set; } = string.Empty;
+            public string AudienceReach { get; set; } = string.Empty;
+            public string Improvement { get; set; } = string.Empty;
             public double? Budget { get; set; }
-            public string Channels { get; set; }
+            public string Channels { get; set; } = string.Empty;
             public int? Year { get; set; }
-            public string Month { get; set; }
+            public string Month { get; set; } = string.Empty;
             public int Impressions { get; set; }
             public double ConversionRate { get; set; }
             public double Revenue { get; set; }
@@ -53,7 +53,7 @@ namespace blazor_gantt_digital_marketing_data
         internal class HolidayModel
         {
             public int Id { get; set; }
-            public string HolidayName { get; set; }
+            public string? HolidayName { get; set; }
             public DateTime Date { get; set; }
         }
         internal static List<TaskInfoModel> DigitalMarketCollection => new List<TaskInfoModel>()

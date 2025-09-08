@@ -16,10 +16,10 @@ namespace BlazorDemos.Shared
     public class AddHeaderTag : ComponentBase, IDisposable
     {
         [Inject]
-        protected NavigationManager UriHelper { get; set; }
+        protected NavigationManager? UriHelper { get; set; }
 
         [Inject]
-        protected SampleService SampleService { get; set; }
+        protected SampleService? SampleService { get; set; }
 
         protected override void BuildRenderTree(RenderTreeBuilder builder)
         {
@@ -29,20 +29,20 @@ namespace BlazorDemos.Shared
 
         private string AddHeadingTag()
         {
-            SampleService.Update(UriHelper);
+            if(UriHelper != null) SampleService?.Update(UriHelper);
             StringBuilder sb = new StringBuilder();
             sb.Append(Environment.NewLine);
             //creating h1 tag using Meta data content generation for component demos
-            if (SampleService.ComponentName != null && SampleService.SampleInfo != null)
+            if (SampleService?.ComponentName != null && SampleService.SampleInfo != null)
             {
                 var componentName = SampleService.SampleInfo.Directory == "Buttons/Button" ? "Button" : SampleService.ComponentName;
-                componentName = SampleService.SampleInfo.Directory.IndexOf("DocumentProcessing/") >= 0 ? componentName + " Library -" : componentName;
-                var sampleInfo = SampleService.SampleInfo;
-                var sampleName = sampleInfo.MappingSampleName != null && !UriHelper.Uri.Contains(sampleInfo.Url) ? sampleInfo.MappingSampleName : sampleInfo.Name;
+                componentName = SampleService?.SampleInfo?.Directory?.IndexOf("DocumentProcessing/") >= 0 ? componentName + " Library -" : componentName;
+                var sampleInfo = SampleService?.SampleInfo;
+                var sampleName = sampleInfo?.MappingSampleName != null && UriHelper != null && !UriHelper.Uri.Contains(sampleInfo.Url ?? "") ? sampleInfo.MappingSampleName : sampleInfo?.Name;
                 sb.Append($"<h1");
                 sb.Append($" style=\"display:none;\"");
                 sb.Append(">");
-                var metaTitle = string.IsNullOrEmpty(sampleInfo.MetaTitle) ? "Blazor " + componentName + SampleUtils.SPACE + sampleName + " Example - Syncfusion Demos" : sampleInfo.MetaTitle;
+                var metaTitle = string.IsNullOrEmpty(sampleInfo?.MetaTitle) ? "Blazor " + componentName + SampleUtils.SPACE + sampleName + " Example - Syncfusion Demos" : sampleInfo.MetaTitle;
                 sb.Append(metaTitle);
                 sb.Append($"</h1>");
                 sb.Append(Environment.NewLine);
@@ -73,7 +73,7 @@ namespace BlazorDemos.Shared
 
         public void Dispose()
         {
-            SampleService.MetaData = null;
+            if(SampleService != null) SampleService.MetaData = null;
         }
 
     }

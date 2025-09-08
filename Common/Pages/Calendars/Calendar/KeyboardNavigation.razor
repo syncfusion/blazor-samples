@@ -101,23 +101,26 @@
 
 <div class="control-section col-lg-12">
     <div class="control-wrapper">
-        <SfCalendar TValue="DateTime?" @ref="@CalendarObj" Min='@MinDate' Max='@MaxDate'>
+        <SfCalendar TValue="DateTime?" @ref="@CalendarObj" Min='@MinDate' Max='@MaxDate' HtmlAttributes="@(new Dictionary<string, object> { {"aria-label", "Calendar with keyboard navigation"} })" >
             <CalendarEvents TValue="DateTime?" OnRenderDayCell="@DisableDate"></CalendarEvents>
         </SfCalendar>
     </div>
 </div>
 
 @code {
-    private SfCalendar<DateTime?> CalendarObj { get; set; }
+    private SfCalendar<DateTime?>? CalendarObj { get; set; }
     public DateTime MinDate { get; set; } = new DateTime(2017, 08, 07);
     public DateTime MaxDate { get; set; } = new DateTime(2024, 08, 27);
-    
+
     private void DisableDate(RenderDayCellEventArgs args)
     {
-        var view = CalendarObj.CurrentView();
-        if (view == "Month" && (args.Date.Day == 10 || args.Date.Day == 15 || args.Date.Day == 25))
+        if (CalendarObj != null)
         {
-            args.IsDisabled = true;
+            var view = CalendarObj.CurrentView();
+            if (view == "Month" && (args.Date.Day == 10 || args.Date.Day == 15 || args.Date.Day == 25))
+            {
+                args.IsDisabled = true;
+            }          
         }
     }
 }

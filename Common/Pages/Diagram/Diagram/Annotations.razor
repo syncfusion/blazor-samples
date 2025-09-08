@@ -5,7 +5,7 @@
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.DropDowns
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
 
 @*Hidden:Lines*@
@@ -190,7 +190,7 @@
                 </div>
                 <div class="row">
                     <div class="row" style="padding-top: 8px">
-                        <div class="@AlignmentOptions["left"]" id="left" @onclick="@(() => UpdatePosition("left"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/annotation/top-left.png")); margin-right: 4px;pointer-events:@SelectedNode">
+                        <div class="@AlignmentOptions["left"]" id="left" @onclick="@(() => UpdatePosition("left"))" style="background-image: url(@(SampleService!.WebAssetsPath + "images/diagram/annotation/top-left.png")); margin-right: 4px;pointer-events:@SelectedNode">
                         </div>
                         <div class="@AlignmentOptions["right"]" id="right" @onclick="@(() => UpdatePosition("right"))" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/annotation/top-right.png")); margin: 0px 4px;pointer-events:@SelectedNode">
                         </div>
@@ -321,10 +321,10 @@ private const string UnselectedItemClass = "image-pattern-style";
 public string StyleValue { get; set; } = "background-color:#008000";
 
 // Define bold, italic, underline button
-public SfButton BoldButton { get; set; }
-public SfButton ItalicButton { get; set; }
-public SfButton UnderlineButton { get; set; }
-public SfNumericTextBox<int> FontSizeBox { get; set; }
+public SfButton? BoldButton { get; set; }
+public SfButton? ItalicButton { get; set; }
+public SfButton? UnderlineButton { get; set; }
+public SfNumericTextBox<int>? FontSizeBox { get; set; }
 
     //Define selected item/unselected item AlignmentOptions
     Dictionary<string, string> AlignmentOptions = new Dictionary<string, string>() { { "left", UnselectedItemClass }, { "centertext", UnselectedItemClass }, { "belowcenter", UnselectedItemClass }, { "abovecenter", UnselectedItemClass }, { "targettext", UnselectedItemClass }, { "sourcetext", UnselectedItemClass }, { "right", UnselectedItemClass }, { "center", UnselectedItemClass }, { "bottomr", UnselectedItemClass }, { "bottoml", UnselectedItemClass }, { "bottomcenter_top", UnselectedItemClass } };
@@ -332,21 +332,21 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     @*End:Hidden*@
 
     //Define sfdiagramComponent
-    SfDiagramComponent DiagramInstance { get; set; }
+    SfDiagramComponent? DiagramInstance { get; set; }
 
     public DiagramConstraints Constraints { get; set; }
 
     //Defines diagrams's nodes collection
-    public DiagramObjectCollection<Node> DiagramNodes = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node>? DiagramNodes = new DiagramObjectCollection<Node>();
 
     //Defines diagrams's connectors collection
-    public DiagramObjectCollection<Connector> DiagramConnectors = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector>? DiagramConnectors = new DiagramObjectCollection<Connector>();
 
     private void OnCreated()
     {
-        DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[2] });
+        DiagramInstance?.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes![2] });
         FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        DiagramInstance.FitToPage(options);
+        DiagramInstance?.FitToPage(options);
     }
 
     protected override void OnInitialized()
@@ -403,10 +403,10 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
             OffsetY = offsety,
             ID = id,
             Style = new ShapeStyle() { Fill = "#98FB98", StrokeColor = "#008000" },
-            Shape = new FlowShape() { Shape = shape, Type = shapes.Flow },
+            Shape = new FlowShape() { Shape = shape, Type = NodeShape.Flow },
             Annotations = new DiagramObjectCollection<ShapeAnnotation>() { shapeAnnotation }
         };
-        DiagramNodes.Add(node);
+        DiagramNodes!.Add(node);
         return node;
     }
 
@@ -419,12 +419,12 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
             Offset = new DiagramPoint() { X = nodeoffsetx, Y = nodeoffsety },
         };
 
-        node.Ports.Add(nodePort);
+        node.Ports?.Add(nodePort);
     }
 
     //Create connectors
     private void CreateConnector(string sourceNode, string targetNode, string text,
-      string sourcePort, string targetPort, DiagramObjectCollection<ConnectorSegment> segment = null)
+      string? sourcePort, string? targetPort, DiagramObjectCollection<ConnectorSegment>? segment = null)
     {
         TextStyle textStyle = new TextStyle() { FontSize = 13, TextWrapping = TextWrap.WrapWithOverflow, Bold = true };
         PathAnnotation pathAnnotation = new PathAnnotation() { Content = text, Style = textStyle };
@@ -442,7 +442,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
             connector.Type = ConnectorSegmentType.Orthogonal;
             connector.Segments = segment;
         }
-        DiagramConnectors.Add(connector);
+        DiagramConnectors!.Add(connector);
     }
 
     //Update annotation bold property
@@ -466,19 +466,19 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     //Update annotation fontfamily
     private void ChangeFontFamily(ChangeEventArgs<string, FontFamily> args)
     {
-        UpdateAnnotation("fontfamily", args.Value);
+        UpdateAnnotation("fontfamily", args.Value!);
     }
 
     //Update annotation textwrap property
     private void ChangeTextWrapping(ChangeEventArgs<string, TextWrapping> args)
     {
-        UpdateAnnotation("textwrapping", args.Value);
+        UpdateAnnotation("textwrapping", args.Value!);
     }
 
     //Update annotation textoverflow property
     private void ChangeTextOverflow(ChangeEventArgs<string, TextOverFlow> args)
     {
-        UpdateAnnotation("textoverflow", args.Value);
+        UpdateAnnotation("textoverflow", args.Value!);
     }
     //Update annotation fontsize value
     private void ChangeFontSize(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
@@ -488,15 +488,15 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     }
     private void SelectionChanged(SelectionChangedEventArgs args)
     {
-        if (args.NewValue.Count > 0)
+        if (args.NewValue?.Count > 0)
         {
             if (args.NewValue[0] is Node)
             {
                 SelectedNode = "";
                 SelectedConnector = "none";
-                ShapeAnnotation shapeAnnotation = (args.NewValue[0] as Node).Annotations[0];
-                HorizontalAlignment horizontalAlignment = shapeAnnotation.HorizontalAlignment;
-                VerticalAlignment verticalAlignment = shapeAnnotation.VerticalAlignment;
+                ShapeAnnotation? shapeAnnotation = (args.NewValue[0] as Node)?.Annotations?[0];
+                HorizontalAlignment? horizontalAlignment = shapeAnnotation?.HorizontalAlignment;
+                VerticalAlignment? verticalAlignment = shapeAnnotation!.VerticalAlignment;
                 if (horizontalAlignment == HorizontalAlignment.Center && verticalAlignment == VerticalAlignment.Center)
                 {
                     UpdateSelection("center");
@@ -521,21 +521,21 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
                 {
                     UpdateSelection("bottomcenter_top");
                 }
-                if (shapeAnnotation.Style.Color == "black")
+                if (shapeAnnotation.Style?.Color == "black")
                 {
                     shapeAnnotation.Style.Color = "#000";
                 }
-                FillColor = shapeAnnotation.Style.Color;
-                TextWrappingOption = shapeAnnotation.Style.TextWrapping.ToString();
+                FillColor = shapeAnnotation.Style!.Color!;
+                TextWrappingOption = shapeAnnotation.Style!.TextWrapping.ToString();
                 TextOverflowOption = shapeAnnotation.Style.TextOverflow.ToString();
-                FontStyle = shapeAnnotation.Style.FontFamily;
+                FontStyle = shapeAnnotation.Style.FontFamily!;
                 FontSizeValue = ((int)shapeAnnotation.Style.FontSize);
             }
             if (args.NewValue[0] is Connector)
             {
                 SelectedConnector = "";
                 SelectedNode = "none";
-                PathAnnotation pathAnnotation = (args.NewValue[0] as Connector).Annotations[0];
+                PathAnnotation pathAnnotation = (args.NewValue[0] as Connector)!.Annotations![0];
                 if (pathAnnotation.Offset == 0)
                 {
                     UpdateSelection("sourcetext");
@@ -556,14 +556,14 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
                 {
                     UpdateSelection("centertext");
                 }
-                if (pathAnnotation.Style.Color == "black")
+                if (pathAnnotation.Style!.Color == "black")
                 {
                     pathAnnotation.Style.Color = "#000";
                 }
-                FillColor = pathAnnotation.Style.Color;
+                FillColor = pathAnnotation.Style.Color!;
                 TextWrappingOption = pathAnnotation.Style.TextWrapping.ToString();
                 TextOverflowOption = pathAnnotation.Style.TextOverflow.ToString();
-                FontStyle = pathAnnotation.Style.FontFamily;
+                FontStyle = pathAnnotation.Style.FontFamily!;
                 FontSizeValue = ((int)pathAnnotation.Style.FontSize);
             }
         }
@@ -587,7 +587,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
             SelectedNode = "none";
             SelectedConnector = "none";
         }
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0 || DiagramInstance.SelectionSettings.Connectors.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0 || DiagramInstance.SelectionSettings.Connectors!.Count > 0)
         {
             IsBoldDisabled = false;
             IsItalic = false;
@@ -614,34 +614,34 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     //Update fill color for annotations
     public void OnFillColorChange(ColorPickerEventArgs args)
     {
-        this.StyleValue  = "background-color:" + args.CurrentValue.Hex;
-        UpdateAnnotation("fontcolor", args.CurrentValue.Hex);
+        this.StyleValue  = "background-color:" + args.CurrentValue!.Hex;
+        UpdateAnnotation("fontcolor", args.CurrentValue.Hex!);
     }
 
     //Update annotation
     private void UpdateAnnotation(string name, object value)
     {
-        if (DiagramInstance.SelectionSettings.Connectors.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Connectors!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Connectors.Count; i++)
             {
                 var connector = DiagramInstance.SelectionSettings.Connectors[i];
-                for (var j = 0; j < connector.Annotations.Count; j++)
+                for (var j = 0; j < connector.Annotations!.Count; j++)
                 {
-                    TextStyle annotationStyle = connector.Annotations[j].Style;
+                    TextStyle annotationStyle = connector.Annotations[j].Style!;
                     UpdateAnnotationStyle(name, annotationStyle, value);
 
                 }
             }
         }
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance.SelectionSettings.Nodes!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
                 var node = DiagramInstance.SelectionSettings.Nodes[i];
-                for (var j = 0; j < node.Annotations.Count; j++)
+                for (var j = 0; j < node.Annotations!.Count; j++)
                 {
-                    TextStyle annotationStyle = node.Annotations[j].Style;
+                    TextStyle annotationStyle = node.Annotations[j].Style!;
                     UpdateAnnotationStyle(name, annotationStyle, value);
                 }
             }
@@ -654,7 +654,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
         switch (option)
         {
             case "fontsize":
-                textStyle.FontSize = Double.Parse(value.ToString());
+                textStyle.FontSize = Double.Parse(value.ToString()!);
                 break;
             case "underline":
                 textStyle.TextDecoration = textStyle.TextDecoration == TextDecoration.Underline ? TextDecoration.None : TextDecoration.Underline;
@@ -678,7 +678,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
                 textStyle.Color = value.ToString();
                 break;
             case "textwrapping":
-                string textwrap = value.ToString();
+                string textwrap = value.ToString()!;
                 if (textwrap == "NoWrap")
                 {
                     textStyle.TextWrapping = TextWrap.NoWrap;
@@ -693,7 +693,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
                 }
                 break;
             case "textoverflow":
-                string textOverFlow = value.ToString();
+                string textOverFlow = value.ToString()!;
                 if (textOverFlow == "Ellipsis")
                 {
                     textStyle.TextOverflow = TextOverflow.Ellipsis;
@@ -713,10 +713,10 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     //Update annotation position
     private void UpdatePosition(string id)
     {
-        for (int i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance!.SelectionSettings!.Nodes!.Count; i++)
         {
             Node node = DiagramInstance.SelectionSettings.Nodes[i] as Node;
-            for (int j = 0; j < node.Annotations.Count; j++)
+            for (int j = 0; j < node.Annotations!.Count; j++)
             {
                 DiagramInstance.StartGroupAction();
                 ShapeAnnotation annotation = node.Annotations[j] as ShapeAnnotation;
@@ -724,10 +724,10 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
                 DiagramInstance.EndGroupAction();
             }
         }
-        for (int i = 0; i < DiagramInstance.SelectionSettings.Connectors.Count; i++)
+        for (int i = 0; i < DiagramInstance.SelectionSettings.Connectors!.Count; i++)
         {
             Connector node = DiagramInstance.SelectionSettings.Connectors[i] as Connector;
-            for (int j = 0; j < node.Annotations.Count; j++)
+            for (int j = 0; j < node.Annotations!.Count; j++)
             {
                 DiagramInstance.StartGroupAction();
                 PathAnnotation annotation = node.Annotations[j] as PathAnnotation;
@@ -740,7 +740,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     //Update path annotation
     private void UpdateAnnotationValue(string id, PathAnnotation annotation)
     {
-        DiagramInstance.BeginUpdate();
+        DiagramInstance!.BeginUpdate();
         if (!IsPanelUpdateOnly)
         {
             switch (id)
@@ -773,15 +773,15 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     //Update pathannotation property panel value
     private void UpateProprtyPanelValue(PathAnnotation annotation)
     {
-        FontSizeValue = int.Parse(annotation.Style.FontSize.ToString());
-        FontStyle = annotation.Style.FontFamily;
-        FillColor = annotation.Style.Color;
+        FontSizeValue = int.Parse(annotation.Style!.FontSize.ToString());
+        FontStyle = annotation.Style.FontFamily!;
+        FillColor = annotation.Style.Color!;
     }
 
     //Update shapeannotation alignment
     private void UpdateAnnotation(string id, ShapeAnnotation annotation)
     {
-        DiagramInstance.BeginUpdate();
+        DiagramInstance!.BeginUpdate();
         if (!IsPanelUpdateOnly)
         {
             switch (id)
@@ -814,9 +814,9 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     //Update shapeannotation property panel
     private void UpateProprtyPanel(ShapeAnnotation annotation)
     {
-        FontSizeValue = int.Parse(annotation.Style.FontSize.ToString());
-        FontStyle = annotation.Style.FontFamily;
-        FillColor = annotation.Style.Color;
+        FontSizeValue = int.Parse(annotation.Style!.FontSize.ToString());
+        FontStyle = annotation.Style.FontFamily!;
+        FillColor = annotation.Style.Color!;
     }
 
     //Update selection
@@ -873,7 +873,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     @*Hidden:Lines*@
     public class FontFamily
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<FontFamily> FontFamilyLists = new List<FontFamily>() {
         new FontFamily() { Name ="Arial"},
@@ -886,7 +886,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     };
     public class TextWrapping
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<TextWrapping> TextWrappingList = new List<TextWrapping>() {
         new TextWrapping() { Name ="NoWrap"},
@@ -895,7 +895,7 @@ public SfNumericTextBox<int> FontSizeBox { get; set; }
     };
     public class TextOverFlow
     {
-        public string Name { get; set; }
+        public string? Name { get; set; }
     }
     private List<TextOverFlow> TextOverFlowList = new List<TextOverFlow>() {
         new TextOverFlow() { Name ="Ellipsis"},

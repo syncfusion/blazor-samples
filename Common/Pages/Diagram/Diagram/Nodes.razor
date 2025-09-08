@@ -109,7 +109,7 @@
             Appearance
         </div>
         <div class="row" style="padding-top: 8px">
-            <div class="@dict["preview0"]" @onclick="@Preview0" id="preview0" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/nodes/preview0.png"));
+            <div class="@dict!["preview0"]" @onclick="@Preview0" id="preview0" style="background-image: url(@(SampleService!.WebAssetsPath + "images/diagram/nodes/preview0.png"));
         margin-right: 3px">
             </div>
             <div class="@dict["preview1"]" @onclick="@Preview1" id="preview1" style="background-image: url(@(SampleService.WebAssetsPath + "images/diagram/nodes/preview1.png"));
@@ -149,21 +149,21 @@
 
     private const string SelectedPatternItemClass = "image-pattern-style e-selected-style";
     private const string UnSelectedPatternItemClass = "image-pattern-style";
-    private string SelectedShapeOption1 { get; set; } = "All Shapes";
-    private string SelectedShapeOption2 { get; set; } = "Selected Shapes";
+    private string? SelectedShapeOption1 { get; set; } = "All Shapes";
+    private string? SelectedShapeOption2 { get; set; } = "Selected Shapes";
     private string SelectedShapeOption { get; set; } = "All Shapes";
-    private Dictionary<string, string> dict = new Dictionary<string, string>() { { "preview0", UnSelectedPatternItemClass }, { "preview1", UnSelectedPatternItemClass }, { "preview2", UnSelectedPatternItemClass }, { "preview3", UnSelectedPatternItemClass }, { "preview4", UnSelectedPatternItemClass } };
+    private Dictionary<string, string>? dict = new Dictionary<string, string>() { { "preview0", UnSelectedPatternItemClass }, { "preview1", UnSelectedPatternItemClass }, { "preview2", UnSelectedPatternItemClass }, { "preview3", UnSelectedPatternItemClass }, { "preview4", UnSelectedPatternItemClass } };
 
-    public SfDiagramComponent DiagramInstance { get; set; }
+    public SfDiagramComponent? DiagramInstance { get; set; }
     public bool AspectRatioValue { get; set; } = false;
     public bool LockValue { get; set; } = false;
-    public SfCheckBox<bool> AspectRatiocheckbox { get; set; }
-    public SfCheckBox<bool> LockRatiocheckbox { get; set; }
+    public SfCheckBox<bool>? AspectRatiocheckbox { get; set; }
+    public SfCheckBox<bool>? LockRatiocheckbox { get; set; }
 
     //Defines diagram's nodes collection
-    public DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node>? DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
     //Defines diagram's connectors collection
-    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector>? DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
 
     protected override void OnInitialized()
     {
@@ -193,7 +193,7 @@
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        DiagramInstance.FitToPage(mobileoptions);
+        DiagramInstance!.FitToPage(mobileoptions);
     }
     // Defines default values for Connector object
     private void OnConnectorCreating(IDiagramObject obj)
@@ -205,9 +205,9 @@
     // Defines default values for Node object
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        node.Shape.Type = Syncfusion.Blazor.Diagram.NodeShapes.Basic;
-        (node.Shape as BasicShape).Shape = NodeBasicShapes.Ellipse;
+        Node? node = obj as Node;
+        node!.Shape!.Type = Syncfusion.Blazor.Diagram.NodeShapes.Basic;
+        (node.Shape as BasicShape)!.Shape = NodeBasicShapes.Ellipse;
         node.Style = new ShapeStyle()
         {
             Fill = "#37909A",
@@ -226,7 +226,7 @@
             TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.Arrow, Style = new ShapeStyle() { Fill = "#024249", StrokeColor = "#024249" } },
             Style = new ShapeStyle() { StrokeColor = "#6d6d6d", StrokeWidth = 2 }
         };
-        DiagramConnectors.Add(connector);
+        DiagramConnectors!.Add(connector);
         return connector;
     }
     // Method is used to create a Node for the diagram.
@@ -251,49 +251,49 @@
                 },
             }
         };
-        DiagramNodes.Add(node);
+        DiagramNodes!.Add(node);
         return node;
     }
     //Method is used to apply the style for the Node.
-    private void ApplyPreview(string id, Node node)
+    private void ApplyPreview(string id, Node? node)
     {
         switch (id)
         {
             case "preview0":
-                ApplyNodeStyle(node, 0, "", ~NodeConstraints.Shadow, "None", id);
+                ApplyNodeStyle(node!, 0, "", ~NodeConstraints.Shadow, "None", id);
                 break;
             case "preview1":
-                ApplyNodeStyle(node, 2, "", ~NodeConstraints.Shadow, "None", id);
+                ApplyNodeStyle(node!, 2, "", ~NodeConstraints.Shadow, "None", id);
                 break;
             case "preview2":
-                ApplyNodeStyle(node, 2, "5,5", ~NodeConstraints.Shadow, "None", id);
+                ApplyNodeStyle(node!, 2, "5,5", ~NodeConstraints.Shadow, "None", id);
                 break;
             case "preview3":
-                ApplyNodeStyle(node, 2, "5,5", ~NodeConstraints.Shadow, "Radial", id);
+                ApplyNodeStyle(node!, 2, "5,5", ~NodeConstraints.Shadow, "Radial", id);
                 break;
             case "preview4":
-                ApplyNodeStyle(node, 2, "5,5", NodeConstraints.Shadow, "None", id);
+                ApplyNodeStyle(node!, 2, "5,5", NodeConstraints.Shadow, "None", id);
                 break;
         }
     }
 
     private void AppearanceSelect(string id)
     {
-        DiagramInstance.StartGroupAction();
+        DiagramInstance!.StartGroupAction();
         DiagramInstance.BeginUpdate();
         if (SelectedShapeOption == "All Shapes")
         {
-            for (var i = 0; i < DiagramInstance.Nodes.Count; i++)
+            for (var i = 0; i < DiagramInstance.Nodes!.Count; i++)
             {
                 this.ApplyPreview(id, DiagramInstance.Nodes[i]);
             };
         }
-        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance.SelectionSettings!.Nodes!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
-                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID) as IDiagramObject;
-                Node node1 = node as Node;
+                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID)! as IDiagramObject;
+                Node? node1 = node as Node;
                 this.ApplyPreview(id, node as Node);
             }
         };
@@ -323,13 +323,13 @@
     }
     private void SelectionChanged(SelectionChangedEventArgs arg)
     {
-        Node node = null;
+        Node? node = null;
         if (arg.NewValue != null && arg.NewValue.Count > 0)
         {
             if (arg.NewValue[0] is Node)
             {
-                Node node1 = arg.NewValue[0] as Node;
-                IDiagramObject node2 = DiagramInstance.GetObject(node1.ID) as IDiagramObject;
+                Node? node1 = arg.NewValue[0] as Node;
+                IDiagramObject node2 = DiagramInstance!.GetObject(node1!.ID)! as IDiagramObject;
                 node = node2 as Node;
             }
             if (node != null)
@@ -352,7 +352,7 @@
                     LockValue = true;
                 }
 
-                if (node.Style.StrokeWidth == 0)
+                if (node.Style!.StrokeWidth == 0)
                 {
                     UpdateSelection("preview0");
                 }
@@ -436,7 +436,7 @@
     //Method is used to apply the selection to the prroperty panel.
     private void UpdateSelection(string id)
     {
-        for (int i = 0; i < dict.Count; i++)
+        for (int i = 0; i < dict!.Count; i++)
         {
             var value = dict.Values.ElementAt(i);
             var key = dict.Keys.ElementAt(i);
@@ -470,18 +470,18 @@
         AspectRatioValue = args.Checked;
         if (SelectedShapeOption == "All Shapes")
         {
-            for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
+            for (int i = 0; i < DiagramInstance!.Nodes!.Count; i++)
             {
                 this.UpdateAspectRatioValue(args, DiagramInstance.Nodes[i]);
             }
         }
-        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
-                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID) as IDiagramObject;
-                Node node1 = node as Node;
-                this.UpdateAspectRatioValue(args, node1);
+                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID)! as IDiagramObject;
+                Node? node1 = node as Node;
+                this.UpdateAspectRatioValue(args, node1!);
             }
         }
     }
@@ -504,18 +504,18 @@
         LockValue = args.Checked;
         if (SelectedShapeOption == "All Shapes")
         {
-            for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
+            for (int i = 0; i < DiagramInstance!.Nodes!.Count; i++)
             {
                 this.UpdateLockValue(args, DiagramInstance.Nodes[i]);
             }
         }
-        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (SelectedShapeOption == "Selected Shapes" && DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
             for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
-                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID) as IDiagramObject;
-                Node node1 = node as Node;
-                this.UpdateLockValue(args, node1);
+                IDiagramObject node = DiagramInstance.GetObject(DiagramInstance.SelectionSettings.Nodes[i].ID)! as IDiagramObject;
+                Node? node1 = node as Node;
+                this.UpdateLockValue(args, node1!);
             }
         }
     }

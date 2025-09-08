@@ -22,7 +22,7 @@
     <div class='control-wrapper'>
         <div class="custom-value">
             <label class="example-label">Select a country</label>
-            <SfComboBox @ref="@ComboObj" TValue="string" Placeholder="e.g. Australia" TItem="TItem" DataSource="@DataSource" AllowCustom="true" AllowFiltering="true">
+            <SfComboBox @ref="@countryComboBox" TValue="string" Placeholder="e.g. Australia" TItem="TItem" DataSource="@DataSource" AllowCustom="true" AllowFiltering="true">
                 <ComboBoxFieldSettings Text="Name" Value="Name"></ComboBoxFieldSettings>
                 <ComboBoxEvents TValue="string" Filtering="@OnFiltering" TItem="TItem"/>
                 <ComboBoxTemplates TItem="TItem">
@@ -41,31 +41,31 @@
 <style>
 
     .control-wrapper {
-        max-width: 250px;
-        margin: 0 auto;
-        padding: 50px 0px 0px;
+    max-width: 250px;
+    margin: 0 auto;
+    padding: 50px 0px 0px;
     }
 
     .example-label {
-        font-size: 14px;
-        margin-bottom: 6px;
+    font-size: 14px;
+    margin-bottom: 6px;
     }
 
     .e-btn.custom-button {
-        margin-top: 10px;
+    margin-top: 10px;
     }
 
 </style>
 
 @code {
-    private SfComboBox<string, TItem> ComboObj;
-    private string Custom { get; set; }
+    private SfComboBox<string, TItem>? countryComboBox;
+    private string? Custom { get; set; }
     private List<TItem> CustomDataItems { get; set; } = new List<TItem>();
-    
+
     public class TItem
     {
-        public string Name { get; set; }
-        public string Code { get; set; }
+        public string? Name { get; set; }
+        public string? Code { get; set; }
     }
 
     private async Task OnFiltering(Syncfusion.Blazor.DropDowns.FilteringEventArgs args)
@@ -74,7 +74,10 @@
         args.PreventDefaultAction = true;
         var query = new Query().Where(new WhereFilter() { Field = "Name", Operator = "contains", value = args.Text, IgnoreCase = true });
         query = !string.IsNullOrEmpty(args.Text) ? query : new Query();
-        await ComboObj.FilterAsync(CustomDataItems, query);
+        if (countryComboBox != null)
+        {
+            await countryComboBox.FilterAsync(CustomDataItems, query);        
+        }
     }
 
     private List<TItem> DataSource = new List<TItem>
@@ -101,8 +104,14 @@
     private async Task AddItem()
     {
         var customData = new TItem() { Name = Custom, Code = Custom };
-        await this.ComboObj.AddItemsAsync(new List<TItem> { customData });
+        if (this.countryComboBox != null)
+        {
+            await this.countryComboBox.AddItemsAsync(new List<TItem> { customData });
+        }
         CustomDataItems.Add(customData);
-        await this.ComboObj.HidePopupAsync();
+        if (this.countryComboBox != null)
+        {
+            await this.countryComboBox.HidePopupAsync();
+        }
     }
 }

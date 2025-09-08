@@ -17,24 +17,24 @@ namespace ej2_blazor_taskbartemplatedata
         public class TaskData
         {
             public int TaskId { get; set; }
-            public string TaskName { get; set; }
+            public string TaskName { get; set; } = string.Empty;
             public DateTime StartDate { get; set; }
             public DateTime EndDate { get; set; }
-            public string Duration { get; set; }
+            public string? Duration { get; set; }
             public int Progress { get; set; }
-            public string Predecessor { get; set; }
+            public string Predecessor { get; set; } = string.Empty;
             public int? ParentId { get; set; }
         }
         public class TaskProperties
         {
-            public string TaskName { get; set; }
+            public string TaskName { get; set; } = string.Empty;
             public double Duration { get; set; }
         }
         public class TaskbarData : TaskData
         {
-            public string Performance { get; set; }
-            public string Winner { get; set; }
-            public string Movie { get; set; }
+            public string Performance { get; set; } = string.Empty;
+            public string Winner { get; set; } = string.Empty;
+            public string Movie { get; set; } = string.Empty;
         }
         public static List<TaskbarData> TaskTemplateData()
         {

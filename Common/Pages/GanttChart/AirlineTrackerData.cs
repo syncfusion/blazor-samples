@@ -23,7 +23,7 @@ namespace blazor_gantt_airline_data
             public DateTime? Departure { get; set; }
             public DateTime? Arrival { get; set; }
             public DateTime? LandingTime { get; set; }
-            public string Duration { get; set; }
+            public string? Duration { get; set; }
             public string Status { get; set; } = string.Empty;
             public string Destination { get; set; } = string.Empty;
             public string Origin { get; set; } = string.Empty;

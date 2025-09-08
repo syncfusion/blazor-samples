@@ -8,7 +8,7 @@
 @using Syncfusion.Blazor.Buttons
 @implements IDisposable
 @using ButtonChangeArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @inject NavigationManager NavigationManager
@@ -124,55 +124,55 @@
     int? AnimationValue = 100;
     private bool sticky = false;
     @*End:Hidden*@
-    public SfDiagramComponent Diagram;
+    public SfDiagramComponent? Diagram;
     // Defines diagram's nodes collection
-    public DiagramObjectCollection<Node> nodes { get; set; }
+    public DiagramObjectCollection<Node>? nodes { get; set; }
 
     // Defines diagram's connector collection
-    public DiagramObjectCollection<Connector> connectors { get; set; }
+    public DiagramObjectCollection<Connector>? connectors { get; set; }
 
     AnimationModel animationModel = new AnimationModel()
         {
             Open = new TooltipAnimationSettings() { Effect = Effect.FadeZoomIn, Duration = 100 },
             Close = new TooltipAnimationSettings() { Effect = Effect.FadeZoomIn, Duration = 100 }
         };
-    DiagramTooltip diagramTooltip;
+    DiagramTooltip? diagramTooltip;
 
     private void EnableSticky(ButtonChangeArgs value)
     {
         sticky = value.Checked;
         if ((bool)sticky)
         {
-            foreach (Node node in Diagram.Nodes)
+            foreach (Node node in Diagram!.Nodes!)
             {
                 diagramTooltip = node.Tooltip;
-                diagramTooltip.IsSticky = true;
+                diagramTooltip!.IsSticky = true;
             }
-            foreach (Connector connector in Diagram.Connectors)
+            foreach (Connector connector in Diagram.Connectors!)
             {
                 diagramTooltip = connector.Tooltip;
-                diagramTooltip.IsSticky = true;
+                diagramTooltip!.IsSticky = true;
             }
         }
         else
         {
-            foreach (Node node in Diagram.Nodes)
+            foreach (Node node in Diagram!.Nodes!)
             {
                 diagramTooltip = node.Tooltip;
-                diagramTooltip.IsSticky = false;
+                diagramTooltip!.IsSticky = false;
             }
-            foreach (Connector connector in Diagram.Connectors)
+            foreach (Connector connector in Diagram.Connectors!)
             {
                 diagramTooltip = connector.Tooltip;
-                diagramTooltip.IsSticky = false;
+                diagramTooltip!.IsSticky = false;
             }
         }
 
     }
     private void OnConnectorCreating(IDiagramObject obj)
     {
-        Connector connector = obj as Connector;
-        connector.Type = ConnectorSegmentType.Orthogonal;
+        Connector? connector = obj as Connector;
+        connector!.Type = ConnectorSegmentType.Orthogonal;
         connector.Style = new ShapeStyle()
             {
                 StrokeWidth = 2
@@ -180,8 +180,8 @@
     }
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        node.Constraints = NodeConstraints.Default | NodeConstraints.Tooltip;
+        Node? node = obj as Node;
+        node!.Constraints = NodeConstraints.Default | NodeConstraints.Tooltip;
     }
     protected override void OnInitialized()
     {
@@ -190,14 +190,14 @@
     private void OnCreated()
     {
         FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        Diagram.FitToPage(options);
+        Diagram!.FitToPage(options);
     }
 
     @*Hidden:Lines*@
     public class TooltipPosition
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public string? Name { get; set; }
+        public string? Value { get; set; }
     }
     private List<TooltipPosition> TooltipPositionLists = new List<TooltipPosition>() {
         new TooltipPosition() { Name ="Top Left" , Value="TopLeft"},
@@ -215,8 +215,8 @@
     };
     public class Effects
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public string? Name { get; set; }
+        public string? Value { get; set; }
     }
     private List<Effects> EffectLists = new List<Effects>()
     {
@@ -236,43 +236,43 @@
     };
     public void PositionChange(ChangeEventArgs<string, TooltipPosition> args)
     {
-        foreach (Node node in Diagram.Nodes)
+        foreach (Node node in Diagram!.Nodes!)
         {
-            node.Tooltip.Position = (Position)Enum.Parse(typeof(Position), args.Value);
+            node.Tooltip!.Position = (Position)Enum.Parse(typeof(Position), args.Value!);
         }
-        foreach (Connector connector in Diagram.Connectors)
+        foreach (Connector connector in Diagram.Connectors!)
         {
-            connector.Tooltip.Position = (Position)Enum.Parse(typeof(Position), args.Value);
+            connector.Tooltip!.Position = (Position)Enum.Parse(typeof(Position), args.Value!);
         }
     }
     public void Animationchange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        foreach (Node node in Diagram.Nodes)
+        foreach (Node node in Diagram!.Nodes!)
         {
             diagramTooltip = node.Tooltip;
-            diagramTooltip.AnimationSettings.Open.Duration = (int)args.Value;
-            diagramTooltip.AnimationSettings.Close.Duration = (int)args.Value;
+            diagramTooltip!.AnimationSettings!.Open!.Duration = (int)args.Value!;
+            diagramTooltip.AnimationSettings.Close!.Duration = (int)args.Value;
         }
-        foreach (Connector connector in Diagram.Connectors)
+        foreach (Connector connector in Diagram.Connectors!)
         {
             diagramTooltip = connector.Tooltip;
-            diagramTooltip.AnimationSettings.Open.Duration = (int)args.Value;
-            diagramTooltip.AnimationSettings.Close.Duration = (int)args.Value;
+            diagramTooltip!.AnimationSettings!.Open!.Duration = (int)args.Value!;
+            diagramTooltip.AnimationSettings.Close!.Duration = (int)args.Value;
         }
     }
     public void ChangeEffect(ChangeEventArgs<string, Effects> args)
     {
-        foreach (Node node in Diagram.Nodes)
+        foreach (Node node in Diagram!.Nodes!)
         {
             diagramTooltip = node.Tooltip;
-            diagramTooltip.AnimationSettings.Open.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value);
-            diagramTooltip.AnimationSettings.Close.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value);
+            diagramTooltip!.AnimationSettings!.Open!.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value!);
+            diagramTooltip.AnimationSettings.Close!.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value!);
         }
-        foreach (Connector connector in Diagram.Connectors)
+        foreach (Connector connector in Diagram.Connectors!)
         {
             diagramTooltip = connector.Tooltip;
-            diagramTooltip.AnimationSettings.Open.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value);
-            diagramTooltip.AnimationSettings.Close.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value);
+            diagramTooltip!.AnimationSettings!.Open!.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value!);
+            diagramTooltip.AnimationSettings.Close!.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value!);
         }
     }
     @*End:Hidden*@

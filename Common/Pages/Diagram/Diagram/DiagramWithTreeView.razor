@@ -35,7 +35,7 @@
                                 height: 42px;
                                 left: 12px;
                                 right: 12px;
-                                background-size: 100% 100%;background-image: url(@( SampleService.WebAssetsPath + "/images/diagram/annotation/layout.png"))">
+                                background-size: 100% 100%;background-image: url(@( SampleService!.WebAssetsPath + "/images/diagram/annotation/layout.png"))">
             </div>
         </div>
     </div>
@@ -153,9 +153,9 @@
 
 @code
 {
-    private string[] SelectedNodes { get; set; }
-    private SfTreeView<TreeItem> TreeViewComponentInstance { get; set; }
-    public SfDiagramComponent DiagramInstance { get; set; }
+    private string[]? SelectedNodes { get; set; }
+    private SfTreeView<TreeItem>? TreeViewComponentInstance { get; set; }
+    public SfDiagramComponent? DiagramInstance { get; set; }
     public double LayoutMarginTop { get; set; } = 50;
     public double LayoutMarginBottom { get; set; } = 50;
     public double LayoutMarginRight { get; set; } = 50;
@@ -164,17 +164,17 @@
     public bool IsDeleteEnabled { get; set; } = true;
     //Defines diagram constraints
     public DiagramConstraints Constraints { get; set; } = DiagramConstraints.Default & ~DiagramConstraints.UndoRedo;
-    public NodeBase selectedElement;
+    public NodeBase? selectedElement;
     public LayoutType DiagramLayoutType { get; set; } = LayoutType.OrganizationalChart;
     public LayoutOrientation LayoutOrientation { get; set; } = LayoutOrientation.TopToBottom;
     public HorizontalAlignment LayoutHorizontalAlignment { get; set; } = HorizontalAlignment.Auto;
     public VerticalAlignment LayoutVerticalAlignment { get; set; } = VerticalAlignment.Auto;
     public int HorizontalSpacing { get; set; } = 30;
     public int VerticalSpacing { get; set; } = 30;
-    private string FixedNode { get; set; } = null;
+    private string? FixedNode { get; set; } = null;
     int id = 18;
     private List<string> array = new List<string>();
-    private String[] Emptystring { get; set; }
+    private String[]? Emptystring { get; set; }
     int text = 8;
     public void OnKeyPressHandler(NodeKeyPressEventArgs args)
     {
@@ -200,14 +200,14 @@
         {
             array.Clear();
             var node = selectedElement as Node;
-            HierarchicalDetails deletenodes = node.Data as HierarchicalDetails;
-            DataSource.Remove(deletenodes);
-            await DiagramInstance.RefreshDataSourceAsync();
+            HierarchicalDetails? deletenodes = node!.Data as HierarchicalDetails;
+            DataSource.Remove(deletenodes!);
+            await DiagramInstance!.RefreshDataSourceAsync();
             int? id=0;
             bool isParent = false;
             for (int i = 0; i < treeviewnodes.Count; i++)
             {
-                if (deletenodes.Id == treeviewnodes[i].Id.ToString())
+                if (deletenodes!.Id == treeviewnodes[i].Id.ToString())
                 {
                     id = treeviewnodes[i].ParentId;
                     array.Add(treeviewnodes[i].Id.ToString());
@@ -232,21 +232,21 @@
                 }
             }
             Emptystring = array.ToArray();
-            TreeViewComponentInstance.RemoveNodes(Emptystring);
+            TreeViewComponentInstance!.RemoveNodes(Emptystring);
         }
     }
     private async Task Add()
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
 
             Node node = DiagramInstance.SelectionSettings.Nodes[0];
-            HierarchicalDetails nodes = node.Data as HierarchicalDetails;
-            DataSource.Add(new HierarchicalDetails() { Id = id.ToString(), Role = "Craft Personnel" + text, Manager = nodes.Id, });
+            HierarchicalDetails? nodes = node.Data as HierarchicalDetails;
+            DataSource.Add(new HierarchicalDetails() { Id = id.ToString(), Role = "Craft Personnel" + text, Manager = nodes!.Id, });
             await DiagramInstance.RefreshDataSourceAsync();
-            for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
+            for (int i = 0; i < DiagramInstance.Nodes!.Count; i++)
             {
-                if (DiagramInstance.Nodes[i].Annotations[0].Content == "Craft Personnel" + text)
+                if (DiagramInstance.Nodes[i].Annotations![0].Content == "Craft Personnel" + text)
                 {
                     DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[i] });
 
@@ -263,7 +263,7 @@
                     Addednode.Name = "Craft Personnel" + text;
                     Addednode.ParentId = treeviewnodes[i].Id;
                     album.Add(Addednode);
-                    TreeViewComponentInstance.AddNodes(album);
+                    TreeViewComponentInstance!.AddNodes(album);
                     treeviewnodes.Add(Addednode);
                     SelectedNodes = null;
 
@@ -274,7 +274,7 @@
                     treeviewnodes[i].Expanded = true;
                     array.Add(treeviewnodes[i].Id.ToString());
                     Emptystring = array.ToArray();
-                    await TreeViewComponentInstance.ExpandAllAsync(Emptystring);
+                    await TreeViewComponentInstance!.ExpandAllAsync(Emptystring);
                 }
 
             }
@@ -293,23 +293,23 @@
     private async Task NodeEditing(NodeEditEventArgs args)
     {
         array.Clear();
-        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance!.Nodes!.Count; i++)
         {
-            if (args.OldText == DiagramInstance.Nodes[i].Annotations[0].Content)
+            if (args.OldText == DiagramInstance.Nodes[i].Annotations![0].Content)
             {
-                DiagramInstance.Nodes[i].Annotations[0].Content = args.NewText;
+                DiagramInstance.Nodes[i].Annotations![0].Content = args.NewText;
                 array.Add(args.NodeData.Id.ToString());
-                HierarchicalDetails nodes = DiagramInstance.Nodes[i].Data as HierarchicalDetails;
-                nodes.Role = args.NewText;
+                HierarchicalDetails? nodes = DiagramInstance.Nodes[i].Data as HierarchicalDetails;
+                nodes!.Role = args.NewText;
                 Emptystring = array.ToArray();
-                await TreeViewComponentInstance.ExpandAllAsync(Emptystring);
+                await TreeViewComponentInstance!.ExpandAllAsync(Emptystring);
                 break;
             }
         }
         args.NodeData.Text = args.NewText;
         for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
         {
-            if (args.NodeData.Text == DiagramInstance.Nodes[i].Annotations[0].Content)
+            if (args.NodeData.Text == DiagramInstance.Nodes[i].Annotations![0].Content)
             {
                 DiagramInstance.Nodes[i].IsExpanded = true;
                 break;
@@ -326,25 +326,25 @@
             {
                 if (args.OldValue == treeviewnodes[i].Name)
                 {
-                    treeviewnodes[i].Name = args.NewValue;
+                    treeviewnodes[i].Name = args.NewValue!;
                 }
             }
         }
         if (args.Element is Node)
         {
             var node = args.Element as Node;
-            HierarchicalDetails nodes = node.Data as HierarchicalDetails;
-            nodes.Role = args.NewValue;
+            HierarchicalDetails? nodes = node!.Data as HierarchicalDetails;
+            nodes!.Role = args.NewValue!;
         }
     }
     private async void Delete()
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
             array.Clear();
             var node = DiagramInstance.SelectionSettings.Nodes[0];
-            HierarchicalDetails deletenodes = node.Data as HierarchicalDetails;
-            if (deletenodes.Id != "1")
+            HierarchicalDetails? deletenodes = node.Data as HierarchicalDetails;
+            if (deletenodes!.Id != "1")
             {
                 DataSource.Remove(deletenodes);
                 await DiagramInstance.RefreshDataSourceAsync();
@@ -377,14 +377,14 @@
                     }
                 }
                 Emptystring = array.ToArray();
-                TreeViewComponentInstance.RemoveNodes(Emptystring);
+                TreeViewComponentInstance!.RemoveNodes(Emptystring);
             }
         }
         StateHasChanged();
     }
     private void SelectionChanged(SelectionChangedEventArgs args)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0 || DiagramInstance.SelectionSettings.Connectors.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0 || DiagramInstance.SelectionSettings.Connectors!.Count > 0)
         {
             IsAddEnabled = false;
             IsDeleteEnabled = false;
@@ -399,7 +399,7 @@
     public void NodeCollapse(NodeExpandEventArgs args)
     {
 
-        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance!.Nodes!.Count; i++)
         {
             if (args.NodeData.Id == DiagramInstance.Nodes[i].ID)
             {
@@ -411,9 +411,9 @@
     public void NodeExpand(NodeExpandEventArgs args)
     {
 
-        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance!.Nodes!.Count; i++)
         {
-            if (args.NodeData.Text == DiagramInstance.Nodes[i].Annotations[0].Content && args.Name == "NodeExpanding")
+            if (args.NodeData.Text == DiagramInstance.Nodes[i].Annotations![0].Content && args.Name == "NodeExpanding")
             {
                 DiagramInstance.Nodes[i].IsExpanded = true;
                 break;
@@ -423,7 +423,7 @@
     // Triggers when TreeView node is clicked
     public void nodeClicked(NodeClickEventArgs args)
     {
-        for (int i = 0; i < DiagramInstance.Nodes.Count; i++)
+        for (int i = 0; i < DiagramInstance!.Nodes!.Count; i++)
         {
             if (args.NodeData.Id == DiagramInstance.Nodes[i].ID)
             {
@@ -441,9 +441,9 @@
         {
             for (int i = 0; i < treeviewnodes.Count; i++)
             {
-                if (treeviewnodes[i].Id.ToString() == (args.Element as Node).ID)
+                if (treeviewnodes[i].Id.ToString() == (args.Element as Node)!.ID)
                 {
-                    if ((args.Element as Node).IsExpanded == true)
+                    if ((args.Element as Node)!.IsExpanded == true)
                     {
                         array.Add(treeviewnodes[i].Id.ToString());
                         Emptystring = array.ToArray();
@@ -453,7 +453,7 @@
                         }
                         else
                         {
-                            await TreeViewComponentInstance.ExpandAllAsync(Emptystring);
+                            await TreeViewComponentInstance!.ExpandAllAsync(Emptystring);
                             break;
                         }
                     }
@@ -461,7 +461,7 @@
                     {
                         array.Add(treeviewnodes[i].Id.ToString());
                         Emptystring = array.ToArray();
-                        await TreeViewComponentInstance.CollapseAllAsync(Emptystring);
+                        await TreeViewComponentInstance!.CollapseAllAsync(Emptystring);
                         break;
                     }
                 }
@@ -476,7 +476,7 @@
                     {
                         treeviewnodes[i].IsSelected = false;
                     }
-                    if (treeviewnodes[i].Id.ToString() == (args.ActualObject as Node).ID)
+                    if (treeviewnodes[i].Id.ToString() == (args.ActualObject as Node)!.ID)
                     {
                         SelectedNodes = new string[] { treeviewnodes[i].Id.ToString() };
                     }
@@ -487,9 +487,9 @@
     }
     public class HierarchicalDetails
     {
-        public string Id { get; set; }
-        public string Role { get; set; }
-        public string Manager { get; set; }
+        public string? Id { get; set; }
+        public string? Role { get; set; }
+        public string? Manager { get; set; }
 
     }
     public List<HierarchicalDetails> DataSource = new List<HierarchicalDetails>()
@@ -515,16 +515,16 @@
 
     private void NodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        if (node.Data is System.Text.Json.JsonElement)
+        Node? node = obj as Node;
+        if (node!.Data is System.Text.Json.JsonElement)
         {
-            node.Data = System.Text.Json.JsonSerializer.Deserialize<HierarchicalDetails>(node.Data.ToString());
+            node.Data = System.Text.Json.JsonSerializer.Deserialize<HierarchicalDetails>(node.Data.ToString()!);
         }
-        HierarchicalDetails hierarchicalData = node.Data as HierarchicalDetails;
-        node.ID = hierarchicalData.Id;
+        HierarchicalDetails? hierarchicalData = node.Data as HierarchicalDetails;
+        node.ID = hierarchicalData!.Id;
         node.Width = 135;
         node.Height = 40;
-        node.Style.Fill = "CornflowerBlue";
+        node.Style!.Fill = "CornflowerBlue";
         node.Annotations = new DiagramObjectCollection<ShapeAnnotation>()
         {
             new ShapeAnnotation()
@@ -550,9 +550,9 @@
     }
     private void ConnectorCreating(IDiagramObject connector)
     {
-        (connector as Connector).Type = ConnectorSegmentType.Orthogonal;
-        (connector as Connector).TargetDecorator.Shape = DecoratorShape.Arrow;
-        (connector as Connector).TargetDecorator.Style.Fill = (connector as Connector).Style.Fill = (connector as Connector).Style.StrokeColor = (connector as Connector).TargetDecorator.Style.StrokeColor = "CornflowerBlue";
+        (connector as Connector)!.Type = ConnectorSegmentType.Orthogonal;
+        (connector as Connector)!.TargetDecorator!.Shape = DecoratorShape.Arrow;
+        (connector as Connector)!.TargetDecorator!.Style.Fill = (connector as Connector)!.Style!.Fill = (connector as Connector)!.Style!.StrokeColor = (connector as Connector)!.TargetDecorator!.Style.StrokeColor = "CornflowerBlue";
     }
     // Specifies the DataSource value for TreeView component.
     List<TreeItem> treeviewnodes = new List<TreeItem>();
@@ -693,26 +693,26 @@
     {
         public int Id { get; set; }
         public int? ParentId { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public bool Expanded { get; set; }
         public bool? IsSelected { get; set; }
         public bool HasChild { get; set; }
-        public string IconCss { get; set; }
+        public string? IconCss { get; set; }
     }
     bool isMobileDevice = false;
     private void OnCreated()
     {
-        if (SampleService.IsDevice)
+        if (SampleService!.IsDevice)
         {
             isMobileDevice = SampleService.IsDevice;
             StateHasChanged();
         }
     }
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
     private async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
 }

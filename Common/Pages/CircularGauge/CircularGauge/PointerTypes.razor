@@ -212,36 +212,77 @@
 
 @code {
     public Theme Theme { get; set; }
-    public SfCircularGauge NeedleRef;
-    public SfCircularGauge LiveUpdateRef;
+    public SfCircularGauge? NeedleRef;
+    public SfCircularGauge? LiveUpdateRef;
     public double LiveUpdatePointer = 40;
     public double NeedlePointer = 80;
-    private Timer _syncTimer = null;
-    private Timer _syncTimer1 = null;
+    private Timer _syncTimer = null!;
+    private Timer _syncTimer1 = null!;
     private Random _random = new Random();
     
     private void NeedlePointerUpdate(Object source, ElapsedEventArgs e)
     {
-        NeedleRef.SetPointerValueAsync(0, 0, (_random.NextDouble() * 70) + 20);
+        NeedleRef?.SetPointerValueAsync(0, 0, (_random.NextDouble() * 70) + 20);
     }
 
     private void LiveUpdate(Object source, ElapsedEventArgs e)
     {
         LiveUpdatePointer = (_random.NextDouble() * 50) + 30;
-        LiveUpdateRef.SetPointerValueAsync(0, 0, LiveUpdatePointer);
-        LiveUpdateRef.SetPointerValueAsync(0, 1, LiveUpdatePointer);
+        LiveUpdateRef?.SetPointerValueAsync(0, 0, LiveUpdatePointer);
+        LiveUpdateRef?.SetPointerValueAsync(0, 1, LiveUpdatePointer);
     }
 
     protected override void OnInitialized()
     {
         _syncTimer1 = new Timer(1000);
+        @*Hidden:Lines*@
+        #pragma warning disable CS8622
+        @*End:Hidden*@
         _syncTimer1.Elapsed += this.NeedlePointerUpdate;
+        @*Hidden:Lines*@
+        #pragma warning restore CS8622
+        @*End:Hidden*@
         _syncTimer1.AutoReset = true;
         _syncTimer1.Enabled = true;
         _syncTimer = new Timer(1000);
+        @*Hidden:Lines*@
+        #pragma warning disable CS8622
+        @*End:Hidden*@
         _syncTimer.Elapsed += this.LiveUpdate;
+        @*Hidden:Lines*@
+        #pragma warning restore CS8622
+        @*End:Hidden*@
         _syncTimer.AutoReset = true;
         _syncTimer.Enabled = true;
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    public void Dispose()
+    {
+        if(_syncTimer != null)
+        {
+            @*Hidden:Lines*@
+            #pragma warning disable CS8622
+            @*End:Hidden*@
+            _syncTimer.Elapsed -= this.LiveUpdate;
+            @*Hidden:Lines*@
+            #pragma warning restore CS8622
+            @*End:Hidden*@
+            _syncTimer.Stop();
+            _syncTimer.Dispose();
+            _syncTimer = null!;
+        }
+        if (_syncTimer1 != null)
+        {
+            @*Hidden:Lines*@
+            #pragma warning disable CS8622
+            @*End:Hidden*@
+            _syncTimer1.Elapsed -= this.NeedlePointerUpdate;
+            @*Hidden:Lines*@
+            #pragma warning disable CS8622
+            @*End:Hidden*@
+            _syncTimer1.Stop();
+            _syncTimer1.Dispose();
+            _syncTimer1 = null!;
+        }
     }
 }

@@ -20,6 +20,7 @@ using System.Threading.Tasks;
 using System;
 using System.Linq;
 using Microsoft.AspNetCore.Components;
+using Syncfusion.Blazor.Buttons;
 
 namespace FileManagerAI.Services
 {
@@ -1355,7 +1356,7 @@ namespace FileManagerAI.Services
                 bool hasPermission = parentsHavePermission(fileDetails);
                 if (hasPermission)
                 {
-                    string[] tags = TagService.GetTags(fileDetails.Name);
+                   List<ChipItem> tags = TagService.GetTags(fileDetails.Name).Select(tag => new ChipItem { Text = tag }).ToList();
                     string filePath = Path.Combine(this.contentRootPath, file.DirectoryName, file.Name);
                     UpdateTagsToFile(filePath, tags);
                 }
@@ -1363,15 +1364,15 @@ namespace FileManagerAI.Services
 
         }
 
-        public void UpdateTagsToFile(string filePath, string[] newTags)
+        public void UpdateTagsToFile(string filePath, List<ChipItem> newTags)
         {
             string adsPath = filePath + ":tags";
-            string[] existingTags = GetTagsFromFile(filePath);
+            List<ChipItem> existingTags = GetTagsFromFile(filePath).Select(tag => new ChipItem { Text = tag }).ToList();
             var combinedTags = existingTags.Union(newTags).ToArray();
             using (FileStream fs = new FileStream(adsPath, FileMode.OpenOrCreate, FileAccess.Write))
             using (StreamWriter writer = new StreamWriter(fs))
             {
-                string tagsString = string.Join(";", combinedTags);
+                string tagsString = string.Join(";", combinedTags.Select(tag => tag.Text));
                 writer.Write(tagsString);
             }
         }

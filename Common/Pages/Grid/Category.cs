@@ -104,9 +104,9 @@ namespace blazor_categorydata
             return category;
         }
 
-        public string CategoryName { get; set; }
-        public string ProductName { get; set; }
-        public string QuantityPerUnit { get; set; }
+        public string? CategoryName { get; set; }
+        public string? ProductName { get; set; }
+        public string? QuantityPerUnit { get; set; }
         public short UnitsInStock { get; set; }
         public bool Discontinued { get; set; }
     }

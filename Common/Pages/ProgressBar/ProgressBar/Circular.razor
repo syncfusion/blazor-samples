@@ -19,22 +19,25 @@
 
 <div class="control-section">
     <div class="row" style="margin-top: 4%;">
-        @foreach (var progressBar in ProgressBars)
+        @if (ProgressBars != null) 
         {
-        <div class="col-lg-3 col-md-3 col-3" align="center">
-            <SfProgressBar @ref="progressBar.ProgressBarRef" Type="ProgressType.Circular"
-                           Value="progressBar.Value" Width="160px" Height="160px"
-                           Minimum="0" Maximum="100"
-                           SecondaryProgress="progressBar.SecondaryProgress"
-                           SegmentCount="progressBar.SegmentCount"
-                           IsIndeterminate="progressBar.IsIndeterminate"
-                           StartAngle="180" EndAngle="180"
-                           CornerRadius="progressBar.CornerRadius"
-                           Theme="@Theme">
-                <ProgressBarAnimation Enable="true" Duration="2000" Delay="0"></ProgressBarAnimation>
-            </SfProgressBar>
-            <div class="@ProgressTextStyle" style="font-family: @FontFamily">@progressBar.Label</div>
-        </div>
+            foreach (var progressBar in ProgressBars)
+            {
+                <div class="col-lg-3 col-md-3 col-3" align="center">
+                    <SfProgressBar @ref="progressBar.ProgressBarRef" Type="ProgressType.Circular"
+                    Value="progressBar.Value" Width="160px" Height="160px"
+                    Minimum="0" Maximum="100"
+                    SecondaryProgress="progressBar.SecondaryProgress"
+                    SegmentCount="progressBar.SegmentCount"
+                    IsIndeterminate="progressBar.IsIndeterminate"
+                    StartAngle="180" EndAngle="180"
+                    CornerRadius="progressBar.CornerRadius"
+                    Theme="@Theme">
+                        <ProgressBarAnimation Enable="true" Duration="2000" Delay="0"></ProgressBarAnimation>
+                    </SfProgressBar>
+                    <div class="@ProgressTextStyle" style="font-family: @FontFamily">@progressBar.Label</div>
+                </div>
+            }
         }
     </div>
 
@@ -44,11 +47,11 @@
 </div>
 
 @code {
-    public string FontFamily { get; set; }
+    public string? FontFamily { get; set; }
     public string ProgressTextStyle { get; set; } = string.Empty;
     public Theme Theme { get; set; }
 
-    private List<ProgressBarModel> ProgressBars { get; set; }
+    private List<ProgressBarModel>? ProgressBars { get; set; }
 
     protected override void OnInitialized()
     {
@@ -103,21 +106,27 @@
 
     private async Task RefreshProgressBars()
     {
-        foreach (var progressBar in ProgressBars)
+        if (ProgressBars != null)
         {
-            await progressBar.ProgressBarRef.RefreshAsync();
+            foreach (var progressBar in ProgressBars)
+            {
+                if (progressBar.ProgressBarRef != null)
+                {
+                    await progressBar.ProgressBarRef.RefreshAsync();
+                }
+            }
         }
     }
 
     private class ProgressBarModel
     {
-        public SfProgressBar ProgressBarRef { get; set; }
+        public SfProgressBar? ProgressBarRef { get; set; }
         public double Value { get; set; }
         public double SecondaryProgress { get; set; }
         public int SegmentCount { get; set; } = 1;
         public bool IsIndeterminate { get; set; } = false;
         public CornerType CornerRadius { get; set; } = CornerType.Square;
-        public string Label { get; set; }
+        public string? Label { get; set; }
     }
 
 }

@@ -19,21 +19,24 @@
 
 <div class="control-section">
     <div class="row linear-parent">
-        @foreach (var progressBar in ProgressBarModels)
+        @if (ProgressBarModels != null)
         {
-        <div>
-            <div class="@ProgressLabelClass" style="font-family: @FontFamily">@progressBar.Label</div>
-            <SfProgressBar @ref="progressBar.Ref" Type="ProgressType.Linear" Height="60"
-                           Value="@progressBar.Value" Minimum="0" Maximum="100"
-                           IsIndeterminate="@progressBar.IsIndeterminate"
-                           SecondaryProgress="@progressBar.SecondaryProgress"
-                           SecondaryProgressColor="@progressBar.SecondaryProgressColor"
-                           SegmentCount="@progressBar.SegmentCount"
-                           IsActive="@progressBar.IsActive"
-                           Theme="@CurrentTheme">
-                <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
-            </SfProgressBar>
-        </div>
+            foreach (var progressBar in ProgressBarModels)
+            {
+                <div>
+                    <div class="@ProgressLabelClass" style="font-family: @FontFamily">@progressBar.Label</div>
+                    <SfProgressBar @ref="progressBar.Ref" Type="ProgressType.Linear" Height="60"
+                    Value="@progressBar.Value" Minimum="0" Maximum="100"
+                    IsIndeterminate="@progressBar.IsIndeterminate"
+                    SecondaryProgress="@progressBar.SecondaryProgress"
+                    SecondaryProgressColor="@progressBar.SecondaryProgressColor"
+                    SegmentCount="@progressBar.SegmentCount"
+                    IsActive="@progressBar.IsActive"
+                    Theme="@CurrentTheme">
+                        <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
+                    </SfProgressBar>
+                </div>
+            }
         }
     </div>
     <div class="row linear-parent" style="font-family: @FontFamily">
@@ -42,21 +45,21 @@
 </div>
 
 @code {
-    public SfProgressBar ProObj1, ProObj2, ProObj3, ProObj4, ProObj5;
-    private List<ProgressBarModel> ProgressBarModels { get; set; }
+    public SfProgressBar? ProObj1, ProObj2, ProObj3, ProObj4, ProObj5;
+    private List<ProgressBarModel>? ProgressBarModels { get; set; }
 
     private Theme CurrentTheme { get; set; }
     private string ProgressLabelClass { get; set; } = "col-lg-12 col-sm-12 progressbar-label";
-    private string FontFamily { get; set; }
+    private string? FontFamily { get; set; }
 
-    private string CurrentUri { get; set; }
+    private string? CurrentUri { get; set; }
 
     protected override void OnInitialized()
     {
         CurrentUri = Navigation.Uri;
         FontFamily = ThemeHelper.GetFontFamily(CurrentUri);
 
-// Initialize ProgressBarModels
+        // Initialize ProgressBarModels
         ProgressBarModels = new List<ProgressBarModel>
         {
             new ProgressBarModel
@@ -64,14 +67,14 @@
                 Id = "Determinate",
                 Value = 100,
                 Label = "Determinate",
-                Ref = ProObj1
+                Ref = ProObj1 ?? null!
             },
             new ProgressBarModel
             {
                 Id = "Indeterminate",
                 Value = 20,
                 Label = "Indeterminate",
-                Ref = ProObj2,
+                Ref = ProObj2 ?? null!,
                 IsIndeterminate = true
             },
             new ProgressBarModel
@@ -79,7 +82,7 @@
                 Id = "Segmented",
                 Value = 100,
                 Label = "Segmented",
-                Ref = ProObj4,
+                Ref = ProObj4 ?? null!,
                 SegmentCount = 8
             },
             new ProgressBarModel
@@ -87,7 +90,7 @@
                 Id = "Buffered",
                 Value = 40,
                 Label = "Buffered",
-                Ref = ProObj3,
+                Ref = ProObj3 ?? null!,
                 SecondaryProgress = 60,
                 SecondaryProgressColor = "#98c5f5"
             },
@@ -96,12 +99,12 @@
                 Id = "Active",
                 Value = 100,
                 Label = "Active",
-                Ref = ProObj5,
+                Ref = ProObj5 ?? null!,
                 IsActive = true
             }
         };
 
-// Set the theme and style based on the current URI
+        // Set the theme and style based on the current URI
         var themeInfo = DetermineTheme(CurrentUri);
         CurrentTheme = themeInfo.Theme;
         ProgressLabelClass = themeInfo.LabelClass;
@@ -109,9 +112,13 @@
 
     private async Task RefreshAllProgressBars()
     {
-        foreach (var progressBar in ProgressBarModels)
+        if (ProgressBarModels != null)
         {
-            await progressBar.Ref.RefreshAsync();
+            foreach (var progressBar in ProgressBarModels)
+            {
+                if (progressBar.Ref != null)
+                await progressBar.Ref.RefreshAsync();
+            }
         }
     }
 
@@ -161,14 +168,14 @@
     }
     private class ProgressBarModel
     {
-        public string Id { get; set; }
+        public string? Id { get; set; }
         public double Value { get; set; }
-        public string Label { get; set; }
-        public SfProgressBar Ref { get; set; }
+        public string? Label { get; set; }
+        public SfProgressBar? Ref { get; set; }
         public bool IsIndeterminate { get; set; } = false;  // Optional property
         public int SegmentCount { get; set; }  // Optional property for segmented progress bars
         public double SecondaryProgress { get; set; }  // Optional property for buffered progress bars
-        public string SecondaryProgressColor { get; set; }  // Optional property for buffered progress bars
+        public string? SecondaryProgressColor { get; set; }  // Optional property for buffered progress bars
         public bool IsActive { get; set; } = false;  // Optional property for active progress bars
     }
 }

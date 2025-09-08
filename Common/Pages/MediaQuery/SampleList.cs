@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Media Query Component | Responsive Design | Syncfusion",
                 HeaderText = "Blazor Media Query Example - Default Functionalities",
-                MetaDescription = "This Blazor Media Query example demonstrates how to create responsive UIs by detecting viewport changes. Apply conditional styles and layouts based on screen size for optimal user experience."
+                MetaDescription = "This Blazor Media Query example shows how to create responsive UIs by detecting viewport changes. Apply conditional styles and layouts based on screen size."
             }
         };
     }

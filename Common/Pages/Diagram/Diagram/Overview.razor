@@ -4,7 +4,7 @@
 @using Syncfusion.Blazor.Diagram.Overview
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Navigations
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
@@ -300,14 +300,14 @@
             <DiagramTemplates>
                 <NodeTemplate>
                     @{ Node node1 = (context as Node);
-                        string Name = (node1.Data as OrganizationalDetails).Name;
-                            string Role = (node1.Data as OrganizationalDetails).Designation;
-                            string Imageurl = (node1.Data as OrganizationalDetails).ImageUrl;
+                        string Name = (node1.Data as OrganizationalDetails)!.Name!;
+                            string Role = (node1.Data as OrganizationalDetails)!.Designation!;
+                            string Imageurl = (node1.Data as OrganizationalDetails)!.ImageUrl!;
                         if (Name == "Maria Anders")
                         {
                             <div class=e-orgchart-div>
                                 <div class="e-orgchart-image-div" style="padding-left:8px;padding-right:12px;padding-top:5px;padding-bottom:5px">
-                                    <div id="image" class="e-orgchart-template-image-style" style="background-image: url(@( SampleService.WebAssetsPath + @Imageurl));">
+                                    <div id="image" class="e-orgchart-template-image-style" style="background-image: url(@( SampleService!.WebAssetsPath + @Imageurl));">
                                     </div>
                                 </div><span class="e-orgchart-name-div" style="margin-left:-4px">@Name</span><span class="e-orgchart-role-div">@Role</span>
                                 <div class="e-orgchart-whole-div" style="margin-left:-4px"></div>
@@ -317,7 +317,7 @@
                         {
                             <div class=e-orgchart-div>
                                 <div class="e-orgchart-image-div" style="padding-left:8px;padding-right:12px;padding-top:5px;padding-bottom:5px;width:210px">
-                                    <div id="image" class="e-orgchart-template-image-style" style="background-image: url(@( SampleService.WebAssetsPath + @Imageurl));">
+                                    <div id="image" class="e-orgchart-template-image-style" style="background-image: url(@( SampleService!.WebAssetsPath + @Imageurl));">
                                     </div>
                                 </div><span class="e-orgchart-name-div" style="margin-left:-4px">@Name</span><span class="e-orgchart-role-div">@Role</span>
                                 <div class="e-orgchart-whole-div" style="margin-left:-4px"></div>
@@ -328,7 +328,7 @@
                         {
                             <div class=e-orgchart-div>
                                 <div class="e-orgchart-image-div" style="padding-left:8px;padding-right:12px;padding-top:5px;padding-bottom:5px;width:195px">
-                                    <div id="image" class="e-orgchart-template-image-style" style="background-image: url(@( SampleService.WebAssetsPath + @Imageurl));">
+                                    <div id="image" class="e-orgchart-template-image-style" style="background-image: url(@( SampleService!.WebAssetsPath + @Imageurl));">
                                     </div>
                                 </div><span class="e-orgchart-name-div" style="margin-left:-4px">@Name</span><span class="e-orgchart-role-div">@Role</span>
                                 <div class="e-orgchart-whole-div" style="margin-left:-4px"></div>
@@ -339,7 +339,7 @@
                         {
                             <div class=e-orgchart-div>
                                 <div class="e-orgchart-image-div" style="padding-left:8px;padding-right:12px;padding-top:5px;padding-bottom:5px">
-                                    <div id="image" class="e-orgchart-template-image-style" style="background-image: url(@( SampleService.WebAssetsPath + @Imageurl));">
+                                    <div id="image" class="e-orgchart-template-image-style" style="background-image: url(@( SampleService!.WebAssetsPath + @Imageurl));">
                                     </div>
                                 </div><span class="e-orgchart-name-div" style="margin-left:-4px">@Name</span><span class="e-orgchart-role-div">@Role</span>
                                 <div class="e-orgchart-whole-div" style="margin-left:-4px"></div>
@@ -356,7 +356,7 @@
         {
             var overviewImage = overviewDisplay == "none" ? "overview-collapsed.png" : "overview-expanded.png";
             <div id="overviewspan" class="col-lg-4" @onclick="@UpdateOverview" style="width:50px;float:right">
-                <img src="@(SampleService.WebAssetsPath + "images/diagram/overview/"+@overviewImage)" height="22px"/>
+                <img src="@(SampleService!.WebAssetsPath + "images/diagram/overview/"+@overviewImage)" height="22px"/>
             </div>
         }
     }
@@ -372,26 +372,26 @@
     string overviewDisplay = "block";
     DiagramInteractions DiagramTool = DiagramInteractions.ZoomPan;
     ScrollLimitMode scrollLimit { get; set; } = ScrollLimitMode.Infinity;
-    public SfDiagramComponent Diagram;
+    public SfDiagramComponent? Diagram;
     public LayoutType Type = LayoutType.OrganizationalChart;
 
     @*End:Hidden*@
 
     //Defines sfdiagramComponent
-    SfDiagramComponent diagram;
+    SfDiagramComponent? diagram;
 
     //Defines diagram constraints
     public DiagramConstraints constraints { get; set; }
 
     //Defines diagrams's nodes collection
-    public DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
 
     //Defines diagrams's connectors collection
-    public DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector>? connectors = new DiagramObjectCollection<Connector>();
     
     private void OnCreated()
     {
-        isMobileDevice = SampleService.IsDevice;
+        isMobileDevice = SampleService!.IsDevice;
         overviewDisplay = isMobileDevice ? "none" : "block";
         StateHasChanged();
     }
@@ -402,8 +402,8 @@
     }
     private void OnConnectorCreating(IDiagramObject obj)
     {
-         Connector connector = obj as Connector;
-        connector.Type = ConnectorSegmentType.Orthogonal;
+         Connector? connector = obj as Connector;
+        connector!.Type = ConnectorSegmentType.Orthogonal;
         connector.Style = new ShapeStyle() { StrokeColor = "gray" };
         connector.TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None };
     }
@@ -418,23 +418,23 @@
     }
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        node.Width = 181;
+        Node? node = obj as Node;
+        node!.Width = 181;
         node.Height = 50;
         node.Shape = new Shape()
-        { Type = shapes.HTML };
+        { Type = NodeShape.HTML };
         node.Style = new ShapeStyle(){StrokeWidth = 1, Fill = "transparent", StrokeColor = "gray",};
     }
 
       public class OrganizationalDetails
     {
-        public string Id { get; set; }
-        public string Name { get; set; }
-        public string Designation { get; set; }
-        public string ImageUrl { get; set; }
-        public string IsExpand { get; set; }
-        public string RatingColor { get; set; }
-        public string ReportingPerson { get; set; }
+        public string? Id { get; set; }
+        public string? Name { get; set; }
+        public string? Designation { get; set; }
+        public string? ImageUrl { get; set; }
+        public string? IsExpand { get; set; }
+        public string? RatingColor { get; set; }
+        public string? ReportingPerson { get; set; }
     }
     public List<OrganizationalDetails> DataSource = new List<OrganizationalDetails>()
     {

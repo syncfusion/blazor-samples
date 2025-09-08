@@ -11,22 +11,22 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
     public class GroupData
     {
         public int Id { get; set; }
-        public string TimeLine { get; set; }
-        public string Sector { get; set; }
-        public string EnerType { get; set; }
-        public string EneSource { get; set; }
+        public string TimeLine { get; set; } = string.Empty;
+        public string Sector { get; set; } = string.Empty;
+        public string EnerType { get; set; } = string.Empty;
+        public string EneSource { get; set; } = string.Empty;
         public int PowUnits { get; set; }
         public int ProCost { get; set; }
-        public string Year { get; set; }
-        public string Quarter { get; set; }
-        public string HalfYear { get; set; }
+        public string Year { get; set; } = string.Empty;
+        public string Quarter { get; set; } = string.Empty;
+        public string HalfYear { get; set; } = string.Empty;
         public static List<GroupData> GetGroupData()
         {
             List<GroupData> groupData = new List<GroupData>();
             groupData.Add(new GroupData
             {
                 Id = 1001,
-                TimeLine = "1/1/2015",
+                TimeLine = "1/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -36,7 +36,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1002,
-                TimeLine = "2/1/2015",
+                TimeLine = "2/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -46,7 +46,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1003,
-                TimeLine = "3/1/2015",
+                TimeLine = "3/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -56,7 +56,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1004,
-                TimeLine = "4/1/2015",
+                TimeLine = "4/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -66,7 +66,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1005,
-                TimeLine = "5/1/2015",
+                TimeLine = "5/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -76,7 +76,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1006,
-                TimeLine = "6/1/2015",
+                TimeLine = "6/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -86,7 +86,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1007,
-                TimeLine = "7/1/2015",
+                TimeLine = "7/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -96,7 +96,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1008,
-                TimeLine = "8/1/2015",
+                TimeLine = "8/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -106,7 +106,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1009,
-                TimeLine = "9/1/2015",
+                TimeLine = "9/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -116,7 +116,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1010,
-                TimeLine = "10/1/2015",
+                TimeLine = "10/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -126,7 +126,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1011,
-                TimeLine = "11/1/2015",
+                TimeLine = "11/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -136,7 +136,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1012,
-                TimeLine = "12/1/2015",
+                TimeLine = "12/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -146,7 +146,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1013,
-                TimeLine = "1/1/2016",
+                TimeLine = "1/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -156,7 +156,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1014,
-                TimeLine = "2/1/2016",
+                TimeLine = "2/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -166,7 +166,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1015,
-                TimeLine = "3/1/2016",
+                TimeLine = "3/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -176,7 +176,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1016,
-                TimeLine = "4/1/2016",
+                TimeLine = "4/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -186,7 +186,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1017,
-                TimeLine = "5/1/2016",
+                TimeLine = "5/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -196,7 +196,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1018,
-                TimeLine = "6/1/2016",
+                TimeLine = "6/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -206,7 +206,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1019,
-                TimeLine = "7/1/2016",
+                TimeLine = "7/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -216,7 +216,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1020,
-                TimeLine = "8/1/2016",
+                TimeLine = "8/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -226,7 +226,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1021,
-                TimeLine = "9/1/2016",
+                TimeLine = "9/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -236,7 +236,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1022,
-                TimeLine = "10/1/2016",
+                TimeLine = "10/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -246,7 +246,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1023,
-                TimeLine = "11/1/2016",
+                TimeLine = "11/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -256,7 +256,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1024,
-                TimeLine = "12/1/2016",
+                TimeLine = "12/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -266,7 +266,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1025,
-                TimeLine = "1/1/2017",
+                TimeLine = "1/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -276,7 +276,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1026,
-                TimeLine = "2/1/2017",
+                TimeLine = "2/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -286,7 +286,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1027,
-                TimeLine = "3/1/2017",
+                TimeLine = "3/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -296,7 +296,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1028,
-                TimeLine = "4/1/2017",
+                TimeLine = "4/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -306,7 +306,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1029,
-                TimeLine = "5/1/2017",
+                TimeLine = "5/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -316,7 +316,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1030,
-                TimeLine = "6/1/2017",
+                TimeLine = "6/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -326,7 +326,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1031,
-                TimeLine = "7/1/2017",
+                TimeLine = "7/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -336,7 +336,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1032,
-                TimeLine = "8/1/2017",
+                TimeLine = "8/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -346,7 +346,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1033,
-                TimeLine = "9/1/2017",
+                TimeLine = "9/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -356,7 +356,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1034,
-                TimeLine = "10/1/2017",
+                TimeLine = "10/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -366,7 +366,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1035,
-                TimeLine = "11/1/2017",
+                TimeLine = "11/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -376,7 +376,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1036,
-                TimeLine = "12/1/2017",
+                TimeLine = "12/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -386,7 +386,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1037,
-                TimeLine = "1/1/2018",
+                TimeLine = "1/1/2024",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -396,7 +396,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1038,
-                TimeLine = "2/1/2018",
+                TimeLine = "2/1/2024",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -406,7 +406,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1039,
-                TimeLine = "1/1/2015",
+                TimeLine = "1/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -416,7 +416,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1040,
-                TimeLine = "2/1/2015",
+                TimeLine = "2/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -426,7 +426,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1041,
-                TimeLine = "3/1/2015",
+                TimeLine = "3/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -436,7 +436,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1042,
-                TimeLine = "4/1/2015",
+                TimeLine = "4/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -446,7 +446,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1043,
-                TimeLine = "5/1/2015",
+                TimeLine = "5/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -456,7 +456,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1044,
-                TimeLine = "6/1/2015",
+                TimeLine = "6/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -466,7 +466,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1045,
-                TimeLine = "7/1/2015",
+                TimeLine = "7/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -476,7 +476,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1046,
-                TimeLine = "8/1/2015",
+                TimeLine = "8/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -486,7 +486,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1047,
-                TimeLine = "9/1/2015",
+                TimeLine = "9/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -496,7 +496,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1048,
-                TimeLine = "10/1/2015",
+                TimeLine = "10/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -506,7 +506,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1049,
-                TimeLine = "11/1/2015",
+                TimeLine = "11/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -516,7 +516,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1050,
-                TimeLine = "12/1/2015",
+                TimeLine = "12/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -526,7 +526,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1051,
-                TimeLine = "1/1/2016",
+                TimeLine = "1/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -536,7 +536,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1052,
-                TimeLine = "2/1/2016",
+                TimeLine = "2/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -546,7 +546,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1053,
-                TimeLine = "3/1/2016",
+                TimeLine = "3/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -556,7 +556,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1054,
-                TimeLine = "4/1/2016",
+                TimeLine = "4/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -566,7 +566,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1055,
-                TimeLine = "5/1/2016",
+                TimeLine = "5/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -576,7 +576,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1056,
-                TimeLine = "6/1/2016",
+                TimeLine = "6/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -586,7 +586,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1057,
-                TimeLine = "7/1/2016",
+                TimeLine = "7/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -596,7 +596,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1058,
-                TimeLine = "8/1/2016",
+                TimeLine = "8/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -606,7 +606,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1059,
-                TimeLine = "9/1/2016",
+                TimeLine = "9/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -616,7 +616,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1060,
-                TimeLine = "10/1/2016",
+                TimeLine = "10/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -626,7 +626,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1061,
-                TimeLine = "11/1/2016",
+                TimeLine = "11/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -636,7 +636,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1062,
-                TimeLine = "12/1/2016",
+                TimeLine = "12/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -646,7 +646,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1063,
-                TimeLine = "1/1/2017",
+                TimeLine = "1/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -656,7 +656,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1064,
-                TimeLine = "2/1/2017",
+                TimeLine = "2/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -666,7 +666,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1065,
-                TimeLine = "3/1/2017",
+                TimeLine = "3/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -676,7 +676,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1066,
-                TimeLine = "4/1/2017",
+                TimeLine = "4/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -686,7 +686,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1067,
-                TimeLine = "5/1/2017",
+                TimeLine = "5/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -696,7 +696,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1068,
-                TimeLine = "6/1/2017",
+                TimeLine = "6/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -706,7 +706,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1069,
-                TimeLine = "7/1/2017",
+                TimeLine = "7/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -716,7 +716,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1070,
-                TimeLine = "8/1/2017",
+                TimeLine = "8/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -726,7 +726,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1071,
-                TimeLine = "9/1/2017",
+                TimeLine = "9/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -736,7 +736,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1072,
-                TimeLine = "10/1/2017",
+                TimeLine = "10/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -746,7 +746,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1073,
-                TimeLine = "11/1/2017",
+                TimeLine = "11/1/2023",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -756,7 +756,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1074,
-                TimeLine = "12/1/2017",
+                TimeLine = "12/1/2023",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -766,7 +766,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1075,
-                TimeLine = "1/1/2018",
+                TimeLine = "1/1/2024",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -776,7 +776,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1076,
-                TimeLine = "2/1/2018",
+                TimeLine = "2/1/2024",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -786,7 +786,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1077,
-                TimeLine = "1/1/2015",
+                TimeLine = "1/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -796,7 +796,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1078,
-                TimeLine = "2/1/2015",
+                TimeLine = "2/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -806,7 +806,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1079,
-                TimeLine = "3/1/2015",
+                TimeLine = "3/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -816,7 +816,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1080,
-                TimeLine = "4/1/2015",
+                TimeLine = "4/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -826,7 +826,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1081,
-                TimeLine = "5/1/2015",
+                TimeLine = "5/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -836,7 +836,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1082,
-                TimeLine = "6/1/2015",
+                TimeLine = "6/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -846,7 +846,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1083,
-                TimeLine = "7/1/2015",
+                TimeLine = "7/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -856,7 +856,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1084,
-                TimeLine = "8/1/2015",
+                TimeLine = "8/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -866,7 +866,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1085,
-                TimeLine = "9/1/2015",
+                TimeLine = "9/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -876,7 +876,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1086,
-                TimeLine = "10/1/2015",
+                TimeLine = "10/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -886,7 +886,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1087,
-                TimeLine = "11/1/2015",
+                TimeLine = "11/1/2021",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -896,7 +896,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1088,
-                TimeLine = "12/1/2015",
+                TimeLine = "12/1/2021",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -906,7 +906,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1089,
-                TimeLine = "1/1/2016",
+                TimeLine = "1/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -916,7 +916,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1090,
-                TimeLine = "2/1/2016",
+                TimeLine = "2/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -926,7 +926,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1091,
-                TimeLine = "3/1/2016",
+                TimeLine = "3/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -936,7 +936,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1092,
-                TimeLine = "4/1/2016",
+                TimeLine = "4/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -946,7 +946,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1093,
-                TimeLine = "5/1/2016",
+                TimeLine = "5/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -956,7 +956,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1094,
-                TimeLine = "6/1/2016",
+                TimeLine = "6/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -966,7 +966,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1095,
-                TimeLine = "7/1/2016",
+                TimeLine = "7/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -976,7 +976,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1096,
-                TimeLine = "8/1/2016",
+                TimeLine = "8/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -986,7 +986,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1097,
-                TimeLine = "9/1/2016",
+                TimeLine = "9/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Hydro-electric",
@@ -996,7 +996,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1098,
-                TimeLine = "10/1/2016",
+                TimeLine = "10/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Geo-thermal",
@@ -1006,7 +1006,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1099,
-                TimeLine = "11/1/2016",
+                TimeLine = "11/1/2022",
                 Sector = "Public Sector",
                 EnerType = "Free Energy",
                 EneSource = "Solar",
@@ -1016,7 +1016,7 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
             groupData.Add(new GroupData
             {
                 Id = 1100,
-                TimeLine = "12/1/2016",
+                TimeLine = "12/1/2022",
                 Sector = "Private Sector",
                 EnerType = "Free Energy",
                 EneSource = "Wind",
@@ -1028,4 +1028,3 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
         }
     }
 }
-

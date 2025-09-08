@@ -21,12 +21,12 @@ namespace BlazorDemos.Service
     {
         private readonly UserTokenService _userTokenService;
         private ChatParameters chatParameters_history = new ChatParameters();
-        private IChatClient _azureAIClient;
+        private IChatClient _chatClient;
 
-        public AzureAIService(UserTokenService userTokenService, AIServiceCredentials credentials)
+        public AzureAIService(UserTokenService userTokenService, IChatClient client)
         {
             _userTokenService = userTokenService;
-            _azureAIClient = new OpenAIClient(credentials.ApiKey).GetChatClient(credentials.DeploymentName).AsIChatClient();
+            this._chatClient = client ?? throw new ArgumentNullException(nameof(client));
         }
 
 
@@ -38,7 +38,7 @@ namespace BlazorDemos.Service
         /// <param name="appendPreviousResponse">Indicates whether to append previous responses to the conversation history. Defaults to <c>false</c></param>
         /// <param name="systemRole">Specifies the systemRole that is sent to AI Clients. Defaults to <c>null</c></param>
         /// <returns>The AI-generated completion as a string.</returns>
-        public async Task<string> GetCompletionAsync(string prompt, bool returnAsJson = true, bool appendPreviousResponse = false, string systemRole = null)
+        public async Task<string> GetCompletionAsync(string prompt, bool returnAsJson = true, bool appendPreviousResponse = false, string systemRole = null, int outputTokens = 2000)
         {
             string systemMessage = returnAsJson ? "You are a helpful assistant that only returns and replies with valid, iterable RFC8259 compliant JSON in your responses unless I ask for any other format. Do not provide introductory words such as 'Here is your result' or '```json', etc. in the response" : !string.IsNullOrEmpty(systemRole) ? systemRole : "You are a helpful assistant";
             try
@@ -58,9 +58,10 @@ namespace BlazorDemos.Service
                 {
                     chatParameters.Messages = new List<ChatMessage>(2) {
                         new ChatMessage (ChatRole.System, systemMessage),
-                        new ChatMessage(ChatRole.User,prompt)
+                        new ChatMessage(ChatRole.User,prompt),
                     };
                 }
+                chatParameters.MaxTokens = outputTokens;
                 var completion = await GetChatResponseAsync(chatParameters);
                 if (appendPreviousResponse)
                 {
@@ -98,7 +99,7 @@ namespace BlazorDemos.Service
             };
             try
             {
-                ChatResponse completion = await _azureAIClient.GetResponseAsync(options.Messages, completionRequest);
+                ChatResponse completion = await _chatClient.GetResponseAsync(options.Messages, completionRequest);
                 await _userTokenService.UpdateTokensAsync(userCode, (int)(remainingTokens - completion.Usage.TotalTokenCount));
                 return completion.Text.ToString();
             }

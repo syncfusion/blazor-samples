@@ -14,22 +14,22 @@ namespace BlazorDemos.Pages
 {
     public class ExpenseData
     {
-        public string UniqueId { get; set; }
+        public string? UniqueId { get; set; }
         public DateTime DateTime { get; set; }
-        public string Category { get; set; }
-        public string PaymentMode { get; set; }
-        public string TransactionType { get; set; }
-        public string Description { get; set; }
+        public string? Category { get; set; }
+        public string? PaymentMode { get; set; }
+        public string? TransactionType { get; set; }
+        public string? Description { get; set; }
         public int Amount { get; set; }
-        public string MonthShort { get; set; }
-        public string MonthFull { get; set; }
-        public string FormattedDate { get; set; }
+        public string? MonthShort { get; set; }
+        public string? MonthFull { get; set; }
+        public string? FormattedDate { get; set; }
     }
     public class UserInfo
     {
-        public string FirstName { get; set; }
-        public string FullName { get; set; }
-        public string Email { get; set; }
+        public string? FirstName { get; set; }
+        public string? FullName { get; set; }
+        public string? Email { get; set; }
     }
     public class ExpenseDataService
     {
@@ -44,9 +44,9 @@ namespace BlazorDemos.Pages
         public event Action OnChange;
         public class CategoryData
         {
-            public string Class { get; set; }
-            public string Category { get; set; }
-            public string Id { get; set; }
+            public string? Class { get; set; }
+            public string? Category { get; set; }
+            public string? Id { get; set; }
         }
 
         public void SetDate(DateTime StartDate, DateTime EndDate)
@@ -66,7 +66,9 @@ namespace BlazorDemos.Pages
             CurrentExpenseData = currentExpenseData;
         }
 
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         public ExpenseDataService()
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
         {
             StartDate = new DateTime(2021, 06, 01, 00, 00, 00);
             EndDate = new DateTime(2021, 11, 30, 23, 59, 59);

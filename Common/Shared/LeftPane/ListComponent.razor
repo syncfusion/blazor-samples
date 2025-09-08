@@ -11,12 +11,12 @@
             {
                 @foreach (var group in @groupData)
                 {
-                    var groupName = group.FirstOrDefault().Category;
+                    var groupName = group.FirstOrDefault()?.Category;
                     if (GroupTemplate != null && groupName != null && this.groupList != null && !this.groupList.Contains(groupName))
                     {
                         this.groupList.Add(groupName);
                         <li class="@SampleUtils.LIST_LI_GROUP_CLASS" role="listitem" >
-                            @GroupTemplate(group.FirstOrDefault())
+                            @GroupTemplate(group.FirstOrDefault() ?? new Sample())
                         </li>
                     }
                     foreach (var item in group)
@@ -29,7 +29,10 @@
                                 liClass = SampleUtils.AddClass(liClass, SampleUtils.LIST_ACTIVE);
                             }
                             <li class="@liClass" role="listitem" @onclick="@(async () => { await OnSelection(item); })">
-                                @Template(item)
+                                @if (Template != null)
+                                {
+                                    @Template(item)
+                                }
                             </li>
                         }
                     }
@@ -40,34 +43,34 @@
 </div>
 
 @code {
-    private Sample selectedItem;
-    private List<string> groupList;
-    private List<List<Sample>> groupData { get; set; }
+    private Sample? selectedItem;
+    private List<string>? groupList;
+    private List<List<Sample>>? groupData { get; set; }
     private string classNames = SampleUtils.LIST_CLASS;
 
     /// <summary>
     /// Child content of ListComponent.
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Specifies the datasource of list component.
     /// </summary>
     [Parameter]
-    public IEnumerable<Sample> DataSource { get; set; }
+    public IEnumerable<Sample>? DataSource { get; set; }
 
     /// <summary>
     /// Specifies the group template of list component.
     /// </summary>
     [Parameter]
-    public RenderFragment<Sample> GroupTemplate { get; set; }
+    public RenderFragment<Sample>? GroupTemplate { get; set; }
 
     /// <summary>
     /// Specifies the item template of list component.
     /// </summary>
     [Parameter]
-    public RenderFragment<Sample> Template { get; set; }
+    public RenderFragment<Sample>? Template { get; set; }
 
     /// <summary>
     /// Triggers event callback on item selection.
@@ -101,7 +104,7 @@
         base.OnParametersSet();
         this.groupList = new List<string>();
         // Set selection to the intial rendering.
-        if (this.DataSource.Count() > 0)
+        if (this.DataSource?.Count() > 0)
         {
             groupData = this.DataSource.GroupBy(g => g.Category).Select(s => s.ToList()).ToList();
             if (selectedItem == null)

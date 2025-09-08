@@ -45,34 +45,34 @@
                                 <tbody>
                                     <tr>
                                         <td>
-                                            <span style="font-weight: 500;">First Name: </span> @employee.FirstName
+                                            <span style="font-weight: 500;">First Name: </span> @employee?.FirstName
                                         </td>
                                         <td>
-                                            <span style="font-weight: 500;">Hire Date: </span> @employee.HireDate.ToString("yyyy-MM-dd")
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td>
-                                            <span style="font-weight: 500;">Last Name: </span> @employee.LastName
-                                        </td>
-                                        <td>
-                                            <span style="font-weight: 500;">City: </span> @employee.City
+                                            <span style="font-weight: 500;">Hire Date: </span> @employee?.HireDate.ToString("yyyy-MM-dd")
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span style="font-weight: 500;">Title: </span> @employee.Title
+                                            <span style="font-weight: 500;">Last Name: </span> @employee?.LastName
                                         </td>
                                         <td>
-                                            <span style="font-weight: 500;">Country: </span> @employee.Country
+                                            <span style="font-weight: 500;">City: </span> @employee?.City
                                         </td>
                                     </tr>
                                     <tr>
                                         <td>
-                                            <span style="font-weight: 500;">Email: </span> @employee.Email
+                                            <span style="font-weight: 500;">Title: </span> @employee?.Title
                                         </td>
                                         <td>
-                                            <span style="font-weight: 500;">Address: </span> @employee.Address
+                                            <span style="font-weight: 500;">Country: </span> @employee?.Country
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span style="font-weight: 500;">Email: </span> @employee?.Email
+                                        </td>
+                                        <td>
+                                            <span style="font-weight: 500;">Address: </span> @employee?.Address
                                         </td>
                                     </tr>
                                 </tbody>
@@ -105,25 +105,28 @@
 
 @code {
 
-    SfGrid<EmployeeData> DefaultGrid;
-    public List<EmployeeData> Employees { get; set; }
+    SfGrid<EmployeeData>? DefaultGrid;
+    public List<EmployeeData> ?Employees { get; set; }
     public async Task ToolbarClickHandler(ClickEventArgs args)
     {
-        if (args.Item.Id == "Grid_excelexport")  // Id is the combination of Grid's ID and item name.
+        if (this.DefaultGrid != null)
         {
-            ExcelExportProperties ExportProperties = new ExcelExportProperties();
-            ExportProperties.ExcelDetailRowMode = ExcelDetailRowMode.Expand;
-            await this.DefaultGrid.ExportToExcelAsync(ExportProperties);
-        }
-        else if (args.Item.Id == "Grid_pdfexport")  // Id is the combination of Grid's ID and item name.
-        {
-            PdfExportProperties PdfExportProperties = new PdfExportProperties();
-            PdfExportProperties.PdfDetailRowMode = PdfDetailRowMode.Expand;
-            await this.DefaultGrid.ExportToPdfAsync(PdfExportProperties);
-        }
-        else
-        {
-            await this.DefaultGrid.ExportToCsvAsync();
+            if (args.Item.Id == "Grid_excelexport")  // Id is the combination of Grid's ID and item name.
+            {
+                ExcelExportProperties ExportProperties = new ExcelExportProperties();
+                ExportProperties.ExcelDetailRowMode = ExcelDetailRowMode.Expand;
+                await this.DefaultGrid.ExportToExcelAsync(ExportProperties);
+            }
+            else if (args.Item.Id == "Grid_pdfexport")  // Id is the combination of Grid's ID and item name.
+            {
+                PdfExportProperties PdfExportProperties = new PdfExportProperties();
+                PdfExportProperties.PdfDetailRowMode = PdfDetailRowMode.Expand;
+                await this.DefaultGrid.ExportToPdfAsync(PdfExportProperties);
+            }
+            else
+            {
+                await this.DefaultGrid.ExportToCsvAsync();
+            }
         }
     }
 
@@ -131,10 +134,10 @@
     {
         var excelRows = new List<ExcelDetailTemplateRow>();
         var data = args.ParentRow.Data;
-        excelRows.Add(ProcessExcelRow("First Name", data.FirstName, "Hire Date", data.HireDate.ToString("yyyy-MM-dd")));
-        excelRows.Add(ProcessExcelRow("Last Name", data.LastName, "Country", data.Country));
-        excelRows.Add(ProcessExcelRow("Title", data.Title, "City", data.City));
-        excelRows.Add(ProcessExcelRow("Email", data.Email, "Address", data.Address));
+        excelRows.Add(ProcessExcelRow("First Name", data?.FirstName!, "Hire Date", data?.HireDate.ToString("yyyy-MM-dd")!));
+        excelRows.Add(ProcessExcelRow("Last Name", data?.LastName!, "Country", data?.Country!));
+        excelRows.Add(ProcessExcelRow("Title", data?.Title!, "City", data?.City!));
+        excelRows.Add(ProcessExcelRow("Email", data?.Email!, "Address", data?.Address!));
         args.RowInfo.Rows = excelRows;
     }
 
@@ -150,10 +153,10 @@
     {
         var pdfRows = new List<PdfDetailTemplateRow>();
         var data = args.ParentRow.Data;
-        pdfRows.Add(ProcessPdfRow("First Name", data.FirstName, "Hire Date", data.HireDate.ToString("yyyy-MM-dd")));
-        pdfRows.Add(ProcessPdfRow("Last Name", data.LastName, "Country", data.Country));
-        pdfRows.Add(ProcessPdfRow("Title", data.Title, "City", data.City));
-        pdfRows.Add(ProcessPdfRow("Email", data.Email, "Address", data.Address));
+        pdfRows.Add(ProcessPdfRow("First Name", data?.FirstName!, "Hire Date", data?.HireDate.ToString("yyyy-MM-dd")!));
+        pdfRows.Add(ProcessPdfRow("Last Name", data?.LastName!, "Country", data?.Country!));
+        pdfRows.Add(ProcessPdfRow("Title", data?.Title!, "City", data?.City!));
+        pdfRows.Add(ProcessPdfRow("Email", data?.Email!, "Address", data?.Address!));
         args.RowInfo.Rows = pdfRows;
     }
 
@@ -184,14 +187,14 @@
     public class EmployeeData
     {
         public int? EmployeeID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Title { get; set; }
+        public string? FirstName { get; set; } 
+        public string? LastName { get; set; }
+        public string? Title { get; set; }
         public DateTime HireDate { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
-        public String Email { get; set; }
+        public string? City { get; set; } 
+        public string? Country { get; set; }
+        public String? Email { get; set; } 
         public double Freight { get; set; }
-        public string Address { get; set; }
+        public string? Address { get; set; }
     }
 }

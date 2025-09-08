@@ -199,7 +199,7 @@
                             </td>
                             <td colspan="2">
                                 <div class="textcls">
-                                    <SfTextBox @ref="HeaderText" Value="" Placeholder="Example:'FY 2015.Units Sold'"></SfTextBox>
+                                    <SfTextBox @ref="HeaderText" Value="" Placeholder="Example:'FY 2022.Units Sold'"></SfTextBox>
                                 </div>
                             </td>
                         </tr>
@@ -302,13 +302,13 @@
 </style>
 
 @code {
-    public SfPivotView<PivotProductDetails> Pivot;
-    public SfDropDownList<string, DropDownData> Fields;
-    public SfDropDownList<string, DropDownData> Conditions;
-    public SfNumericTextBox<double> Value1;
-    public SfNumericTextBox<double> Value2;
-    public SfTextBox HeaderText;
-    public List<PivotProductDetails> Data { get; set; }
+    public SfPivotView<PivotProductDetails>? Pivot;
+    public SfDropDownList<string, DropDownData>? Fields;
+    public SfDropDownList<string, DropDownData>? Conditions;
+    public SfNumericTextBox<double>? Value1;
+    public SfNumericTextBox<double>? Value2;
+    public SfTextBox? HeaderText;
+    public List<PivotProductDetails>? Data { get; set; }
     private List<String> LogMessage = new List<string>();
     private string[] drilledMembers = new string[] { "United States" };
     private bool _showHyperlink { get; set; } = false;
@@ -316,7 +316,7 @@
     private bool _showColumnHeaderHyperlink { get; set; } = false;
     private bool _showValueCellHyperlink { get; set; } = true;
     private bool _showSummaryCellHyperlink { get; set; } = false;
-    private string _hyperHeaderText { get; set; } = null;
+    private string _hyperHeaderText { get; set; } = null!;
     private string _measure { get; set; } = "In_Stock";
     private double _conditionalValue1 { get; set; } = 0;
     private double _conditionalValue2 { get; set; } = 0;
@@ -331,36 +331,39 @@
     }
     private void HyperlinkClick(HyperCellClickEventArgs args)
     {
-        AxisSet CellInfo = args.Data as AxisSet;
-        if(CellInfo.Type == "grand sum" && CellInfo.Axis == "row")
+        AxisSet? CellInfo = args.Data as AxisSet;
+        if(CellInfo != null)
         {
-            LogMessage.Add("Summary Row Header");
+            if(CellInfo.Type == "grand sum" && CellInfo.Axis == "row")
+            {
+                LogMessage.Add("Summary Row Header");
+            }
+            else if(CellInfo.Type == "grand sum" && CellInfo.Axis == "column")
+            {
+                LogMessage.Add("Summary Column Header");
+            }
+            else if (CellInfo.IsSum)
+            {
+                LogMessage.Add("Summary Value");
+            }
+            else if (CellInfo.Axis == "column" && CellInfo.Index == null)
+            {
+                LogMessage.Add("Value Header");
+            }
+            else if (CellInfo.Axis == "value")
+            {
+                LogMessage.Add("Value");
+            }
+            else if (CellInfo.Axis == "row")
+            {
+                LogMessage.Add("Row Header");
+            }
+            else if (CellInfo.Axis == "column")
+            {
+                LogMessage.Add("Column Header");
+            }       
+            _showClearButton = true;
         }
-        else if(CellInfo.Type == "grand sum" && CellInfo.Axis == "column")
-        {
-            LogMessage.Add("Summary Column Header");
-        }
-        else if (CellInfo.IsSum)
-        {
-            LogMessage.Add("Summary Value");
-        }
-        else if (CellInfo.Axis == "column" && CellInfo.Index == null)
-        {
-            LogMessage.Add("Value Header");
-        }
-        else if (CellInfo.Axis == "value")
-        {
-            LogMessage.Add("Value");
-        }
-        else if (CellInfo.Axis == "row")
-        {
-            LogMessage.Add("Row Header");
-        }
-        else if (CellInfo.Axis == "column")
-        {
-            LogMessage.Add("Column Header");
-        }       
-        _showClearButton = true;
     }
     private void OnHyperlinkChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
     {
@@ -389,8 +392,8 @@
             _showHyperlink = _showRowHeaderHyperlink = _showColumnHeaderHyperlink = _showValueCellHyperlink = false;
             _showSummaryCellHyperlink = true;
         }
-        _hyperHeaderText = null;
-        _measure = _hyperlinkMode == "conditional" ? "In_Stock" : null;
+        _hyperHeaderText = null!;
+        _measure = _hyperlinkMode == "conditional" ? "In_Stock" : null!;
         _hyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
         _conditionalValue1 = _conditionalValue2 = 0;
     }
@@ -402,18 +405,18 @@
     public void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {
         _showHyperlink = _showRowHeaderHyperlink = _showColumnHeaderHyperlink = _showValueCellHyperlink = _showSummaryCellHyperlink = false;
-        if (_hyperlinkMode == "conditional")
+        if (_hyperlinkMode == "conditional" && Fields?.Value != null && Value1 != null && Conditions?.Value != null)
         {
-            _hyperHeaderText = null;
+            _hyperHeaderText = null!;
             _measure = Fields.Value;
             _hyperlinkCondition = (Syncfusion.Blazor.PivotView.Condition)Enum.Parse(typeof(Syncfusion.Blazor.PivotView.Condition), Conditions.Value, true);
             _conditionalValue1 = Value1.Value;
             _conditionalValue2 = Value2 != null ? Value2.Value : 0;
         }
-        else if (_hyperlinkMode == "headertext")
+        else if (_hyperlinkMode == "headertext" && HeaderText != null)
         {
             _hyperHeaderText = HeaderText.Value;
-            _measure = null;
+            _measure = null!;
             _hyperlinkCondition = Syncfusion.Blazor.PivotView.Condition.LessThan;
             _conditionalValue1 = _conditionalValue2 = 0;
         }
@@ -449,7 +452,7 @@
     };
     public class DropDownData
     {
-        public string Name { get; set; }
-        public string Value { get; set; }
+        public string Name { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
     }
 }

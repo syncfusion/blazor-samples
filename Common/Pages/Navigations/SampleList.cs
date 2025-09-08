@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Sidebar Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Sidebar Example - Default Functionalities",
-                MetaDescription = "This Blazor Sidebar example demonstrates the default functionalities of the sidebar component. Explore the collapsible side content panel with various configuration options.",
+                MetaDescription = "Blazor Sidebar demo shows the default functionalities of the sidebar component. Explore the collapsible side content panel with various configuration options.",
                 Type = SampleType.None,
                 MappingSampleName = "With Default Functionalities"
             },
@@ -37,7 +37,7 @@ namespace BlazorDemos
                 FileName = "Dock.razor",
                 MetaTitle = "Blazor Sidebar with Dock Mode | Auto-Collapse | Syncfusion",
                 HeaderText = "Blazor Sidebar Example - Dock Mode",
-                MetaDescription = "This Blazor Sidebar example demonstrates the dock mode functionality. Learn how to configure a sidebar that collapses to a minimal width with icons when not in use.",
+                MetaDescription = "This Blazor Sidebar example shows the dock mode functionality. Learn how to configure a sidebar that collapses to a minimal width with icons when not in use.",
                 Type = SampleType.None,
                 MappingSampleName = "With Dock"
             },
@@ -50,7 +50,7 @@ namespace BlazorDemos
                 FileName = "API.razor",
                 MetaTitle = "Blazor Sidebar API Usage | Methods & Properties | Syncfusion",
                 HeaderText = "Blazor Sidebar Example - API Configuration",
-                MetaDescription = "This Blazor Sidebar example demonstrates various API methods and properties. Explore how to programmatically control sidebar behavior, including open, close, and toggle operations.",
+                MetaDescription = "Blazor Sidebar demo shows various API methods and properties. Explore how to programmatically control sidebar behavior, including open, close, toggle operation.",
                 MappingSampleName = "With API"
             },
             new Sample
@@ -62,7 +62,7 @@ namespace BlazorDemos
                 FileName = "SidebarWithListView.razor",
                 MetaTitle = "Blazor Sidebar with ListView | Navigation Menu | Syncfusion",
                 HeaderText = "Blazor Sidebar Example - Integration with ListView",
-                MetaDescription = "This Blazor Sidebar example demonstrates the integration of ListView component within a sidebar. Learn how to create a navigation menu with collapsible sidebar functionality.",
+                MetaDescription = "Blazor Sidebar demo shows the integration of ListView component within a sidebar. Learn how to create a navigation menu with collapsible sidebar functionality.",
                 Type = SampleType.None,
                 MappingSampleName = "With ListView"
             },
@@ -75,7 +75,7 @@ namespace BlazorDemos
                 FileName = "SidebarWithMenu.razor",
                 MetaTitle = "Blazor Sidebar with Menu | Navigation Panel | Syncfusion",
                 HeaderText = "Blazor Sidebar Example - Integration with Menu",
-                MetaDescription = "This Blazor Sidebar example demonstrates how to integrate a menu component within a sidebar. Create interactive navigation panels with hierarchical menu items in a collapsible sidebar.",
+                MetaDescription = "Blazor Sidebar demo shows how to integrate a menu control within a sidebar. Create interactive navigation panel with hierarchical menu item in collapse sidebar.",
                 MappingSampleName = "With Menu"
             },
             new Sample
@@ -87,7 +87,7 @@ namespace BlazorDemos
                 FileName = "PanelWithResponsive.razor",
                 MetaTitle = "Blazor Sidebar Responsive Panel | Adaptive Layout | Syncfusion",
                 HeaderText = "Blazor Sidebar Example - Responsive Panel",
-                MetaDescription = "This Blazor Sidebar example demonstrates how to create responsive panels that adapt to different screen sizes. Learn to implement a sidebar that changes behavior based on viewport dimensions.",
+                MetaDescription = "This demo shows how to create responsive panels that adapt to different screen sizes. It implement a sidebar that changes behavior based on viewport dimensions.",
                 MappingSampleName = "With Responsive"
             }
 
@@ -105,7 +105,7 @@ namespace BlazorDemos
                 Url = "context-menu/default-functionalities",
                 MetaTitle = "Blazor Context Menu Component | Default Features | Syncfusion",
                 HeaderText = "Blazor Context Menu Example - Default Functionalities",
-                MetaDescription = "This Blazor Context Menu example demonstrates the default functionality of the component. Learn how to implement right-click context menus with nested navigation options in your web application."
+                MetaDescription = "This Blazor Context Menu example demonstrates how to implement the right-click context menus with the nested navigation options in your web application."
             }
         };
         public List<Sample> MenuBar { get; set; } = new List<Sample>
@@ -119,7 +119,7 @@ namespace BlazorDemos
                 Url = "menu-bar/default-functionalities",
                 MetaTitle = "Blazor Menu Bar Component | Default Features | Syncfusion",
                 HeaderText = "Blazor Menu Bar Example - Default Functionalities",
-                MetaDescription = "This Blazor Menu Bar example demonstrates the default functionality of the component. Learn how to create horizontal navigation menus with dropdown options for your web applications."
+                MetaDescription = "Blazor Menu Bar demo shows the default functionality of the control. How to create horizontal navigation menus with dropdown options for your web applications."
             },
             new Sample
             {
@@ -130,7 +130,7 @@ namespace BlazorDemos
                 Url = "menu-bar/data-binding",
                 MetaTitle = "Blazor Menu Bar with Data Binding | Dynamic Menus | Syncfusion",
                 HeaderText = "Blazor Menu Bar Example - Data Binding",
-                MetaDescription = "This Blazor Menu Bar example demonstrates how to bind data to the menu component. Learn to create dynamic menus from various data sources including arrays and remote data."
+                MetaDescription = "This Blazor Menu Bar demo shows how to bind data to the menu component. Learn to create dynamic menus from various data source including arrays and remote data."
             },
             new Sample
             {
@@ -141,7 +141,7 @@ namespace BlazorDemos
                 Url = "menu-bar/scrollable",
                 MetaTitle = "Blazor Menu Bar with Scrolling | Overflow Items | Syncfusion",
                 HeaderText = "Blazor Menu Bar Example - Scrollable Menu",
-                MetaDescription = "This Blazor Menu Bar example demonstrates how to implement scrollable menus. Learn to handle large numbers of menu items with scrolling functionality for improved user experience."
+                MetaDescription = "This demo shows how to implement scrollable menus. Learn to handle large numbers of menu items with scrolling functionality for improved user experience."
             },
             new Sample
             {
@@ -152,7 +152,7 @@ namespace BlazorDemos
                 Url = "menu-bar/templates",
                 MetaTitle = "Blazor Menu Bar Templates | Customized Items | Syncfusion",
                 HeaderText = "Blazor Menu Bar Example - Item Templates",
-                MetaDescription = "This Blazor Menu Bar example demonstrates how to customize menu items using templates. Learn to add icons, images, and custom HTML content to create visually appealing navigation menus."
+                MetaDescription = "This demo shows how to customize menu items using templates. Learn to add icons, images, and custom HTML content to create visually appealing navigation menus."
             },
             new Sample
             {
@@ -163,7 +163,7 @@ namespace BlazorDemos
                 Url = "menu-bar/hamburger-menu",
                 MetaTitle = "Blazor Menu Bar with Hamburger Mode | Mobile View | Syncfusion",
                 HeaderText = "Blazor Menu Bar Example - Hamburger Menu",
-                MetaDescription = "This Blazor Menu Bar example demonstrates how to implement a hamburger menu for mobile-friendly navigation. Learn to create responsive menus that transform into hamburger style on smaller screens."
+                MetaDescription = "This Blazor Menu Bar example demonstrates how to implement a hamburger menu and create responsive menus that transform into hamburger style on smaller screens."
             },
             new Sample
             {
@@ -174,7 +174,7 @@ namespace BlazorDemos
                 Url = "menu-bar/api",
                 MetaTitle = "Blazor Menu Bar API Usage | Methods & Properties | Syncfusion",
                 HeaderText = "Blazor Menu Bar Example - API Configuration",
-                MetaDescription = "This Blazor Menu Bar example demonstrates the usage of various APIs to control menu behavior. Learn to programmatically manipulate menu items, enable/disable options, and handle events."
+                MetaDescription = "This demo shows the usage of various APIs to control menu behavior. Learn to programmatically manipulate menu items, enable/disable options, and handle events."
             },
             new Sample
             {
@@ -185,7 +185,7 @@ namespace BlazorDemos
                 Url = "menu-bar/keyboard-navigation",
                 MetaTitle = "Blazor Menu Bar Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Menu Bar Example - Keyboard Navigation",
-                MetaDescription = "This Blazor Menu Bar example demonstrates keyboard navigation support. Learn to improve accessibility by implementing keyboard shortcuts for navigating through menu items without mouse interaction."             
+                MetaDescription = "This Blazor Menu Bar example shows how to improve accessibility by implementing keyboard shortcuts for navigating through menu items without mouse interaction."             
             },
             new Sample
             {
@@ -196,7 +196,7 @@ namespace BlazorDemos
                 Url = "menu-bar/toolbar-integration",
                 MetaTitle = "Blazor Menu Bar with Toolbar Integration | Combined UI | Syncfusion",
                 HeaderText = "Blazor Menu Bar Example - Toolbar Integration",
-                MetaDescription = "This Blazor example demonstrates how to integrate a Menu Bar with Toolbar component. Create a comprehensive navigation and action interface similar to modern applications like Microsoft Office.",
+                MetaDescription = "This demo shows how to integrate with Toolbar component. Create a comprehensive navigation and action interface similar to modern applications like MS Office.",
                 Type = SampleType.None
             }
         };
@@ -212,7 +212,7 @@ namespace BlazorDemos
                 Url = "pager/default-functionalities",
                 MetaTitle = "Blazor Pager Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Pager Example - Default Functionalities",
-                MetaDescription = "This Blazor Pager example demonstrates the default functionality of the component. Learn how to implement pagination with configurable page size and navigation controls.",
+                MetaDescription = "This Blazor Pager demo shows the default functionality of the component. Learn how to implement pagination with configurable page size and navigation controls.",
                 Type = SampleType.None
             },
 			new Sample
@@ -224,7 +224,7 @@ namespace BlazorDemos
 				Url = "pager/paging-api",
                 MetaTitle = "Blazor Pager API Usage | Pagination Methods | Syncfusion",
                 HeaderText = "Blazor Pager Example - API Configuration",
-                MetaDescription = "This Blazor Pager example demonstrates how to use various API methods and properties for pagination. Learn to programmatically control page navigation and customize pager behavior.",
+                MetaDescription = "This demo shows how to use various API methods and properties for pagination. Learn to programmatically control page navigation and customize pager behavior.",
                 Type = SampleType.None
             },
             new Sample
@@ -236,7 +236,7 @@ namespace BlazorDemos
                 Url = "pager/pager-dropdown",
                 MetaTitle = "Blazor Pager with Dropdown | Page Size Selection | Syncfusion",
                 HeaderText = "Blazor Pager Example - Dropdown Integration",
-                MetaDescription = "This Blazor Pager example demonstrates how to implement a dropdown for page size selection. Learn to provide users with options to change the number of items displayed per page.",
+                MetaDescription = "This Blazor Pager demo shows how to implement a dropdown for page size selection. Provide users with options to change the number of items displayed per page.",
                 Type = SampleType.None
             },
             new Sample
@@ -248,7 +248,7 @@ namespace BlazorDemos
                 Url = "pager/keyboard-navigation",
                 MetaTitle = "Blazor Pager Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Pager Example - Keyboard Navigation",
-                MetaDescription = "This Blazor Pager example demonstrates keyboard navigation support. Learn to improve accessibility by implementing keyboard shortcuts to navigate through pages without using mouse interactions.",
+                MetaDescription = "This Blazor Pager example demonstrates how to improve accessibility by implementing keyboard shortcuts to navigate via pages without using mouse interactions.",
                 Type = SampleType.None
             },
             new Sample
@@ -260,7 +260,7 @@ namespace BlazorDemos
                 Url = "pager/pager-template",
                 MetaTitle = "Blazor Pager Template Customization | Grid Integration | Syncfusion",
                 HeaderText = "Blazor Pager Example - Custom Templates",
-                MetaDescription = "This Blazor Pager example demonstrates how to create custom templates for pagination. Learn to integrate pager with data grid and customize its appearance with templates.",
+                MetaDescription = "This Blazor Pager demo shows how to create custom templates for pagination. Learn to integrate pager with data grid and customize its appearance with templates.",
                 Type = SampleType.None
             }
         };
@@ -275,7 +275,7 @@ namespace BlazorDemos
                 Url = "accordion/default-functionalities",
                 MetaTitle = "Blazor Accordion Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Accordion Example - Default Functionalities",
-                MetaDescription = "This Blazor Accordion example demonstrates the default functionality of the component. Learn how to create collapsible content panels for organizing information in a limited space."
+                MetaDescription = "This demo shows the default functionality of the component. Learn how to create collapsible content panels for organizing information in a limited space."
             },
             new Sample
             {
@@ -285,7 +285,7 @@ namespace BlazorDemos
                 Url = "accordion/template",
                 MetaTitle = "Blazor Accordion with Custom Templates | Content Styling | Syncfusion",
                 HeaderText = "Blazor Accordion Example - Custom Templates",
-                MetaDescription = "This Blazor Accordion example demonstrates how to use custom templates. Learn to personalize header and content sections with rich HTML content, icons, and dynamic data.",
+                MetaDescription = "This Blazor Accordion demo shows how to use custom templates. Learn to personalize header and content sections with rich HTML content, icons, and dynamic data.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -309,7 +309,7 @@ namespace BlazorDemos
                 Url = "accordion/icons",
                 MetaTitle = "Blazor Accordion with Icons | Visual Indicators | Syncfusion",
                 HeaderText = "Blazor Accordion Example - Icon Integration",
-                MetaDescription = "This Blazor Accordion example demonstrates how to add icons to accordion items. Learn to enhance visual appearance by adding custom icons in headers for improved user experience."
+                MetaDescription = "This demo shows how to add icons to accordion items. Learn to enhance visual appearance by adding custom icons in headers for improved user experience."
             },
             new Sample
             {
@@ -320,7 +320,7 @@ namespace BlazorDemos
                 Url = "accordion/keyboard-interaction",
                 MetaTitle = "Blazor Accordion Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Accordion Example - Keyboard Interaction",
-                MetaDescription = "This Blazor Accordion example demonstrates keyboard interaction support. Learn to implement keyboard shortcuts to navigate and operate accordion items for better accessibility.",
+                MetaDescription = "This example shows keyboard interaction support. Learn to implement keyboard shortcuts to navigate and operate accordion items for better accessibility.",
                 IsHideInMobile = true
             }
         };
@@ -335,7 +335,7 @@ namespace BlazorDemos
                 Url = "toolbar/default-functionalities",
                 MetaTitle = "Blazor Toolbar Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Toolbar Example - Default Functionalities",
-                MetaDescription = "This Blazor Toolbar example demonstrates the default functionality of the component. Learn how to organize commands and controls in a compact horizontal or vertical layout."
+                MetaDescription = "This Blazor Toolbar demo shows the default functionality of the component. Learn how to organize commands and controls in a compact horizontal/vertical layout."
             },
             new Sample
             {
@@ -346,7 +346,7 @@ namespace BlazorDemos
                 Url = "toolbar/overflow-modes",
                 MetaTitle = "Blazor Toolbar Overflow Modes | Responsive Design | Syncfusion",
                 HeaderText = "Blazor Toolbar Example - Overflow Handling",
-                MetaDescription = "This Blazor Toolbar example demonstrates different overflow modes. Learn how to handle toolbar items when they exceed available space with popup, multirow, and extended modes."
+                MetaDescription = "Blazor Toolbar demo shows different overflow modes. Learn how to handle toolbar items when they exceed available space with popup, multirow, and extended modes."
             },
             new Sample
             {
@@ -357,7 +357,7 @@ namespace BlazorDemos
                 Url = "toolbar/alignment",
                 MetaTitle = "Blazor Toolbar Item Alignment | Layout Options | Syncfusion",
                 HeaderText = "Blazor Toolbar Example - Item Alignment",
-                MetaDescription = "This Blazor Toolbar example demonstrates alignment options for toolbar items. Learn how to position items to the left, center, or right within the toolbar for better organization."
+                MetaDescription = "This demo shows alignment options for toolbar items. Learn how to position items to the left, center, or right within the toolbar for better organization."
             },
             new Sample
             {
@@ -368,7 +368,7 @@ namespace BlazorDemos
                 Url = "toolbar/template",
                 MetaTitle = "Blazor Toolbar with Custom Templates | Item Styling | Syncfusion",
                 HeaderText = "Blazor Toolbar Example - Custom Templates",
-                MetaDescription = "This Blazor Toolbar example demonstrates how to use custom templates. Learn to create personalized toolbar items with HTML content, images, and other UI components."
+                MetaDescription = "This Blazor Toolbar example shows how to use custom templates. Learn to create personalized toolbar items with HTML content, images, and other UI components."
             },
             new Sample
             {
@@ -379,7 +379,7 @@ namespace BlazorDemos
                 Url = "toolbar/keyboard-interaction",
                 MetaTitle = "Blazor Toolbar Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Toolbar Example - Keyboard Interaction",
-                MetaDescription = "This Blazor Toolbar example demonstrates keyboard navigation support. Learn to implement keyboard shortcuts to navigate between toolbar items for improved accessibility.",
+                MetaDescription = "This Blazor Toolbar demo shows keyboard navigation support. Learn to implement keyboard shortcuts to navigate between toolbar items for improved accessibility.",
                 IsHideInMobile = true
             }
         };
@@ -394,7 +394,7 @@ namespace BlazorDemos
                 Url = "tabs/default-functionalities",
                 MetaTitle = "Blazor Tabs Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Tabs Example - Default Functionalities",
-                MetaDescription = "This Blazor Tabs example demonstrates the default functionality of the component. Learn how to organize content into multiple tabbed sections for better space utilization."
+                MetaDescription = "This Blazor Tab demo shows the default functionality of the component. Learn how to organize content into multiple tabbed sections for better space utilization."
             },
             new Sample
             {
@@ -405,7 +405,7 @@ namespace BlazorDemos
                 Url = "tabs/orientation",
                 MetaTitle = "Blazor Tabs Orientation Options | Horizontal & Vertical | Syncfusion",
                 HeaderText = "Blazor Tabs Example - Orientation Options",
-                MetaDescription = "This Blazor Tabs example demonstrates horizontal and vertical orientation options. Learn how to change tab layout direction to suit your application's design requirements."
+                MetaDescription = "This Blazor Tab demo shows horizontal and vertical orientation options. Learn how to change tab layout direction to suit your application's design requirements."
             },
             new Sample
             {
@@ -416,7 +416,7 @@ namespace BlazorDemos
                 Url = "tabs/header-icons",
                 MetaTitle = "Blazor Tabs with Header Icons | Visual Indicators | Syncfusion",
                 HeaderText = "Blazor Tabs Example - Header Icons",
-                MetaDescription = "This Blazor Tabs example demonstrates how to add icons to tab headers. Learn to enhance visual appearance by incorporating icon elements alongside tab text for better user experience."
+                MetaDescription = "Blazor Tab demo shows how to add icon to tab headers and enhance visual appearance by incorporating icon elements alongside tab text for better user experience."
             },
             new Sample
             {
@@ -427,7 +427,7 @@ namespace BlazorDemos
                 Url = "tabs/responsive-modes",
                 MetaTitle = "Blazor Tabs Responsive Design | Adaptive Layout | Syncfusion",
                 HeaderText = "Blazor Tabs Example - Responsive Modes",
-                MetaDescription = "This Blazor Tabs example demonstrates responsive behavior options. Learn how tabs adapt to different screen sizes with various modes like scroll, popup, and accordion for mobile-friendly interfaces."
+                MetaDescription = "This Blazor Tabs example shows how tabs adapt to different screen sizes with various modes like scroll, popup, and accordion for mobile-friendly interfaces."
             },
             new Sample
             {
@@ -438,7 +438,7 @@ namespace BlazorDemos
                 Url = "tabs/dynamic-tabs",
                 MetaTitle = "Blazor Dynamic Tabs | Add & Remove Tabs | Syncfusion",
                 HeaderText = "Blazor Tabs Example - Dynamic Tab Creation",
-                MetaDescription = "This Blazor Tabs example demonstrates how to add and remove tabs dynamically. Learn to implement user-managed tabs with runtime manipulation for flexible content organization."
+                MetaDescription = "Blazor Tabs demo shows how to add and remove tabs dynamically. Learn to implement user-managed tabs with runtime manipulation for flexible content organization."
             },
             new Sample
             {
@@ -449,7 +449,7 @@ namespace BlazorDemos
                 Url = "tabs/nested-tabs",
                 MetaTitle = "Blazor Nested Tabs | Hierarchical Content | Syncfusion",
                 HeaderText = "Blazor Tabs Example - Nested Tab Implementation",
-                MetaDescription = "This Blazor Tabs example demonstrates how to create nested tabs. Learn to organize content in a hierarchical structure by placing tabs within tabs for complex information architecture."
+                MetaDescription = "This demo shows how to create nested tabs and organize content in a hierarchical structure by placing tabs within tabs for complex information architecture."
             },
             new Sample
             {
@@ -460,7 +460,7 @@ namespace BlazorDemos
                 Url = "tabs/wizard",
                 MetaTitle = "Blazor Tabs Wizard | Step-by-Step Interface | Syncfusion",
                 HeaderText = "Blazor Tabs Example - Wizard Implementation",
-                MetaDescription = "This Blazor Tabs example demonstrates how to create a wizard interface. Learn to guide users through a multi-step process with sequential tabs and navigation controls."
+                MetaDescription = "This Blazor Tabs example shows how to create a wizard interface. Learn to guide users through a multi-step process with sequential tabs and navigation controls."
             },
             new Sample
             {
@@ -482,7 +482,7 @@ namespace BlazorDemos
                 Url = "tabs/keyboard-interaction",
                 MetaTitle = "Blazor Tabs Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Tabs Example - Keyboard Interaction",
-                MetaDescription = "This Blazor Tabs example demonstrates keyboard navigation support. Learn to implement keyboard shortcuts for accessing tabs without mouse interaction for better accessibility.",
+                MetaDescription = "Blazor Tabs demo shows keyboard navigation support. Learn to implement keyboard shortcuts for accessing tabs without mouse interaction for better accessibility.",
                 IsHideInMobile = true
             }
         };
@@ -494,9 +494,9 @@ namespace BlazorDemos
                 Directory = "Navigations/TreeView",
                 Url = "treeview/default-functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                MetaTitle = "Blazor Treeview Example - Syncfusion Demos",
+                MetaTitle = "Blazor Treeview Example | Default Functionalities | Syncfusion Demos",
                 HeaderText = "Blazor TreeView Example",
-                MetaDescription = "This Blazor TreeView example demonstrates the Default Functionalities in the Blazor TreeView Component. Explore here for more details."
+                MetaDescription = "This Blazor TreeView example demonstrates the default functionalities including hierarchical data display, node expansion/collapse, selection, and navigation."
             },
             new Sample
             {
@@ -507,7 +507,7 @@ namespace BlazorDemos
                 FileName = "IconsandImages.razor",
                 MetaTitle = "Blazor TreeView with Icons and Images | Visual Nodes | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Icons and Images",
-                MetaDescription = "This Blazor TreeView example demonstrates how to add icons and images to tree nodes. Learn to enhance visual hierarchy with custom icons for different node types."
+                MetaDescription = "This Blazor TreeView example shows how to add icons and images to tree nodes. Learn to enhance visual hierarchy with custom icons for different node types."
             },
             new Sample
             {
@@ -519,7 +519,7 @@ namespace BlazorDemos
                 FileName = "LazyLoading.razor",
                 MetaTitle = "Blazor TreeView with Lazy Loading | On-demand Data | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Lazy Loading",
-                MetaDescription = "This Blazor TreeView example demonstrates lazy loading functionality. Learn to load child nodes on-demand when parent nodes are expanded for better performance with large datasets."
+                MetaDescription = "This Blazor TreeView example demonstrates how to load child nodes on-demand when parent nodes are expanded for better performance with large datasets."
             },
             new Sample
             {
@@ -531,7 +531,7 @@ namespace BlazorDemos
                 FileName = "CheckBox.razor",
                 MetaTitle = "Blazor TreeView with Checkboxes | Multi-selection | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Checkbox Selection",
-                MetaDescription = "This Blazor TreeView example demonstrates checkbox functionality. Learn to implement multi-selection in hierarchical data with cascading selection behavior between parent and child nodes."
+                MetaDescription = "This Blazor TreeView example shows how to implement multi-selection in hierarchical data with cascading selection behavior between parent and child nodes."
             },
              new Sample
             {
@@ -542,7 +542,7 @@ namespace BlazorDemos
                 FileName = "NodeEditing.razor",
                 MetaTitle = "Blazor TreeView Node Editing | Rename Nodes | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Node Editing",
-                MetaDescription = "This Blazor TreeView example demonstrates node editing capabilities. Learn how to implement functionality for adding, renaming, and deleting nodes in a hierarchical tree structure."
+                MetaDescription = "Blazor TreeView demo shows node editing capabilities. Learn how to implement functionality for adding, renaming, deleting node in a hierarchical tree structure."
             },
              new Sample
             {
@@ -554,7 +554,7 @@ namespace BlazorDemos
                 FileName = "MultipleSelection.razor",
                 MetaTitle = "Blazor TreeView Multiple Selection | Multi-Node Select | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Multiple Selection",
-                MetaDescription = "This Blazor TreeView example demonstrates multiple node selection. Learn to select multiple non-contiguous nodes using Ctrl+Click and contiguous nodes using Shift+Click."
+                MetaDescription = "This Blazor TreeView demo shows multiple node selection. Learn to select multiple non-contiguous nodes using Ctrl+Click and contiguous nodes using Shift+Click."
             },
             new Sample
             {
@@ -566,7 +566,7 @@ namespace BlazorDemos
                 FileName = "DragAndDrop.razor",
                 MetaTitle = "Blazor TreeView Drag and Drop | Node Reordering | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Drag and Drop",
-                MetaDescription = "This Blazor TreeView example demonstrates drag and drop functionality. Learn to rearrange nodes within the tree or between different trees with visual feedback during dragging."
+                MetaDescription = "This example shows drag and drop functionality. Learn to rearrange nodes within the tree or between different trees with visual feedback during dragging."
             },
             new Sample
             {
@@ -577,7 +577,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor TreeView Templates | Custom Node Rendering | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Custom Templates",
-                MetaDescription = "This Blazor TreeView example demonstrates custom node templates. Learn to create personalized tree nodes with complex HTML content, images, and other UI components."
+                MetaDescription = "This Blazor TreeView example shows custom node templates. Learn to create personalized tree nodes with complex HTML content, images, and other UI components."
             },
             new Sample
             {
@@ -589,7 +589,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor TreeView Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Keyboard Navigation",
-                MetaDescription = "This Blazor TreeView example demonstrates keyboard navigation support. Learn to implement keyboard shortcuts for expanding, collapsing, and selecting nodes without mouse interaction."
+                MetaDescription = "This Blazor TreeView example demonstrates how to implement keyboard shortcuts for expanding, collapsing, and selecting nodes without mouse interaction."
             },
             new Sample
             {
@@ -600,7 +600,7 @@ namespace BlazorDemos
                 FileName = "UIVirtualization.razor",
                 MetaTitle = "Blazor TreeView Virtualization | Performance Optimization | Syncfusion",
                 HeaderText = "Blazor TreeView Example - UI Virtualization",
-                MetaDescription = "This Blazor TreeView example demonstrates UI virtualization. Learn to render only visible nodes to improve performance when dealing with large datasets in a hierarchical structure."
+                MetaDescription = "This Blazor TreeView example demonstrates how to render only visible nodes to improve performance when dealing with large datasets in a hierarchical structure."
             },
               new Sample
             {
@@ -611,7 +611,7 @@ namespace BlazorDemos
                 FileName = "LocalData.razor",
                 MetaTitle = "Blazor TreeView with Local Data Binding | Client Data | Syncfusion",
                 HeaderText = "Blazor TreeView Example - Local Data Binding",
-                MetaDescription = "This Blazor TreeView example demonstrates local data binding. Learn to bind hierarchical data from client-side collections to populate tree nodes with various data adapters."
+                MetaDescription = "Blazor TreeView demo shows local data binding. Learn to bind hierarchical data from client-side collections to populate tree nodes with various data adapters."
             },
                new Sample
             {
@@ -635,7 +635,7 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 MetaTitle = "Blazor File Manager Component | Features Overview | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Overview",
-                MetaDescription = "This Blazor File Manager example demonstrates the key features and capabilities of the component. Explore file browsing, uploading, downloading, and management operations."
+                MetaDescription = "This Blazor File Manager demo shows key features and capabilities of the component. Explore file browsing, uploading, downloading, and management operations."
             },
             new Sample
             {
@@ -644,9 +644,9 @@ namespace BlazorDemos
                 Directory = "Navigations/FileManager",
                 Url = "file-manager/flat-data",
                 FileName = "FlatData.razor",
-                MetaTitle = "Blazor File Manager with Flat Data | Non-hierarchical Data | Syncfusion",
+                MetaTitle = "Blazor File Manager Example | Flat Data | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Flat Data Binding",
-                MetaDescription = "This Blazor File Manager example demonstrates flat data binding. Learn to display and manage files from a non-hierarchical data structure with customizable views.",
+                MetaDescription = "This Blazor File Manager example shows flat data binding. Learn to display and manage files from a non-hierarchical data structure with customizable views.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -670,7 +670,7 @@ namespace BlazorDemos
                 FileName = "CustomThumbnail.razor",
                 MetaTitle = "Blazor File Manager Custom Thumbnails | File Previews | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Custom Thumbnails",
-                MetaDescription = "This Blazor File Manager example demonstrates how to implement custom thumbnails. Learn to create personalized file and folder previews based on file type or other criteria."
+                MetaDescription = "Blazor File Manager demo shows how to implement custom thumbnails. Learn to create personalized file and folder previews based on file type or other criteria."
             },
              new Sample
             {
@@ -681,7 +681,7 @@ namespace BlazorDemos
                 FileName = "Pagination.razor",
                 MetaTitle = "Blazor File Manager with Pagination | Page Navigation | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Pagination",
-                MetaDescription = "This Blazor File Manager example demonstrates pagination functionality. Learn to navigate large file lists with page controls for improved organization and performance."
+                MetaDescription = "This Blazor File Manager demo shows pagination functionality. Learn to navigate large file lists with page controls for improved organization and performance."
             },
              new Sample
             {
@@ -692,7 +692,7 @@ namespace BlazorDemos
                 FileName = "API.razor",
                 MetaTitle = "Blazor File Manager API Usage | Methods & Properties | Syncfusion",
                 HeaderText = "Blazor File Manager Example - API Configuration",
-                MetaDescription = "This Blazor File Manager example demonstrates various API methods and properties. Learn to programmatically control file operations and customize component behavior."
+                MetaDescription = "This Blazor File Manager example shows various API methods and properties. Learn to programmatically control file operations and customize component behavior."
             },
             new Sample
             {
@@ -703,7 +703,7 @@ namespace BlazorDemos
                 FileName = "DragAndDrop.razor",
                 MetaTitle = "Blazor File Manager Drag and Drop | File Organization | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Drag and Drop",
-                MetaDescription = "This Blazor File Manager example demonstrates drag and drop functionality. Learn to move files between folders with intuitive drag gestures for efficient file organization."
+                MetaDescription = "Blazor File Manager demo shows drag and drop functionality. Learn to move files between folders with intuitive drag gestures for efficient file organization."
             },
             new Sample
             {
@@ -714,7 +714,7 @@ namespace BlazorDemos
                 FileName = "DirectoryUpload.razor",
                 MetaTitle = "Blazor File Manager Directory Upload | Folder Upload | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Directory Upload",
-                MetaDescription = "This Blazor File Manager example demonstrates directory upload functionality. Learn to upload entire folders while preserving their structure for efficient bulk file management."
+                MetaDescription = "Blazor FileManager demo shows directory upload functionality.Learn to upload entire folders while preserving their structure for efficient bulk file management."
             },
             new Sample
             {
@@ -725,7 +725,7 @@ namespace BlazorDemos
                 FileName = "Virtualization.razor",
                 MetaTitle = "Blazor File Manager Virtualization | Performance Boost | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Virtualization",
-                MetaDescription = "This Blazor File Manager example demonstrates UI virtualization. Learn how to improve performance by rendering only visible items when handling large file collections."
+                MetaDescription = "This Blazor File Manager demo shows UI virtualization. Learn how to improve performance by rendering only visible items when handling large file collections."
             },
             new Sample
             {
@@ -737,8 +737,34 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor File Manager Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Keyboard Navigation",
-                MetaDescription = "This Blazor File Manager example demonstrates keyboard navigation support. Learn to implement keyboard shortcuts for file operations and navigation without mouse interaction."
+                MetaDescription = "Blazor File Manager demo shows keyboard navigation support. Learn to implement keyboard shortcuts for file operations and navigation without mouse interaction."
             },
+            #if SERVER
+            new Sample
+            {
+                Name = "Tag Search",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/FileManager",
+                Url = "file-manager/ai-tagsearch",
+                FileName = "FileManagerTagSearch.razor",
+                MetaTitle = "File Manager Tag Search - Syncfusion AI Demos",
+                HeaderText = "Blazor FileManager Example - AI-driven Tag Search",
+                MetaDescription = "Demonstrates AI tag search and tagging capabilities in Blazor FileManager.",
+                Type = SampleType.AI,
+            },
+            new Sample
+            {
+                Name = "Smart File Operations",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/FileManager",
+                Url = "file-manager/ai-smart-filemanager",
+                FileName = "SmartFileManager.razor",
+                MetaTitle = "AI Operations with File Manager - Syncfusion AI Demos",
+                HeaderText = "Blazor FileManager Example - Smart AI Operations",
+                MetaDescription = "Use AI-driven operations for file retrieval and management in Blazor FileManager.",
+                Type = SampleType.AI,
+            },
+#endif
             //new Sample
             //{
             //    Name = "File Upload",
@@ -757,7 +783,7 @@ namespace BlazorDemos
                 FileName = "AccessControl.razor",
                 MetaTitle = "Blazor File Manager Access Control | Permissions | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Access Control",
-                MetaDescription = "This Blazor File Manager example demonstrates how to implement access control. Learn to restrict file operations based on user permissions for secure file management."
+                MetaDescription = "This Blazor File Manager example shows how to implement access control. Learn to restrict file operations based on user permissions for secure file management."
             },
             new Sample
             {
@@ -768,7 +794,7 @@ namespace BlazorDemos
                 FileName = "FileUpload.razor",
                 MetaTitle = "Blazor File Manager Upload | File Uploading | Syncfusion",
                 HeaderText = "Blazor File Manager Example - File Upload",
-                MetaDescription = "This Blazor File Manager example demonstrates file upload functionality. Learn to implement single and multiple file uploading with progress tracking and validation."
+                MetaDescription = "This Blazor File Manager example shows file upload functionality. Learn to implement single and multiple file uploading with progress tracking and validation."
             },
             new Sample
             {
@@ -779,7 +805,7 @@ namespace BlazorDemos
                 FileName = "Azure.razor",
                 MetaTitle = "Blazor File Manager with Azure Blob Storage | Cloud Files | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Azure Blob Storage Integration",
-                MetaDescription = "This Blazor File Manager example demonstrates integration with Azure Blob Storage. Learn to browse, manage, and manipulate files stored in Microsoft's cloud storage service."
+                MetaDescription = "This Blazor File Manager demo shows integration with Azure Blob Storage. Learn to browse, manage, and manipulate files stored in MS cloud storage service."
             },
             //new Sample
             //{
@@ -813,7 +839,7 @@ namespace BlazorDemos
                 FileName = "AmazonS3.razor",
                 MetaTitle = "Blazor File Manager with Amazon S3 | AWS Integration | Syncfusion",
                 HeaderText = "Blazor File Manager Example - Amazon S3 Integration",
-                MetaDescription = "This Blazor File Manager example demonstrates integration with Amazon S3 storage. Learn to browse, manage, and manipulate files stored in AWS Simple Storage Service."
+                MetaDescription = "This Blazor File Manager example shows integration with Amazon S3 storage. Learn to browse, manage, and manipulate files stored in AWS Simple Storage Service."
             },
             //new Sample
             //{
@@ -841,9 +867,9 @@ namespace BlazorDemos
                 Url = "file-manager/ibm-cos-node-file-provider",
                 Type = SampleType.None,
                 FileName = "IBM.razor",
-                MetaTitle = "Blazor File Manager with IBM Cloud Storage | COS Integration | Syncfusion",
+                MetaTitle = "Blazor File Manager with IBM Cloud Storage | Integration | Syncfusion",
                 HeaderText = "Blazor File Manager Example - IBM Cloud Object Storage Integration",
-                MetaDescription = "This Blazor File Manager example demonstrates integration with IBM Cloud Object Storage. Learn to browse, manage, and manipulate files stored in IBM's cloud storage service."
+                MetaDescription = "This Blazor File Manager demo shows integration with IBM Cloud Object Storage. Learn to browse, manage, manipulate files stored in IBM's cloud storage service."
             }
         };
          public List<Sample> BreadCrumb { get; set; } = new List<Sample>{
@@ -856,7 +882,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Breadcrumb Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Breadcrumb Example - Default Functionalities",
-                MetaDescription = "This Blazor Breadcrumb example demonstrates the default functionality of the component. Learn to implement hierarchical navigation paths that show the current location within an application."
+                MetaDescription = "This demo shows default functionality of the component. Learn to implement hierarchical navigation paths that show the current location within an application."
             },
              new Sample
             {
@@ -867,7 +893,7 @@ namespace BlazorDemos
                 FileName = "BindToLocation.razor",
                 MetaTitle = "Blazor Breadcrumb URL Binding | Location Binding | Syncfusion",
                 HeaderText = "Blazor Breadcrumb Example - Location Binding",
-                MetaDescription = "This Blazor Breadcrumb example demonstrates URL binding functionality. Learn to automatically generate breadcrumb items from the current application URL for dynamic navigation paths."
+                MetaDescription = "This Blazor Breadcrumb example demonstrates how to automatically generate breadcrumb items from the current application URL for dynamic navigation paths."
             },
             new Sample
             {
@@ -878,7 +904,7 @@ namespace BlazorDemos
                 MetaTitle = "Breadcrumb Template and Customization - Syncfusion Demos",
                 FileName = "TemplateAndCustomization.razor",
                 HeaderText = "Blazor Breadcrumb Example - Custom Templates",
-                MetaDescription = "This Blazor Breadcrumb example demonstrates template customization. Learn to create personalized breadcrumb items with custom styles, icons, and dynamic content for unique navigation trails."
+                MetaDescription = "This Blazor Breadcrumb example shows how to create personalized breadcrumb items with custom styles, icons, and dynamic content for unique navigation trails."
             },
             new Sample
             {
@@ -889,7 +915,7 @@ namespace BlazorDemos
                 FileName = "OverflowModes.razor",
                 MetaTitle = "Blazor Breadcrumb Overflow Handling | Responsive Design | Syncfusion",
                 HeaderText = "Blazor Breadcrumb Example - Overflow Modes",
-                MetaDescription = "This Blazor Breadcrumb example demonstrates overflow handling options. Learn to manage long navigation paths with various modes like wrap, scroll, and hidden for responsive designs."
+                MetaDescription = "This Blazor Breadcrumb example demonstrates how to manage long navigation paths with various modes like wrap, scroll, and hidden for responsive designs."
             },
             new Sample
             {
@@ -900,7 +926,7 @@ namespace BlazorDemos
                 FileName = "Events.razor",
                 MetaTitle = "Blazor Breadcrumb Events | User Interaction | Syncfusion",
                 HeaderText = "Blazor Breadcrumb Example - Event Handling",
-                MetaDescription = "This Blazor Breadcrumb example demonstrates event handling capabilities. Learn to capture and respond to user interactions like item clicks to implement custom navigation logic."
+                MetaDescription = "This Breadcrumb demo shows event handling capabilities. Learn to capture and respond to user interactions like item clicks to implement custom navigation logic."
             },
             new Sample
             {
@@ -911,7 +937,7 @@ namespace BlazorDemos
                 FileName = "KeyboardNavigation.razor",
                 MetaTitle = "Blazor Breadcrumb Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Breadcrumb Example - Keyboard Navigation",
-                MetaDescription = "This Blazor Breadcrumb example demonstrates keyboard navigation support. Learn to implement keyboard shortcuts for navigating breadcrumb items without mouse interaction for better accessibility."
+                MetaDescription = "This Blazor Breadcrumb example shows how to implement keyboard shortcuts for navigating breadcrumb items without mouse interaction for better accessibility."
             },
             new Sample
             {
@@ -922,7 +948,7 @@ namespace BlazorDemos
                 FileName = "AddressBar.razor",
                 MetaTitle = "Blazor Breadcrumb Address Bar | File Explorer | Syncfusion",
                 HeaderText = "Blazor Breadcrumb Example - Address Bar Implementation",
-                MetaDescription = "This Blazor Breadcrumb example demonstrates how to create an address bar. Learn to implement a file explorer-like path navigation with editable breadcrumb functionality."
+                MetaDescription = "This Blazor Breadcrumb demo shows how to create an address bar. Learn to implement a file explorer-like path navigation with editable breadcrumb functionality."
             }
         };
         public List<Sample> Carousel { get; set; } = new List<Sample>{
@@ -935,7 +961,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Carousel Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Carousel Example - Default Functionalities",
-                MetaDescription = "This Blazor Carousel example demonstrates the default functionality of the component. Learn to create a slideshow for cycling through images or content with navigation controls.",
+                MetaDescription = "Blazor Carousel demo shows default functionality of the component. Learn to create a slideshow for cycling through images or content with navigation controls.",
                 MappingSampleName = "With Default Functionalities",
             },
             new Sample
@@ -947,7 +973,7 @@ namespace BlazorDemos
                 FileName = "Templates.razor",
                 MetaTitle = "Blazor Carousel Templates | Custom Slides | Syncfusion",
                 HeaderText = "Blazor Carousel Example - Custom Templates",
-                MetaDescription = "This Blazor Carousel example demonstrates template customization. Learn to create personalized carousel items with custom HTML content, images, and interactive elements.",
+                MetaDescription = "This Blazor Carousel demo shows template customization. Learn to create personalized carousel items with custom HTML content, images, and interactive elements.",
                 MappingSampleName = "With Templates",
             },
             new Sample
@@ -959,7 +985,7 @@ namespace BlazorDemos
                 FileName = "DataBinding.razor",
                 MetaTitle = "Blazor Carousel Data Binding | Dynamic Content | Syncfusion",
                 HeaderText = "Blazor Carousel Example - Data Binding",
-                MetaDescription = "This Blazor Carousel example demonstrates data binding capabilities. Learn to populate carousel slides dynamically from local or remote data sources for flexible content presentation.",
+                MetaDescription = "This Blazor Carousel example demonstrates how to populate carousel slides dynamically from local or remote data sources for flexible content presentation.",
                 Type = SampleType.None,
                 MappingSampleName = "With Data Binding",
             },
@@ -972,7 +998,7 @@ namespace BlazorDemos
                 FileName = "KeyboardInteractions.razor",
                 MetaTitle = "Blazor Carousel Keyboard Controls | Accessibility | Syncfusion",
                 HeaderText = "Blazor Carousel Example - Keyboard Interactions",
-                MetaDescription = "This Blazor Carousel example demonstrates keyboard interaction support. Learn to navigate carousel slides using keyboard shortcuts like arrow keys for improved accessibility.",
+                MetaDescription = "Blazor Carousel demo shows keyboard interaction support. Learn to navigate carousel slides using keyboard shortcuts like arrow keys for improved accessibility.",
                 MappingSampleName = "With Keyboard Interactions",
                 IsHideInMobile = true
             },
@@ -985,7 +1011,7 @@ namespace BlazorDemos
                 FileName = "PartialVisible.razor",
                 MetaTitle = "Blazor Carousel Partial Visible Slides | Multi-View | Syncfusion",
                 HeaderText = "Blazor Carousel Example - Partial Visible Items",
-                MetaDescription = "This Blazor Carousel example demonstrates partial visible slide functionality. Learn to show multiple slides simultaneously with a peek at upcoming slides for improved content preview.",
+                MetaDescription = "This demo shows partial visible slide functionality. Learn to show multiple slides simultaneously with a peek at upcoming slides for improved content preview.",
                 MappingSampleName = "With partial visible",
             },
             new Sample
@@ -997,7 +1023,7 @@ namespace BlazorDemos
                 FileName = "IndicatorType.razor",
                 MetaTitle = "Blazor Carousel Indicator Types | Navigation Options | Syncfusion",
                 HeaderText = "Blazor Carousel Example - Indicator Types",
-                MetaDescription = "This Blazor Carousel example demonstrates various indicator types. Learn to customize slide indicators as dots, numbers, or thumbnails to enhance navigation and visual presentation.",
+                MetaDescription = "This Blazor Carousel example demonstrates how to customize slide indicators as dots, numbers, or thumbnails to enhance navigation and visual presentation.",
                 MappingSampleName = "With Indicator Types"
             },
             new Sample
@@ -1009,7 +1035,7 @@ namespace BlazorDemos
                 FileName = "API.razor",
                 MetaTitle = "Blazor Carousel API Usage | Methods & Properties | Syncfusion",
                 HeaderText = "Blazor Carousel Example - API Configuration",
-                MetaDescription = "This Blazor Carousel example demonstrates API methods and properties. Learn to programmatically control slide transitions, animation, and customize automatic playback behavior.",
+                MetaDescription = "Blazor Carousel demo shows API methods and properties. Learn to programmatically control slide transitions, animation, customize automatic playback behavior.",
                 MappingSampleName = "With API",
             }
         };
@@ -1024,7 +1050,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor AppBar Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor AppBar Example - Default Functionalities",
-                MetaDescription = "This Blazor AppBar example demonstrates the default functionality of the component. Learn to create a customizable top navigation bar with branding, menus, and action items.",
+                MetaDescription = "Blazor AppBar demo shows the default functionality of the component. Learn to create a customizable top navigation bar with branding, menus, and action items.",
                 MappingSampleName = "With Default Functionalities"
             },
             new Sample
@@ -1036,7 +1062,7 @@ namespace BlazorDemos
                 FileName = "Color.razor",
                 MetaTitle = "Blazor AppBar Color Customization | Theme Options | Syncfusion",
                 HeaderText = "Blazor AppBar Example - Color Variants",
-                MetaDescription = "This Blazor AppBar example demonstrates color customization options. Learn to apply different color schemes and themes to match your application's design requirements.",
+                MetaDescription = "This Blazor AppBar example shows color customization options. Learn to apply different color schemes and themes to match your application's design requirements.",
                 MappingSampleName = "With Color"
             }
         };
@@ -1051,7 +1077,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Stepper Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Stepper Example - Default Functionalities",
-                MetaDescription = "This Blazor Stepper example demonstrates the default functionality of the component. Learn to create a step-by-step interface to guide users through a sequential process.",
+                MetaDescription = "This Blazor Stepper demo shows the default functionality of the component. Learn to create a step-by-step interface to guide users through a sequential process.",
                 Type = SampleType.None
             },
             new Sample
@@ -1063,7 +1089,7 @@ namespace BlazorDemos
                 FileName = "Orientation.razor",
                 MetaTitle = "Blazor Stepper Orientation | Horizontal & Vertical | Syncfusion",
                 HeaderText = "Blazor Stepper Example - Orientation Options",
-                MetaDescription = "This Blazor Stepper example demonstrates horizontal and vertical orientation options. Learn to change stepper layout direction to suit your application's design requirements.",
+                MetaDescription = "Blazor Stepper demo shows horizontal and vertical orientation options. Learn to change stepper layout direction to suit your application's design requirements.",
                 Type = SampleType.None
             },
             new Sample
@@ -1075,7 +1101,7 @@ namespace BlazorDemos
                 FileName = "Linear.razor",
                 MetaTitle = "Blazor Stepper Linear Flow | Sequential Steps | Syncfusion",
                 HeaderText = "Blazor Stepper Example - Linear Flow Navigation",
-                MetaDescription = "This Blazor Stepper example demonstrates linear flow implementation. Learn to create a strictly sequential process where users must complete each step before proceeding to the next.",
+                MetaDescription = "This demo shows linear flow implementation. Learn to create a strictly sequential process where users must complete each step before proceeding to the next.",
                 Type = SampleType.None
             },
             new Sample
@@ -1087,7 +1113,7 @@ namespace BlazorDemos
                 FileName = "Validation.razor",
                 MetaTitle = "Blazor Stepper Validation | Form Verification | Syncfusion",
                 HeaderText = "Blazor Stepper Example - Step Validation",
-                MetaDescription = "This Blazor Stepper example demonstrates validation integration. Learn to implement form validation within each step to ensure data quality before allowing users to advance.",
+                MetaDescription = "Blazor Stepper demo shows validation integration. Learn to implement form validation within each step to ensure data quality before allowing users to advance.",
                 Type = SampleType.None
             }
         };
@@ -1102,7 +1128,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Ribbon Component | Default Functionalities | Syncfusion",
                 HeaderText = "Blazor Ribbon Example - Default Functionalities",
-                MetaDescription = "This Blazor Ribbon example demonstrates the default functionality of the component. Learn to create a Microsoft Office-like command interface with tabs, groups, and commands."
+                MetaDescription = "Blazor Ribbon demo shows the default functionality of the component. Learn to create a Microsoft Office-like command interface with tabs, groups, and commands."
             },
             new Sample
             {
@@ -1113,7 +1139,7 @@ namespace BlazorDemos
                 FileName = "Simplified.razor",
                 MetaTitle = "Blazor Ribbon Simplified Mode | Compact Layout | Syncfusion",
                 HeaderText = "Blazor Ribbon Example - Simplified Mode",
-                MetaDescription = "This Blazor Ribbon example demonstrates simplified mode. Learn to implement a compact ribbon interface with minimized tabs and commands for space-efficient applications."
+                MetaDescription = "This Blazor Ribbon demo shows simplified mode. Learn to implement a compact ribbon interface with minimized tabs and commands for space-efficient applications."
             },
             new Sample
             {
@@ -1124,7 +1150,7 @@ namespace BlazorDemos
                 FileName = "Backstage.razor",
                 MetaTitle = "Blazor Ribbon Backstage View | File Menu | Syncfusion",
                 HeaderText = "Blazor Ribbon Example - Backstage Implementation",
-                MetaDescription = "This Blazor Ribbon example demonstrates backstage view functionality. Learn to create a full-screen menu for file operations like open, save, and print similar to Microsoft Office."
+                MetaDescription = "This Blazor Ribbon demo shows backstage view functionality. Learn to create a full-screen menu for file operations like open, save, print similar to MS Office."
             },
             new Sample
             {
@@ -1135,7 +1161,7 @@ namespace BlazorDemos
                 FileName = "ContextualTabs.razor",
                 MetaTitle = "Blazor Ribbon Contextual Tabs | Dynamic Tabs | Syncfusion",
                 HeaderText = "Blazor Ribbon Example - Contextual Tabs",
-                MetaDescription = "This Blazor Ribbon example demonstrates contextual tabs functionality. Learn to dynamically show specialized tabs based on context, similar to how Microsoft Office shows format tabs for selected elements.",
+                MetaDescription = "This Blazor Ribbon example shows how to dynamically show specialized tabs based on context, similar to how MS Office shows format tabs for selected elements.",
                 Type = SampleType.None,
                 NotificationDescription = new string[] {
                     @"Highlights the contextual tab of the Ribbon, showcasing the dynamic rendering of tabs."
@@ -1150,7 +1176,7 @@ namespace BlazorDemos
                 FileName = "Resize.razor",
                 MetaTitle = "Blazor Ribbon Resizing | Responsive Design | Syncfusion",
                 HeaderText = "Blazor Ribbon Example - Responsive Resizing",
-                MetaDescription = "This Blazor Ribbon example demonstrates resizing functionality. Learn how the ribbon automatically adapts its layout to different screen sizes for optimal usability on all devices."
+                MetaDescription = "This demo shows resizing functionality. Learn how the ribbon automatically adapts its layout to different screen sizes for optimal usability on all devices."
             },
             new Sample
             {
@@ -1161,7 +1187,7 @@ namespace BlazorDemos
                 FileName = "KeyTips.razor",
                 MetaTitle = "Blazor Ribbon KeyTips | Keyboard Shortcut Hints | Syncfusion",
                 HeaderText = "Blazor Ribbon Example - KeyTips Implementation",
-                MetaDescription = "This Blazor Ribbon example demonstrates KeyTips functionality. Learn to provide visual keyboard shortcut hints for quick access to ribbon commands without using the mouse.",
+                MetaDescription = "Blazor Ribbon demo shows KeyTips functionality. Learn to provide visual keyboard shortcut hints for quick access to ribbon commands without using the mouse.",
                 Type = SampleType.None,
                 NotificationDescription = new string[] {
                     @"Demonstrates the KeyTips functionality in the Ribbon, allowing users to quick access ribbon items using keyboard actions."
@@ -1176,7 +1202,7 @@ namespace BlazorDemos
                 FileName = "Gallery.razor",
                 MetaTitle = "Blazor Ribbon Gallery | Visual Options Menu | Syncfusion",
                 HeaderText = "Blazor Ribbon Example - Gallery Implementation",
-                MetaDescription = "This Blazor Ribbon example demonstrates gallery functionality. Learn to create visual option menus with previews, similar to style galleries in Microsoft Office applications."
+                MetaDescription = "This Blazor Ribbon demo shows gallery functionality. Learn to create visual option menus with previews, similar to style galleries in MS Office applications."
             }
         };
     }

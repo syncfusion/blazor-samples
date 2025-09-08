@@ -112,29 +112,30 @@
 	}
 	}
 
-	}
 </style>
 
 @*End:Hidden*@
 
 @code {
 	//declare ref variable for Sfdiagramcomponent
-	SfDiagramComponent diagram;
+	SfDiagramComponent? diagram;
 	// adding ZoomPan interactions for the diagram
 	public DiagramInteractions tool = DiagramInteractions.ZoomPan;
 	// adding bridging and Routing constraints to the default 
 	DiagramConstraints DiagramConstraints = DiagramConstraints.Default | (DiagramConstraints.Bridging | DiagramConstraints.Routing);
 
-	DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
-	DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+	DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
+	DiagramObjectCollection<Connector>? connectors = new DiagramObjectCollection<Connector>();
 	// declaring ref variable for toolabarItems
 	private enum ToolbarAction { Execute, Reset };
 	//this variable used to disable and enable the toolBarButton
 	bool isExecute = false, isReset = true;
 	private bool isDispose = false;
+#pragma warning disable CS0414
 	private static int connectorID = 0;
+#pragma warning restore CS0414
 	// This variable used to store the diagram data values
-	string diagramData;
+	string? diagramData;
 
 	bool firstDataInitialize = false;
 	int nodeID = 0;
@@ -147,7 +148,9 @@
 		HtmlTemplate
 	};
 	// This invokes the function to initialize  nodes and connectors
+#pragma warning disable CS1998
 	protected override async Task OnInitializedAsync()
+#pragma warning disable CS1998
 	{
 		CreateNodes();
 		CreateConnectors();
@@ -190,7 +193,7 @@
 	private void OnCreated()
 	{
 		FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-		diagram.FitToPage(mobileoptions);
+		diagram!.FitToPage(mobileoptions);
 	}
 	//Initializes the nodes for the diagram
 	private void CreateNodes()
@@ -234,10 +237,10 @@
 		}
 	    if (shape is BpmnGateway)
 	    {
-			node.Annotations[0].Style.FontSize = 14;
+			node.Annotations[0].Style!.FontSize = 14;
         }
 
-		nodes.Add(node);
+		nodes!.Add(node);
 	}
 	private DiagramPoint GetAnnotationOffset(string id, Shape shape)
 	{
@@ -267,7 +270,7 @@
 		CreateConnector("connector12", "checkLevel", "approvalAccepted", new PathAnnotation() { Content = "Approved", Style = new TextStyle() { Fill = "white" } }, "rightport");
 
 	}
-	private void CreateConnector(string id,string sourceID, string targetID, PathAnnotation pathAnnotation = null, String sourcePortID = null)
+	private void CreateConnector(string id,string sourceID, string targetID, PathAnnotation? pathAnnotation = null, String? sourcePortID = null)
 	{
 
 		Connector connector = new Connector()
@@ -289,9 +292,9 @@
 		}
 		if (pathAnnotation != null)
 		{
-			connector.Annotations.Add(pathAnnotation);
+			connector.Annotations!.Add(pathAnnotation);
 		}
-		connector.Annotations.Add(new PathAnnotation()
+		connector.Annotations!.Add(new PathAnnotation()
 			{
 				Content = " ",
 				Height = 8,
@@ -302,7 +305,7 @@
 			});
 		if (connector.Annotations.Count > 1)
 		{
-			connector.Annotations[0].Style.FontSize = 14;
+			connector.Annotations[0].Style!.FontSize = 14;
 
 			if (connector.Annotations[0].Content == "Accepted" || connector.Annotations[0].Content == "Yes")
 			{
@@ -314,7 +317,7 @@
 				connector.Annotations[0].Style = new TextStyle() { Fill = "white", FontSize = 14 };
 			}
 		}
-		connectors.Add(connector);
+		connectors!.Add(connector);
 
 	}
 
@@ -327,7 +330,7 @@
 
 				isExecute = isReset = true;
 				// Storing the diagram on initial rendering can be used to reset the diagram.
-				if (!firstDataInitialize) diagramData = diagram.SaveDiagram();
+				if (!firstDataInitialize) diagramData = diagram!.SaveDiagram();
 				await StartWorkFlow();
 				isReset = false;
 				break;
@@ -348,19 +351,19 @@
 
 		if (level > 12) return;
 
-		var connectors = diagram.Connectors;
+		var connectors = diagram!.Connectors;
 
 
-		var connector = connectors[level - 1];
+		var connector = connectors![level - 1];
 		const int intervalDuration = 120;
-		var annotation = connector.Annotations[^1]; 
+		var annotation = connector.Annotations![^1]; 
 
 		bool IsRejectedConnector(string connectorId) =>
 			connectorId == "connector6" ||
 			connectorId == "connector8" ||
 			connectorId == "connector11";
 
-		if (IsRejectedConnector(connector.ID))
+		if (IsRejectedConnector(connector.ID!))
 		{
 			await StartWorkFlow(level + 1);
 			return;
@@ -368,11 +371,11 @@
 
 		while (!isDispose)
 		{
-			annotation.Style.Fill = "#76F543";
+			annotation.Style!.Fill = "#76F543";
 			if (annotation.Offset < 0.9)
 			{
 				annotation.Offset += 0.05; // Increment for animation
-				connector.Style.StrokeColor = "#F8FC02";
+				connector.Style!.StrokeColor = "#F8FC02";
 			}
 			else
 			{
@@ -399,10 +402,10 @@
 	// This method display connctor animation 
 	private async Task ConnectorAnimation(Connector connector)
 	{
-		var annotation = connector.Annotations[^1];
-		annotation.Style.Fill = "Transparent";
-		connector.Style.StrokeColor = "green";
-		connector.TargetDecorator.Style.StrokeColor = "green";
+		var annotation = connector.Annotations![^1];
+		annotation.Style!.Fill = "Transparent";
+		connector.Style!.StrokeColor = "green";
+		connector.TargetDecorator!.Style.StrokeColor = "green";
 		connector.TargetDecorator.Style.Fill = "green";
 
 		StateHasChanged();
@@ -419,7 +422,7 @@
 	// create node for display animation on the targetNode
 	private void CreateLoadingNode(Node targetNode)
 	{
-		nodes.Add(new Node() { ID = ("node" + (nodeID++)), Width = 15, Height = 15, OffsetX = (targetNode.OffsetX - (targetNode.Width ?? 0) * targetNode.Pivot.X) + 1, OffsetY = (targetNode.OffsetY - (targetNode.Height ?? 0) * targetNode.Pivot.Y) + 2, Shape = new Shape { Type = NodeShapes.HTML } });
+		nodes!.Add(new Node() { ID = ("node" + (nodeID++)), Width = 15, Height = 15, OffsetX = (targetNode.OffsetX - (targetNode.Width ?? 0) * targetNode.Pivot!.X) + 1, OffsetY = (targetNode.OffsetY - (targetNode.Height ?? 0) * targetNode.Pivot.Y) + 2, Shape = new Shape { Type = NodeShapes.HTML } });
 		StateHasChanged();
 	}
 
@@ -427,7 +430,7 @@
 	{
 		if (!isDispose)
 		{
-			targetNode.Style.StrokeWidth = 2;
+			targetNode.Style!.StrokeWidth = 2;
 			targetNode.Style.StrokeColor = "green";
 			StateHasChanged();
 		}
@@ -436,7 +439,7 @@
 	//Function to reset the workflow when the reset option is clicked
 	private async Task ResetWorkFlow()
 	{
-		await diagram.LoadDiagramAsync(diagramData);
+		await diagram!.LoadDiagramAsync(diagramData);
 	}
 	@*Hidden:Lines*@
 	public void Dispose()

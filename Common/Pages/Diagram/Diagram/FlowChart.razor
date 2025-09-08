@@ -380,17 +380,17 @@
 @code {
     private int ConnectorCount { get; set; } = 0;
     public DiagramSelectionSettings SelectionSettings { get; set; } = new DiagramSelectionSettings();
-    public DiagramSize SymbolPreview { get; set; }
-    public SymbolMargin SymbolMargin { get; set; } = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
-    public SfDiagramComponent DiagramInstance { get; set; }
-    public SfSymbolPaletteComponent PaletteInstance { get; set; }
+    public DiagramSize? SymbolPreview { get; set; }
+    public SymbolMargin? SymbolMargin { get; set; } = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
+    public SfDiagramComponent? DiagramInstance { get; set; }
+    public SfSymbolPaletteComponent? PaletteInstance { get; set; }
     public string ZoomItemDropdownContent { get; set; } = "100 %";
     public enum PdfPageOrientation
     {
         Portrait,
         Landscape
     }
-    public string data;
+    public string? data;
     public bool IsEnablePasteButton { get; set; } = true;
     public bool IsEnableCutButton { get; set; } = true;
     public bool IsEnableCopyButton { get; set; } = true;
@@ -401,25 +401,25 @@
     public bool IsLockDisable { get; set; } = true;
     public bool IsMultipleNode { get; set; } = true;
     public bool IsSingleNode { get; set; } = true;
-    private IDiagramObject DiagramDrawingObject { get; set; }
+    private IDiagramObject? DiagramDrawingObject { get; set; }
     private DiagramInteractions DiagramTool { get; set; } = DiagramInteractions.Default;
     public DiagramObjectCollection<UserHandle> UserHandles { get; set; } = new DiagramObjectCollection<UserHandle>();
     //Defines DiagramInstance's nodes collection
-    private DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
+    private DiagramObjectCollection<Node>? DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
     //Defines Diagram's connectors collection
-    private DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
+    private DiagramObjectCollection<Connector>? DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
     //Define DiagramPalettes collection
-    private DiagramObjectCollection<Palette> DiagramPalettes { get; set; } = new DiagramObjectCollection<Palette>();
+    private DiagramObjectCollection<Palette>? DiagramPalettes { get; set; } = new DiagramObjectCollection<Palette>();
     // Defines palette's flow-shape collection
-    private DiagramObjectCollection<NodeBase> PalettesFlowShapes { get; set; } = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? PalettesFlowShapes { get; set; } = new DiagramObjectCollection<NodeBase>();
     // Defines interval values for GridLines
-    public double[] GridLineIntervals { get; set; }
+    public double[]? GridLineIntervals { get; set; }
     // Defines palette's connector collection
-    private DiagramObjectCollection<NodeBase> PalettesConnectorSymbols { get; set; } = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? PalettesConnectorSymbols { get; set; } = new DiagramObjectCollection<NodeBase>();
     //Reference to uploder
-    public SfUploader UploadFiles { get; set; }
+    public SfUploader? UploadFiles { get; set; }
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
@@ -427,7 +427,7 @@
         {
             UpdateHandle();
         }
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteInstance!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             DiagramInstance
         };
@@ -476,8 +476,8 @@
     }
     private void UpdateToolbarItems()
     {
-        int? nodeCount = DiagramInstance?.SelectionSettings.Nodes.Count;
-        int? ConnectorCount = DiagramInstance?.SelectionSettings.Connectors.Count;
+        int? nodeCount = DiagramInstance?.SelectionSettings!.Nodes!.Count;
+        int? ConnectorCount = DiagramInstance?.SelectionSettings!.Connectors!.Count;
         if (nodeCount + ConnectorCount == 0)
         {
             IsEnableCopyButton = true;
@@ -510,19 +510,19 @@
     private void OnSelectionChanged(Syncfusion.Blazor.Diagram.SelectionChangedEventArgs args)
     {
         this.UpdateToolbarItems();
-        if (args.NewValue.Count > 0 && args.NewValue[0] is Node)
+        if (args.NewValue!.Count > 0 && args.NewValue[0] is Node)
         {
-            DiagramInstance.SelectionSettings.Constraints = DiagramInstance.SelectionSettings.Constraints | SelectorConstraints.UserHandle;
+            DiagramInstance!.SelectionSettings!.Constraints = DiagramInstance.SelectionSettings.Constraints | SelectorConstraints.UserHandle;
         }
         else if (args.NewValue.Count > 0)
         {
-            DiagramInstance.SelectionSettings.Constraints = DiagramInstance.SelectionSettings.Constraints & ~SelectorConstraints.UserHandle;
+            DiagramInstance!.SelectionSettings!.Constraints = DiagramInstance.SelectionSettings.Constraints & ~SelectorConstraints.UserHandle;
         }
     }
 
     private void OnCreated()
     {
-        DiagramInstance.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes[0] });
+        DiagramInstance!.Select(new ObservableCollection<IDiagramObject>() { DiagramInstance.Nodes![0] });
         FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
         DiagramInstance.FitToPage(options);
     }
@@ -530,14 +530,14 @@
     // Method to customize the tool
     public InteractionControllerBase GetCustomTool(DiagramElementAction action, string id)
     {
-        InteractionControllerBase tool = null;
+        InteractionControllerBase? tool = null;
         if (id == "Draw")
         {
-            tool = new DrawTool(DiagramInstance);
+            tool = new DrawTool(DiagramInstance!);
         }
         else
         {
-            tool = new AddDeleteTool(DiagramInstance);
+            tool = new AddDeleteTool(DiagramInstance!);
         }
         return tool;
     }
@@ -545,26 +545,26 @@
     public class AddDeleteTool : InteractionControllerBase
     {
         SfDiagramComponent sfDiagram;
-        Node deleteObject = null;
+        Node? deleteObject = null;
         public AddDeleteTool(SfDiagramComponent Diagram) : base(Diagram)
         {
             sfDiagram = Diagram;
         }
         public override void OnMouseDown(DiagramMouseEventArgs args)
         {
-            if (sfDiagram.SelectionSettings.Nodes.Count > 0 && ((sfDiagram.SelectionSettings.Nodes[0]) is Node))
+            if (sfDiagram.SelectionSettings!.Nodes!.Count > 0 && ((sfDiagram.SelectionSettings.Nodes[0]) is Node))
             {
                 deleteObject = (sfDiagram.SelectionSettings.Nodes[0]) as Node;
             }
             base.OnMouseDown(args);
         }
-        public override void OnMouseUp(DiagramMouseEventArgs args)
+        public override void OnMouseUp(DiagramMouseEventArgs? args)
         {
             if (deleteObject != null)
             {
                 sfDiagram.StartGroupAction();
                 sfDiagram.BeginUpdate();
-                sfDiagram.Nodes.Remove(deleteObject);
+                sfDiagram.Nodes!.Remove(deleteObject);
                 _ = sfDiagram.EndUpdateAsync();
                 sfDiagram.EndGroupAction();
             }
@@ -576,14 +576,14 @@
     public class DrawTool : ConnectorDrawingController
     {
         SfDiagramComponent sfDiagram;
-        Connector newConnector = null;
+        Connector? newConnector = null;
         public DrawTool(SfDiagramComponent Diagram) : base(Diagram, DiagramElementAction.ConnectorSourceEnd)
         {
             sfDiagram = Diagram;
             newConnector = new Connector()
             {
                 ID = "OrthogonalConnector",
-                SourceID = sfDiagram.SelectionSettings.Nodes[0].ID,
+                SourceID = sfDiagram.SelectionSettings!.Nodes![0].ID,
                 Type = ConnectorSegmentType.Orthogonal,
             };
             @*Hidden:Lines*@
@@ -599,7 +599,7 @@
         {
             base.OnMouseDown(args);
         }
-        public override void OnMouseUp(DiagramMouseEventArgs args)
+        public override void OnMouseUp(DiagramMouseEventArgs? args)
         {
             base.OnMouseUp(args);
         }
@@ -636,11 +636,11 @@
         CreateConnector("node4", "node6", "No", false, "port3", "port1");
         CreateConnector("node5", "node6", "No", false, "port3", "port4");
         CreateConnector("node5", "node7", "Yes");
-        CreateConnector("node6", "node2", default(string), false, "port2", "port3");
+        CreateConnector("node6", "node2", default(string)!, false, "port2", "port3");
         CreateConnector("node7", "node8");
         CreateConnector("node7", "node9");
         CreateConnector("node7", "node10");
-        CreateConnector("node10", "node11", default(string), true);
+        CreateConnector("node10", "node11", default(string)!, true);
     }
     // Create Nodes and Connectors for the Palette.
     private void InitPaletteModel()
@@ -694,19 +694,19 @@
     }
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        node.Style.Fill = "#357BD2";
-        if (!(node.ID.StartsWith("Annotation") || node.ID.StartsWith("SequentialData")))
+        Node? node = obj as Node;
+        node!.Style!.Fill = "#357BD2";
+        if (!(node.ID!.StartsWith("Annotation") || node.ID.StartsWith("SequentialData")))
             node.Style.StrokeColor = "White";
         node.Style.Opacity = 1;
     }
     private void OnConnectorCreating(IDiagramObject obj)
     {
-        Connector connector = obj as Connector;
-        connector.Style.Fill = "black";
+        Connector? connector = obj as Connector;
+        connector!.Style!.Fill = "black";
         connector.Style.StrokeColor = "black";
         connector.Style.Opacity = 1;
-        connector.TargetDecorator.Style.Fill = "black";
+        connector.TargetDecorator!.Style.Fill = "black";
         connector.TargetDecorator.Style.StrokeColor = "black";
     }
     // Method is used to create a node for the palette.
@@ -754,7 +754,7 @@
         double ratio = 100 / oldWidth;
         diagramNode.Width = 100;
         diagramNode.Height *= ratio;
-        PalettesFlowShapes.Add(diagramNode);
+        PalettesFlowShapes!.Add(diagramNode);
     }
 
     // used to create a Port.
@@ -792,7 +792,7 @@
         return defaultsPorts;
     }
     // Method is used to create a Connector for the diagram.
-    private void CreateConnector(string sourceId, string targetId, string label = default(string), bool isDashLine = false, string sport = "", string tport = "")
+    private void CreateConnector(string sourceId, string targetId, string label = default(string)!, bool isDashLine = false, string sport = "", string tport = "")
     {
         Connector diagramConnector = new Connector()
         {
@@ -822,7 +822,7 @@
         }
         diagramConnector.Type = ConnectorSegmentType.Orthogonal;
 
-        DiagramConnectors.Add(diagramConnector);
+        DiagramConnectors!.Add(diagramConnector);
     }
     // Method is used to create a node for the diagram.
     private void CreateNode(string id, double x, double y, NodeFlowShapes shape, string label)
@@ -850,7 +850,7 @@
             }
         }
         };
-        DiagramNodes.Add(diagramNode);
+        DiagramNodes!.Add(diagramNode);
     }
     // Method is used to create a Connector for the palette.
     private void CreatePaletteConnector(string id, ConnectorSegmentType type, DecoratorShape decoratorShape)
@@ -883,7 +883,7 @@
                 };
             diagramConnector.Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip;
         }
-        PalettesConnectorSymbols.Add(diagramConnector);
+        PalettesConnectorSymbols!.Add(diagramConnector);
     }
     private void UpdateHandle()
     {
@@ -916,7 +916,7 @@
     }
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
     private async Task ToolbarEditorClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
@@ -925,11 +925,11 @@
         switch (value)
         {
             case "New Diagram":
-                DiagramInstance.Clear();
+                DiagramInstance!.Clear();
                 SetElements();
                 break;
             case "Open Diagram":
-                LoadDiagram();
+                _ = LoadDiagram();
                 break;
             case "Save Diagram":
                 string fileName = "Flow Chart";
@@ -939,25 +939,25 @@
                 DiagramPrintSettings print = new DiagramPrintSettings();
                 print.PageWidth = 700;
                 print.PageHeight = 1200;
-                await DiagramInstance.PrintAsync(print);
+                await DiagramInstance!.PrintAsync(print);
                 break;
             case "Cut":
-                DiagramInstance.Cut();
+                DiagramInstance!.Cut();
                 IsEnablePasteButton = false;
                 break;
             case "Copy":
-                DiagramInstance.Copy();
+                DiagramInstance!.Copy();
                 IsEnablePasteButton = false;
                 break;
             case "Paste":
-                DiagramInstance.Paste();
+                DiagramInstance!.Paste();
                 break;
             case "Undo":
-                DiagramInstance.Undo();
+                DiagramInstance!.Undo();
                 this.UpdateToolbarItems();
                 break;
             case "Redo":
-                DiagramInstance.Redo();
+                DiagramInstance!.Redo();
                 break;
             case "Pan":
                 DiagramTool = DiagramInteractions.ZoomPan;
@@ -966,7 +966,7 @@
                 DiagramTool = DiagramInteractions.SingleSelect | DiagramInteractions.MultipleSelect;
                 break;
             case "Delete":
-                DiagramInstance.Delete();
+                DiagramInstance!.Delete();
                 break;
             case "Lock":
                 OnLockItemClick();
@@ -983,25 +983,25 @@
         switch (value)
         {
             case "Send To Back":
-                DiagramInstance.SendToBack();
+                DiagramInstance!.SendToBack();
                 break;
             case "Bring To Front":
-                DiagramInstance.BringToFront();
+                DiagramInstance!.BringToFront();
                 break;
             case "Bring Forward":
-                DiagramInstance.BringForward();
+                DiagramInstance!.BringForward();
                 break;
             case "Send Backward":
-                DiagramInstance.SendBackward();
+                DiagramInstance!.SendBackward();
                 break;
             case "Group":
-                if (DiagramInstance.SelectionSettings.Nodes.Count + DiagramInstance.SelectionSettings.Connectors.Count > 1)
+                if (DiagramInstance!.SelectionSettings!.Nodes!.Count + DiagramInstance.SelectionSettings.Connectors!.Count > 1)
                 {
                     DiagramInstance.Group();
                 }
                 break;
             case "Ungroup":
-                if (DiagramInstance.SelectionSettings.Nodes.Count + DiagramInstance.SelectionSettings.Connectors.Count > 0)
+                if (DiagramInstance!.SelectionSettings!.Nodes!.Count + DiagramInstance.SelectionSettings.Connectors!.Count > 0)
                 {
                     DiagramInstance.Ungroup();
                 }
@@ -1017,15 +1017,15 @@
                FlipAll(FlipDirection.Vertical);
                 break;
             case "Rotate Clockwise":
-                DiagramInstance.Rotate(DiagramInstance.SelectionSettings, 90);
+                DiagramInstance!.Rotate(DiagramInstance.SelectionSettings, 90);
                 break;
             case "Rotate Counter-Clockwise":
-                DiagramInstance.Rotate(DiagramInstance.SelectionSettings, -90);
+                DiagramInstance!.Rotate(DiagramInstance.SelectionSettings, -90);
                 break;
             case "JPG":
             case "PNG":
             case "SVG":
-                Export(value);
+                _ = Export(value);
                 break;
             case "Straight":
                 DiagramDrawingObject = new Connector() { Type = ConnectorSegmentType.Straight };
@@ -1052,35 +1052,35 @@
                 DiagramTool = DiagramInteractions.DrawOnce;
                 break;
             case "Align Left":
-                DiagramInstance.SetAlign(AlignmentOptions.Left);
+                DiagramInstance!.SetAlign(AlignmentOptions.Left);
                 break;
             case "Align Center":
-                DiagramInstance.SetAlign(AlignmentOptions.Center);
+                DiagramInstance!.SetAlign(AlignmentOptions.Center);
                 break;
             case "Align Right":
-                DiagramInstance.SetAlign(AlignmentOptions.Right);
+                DiagramInstance!.SetAlign(AlignmentOptions.Right);
                 break;
             case "Align Top":
-                DiagramInstance.SetAlign(AlignmentOptions.Top);
+                DiagramInstance!.SetAlign(AlignmentOptions.Top);
                 break;
             case "Align Middle":
-                DiagramInstance.SetAlign(AlignmentOptions.Middle);
+                DiagramInstance!.SetAlign(AlignmentOptions.Middle);
                 break;
             case "Align Bottom":
-                DiagramInstance.SetAlign(AlignmentOptions.Bottom);
+                DiagramInstance!.SetAlign(AlignmentOptions.Bottom);
                 break;
             case "Distribute Objects Vertically":
-                DiagramInstance.SetDistribute(DistributeOptions.BottomToTop);
+                DiagramInstance!.SetDistribute(DistributeOptions.BottomToTop);
                 break;
             case "Distribute Objects Horizontally":
-                DiagramInstance.SetDistribute(DistributeOptions.RightToLeft);
+                DiagramInstance!.SetDistribute(DistributeOptions.RightToLeft);
                 break;
         }
     }
     private void SelectedZoomItem(Syncfusion.Blazor.SplitButtons.MenuEventArgs args)
     {
         var value = args.Item.Text;
-        var currentZoom = DiagramInstance.ScrollSettings.CurrentZoom;
+        var currentZoom = DiagramInstance!.ScrollSettings!.CurrentZoom;
         switch (value)
         {
             case "Zoom In":
@@ -1112,54 +1112,54 @@
         }
         ZoomItemDropdownContent = FormattableString.Invariant($"{Math.Round(DiagramInstance.ScrollSettings.CurrentZoom * 100)}") + "%";
     }
-    public async void SetElements()
+    public void SetElements()
     {
         IsSingleNode = true;
         IsLockDisable = true;
         IsDeleteDisable = true;
         IsMultipleNode = true;
-        DiagramInstance.ClearHistory();
+        DiagramInstance!.ClearHistory();
         DiagramInstance.ResetZoom();
         StateHasChanged();
     }
     public async Task Download(string fileName)
     {
-        string data = DiagramInstance.SaveDiagram();
-        await FileUtil.SaveAs(jsRuntime, data, fileName);
+        string data = DiagramInstance!.SaveDiagram();
+        await FileUtil.SaveAs(jsRuntime!, data, fileName);
     }
-    private async Task Export(string value)
+    private async Task Export(string? value)
     {
         DiagramExportSettings export = new DiagramExportSettings();
         export.FitToPage = true;
         if(value=="JPG")
-            await DiagramInstance.ExportAsync("Diagram", DiagramExportFormat.JPEG, export);
+            await DiagramInstance!.ExportAsync("Diagram", DiagramExportFormat.JPEG, export);
         else if(value=="PNG")
-            await DiagramInstance.ExportAsync("DiagramInstance", DiagramExportFormat.PNG, export);
+            await DiagramInstance!.ExportAsync("DiagramInstance", DiagramExportFormat.PNG, export);
         else if(value=="SVG")
-            await DiagramInstance.ExportAsync("Diagram", DiagramExportFormat.SVG, export);
+            await DiagramInstance!.ExportAsync("Diagram", DiagramExportFormat.SVG, export);
     }
     public async Task LoadDiagram()
     {
-        DiagramInstance.BeginUpdate();
+        DiagramInstance!.BeginUpdate();
         ExtensionType = ".json";
-        await FileUtil.Click(jsRuntime);
+        await FileUtil.Click(jsRuntime!);
         await DiagramInstance.EndUpdateAsync();
     }
     public async Task OnUploadFileSelected(UploadingEventArgs args)
     {
-        if (args.FileData.Type == "json")
+        if (args.FileData!.Type == "json")
         {
-            string json = await FileUtil.LoadFile(jsRuntime, args.FileData);
+            string json = await FileUtil.LoadFile(jsRuntime!, args.FileData);
             json = json.Replace(System.Environment.NewLine, string.Empty);
-            await DiagramInstance.LoadDiagramAsync(json.ToString());
+            await DiagramInstance!.LoadDiagramAsync(json.ToString());
             FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
             DiagramInstance.FitToPage(options);
-            await UploadFiles.ClearAllAsync();
+            await UploadFiles!.ClearAllAsync();
         }
     }
     public void FlipAll(FlipDirection direction)
     {
-        if (DiagramInstance.SelectionSettings.Nodes.Count > 0)
+        if (DiagramInstance!.SelectionSettings!.Nodes!.Count > 0)
         {
             for (int i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
             {
@@ -1178,13 +1178,15 @@
 
     private void ScrollChanged(ScrollChangedEventArgs args)
     {
-        ZoomItemDropdownContent = FormattableString.Invariant($"{Math.Round(DiagramInstance.ScrollSettings.CurrentZoom * 100)}") + "%";
+        ZoomItemDropdownContent = FormattableString.Invariant($"{Math.Round(DiagramInstance!.ScrollSettings!.CurrentZoom * 100)}") + "%";
     }
     private void OnLockItemClick()
     {
+#pragma warning disable CS0219
         bool isLock = false;
+#pragma warning restore CS0219
         bool isPreventPropertyChange = false;
-        for (var i = 0; i < DiagramInstance.SelectionSettings.Nodes.Count; i++)
+        for (var i = 0; i < DiagramInstance!.SelectionSettings!.Nodes!.Count; i++)
         {
             var node = DiagramInstance.SelectionSettings.Nodes[i];
             if (node.Constraints.HasFlag(NodeConstraints.Default))
@@ -1193,7 +1195,7 @@
                 {
                     node.Constraints = node.Constraints & ~(NodeConstraints.Resize | NodeConstraints.Drag | NodeConstraints.Rotate);
                     node.Constraints = node.Constraints | NodeConstraints.ReadOnly;
-                    if (node.Ports.Count > 0)
+                    if (node.Ports!.Count > 0)
                     {
                         for (var k = 0; k < node.Ports.Count; k++)
                         {
@@ -1209,7 +1211,7 @@
                 if (!isPreventPropertyChange)
                 {
                     node.Constraints = NodeConstraints.Default;
-                    if (node.Ports.Count > 0)
+                    if (node.Ports!.Count > 0)
                     {
                         for (var k = 0; k < node.Ports.Count; k++)
                         {
@@ -1222,7 +1224,7 @@
                     isLock = true;
             }
         }
-        for (var j = 0; j < DiagramInstance.SelectionSettings.Connectors.Count; j++)
+        for (var j = 0; j < DiagramInstance.SelectionSettings.Connectors!.Count; j++)
         {
             var connector = DiagramInstance.SelectionSettings.Connectors[j];
             if (connector.Constraints.HasFlag(ConnectorConstraints.Default))

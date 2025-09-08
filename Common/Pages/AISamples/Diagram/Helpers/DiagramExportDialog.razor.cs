@@ -44,7 +44,7 @@ namespace TextToMindMapDiagram
         private void FileNameChangeHandler(ChangeEventArgs args)
         {
             if (args.Value != null)
-                diagramfileName = args.Value.ToString();
+                diagramfileName = args.Value.ToString()!;
         }
         /// <summary>
         /// This method is used to enable the multiple page options.
@@ -64,15 +64,15 @@ namespace TextToMindMapDiagram
         /// </summary>
         private async Task ExportHandler()
         {
-            DiagramRect pageBounds = Parent.Parent.Diagram.GetPageBounds();
+            DiagramRect pageBounds = Parent.Parent.Diagram!.GetPageBounds();
             SfDiagramComponent diagram = Parent.Parent.Diagram;
             DiagramExportSettings options = new DiagramExportSettings()
             {
                 FitToPage = IsMultiplePageExport,
                 Margin = new DiagramThickness() { Bottom = 0, Left = 0, Right = 0, Top = 0 },
                 Region = (DiagramPrintExportRegion)Enum.Parse(typeof(DiagramPrintExportRegion), CurrentRegionValue.ToString(), true),
-                PageHeight = diagram.PageSettings.Height != null ? diagram.PageSettings.Height.Value : pageBounds.Height,
-                PageWidth = diagram.PageSettings.Width != null ? diagram.PageSettings.Width.Value : pageBounds.Width,
+                PageHeight = diagram.PageSettings?.Height != null ? diagram.PageSettings.Height.Value : pageBounds.Height,
+                PageWidth = diagram.PageSettings?.Width != null ? diagram.PageSettings.Width.Value : pageBounds.Width,
             };
             await ExportDialog.HideAsync();
             await Parent.ExportDiagram(options, CurrentFormatValue.ToString(), diagramfileName);

@@ -1,4 +1,4 @@
-﻿@page "/pager/pager-dropdown"
+@page "/pager/pager-dropdown"
 
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Cards
@@ -61,10 +61,10 @@
 
 
 @code{
-    [Inject] public NavigationManager NavigationManager { get; set; }
-    [Inject] public IJSRuntime JsRuntime { get; set; }
-    SfPager Page;
-    
+    [Inject] public NavigationManager? NavigationManager { get; set; }
+    [Inject] public IJSRuntime? JsRuntime { get; set; }
+    SfPager? Page;
+
 
     public int pageSize { get; set; } = 5;
     public int TotalCount { get; set; }
@@ -74,7 +74,7 @@
 
     protected override void OnInitialized()
     {
-        
+		
         LoadData();
         base.OnInitialized();
     }
@@ -88,12 +88,15 @@
 
     public void HandleNumericClick(PagerItemClickEventArgs args)
     {
-        SkipValue = (args.CurrentPage *  Page.PageSize) - Page.PageSize;
-        TakeValue = Page.PageSize;
+        if (Page != null)
+        {
+            SkipValue = (args.CurrentPage * Page.PageSize) - Page.PageSize;
+            TakeValue = Page.PageSize;
+        }
     }
     public void Change(PageSizeChangingArgs args)
     {
-        if (args.SelectedPageSize == "All")
+        if (args.SelectedPageSize == "All" && Page != null)
         {
            TakeValue = Page.TotalItemsCount;
         }
@@ -106,13 +109,13 @@
 
     public class CardDataModel
     {
-        public string ImageUrl { get; set; }
-        public string Title { get; set; }
-        public string SubTitle { get; set; }
-        public string Content { get; set; }
-        public string NavUrl { get; set; }
-        public string Tag { get; set; }
-        public string Id{ get; set; }
+        public string ImageUrl { get; set; } = string.Empty;
+        public string Title { get; set; } = string.Empty;
+        public string SubTitle { get; set; } = string.Empty;
+        public string Content { get; set; } = string.Empty;
+        public string NavUrl { get; set; } = string.Empty;
+        public string Tag { get; set; } = string.Empty;
+        public string Id { get; set; } = string.Empty;
     }
     public List<CardDataModel> GetCardDatas()
     {
@@ -132,15 +135,16 @@
         CardData.Add(new CardDataModel {Id = "12", ImageUrl = assetpath + "tile-twelve.png", Title = "Angular 2", SubTitle = "Joseph D.Booth", Content = "Angular 2 is a massively popular JavaScript framework built to take advantage of component development in web apps.", NavUrl = "https://www.syncfusion.com/ebooks/angular2_succinctly", Tag = "Client-side" });
         return CardData;
     }
-    private List<CardDataModel> _cardDatas;
+    private List<CardDataModel>? _cardDatas;
     public List<CardDataModel> CardDatas
     {
-        get {  return _cardDatas; }
+        get {  return _cardDatas!; }
         set { _cardDatas = value; }
     } 
     
     public async Task NavigateToUrlAsync(string url)
     {
+        if (JsRuntime != null)
         await JsRuntime.InvokeAsync<object>("open", url, "_blank");
     }
 

@@ -261,7 +261,7 @@
     string barcodeHeight = "150px";
     bool textVisibility = true;
     string backgroundColor = "#FFFFFF";
-    string foreColor = "#00000";
+    string foreColor = "#000000";
     double leftMargin = 0;
     double rightMargin = 0;
     double topMargin = 0;
@@ -270,15 +270,15 @@
     double rightTextMargin = 10;
     double topTextMargin = 10;
     double bottomTextMargin = 10;
-    private SfQRCodeGenerator QRCodeGenerator;
-    string CssClass { get; set; }
+    private SfQRCodeGenerator? QRCodeGenerator;
+    string? CssClass { get; set; }
     int vesionNo = 0;
     QRCodeVersion version = QRCodeVersion.Auto;
     string level = "Low";
     ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.Low;
     public class CorrectionLevel
     {
-        public string correction { get; set; }
+        public string? correction { get; set; }
     }
     List<CorrectionLevel> correctionLevel = new List<CorrectionLevel> {
     new CorrectionLevel() { correction = "Low" },
@@ -303,7 +303,7 @@
     }
     private void QRcodeValueChange(ChangeEventArgs args)
     {
-        qrcodeValue = args.Value.ToString();
+        qrcodeValue = args.Value!.ToString()!;
     }
     private void TextVisibilityChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
@@ -314,11 +314,11 @@
     }
     public void BackgroundColorChange(ColorPickerEventArgs args)
     {
-        backgroundColor = args.CurrentValue.Hex.ToString();
+        backgroundColor = args.CurrentValue!.Hex!.ToString();
     }
     public void ForeColorChange(ColorPickerEventArgs args)
     {
-        foreColor = args.CurrentValue.Hex.ToString();
+        foreColor = args.CurrentValue!.Hex!.ToString();
     }
     public void TopMarginChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
     {
@@ -336,14 +336,21 @@
     {
         rightMargin = args.Value;
     }
+
+    /// <summary>
+    /// Updates the QR code version (0-40, where 0 means Auto)
+    /// </summary>
     public void versionChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
     {
-        int value = args.Value; vesionNo = args.Value;
+        int value = args.Value;
+        vesionNo = args.Value;
+
         if (value >= 0 && value <= 40)
         {
-
+            // QR Code versions range from 1-40, with 0 representing Auto mode
             QRCodeVersion newVersion = (QRCodeVersion)value;
 
+            // Verify this is a valid enum value
             if (Enum.IsDefined(typeof(QRCodeVersion), newVersion))
             {
                 version = newVersion;
@@ -352,25 +359,27 @@
     }
     private void errorCorrectionLevelChanged(ChangeEventArgs<string, CorrectionLevel> args)
     {
-        if (args.Value == "Low")
+        switch(args.Value)
         {
-            errorCorrectionLevel = ErrorCorrectionLevel.Low;
-        }
-        if (args.Value == "Medium")
-        {
-            errorCorrectionLevel = ErrorCorrectionLevel.Medium;
-        }
-        if (args.Value == "High")
-        {
-            errorCorrectionLevel = ErrorCorrectionLevel.High;
-        }
-        if (args.Value == "Quartile")
-        {
-            errorCorrectionLevel = ErrorCorrectionLevel.Quartile;
+            case "Low":
+                errorCorrectionLevel = ErrorCorrectionLevel.Low;
+                break;
+            case "Medium":
+                errorCorrectionLevel = ErrorCorrectionLevel.Medium;
+                break;
+            case "High":
+                errorCorrectionLevel = ErrorCorrectionLevel.High;
+                break;
+            case "Quartile":
+                errorCorrectionLevel = ErrorCorrectionLevel.Quartile;
+                break;
         }
     }
     private void ExportBarcode()
     {
-        QRCodeGenerator.Export("QRCode", BarcodeExportType.JPG);
+        if (QRCodeGenerator != null)
+        {
+            QRCodeGenerator.Export("QRCode", BarcodeExportType.JPG);
+        }
     }
 }

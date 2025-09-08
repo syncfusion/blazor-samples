@@ -36,7 +36,26 @@ namespace BlazorDemos.Pages
             return await js.InvokeAsync<string>(
                   "loadFile", data).ConfigureAwait(true);
         }
-
+        public async static Task StartMovingDash(IJSRuntime js,string id)
+        {
+             await js.InvokeAsync<string>(
+                 "applyMovingDash", id).ConfigureAwait(true);
+           
+        }
+ 
+        public async static Task StopMovingDash(IJSRuntime js,string id)
+        {
+            await js.InvokeAsync<string>(
+                 "removeMovingDash", id).ConfigureAwait(true);
+            await Task.Yield();
+        }
+ 
+        public async static Task RemoveConnectorDash(IJSRuntime js, string id)
+        {
+            await js.InvokeAsync<string>(
+                 "removeConnectorDash", id).ConfigureAwait(true);
+           
+        }
         //public async static Task SetGradient(IJSRuntime js, int level)
         //{
         //    await js.InvokeAsync<object>("setWaterLevel", level).ConfigureAwait(true);

@@ -21,7 +21,7 @@ namespace BlazorDemos
                 FileName = "SmartPasteWithAnnotations.razor",
                 MetaTitle = "Blazor Smart Paste Button Annotations - Syncfusion AI Demos",
                 HeaderText = "Blazor Smart Paste Example - AI-powered Annotations",
-                MetaDescription = "This Blazor Smart Paste demo showcases AI-powered annotation capabilities. Convert clipboard content into structured annotations automatically, enhancing document interaction with intelligent text recognition and formatting."
+                MetaDescription = "This Blazor Smart Paste AI demo showcases annotation capabilities. Convert clipboard content into structured annotations with intelligent text recognition."
             }
         };
     }

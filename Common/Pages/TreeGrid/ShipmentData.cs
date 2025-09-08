@@ -10,17 +10,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_shipmentdata
+namespace TreeShipmentdata
 {
     public class ShipmentData
     {
         public int? ID { get; set; }
-        public string Name { get; set; }
+        public string? Name { get; set; }
         public int Units { get; set; }
-        public string Category { get; set; }
+        public string? Category { get; set; }
         public int UnitPrice { get; set; }
         public int Price { get; set; }
-        public string ShipmentCategory { get; set; }
+        public string? ShipmentCategory { get; set; }
         public DateTime ShippedDate { get; set; }
         public DateTime OrderDate { get; set; }
         public int? ParentID { get; set; }
@@ -45,7 +45,7 @@ namespace ej2_blazor_shipmentdata
 
             DataCollection.Add(new ShipmentData()
             {
-                ID = 11,
+                ID = 2,
                 Name = "Mackerel",
                 Category = "Frozen seafood",
                 Units = 235,
@@ -56,22 +56,10 @@ namespace ej2_blazor_shipmentdata
                 ShipmentCategory = "Frozen seafood",
                 ParentID = 1
             });
+
             DataCollection.Add(new ShipmentData()
             {
-                ID = 12,
-                Name = "Yellowfin Tuna",
-                Category = "Frozen seafood",
-                Units = 324,
-                UnitPrice = 8,
-                Price = 2592,
-                OrderDate = new DateTime(2021, 3, 5),
-                ShippedDate = new DateTime(2021, 10, 5),
-                ShipmentCategory = "Frozen seafood",
-                ParentID = 3
-            });
-            DataCollection.Add(new ShipmentData()
-            {
-                ID = 13,
+                ID = 3,
                 Name = "Herrings",
                 Category = "Frozen seafood",
                 Units = 488,
@@ -84,7 +72,7 @@ namespace ej2_blazor_shipmentdata
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 14,
+                ID = 4,
                 Name = "Preserved Olives",
                 Category = "Edible",
                 Units = 125,
@@ -97,7 +85,7 @@ namespace ej2_blazor_shipmentdata
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 15,
+                ID = 5,
                 Name = "Sweet corn",
                 Category = "Edible",
                 Units = 223,
@@ -110,7 +98,7 @@ namespace ej2_blazor_shipmentdata
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 2,
+                ID = 6,
                 Name = "Order 2",
                 Category = "Products",
                 Units = 1944,
@@ -123,7 +111,7 @@ namespace ej2_blazor_shipmentdata
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 21,
+                ID = 7,
                 Name = "Tilapias",
                 Category = "Frozen seafood",
                 Units = 278,
@@ -132,11 +120,11 @@ namespace ej2_blazor_shipmentdata
                 OrderDate = new DateTime(2021, 2, 5),
                 ShippedDate = new DateTime(2021, 2, 12),
                 ShipmentCategory = "Frozen seafood",
-                ParentID = 2
+                ParentID = 6
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 22,
+                ID = 8,
                 Name = "White Shrimp",
                 Category = "Frozen seafood",
                 Units = 560,
@@ -145,11 +133,11 @@ namespace ej2_blazor_shipmentdata
                 OrderDate = new DateTime(2021, 5, 22),
                 ShippedDate = new DateTime(2021, 5, 29),
                 ShipmentCategory = "Frozen seafood",
-                ParentID = 2
+                ParentID = 6
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 23,
+                ID = 9,
                 Name = "Fresh Cheese",
                 Category = "Dairy",
                 Units = 323,
@@ -158,11 +146,11 @@ namespace ej2_blazor_shipmentdata
                 OrderDate = new DateTime(2021, 6, 8),
                 ShippedDate = new DateTime(2021, 6, 15),
                 ShipmentCategory = "Dairy",
-                ParentID = 2
+                ParentID = 6
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 24,
+                ID = 10,
                 Name = "Blue Veined Cheese",
                 Category = "Dairy",
                 Units = 370,
@@ -171,11 +159,11 @@ namespace ej2_blazor_shipmentdata
                 OrderDate = new DateTime(2021, 7, 10),
                 ShippedDate = new DateTime(2021, 7, 17),
                 ShipmentCategory = "Dairy",
-                ParentID = 2
+                ParentID = 6
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 25,
+                ID = 11,
                 Name = "Butter",
                 Category = "Dairy",
                 Units = 413,
@@ -184,11 +172,11 @@ namespace ej2_blazor_shipmentdata
                 OrderDate = new DateTime(2021, 9, 18),
                 ShippedDate = new DateTime(2021, 9, 25),
                 ShipmentCategory = "Dairy",
-                ParentID = 2
+                ParentID = 6
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 3,
+                ID = 12,
                 Name = "Order 3",
                 Category = "Crystals",
                 Units = 1944,
@@ -201,7 +189,7 @@ namespace ej2_blazor_shipmentdata
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 31,
+                ID = 13,
                 Name = "Lead glassware",
                 Category = "Solid crystals",
                 Units = 542,
@@ -210,11 +198,11 @@ namespace ej2_blazor_shipmentdata
                 OrderDate = new DateTime(2021, 2, 7),
                 ShippedDate = new DateTime(2021, 2, 14),
                 ShipmentCategory = "Solid crystals",
-                ParentID = 3
+                ParentID = 12
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 32,
+                ID = 14,
                 Name = "Pharmaceutical glass",
                 Category = "Solid crystals",
                 Units = 324,
@@ -223,11 +211,11 @@ namespace ej2_blazor_shipmentdata
                 OrderDate = new DateTime(2021, 4, 19),
                 ShippedDate = new DateTime(2021, 4, 26),
                 ShipmentCategory = "Solid crystals",
-                ParentID = 3
+                ParentID = 12
             });
             DataCollection.Add(new ShipmentData()
             {
-                ID = 33,
+                ID = 15,
                 Name = "Glass beads",
                 Category = "Solid crystals",
                 Units = 254,
@@ -236,7 +224,20 @@ namespace ej2_blazor_shipmentdata
                 OrderDate = new DateTime(2021, 5, 22),
                 ShippedDate = new DateTime(2021, 3, 22),
                 ShipmentCategory = "Solid crystals",
-                ParentID = 3
+                ParentID = 12
+            });
+            DataCollection.Add(new ShipmentData()
+            {
+                ID = 16,
+                Name = "Yellowfin Tuna",
+                Category = "Frozen seafood",
+                Units = 324,
+                UnitPrice = 8,
+                Price = 2592,
+                OrderDate = new DateTime(2021, 3, 5),
+                ShippedDate = new DateTime(2021, 10, 5),
+                ShipmentCategory = "Frozen seafood",
+                ParentID = 12
             });
             return DataCollection;
         }

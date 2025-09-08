@@ -3,7 +3,7 @@
 @using Syncfusion.Blazor.Diagram
 @using System.Collections.ObjectModel
 @using Syncfusion.Blazor.Diagram.SymbolPalette
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
@@ -171,9 +171,9 @@
 
 @code
 {
-    public SfDiagramComponent Diagram;
-    public DiagramSize SymbolPreview;
-    public SfSymbolPaletteComponent PaletteInstance;
+    public SfDiagramComponent? Diagram;
+    public DiagramSize? SymbolPreview;
+    public SfSymbolPaletteComponent? PaletteInstance;
     public SymbolMargin SymbolMargin = new SymbolMargin { Left = 10, Right = 10, Top = 10, Bottom = 10 };
     
     @*Hidden:Lines*@
@@ -182,26 +182,26 @@
     double left;
     double right;
     //uml shapes path value
-    private string actionPath;
-    private string decisionPath;
-    private string mergeNodePath;
-    private string initialNodePath;
-    private string finalNodePath;
-    private string forkNodePath;
-    private string joinNodePath;
-    private string timeEventPath;
-    private string acceptingEventPath;
-    private string sendSignalPath;
-    private string receiveSignalPath;
-    private string structuredNodePath;
-    private string notePath;
+    private string? actionPath;
+    private string? decisionPath;
+    private string? mergeNodePath;
+    private string? initialNodePath;
+    private string? finalNodePath;
+    private string? forkNodePath;
+    private string? joinNodePath;
+    private string? timeEventPath;
+    private string? acceptingEventPath;
+    private string? sendSignalPath;
+    private string? receiveSignalPath;
+    private string? structuredNodePath;
+    private string? notePath;
     @*End:Hidden*@
 
     //Defines Diagram's nodes collection
-    private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
+    private DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
 
     //Defines Diagram's connectors collection
-    private DiagramObjectCollection<Connector> connectors = new DiagramObjectCollection<Connector>();
+    private DiagramObjectCollection<Connector>? connectors = new DiagramObjectCollection<Connector>();
 
     //Define palettes collection
     private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
@@ -328,19 +328,19 @@
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        Diagram.FitToPage(mobileoptions);
+        Diagram!.FitToPage(mobileoptions);
     }
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteInstance!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             Diagram
         };
     }
 
     //Create Nodes
-    private void CreateNode(string id, double offsetX, double offsetY, double height, double width, string pathData, ShapeAnnotation annotation)
+    private void CreateNode(string id, double offsetX, double offsetY, double height, double width, string pathData, ShapeAnnotation? annotation)
     {
         Node node = new Node()
         {
@@ -379,22 +379,22 @@
         {
             node.Annotations = new DiagramObjectCollection<ShapeAnnotation>() { annotation };
         }
-        nodes.Add(node);
+        nodes!.Add(node);
     }
 
     //nodes default values
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        if(node.ID == "Start" || node.ID == "node2" || node.ID == "node9")
+        Node? node = obj as Node;
+        if(node!.ID == "Start" || node.ID == "node2" || node.ID == "node9")
         {
-            node.Style.Fill = "#444";
+            node.Style!.Fill = "#444";
         }
-        node.Style.StrokeColor = "#444";
+        node.Style!.StrokeColor = "#444";
     }
 
     //Create Connector
-    private void CreateConnector(string id, string sourceID, string targetID, string sourcePortID = "", string targetPortID = "", DiagramObjectCollection<ConnectorSegment> segments = null, PathAnnotation annotation = null)
+    private void CreateConnector(string id, string sourceID, string targetID, string sourcePortID = "", string targetPortID = "", DiagramObjectCollection<ConnectorSegment>? segments = null, PathAnnotation? annotation = null)
     {
         Connector connector = new Connector()
         {
@@ -412,14 +412,14 @@
         {
             connector.Annotations = new DiagramObjectCollection<PathAnnotation>() { annotation };
         }
-        connectors.Add(connector);
+        connectors!.Add(connector);
     }
 
     //connector default values
     private void OnConnectorCreating(IDiagramObject obj)
     {
-        Connector connector = obj as Connector;
-        if(connector.ID.IndexOf("connector") != -1)
+        Connector? connector = obj as Connector;
+        if(connector!.ID!.IndexOf("connector") != -1)
         {
             connector.Type = ConnectorSegmentType.Orthogonal;
             connector.CornerRadius = 10;
@@ -462,7 +462,7 @@
             VerticalAlignment = VerticalAlignment.Center,
             Style = new ShapeStyle() { StrokeColor = "#757575", StrokeWidth = 1 },
         };
-        nodes.Add(innerFinalNode);
+        nodes!.Add(innerFinalNode);
         nodes.Add(outerFinalNode);
 
         NodeGroup nodeGroup = new NodeGroup()
@@ -513,7 +513,7 @@
         };
     }
 
-    private void CreatePaletteNode(string id, string pathData)
+    private void CreatePaletteNode(string id, string? pathData)
     {
         Node diagramNode = new Node()
         {
@@ -526,8 +526,8 @@
 
     private void SetPallatteNodeDefaults(IDiagramObject obj)
     {
-        Node symbol = obj as Node;
-        if(symbol.ID.IndexOf("JoinNode") != -1)
+        Node? symbol = obj as Node;
+        if(symbol!.ID!.IndexOf("JoinNode") != -1)
         {
             symbol.Width = 20; symbol.Height = 50;
         }
@@ -550,7 +550,7 @@
 
         if (symbol.ID == "InitialNode" || symbol.ID == "innerFinalNode" || symbol.ID == "JoinNode" || symbol.ID == "ForkNode") {
             {
-                symbol.Style.Fill = "#757575";
+                symbol.Style!.Fill = "#757575";
             }
             symbol.Style.StrokeColor = "#757575";
         }
@@ -620,10 +620,10 @@
         connectorSymbols.Add(connector);
     }
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
     @*Hidden:Lines*@

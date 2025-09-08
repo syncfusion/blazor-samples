@@ -199,15 +199,15 @@ namespace blazor_griddata
        
         public int? OrderID { get; set; }
         [Required(ErrorMessage = "Customer ID required")]
-        public string CustomerID { get; set; }
+        public string? CustomerID { get; set; }
         public int? EmployeeID { get; set; }
         public double? Freight { get; set; }
-        public string ShipCity { get; set; }
+        public string? ShipCity { get; set; }
         public DateTime? OrderDate { get; set; }
-        public string ShipName { get; set; }
-        public string ShipCountry { get; set; }
+        public string? ShipName { get; set; }
+        public string? ShipCountry { get; set; } 
         public DateTime? ShippedDate { get; set; }
-        public string ShipAddress { get; set; }
+        public string? ShipAddress { get; set; }
         public long PhoneNumber { get; set; }
         public double? AdvanceAmount { get; set; }
         public double? TotalAmount { get; set; }
@@ -255,9 +255,9 @@ namespace blazor_griddata
             return order;
         }
         public int? OrderID { get; set; }
-        public string CustomerID { get; set; }
+        public string? CustomerID { get; set; }
         public DateTime? OrderDate { get; set; }
-        public string ShipCountry { get; set; }
+        public string? ShipCountry { get; set; }
         public double? Freight { get; set; }
         public bool Verified { get; set; }
     }
@@ -300,20 +300,20 @@ namespace blazor_griddata
         }
 
         public int? OrderID { get; set; }
-        public string CustomerID { get; set; }
+        public string? CustomerID { get; set; }
         public int? EmployeeID { get; set; }
         public double? Freight { get; set; }
-        public string ShipCity { get; set; }
+        public string? ShipCity { get; set; }
         public bool Verified { get; set; }
         public DateTime? OrderDate { get; set; }
 
-        public string ShipName { get; set; }
+        public string? ShipName { get; set; }
 
-        public string ShipCountry { get; set; }
+        public string? ShipCountry { get; set; }
 
         public DateTime? ShippedDate { get; set; }
-        public string ShipAddress { get; set; }
-        public string Email { get; set; }
+        public string? ShipAddress { get; set; }
+        public string? Email { get; set; } 
     }
 
     public class OrderPage
@@ -348,9 +348,9 @@ namespace blazor_griddata
         }
 
         public int? OrderID { get; set; }
-        public string CustomerID { get; set; }
+        public string? CustomerID { get; set; } 
         public double? Freight { get; set; }
-        public string ShipCountry { get; set; }
+        public string? ShipCountry { get; set; }
         public DateTime? OrderDate { get; set; }
     }
 
@@ -428,17 +428,17 @@ namespace blazor_griddata
 
 
         public int EmployeeID { get; set; }
-        public string Employees { get; set; }
-        public string Designation { get; set; }
-        public string Location { get; set; }
-        public string Status { get; set; }
-        public string Trustworthiness { get; set; }
+        public string? Employees { get; set; }
+        public string? Designation { get; set; }
+        public string? Location { get; set; }
+        public string? Status { get; set; }
+        public string? Trustworthiness { get; set; }
         public int Rating { get; set; }
         public int Software { get; set; }
-        public string EmployeeImg { get; set; }
+        public string? EmployeeImg { get; set; }
         public int CurrentSalary { get; set; }
-        public string Address { get; set; }
-        public string Mail { get; set; }
+        public string? Address { get; set; }
+        public string? Mail { get; set; }
     }
 
 
@@ -480,21 +480,21 @@ namespace blazor_griddata
         }
 
         public int? OrderID { get; set; }
-        public string CustomerID { get; set; }
+        public string? CustomerID { get; set; } 
         public int? EmployeeID { get; set; }
         public double? Freight { get; set; }
-        public string ShipCity { get; set; }
+        public string? ShipCity { get; set; }
         public bool Verified { get; set; }
         public DateOnly? OrderDate { get; set; }
 
         public TimeOnly? OrderTime { get; set; }
 
-        public string ShipName { get; set; }
+        public string? ShipName { get; set; }
 
-        public string ShipCountry { get; set; }
+        public string? ShipCountry { get; set; }
 
         public DateTime ShippedDate { get; set; }
-        public string ShipAddress { get; set; }
+        public string? ShipAddress { get; set; }
     }
 
     public class EmployeeOrders
@@ -728,18 +728,18 @@ namespace blazor_griddata
         }
 
         public int? OrderID { get; set; }
-        public string CustomerID { get; set; }
+        public string? CustomerID { get; set; }
         public int? EmployeeID { get; set; }
         public double? Freight { get; set; }
-        public string ShipCity { get; set; }    
+        public string? ShipCity { get; set; }
         public DateTime OrderDate { get; set; }
         public DateTime RequiredDate { get; set; }
-        public string ShipName { get; set; }
-        public string ShipCountry { get; set; }
-        public string ShipPostalCode{ get; set; }
-        public string ShipRegion{ get; set; }
+        public string? ShipName { get; set; }
+        public string? ShipCountry { get; set; }
+        public string? ShipPostalCode{ get; set; } 
+        public string? ShipRegion{ get; set; }
         public DateTime ShippedDate { get; set; }
-        public string ShipAddress { get; set; }
+        public string? ShipAddress { get; set; }
     }
 
 
@@ -835,11 +835,11 @@ namespace blazor_griddata
             return category;
         }
 
-        public string CategoryName { get; set; }
-        public string ProductName { get; set; }
-        public string QuantityPerUnit { get; set; }
-        public short UnitsInStock { get; set; }
-        public bool Discontinued { get; set; }
+        public string? CategoryName { get; set; }
+        public string? ProductName { get; set; }
+        public string? QuantityPerUnit { get; set; }
+        public short UnitsInStock { get; set; } 
+        public bool Discontinued { get; set; } 
     }
 
     public class Employee
@@ -866,18 +866,18 @@ namespace blazor_griddata
 
         }
         public int EmployeeID { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
-        public string Title { get; set; }
+        public string? FirstName { get; set; }
+        public string? LastName { get; set; }
+        public string? Title { get; set; }
         public DateTime BirthDate { get; set; }
         public DateTime HireDate { get; set; }
         public int ReportsTo { get; set; }
-        public string Address { get; set; }
-        public string PostalCode { get; set; }
-        public string Phone { get; set; }
-        public string City { get; set; }
-        public string Country { get; set; }
-        public string Email { get; set; }
+        public string? Address { get; set; } 
+        public string? PostalCode { get; set; } 
+        public string? Phone { get; set; }
+        public string? City { get; set; } 
+        public string? Country { get; set; }
+        public string? Email { get; set; }
         public static List<Employee> GetAllRecords()
         {
             List<Employee> Emp = new List<Employee>();
@@ -896,7 +896,7 @@ namespace blazor_griddata
 
     public class VirtualData
     {
-        public string Field1 { get; set; }
+        public string Field1 { get; set; } = string.Empty;
         public int? Field2 { get; set; }
         public int? Field3 { get; set; }
         public int? Field4 { get; set; }
@@ -955,18 +955,18 @@ namespace blazor_griddata
         }
 
         public int? OrderID { get; set; }
-        public string CustomerID { get; set; }
+        public string? CustomerID { get; set; }
         public int? EmployeeID { get; set; }
         public double? Freight { get; set; }
-        public string ShipCity { get; set; }
+        public string? ShipCity { get; set; }
         public bool Verified { get; set; }
         public DateTime? OrderDate { get; set; }
 
-        public string ShipName { get; set; }
+        public string? ShipName { get; set; }
 
-        public string ShipCountry { get; set; }
+        public string? ShipCountry { get; set; }
 
         public DateTime? ShippedDate { get; set; }
-        public string ShipAddress { get; set; }
+        public string? ShipAddress { get; set; }
     }
 }

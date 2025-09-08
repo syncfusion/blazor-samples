@@ -20,18 +20,7 @@
     <div class="content-wrapper">
         <div class="row">
             <SfGantt ID="Gantt" DataSource="@TaskCollection" Height="450px" Width="100%" RowHeight="38" HighlightWeekends="true"
-                     TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" RenderBaseline="@IsBaselineVisible">
-                <SfToolbar ID="Gantt_Toolbar">
-                    <ToolbarItems>
-                        <ToolbarItem Type="ItemType.Input">
-                            <Template>
-                                <div class="e-gantt-toolbar-template">
-                                    <SfCheckBox Label="Show Baseline" @bind-Checked="IsChecked" ></SfCheckBox>
-                                </div>
-                            </Template>
-                        </ToolbarItem>
-                    </ToolbarItems>
-                </SfToolbar>
+                     TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" RenderBaseline="@IsBaselineVisible" Toolbar="@toolbarItems">
                 <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
                                  ParentID="ParentId" BaselineStartDate="BaselineStartDate" BaselineEndDate="BaselineEndDate">
                 </GanttTaskFields>
@@ -51,18 +40,32 @@
 </div>
 
 @code {
-    public SfGantt<BaseData.TaskData> Gantt { get; set; }
+    public SfGantt<BaseData.TaskData>? Gantt { get; set; }
     public bool IsChecked { get; set; } = true;
     public bool IsBaselineVisible => IsChecked;
     private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 24);
     private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 6);
-    public List<BaseData.TaskData> TaskCollection { get; set; }
-
+    public List<BaseData.TaskData> TaskCollection { get; set; } = new List<BaseData.TaskData>();
+    private List<Object>? toolbarItems;
     protected override void OnInitialized()
     {
         TaskCollection = BaseData.GetTaskCollection();
+        toolbarItems = new List<Object>
+        {
+            new ItemModel
+            {
+                Id = "ShowBaseline",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfCheckBox<bool>>(0);
+                    builder.AddAttribute(1, "Label", "Show Baseline");
+                    builder.AddAttribute(2, "Checked", BindConverter.FormatValue(IsChecked));
+                    builder.AddAttribute(3, "CheckedChanged", EventCallback.Factory.Create<bool>(this, __value => IsChecked = __value));
+                    builder.CloseComponent();
+                })
+            }
+        };
     }
-
 }
 <style>
     .e-toolbar{

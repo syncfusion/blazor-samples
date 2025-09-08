@@ -97,8 +97,8 @@
 
 @code {
 
-    private List<PivotLargeData> Data { get; set; }
-    private SfSpinner _spinnerObj;
+    private List<PivotLargeData>? Data { get; set; }
+    private SfSpinner? _spinnerObj;
     private bool _disableButton = false;
     private bool _isLoading = false;
     private Stopwatch _stopWatch = new Stopwatch();
@@ -123,7 +123,7 @@
     }
     public async Task OnChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DDData> args)
     {
-        if (_previousIndex != _index)
+        if (_previousIndex != _index && _spinnerObj != null)
         {
             _isLoading = true;
             await _spinnerObj.ShowAsync();
@@ -146,12 +146,15 @@
         TimeSpan TimeTaken = _stopWatch.Elapsed;
         _timeElapsed = String.Format("{0:00}:{1:00} seconds", TimeTaken.Seconds, TimeTaken.Milliseconds / 100);
         _isLoading = false;
-        await _spinnerObj.HideAsync();
+        if(_spinnerObj != null)
+        {
+            await _spinnerObj.HideAsync();
+        }
     }
     public class DDData
     {
-        public string Text { get; set; }
-        public string Value { get; set; }
+        public string Text { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
     }
 
     public List<DDData> DLData = new List<DDData>() 

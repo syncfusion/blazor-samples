@@ -11,15 +11,15 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
     public class AggregateData
         {
             public int Id { get; set; }
-            public string GroupDate { get; set; }
-            public string Sector { get; set; }
-            public string EnerType { get; set; }
-            public string EneSource { get; set; }
+            public string GroupDate { get; set; } = string.Empty;
+            public string Sector { get; set; } = string.Empty;
+            public string EnerType { get; set; } = string.Empty;
+            public string EneSource { get; set; } = string.Empty;
             public int PowUnits { get; set; }
             public int ProCost { get; set; }
-            public string Year { get; set; }
-            public string Quarter { get; set; }
-            public string HalfYear { get; set; }
+            public string Year { get; set; } = string.Empty;
+            public string Quarter { get; set; } = string.Empty;
+            public string HalfYear { get; set; } = string.Empty;
         public static List<AggregateData> GetAggregateData()
         {
             List<AggregateData> aggData = new List<AggregateData>();

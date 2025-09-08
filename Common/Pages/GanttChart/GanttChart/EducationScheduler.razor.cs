@@ -20,10 +20,10 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
     public partial class EducationScheduler
     {
         [CascadingParameter]
-        protected MainLayout Layout { get; set; }
+        protected MainLayout? Layout { get; set; }
         SfGantt<EducationSchedulerData.EducationCourseModel> ganttInstance;
-        List<EducationSchedulerData.EducationCourseModel> EducationCollection { get; set; }
-        List<EducationSchedulerData.SegmentModel> SegmentCollection { get; set; }
+        List<EducationSchedulerData.EducationCourseModel> EducationCollection { get; set; } = new List<EducationSchedulerData.EducationCourseModel>();
+        List<EducationSchedulerData.SegmentModel> SegmentCollection { get; set; } = new List<EducationSchedulerData.SegmentModel>();
         string SubjectCode = string.Empty;
         string AcademicPeriod = string.Empty;
         string AcademicSemester = string.Empty;
@@ -83,7 +83,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
             GetCurrentTheme(NavigationManager.Uri);
             EducationCollection = AddIndicators(EducationSchedulerData.EducationCourses);
             SegmentCollection = GetSegmentCollection(EducationCollection);
-            if (SampleService.IsDevice) 
+            if (CustomSampleService.IsDevice) 
             {
                 SplitterColumnIndex = 2;
                 SubjectNameColumnWidth = "220";

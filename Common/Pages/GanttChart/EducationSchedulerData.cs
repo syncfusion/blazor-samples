@@ -25,26 +25,26 @@ namespace BlazorDemos.Pages.GanttChart
         internal class HolidayModel
         {
             public int Id { get; set; }
-            public string HolidayName { get; set; }
+            public string HolidayName { get; set; } = string.Empty;
             public DateTime Date { get; set; }
         }
 
         internal class EducationCourseModel
         {
             public int CourseId { get; set; }
-            public string Department { get; set; }
+            public string Department { get; set; } = string.Empty;
             public DateTime StartDate { get; set; }
             public DateTime? EndDate { get; set; }
-            public string Duration { get; set; }
-            public string CourseCode { get; set; }
-            public string CourseName { get; set; }
-            public string AcademicYear { get; set; }
+            public string? Duration { get; set; }
+            public string CourseCode { get; set; } = string.Empty;
+            public string CourseName { get; set; } = string.Empty;
+            public string AcademicYear { get; set; } = string.Empty;
             public int? ParentId { get; set; }
             public int Coverage { get; set; }
-            public string Professor { get; set; }
-            public string Prerequisite { get; set; }
-            public string Term { get; set; }
-            public List<GanttIndicator> Indicators { get; set; }
+            public string Professor { get; set; } = string.Empty;
+            public string Prerequisite { get; set; } = string.Empty;
+            public string Term { get; set; } = string.Empty;
+            public List<GanttIndicator>? Indicators { get; set; }
         }
 
         internal static List<HolidayModel> HolidayCollection = new List<HolidayModel>()

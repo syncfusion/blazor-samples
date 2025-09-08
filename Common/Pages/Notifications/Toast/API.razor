@@ -164,19 +164,19 @@
 </style>
 
 @code {
-    private SfToast ToastObj;
-    private SfTextBox TileObj;
-    private SfTextBox ContentObj;
-    private SfTextBox TimeoutObj;
-    private SfTextBox ShowDurationObj;
-    private SfTextBox HideDurationObj;
-    private SfDropDownList<string, Easing> EasingDropdownObj;
-    private SfDropDownList<string, Direction> DirectionDropdownObj;
-    private SfDropDownList<string, Easing> HideEasingDropdownObj;
-    private SfDropDownList<string, Positions> ShowDropdownObj;
-    private SfDropDownList<string, Positions> HideDropdownObj;
+    private SfToast? ToastObj;
+    private SfTextBox? TileObj;
+    private SfTextBox? ContentObj;
+    private SfTextBox? TimeoutObj;
+    private SfTextBox? ShowDurationObj;
+    private SfTextBox? HideDurationObj;
+    private SfDropDownList<string, Easing>? EasingDropdownObj;
+    private SfDropDownList<string, Direction>? DirectionDropdownObj;
+    private SfDropDownList<string, Easing>? HideEasingDropdownObj;
+    private SfDropDownList<string, Positions>? ShowDropdownObj;
+    private SfDropDownList<string, Positions>? HideDropdownObj;
 
-    private string ToastTitle { get; set; }
+    private string? ToastTitle { get; set; }
     private bool ShowButtons { get; set; } = false;
     private bool Checked { get; set; } = true;
     private ToastEasing ShowEasing { get; set; }
@@ -188,7 +188,7 @@
     private string AnimationValue { get; set; } = "SlideBottomIn";
     private string HideEasingValue { get; set; } = "ease";
     private string HideAnimationValue { get; set; } = "SlideBottomOut";
-    private string ToastContent { get; set; } = "You have created a Toast message";
+    private string? ToastContent { get; set; } = "You have created a Toast message";
     private string TimeoutValue { get; set; } = "5000";
     private int ToastTimeout { get; set; } = 5000;
     private int ShowDuration { get; set; } = 400;
@@ -204,20 +204,20 @@
   
     public class Positions
     {
-        public string Value { get; set; }
-        public string Text { get; set; }
+        public string? Value { get; set; }
+        public string? Text { get; set; }
     }
 
     public class Easing
     {
-        public string Value { get; set; }
-        public string Text { get; set; }
+        public string? Value { get; set; }
+        public string? Text { get; set; }
     }
 
     public class Direction
     {
-        public string Value { get; set; }
-        public string Text { get; set; }
+        public string? Value { get; set; }
+        public string? Text { get; set; }
     }
 
     private List<Positions> Show = new List<Positions>()
@@ -284,28 +284,46 @@
 
     private async Task ShowToast()
     {
-        this.ToastTitle = this.TileObj.Value;
-        this.ToastContent = this.ContentObj.Value;
-        if (this.TileObj.Value == null && this.ContentObj.Value == null)
+        this.ToastTitle = this.TileObj?.Value;
+        this.ToastContent = this.ContentObj?.Value;
+        if (this.TileObj?.Value == null && this.ContentObj?.Value == null)
         {
             this.ToastContent = "You have created a Toast message";
         }
-        this.ShowDuration = Int32.Parse(this.ShowDurationObj.Value);
-        this.HideDuration = Int32.Parse(this.HideDurationObj.Value);
-        this.ToastTimeout = Int32.Parse(this.TimeoutObj.Value);
+        if (this.ShowDurationObj != null)
+        {
+            this.ShowDuration = Int32.Parse(this.ShowDurationObj.Value);
+        }
+        if (this.HideDurationObj != null)
+        {
+            this.HideDuration = Int32.Parse(this.HideDurationObj.Value);
+        }
+        if (this.TimeoutObj != null)
+        {
+            this.ToastTimeout = Int32.Parse(this.TimeoutObj.Value);
+        }
         this.StateHasChanged();
         await Task.Delay(100);
-        await this.ToastObj.ShowAsync();
+        if (this.ToastObj != null)
+        {
+            await this.ToastObj.ShowAsync();
+        }
     }
 
     private async Task HideToast()
     {
-        await this.ToastObj.HideAsync("All");
+        if (this.ToastObj != null)
+        {
+            await this.ToastObj.HideAsync("All");
+        }
     }
 
     private async Task HideToastAll()
     {
-        await this.ToastObj.HideAsync("All");
+        if (this.ToastObj != null)
+        {
+            await this.ToastObj.HideAsync("All");
+        }
     }
 
     private async Task CloseButtonChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> arg)
@@ -338,7 +356,7 @@
 
     private void DirectionChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Direction> arg)
     {
-        if (this.DirectionDropdownObj.Value == "RTL")
+        if (this.DirectionDropdownObj?.Value == "RTL")
         {
             this.DirectionProgress = ProgressDirection.RTL;
         }
@@ -351,7 +369,7 @@
 
     private void EasingChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Easing> arg)
     {
-        if (this.EasingDropdownObj.Value == "linear")
+        if (this.EasingDropdownObj?.Value == "linear")
         {
             this.ShowEasing = ToastEasing.Linear;
         }
@@ -363,7 +381,7 @@
     }
     private void HideEasingChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Easing> arg)
     {
-        if (this.HideEasingDropdownObj.Value == "linear")
+        if (this.HideEasingDropdownObj?.Value == "linear")
         {
             this.ShowEasing = ToastEasing.Linear;
         }
@@ -376,12 +394,18 @@
 
     private void ShowChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Positions> args)
     {
-        this.ShowEffect = (ToastEffect)System.Enum.Parse(typeof(ToastEffect), args.Value);
+        if (args.Value != null)
+        {
+            this.ShowEffect = (ToastEffect)System.Enum.Parse(typeof(ToastEffect), args.Value);
+        }
         this.StateHasChanged();
     }
     private void HideChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Positions> args)
     {
-        this.HideEffect = (ToastEffect)System.Enum.Parse(typeof(ToastEffect), args.Value);
+        if (args.Value != null)
+        {
+            this.HideEffect = (ToastEffect)System.Enum.Parse(typeof(ToastEffect), args.Value);
+        }
         this.StateHasChanged();
     }
 }

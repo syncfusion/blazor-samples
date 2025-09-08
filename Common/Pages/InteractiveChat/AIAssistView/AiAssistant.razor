@@ -1,0 +1,565 @@
+@page "/ai-assistview/aiassistant"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Lists
+@using Syncfusion.Blazor.InteractiveChatDemo
+@using static Syncfusion.Blazor.InteractiveChatDemo.PromptResponseData
+@using System.Text.Json
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@inject IJSRuntime JS
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates how users can attach files while interacting with the AI AssistView. The component enables file uploads to enhance the context of conversations and responses.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the file attachments are configured using the <code>AttachmentSettings</code> property.
+        The <code>Enable</code> option within <code>AttachmentSettings</code> is set to <code>true</code> to allow file attachments.
+        The <code>SaveUrl</code> and <code>RemoveUrl</code> are specified to handle file uploads for the attached files.
+        Additionally, the <code>BannerTemplate</code> customizes the banner message, and <code>AssistViewToolbar</code> adds custom toolbar items, such as a right-aligned <code>Refresh</code> button.
+        The <code>PromptSuggestions</code> provides AI prompt suggestions, and <code>PromptRequested</code> handles prompt requests when triggered.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div>
+        <div class="ai-assistant">
+            <SfAIAssistView ID="aiAssistView"
+                            PromptRequested="ExecutePrompt"
+                            PromptSuggestions="@SuggestionData"
+                            Prompts="@promptsData"
+                            AttachmentSettings="@attachmentSettings"
+                            @ref="AIAssistViewObj">
+                <AssistViews>
+                    <AssistView>
+                        <BannerTemplate>
+                            <div class="banner-content e-no-content">
+                                <div class="e-icons e-assistview-icon"></div>
+                                <h3>AI Assistance</h3>
+                                <div class="ai-assist-banner-subtitle">Hello, I'm Your Digital Assistant!</div>
+                            </div>
+                        </BannerTemplate>
+                    </AssistView>
+                </AssistViews>
+                <AssistViewToolbar>
+                    <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                    <AssistViewToolbarItem Type="ItemType.Input">
+                        <Template>
+                            <SfDropDownButton id="ddMenu" IconCss="e-icons e-user" CssClass="sign-in-button" Content="Profile">
+                                <DropDownMenuItems>
+                                    <DropDownMenuItem Text="Settings" IconCss="e-icons e-settings"></DropDownMenuItem>
+                                    <DropDownMenuItem Separator="true"></DropDownMenuItem>
+                                    <DropDownMenuItem Text="Log out" IconCss="e-icons e-export"></DropDownMenuItem>
+                                </DropDownMenuItems>
+                            </SfDropDownButton>
+                        </Template>
+                    </AssistViewToolbarItem>
+                </AssistViewToolbar>
+            </SfAIAssistView>
+        </div>
+    </div>
+</div>
+
+<SfSidebar id="assistantSidebar"
+           @ref="SidebarObj"
+           EnableDock="true"
+           DockSize="75px"
+           EnableGestures="false"
+           Width="260px"
+           Target=".ai-assistant"
+           Position="SidebarPosition.Left"
+           @bind-IsOpen="SidebarToggle"
+           Created="OnSidebarCreated">
+    <ChildContent>
+        <div class="assistant-sidebar-header">
+            @if (SidebarCreated)
+            {
+                <SfToolbar id="assistantToolbar">
+                    <ToolbarItems>
+                        <ToolbarItem>
+                            <Template>
+                                <SfButton IconCss="e-icons e-assistview-icon"></SfButton>
+                            </Template>
+                        </ToolbarItem>
+                        <ToolbarItem Align="ItemAlign.Right" title="Toggle sidebar">
+                            <Template>
+                                <SfButton IconCss="e-icons e-menu" onclick="ToggleSidebar"></SfButton>
+                            </Template>
+                        </ToolbarItem>
+                        <ToolbarItem Align="ItemAlign.Right" CssClass="new-chat-button" title="Start new chat">
+                            <Template>
+                                <SfButton IconCss="e-icons e-rename" onclick="LoadNewAIAssist"></SfButton>
+                            </Template>
+                        </ToolbarItem>
+                    </ToolbarItems>
+                </SfToolbar>
+            }
+        </div>
+        <div class="assistant-sidebar-content">
+            <div class="assistant-listview-option" tabindex="1">
+                <div class="e-icons e-multiple-comment"></div>
+                <div class="header-conversation">Chat Conversations</div>
+                <span class="e-icons e-refresh" title="Reset" @onclick="ResetConversations"></span>
+            </div>
+            <SfListView id="assistant-listview-grp"
+                        DataSource="@ListData"
+                        @ref="ListViewObj">
+                <ListViewEvents TValue="ConversationItem" Clicked="@OnListSelect"></ListViewEvents>
+                <ListViewFieldSettings TValue="ConversationItem" Id="Id" Text="Text" GroupBy="Category"></ListViewFieldSettings>
+                <ListViewTemplates TValue="ConversationItem">
+                    <Template>
+                        <div class="chat-item">
+                            <div class="chat-title">@context.Text</div>
+                        </div>
+                    </Template>
+                </ListViewTemplates>
+            </SfListView>
+        </div>
+    </ChildContent>
+</SfSidebar>
+
+@code {
+    private SfSidebar SidebarObj = new SfSidebar();
+    private SfToolbar ToolbarObj = new SfToolbar();
+    private SfListView<ConversationItem> ListViewObj = new SfListView<ConversationItem>();
+    private SfAIAssistView AIAssistViewObj = new SfAIAssistView();
+
+    private List<string> PromptSuggestions = new PromptResponseData().GetAssistantSuggestionData();
+    private List<PromptResponseData> prompts = new PromptResponseData().GetAssistantPromptResponseData();
+    private List<string> SuggestionData = new PromptResponseData().GetAssistantSuggestionData();
+    private List<AssistViewPrompt> promptsData = new List<AssistViewPrompt>();
+    private string SelectedConvId = "";
+    private bool IsFirstPrompt = false;
+    public bool SidebarToggle = false;
+    private List<ConversationItem> ListData = new List<ConversationItem>();
+    private bool SidebarCreated { get; set; } = false;
+    [Inject]
+    protected IJSRuntime jsRuntime { get; set; } = default!;
+
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
+    private AssistViewAttachmentSettings attachmentSettings = new AssistViewAttachmentSettings()
+    {
+        Enable = true,
+        SaveUrl = "http://localhost:63028/api/FileUploader/Save",
+        RemoveUrl = "http://localhost:63028/api/FileUploader/Remove"
+    };
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
+
+    protected override async Task OnInitializedAsync()
+    {
+        await CheckInitialLocalStorage();
+        ListData = await GetLeftPaneData();
+    }
+
+    private async Task OnSidebarCreated()
+    {
+        await Task.Delay(100);
+        SidebarCreated = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task<string> GetResult(string Prompt)
+    {
+        var responseObj = prompts.FirstOrDefault(prompt => prompt.Prompt == Prompt);
+        return responseObj?.Response ?? "I apologize, but I'm experiencing some difficulty processing your request at this moment, which might be due to the complexity of your query or a technical limitation on my end, so I would greatly appreciate it if you could rephrase your question or provide additional context that might help me better understand what you're looking for.";
+    }
+
+    private async Task ExecutePrompt(AssistViewPromptRequestedEventArgs args)
+    {
+        if (string.IsNullOrWhiteSpace(args.Prompt))
+        {
+            promptsData.Add(new AssistViewPrompt { Response = "Please provide a valid prompt." });
+            return;
+        }
+        try
+        {
+            string prompt = args.Prompt;
+            string result = "";
+
+            // Simulate async delay and fallback response
+            await Task.Delay(2000);
+            // Update suggestions
+            var suggestionsObj = prompts.FirstOrDefault(r => r.Prompt == prompt);
+            var suggestionResult = suggestionsObj?.SuggestionData ?? PromptSuggestions;
+            var finalResult = suggestionResult.Select(s => s.Replace("- ", "").Replace("* ", "").Trim()).ToList();
+
+            // Get response
+            result = await GetResult(prompt);
+            promptsData.Add(new AssistViewPrompt { Response = result });
+            SuggestionData = finalResult;
+            await CheckAndUpdateLocalStorage(prompt);
+            await UpdateConversationName(prompt);
+        }
+        catch
+        {
+            promptsData.Add(new AssistViewPrompt { 
+                Response = "I apologize, but I'm experiencing some difficulty processing your request at this moment, which might be due to the complexity of your query or a technical limitation on my end, so I would greatly appreciate it if you could rephrase your question or provide additional context that might help me better understand what you're looking for."
+            });
+            SuggestionData = new List<string>();
+            await UpdateConversationName(args.Prompt);
+        }
+
+        if (!ListViewObj.DataSource.Any())
+        {
+            await LoadNewAIAssist();
+        }
+    }
+
+    private long GetDate()
+    {
+        return DateTimeOffset.Now.ToUnixTimeMilliseconds();
+    }
+
+    private string GetDateFormat(long date)
+    {
+        var today = DateTimeOffset.FromUnixTimeMilliseconds(date).DateTime;
+        return today.ToString("dd/MM/yyyy");
+    }
+
+    private string GetCategory(string today, long key)
+    {
+        var date = GetDateFormat(key);
+        return date == today ? "Today" : "Previous days";
+    }
+
+    private async Task CheckInitialLocalStorage(bool isClear = false)
+    {
+        var aiAssistView = await getLocalStorageValue();
+        if (aiAssistView.Count == 0 || isClear)
+        {
+            var data = new Dictionary<string, ConversationData>();
+            await setLocalStorageValue(JsonSerializer.Serialize(data));
+        }
+    }
+
+    private async Task CheckAndUpdateLocalStorage(string prompt)
+    {
+        var aiAssistView = await getLocalStorageValue();
+        var curConvDate = GetDate().ToString();
+        var prompts = promptsData.Select(p => new AssistViewPrompt { Prompt = p.Prompt ?? "", Response = p.Response ?? "" }).ToList();
+        var pSuggestions = SuggestionData.ToList();
+
+        if (!string.IsNullOrEmpty(SelectedConvId))
+        {
+            var convData = aiAssistView[SelectedConvId];
+            if (convData.Name == convData.Name)
+            {
+                var listItem = ListViewObj.DataSource.FirstOrDefault(item => item.Id == SelectedConvId);
+                if (listItem != null)
+                {
+                    listItem.Text = convData.Name;
+                }
+            }
+            convData.Prompts = prompts;
+            convData.PromptSuggestions = pSuggestions;
+            await setLocalStorageValue(JsonSerializer.Serialize(aiAssistView));
+        }
+        else
+        {
+            SelectedConvId = curConvDate;
+            var convData = new ConversationData
+            {
+                Name = prompt,
+                Prompts = prompts,
+                PromptSuggestions = pSuggestions
+            };
+            aiAssistView[curConvDate] = convData;
+            await setLocalStorageValue(JsonSerializer.Serialize(aiAssistView));
+            await RefreshConversationList();
+        }
+    }
+
+    private async Task<List<ConversationItem>> GetLeftPaneData()
+    {
+        var today = GetDateFormat(DateTimeOffset.Now.ToUnixTimeMilliseconds());
+        var aiAssistView = await getLocalStorageValue();
+        var items = aiAssistView.Select(kv => new ConversationItem
+        {
+            Id = kv.Key,
+            Text = kv.Value.Name.Split('\n')[0],
+            NumericId = long.Parse(kv.Key),
+            Category = GetCategory(today, long.Parse(kv.Key)),
+            Time = GetDateFormat(long.Parse(kv.Key))
+        }).OrderByDescending(item => item.NumericId).ToList();
+        return items;
+    }
+
+    private async Task RefreshConversationList()
+    {
+        ListData = await GetLeftPaneData();
+        @*Hidden:Lines*@
+        #pragma warning disable BL0005
+        @*End:Hidden*@
+        ListViewObj.DataSource = ListData;
+        @*Hidden:Lines*@
+        #pragma warning restore BL0005
+        @*End:Hidden*@
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task UpdateAIAssistViewData(string id)
+    {
+        if (!string.IsNullOrEmpty(id))
+        {
+            var aiAssistView = await getLocalStorageValue();
+            var convData = aiAssistView[id];
+            promptsData = convData.Prompts.Select(p => new AssistViewPrompt { Prompt = p.Prompt, Response = p.Response }).ToList();
+            SuggestionData = convData.PromptSuggestions;
+        }
+        else
+        {
+            promptsData = new List<AssistViewPrompt>();
+            SuggestionData = PromptSuggestions.ToList();
+        }
+    }
+
+    private async Task UpdateConversationName(string prompt)
+    {
+        if (IsFirstPrompt && !string.IsNullOrEmpty(SelectedConvId))
+        {
+            var aiAssistView = await getLocalStorageValue();
+            if (aiAssistView.TryGetValue(SelectedConvId, out var convData) && convData.Name == "New Conversation")
+            {
+                convData.Name = prompt.Length > 40 ? prompt.Substring(0, 40).Trim() : prompt;
+                await setLocalStorageValue(JsonSerializer.Serialize(aiAssistView));
+                var listItem = ListData.FirstOrDefault(item => item.Id == SelectedConvId);
+                if (listItem != null)
+                {
+                    listItem.Text = convData.Name;
+                }
+                await RefreshConversationList();
+            }
+            IsFirstPrompt = false;
+        }
+    }
+
+    private async Task LoadNewAIAssist()
+    {
+        SelectedConvId = "";
+        IsFirstPrompt = true;
+        if (ListViewObj.DataSource.Any())
+        {
+            promptsData = new List<AssistViewPrompt>();
+            SuggestionData = PromptSuggestions.ToList();
+        }
+        var curConvDate = GetDate().ToString();
+        var aiAssistView = await getLocalStorageValue();
+        var convData = new ConversationData
+        {
+            Name = "New Conversation",
+            Prompts = new List<AssistViewPrompt>(),
+            PromptSuggestions = PromptSuggestions.ToList()
+        };
+        aiAssistView[curConvDate] = convData;
+        await setLocalStorageValue(JsonSerializer.Serialize(aiAssistView));
+        await RefreshConversationList();
+        SelectedConvId = curConvDate;
+    }
+
+    private async Task ResetConversations()
+    {
+
+        await setLocalStorageValue(JsonSerializer.Serialize(new Dictionary<string, ConversationData>()));
+        SelectedConvId = "";
+        promptsData = new List<AssistViewPrompt>();
+        SuggestionData = PromptSuggestions.ToList();
+        @*Hidden:Lines*@
+        #pragma warning disable BL0005
+        @*End:Hidden*@
+        ListViewObj.DataSource = new List<ConversationItem>();
+        @*Hidden:Lines*@
+        #pragma warning restore BL0005
+        @*End:Hidden*@
+        await RefreshConversationList();
+    }
+
+    private void ToggleSidebar()
+    {
+        SidebarToggle = !SidebarToggle;
+    }
+
+    private async Task OnListSelect(ClickEventArgs<ConversationItem> args)
+    {
+        if (args.ItemData != null)
+        {
+            SelectedConvId = args.ItemData.Id;
+            await UpdateAIAssistViewData(args.ItemData.Id);
+        }
+    }
+
+    private async Task<Dictionary<string, ConversationData>> getLocalStorageValue()
+    {
+        string storageData = await jsRuntime.InvokeAsync<string>("getPromptsLocalStorage");
+        try
+        {
+            return JsonSerializer.Deserialize<Dictionary<string, ConversationData>>(storageData);
+        }
+        catch
+        {
+            return new Dictionary<string, ConversationData>();
+        }
+    }
+
+    private async Task setLocalStorageValue(string value)
+    {
+        await jsRuntime.InvokeVoidAsync("setPromptsLocalStorage", value);
+    }
+}
+
+<style>
+    .ai-assistant {
+        height: 500px;
+        width: auto;
+        margin: 0 auto;
+    }
+
+        .ai-assistant #aiAssistView {
+            width: auto !important;
+        }
+
+        .ai-assistant .banner-content .e-assistview-icon:before {
+            font-size: 35px;
+        }
+
+        .ai-assistant .banner-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 330px;
+            text-align: center;
+        }
+
+            .ai-assistant .banner-content.e-no-content {
+                height: 25vh;
+            }
+
+            .ai-assistant .banner-content h3 {
+                margin: 0;
+            }
+
+            .ai-assistant .banner-content .e-assistview-icon:before {
+                font-size: 40px;
+            }
+
+    #assistantSidebar {
+        border: 1px solid var(--color-sf-border);
+        border-right: unset;
+    }
+
+        #assistantSidebar .e-listview .e-aiassist-chat::before {
+            font-size: 18px;
+        }
+
+        #assistantSidebar .e-listview .e-aiassist-chat {
+            margin: 0 8px;
+        }
+
+        /* Chat item styles */
+        #assistantSidebar #assistant-listview-grp .chat-item {
+            padding-left: 6px;
+            cursor: pointer;
+        }
+
+        #assistantSidebar #assistant-listview-grp .chat-title {
+            font-size: 14px;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            margin-bottom: 5px;
+        }
+
+        #assistantSidebar #assistant-listview-grp .chat-time {
+            font-size: 12px;
+            color: #757575;
+        }
+
+        #assistantSidebar #assistant-listview-grp {
+            height: calc(100% - 50px);
+            overflow-y: auto;
+            border: none;
+        }
+
+        #assistantSidebar .assistant-listview-option {
+            display: flex;
+            padding: 10px 10px 10px 8px;
+            align-items: center;
+        }
+
+            #assistantSidebar .assistant-listview-option div {
+                font-size: 16px;
+                font-weight: 500;
+                margin-left: 10px;
+            }
+
+            #assistantSidebar .assistant-listview-option span {
+                margin-left: auto;
+                margin-top: 5px;
+            }
+
+        #assistantSidebar .e-toolbar-left .e-toolbar-item .e-tbar-btn {
+            pointer-events: none;
+        }
+
+        #assistantSidebar .assistant-sidebar-header .e-toolbar,
+        #assistantSidebar .assistant-sidebar-header .e-toolbar .e-tbar-btn {
+            background: inherit;
+        }
+
+        #assistantSidebar.e-close .assistant-sidebar-content .assistant-listview-option .header-conversation,
+        #assistantSidebar.e-close .assistant-sidebar-content .assistant-listview-option .e-refresh,
+        #assistantSidebar.e-close .assistant-sidebar-content #assistant-listview-grp,
+        #assistantSidebar.e-close .new-chat-button,
+        #assistantSidebar.e-close .e-toolbar-left .e-toolbar-item {
+            display: none;
+        }
+
+        #assistantSidebar.e-close .assistant-sidebar-content .assistant-listview-option .e-multiple-comment {
+            font-size: 24px;
+            padding-left: 5px;
+        }
+
+        #assistantSidebar.e-close .e-toolbar-items .e-toolbar-right {
+            left: 14px;
+        }
+
+        #assistantSidebar .e-toolbar-item .e-tbar-btn:hover .e-icons {
+            color: #6c757d;
+        }
+
+        #assistantSidebar .assistant-listview-option #resetButton {
+            cursor: pointer;
+            font-size: 15px;
+        }
+
+        .material3 #assistantSidebar .e-listview .e-list-item,
+        .fluent #assistantSidebar .e-listview .e-list-item
+        .bootstrap5 #assistantSidebar .e-listview .e-list-item {
+            padding: 5px;
+        }
+
+      @@media screen and (max-width: 480px) {
+            #assistantSidebar .e-toolbar-items .e-toolbar-right
+            {
+                margin-left: 100px;
+            }
+
+            .ai-assistant {
+                width: 100%;
+            }
+      }
+
+</style>

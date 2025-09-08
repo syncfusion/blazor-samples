@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor.FileManager;
 @using Syncfusion.Blazor.SplitButtons;
 @inject IJSRuntime JSRuntime
+@implements IDisposable;
 
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
@@ -39,9 +40,9 @@
                 <FileManagerCustomToolbarItem Name="Upload">
                     <Template>
                         <div class="directory-upload">
-                            <SfDropDownButton IconCss="e-icons e-fe-upload" CssClass=" e-tbar-btn e-tbtn-txt  e-fe-popup" @attributes="@(new Dictionary<string, object> { {"tabindex", -1 } })">
+                            <SfDropDownButton IconCss="e-icons e-fe-upload" CssClass=" e-tbar-btn e-tbtn-txt  e-fe-popup" aria-label="Upload Options" @attributes="@(new Dictionary<string, object> { {"tabindex", -1 } })">
                                 <span class="e-tbar-btn-text e-tbar-ddb-text">Upload</span>
-                                <DropDownButtonEvents ItemSelected="@ItemSelected"></DropDownButtonEvents>
+                                <DropDownButtonEvents Opened="OnDropDownOpened"></DropDownButtonEvents>
                                 <DropDownMenuItems>
                                     <DropDownMenuItem Id="Folder" Text="Folder"></DropDownMenuItem>
                                     <DropDownMenuItem Id="Files" Text="Files"></DropDownMenuItem>
@@ -59,6 +60,7 @@
 
 @code{
     public bool IsDirectoryUpload = true;
+    private DotNetObjectReference<DirectoryUpload> dotnetObjectRef { get; set; }
     public List<ToolBarItemModel> Items = new List<ToolBarItemModel>()
     {
         new ToolBarItemModel() { Name = "NewFolder" },
@@ -84,18 +86,34 @@
             args.Cancel = true;
         }
     }
-    public async void ItemSelected(MenuEventArgs args)
+
+    [JSInvokable("SetUploadType")]
+    public void SetUploadType(bool isFolder)
     {
-        if (args.Item.Id == "Folder")
+        IsDirectoryUpload = isFolder;
+        StateHasChanged();
+    }
+
+    protected override void OnInitialized()
+    {
+        dotnetObjectRef = DotNetObjectReference.Create(this);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
         {
-            IsDirectoryUpload = true;
+            await JSRuntime.InvokeVoidAsync("fileManagerInstance", dotnetObjectRef);
         }
-        else
-        {
-            IsDirectoryUpload = false;
-        }
-        await Task.Delay(100);
-        await JSRuntime.InvokeVoidAsync("uploadClick");
+    }
+
+    public async Task OnDropDownOpened(OpenCloseMenuEventArgs args)
+    {
+        await JSRuntime.InvokeVoidAsync("bindUploadMenuEvents");
+    }
+    public void Dispose()
+    {
+        dotnetObjectRef?.Dispose();
     }
 }
 

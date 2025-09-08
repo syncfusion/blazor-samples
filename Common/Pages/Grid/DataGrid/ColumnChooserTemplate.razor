@@ -44,7 +44,7 @@
                                 <span class="e-ccsearch-icon e-icons e-cc e-input-group-icon"></span>
                             }
                         </div>
-                        @if (templateContext.Columns != null &&  ShouldRenderGroup("Order Details", templateContext.Columns))
+                        @if (templateContext?.Columns != null &&  ShouldRenderGroup("Order Details", templateContext.Columns))
                         {
                             <GridColumnChooserItemGroup Title="Order Details">
                                 @foreach (var column in GetGroupColumns("Order Details", templateContext.Columns))
@@ -53,7 +53,7 @@
                                 }
                             </GridColumnChooserItemGroup>
                         }
-                        @if (templateContext.Columns != null && ShouldRenderGroup("Ship Details", templateContext.Columns))
+                        @if (templateContext?.Columns != null && ShouldRenderGroup("Ship Details", templateContext.Columns))
                         {
                             <GridColumnChooserItemGroup Title="Ship Details">
                                 @foreach (var column in GetGroupColumns("Ship Details", templateContext.Columns))
@@ -62,7 +62,7 @@
                                 }
                             </GridColumnChooserItemGroup>
                         }
-                        @if(templateContext.Columns == null)
+                        @if(templateContext?.Columns == null)
                         {
                             <div class="e-innerdiv e-cc e-ccnmdiv">
                                 <span class="e-cc e-nmatch">No Matches found</span>
@@ -72,13 +72,13 @@
                     <FooterTemplate>
                         @{
                             var templateContext = context as ColumnChooserFooterTemplateContext;
-                            var visibles = templateContext.Columns.Where(x => x.Visible).Select(x => x.HeaderText).ToArray();
-                            var hiddens = templateContext.Columns.Where(x => !x.Visible).Select(x => x.HeaderText).ToArray();
+                            var visibles = templateContext?.Columns.Where(x => x.Visible).Select(x => x.HeaderText).ToArray();
+                            var hiddens = templateContext?.Columns.Where(x => !x.Visible).Select(x => x.HeaderText).ToArray();
                         }
                         <SfButton IsPrimary="true" OnClick="@(async () => {
-                        await grid.ShowColumnsAsync(visibles);
-                        await grid.HideColumnsAsync(hiddens); initialGrid = true; cancelIcon = ""; searchText="";})">OK</SfButton>
-                        <SfButton @onclick="@(async () =>{ await templateContext.CancelAsync();initialGrid = true; cancelIcon = ""; searchText="";})">Cancel</SfButton>
+                        await grid?.ShowColumnsAsync(visibles)!;
+                        await grid?.HideColumnsAsync(hiddens)!; initialGrid = true; cancelIcon = ""; searchText="";})">OK</SfButton>
+                        <SfButton @onclick="@(async () =>{ await templateContext?.CancelAsync()!;initialGrid = true; cancelIcon = ""; searchText="";})">Cancel</SfButton>
                     </FooterTemplate>
                 </GridColumnChooserSettings>
                 <GridColumns>
@@ -98,20 +98,20 @@
 
 @code{
 
-    public List<OrdersDetails> GridData { get; set; }
+    public List<OrdersDetails>? GridData { get; set; }
 
 
-    SfGrid<OrdersDetails> grid { get; set; }
-    SfTextBox textBox { get; set; }
-    private ColumnChooserTemplateContext templateContext { get; set; }
+    SfGrid<OrdersDetails>? grid { get; set; }
+    SfTextBox? textBox { get; set; }
+    private ColumnChooserTemplateContext? templateContext { get; set; }
 
-    private List<GridColumn> searchedColumns { get; set; }
+    private List<GridColumn>? searchedColumns { get; set; }
 
     private string cancelIcon { get; set; } = "";
 
     private string inputFocus { get; set; } = "";
 
-    private string searchText { get; set; }
+    private string? searchText { get; set; }
 
     private bool initialGrid = true;
     private string className = "setMargin e-cc-searchdiv e-input-group";
@@ -123,14 +123,14 @@
 
     private GridColumn GetColumn(string field, List<GridColumn> columns)
     {
-        GridColumn column = null;
+        GridColumn column = null!;
 
         if (columns.Any(x => { column = x; return x.Field == field; }))
         {
             return column;
         }
 
-        return null;
+        return null!;
     }
 
     private bool ShouldRenderGroup(string title, List<GridColumn> columns)
@@ -159,7 +159,8 @@
         else
         {
             cancelIcon = "e-cc-cancel";
-            searchedColumns = grid.Columns.FindAll(e => e.HeaderText.ToLower().StartsWith(eventArgs.Value.ToString().ToLower()));
+            searchedColumns = grid?.Columns.FindAll(e => e.HeaderText.ToLower().StartsWith(eventArgs.Value.ToString().ToLower()));
+            if(this.templateContext != null)
             this.templateContext.Columns = (searchedColumns != null && searchedColumns.Count > 0) ? searchedColumns : null;
             initialGrid = false;
         }
@@ -167,6 +168,7 @@
     private void Focus()
     {
         className = "setMargin e-cc-searchdiv e-input-group e-input-focus";
+        if(textBox != null)
         textBox.UpdateParentClass("", "e-cc-searchinput e-input-group e-control-container e-control-wrapper");
     }
     private void Blur()
@@ -176,7 +178,7 @@
     private void CancelIconClick(MouseEventArgs e)
     {
         cancelIcon = "";
-        searchText = null;
+        searchText = null!;
         initialGrid = true;
     }
 }

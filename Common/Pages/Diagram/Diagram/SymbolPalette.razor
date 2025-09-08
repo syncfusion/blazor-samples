@@ -9,7 +9,7 @@
 @using Syncfusion.Blazor.Inputs
 @using Syncfusion.Blazor.DropDowns
 @*End:Hidden*@
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @using SymbolExpandMode = Syncfusion.Blazor.Navigations.ExpandMode
 @using ButtonChangeArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
 @*Hidden:Lines*@
@@ -322,38 +322,38 @@
     @*Hidden:Lines*@
 
     private int? index { get; set; } = 1;
-    SfDropDownList<string, ExpandModevalue> expandDropDown;
+    SfDropDownList<string, ExpandModevalue>? expandDropDown;
     public int? sizeChangeValue { get; set; } = 75;
     bool icon = true;
     bool text = true;
     bool animation = true;
     bool searchbox = true;
     @*End:Hidden*@
-    DiagramSize symbolDragPreviewSize;
+    DiagramSize? symbolDragPreviewSize;
     SymbolExpandMode paletteExpandMode = SymbolExpandMode.Multiple;
     SymbolInfo SymbolInfo = new SymbolInfo();
-    public SfDiagramComponent Diagram;
-    SfSymbolPaletteComponent palette;
-    public DiagramObjectCollection<Palette> palettes;
+    public SfDiagramComponent? Diagram;
+    SfSymbolPaletteComponent? palette;
+    public DiagramObjectCollection<Palette>? palettes;
     double symbolHeight = 75;
     double symbolWidth = 75;
-    public DiagramObjectCollection<NodeBase> basicShapes { get; set; }
-    public DiagramObjectCollection<NodeBase> connectors { get; set; }
-    public DiagramObjectCollection<NodeBase> flowShapes { get; set; }
+    public DiagramObjectCollection<NodeBase>? basicShapes { get; set; }
+    public DiagramObjectCollection<NodeBase>? connectors { get; set; }
+    public DiagramObjectCollection<NodeBase>? flowShapes { get; set; }
     // Defines interval values for GridLines
-    public double[] GridLineIntervals { get; set; }
+    public double[]? GridLineIntervals { get; set; }
     //Defines Diagram's Nodes collection
     private DiagramObjectCollection<Node> nodes = new DiagramObjectCollection<Node>();
 
     //Defines Diagram's Connectors collection
     private DiagramObjectCollection<Connector> diagramConnectors = new DiagramObjectCollection<Connector>();
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
     @*Hidden:Lines*@
     public class ExpandModevalue
     {
-        public string Text { get; set; }
-        public string Value { get; set; }
+        public string? Text { get; set; }
+        public string? Value { get; set; }
     }
 
     private List<ExpandModevalue> ExpandMode = new List<ExpandModevalue>()
@@ -364,19 +364,19 @@
 
     public void ExpandModeChange(ChangeEventArgs<string, ExpandModevalue> args)
     {
-        this.paletteExpandMode = args.ItemData.Value == "Single" ? SymbolExpandMode.Single : SymbolExpandMode.Multiple;
+        this.paletteExpandMode = args.ItemData!.Value == "Single" ? SymbolExpandMode.Single : SymbolExpandMode.Multiple;
     }
 
     private void SizeChange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
     {
-        this.symbolWidth = double.Parse(args.Value.ToString());
-        this.symbolHeight = double.Parse(args.Value.ToString());
-        this.sizeChangeValue = int.Parse(args.Value.ToString());
+        this.symbolWidth = double.Parse(args.Value.ToString()!);
+        this.symbolHeight = double.Parse(args.Value.ToString()!);
+        this.sizeChangeValue = int.Parse(args.Value.ToString()!);
     }
 
     private void IconChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
     {
-        for (var i = 0; i < palettes.Count; i++)
+        for (var i = 0; i < palettes!.Count; i++)
         {
             this.icon = args.Checked;
             if (args.Checked)
@@ -403,7 +403,7 @@
 
     private void TextChange(ButtonChangeArgs args)
     {
-        palette.RefreshSymbols();
+        palette!.RefreshSymbols();
     }
     private void AnimationChange(ButtonChangeArgs args)
     {
@@ -418,7 +418,7 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        palette.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        palette!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             Diagram
         };
@@ -518,14 +518,22 @@
 
     private SymbolInfo GetSymbolInfo(IDiagramObject symbol)
     {
-        string description = symbol is Node ? (symbol as Node).ID : (symbol as Connector).ID;
+        string? description = symbol is Node ? (symbol as Node)!.ID : (symbol as Connector)!.ID;
         if (text)
         {
-            SymbolInfo.Description = new SymbolDescription() { Text = description, TextOverflow = TextOverflow.Wrap };
+            SymbolInfo.Description = new SymbolDescription() { Text = description,
+                                                               Style = new TextStyle(){
+                                                                   TextOverflow = TextOverflow.Wrap
+                                                               }, 
+                                                             };
         }
         else
         {
-            SymbolInfo.Description = new SymbolDescription() { Text = "", TextOverflow = TextOverflow.Wrap };
+            SymbolInfo.Description = new SymbolDescription() { Text = "", 
+                                                               Style = new TextStyle(){
+                                                                  TextOverflow = TextOverflow.Wrap
+                                                               }, 
+                                                             };
         }
         return SymbolInfo;
     }
@@ -538,7 +546,7 @@
             ID = id,
             Shape = new BasicShape()
             {
-                Type = shapes.Basic,
+                Type = NodeShape.Basic,
                 Shape = type
             },
             SearchTags = new List<string>() {"Basic" },
@@ -555,7 +563,7 @@
             ID = id,
             Shape = new FlowShape()
             {
-                Type = shapes.Flow,
+                Type = NodeShape.Flow,
                 Shape = type
             },
             SearchTags = new List<string>() {"flow" },
@@ -585,7 +593,7 @@
     }
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
 
     }
     @*Hidden:Lines*@

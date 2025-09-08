@@ -13,7 +13,7 @@
     <p>This File Upload example demonstrates how to customize the file list with the template. Browse or select the files to view the file list template.</p>
 </SampleDescription>
 <ActionDescription>
-   <p>The File Upload allows to customize its file list using the template. The template is used for each file in the file list.</p>
+    <p>The File Upload allows to customize its file list using the template. The template is used for each file in the file list.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
@@ -38,11 +38,11 @@
 </div>
 
 @code {
-    public SfUploader FileUploader;
+    public SfUploader? FileUploader;
     public string CssClass = "custom-class";
     public string ExtensionAllowed { get; set; } = ".pdf, .txt, .png";
     public List<Syncfusion.Blazor.Inputs.FileInfo> files = new List<Syncfusion.Blazor.Inputs.FileInfo>();
-    
+
     public void AfterSelect(SelectedEventArgs args)
     {
         string[] Extension = { "pdf", "txt", "png" };
@@ -56,27 +56,34 @@
         var filename = file.Name;
         int idx = files.FindIndex(c => c.Name == filename);
         FileInfo[] text = new FileInfo[] { files[idx] };
-        this.FileUploader.RemoveAsync(text);
+        if (this.FileUploader != null)
+        {
+            this.FileUploader.RemoveAsync(text);           
+        }
     }
     private void OnChangeUpload(UploadChangeEventArgs args)
     {
         files = new List<Syncfusion.Blazor.Inputs.FileInfo>();
-        foreach (var file in args.Files)
+        if (args.Files != null)
         {
-            files.Add(new Syncfusion.Blazor.Inputs.FileInfo()
+            foreach (var file in args.Files)
             {
-                Name = file.FileInfo.Name,
-                Id = file.FileInfo.Id,
-                RawFile = file.FileInfo.RawFile,
-                Size = file.FileInfo.Size,
-                Status = file.FileInfo.Status,
-                StatusCode = file.FileInfo.StatusCode,
-                FileSource = file.FileInfo.FileSource,
-                Input = file.FileInfo.Input,
-                List = file.FileInfo.List,
-                Type = file.FileInfo.Type,
-                ValidationMessages = file.FileInfo.ValidationMessages
-            });
+                files.Add(new Syncfusion.Blazor.Inputs.FileInfo()
+                    {
+                        Name = file.FileInfo.Name,
+                        Id = file.FileInfo.Id,
+                        RawFile = file.FileInfo.RawFile,
+                        Size = file.FileInfo.Size,
+                        Status = file.FileInfo.Status,
+                        StatusCode = file.FileInfo.StatusCode,
+                        FileSource = file.FileInfo.FileSource,
+                        Input = file.FileInfo.Input,
+                        List = file.FileInfo.List,
+                        Type = file.FileInfo.Type,
+                        ValidationMessages = file.FileInfo.ValidationMessages
+                    });
+            }
+            
         }
     }
     public void OnSuccess(SuccessEventArgs args)

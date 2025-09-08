@@ -45,7 +45,7 @@ namespace BlazorDemos
                 FileName = "MultipleAxes.razor",
                 MetaTitle = "Blazor Circular Gauge Multiple Axes | Multi-Scale | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Multiple Axes",
-                MetaDescription = "This Blazor Circular Gauge with Multiple Axes demonstrates multi-scale visualization with different ranges and units for comprehensive data display.",
+                MetaDescription = "This Blazor Circular Gauge with Multiple Axes example demonstrates multi-scale visualization with different ranges and units for comprehensive data display.",
                 Type = SampleType.None
             },            
             new Sample
@@ -57,7 +57,7 @@ namespace BlazorDemos
                 FileName = "CustomLabels.razor",
                 MetaTitle = "Blazor Circular Gauge Custom Labels | Label Format | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Custom Labels",
-                MetaDescription = "This Blazor Circular Gauge with Custom Labels demonstrates personalized label formatting and positioning for enhanced data presentation and branding.",
+                MetaDescription = "This Blazor Circular Gauge with Custom Labels example demonstrates personalized label formatting and positioning for enhanced data presentation and branding.",
                 Type = SampleType.None
             },
             new Sample
@@ -69,7 +69,7 @@ namespace BlazorDemos
                 FileName = "RangeColorsForAxis.razor",
                 MetaTitle = "Blazor Circular Gauge Range Colors | Color Coding | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Range Color for Axis",
-                MetaDescription = "This Blazor Circular Gauge demonstrates range-based color coding for axis elements to provide visual indicators and improved data interpretation.",
+                MetaDescription = "This Blazor Circular Gauge example demonstrates range-based color coding for axis elements to provide visual indicators and improved data interpretation.",
                 Type = SampleType.None
             },
             new Sample
@@ -117,7 +117,7 @@ namespace BlazorDemos
                 FileName = "ImagePointer.razor",
                 MetaTitle = "Blazor Circular Gauge Image Pointer | Custom Icons | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Image Pointer",
-                MetaDescription = "This Blazor Circular Gauge with Image Pointer demonstrates custom icon-based value indicators for enhanced visual appeal and brand customization.",
+                MetaDescription = "This Blazor Circular Gauge with Image Pointer example demonstrates custom icon-based value indicators for enhanced visual appeal and brand customization.",
                 Type = SampleType.None
             },
             new Sample
@@ -129,7 +129,7 @@ namespace BlazorDemos
                 FileName = "RangeCustomization.razor",
                 MetaTitle = "Blazor Circular Gauge Range Custom | Visual Zones | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Range Customization",
-                MetaDescription = "This Blazor Circular Gauge demonstrates range customization with colors, gradients, and styling for creating visual zones and data categorization.",
+                MetaDescription = "This Blazor Circular Gauge example demonstrates range customization with colors, gradients, and styling for creating visual zones and data categorization.",
                 Type = SampleType.None
             },
             new Sample
@@ -141,7 +141,7 @@ namespace BlazorDemos
                 FileName = "MultipleRanges.razor",
                 MetaTitle = "Blazor Circular Gauge Multiple Ranges | Data Zones | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Multiple Ranges",
-                MetaDescription = "This Blazor Circular Gauge with Multiple Ranges demonstrates overlapping data zones with different colors for comprehensive value categorization.",
+                MetaDescription = "This Blazor Circular Gauge with Multiple Ranges example demonstrates overlapping data zones with different colors for comprehensive value categorization.",
                 Type = SampleType.None
             },
             new Sample
@@ -165,7 +165,7 @@ namespace BlazorDemos
                 FileName = "Arcgauge.razor",
                 MetaTitle = "Blazor Arc Gauge | Partial Circle View | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Arc Gauge",
-                MetaDescription = "This Blazor Arc Gauge demonstrates partial circular visualization with customizable arc angles for space-efficient data display and modern design.",
+                MetaDescription = "This Blazor Arc Gauge example demonstrates partial circular visualization with customizable arc angles for space-efficient data display and modern design.",
                 Type = SampleType.None
             },	
 			new Sample
@@ -177,7 +177,7 @@ namespace BlazorDemos
 			    FileName = "Semicirculargauge.razor",
 			    MetaTitle = "Blazor Semi-Circular Gauge | Half Circle | Syncfusion",
 			    HeaderText = "Blazor Circular Gauge Example - Semi-circular Gauge",
-			    MetaDescription = "This Blazor Semi-circular Gauge demonstrates half-circle data visualization for compact layouts and dashboard applications with space constraints.",
+			    MetaDescription = "This Blazor Semi-circular Gauge example demonstrates half-circle data visualization for compact layouts and dashboard applications with space constraints.",
                 Type = SampleType.None
 			},
             new Sample
@@ -189,7 +189,7 @@ namespace BlazorDemos
                 FileName = "PointerRangesDrag.razor",
                 MetaTitle = "Blazor Circular Gauge Drag | Interactive Control | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Pointer & Ranges Drag",
-                MetaDescription = "This Blazor Circular Gauge demonstrates interactive drag functionality for pointers and ranges, enabling real-time value adjustment and user control.",
+                MetaDescription = "This Blazor Circular Gauge example demonstrates interactive drag functionality for pointers and ranges, enabling real-time value adjustment and user control.",
                 Type = SampleType.None
             },
             new Sample
@@ -201,7 +201,7 @@ namespace BlazorDemos
                 FileName = "Tooltip.razor",
                 MetaTitle = "Blazor Circular Gauge Tooltip | Hover Information | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Tooltip",
-                MetaDescription = "This Blazor Circular Gauge with Tooltip demonstrates interactive hover information display for enhanced data exploration and detailed value insights.",
+                MetaDescription = "This Blazor Circular Gauge with Tooltip example demonstrates interactive hover information display for enhanced data exploration and detailed value insights.",
                 Type = SampleType.None
             },
             new Sample
@@ -213,7 +213,7 @@ namespace BlazorDemos
                 FileName = "PrintExport.razor",
                 MetaTitle = "Blazor Circular Gauge Export | Document Output | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Print & Export",
-                MetaDescription = "This Blazor Circular Gauge demonstrates printing and export capabilities for generating reports and sharing gauge visualizations in multiple formats.",
+                MetaDescription = "This Blazor Circular Gauge example demonstrates printing and export capabilities for generating reports and sharing gauge visualizations in multiple formats.",
                 Type = SampleType.None
             },
             new Sample
@@ -225,7 +225,7 @@ namespace BlazorDemos
                 FileName = "Clock.razor",
                 MetaTitle = "Blazor Circular Gauge Clock | Time Display | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Clock",
-                MetaDescription = "This Blazor Circular Gauge Clock demonstrates real-time clock functionality with customizable hour, minute, and second hands for time visualization.",
+                MetaDescription = "This Blazor Circular Gauge Clock example demonstrates real-time clock functionality with customizable hour, minute, and second hands for time visualization.",
                 Type = SampleType.None
             },
             new Sample
@@ -237,7 +237,7 @@ namespace BlazorDemos
                 FileName = "RadialSlider.razor",
                 MetaTitle = "Blazor Radial Slider | Circular Control | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Radial Slider",
-                MetaDescription = "This Blazor Radial Slider demonstrates circular input control with smooth value selection and interactive user interface for modern applications.",
+                MetaDescription = "This Blazor Radial Slider example demonstrates circular input control with smooth value selection and interactive user interface for modern applications.",
                 Type = SampleType.None
             },
             new Sample
@@ -249,7 +249,7 @@ namespace BlazorDemos
                 FileName = "DirectionCompass.razor",
                 MetaTitle = "Blazor Direction Compass | Navigation Tool | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Direction Compass",
-                MetaDescription = "This Blazor Direction Compass demonstrates navigation visualization with directional indicators and cardinal points for location-based applications.",
+                MetaDescription = "This Blazor Direction Compass example demonstrates navigation visualization with directional indicators and cardinal points for location-based applications.",
                 Type = SampleType.None
             },
             new Sample
@@ -273,7 +273,7 @@ namespace BlazorDemos
                 FileName = "SleepTracker.razor",
                 MetaTitle = "Blazor Sleep Tracker | Health Monitoring | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Sleep Tracker",
-                MetaDescription = "This Blazor Sleep Tracker demonstrates health monitoring visualization with sleep pattern analysis and progress tracking for wellness applications.",
+                MetaDescription = "This Blazor Sleep Tracker example demonstrates health monitoring visualization with sleep pattern analysis and progress tracking for wellness applications.",
                 Type = SampleType.None
             },
             new Sample
@@ -285,7 +285,7 @@ namespace BlazorDemos
                 FileName = "DataSample.razor",
                 MetaTitle = "Blazor Circular Gauge Data Sample | Real Data | Syncfusion",
                 HeaderText = "Blazor Circular Gauge Example - Data Sample",
-                MetaDescription = "This Blazor Circular Gauge Data Sample demonstrates real-world data integration with dynamic updates and practical business use case scenarios.",
+                MetaDescription = "This Blazor Circular Gauge Data example demonstrates the real-world data integration with the dynamic updates and practical business use case scenarios.",
                 Type = SampleType.None
             },
             new Sample

@@ -48,7 +48,7 @@
 @code {
     Theme _theme;
     string _width = "90%";
-    SfSankey _Sankey;
+    SfSankey? _Sankey;
     public List<SankeyDataNode> Nodes = new List<SankeyDataNode>();
     public List<SankeyDataLink> Links = new List<SankeyDataLink>();
 
@@ -56,7 +56,7 @@
     {
         _theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
         string themeName = _theme.ToString().ToLower();
-        if (!SampleService.IsDevice)
+        if (SampleService != null && !SampleService.IsDevice)
         {
             Nodes = new List<SankeyDataNode>()
         {
@@ -144,7 +144,7 @@
 
         }
         base.OnInitialized();
-        if (SampleService.IsDevice)
+        if (SampleService != null && SampleService.IsDevice)
         {
             _width = "100%";
             StateHasChanged();
@@ -153,17 +153,19 @@
 
     private async Task PrintChart()
     {
+        if (_Sankey != null)
         await _Sankey.PrintAsync();
     }
 
     private async Task ExportChart()
     {
+        if (_Sankey != null)
         await _Sankey.ExportAsync(SankeyExportType.SVG, $"Sankey{DateTime.Now.Ticks}", null);
     }
 
     void OnLabelRendering(SankeyLabelRenderEventArgs args)
     {
-        if (SampleService.IsDevice)
+        if (SampleService != null && SampleService.IsDevice)
         {
             args.Text = args.Text.Substring(0, 3).ToUpper();
         }

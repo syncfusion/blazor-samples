@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 MetaTitle = "Blazor Pivot Table Example | Overview | Syncfusion Demos",
                 HeaderText = "Blazor Pivot Table Example - Overview",
-                MetaDescription = "This Blazor Pivot Table overview demonstrates comprehensive data analysis with drag-drop fields, interactive filtering, and dynamic pivot operations for business intelligence.",
+                MetaDescription = "Blazor Pivot Table overview shows comprehensive data analysis with drag-drop fields, interactive filtering, dynamic pivot operations for business intelligence.",
                 Type = SampleType.None
             },
             new Sample
@@ -39,7 +39,7 @@ namespace BlazorDemos
                 MetaDescription = "This Blazor Pivot Table example shows default rendering of the component with minimal configuration. Explore further for details and customization options.",
                 Type = SampleType.None
             },
-           
+
 
             new Sample
             {
@@ -53,6 +53,20 @@ namespace BlazorDemos
                 MetaDescription = "This Blazor Pivot Table Live Data demonstrates real-time data analysis with automatic updates and dynamic pivot operations for live business intelligence.",
                 Type = SampleType.None
             },
+            #if SERVER
+            new Sample
+            {
+                Name = "Smart Pivot Table",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/PivotTable",
+                Url = "pivot-table/ai-smart-pivot",
+                FileName = "SmartPivot.razor",
+                MetaTitle = "Smart Pivot Table - Syncfusion AI Demos",
+                HeaderText = "Blazor Pivot Table Example - AI-Powered Pivot Table",
+                MetaDescription = "This Blazor Pivot Table demo showcases AI-powered data insights with smart aggregation, predictive modeling, and adaptive filtering for enhanced analytics.",
+                Type = SampleType.AI
+            },
+#endif
             new Sample
             {
                 Name = "Local Data",
@@ -74,7 +88,7 @@ namespace BlazorDemos
                 FileName = "RemoteData.razor",
                 MetaTitle = "Blazor Pivot Table Remote Data | API Integration | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Remote Data",
-                MetaDescription = "This Blazor Pivot Table Remote Data demonstrates API integration and remote data binding for dynamic pivot analysis with external data sources.",
+                MetaDescription = "This Blazor Pivot Table Remote Data demonstrates API integration and the remote data binding for dynamic pivot analysis with the external data sources.",
                 Type = SampleType.None
             },
             new Sample
@@ -86,8 +100,8 @@ namespace BlazorDemos
                 FileName = "ServerSideAggregation.razor",
                 MetaTitle = "Blazor Pivot Server Aggregation | Performance | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Server-side Aggregation",
-                MetaDescription = "This Blazor Pivot Table Server-side Aggregation demonstrates high-performance data processing with server-side calculations for large datasets.",
-                Type = SampleType.Updated
+                MetaDescription = "This Blazor Pivot Table Server-side Aggregation demonstrates the high-performance data processing with server-side calculations for the large datasets.",
+                Type = SampleType.None
             },
 
 #if !(WASM)
@@ -100,7 +114,7 @@ namespace BlazorDemos
                 FileName = "OLAP.razor",
                 MetaTitle = "Blazor Pivot Table OLAP | Cube Analysis | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - OLAP",
-                MetaDescription = "This Blazor Pivot Table OLAP demonstrates multidimensional data analysis with OLAP cube integration for advanced business intelligence and reporting.",
+                MetaDescription = "This Blazor Pivot Table OLAP demonstrates the multidimensional data analysis with OLAP cube integration for advanced business intelligence and reporting.",
                 Type = SampleType.None
             },
 #endif
@@ -128,7 +142,7 @@ namespace BlazorDemos
                 FileName = "Performance-WASM.razor",
                 MetaTitle = "Blazor Pivot Table WASM Performance | WebAssembly | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Performance",
-                MetaDescription = "This Blazor Pivot Table WASM Performance demonstrates optimized WebAssembly performance for large datasets and complex pivot operations in browser.",
+                MetaDescription = "This Blazor Pivot Table WASM Performance demonstrates the optimized Web Assembly performance for large datasets and complex pivot operations in browser.",
                 Type = SampleType.None
 
             },
@@ -142,8 +156,21 @@ namespace BlazorDemos
                 FileName = "Chart.razor",
                 MetaTitle = "Blazor Pivot Chart Integration | Data Visualization | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Pivot Chart",
-                MetaDescription = "This Blazor Pivot Chart Integration demonstrates visual data representation with interactive charts synchronized with pivot table analysis for enhanced insights.",
+                MetaDescription = "This Blazor PivotChart Integration demonstrates visual data representation with interactive charts synchronized with pivot table analysis for enhanced insights.",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "Pivot Chart with Field List",
+                Category = "Integration",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/pivotchart-staticfieldList",
+                FileName = "Chart-StaticFieldList.razor",
+                MetaTitle = "Blazor Pivot Chart FieldList | Integration | Syncfusion",
+                HeaderText = "Blazor Pivot Table Example - Pivot Chart with Field List",
+                MetaDescription = "This Blazor Pivot Chart with field List example shows the integration of pivot chart with static field list for enhanced data analysis and visualization.",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a demo to render a pivot table and chart with an Excel-like field list and interactive display mode switching." }
             },
              new Sample
             {
@@ -154,7 +181,7 @@ namespace BlazorDemos
                 FileName = "ExternalBinding.razor",
                 MetaTitle = "Blazor Pivot External Binding | Component Sync | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - External Binding",
-                MetaDescription = "This Blazor Pivot Table External Binding demonstrates synchronization with external components for integrated dashboard and reporting solutions.",
+                MetaDescription = "This Blazor Pivot Table External Binding demonstrates the synchronization with an external components for integrated dashboard and reporting solutions.",
                 Type = SampleType.None
             },
               new Sample
@@ -167,8 +194,20 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Pivot HeatMap Integration | Visual Analysis | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - HeatMap",
                 MetaDescription = "This Blazor Pivot Table HeatMap Integration demonstrates color-coded data visualization with heatmap cells for enhanced pattern recognition and analysis.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] { @"Added a demo to show the pivot table value cells as heatmap cells based on their range." }
+                Type = SampleType.None
+            },
+             new Sample
+            {
+                Name = "Sparkline Chart",
+                Category = "Integration",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/sparkline-chart",
+                FileName = "SparkLineChart.razor",
+                MetaTitle = "Blazor Pivot Sparkline Chart | Component Sync | Syncfusion",
+                HeaderText = "Blazor Pivot Table Example - Sparkline Chart",
+                MetaDescription = "This Blazor Pivot Table Sparkline Chart example demonstrates the integration of embedded sparkline charts in grand total cells for visualizing trends.",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a demo to embed sparkline charts in pivot table cells for quick visualization of sales trends and comparisons." }
             },
             new Sample
             {
@@ -179,7 +218,7 @@ namespace BlazorDemos
                 FileName = "FieldList.razor",
                 MetaTitle = "Blazor Pivot Field List | Drag Drop Fields | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Field List",
-                MetaDescription = "This Blazor Pivot Table Field List demonstrates interactive field management with drag-and-drop functionality for dynamic pivot table configuration.",
+                MetaDescription = "This Blazor Pivot Table Field List example demonstrates interactive field management with drag-and-drop functionality for dynamic pivot table configuration.",
                 Type = SampleType.None,
             },
             new Sample
@@ -204,8 +243,7 @@ namespace BlazorDemos
                 MetaTitle = "Blazor Pivot Conditional Format | Visual Styling | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Conditional Formatting",
                 MetaDescription = "This Blazor Pivot Table Conditional Formatting demonstrates dynamic cell styling based on data values for enhanced data visualization and pattern recognition.",
-                Type = SampleType.None,
-                NotificationDescription = new string[] { @"The custom toolbar demo has been updated with a new UI option ""Apply to Grand Total"" added in the conditional formatting dialog UI, that allows the conditional formatting to be applied to row and column grand totals." }
+                Type = SampleType.None
             },
             new Sample
             {
@@ -216,7 +254,7 @@ namespace BlazorDemos
                 FileName = "Selection.razor",
                 MetaTitle = "Blazor Pivot Table Selection | Data Selection | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Selection",
-                MetaDescription = "This Blazor Pivot Table Selection demonstrates cell and range selection capabilities for detailed data analysis and interactive data exploration.",
+                MetaDescription = "This Blazor Pivot Table Selection example demonstrates cell and range selection capabilities for detailed data analysis and interactive data exploration.",
                 Type = SampleType.None
             },
             new Sample
@@ -228,7 +266,7 @@ namespace BlazorDemos
                 FileName = "DrillDown.razor",
                 MetaTitle = "Blazor Pivot Drill Down | Data Exploration | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Drill Down",
-                MetaDescription = "This Blazor Pivot Table Drill Down demonstrates hierarchical data exploration with expandable rows for detailed analysis and data discovery.",
+                MetaDescription = "This Blazor Pivot Table Drill Down example demonstrates the hierarchical data exploration with expandable rows for detailed analysis and data discovery.",
                 Type = SampleType.None
             },
             new Sample
@@ -240,7 +278,7 @@ namespace BlazorDemos
                 FileName = "SummaryCustomization.razor",
                 MetaTitle = "Blazor Pivot Show Hide Totals | Summary Control | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Show/Hide Totals",
-                MetaDescription = "This Blazor Pivot Table Show/Hide Totals demonstrates summary customization with toggle controls for grand totals and subtotals visibility management.",
+                MetaDescription = "This Blazor Pivot Table Show or Hide Totals demonstrates summary customization with toggle controls for grand totals and subtotals visibility management.",
                 Type = SampleType.None
             },
             new Sample
@@ -252,7 +290,7 @@ namespace BlazorDemos
                 FileName = "Grouping.razor",
                 MetaTitle = "Blazor Pivot Table Grouping | Data Organization | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Grouping",
-                MetaDescription = "This Blazor Pivot Table Grouping demonstrates data organization with custom grouping options for enhanced data categorization and analysis.",
+                MetaDescription = "This Blazor Pivot Table Grouping example demonstrates data organization with the custom grouping options for enhanced data categorization and analysis.",
                 Type = SampleType.None
             },
             new Sample
@@ -264,9 +302,9 @@ namespace BlazorDemos
                 FileName = "Toolbar.razor",
                 MetaTitle = "Blazor Pivot Table Toolbar | Action Controls | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Toolbar",
-                MetaDescription = "This Blazor Pivot Table Toolbar demonstrates action controls and quick access tools for efficient pivot table operations and data manipulation.",
+                MetaDescription = "This Blazor Pivot Table Toolbar example demonstrates action controls and quick access tools for efficient pivot table operations and data manipulation.",
                 Type = SampleType.None,
-            },            
+            },
             new Sample
             {
                 Name="Keyboard Navigation",
@@ -276,7 +314,7 @@ namespace BlazorDemos
                 FileName="PivotKeyboard.razor",
                 MetaTitle = "Blazor Pivot Keyboard Navigation | Accessibility | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Keyboard Navigation",
-                MetaDescription = "This Blazor Pivot Table Keyboard Navigation demonstrates accessibility features with keyboard shortcuts for inclusive data analysis and interaction.",
+                MetaDescription = "This Blazor Pivot Table Keyboard Navigation example demonstrates accessibility features with keyboard shortcuts for inclusive data analysis and interaction.",
                 Type=SampleType.None
             },
             new Sample
@@ -300,7 +338,7 @@ namespace BlazorDemos
                 FileName = "Aggregation.razor",
                 MetaTitle = "Blazor Pivot Table Aggregation | Data Summary | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Aggregation",
-                MetaDescription = "This Blazor Pivot Table Aggregation demonstrates various summary functions including sum, average, count, and custom aggregations for data analysis.",
+                MetaDescription = "This Blazor Pivot Table Aggregation example demonstrates various summary functions including sum, average, count, and custom aggregations for data analysis.",
                 Type = SampleType.None
             },
             new Sample
@@ -323,8 +361,8 @@ namespace BlazorDemos
                 FileName = "ValueSorting.razor",
                 MetaTitle = "Blazor Pivot Value Sorting | Custom Sort Order | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Value Sorting",
-                MetaDescription = "This Blazor Pivot Table Value Sorting demonstrates custom sorting based on aggregated values for advanced data organization and ranking analysis.",
-                Type = SampleType.Updated
+                MetaDescription = "This Blazor Pivot Table Value Sorting example demonstrates custom sorting based on aggregated values for advanced data organization and ranking analysis.",
+                Type = SampleType.None
             },
             new Sample
             {
@@ -335,7 +373,7 @@ namespace BlazorDemos
                 FileName = "MemberFiltering.razor",
                 MetaTitle = "Blazor Pivot Default Filtering | Data Filter | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Default Filtering",
-                MetaDescription = "This Blazor Pivot Table Default Filtering demonstrates member-based filtering with checkbox selection for focused data analysis and exploration.",
+                MetaDescription = "This Blazor Pivot Table Default Filtering example demonstrates member-based filtering with checkbox selection for focused data analysis and exploration.",
                 Type = SampleType.None
             },
             new Sample
@@ -347,7 +385,7 @@ namespace BlazorDemos
                 FileName = "LabelFiltering.razor",
                 MetaTitle = "Blazor Pivot Label Filtering | Text Filter | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Label Filtering",
-                MetaDescription = "This Blazor Pivot Table Label Filtering demonstrates text-based filtering with condition operators for precise data selection and analysis.",
+                MetaDescription = "This Blazor Pivot Table Label Filtering example demonstrates text-based filtering with the condition operators for precise data selection and analysis.",
                 Type = SampleType.None
             },
             new Sample
@@ -359,8 +397,21 @@ namespace BlazorDemos
                 FileName = "ValueFiltering.razor",
                 MetaTitle = "Blazor Pivot Value Filtering | Numeric Filter | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Value Filtering",
-                MetaDescription = "This Blazor Pivot Table Value Filtering demonstrates numeric filtering with range conditions for targeted data analysis and threshold-based insights.",
+                MetaDescription = "This Blazor Pivot Table Value Filtering example demonstrates numeric filtering with range conditions for targeted data analysis and threshold-based insights.",
                 Type = SampleType.None
+            },
+            new Sample
+            {
+                Name = "External Filtering",
+                Category = "Filtering",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/external-date-filtering",
+                FileName = "ExternalDateFiltering.razor",
+                MetaTitle = "Blazor Pivot External Filtering | Date Filter | Syncfusion",
+                HeaderText = "Blazor Pivot Table Example - External Filtering",
+                MetaDescription = "This Blazor Pivot Table Filtering demo shows how to externally filter data using start and end dates, enhancing performance and responsiveness for analysis.",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a demo to apply external date range filtering to the pivot table for improved performance with large datasets." }
             },
             new Sample
             {
@@ -395,7 +446,7 @@ namespace BlazorDemos
                 FileName = "PivotCellTemplate.razor",
                 MetaTitle = "Blazor Pivot Cell Template | Custom Rendering | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Cell Template",
-                MetaDescription = "This Blazor Pivot Table Cell Template demonstrates custom cell rendering with HTML templates for enhanced data visualization and formatting.",
+                MetaDescription = "This Blazor Pivot Table Cell Template example demonstrates custom cell rendering with the HTML templates for enhanced data visualization and formatting.",
                 Type = SampleType.None
             },
             new Sample
@@ -407,7 +458,7 @@ namespace BlazorDemos
                 FileName = "DrillThrough.razor",
                 MetaTitle = "Blazor Pivot Drill Through | Detailed View | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Drill Through",
-                MetaDescription = "This Blazor Pivot Table Drill Through demonstrates detailed data exploration with popup views showing underlying raw data for comprehensive analysis.",
+                MetaDescription = "This Blazor Pivot Table Drill Through example demonstrates detailed data exploration with popup views showing underlying raw data for comprehensive analysis.",
                 Type = SampleType.None
             },
             new Sample
@@ -448,15 +499,28 @@ namespace BlazorDemos
             },
             new Sample
             {
-                Name = "Export",
-                Category = "Miscellaneous",
+                Name = "Default Export",
+                Category = "Exporting",
                 Directory = "PivotView/PivotTable",
                 Url = "pivot-table/export",
                 FileName = "Exporting.razor",
                 MetaTitle = "Blazor Pivot Table Export | Data Export | Syncfusion",
                 HeaderText = "Blazor Pivot Table Example - Export",
                 MetaDescription = "This Blazor Pivot Table Export demonstrates data export capabilities to Excel and PDF formats for reporting and data sharing with formatting preservation."
-            }            
+            },
+            new Sample
+            {
+                Name = "Export as Pivot",
+                Category = "Exporting",
+                Directory = "PivotView/PivotTable",
+                Url = "pivot-table/export-as-pivot",
+                FileName = "ExportAsPivot.razor",
+                MetaTitle = "Blazor Pivot Table Export | Data Export | Syncfusion",
+                HeaderText = "Blazor Pivot Table Example - Export As Pivot",
+                MetaDescription = "This demo shows data export as a pivot table, with capabilities to export to Excel formats for reporting and data sharing while preserving formatting.",
+                Type = SampleType.New,
+                NotificationDescription = new string[] { @"Added a sample that demonstrates how to export a server-side Syncfusion Pivot Table as a fully interactive Excel Pivot Table, preserving all pivot functionalities such as filtering, sorting, drill-down, and more." }
+            }               
         };
     }
 }

@@ -14,7 +14,7 @@
 
 <div class="control-section">
     <div class="control-wrapper">
-        <SfCalendar TValue="DateTime?" @ref="@CalendarObj" @bind-Value="@SelectedDate">
+        <SfCalendar TValue="DateTime?" @ref="@CalendarObj" @bind-Value="@SelectedDate" HtmlAttributes="@(new Dictionary<string, object> { {"aria-label", "Calendar with disabled weekend dates"} })" >
             <CalendarEvents TValue="DateTime?" OnRenderDayCell="@DisableDate"></CalendarEvents>
         </SfCalendar>
         <span class="example-label">Selected date is: <b>@(SelectedDate?.ToString("M/d/yyyy"))</b></span>
@@ -38,14 +38,17 @@
 
 @code {
     private DateTime? SelectedDate { get; set; } = DateTime.Now;
-    private SfCalendar<DateTime?> CalendarObj { get; set; }
+    private SfCalendar<DateTime?>? CalendarObj { get; set; }
     
     private void DisableDate(RenderDayCellEventArgs args)
     {
-        var view = CalendarObj.CurrentView();
-        if (view == "Month" && ((int) args.Date.DayOfWeek == 0 || (int) args.Date.DayOfWeek == 6))
+        if (CalendarObj != null)
         {
-            args.IsDisabled = true;
+            var view = CalendarObj.CurrentView();
+            if (view == "Month" && ((int)args.Date.DayOfWeek == 0 || (int)args.Date.DayOfWeek == 6))
+            {
+                args.IsDisabled = true;
+            }
         }
     }
 }

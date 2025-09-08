@@ -11,20 +11,20 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
 {
     public class UniversityData
     {
-        public string university { get; set; }
+        public string university { get; set; } = string.Empty;
         public int? year { get; set; }
-        public string rank_display { get; set; }
-        public string country { get; set; }
-        public string city { get; set; }
-        public string region { get; set; }
-        public string type { get; set; }
-        public string research_output { get; set; }
+        public string rank_display { get; set; } = string.Empty;
+        public string country { get; set; } = string.Empty;
+        public string city { get; set; } = string.Empty;
+        public string region { get; set; } = string.Empty;
+        public string type { get; set; } = string.Empty;
+        public string research_output { get; set; } = string.Empty;
         public double? student_faculty_ratio { get; set; }
         public double? international_students { get; set; }
         public double? score { get; set; }
         public double? faculty_count { get; set; }
-        public string link { get; set; }
-        public string logo { get; set; }
+        public string link { get; set; } = string.Empty;
+        public string logo { get; set; } = string.Empty;
 
         public static List<UniversityData> GetUniversityData()
         {

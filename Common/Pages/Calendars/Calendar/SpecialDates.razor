@@ -14,7 +14,7 @@
 
 <div class="control-section">
     <div class="control-wrapper">
-        <SfCalendar TValue="DateTime?" @bind-Value="@SelectedDate">
+        <SfCalendar TValue="DateTime?" @bind-Value="@SelectedDate" HtmlAttributes="@(new Dictionary<string, object> { {"aria-label", "Special date calendar"} })" >
             <CalendarEvents TValue="DateTime?" OnRenderDayCell="CustomDates" ValueChange="OnChange"></CalendarEvents>
         </SfCalendar>
     </div>
@@ -25,48 +25,60 @@
 
 @code {
     public DateTime? SelectedDate { get; set; } = DateTime.Now;
-    public string SelectedValue { get; set; } = DateTime.Now.ToString("M/d/yyyy");
+    public string? SelectedValue { get; set; } = DateTime.Now.ToString("M/d/yyyy");
     public DateTime? CurrentDate { get; set; } = DateTime.Now;
 
     public void CustomDates(RenderDayCellEventArgs args)
     {
-        var CurrentMonth = CurrentDate.Value.Month;
-        if (args.Date.Month == CurrentMonth && (args.Date.Day == 7 || args.Date.Day == 14 || args.Date.Day == 24 || args.Date.Day == 29))
+        if (CurrentDate != null)
         {
-            args.CellData.ClassList += " personal-appointment";
-            if (args.Date.Day == CurrentDate.Value.Day)
+            var CurrentMonth = CurrentDate.Value.Month;
+            if (args.Date.Month == CurrentMonth && (args.Date.Day == 7 || args.Date.Day == 14 || args.Date.Day == 24 || args.Date.Day == 29))
             {
-                this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Personal appointment)";
+                if (args.CellData != null)
+                {
+                    args.CellData.ClassList += " personal-appointment";
+                }
+                if (args.Date.Day == CurrentDate.Value.Day)
+                {
+                    this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Personal appointment)";
+                }
             }
-        }
 
-        if (args.Date.Month == CurrentMonth && (args.Date.Day == 3 || args.Date.Day == 11 || args.Date.Day == 17 || args.Date.Day == 22))
-        {
-            args.CellData.ClassList += " official-appointment";
-            if (args.Date.Day == CurrentDate.Value.Day)
+            if (args.Date.Month == CurrentMonth && (args.Date.Day == 3 || args.Date.Day == 11 || args.Date.Day == 17 || args.Date.Day == 22))
             {
-                this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Official appointment)";
-            }
+                if (args.CellData != null)
+                {
+                    args.CellData.ClassList += " official-appointment";
+                }
+                if (args.Date.Day == CurrentDate.Value.Day)
+                {
+                    this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Official appointment)";
+                }
+            }         
         }
     }
 
     public void OnChange(ChangedEventArgs<DateTime?> args)
     {
         var Count = 0;
-        var CurrentMonth = CurrentDate.Value.Month;
-        if (args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 7 || args.Value.Value.Day == 14 || args.Value.Value.Day == 24 || args.Value.Value.Day == 29))
+        if (CurrentDate != null)
         {
-            this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Personal appointment)";
-            Count++;
-        }
-        if (args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 3 || args.Value.Value.Day == 11 || args.Value.Value.Day == 17 || args.Value.Value.Day == 22))
-        {
-            this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Official appointment)";
-            Count++;
-        }
-        if (Count == 0)
-        {
-            this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy");
+            var CurrentMonth = CurrentDate.Value.Month;
+            if (args.Value != null && args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 7 || args.Value.Value.Day == 14 || args.Value.Value.Day == 24 || args.Value.Value.Day == 29))
+            {
+                this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Personal appointment)";
+                Count++;
+            }
+            if (args.Value != null && args.Value.Value.Month == CurrentMonth && (args.Value.Value.Day == 3 || args.Value.Value.Day == 11 || args.Value.Value.Day == 17 || args.Value.Value.Day == 22))
+            {
+                this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy") + " (Official appointment)";
+                Count++;
+            }
+            if (Count == 0)
+            {
+                this.SelectedValue = this.SelectedDate?.ToString("M/d/yyyy");
+            }          
         }
     }
 }

@@ -170,8 +170,8 @@
     </style>
 
 @code{
-    private SfPivotView<PivotProductDetails> _pivotRef;  
-    private List<PivotProductDetails> PivotViewDataSource { get; set; }
+    private SfPivotView<PivotProductDetails>? _pivotRef;  
+    private List<PivotProductDetails>? PivotViewDataSource { get; set; }
     private int _selectedIndex = 0;
     private string _selectedField = "Country";
     private Operators _selectedCondition = Operators.DoesNotEquals;   
@@ -234,8 +234,11 @@
         FilterSettings[_selectedIndex].Value2 = args.Value;
     }
     private void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
-    {        
-        _pivotRef.DataSourceSettings.FilterSettings = FilterSettings;        
+    {   
+        if(_pivotRef != null)
+        {
+            _pivotRef.DataSourceSettings.FilterSettings = FilterSettings;        
+        }
     }
     private void OnClear(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
     {        
@@ -244,20 +247,23 @@
             Filter.Value1 =  Filter.Value2 = string.Empty;           
         }
         _value1 = _value2 = string.Empty;
-        _pivotRef.DataSourceSettings.FilterSettings = new List<PivotViewFilterSetting>();
+        if(_pivotRef != null)
+        {
+            _pivotRef.DataSourceSettings.FilterSettings = new List<PivotViewFilterSetting>();
+        }
     }
 @*Hidden:Lines*@
 #pragma warning restore BL0005
 
     public class DataID
     {
-        public string ID { get; set; }
-        public string Name { get; set; }
+        public string ID { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
     }
 @*End:Hidden*@
     public class OperatorData
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = string.Empty;
         public Operators Name { get; set; }
     }
 }

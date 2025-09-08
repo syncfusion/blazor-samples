@@ -24,7 +24,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor Button Default | Basic Button Features | Syncfusion",
                 HeaderText = "Blazor Button Example - Default Functionalities",
-                MetaDescription = "This Blazor Button default example demonstrates basic button features with customizable styling, events, and accessibility options for interactive web applications."
+                MetaDescription = "This Blazor Button example demonstrates basic button features with customizable styling, events, and accessibility options for interactive web applications."
             },
            new Sample
             {
@@ -35,7 +35,7 @@ namespace BlazorDemos
                 FileName = "CheckBox.razor",
                 MetaTitle = "Blazor Checkbox | Selection Control Component | Syncfusion",
                 HeaderText = "Blazor Checkbox Component Example - Default Functionalities",
-                MetaDescription = "This Blazor Checkbox example demonstrates selection control with checked states, indeterminate mode, and form validation for user input collection."
+                MetaDescription = "This Blazor Checkbox example demonstrates selection control with checked, indeterminate states, and form validation for effective user input collection."
             },
            new Sample
             {
@@ -46,7 +46,7 @@ namespace BlazorDemos
                 FileName = "RadioButton.razor",
                 MetaTitle = "Blazor Radio Button | Single Selection Control | Syncfusion",
                 HeaderText = "Blazor Radio Button Component Example - Default Functionalities",
-                MetaDescription = "This Blazor Radio Button example demonstrates single selection control with grouped options and form validation for exclusive choice scenarios."
+                MetaDescription = "This Blazor Radio Button example demonstrates single selection control, featuring grouped options and form validation for an exclusive choice scenarios."
             },
            new Sample
             {
@@ -57,7 +57,7 @@ namespace BlazorDemos
                 FileName = "DropDownButton.razor",
                 MetaTitle = "Blazor Dropdown Menu | Action Menu Component | Syncfusion",
                 HeaderText = "Blazor Dropdown Menu Component Example - Default Functionalities",
-                MetaDescription = "This Blazor Dropdown Menu example demonstrates action menu with customizable items, icons, and event handling for enhanced user interaction."
+                MetaDescription = "This Blazor Dropdown Menu example shows an action menu with customizable items, icons, and event handling to enhance user interaction and improve functionality."
             },
            new Sample
             {
@@ -68,7 +68,7 @@ namespace BlazorDemos
                 FileName = "SplitButton.razor",
                 MetaTitle = "Blazor Split Button | Dual Action Component | Syncfusion",
                 HeaderText = "Blazor Split Button Component Example - Default Functionalities",
-                MetaDescription = "This Blazor Split Button example demonstrates dual action functionality with primary action and dropdown menu for versatile user interactions."
+                MetaDescription = "This Blazor Split Button demo highlights dual action functionality, featuring a primary action with a dropdown menu, offering versatile interactions for users."
             },
            new Sample
             {
@@ -79,7 +79,7 @@ namespace BlazorDemos
                 FileName = "Switch.razor",
                 MetaTitle = "Blazor Toggle Switch | On/Off Control Component | Syncfusion",
                 HeaderText = "Blazor Toggle Switch Button Component Example - Default Functionalities",
-                MetaDescription = "This Blazor Toggle Switch example demonstrates on/off control with smooth animations and customizable styling for boolean state management."
+                MetaDescription = "This Blazor Toggle Switch example features on/off control with smooth animations and customizable styling, enabling efficient management of boolean states."
             },
            new Sample
             {
@@ -90,7 +90,7 @@ namespace BlazorDemos
                 FileName = "ProgressButton.razor",
                 MetaTitle = "Blazor Progress Button | Loading State Button | Syncfusion",
                 HeaderText = "Blazor Progress Button Component Example - Default Functionalities",
-                MetaDescription = "This Blazor Progress Button example demonstrates loading state visualization with progress indicators and spinner animations for async operations.",
+                MetaDescription = "This Blazor Progress Button demo shows loading state visualization using progress indicators and spinner animations, optimized for async operation feedback.",
                 Type = SampleType.None
             },
            new Sample
@@ -102,7 +102,7 @@ namespace BlazorDemos
                FileName = "ButtonGroup.razor",
                MetaTitle = "Blazor Button Group | Grouped Button Controls | Syncfusion",
                HeaderText = "Blazor Button Group Component Example - Default Functionalities",
-               MetaDescription = "This Blazor Button Group example demonstrates grouped button controls with selection modes and customizable styling for related actions."
+               MetaDescription = "This Blazor Button Group demo illustrates grouped button controls, featuring selection modes and customizable styling to facilitate related user interactions."
            },
             new Sample
            {
@@ -137,7 +137,7 @@ namespace BlazorDemos
                 FileName = "API.razor",
                 MetaTitle = "Blazor Chips API | Programmatic Control | Syncfusion",
                 HeaderText = "Blazor Chips Example - API",
-                MetaDescription = "This Blazor Chips API example demonstrates programmatic control with methods and properties for dynamic chip manipulation and state management."
+                MetaDescription = "This Blazor Chips API example demonstrates programmatic control with methods and properties for dynamic chip manipulation and optimizing state management."
             },
             new Sample
             {
@@ -146,7 +146,7 @@ namespace BlazorDemos
                 Directory = "Buttons/Chips",
                 Url = "chips/events",
                 FileName = "Events.razor",
-                MetaTitle = "Blazor Chips Events | Event Handling | Syncfusion",
+                MetaTitle = "Blazor Chips Events | Events Handling | Syncfusion",
                 HeaderText = "Blazor Chips Example - Events",
                 MetaDescription = "This Blazor Chips events example demonstrates event handling with click, delete, and selection events for interactive chip behavior and user feedback.",
                 Type = SampleType.None
@@ -199,7 +199,7 @@ namespace BlazorDemos
                 FileName = "Position.razor",
                 MetaTitle = "Blazor FAB Position | Button Positioning Options | Syncfusion",
                 HeaderText = "Blazor Floating Action Button Example - Position",
-                MetaDescription = "This Blazor Floating Action Button position example demonstrates various positioning options including top, bottom, left, and right alignments for optimal placement.",
+                MetaDescription = "This Blazor Floating Action Button position demo shows various positioning options including top, bottom, left, and right alignments for optimal placement.",
                 Type = SampleType.None
             },
             new Sample
@@ -225,7 +225,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor SpeedDial Default | Quick Action Menu | Syncfusion",
                 HeaderText = "Blazor SpeedDial Example - Default Functionalities",
-                MetaDescription = "This Blazor SpeedDial default example demonstrates quick action menu with expandable buttons and customizable icons for efficient user interactions.",
+                MetaDescription = "This Blazor SpeedDial default example demonstrates quick action menu with an expandable buttons and customizable icons for efficient user interactions.",
                 Type = SampleType.None
             },
             new Sample
@@ -237,7 +237,7 @@ namespace BlazorDemos
                 FileName = "Position.razor",
                 MetaTitle = "Blazor SpeedDial Position | Linear Layout Options | Syncfusion",
                 HeaderText = "Blazor SpeedDial Example - Position (Linear)",
-                MetaDescription = "This Blazor SpeedDial position example demonstrates linear layout options with various positioning configurations for optimal action menu placement.",
+                MetaDescription = "This Blazor SpeedDial position example demonstrates the linear layout options with various positioning configurations for optimal action menu placement.",
                 Type = SampleType.None
             },
             new Sample
@@ -249,7 +249,7 @@ namespace BlazorDemos
                 FileName = "RadialMenu.razor",
                 MetaTitle = "Blazor SpeedDial Radial Menu | Circular Layout | Syncfusion",
                 HeaderText = "Blazor SpeedDial Example - Radial Menu",
-                MetaDescription = "This Blazor SpeedDial radial menu example demonstrates circular layout with radial positioning for intuitive and space-efficient action menus.",
+                MetaDescription = "This Blazor SpeedDial example showcases a radial menu layout featuring circular positioning. It provides intuitive, space-efficient access to action menus.",
                 Type = SampleType.None
             },
             new Sample
@@ -261,7 +261,7 @@ namespace BlazorDemos
                 FileName = "Styles.razor",
                 MetaTitle = "Blazor SpeedDial Styles | Custom Menu Styling | Syncfusion",
                 HeaderText = "Blazor SpeedDial Example - Styles",
-                MetaDescription = "This Blazor SpeedDial styles example demonstrates custom styling options with colors, animations, and visual effects for enhanced menu appearance.",
+                MetaDescription = "This Blazor SpeedDial styles example demonstrates custom styling options with colors, dynamic animations, and visual effects for enhanced menu appearance.",
                 Type = SampleType.None
             },
             new Sample
@@ -273,7 +273,7 @@ namespace BlazorDemos
                 FileName = "Template.razor",
                 MetaTitle = "Blazor SpeedDial Template | Custom Content Layout | Syncfusion",
                 HeaderText = "Blazor SpeedDial Example - Template",
-                MetaDescription = "This Blazor SpeedDial template example demonstrates custom content layout with personalized templates for flexible action menu design and branding.",
+                MetaDescription = "This Blazor SpeedDial template demo shows custom content layout with personalized templates for flexible action menu design and branding with action menu.",
                 Type = SampleType.None
             },
             new Sample
@@ -285,7 +285,7 @@ namespace BlazorDemos
                 FileName = "Modal.razor",
                 MetaTitle = "Blazor SpeedDial Modal | Overlay Action Menu | Syncfusion",
                 HeaderText = "Blazor SpeedDial Example - Modal",
-                MetaDescription = "This Blazor SpeedDial modal example demonstrates overlay action menu with backdrop and modal behavior for focused user interactions.",
+                MetaDescription = "This Blazor SpeedDial modal example demonstrates an overlay action menu with featuring a backdrop and modal behavior for the focused user interactions.",
                 Type = SampleType.None
             }
         };

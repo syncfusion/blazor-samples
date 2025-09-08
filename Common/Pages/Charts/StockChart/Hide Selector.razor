@@ -46,7 +46,7 @@ else
             <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
             <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
             <StockChartSeriesCollection>
-                <StockChartSeries DataSource="@StockChartData" XName="x" YName="close" Type="ChartSeriesType.Line"></StockChartSeries>
+                <StockChartSeries DataSource="@StockChartData" XName="date" YName="close" Type="ChartSeriesType.Line"></StockChartSeries>
             </StockChartSeriesCollection>
             <StockChartChartArea>
                 <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
@@ -81,7 +81,7 @@ else
 }
 
 @code {
-    private ChartData[] StockChartData { get; set; }
+    private ChartData[]? StockChartData { get; set; }
     private string LoaderClass { get; set; } = "stock-chart-loader";
     private string ChartContainerClass { get; set; } = "stock-chart-container";
     private Theme CurrentTheme { get; set; }
@@ -90,13 +90,17 @@ else
     protected override async Task OnInitializedAsync()
     {
         SetTheme();
-        StockChartData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/stock-chart/amzn.json");
+        StockChartData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/stock-chart/chart-data.json");
     }
 
     public class ChartData
     {
-        public DateTime x { get; set; }
+        public DateTime date { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
         public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
     }
 
     private void OnChartLoaded(StockChartEventArgs args)

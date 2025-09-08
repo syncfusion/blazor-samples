@@ -27,7 +27,7 @@ namespace BlazorSparklineGridData
 			this.id2 = id2;
 		}
 
-		public string name { get; set; }
+		public string? name { get; set; }
 		public int id1 { get; set; }
 		public int id2 { get; set; }
 		public static List<SparkGridData> GetAllRecords()
@@ -57,9 +57,9 @@ namespace BlazorSparklineGridData
 		}
 
 		public int id { get; set; }
-		public string name { get; set; }
+		public string? name { get; set; }
 		public DateTime orderdate { get; set; }
-		public string shipcountry { get; set; }
+		public string? shipcountry { get; set; }
 
 		public static List<SparklineGridData> GetAllRecords()
 		{

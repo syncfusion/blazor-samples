@@ -59,13 +59,13 @@ namespace blazor_orderdetails
 
         [Required(ErrorMessage = "Customer ID is required")]
         [StringLength(8, MinimumLength = 3, ErrorMessage = "Customer ID length should between 3 and 8")]
-        public string CustomerID { get; set; }
+        public string CustomerID { get; set; } = string.Empty;
         public int? EmployeeID { get; set; }
 
         [Required(ErrorMessage = "Freight is required")]
         [Range(typeof(double), "1", "1000", ErrorMessage = "Freight should be between 1 and 1000")]
         public double? Freight { get; set; }
-        public string ShipCity { get; set; }
+        public string ShipCity { get; set; } = string.Empty;
 
         [Required(ErrorMessage = "Order Date is required")]
         public DateTime? OrderDate { get; set; }
@@ -73,10 +73,10 @@ namespace blazor_orderdetails
         [Required(ErrorMessage = "Ship Name is required")]
         [StringLength(255, MinimumLength = 5, ErrorMessage = "Ship Name length should between 5 and 255")]
 
-        public string ShipName { get; set; }
-        public string ShipCountry { get; set; }
+        public string? ShipName { get; set; }
+        public string? ShipCountry { get; set; }
         public DateTime? ShippedDate { get; set; }
-        public string ShipAddress { get; set; }
+        public string? ShipAddress { get; set; }
         public long PhoneNumber { get; set; }
         public double? AdvanceAmount { get; set; }
         public double? TotalAmount { get; set; }

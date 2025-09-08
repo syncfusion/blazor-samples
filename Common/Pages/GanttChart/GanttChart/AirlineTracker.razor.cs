@@ -23,7 +23,7 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
     public partial class AirlineTracker
     {
         [CascadingParameter]
-        protected MainLayout Layout { get; set; }
+        protected MainLayout? Layout { get; set; }
         SfGantt<AirlineInfoModel> GanttInstance { get; set; } = new SfGantt<AirlineInfoModel>();
         List<AirlineInfoModel> AirlineInformations { get; set; } = new List<AirlineInfoModel>();
         string[] Airlines { get; set; } = new string[] { "Delta Airlines", "United Airlines", "American Airlines", "Southwest Airlines", "JetBlue Airways", "Alaska Airlines", "British Airways", "Lufthansa" };
@@ -38,12 +38,12 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
 
         public Query QueryCollection { get; set; } = new Query();
 
-        public static string SearchButtonColor { get; set; }
-        public static string ClearButtonColor { get; set; }
-        public static string ClearButtonBackgroundColor { get; set; }
-        public static string LabelColor { get; set; }
-        public static string ClearButtonBorderColor { get; set; }
-        public static string SearchInputBackgroundColor { get; set; }
+        public static string SearchButtonColor { get; set; } = string.Empty;
+        public static string ClearButtonColor { get; set; } = string.Empty;
+        public static string ClearButtonBackgroundColor { get; set; } = string.Empty;
+        public static string LabelColor { get; set; } = string.Empty;
+        public static string ClearButtonBorderColor { get; set; } = string.Empty;
+        public static string SearchInputBackgroundColor { get; set; } = string.Empty;
 
         public Theme CurrentTheme { get; set; }
 
@@ -53,12 +53,12 @@ namespace BlazorDemos.Pages.GanttChart.GanttChart
         protected override async Task OnInitializedAsync()
         {
             CurrentTheme = GetCurrentTheme(NavigationManager.Uri);
-            Layout.Collapse();
+            Layout?.Collapse();
             AirlineInformations = FlightProcessCollection;
             await Task.CompletedTask;
         }
 
-        private string GetStatusContentStyles(string status)
+        private string GetStatusContentStyles(string? status)
         {
             string statusContentstyleColor = string.Empty;
             var navURL = NavigationManager.Uri;

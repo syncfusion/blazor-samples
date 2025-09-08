@@ -10,19 +10,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ej2_blazor_templatedata
+namespace Templatedata
 {
     public class Employee
     {
-        public string Name { get; set; }
-        public string FullName { get; set; }
+        public string? Name { get; set; }
+        public string? FullName { get; set; }
         public DateTime DOB { get; set; }
-        public string Designation { get; set; }
-        public string EmpID { get; set; }
+        public string? Designation { get; set; }
+        public string? EmpID { get; set; }
         public int? EmployeeID { get; set; }
-        public string Country { get; set; }
-        public string Address { get; set; }
-        public string Contact { get; set; }
+        public string? Country { get; set; }
+        public string? Address { get; set; }
+        public string? Contact { get; set; }
         public int? ParentId { get; set; }
         public static List<Employee> GetTemplateData()
         {

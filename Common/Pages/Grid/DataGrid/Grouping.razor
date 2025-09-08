@@ -1,6 +1,7 @@
 ﻿@page "/datagrid/grouping"
 
 @using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
 @*Hidden:Lines*@
 @using BlazorDemos
 @using blazor_ordersdata
@@ -11,37 +12,51 @@
 @*End:Hidden*@
 
 <SampleDescription>
-  <p>This sample demonstrates grouping feature of the DataGrid component. In this sample, the DataGrid data is grouped against <b>Customer ID</b> column. To group any other column, simply drag and drop the column header onto the group drop area.</p>  
+    <p>This sample demonstrates grouping feature of the DataGrid component. In this sample, the data is grouped by the <b>Customer ID</b> column. To group by a different column, simply drag and drop the desired column header into the group drop area above the grid.</p>
 </SampleDescription>
-
 <ActionDescription>
-    <p>The Blazor DataGrid control provides the ability to group records based on the required column. When grouping is used, grouped records are organised into a hierarchical structure to allow for easier record expansion and collapsing. Set the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_AllowGrouping' aria-label="Navigate to the AllowGrouping property reference for DataGrid component">AllowGrouping</a> property to <b>true</b> to enable grouping.</p>
-   <p>The DataGrid in this demo is rendered with grouping enabled and is initially grouped by the <b>Customer ID</b> column. Columns can be grouped by dragging and dropping the column header onto the group drop area.</p>
+    <p>The Blazor DataGrid control provides the ability to group records based on the required column. When grouping is used, grouped records are organized into a hierarchical structure to allow for easier record expansion and collapsing. Set the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_AllowGrouping' aria-label="Navigate to the AllowGrouping property reference for DataGrid component">AllowGrouping</a> property to <b>true</b> to enable grouping.</p>
+    <p>In this sample, the DataGrid is rendered with grouping enabled and is initially grouped by the <b>Customer ID</b> column. Columns can be grouped by dragging and dropping the column header onto the group drop area.</p>
+    <p>To maintain the expand or collapse state of grouped rows in a DataGrid, the <code>PersistGroupState</code> option can be activated dynamically using a checkbox. This functionality ensures that the grouping state(<b>Expand</b> or <b>Collapse</b>) remains consistent even after performing actions such as paging, sorting, or filtering are performed. To enable group state persistence, set the <code>PersistGroupState</code> property to <b>true</b>. By default, this property is set to <b>false</b>.</p>
     <p>More information about the Grouping feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/grouping' aria-label="Navigate to the documentation for grouping in DataGrid component">documentation</a> section.</p>
 </ActionDescription>
 
-    <div class="col-lg-12 control-section">
-        <div class="content-wrapper">
-            <div class="row">
-                <SfGrid DataSource="@GridData" Height="400" AllowGrouping="true" AllowSorting="true" AllowPaging="true">
-                    <GridGroupSettings Columns="@GroupedColumns"></GridGroupSettings>
-                    <GridColumns>
-                    <GridColumn Field=@nameof(Orders.OrderID) IsPrimaryKey="true" HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
-                    <GridColumn Field=@nameof(Orders.CustomerID) HeaderText="Customer ID" Width="100"></GridColumn>
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-switch-control">
+                <div>
+                    <SfCheckBox LabelPosition="Syncfusion.Blazor.Buttons.LabelPosition.Before" @bind-Checked="isChecked" Label="Group State Persistence" @onchange="onChange"></SfCheckBox>
+                </div>
+            </div>
+            <SfGrid DataSource="@GridData" Height="400" AllowGrouping="true" AllowSorting="true" AllowFiltering="true" Toolbar="@(new List<string>() { "Edit", "Delete", "Update", "Cancel" })" AllowPaging="true">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" ></GridEditSettings>
+                <GridGroupSettings Columns="@GroupedColumns" PersistGroupState="@isGroupStatePersistent"></GridGroupSettings>
+                <GridFilterSettings Type="FilterType.Menu"></GridFilterSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(Orders.OrderID) IsPrimaryKey="true" HeaderText="Order ID" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Orders.CustomerID) HeaderText="Customer ID" ValidationRules="@(new ValidationRules{ Required=true})" Width="100"></GridColumn>
+                    <GridColumn Field=@nameof(Orders.Freight) Format="C2" TextAlign="TextAlign.Right" ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" AllowGrouping=false Width="120"></GridColumn>
                     <GridColumn Field=@nameof(Orders.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.DateOnly" TextAlign="TextAlign.Right" Width="100"></GridColumn>
                     <GridColumn Field=@nameof(Orders.OrderTime) HeaderText="Order Time" Type="ColumnType.TimeOnly" TextAlign="TextAlign.Right" Width="100"></GridColumn>
-                    <GridColumn Field=@nameof(Orders.Freight) Format="C2" TextAlign="TextAlign.Right" AllowGrouping=false Width="120"></GridColumn>
-                    </GridColumns>
-                </SfGrid>
-            </div>
+                </GridColumns>
+            </SfGrid>
         </div>
     </div>
+</div>
 
 @code{
     public string[] GroupedColumns = new string[] { "CustomerID" };
 
-    public List<Orders> GridData { get; set; }
-    
+    public List<Orders>? GridData { get; set; }
+    private bool isGroupStatePersistent { get; set; }
+    private bool isChecked { get; set; } = false;
+
+    private void onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (args.Value != null)
+        isGroupStatePersistent = (bool)args.Value;
+    }
 
     protected override void OnInitialized()
     {
@@ -49,3 +64,38 @@
         GridData = Orders.GetAllRecords();
     }
 }
+@*Hidden:Lines*@
+<style>
+    .e-checkbox-wrapper .e-checkbox + .e-label {
+        font-weight: 600;
+    }
+
+    .fluent2-highcontrast .e-switch-control,
+    .fluent2-dark .e-switch-control,
+    .fluent2 .e-switch-control {
+        padding-bottom: 10px;
+        margin-left: -10px;
+    }
+
+    .highcontrast .e-switch-control,
+    .fluent .e-switch-control,
+    .fluent-dark .e-switch-control,
+    .material3 .e-switch-control,
+    .material3-dark .e-switch-control,
+    .bootstrap5\.3 .e-switch-control,
+    .bootstrap5\.3-dark .e-switch-control,
+    .tailwind3 .e-switch-control,
+    .tailwind3-dark .e-switch-control,
+    .material .e-switch-control,
+    .material-dark .e-switch-control,
+    .bootstrap4 .e-switch-control,
+    .bootstrap5 .e-switch-control,
+    .bootstrap5-dark .e-switch-control,
+    .tailwind .e-switch-control,
+    .tailwind-dark .e-switch-control,
+    .fabric .e-switch-control,
+    .fabric-dark .e-switch-control {
+        padding-bottom: 10px;
+    }
+</style>
+@*End:Hidden*@

@@ -43,7 +43,7 @@
             <AccumulationChartAnnotation Region="Regions.Series" X="50%" Y="50%">
                 <ContentTemplate>
                     <div id="back" @onclick="backClick" style="visibility:@Visible; cursor:pointer;padding:3px;width:30px; height:30px;">
-                        <img src="@(SampleService.WebAssetsPath + @ImgURL)" id="back" />
+                        <img src="@(SampleService?.WebAssetsPath + @ImgURL)" id="back" />
                     </div>
                 </ContentTemplate>
             </AccumulationChartAnnotation>
@@ -77,7 +77,7 @@
 
     public class PieData
     {
-        public string XValue { get; set; }
+        public string? XValue { get; set; }
         public double YValue { get; set; }
     }
     public List<PieData> PieChartPoints { get; set; } = new List<PieData>
@@ -94,7 +94,7 @@
         
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
         ImgURL = Theme == Theme.HighContrast || Theme.ToString().IndexOf("Dark") > -1 ? "images/chart/white.png" : "images/chart/back.png";
-        if(SampleService.IsDevice)
+        if(SampleService != null && SampleService.IsDevice)
         {
             Size = "6px";
             Rotation = false;
@@ -131,8 +131,8 @@
         Visible = "visible";
         InnerRadius = "40%";
         Radius = "80%";
-        LabelPosition = SampleService.IsDevice ? AccumulationLabelPosition.Inside : AccumulationLabelPosition.Outside;
-        Rotation = SampleService.IsDevice ? true : false;
+        LabelPosition = SampleService != null && SampleService.IsDevice ? AccumulationLabelPosition.Inside : AccumulationLabelPosition.Outside;
+        Rotation = SampleService != null && SampleService.IsDevice ? true : false;
         switch (args.PointIndex)
         {
             case 0:
@@ -197,7 +197,7 @@
     }
     private void DataLabelRender(AccumulationTextRenderEventArgs args)
     {
-        if (SampleService.IsDevice && args.Point.X.ToString() == "Volkswagen")
+        if (SampleService != null && SampleService.IsDevice && args.Point.X.ToString() == "Volkswagen")
         {
             args.Point.X = "VW";
         }

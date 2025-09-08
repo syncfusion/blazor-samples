@@ -20,11 +20,11 @@
 
 <style>
     tr {
-        height: 40px;
+    height: 40px;
     }
 
     td {
-        width: 50%
+    width: 50%
     }
 </style>
 
@@ -109,7 +109,7 @@
 
 @code {
     public Theme Theme { get; set; }
-    public SfCircularGauge Gauge;
+    public SfCircularGauge? Gauge;
     public double RangeGap = 0;
     public double PointerValue = 40;
     public double FirstRangeStart = 0;
@@ -145,14 +145,14 @@
     public bool CombineRangeChecked;
     public bool RangeGapChecked;
     public bool GapDisable = false;
-    private Timer syncTimer = null;
+    private Timer syncTimer = null!;
     private Random _random = new Random();
 
     private void PointerValueUpdate(Object source, ElapsedEventArgs e)
     {
         PointerValue = Math.Abs(PointerValue + ((_random.NextDouble() * 20) - 10));
-        Gauge.SetPointerValueAsync(0, 0, PointerValue);
-        Gauge.SetAnnotationValueAsync(0, 0, ((Math.Round(PointerValue)).ToString() + "km/h"));
+        Gauge?.SetPointerValueAsync(0, 0, PointerValue);
+        Gauge?.SetAnnotationValueAsync(0, 0, ((Math.Round(PointerValue)).ToString() + "km/h"));
     }
 
     private void CombineRangeChange(ChangeEventArgs<bool> args)
@@ -236,9 +236,31 @@
     protected override void OnInitialized()
     {
         syncTimer = new Timer(1000);
+        @*Hidden:Lines*@
+        #pragma warning disable CS8622
+        @*End:Hidden*@
         syncTimer.Elapsed += this.PointerValueUpdate;
+        @*Hidden:Lines*@
+        #pragma warning restore CS8622
+        @*End:Hidden*@
         syncTimer.AutoReset = true;
         syncTimer.Enabled = true;
         Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    public void Dispose()
+    {
+        if (syncTimer != null)
+        {
+            @*Hidden:Lines*@
+            #pragma warning disable CS8622
+            @*End:Hidden*@
+            syncTimer.Elapsed -= this.PointerValueUpdate;
+            @*Hidden:Lines*@
+            #pragma warning restore CS8622
+            @*End:Hidden*@
+            syncTimer.Stop();
+            syncTimer.Dispose();
+            syncTimer = null!;
+        }
     }
 }

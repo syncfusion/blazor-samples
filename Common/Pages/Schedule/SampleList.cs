@@ -25,7 +25,7 @@ namespace BlazorDemos
                 FileName = "Overview.razor",
                 MetaTitle = "Blazor Scheduler Overview | Event Management | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Overview",
-                MetaDescription = "This Blazor Scheduler overview demonstrates comprehensive event management features with multiple views, drag-drop functionality, and customizable appearance for appointment scheduling applications."
+                MetaDescription = "This demo shows comprehensive event management with multiple views, drag-drop functionality, customizable appearance for appointment scheduling applications."
             },
             new Sample
             {
@@ -36,7 +36,7 @@ namespace BlazorDemos
                 FileName = "Default.razor",
                 MetaTitle = "Blazor Scheduler Default | Basic Event Scheduling | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Default Functionalities",
-                MetaDescription = "This Blazor Scheduler default example demonstrates basic event scheduling with multiple view modes, appointment creation, editing, and navigation for calendar-based applications.",
+                MetaDescription = "This Blazor Scheduler demo shows basic event scheduling with multiple view modes, appointment creation, editing, and navigation for calendar-based applications.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -51,6 +51,21 @@ namespace BlazorDemos
                     }
                 }
             },
+#if SERVER
+            new Sample
+            {
+                Name = "Smart Scheduling",
+                Category = "Smart AI Solutions",
+                Directory = "AISamples/Schedule",
+                Url = "scheduler/ai-smartscheduler",
+                FileName = "SchedulerSmartAi.razor",
+                MetaTitle = "Blazor Scheduler AIAssistant Example - Syncfusion AI Demos",
+                HeaderText = "Blazor Scheduler AI Assistant - Smart Scheduling with Natural Language",
+                MetaDescription = "This demo shows intelligent appointment creation using natural language processing. Experience AI-powered event scheduling with automatic time slot suggestions.",
+                NotificationDescription = new string[]{ @" This demo showcases the Scheduler AI feature." },
+                Type = SampleType.AI
+            },
+#endif
             new Sample
             {
                 Name = "Event Calendar",
@@ -60,7 +75,7 @@ namespace BlazorDemos
                 FileName = "EventCalendar.razor",
                 MetaTitle = "Blazor Event Calendar | Comprehensive Event Management | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Event Calendar",
-                MetaDescription = "This Blazor Event Calendar demonstrates comprehensive event management with intuitive user interactions, multiple view modes, and advanced scheduling features for professional calendar applications.",
+                MetaDescription = "This demo shows event management with intuitive user interactions, multiple view modes, advanced scheduling features for professional calendar applications.",
                 NotificationDescription = new string[] { "Introduced a comprehensive event calendar showcasing various event management features and intuitive user interactions." }
             },
             new Sample
@@ -72,7 +87,7 @@ namespace BlazorDemos
                 FileName = "HolidayCalendar.razor",
                 MetaTitle = "Blazor Holiday Calendar | Holiday Management System | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Holiday Calendar",
-                MetaDescription = "This Blazor Holiday Calendar example demonstrates holiday management with special date highlighting, custom styling, and holiday event tracking for organizational calendar systems.",
+                MetaDescription = "This Holiday Calendar demo shows holiday management with special date highlighting, custom styling, holiday event tracking for organizational calendar systems.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -94,7 +109,9 @@ namespace BlazorDemos
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/employee-shift-management",
                 FileName = "EmployeeShiftManagement.razor",
-                Type = SampleType.New,
+                MetaTitle = "Blazor Shift Management Example | Use case | Syncfusion",
+                HeaderText = "Blazor Scheduler Example - Shift Management",
+                MetaDescription="This Shift Management demo shows employee shift management with seamless swapping, leave replacement, role or employee filtering for efficient shift tracking.",
                 IsHideInMobile = true,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -118,7 +135,9 @@ namespace BlazorDemos
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/tech-event-organizer",
                 FileName = "TechEventOrganizer.razor",
-                Type = SampleType.New,
+                MetaTitle = "Blazor Tech Event Organizer | Use case | Syncfusion",
+                HeaderText = "Blazor Scheduler Example - Shift Management",
+                MetaDescription = "This demo shows planning tech events like a Drag, drop, and assign sessions without conflicts, filter by room, and get a complete view of every session detail.",
                 IsHideInMobile = true,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -144,7 +163,7 @@ namespace BlazorDemos
                 FileName = "PaginationScheduler.razor",
                 MetaTitle = "Blazor Pagination Scheduler | Large Resource Management | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Pagination Scheduler",
-                MetaDescription = "This Blazor Pagination Scheduler demonstrates efficient navigation through large sets of resources with pagination support for seamless performance in enterprise scheduling applications.",
+                MetaDescription = "This Pagination Scheduler shows navigation via large sets of resources with pagination support for seamless performance in enterprise scheduling applications.",
                 NotificationDescription = new string[] { "Enhanced the Scheduler by adding pagination support, allowing for seamless and efficient navigation through large sets of resources." }
             },
             new Sample
@@ -156,7 +175,7 @@ namespace BlazorDemos
                 FileName = "ResourceFiltering.razor",
                 MetaTitle = "Blazor Resource Filtering | Dynamic Resource Display | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Resource Filtering",
-                MetaDescription = "This Blazor Resource Filtering example demonstrates dynamic filtering and display of specific resources in the Scheduler for improved resource management and focused view capabilities.",
+                MetaDescription = "This Filtering demo shows dynamic filtering, display of specific resources in the Scheduler for improved resource management and focused view capabilities.",
                 IsHideInMobile = true,
                 NotificationDescription = new string[] { "Implemented resource filtering functionality, allowing users to dynamically filter and display specific resources in the Scheduler." }
             },
@@ -169,7 +188,7 @@ namespace BlazorDemos
                 FileName = "LocalData.razor",
                 MetaTitle = "Blazor Scheduler Local Data | Client-Side Binding | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Local Data",
-                MetaDescription = "This Blazor Scheduler local data example demonstrates client-side data binding with local collections for offline-capable scheduling applications and improved performance.",
+                MetaDescription = "This Blazor Scheduler local data demo shows client-side data binding with local collections for offline-capable scheduling applications, improved performance.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -193,7 +212,7 @@ namespace BlazorDemos
                 FileName = "RemoteData.razor",
                 MetaTitle = "Blazor Scheduler Remote Data | Server-Side Binding | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Remote Data",
-                MetaDescription = "This Blazor Scheduler remote data example demonstrates server-side data binding with RESTful services for real-time synchronization and enterprise-level scheduling applications."
+                MetaDescription = "This Scheduler remote data demo shows server-side data binding with RESTful services for real-time synchronization and enterprise-level scheduling applications."
             },
             new Sample
             {
@@ -204,7 +223,7 @@ namespace BlazorDemos
                 FileName = "CustomBinding.razor",
                 MetaTitle = "Blazor Scheduler Custom Binding | Flexible Data Sources | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Custom Binding",
-                MetaDescription = "This Blazor Scheduler custom binding example demonstrates flexible data source integration with custom adapters for specialized data formats and business logic requirements."
+                MetaDescription = "This Blazor Scheduler custom binding demo shows flexible data source integration with custom adapters for specialized data formats, business logic requirements."
             },
             new Sample
             {
@@ -215,7 +234,7 @@ namespace BlazorDemos
                 FileName = "ObservableCollection.razor",
                 MetaTitle = "Blazor Scheduler Observable | Real-Time Data Updates | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Observable Collection",
-                MetaDescription = "This Blazor Scheduler observable collection example demonstrates real-time data updates with automatic UI synchronization for dynamic scheduling applications with live data changes."
+                MetaDescription = "Blazor Scheduler observable collection demo shows real-time data updates with automatic UI synchronization for dynamic scheduling applications with live data."
             },
             new Sample
             {
@@ -226,7 +245,7 @@ namespace BlazorDemos
                 FileName = "DynamicObject.razor",
                 MetaTitle = "Blazor Scheduler Dynamic Object | Flexible Schema | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - DynamicObject Binding",
-                MetaDescription = "This Blazor Scheduler DynamicObject binding example demonstrates flexible schema handling with dynamic property binding for adaptable scheduling data structures."
+                MetaDescription = "This Blazor Scheduler DynamicObject binding example shows flexible schema handling with dynamic property binding for adaptable scheduling data structures."
             },
             new Sample
             {
@@ -237,7 +256,7 @@ namespace BlazorDemos
                 FileName = "SchedulerExpandoObject.razor",
                 MetaTitle = "Blazor Scheduler ExpandoObject | Dynamic Properties | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - ExpandoObject Binding",
-                MetaDescription = "This Blazor Scheduler ExpandoObject binding example demonstrates dynamic property handling with runtime schema modification for flexible scheduling data management."
+                MetaDescription = "This Blazor Scheduler ExpandoObject binding example shows dynamic property handling with runtime schema modification for flexible scheduling data management."
             },
             new Sample
             {
@@ -248,7 +267,7 @@ namespace BlazorDemos
                 FileName = "RecurrenceEvents.razor",
                 MetaTitle = "Blazor Scheduler Recurring Events | Repeat Patterns | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Recurring Events",
-                MetaDescription = "This Blazor Scheduler recurring events example demonstrates repeat pattern creation with daily, weekly, monthly, and yearly recurrence rules for automated event scheduling.",
+                MetaDescription = "This Blazor Scheduler recurring events demo shows repeat pattern creation with daily, weekly, monthly, yearly recurrence rules for automated event scheduling.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -294,9 +313,9 @@ namespace BlazorDemos
                 Directory = "Schedule/Scheduler",
                 Url = "scheduler/readonly-events",
                 FileName = "ReadonlyEvents.razor",
-                MetaTitle = "Blazor Scheduler Read-only Events | Protected Appointments | Syncfusion",
+                MetaTitle = "Blazor Scheduler Read-only Events | Appointments | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Read-only Events",
-                MetaDescription = "This Blazor Scheduler read-only events example demonstrates protected appointments that cannot be edited or deleted, ensuring data integrity for critical scheduling information.",
+                MetaDescription = "This Scheduler read-only events demo shows protected appointments that cannot be edited or deleted, ensuring data integrity for critical scheduling information.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -320,7 +339,7 @@ namespace BlazorDemos
                 FileName = "Timezone.razor",
                 MetaTitle = "Blazor Scheduler Timezone | Multi-Timezone Support | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Timezone",
-                MetaDescription = "This Blazor Scheduler timezone example demonstrates multi-timezone support with automatic time conversion for global scheduling applications and cross-timezone meeting management.",
+                MetaDescription = "This Blazor Scheduler demo shows multi-timezone support with automatic time conversion for global scheduling applications and cross-timezone meeting management.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -344,7 +363,7 @@ namespace BlazorDemos
                 FileName = "SearchEvents.razor",
                 MetaTitle = "Blazor Scheduler Search Events | Event Discovery | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Search Events",
-                MetaDescription = "This Blazor Scheduler search events example demonstrates event discovery with text-based search functionality for quick appointment location and filtering capabilities.",
+                MetaDescription = "This Blazor Scheduler search events demo shows event discovery with text-based search functionality for quick appointment location and filtering capabilities.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -368,7 +387,7 @@ namespace BlazorDemos
                 FileName = "InlineEditing.razor",
                 MetaTitle = "Blazor Scheduler Inline Editing | Quick Event Updates | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Inline Editing",
-                MetaDescription = "This Blazor Scheduler inline editing example demonstrates quick event updates with direct text editing capabilities for efficient appointment modification without popup dialogs.",
+                MetaDescription = "This Blazor Scheduler demo shows quick event updates with direct text editing capabilities for efficient appointment modification without popup dialogs.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -392,7 +411,7 @@ namespace BlazorDemos
                 FileName = "OverlapEvents.razor",
                 MetaTitle = "Blazor Scheduler Overlap Events | Conflict Management | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Overlap Events",
-                MetaDescription = "This Blazor Scheduler overlap events example demonstrates conflict management with overlapping appointment handling and visual indicators for scheduling conflict resolution.",
+                MetaDescription = "Blazor Scheduler overlap events demo shows conflict management with overlapping appointment handling and visual indicators for scheduling conflict resolution.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -416,7 +435,7 @@ namespace BlazorDemos
                 FileName = "Reminder.razor",
                 MetaTitle = "Blazor Scheduler Reminder | Event Notifications | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Reminder",
-                MetaDescription = "This Blazor Scheduler reminder example demonstrates event notification system with customizable reminder alerts and notification timing for appointment management.",
+                MetaDescription = "This Blazor Scheduler reminder example shows event notification system with customizable reminder alerts and notification timing for appointment management.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -440,7 +459,7 @@ namespace BlazorDemos
                 FileName = "ExternalDragDrop.razor",
                 MetaTitle = "Blazor Scheduler External Drag Drop | Event Creation | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - External Drag and Drop",
-                MetaDescription = "This Blazor Scheduler external drag and drop example demonstrates event creation by dragging items from external sources into the scheduler for intuitive appointment scheduling.",
+                MetaDescription = "This Blazor Scheduler drag and drop demo shows event creation by dragging items from external sources into the scheduler for intuitive appointment scheduling.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -464,7 +483,7 @@ namespace BlazorDemos
                 FileName = "DragDrop.razor",
                 MetaTitle = "Blazor Scheduler Multiple Drag | Batch Event Moving | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Multiple Events Drag",
-                MetaDescription = "This Blazor Scheduler multiple events drag example demonstrates batch event moving with multi-selection and drag-drop functionality for efficient appointment rescheduling.",
+                MetaDescription = "This Blazor Scheduler multiple events drag demo shows batch event moving with multiselection and drag-drop functionality for efficient appointment rescheduling.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -489,7 +508,7 @@ namespace BlazorDemos
                 FileName = "DragBetweenSchedulers.razor",
                 MetaTitle = "Blazor Scheduler Cross-Instance Drag | Multi-Calendar | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Drag Between Schedulers",
-                MetaDescription = "This Blazor Scheduler cross-instance drag example demonstrates event transfer between multiple scheduler instances for multi-calendar management and resource allocation.",
+                MetaDescription = "This Blazor Scheduler cross-instance drag demo shows event transfer between multiple scheduler instances for multi-calendar management and resource allocation.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -513,7 +532,7 @@ namespace BlazorDemos
                 FileName = "GridToSchedule.razor",
                 MetaTitle = "Blazor Grid to Scheduler Drag | Data Integration | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Drag Events From Grid",
-                MetaDescription = "This Blazor Grid to Scheduler drag example demonstrates seamless data integration by dragging events from DataGrid to Scheduler for efficient appointment creation workflow.",
+                MetaDescription = "Blazor Grid to Scheduler drag demo shows seamless data integration by dragging events from DataGrid to Scheduler for efficient appointment creation workflow.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -537,7 +556,7 @@ namespace BlazorDemos
                 FileName = "VirtualScrolling.razor",
                 MetaTitle = "Blazor Scheduler Virtual Scrolling | Performance | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Virtual Scrolling",
-                MetaDescription = "This Blazor Scheduler virtual scrolling example demonstrates high-performance rendering with virtualization for handling large datasets and improved scrolling performance."
+                MetaDescription = "Blazor Scheduler virtual scrolling demo shows high-performance rendering with virtualization for handling large datasets and improved scrolling performance."
             },
             new Sample
             {
@@ -548,7 +567,7 @@ namespace BlazorDemos
                 FileName = "VirtualMask.razor",
                 MetaTitle = "Blazor Scheduler Virtual Mask | Optimized Rendering | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Virtual Mask",
-                MetaDescription = "This Blazor Scheduler virtual mask example demonstrates optimized rendering with masked virtualization for enhanced performance in large-scale scheduling applications."
+                MetaDescription = "This Blazor Scheduler virtual mask example shows optimized rendering with masked virtualization for enhanced performance in large-scale scheduling applications."
             },
             new Sample
             {
@@ -559,7 +578,7 @@ namespace BlazorDemos
                 FileName = "DataVirtualization.razor",
                 MetaTitle = "Blazor Scheduler Data Virtualization | Large Datasets | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Data Virtualization",
-                MetaDescription = "This Blazor Scheduler data virtualization example demonstrates efficient handling of large datasets with on-demand data loading for enterprise-scale scheduling applications."
+                MetaDescription = "Blazor Scheduler data virtualization demo shows efficient handling of large datasets with on-demand data loading for enterprise-scale scheduling applications."
             },
             new Sample
             {
@@ -570,7 +589,7 @@ namespace BlazorDemos
                 FileName = "Views.razor",
                 MetaTitle = "Blazor Scheduler Basic Views | Multiple View Modes | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Basic Views",
-                MetaDescription = "This Blazor Scheduler basic views example demonstrates multiple view modes including day, week, month, and agenda views for flexible calendar visualization and navigation.",
+                MetaDescription = "This Blazor Scheduler basic views demo shows multiple view modes including day, week, month, agenda views for flexible calendar visualization and navigation.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -594,7 +613,7 @@ namespace BlazorDemos
                 FileName = "Timeline.razor",
                 MetaTitle = "Blazor Scheduler Timeline View | Horizontal Layout | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Timeline View",
-                MetaDescription = "This Blazor Scheduler timeline view example demonstrates horizontal layout with time-based visualization for project scheduling and resource management applications.",
+                MetaDescription = "This Blazor Scheduler timeline view example shows horizontal layout with time-based visualization for project scheduling and resource management applications.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -690,7 +709,7 @@ namespace BlazorDemos
                 FileName = "ExtendedViews.razor",
                 MetaTitle = "Blazor Scheduler Custom Views | Extended View Modes | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Custom Views",
-                MetaDescription = "This Blazor Scheduler custom views example demonstrates extended view modes with custom time intervals and specialized layouts for unique scheduling requirements.",
+                MetaDescription = "This Blazor Scheduler custom views example shows extended view modes with custom time intervals and specialized layouts for unique scheduling requirements.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -725,7 +744,7 @@ namespace BlazorDemos
                 FileName = "CustomMonthView.razor",
                 MetaTitle = "Blazor Scheduler Custom Month | Tailored Monthly View | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Custom Month View",
-                MetaDescription = "This Blazor Scheduler custom month view example demonstrates tailored monthly visualization with custom cell rendering and specialized month layout configurations.",
+                MetaDescription = "This Blazor Scheduler custom month view example shows tailored monthly visualization with custom cell rendering and specialized month layout configurations.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -773,7 +792,7 @@ namespace BlazorDemos
                 FileName = "FareCalendar.razor",
                 MetaTitle = "Blazor Fare Calendar | Price-Based Scheduling | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Fare Calendar",
-                MetaDescription = "This Blazor Fare Calendar example demonstrates price-based scheduling with fare visualization for travel booking and pricing calendar applications."
+                MetaDescription = "This Blazor Fare Calendar example demonstrates price-based scheduling with the fare visualization for travel booking and pricing calendar applications."
             },
             new Sample
             {
@@ -832,7 +851,7 @@ namespace BlazorDemos
                 FileName = "GroupCustomWorkdays.razor",
                 MetaTitle = "Blazor Scheduler Work Days | Custom Resource Schedules | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Different Work Days",
-                MetaDescription = "This Blazor Scheduler different work days example demonstrates custom resource schedules with individual working day configurations for flexible resource management.",
+                MetaDescription = "This Blazor Scheduler different work days example shows custom resource schedules with individual working day configurations for flexible resource management.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection
@@ -856,7 +875,7 @@ namespace BlazorDemos
                 FileName = "AddRemoveResources.razor",
                 MetaTitle = "Blazor Scheduler Dynamic Resources | Resource Management | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Add or Remove Resources",
-                MetaDescription = "This Blazor Scheduler dynamic resources example demonstrates runtime resource management with add/remove capabilities for flexible scheduling system configuration.",
+                MetaDescription = "This Blazor Scheduler dynamic resources example shows runtime resource management with add/remove capabilities for flexible scheduling system configuration.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "AddRemoveResources.razor" },
@@ -888,7 +907,7 @@ namespace BlazorDemos
                 FileName = "Group.razor",
                 MetaTitle = "Blazor Scheduler Horizontal Grouping | Resource Layout | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Horizontal Grouping",
-                MetaDescription = "This Blazor Scheduler horizontal grouping example demonstrates resource layout organization with horizontal arrangement for improved resource visualization and management."
+                MetaDescription = "Blazor Scheduler horizontal grouping demo shows resource layout organization with horizontal arrangement for improved resource visualization and management."
             },
             new Sample
             {
@@ -899,7 +918,7 @@ namespace BlazorDemos
                 FileName = "TimelineResourceGroup.razor",
                 MetaTitle = "Blazor Scheduler Timeline Grouping | Resource Timeline | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Timeline Grouping",
-                MetaDescription = "This Blazor Scheduler timeline grouping example demonstrates resource timeline organization with grouped layout for comprehensive resource scheduling visualization.",
+                MetaDescription = "This Blazor Scheduler timeline grouping example shows resource timeline organization with grouped layout for comprehensive resource scheduling visualization.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "TimelineResourceGroup.razor" },
@@ -915,7 +934,7 @@ namespace BlazorDemos
                 FileName = "GroupByDate.razor",
                 MetaTitle = "Blazor Scheduler Date Grouping | Date-Based Layout | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Date-wise Grouping",
-                MetaDescription = "This Blazor Scheduler date-wise grouping example demonstrates date-based layout organization with grouped date arrangement for chronological resource scheduling.",
+                MetaDescription = "This Blazor Scheduler date-wise grouping example shows date-based layout organization with grouped date arrangement for chronological resource scheduling.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "GroupByDate.razor" },
@@ -996,7 +1015,7 @@ namespace BlazorDemos
                 FileName = "AppointmentTemplate.razor",
                 MetaTitle = "Blazor Scheduler Event Template | Custom Event Display | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Event Template",
-                MetaDescription = "This Blazor Scheduler event template example demonstrates custom event display with personalized appointment rendering and styling for enhanced event visualization.",
+                MetaDescription = "This Blazor Scheduler event template example shows custom event display with personalized appointment rendering and styling for enhanced event visualization.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "AppointmentTemplate.razor" },
@@ -1012,7 +1031,7 @@ namespace BlazorDemos
                 FileName = "Tooltip.razor",
                 MetaTitle = "Blazor Scheduler Tooltip Template | Custom Tooltips | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Tooltip Template",
-                MetaDescription = "This Blazor Scheduler tooltip template example demonstrates custom tooltip display with personalized content and styling for enhanced event information presentation.",
+                MetaDescription = "This Blazor Scheduler tooltip template example shows custom tooltip display with personalized content and styling for enhanced event information presentation.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "Tooltip.razor" },
@@ -1044,7 +1063,7 @@ namespace BlazorDemos
                 FileName = "EditorValidation.razor",
                 MetaTitle = "Blazor Scheduler Field Validation | Form Validation | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Field Validation",
-                MetaDescription = "This Blazor Scheduler field validation example demonstrates form validation with custom rules and error handling for data integrity in appointment creation and editing.",
+                MetaDescription = "This Blazor Scheduler field validation demo shows form validation with custom rules and error handling for data integrity in appointment creation and editing.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "EditorValidation.razor" },
@@ -1108,7 +1127,7 @@ namespace BlazorDemos
                 FileName = "Timescale.razor",
                 MetaTitle = "Blazor Scheduler Timescale | Custom Time Intervals | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Timescale",
-                MetaDescription = "This Blazor Scheduler timescale example demonstrates custom time interval configuration with flexible time slot settings for personalized scheduling granularity.",
+                MetaDescription = "This Blazor Scheduler timescale example shows custom time interval configuration with flexible time slot settings for personalized scheduling granularity.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "Timescale.razor" },
@@ -1124,7 +1143,7 @@ namespace BlazorDemos
                 FileName = "ContextMenu.razor",
                 MetaTitle = "Blazor Scheduler Context Menu | Right-Click Actions | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Context Menu",
-                MetaDescription = "This Blazor Scheduler context menu example demonstrates right-click actions with custom menu items for enhanced user interaction and quick appointment operations.",
+                MetaDescription = "This Blazor Scheduler context menu example shows right-click actions with custom menu items for enhanced user interaction and quick appointment operations.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "ContextMenu.razor" },
@@ -1156,7 +1175,7 @@ namespace BlazorDemos
                 FileName = "ScrollTime.razor",
                 MetaTitle = "Blazor Scheduler Scroll Time | Auto-Scroll Position | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Scroll Time",
-                MetaDescription = "This Blazor Scheduler scroll time example demonstrates auto-scroll positioning with customizable initial scroll time for improved user experience and navigation.",
+                MetaDescription = "This Blazor Scheduler scroll time example shows auto-scroll positioning with customizable initial scroll time for improved user experience and navigation.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "ScrollTime.razor" },
@@ -1172,7 +1191,7 @@ namespace BlazorDemos
                 FileName = "WorkDays.razor",
                 MetaTitle = "Blazor Scheduler Working Days | Custom Work Week | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Working Days",
-                MetaDescription = "This Blazor Scheduler working days example demonstrates custom work week configuration with flexible working day settings for business-specific scheduling requirements.",
+                MetaDescription = "This Blazor Scheduler working days demo shows custom work week configuration with flexible working day settings for business-specific scheduling requirements.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "WorkDays.razor" },
@@ -1204,7 +1223,7 @@ namespace BlazorDemos
                 FileName = "DayHourLimit.razor",
                 MetaTitle = "Blazor Scheduler Hide Non-Working Hours | Time Filtering | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Hide Non-Working Hours",
-                MetaDescription = "This Blazor Scheduler hide non-working hours example demonstrates time filtering with selective hour display for focused business hour scheduling and improved visibility.",
+                MetaDescription = "This Blazor Scheduler hide non-working hours demo shows time filtering with selective hour display for focused business hour scheduling and improved visibility.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "DayHourLimit.razor" },
@@ -1220,7 +1239,7 @@ namespace BlazorDemos
                 FileName = "CellDimensions.razor",
                 MetaTitle = "Blazor Scheduler Cell Dimension | Custom Cell Sizing | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Cell Dimension",
-                MetaDescription = "This Blazor Scheduler cell dimension example demonstrates custom cell sizing with adjustable width and height settings for personalized calendar layout and appearance.",
+                MetaDescription = "This Blazor Scheduler cell dimension example shows custom cell sizing with adjustable width and height settings for personalized calendar layout and appearance.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "CellDimensions.razor" },
@@ -1236,7 +1255,7 @@ namespace BlazorDemos
                 FileName = "ExcelExport.razor",
                 MetaTitle = "Blazor Scheduler Excel Export | Data Export Feature | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Export to Excel",
-                MetaDescription = "This Blazor Scheduler Excel export example demonstrates data export functionality with customizable Excel format output for reporting and data analysis purposes.",
+                MetaDescription = "This Blazor Scheduler Excel export example shows data export functionality with customizable Excel format output for reporting and data analysis purposes.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "ExcelExport.razor" },
@@ -1252,7 +1271,7 @@ namespace BlazorDemos
                 FileName = "CalendarExportImport.razor",
                 MetaTitle = "Blazor Scheduler ICS Export Import | Calendar Integration | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Export and Import ICS",
-                MetaDescription = "This Blazor Scheduler ICS export import example demonstrates calendar integration with standard ICS format for cross-platform calendar synchronization and data exchange.",
+                MetaDescription = "This Blazor Scheduler ICS export import demo shows calendar integration with standard ICS format for cross-platform calendar synchronization and data exchange.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "CalendarExportImport.razor" },
@@ -1268,7 +1287,7 @@ namespace BlazorDemos
                 FileName = "Print.razor",
                 MetaTitle = "Blazor Scheduler Print | Calendar Printing Feature | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Print",
-                MetaDescription = "This Blazor Scheduler print example demonstrates calendar printing functionality with customizable print layouts and formatting options for physical calendar output.",
+                MetaDescription = "This Blazor Scheduler print example shows calendar printing functionality with customizable print layouts and formatting options for physical calendar output.",
                 IsHideInMobile = true,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1285,7 +1304,7 @@ namespace BlazorDemos
                 FileName = "RecurrenceRuleGenerator.razor",
                 MetaTitle = "Blazor RRule Generator | Recurrence Rule Creation | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - RRule Generator",
-                MetaDescription = "This Blazor RRule Generator example demonstrates recurrence rule creation with RFC standard compliance for generating complex recurring event patterns and schedules."
+                MetaDescription = "This Blazor RRule Generator example shows recurrence rule creation with RFC standard compliance for generating complex recurring event patterns and schedules."
             },
             new Sample
             {
@@ -1296,7 +1315,7 @@ namespace BlazorDemos
                 FileName = "RecurrenceEditorPopulateRule.razor",
                 MetaTitle = "Blazor Recurrence Rules | Pattern Configuration | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Recurrence Rules",
-                MetaDescription = "This Blazor Recurrence Rules example demonstrates pattern configuration with comprehensive recurrence options for creating complex recurring event schedules and patterns."
+                MetaDescription = "This Blazor Recurrence Rules demo shows pattern configuration with comprehensive recurrence options for creating complex recurring event schedules and patterns."
             },
             new Sample
             {
@@ -1307,7 +1326,7 @@ namespace BlazorDemos
                 FileName = "Clipboard.razor",
                 MetaTitle = "Blazor Scheduler Clipboard | Cut Copy Paste Events | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Clipboard",
-                MetaDescription = "This Blazor Scheduler clipboard example demonstrates cut, copy, and paste functionality for seamless event manipulation and efficient appointment management workflows.",
+                MetaDescription = "This Blazor Scheduler clipboard example shows cut, copy, and paste functionality for seamless event manipulation and efficient appointment management workflows.",
                 NotificationDescription = new string[]
                 {
                     "Showcased the ability to cut, copy, and paste events seamlessly, enabling the addition and editing of events with ease."
@@ -1327,7 +1346,7 @@ namespace BlazorDemos
                 FileName = "KeyboardInteraction.razor",
                 MetaTitle = "Blazor Scheduler Keyboard | Accessibility Navigation | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Keyboard Interaction",
-                MetaDescription = "This Blazor Scheduler keyboard interaction example demonstrates accessibility navigation with comprehensive keyboard shortcuts for efficient calendar operation and navigation.",
+                MetaDescription = "Blazor Scheduler keyboard interaction demo shows accessibility navigation with comprehensive keyboard shortcuts for efficient calendar operation and navigation.",
                 IsHideInMobile = true,
                 SourceFiles = new List<SourceCollection>()
                 {
@@ -1344,7 +1363,7 @@ namespace BlazorDemos
                 FileName = "Events.razor",
                 MetaTitle = "Blazor Scheduler Events | Event Handling System | Syncfusion",
                 HeaderText = "Blazor Scheduler Example - Events",
-                MetaDescription = "This Blazor Scheduler events example demonstrates comprehensive event handling system with lifecycle events and custom event processing for advanced scheduling applications.",
+                MetaDescription = "Blazor Scheduler events demo shows comprehensive event handling system with lifecycle events and custom event processing for advanced scheduling applications.",
                 SourceFiles = new List<SourceCollection>()
                 {
                     new SourceCollection { Id = "Default", FileName = "Events.razor" },

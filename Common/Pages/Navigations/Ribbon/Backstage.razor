@@ -89,7 +89,7 @@
                                         </RibbonItem>
                                         <RibbonItem Type=RibbonItemType.ColorPicker AllowedSizes="RibbonItemSize.Small"
                                                     DisplayOptions="@((DisplayMode)DisplayMode.Classic | DisplayMode.Simplified)">
-                                            <RibbonColorPickerSettings @bind-Value="@colorValue" ValueChange="@(args => UpdateContent(args.CurrentValue.Hex + "color"))"></RibbonColorPickerSettings>
+                                            <RibbonColorPickerSettings @bind-Value="@colorValue" ValueChange="@(args => UpdateContent(args?.CurrentValue?.Hex + "color"))"></RibbonColorPickerSettings>
                                         </RibbonItem>
                                     </RibbonItems>
                                 </RibbonCollection>
@@ -339,10 +339,10 @@
 </div>
 
 @code {
-    SfToast toast;
-    SfRibbon ribbonRef;
+    SfToast toast = new SfToast();
+    SfRibbon ribbonRef = new SfRibbon();
     bool isDisabled = true;
-    RibbonBackstageMenuSettings ribbonBackstage;
+    RibbonBackstageMenuSettings ribbonBackstage = new RibbonBackstageMenuSettings();
     bool isPasteDisabled = true;
     private bool checkedState = true;
     private string colorValue = "#123456";
@@ -375,8 +375,11 @@
 
     private async void HandleComboBoxSelection(ComboBoxSelectEventArgs args)
     {
-        var data = (ComboBoxItem)args.ItemData;
-        await UpdateContent($"Font Style -> {data.Text}");
+        if (args.ItemData != null)
+        {
+            var data = (ComboBoxItem)args.ItemData;
+            await UpdateContent($"Font Style -> {data.Text}");
+        }
     }
 
     private async Task LauncherIconClick(LauncherClickEventArgs args)
@@ -401,13 +404,6 @@
         await UpdateContent("Backstage content is interacted and closed.", true);
     }
 
-    BackstageBackButtonSettings backStageBackButton = new BackstageBackButtonSettings
-            {
-                Text = "Close",
-                IconCss = "e-icons e-arrow-left",
-                Visible = true
-            };
-
     private async Task HandleBackstageItemClicked(BackstageItemClickEventArgs args)
     {
         if(args.MenuItem.Text.Contains("Print"))
@@ -419,152 +415,163 @@
 
     RenderFragment GetBackstageContent(string item) => item switch
     {
-        "home" => @<div class="home-wrapper">
-        <div class="new-wrapper">
-            <div class="section-title">New</div>
-            <div class="category_container" @onclick="() => HandleBackstageContentClicked()">
-                <div class="doc_category_image"></div>
-                <span class="doc_category_text">New document</span>
-            </div>
-        </div>
-        <div class="block-wrapper">
-            <div class="section-title">Recent</div>
-            @{
-        var recentDocuments = new List<(string icon, string name, string description)>
-        {
-        ("e-notes", "Classic_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
-        ("e-notes", "Simplified_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
-        ("e-notes", "Ribbon_resize.docx", "EJ2 >> Components >> Navigations >> Ribbon >> resize"),
-        };
-            }
-            @foreach (var doc in recentDocuments)
-        {
-            @RenderWrapperContent(doc.icon, doc.name, doc.description)
-        }
-        </div>
-    </div>,
-        "new" => @<div class="new-wrapper">
-        <div class="section-title">New</div>
-        <div class="category_container" @onclick="() => HandleBackstageContentClicked()">
-            <div class="doc_category_image"></div>
-            <span class="doc_category_text">New document</span>
-        </div>
-    </div>,
-        "open" => @<div class="block-wrapper">
-        <div class="section-title">Recent</div>
-        @{
-    var recentDocuments = new List<(string icon, string name, string description)>
-    {
-    ("e-notes", "Classic_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
-    ("e-notes", "Simplified_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
-    ("e-notes", "Ribbon_resize.docx", "EJ2 >> Components >> Navigations >> Ribbon >> resize"),
-    ("e-notes", "Ribbon_backstage.docx", "EJ2 >> Components >> Navigations >> Ribbon >> backstage"),
-    ("e-notes", "Ribbon_overflow.docx", "EJ2 >> Components >> Navigations >> Ribbon >> overflow"),
-    ("e-notes", "Custom_items.docx", "EJ2 >> Components >> Navigations >> Ribbon >> items"),
-    };
-        }
-        @foreach (var doc in recentDocuments)
-    {
-        @RenderWrapperContent(doc.icon, doc.name, doc.description)
-    }
-    </div>,
-        "info" => @<div class="block-wrapper">
-        <div class="section-title">Info</div>
-        @{
-    var infoItems = new List<(string icon, string name, string description)>
-    {
-    ("e-open-link", "Open in Desktop App", "Use the full functionality of Ribbon"),
-    ("e-protect-sheet", "Protect Document", "To prevent accidental changes, this document has been set to open as view-only"),
-    ("e-send-to-back", "Version History", "View previous versions"),
-    };
-        }
-        @foreach (var item in infoItems)
-    {
-        @RenderWrapperContent(item.icon, item.name, item.description)
-    }
-    </div>,
-        "save" => @<div class="block-wrapper">
-        <div class="section-title">Save</div>
-        @{
-    var saveItems = new List<(string icon, string name, string description)>
-    {
-    ("e-save", "Save as", "Save a copy online"),
-    ("e-rename", "Rename", "Rename this file"),
-    ("e-download", "Download a Copy", "Download a local copy"),
-    ("e-export-pdf", "Download as PDF", "Download a copy as PDF file"),
-    ("e-chevron-down-fill", "Download as ODT", "Download a copy as ODT file"),
-    };
-        }
-        @foreach (var item in saveItems)
-    {
-        @RenderWrapperContent(item.icon, item.name, item.description)
-    }
-    </div>,
-        "export" => @<div class="block-wrapper">
-        <div class="section-title">Export</div>
-        @{
-    var exportItems = new List<(string icon, string name, string description)>
-    {
-    ("e-transform-right", "Transform to Web Page", "Transform your document into an interactive webpage"),
-    ("e-export", "Export to PowerPoint presentation", "Export your document into a multi-slide presentation"),
-    ("e-protect-workbook", "Send documents to Kindle", "Send documents to your Kindle device to read and annotate the documents"),
-    };
-        }
-        @foreach (var item in exportItems)
-    {
-        @RenderWrapperContent(item.icon, item.name, item.description)
-    }
-    </div>,
-        "print" => @<div class="print-wrapper">
-        <div class="section-title">Print</div>
-        <div class="section-content">
-            <p>Configure your print settings here.</p>
-        </div>
-    </div>,
-        "share" => @<div class="block-wrapper">
-        <div class="section-title">Share</div>
-        @{
-    var shareItems = new List<(string icon, string name, string description)>
-    {
-    ("e-arrow-right-up", "Share with People", "Invite other people to view or edit this document"),
-    ("e-protect-workbook", "Embed", "Embed this document in your blog or website"),
-    };
-        }
-        @foreach (var item in shareItems)
-    {
-        @RenderWrapperContent(item.icon, item.name, item.description)
-    }
-    </div>,
-        "account" => @<div class="block-wrapper">
-        <div class="section-title">Account</div>
-        @{
-    var accountItems = new List<(string icon, string name, string description)>
-    {
-    ("e-people", "Account type", "Administrator"),
-    ("e-password", "Password protected", "Yes"),
-    ("e-text-that-contains", "E-mail", "abc@gmail.com")
-    };
-        }
-        @foreach (var item in accountItems)
-    {
-        @RenderWrapperContent(item.icon, item.name, item.description)
-    }
-    </div>,
-        "feedback" => @<div class="block-wrapper">
-        <div class="section-title">Feedback</div>
-        @{
-    var feedbackItems = new List<(string icon, string name, string description)>
-    {
-    ("e-check", "I Like Something", "It's nice to know when we have made a positive change."),
-    ("e-close", "I Don't Like Something", "If something's not right we'd like to know so we can fix it."),
-    ("e-comment-add", "I Have a Suggestion", "Do you have an idea for a new feature or an improvement ?")
-    };
-        }
-        @foreach (var item in feedbackItems)
-    {
-        @RenderWrapperContent(item.icon, item.name, item.description)
-    }
-    </div>
+        "home" =>
+            @<div class="home-wrapper">
+                <div class="new-wrapper">
+                    <div class="section-title">New</div>
+                    <div class="category_container" @onclick="() => HandleBackstageContentClicked()">
+                        <div class="doc_category_image"></div>
+                        <span class="doc_category_text">New document</span>
+                    </div>
+                </div>
+                <div class="block-wrapper">
+                    <div class="section-title">Recent</div>
+                    @{
+                        var recentDocuments = new List<(string icon, string name, string description)>
+                        {
+                        ("e-notes", "Classic_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
+                        ("e-notes", "Simplified_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
+                        ("e-notes", "Ribbon_resize.docx", "EJ2 >> Components >> Navigations >> Ribbon >> resize"),
+                        };
+                    }
+                    @foreach (var doc in recentDocuments)
+                    {
+                        @RenderWrapperContent(doc.icon, doc.name, doc.description)
+                    }
+                </div>
+            </div>,
+        "new" =>
+            @<div class="new-wrapper">
+                <div class="section-title">New</div>
+                <div class="category_container" @onclick="() => HandleBackstageContentClicked()">
+                    <div class="doc_category_image"></div>
+                    <span class="doc_category_text">New document</span>
+                </div>
+            </div>,
+        "open" =>
+            @<div class="block-wrapper">
+                <div class="section-title">Recent</div>
+                @{
+                    var recentDocuments = new List<(string icon, string name, string description)>
+                    {
+                        ("e-notes", "Classic_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
+                        ("e-notes", "Simplified_layout.docx", "EJ2 >> Components >> Navigations >> Ribbon >> layouts"),
+                        ("e-notes", "Ribbon_resize.docx", "EJ2 >> Components >> Navigations >> Ribbon >> resize"),
+                        ("e-notes", "Ribbon_backstage.docx", "EJ2 >> Components >> Navigations >> Ribbon >> backstage"),
+                        ("e-notes", "Ribbon_overflow.docx", "EJ2 >> Components >> Navigations >> Ribbon >> overflow"),
+                        ("e-notes", "Custom_items.docx", "EJ2 >> Components >> Navigations >> Ribbon >> items"),
+                    };
+                }
+                @foreach (var doc in recentDocuments)
+                {
+                    @RenderWrapperContent(doc.icon, doc.name, doc.description)
+                }
+            </div>,
+        "info" =>
+            @<div class="block-wrapper">
+                <div class="section-title">Info</div>
+                @{
+                    var infoItems = new List<(string icon, string name, string description)>
+                    {
+                        ("e-open-link", "Open in Desktop App", "Use the full functionality of Ribbon"),
+                        ("e-protect-sheet", "Protect Document", "To prevent accidental changes, this document has been set to open as view-only"),
+                        ("e-send-to-back", "Version History", "View previous versions"),
+                    };
+                }
+                @foreach (var item in infoItems)
+                {
+                    @RenderWrapperContent(item.icon, item.name, item.description)
+                }
+            </div>,
+        "save" =>
+            @<div class="block-wrapper">
+                <div class="section-title">Save</div>
+                @{
+                    var saveItems = new List<(string icon, string name, string description)>
+                    {
+                        ("e-save", "Save as", "Save a copy online"),
+                        ("e-rename", "Rename", "Rename this file"),
+                        ("e-download", "Download a Copy", "Download a local copy"),
+                        ("e-export-pdf", "Download as PDF", "Download a copy as PDF file"),
+                        ("e-chevron-down-fill", "Download as ODT", "Download a copy as ODT file"),
+                    };
+                }
+                @foreach (var item in saveItems)
+                {
+                    @RenderWrapperContent(item.icon, item.name, item.description)
+                }
+            </div>,
+        "export" =>
+            @<div class="block-wrapper">
+                <div class="section-title">Export</div>
+                @{
+                    var exportItems = new List<(string icon, string name, string description)>
+                    {
+                        ("e-transform-right", "Transform to Web Page", "Transform your document into an interactive webpage"),
+                        ("e-export", "Export to PowerPoint presentation", "Export your document into a multi-slide presentation"),
+                        ("e-protect-workbook", "Send documents to Kindle", "Send documents to your Kindle device to read and annotate the documents"),
+                    };
+                }
+                @foreach (var item in exportItems)
+                {
+                    @RenderWrapperContent(item.icon, item.name, item.description)
+                }
+            </div>,
+        "print" =>
+            @<div class="print-wrapper">
+                <div class="section-title">Print</div>
+                <div class="section-content">
+                    <p>Configure your print settings here.</p>
+                </div>
+            </div>,
+        "share" =>
+            @<div class="block-wrapper">
+                <div class="section-title">Share</div>
+                @{
+                    var shareItems = new List<(string icon, string name, string description)>
+                    {
+                        ("e-arrow-right-up", "Share with People", "Invite other people to view or edit this document"),
+                        ("e-protect-workbook", "Embed", "Embed this document in your blog or website"),
+                    };
+                }
+                @foreach (var item in shareItems)
+                {
+                    @RenderWrapperContent(item.icon, item.name, item.description)
+                }
+            </div>,
+        "account" =>
+            @<div class="block-wrapper">
+                <div class="section-title">Account</div>
+                @{
+                    var accountItems = new List<(string icon, string name, string description)>
+                    {
+                        ("e-people", "Account type", "Administrator"),
+                        ("e-password", "Password protected", "Yes"),
+                        ("e-text-that-contains", "E-mail", "abc@gmail.com")
+                    };
+                }
+                @foreach (var item in accountItems)
+                {
+                    @RenderWrapperContent(item.icon, item.name, item.description)
+                }
+            </div>,
+        "feedback" =>
+            @<div class="block-wrapper">
+                <div class="section-title">Feedback</div>
+                @{
+                    var feedbackItems = new List<(string icon, string name, string description)>
+                    {
+                        ("e-check", "I Like Something", "It's nice to know when we have made a positive change."),
+                        ("e-close", "I Don't Like Something", "If something's not right we'd like to know so we can fix it."),
+                        ("e-comment-add", "I Have a Suggestion", "Do you have an idea for a new feature or an improvement ?")
+                    };
+                }
+                @foreach (var item in feedbackItems)
+                {
+                    @RenderWrapperContent(item.icon, item.name, item.description)
+                }
+            </div>,
+        _ => @<div style="display: none">No content available.</div>
     };
 
     RenderFragment RenderWrapperContent(string icon, string name, string description) =>
@@ -580,12 +587,77 @@
                 </tr>
             </tbody>
         </table>
-    </div>;
+    </div>
+    ;
 
     private async void HandleGroupBtnSelection(GroupButtonClickEventArgs args)
     {
         await UpdateContent(args.CurrentItem.Content);
     }
+
+    FieldSettingsModel fieldSetings = new FieldSettingsModel
+    {
+        Text = "Text",
+        Value = "Value"
+    };
+
+    private class ComboBoxItem
+    {
+        public string Text { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
+    }
+
+    List<ComboBoxItem> fontFamilyItems = new List<ComboBoxItem>
+    {
+        new ComboBoxItem { Text = "Algerian", Value = "Algerian" },
+        new ComboBoxItem { Text = "Arial", Value = "Arial" },
+        new ComboBoxItem { Text = "Calibri", Value = "Calibri" },
+        new ComboBoxItem { Text = "Cambria", Value = "Cambria" },
+        new ComboBoxItem { Text = "Cambria Math", Value = "Cambria Math" },
+        new ComboBoxItem { Text = "Courier New", Value = "Courier New" },
+        new ComboBoxItem { Text = "Candara", Value = "Candara" },
+        new ComboBoxItem { Text = "Georgia", Value = "Georgia" },
+        new ComboBoxItem { Text = "Impact", Value = "Impact" },
+        new ComboBoxItem { Text = "Segoe Print", Value = "Segoe Print" },
+        new ComboBoxItem { Text = "Segoe Script", Value = "Segoe Script" },
+        new ComboBoxItem { Text = "Segoe UI", Value = "Segoe UI" },
+        new ComboBoxItem { Text = "Symbol", Value = "Symbol" },
+        new ComboBoxItem { Text = "Times New Roman", Value = "Times New Roman" },
+        new ComboBoxItem { Text = "Verdana", Value = "Verdana" },
+        new ComboBoxItem { Text = "Windings", Value = "Windings" }
+    };
+
+    List<ComboBoxItem> fontSizeItems = new List<ComboBoxItem>
+    {
+        new ComboBoxItem { Text = "8", Value = "8" },
+        new ComboBoxItem { Text = "9", Value = "9" },
+        new ComboBoxItem { Text = "10", Value = "10" },
+        new ComboBoxItem { Text = "11", Value = "11" },
+        new ComboBoxItem { Text = "12", Value = "12" },
+        new ComboBoxItem { Text = "14", Value = "14" },
+        new ComboBoxItem { Text = "16", Value = "16" },
+        new ComboBoxItem { Text = "18", Value = "18" },
+        new ComboBoxItem { Text = "20", Value = "20" },
+        new ComboBoxItem { Text = "22", Value = "22" },
+        new ComboBoxItem { Text = "24", Value = "24" },
+        new ComboBoxItem { Text = "26", Value = "26" },
+        new ComboBoxItem { Text = "28", Value = "28" },
+        new ComboBoxItem { Text = "36", Value = "36" },
+        new ComboBoxItem { Text = "48", Value = "48" },
+        new ComboBoxItem { Text = "72", Value = "72" },
+        new ComboBoxItem { Text = "96", Value = "96" }
+    };
+
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
+
+    BackstageBackButtonSettings backStageBackButton = new BackstageBackButtonSettings
+    {
+        Text = "Close",
+        IconCss = "e-icons e-arrow-left",
+        Visible = true
+    };
 
     List<GroupButtonItem> alignGroupItems = new List<GroupButtonItem>
     {
@@ -640,59 +712,6 @@
             IconCss = "e-icons e-change-case",
             Content = "Change Case"
         },
-    };
-
-    FieldSettingsModel fieldSetings = new FieldSettingsModel
-    {
-        Text = "Text",
-        Value = "Value"
-    };
-
-    private class ComboBoxItem
-    {
-        public string Text {get; set; }
-        public string Value {get; set; }
-    }
-
-    List<ComboBoxItem> fontFamilyItems = new List<ComboBoxItem>
-    {
-        new ComboBoxItem { Text = "Algerian", Value = "Algerian" },
-        new ComboBoxItem { Text = "Arial", Value = "Arial" },
-        new ComboBoxItem { Text = "Calibri", Value = "Calibri" },
-        new ComboBoxItem { Text = "Cambria", Value = "Cambria" },
-        new ComboBoxItem { Text = "Cambria Math", Value = "Cambria Math" },
-        new ComboBoxItem { Text = "Courier New", Value = "Courier New" },
-        new ComboBoxItem { Text = "Candara", Value = "Candara" },
-        new ComboBoxItem { Text = "Georgia", Value = "Georgia" },
-        new ComboBoxItem { Text = "Impact", Value = "Impact" },
-        new ComboBoxItem { Text = "Segoe Print", Value = "Segoe Print" },
-        new ComboBoxItem { Text = "Segoe Script", Value = "Segoe Script" },
-        new ComboBoxItem { Text = "Segoe UI", Value = "Segoe UI" },
-        new ComboBoxItem { Text = "Symbol", Value = "Symbol" },
-        new ComboBoxItem { Text = "Times New Roman", Value = "Times New Roman" },
-        new ComboBoxItem { Text = "Verdana", Value = "Verdana" },
-        new ComboBoxItem { Text = "Windings", Value = "Windings" }
-    };
-
-    List<ComboBoxItem> fontSizeItems = new List<ComboBoxItem>
-    {
-        new ComboBoxItem { Text = "8", Value = "8" },
-        new ComboBoxItem { Text = "9", Value = "9" },
-        new ComboBoxItem { Text = "10", Value = "10" },
-        new ComboBoxItem { Text = "11", Value = "11" },
-        new ComboBoxItem { Text = "12", Value = "12" },
-        new ComboBoxItem { Text = "14", Value = "14" },
-        new ComboBoxItem { Text = "16", Value = "16" },
-        new ComboBoxItem { Text = "18", Value = "18" },
-        new ComboBoxItem { Text = "20", Value = "20" },
-        new ComboBoxItem { Text = "22", Value = "22" },
-        new ComboBoxItem { Text = "24", Value = "24" },
-        new ComboBoxItem { Text = "26", Value = "26" },
-        new ComboBoxItem { Text = "28", Value = "28" },
-        new ComboBoxItem { Text = "36", Value = "36" },
-        new ComboBoxItem { Text = "48", Value = "48" },
-        new ComboBoxItem { Text = "72", Value = "72" },
-        new ComboBoxItem { Text = "96", Value = "96" }
     };
 
     List<DropDownMenuItem> formatItems = new List<DropDownMenuItem>()
@@ -772,6 +791,9 @@
         new DropDownMenuItem{ Text = "Keep source only" }
 
     };
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
 }
 
 <style>

@@ -87,6 +87,10 @@
     .e-schedule.grid-schedule .e-timeline-month-view .e-resource-left-td {
         width: 140px;
     }
+    
+    .drag-grid.e-grid .e-cloneproperties.e-draganddrop {
+        pointer-events: none;
+    }
 
     .grid-schedule.e-schedule .e-timeline-view .e-date-header-wrap table col,
     .grid-schedule.e-schedule .e-timeline-view .e-content-wrap table col {
@@ -170,7 +174,7 @@
 
     public async Task ScheduleDragStop(DragEventArgs<ScheduleData.ResourceSampleData> args)
     {
-        var gridData = await JSRuntime.InvokeAsync<bool>("isSelectorFromPoint", args.Left, args.Top, "grid-content");
+        var gridData = await JSRuntime.InvokeAsync<bool>("isSelectorFromPoint", args.MouseEventArgs.ClientX, args.MouseEventArgs.ClientY, "grid-content");
         if (gridData)
         {
             args.Cancel = true;
@@ -196,7 +200,7 @@
 
         if (args.TargetDimension != null)
         {
-            CellClickEventArgs cellData = await ScheduleRef.GetTargetCellAsync(Convert.ToInt32(args.TargetDimension.Left), Convert.ToInt32((int)args.TargetDimension.Top));
+            CellClickEventArgs cellData = await ScheduleRef.GetTargetCellAsync((int)args.ClientX, (int)args.ClientY);
             var eventData = args.Data;
             double duration = (args.Data[0].EndTime - args.Data[0].StartTime).TotalHours;
 

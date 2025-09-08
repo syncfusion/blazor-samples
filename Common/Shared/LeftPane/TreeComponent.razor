@@ -3,7 +3,7 @@
 
 <div class="@classNames" role="tree" tabindex="0">
     <ul class="@SampleUtils.TREE_PARENT" role="presentation">
-        @foreach (var components in this.DataSource)
+        @foreach (var components in this.DataSource ?? Enumerable.Empty<SampleListType>())
         {
             <li class="@SampleUtils.TREE_PARENT_LI" role="treeitem">
                 @{
@@ -25,9 +25,9 @@
                     <span class="@treeText">@components.Name</span>
                 </div>
                 <ul class="@classList["childClass"]" role="group">
-                    @foreach (var component in components.SourceData)
+                    @foreach (var component in components.SourceData ?? new List<SampleListType>())
                     {
-                        if (!component.IsHide)
+                        if (!(component.IsHide ?? false))
                         {
                             <li class="@SampleUtils.TREE_PARENT_LI" role="treeitem">
                                 @{
@@ -40,7 +40,10 @@
                                 <div class="@nodeFullRow" @onclick="@(async () => await OnChildClick(component))"></div>
                                 <div class="@SampleUtils.TREE_TEXT_CONTENT">
                                     <span class="@SampleUtils.TREE_TEXT">
-                                        @TreeTemplate(component)
+                                        @if (TreeTemplate != null)
+                                        {
+                                            @TreeTemplate(component)
+                                        }
                                     </span>
                                 </div>
                             </li>
@@ -53,27 +56,27 @@
 </div>
 
 @code {
-    private SampleListType childSelected;
-    private List<SampleListType> collapsedItems = new List<SampleListType>();
+    private SampleListType? childSelected;
+    private List<SampleListType>? collapsedItems = new List<SampleListType>();
     private string classNames = SampleUtils.TREE_CLASS + SampleUtils.SPACE + SampleUtils.TREE_HIDE;
 
     /// <summary>
     /// Child content of tree component.
     /// </summary>
     [Parameter]
-    public RenderFragment ChildContent { get; set; }
+    public RenderFragment? ChildContent { get; set; }
 
     /// <summary>
     /// Specifies the datasource of the tree component.
     /// </summary>
     [Parameter]
-    public IEnumerable<SampleListType> DataSource { get; set; }
+    public IEnumerable<SampleListType>? DataSource { get; set; }
 
     /// <summary>
     /// Specifies the template of the tree component.
     /// </summary>
     [Parameter]
-    public RenderFragment<SampleListType> TreeTemplate { get; set; }
+    public RenderFragment<SampleListType>? TreeTemplate { get; set; }
 
     /// <summary>
     /// Triggers the event callback on tree node selection.
@@ -111,14 +114,14 @@
     // Parent node selection handler.
     private void OnParentClick(SampleListType parent)
     {
-        var itemIndex = collapsedItems.IndexOf(parent);
+        var itemIndex = collapsedItems?.IndexOf(parent);
         if (itemIndex == -1)
         {
-            collapsedItems.Add(parent);
+            collapsedItems?.Add(parent);
         }
         else
         {
-            collapsedItems.RemoveAt(itemIndex);
+            if (itemIndex != null) collapsedItems?.RemoveAt(itemIndex.Value);
         }
     }
 
@@ -138,7 +141,7 @@
         var classList = new Dictionary<string, string>();
         classList["iconClass"] = "sb-icons" + SampleUtils.SPACE + SampleUtils.TREE_EXPAND_ICON;
         classList["childClass"] = SampleUtils.TREE_PARENT;
-        if (collapsedItems.Count > 0)
+        if (collapsedItems?.Count > 0)
         {
             var collapsed = collapsedItems.Where(item => item.Name == components.Name).ToList();
             if (collapsed.Count > 0)

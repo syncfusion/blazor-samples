@@ -18,7 +18,7 @@ namespace BlazorDemos.Shared
         /// Get locale value from the resource file.
         /// </summary>
         /// <param name="key">Locale key for getting the translated text.</param>
-        public string GetText(string key)
+        public string? GetText(string key)
         {
             return this.ResourceManager.GetString(key);
         }

@@ -3,7 +3,7 @@
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Diagram.SymbolPalette
 @using System.Collections.ObjectModel
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 
 @*Hidden:Lines*@
 @using Syncfusion.Blazor.Buttons
@@ -287,11 +287,11 @@
 </div>
 @code
 {
-    SfDiagramComponent Diagram;
+    SfDiagramComponent? Diagram;
     //Defines Diagram's Nodes collection
-    private DiagramObjectCollection<Node> nodes;
+    private DiagramObjectCollection<Node>? nodes;
     //Defines Diagram's Connectors collection
-    private DiagramObjectCollection<Connector> connectors;
+    private DiagramObjectCollection<Connector>? connectors;
     //Defining Visibility of Rulers
     public bool IsVisible = true;
     //Defining Ruler Interval of Rulers
@@ -301,25 +301,25 @@
     //Defining Marker color of Rulers
     public string RulerMarkerColor = "#FF0000";
 
-    public DiagramSize SymbolPreview;
-    public SymbolMargin SymbolMargin = new SymbolMargin { Left = 10, Right = 10, Top = 10, Bottom = 10 };
-    public SfSymbolPaletteComponent PaletteInstance;
+    public DiagramSize? SymbolPreview;
+    public SymbolMargin? SymbolMargin = new SymbolMargin { Left = 10, Right = 10, Top = 10, Bottom = 10 };
+    public SfSymbolPaletteComponent? PaletteInstance;
     // Define palattes collection
-    private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
+    private DiagramObjectCollection<Palette>? palettes = new DiagramObjectCollection<Palette>();
     // Defines palette's basic-shape collection
-    private DiagramObjectCollection<NodeBase> basicShapeSymbols = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? basicShapeSymbols = new DiagramObjectCollection<NodeBase>();
     // Defines palette's flow-shape collection
-    private DiagramObjectCollection<NodeBase> flowShapes = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? flowShapes = new DiagramObjectCollection<NodeBase>();
     // Defines palette's connector collection
-    private DiagramObjectCollection<NodeBase> connectorSymbols = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? connectorSymbols = new DiagramObjectCollection<NodeBase>();
 
     @*Hidden:Lines*@
     #region RulerSettings
     string align = "align1";
     public class TickAligns
     {
-        public string ID { get; set; }
-        public string Text { get; set; }
+        public string? ID { get; set; }
+        public string? Text { get; set; }
     }
     List<TickAligns> TickAlignData = new List<TickAligns>()
     {
@@ -328,7 +328,7 @@
     };
     private void RulertickAlignChange(ChangeEventArgs<string, TickAligns> args)
     {
-        if (args.ItemData.Text == "Left & Top")
+        if (args.ItemData!.Text == "Left & Top")
         {
             RulerTickAlignment = TickAlignment.LeftAndTop;
         }
@@ -343,7 +343,7 @@
     }
     public void RulerMarkerColorChanged(ColorPickerEventArgs args)
     {
-        RulerMarkerColor = args.CurrentValue.Hex.ToString();
+        RulerMarkerColor = args.CurrentValue!.Hex!.ToString();
     }
     #endregion
     @*End:Hidden*@
@@ -356,20 +356,20 @@
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
         await base.OnAfterRenderAsync(firstRender);
-        PaletteInstance.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteInstance!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             Diagram
         };
     }
     private void OnCreated()
     {
-        Diagram.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes[0] });
+        Diagram!.Select(new ObservableCollection<IDiagramObject>() { Diagram.Nodes![0] });
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
         Diagram.FitToPage(mobileoptions);
     }
     #region SymbolPalatte
     [Inject]
-    protected IJSRuntime jsRuntime { get; set; }
+    protected IJSRuntime? jsRuntime { get; set; }
     // Create Nodes and Connectors for the Palette.
     private void InitPaletteModel()
     {
@@ -433,10 +433,10 @@
         Node diagramNode = new Node()
             {
                 ID = id,
-                Shape = new BasicShape() { Type = shapes.Basic, Shape = basicShape },
+            Shape = new BasicShape() { Type = NodeShape.Basic, Shape = basicShape },
                 Style = new ShapeStyle() { Fill = "#357BD2", StrokeColor = "#757575", StrokeWidth = 1 },
             };
-        basicShapeSymbols.Add(diagramNode);
+        basicShapeSymbols!.Add(diagramNode);
     }
     // Method to create flow shape node
     private Node CreateFlowNode(string id, NodeFlowShapes type)
@@ -452,7 +452,7 @@
                 ID = NodeID,
                 Shape = new FlowShape()
                 {
-                    Type = shapes.Flow,
+                Type = NodeShape.Flow,
                     Shape = type
                 },
                 Style = new ShapeStyle() { Fill = "#357BD2", StrokeColor = "#757575", StrokeWidth = 1 },
@@ -492,7 +492,7 @@
     }
     public async Task ShowHideSymbolPalette()
     {
-        await jsRuntime.InvokeAsync<object>("openPalette");
+        await jsRuntime!.InvokeAsync<object>("openPalette");
     }
     #endregion
 
@@ -532,11 +532,11 @@
                 OffsetY = y,
                 Width = width,
                 Height = height,
-                Shape = new FlowShape() { Type = shapes.Flow, Shape = shape },
+            Shape = new FlowShape() { Type = NodeShape.Flow, Shape = shape },
                 Style = new ShapeStyle() { Fill = "#357BD2", StrokeColor = "#757575", StrokeWidth = 1 },
                 Annotations = new DiagramObjectCollection<ShapeAnnotation>() { annotation },
             };
-        nodes.Add(diagramNode);
+        nodes!.Add(diagramNode);
     }
 
     // Method to create connector
@@ -555,7 +555,7 @@
                 SourceID = sourceId,
                 TargetID = targetId,
             };
-        connectors.Add(diagramConnector);
+        connectors!.Add(diagramConnector);
     }
     #endregion
     @*Hidden:Lines*@

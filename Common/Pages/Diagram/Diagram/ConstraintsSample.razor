@@ -3,7 +3,7 @@
 @using Syncfusion.Blazor.Diagram
 @using Syncfusion.Blazor.Buttons
 @using Syncfusion.Blazor.Navigations
-@using shapes = Syncfusion.Blazor.Diagram.NodeShapes
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
 @*Hidden:Lines*@
 @inherits SampleBaseComponent;
 @implements IDisposable
@@ -249,16 +249,16 @@
     public bool IsTextEditingEnabled { get; set; } = true;
     @*End:Hidden*@
     //Defines sfdiagramComponent
-    public SfDiagramComponent DiagramInstance { get; set; }
+    public SfDiagramComponent? DiagramInstance { get; set; }
 
     //Defines diagram constraints
     public DiagramConstraints Constraints { get; set; }
 
     //Defines diagrams's nodes collection
-    public DiagramObjectCollection<Node> DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node>? DiagramNodes { get; set; } = new DiagramObjectCollection<Node>();
 
     //Defines diagrams's connectors collection
-    public DiagramObjectCollection<Connector> DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector>? DiagramConnectors { get; set; } = new DiagramObjectCollection<Connector>();
 
     protected override void OnInitialized()
     {
@@ -283,18 +283,18 @@
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        if (SampleService.IsDevice)
+        if (SampleService!.IsDevice)
         {
-            DiagramInstance.FitToPage(mobileoptions);
+            DiagramInstance!.FitToPage(mobileoptions);
         }
     }
     //Enable or disable text edit constraints
     private void TextEditChanged(ChangeEventArgs<bool> args)
     {
-        for (var i = 0; i < DiagramInstance.Connectors.Count; i++)
+        for (var i = 0; i < DiagramInstance!.Connectors!.Count; i++)
         {
             var connector = DiagramInstance.Connectors[i];
-            for (var j = 0; j < connector.Annotations.Count; j++)
+            for (var j = 0; j < connector.Annotations!.Count; j++)
             {
                 PathAnnotation pathAnnotation = connector.Annotations[j];
                 if (args.Checked == true)
@@ -310,10 +310,10 @@
             }
         }
 
-        for (var i = 0; i < DiagramInstance.Nodes.Count; i++)
+        for (var i = 0; i < DiagramInstance.Nodes!.Count; i++)
         {
             var node = DiagramInstance.Nodes[i];
-            for (var j = 0; j < node.Annotations.Count; j++)
+            for (var j = 0; j < node.Annotations!.Count; j++)
             {
                 ShapeAnnotation shapeAnnotation = node.Annotations[j];
                 if (args.Checked == true)
@@ -371,7 +371,7 @@
     //Enable or disable select constraints
     private void SelectChanged(ChangeEventArgs<bool> args)
     {
-        for (var i = 0; i < DiagramInstance.Connectors.Count; i++)
+        for (var i = 0; i < DiagramInstance!.Connectors!.Count; i++)
         {
             var connector = DiagramInstance.Connectors[i];
             if (args.Checked == true)
@@ -393,7 +393,7 @@
             }
         }
 
-        for (var i = 0; i < DiagramInstance.Nodes.Count; i++)
+        for (var i = 0; i < DiagramInstance.Nodes!.Count; i++)
         {
             var node = DiagramInstance.Nodes[i];
             if (args.Checked == true)
@@ -418,7 +418,7 @@
     //Enable or disable drag constraints
     private void DragChanged(ChangeEventArgs<bool> args)
     {
-        for (var i = 0; i < DiagramInstance.Connectors.Count; i++)
+        for (var i = 0; i < DiagramInstance!.Connectors!.Count; i++)
         {
             var connector = DiagramInstance.Connectors[i];
             if (args.Checked == true)
@@ -440,7 +440,7 @@
             }
         }
 
-        for (var i = 0; i < DiagramInstance.Nodes.Count; i++)
+        for (var i = 0; i < DiagramInstance.Nodes!.Count; i++)
         {
             var node = DiagramInstance.Nodes[i];
             if (args.Checked == true)
@@ -503,7 +503,7 @@
                 con.Constraints |= ConnectorConstraints.DragSegmentThumb;
                 break;
         }
-        DiagramConnectors.Add(con);
+        DiagramConnectors!.Add(con);
     }
     //Create Node
     private void CreateNode(string id, double offsetx, NodeBasicShapes shape, string annotation, string constraints)
@@ -534,14 +534,14 @@
             Height = textConnector ? 60 : textNode ? 60 : 100,
             Width = textConnector ? 700 : textNode ? 700 : 100,
             Style = textConnector ? nodeStyle : textNode ? nodeStyle : shapeStyle,
-            Shape = new BasicShape() { Shape = shape, Type = shapes.Basic },
+            Shape = new BasicShape() { Shape = shape, Type = NodeShape.Basic },
             Annotations = new DiagramObjectCollection<ShapeAnnotation>() { shapeAnnotation },
         };
         if (node.ID == "resize")
         {
             node.Width = 130;
         }
-        TextStyle newStyle = node.Annotations[0].Style;
+        TextStyle newStyle = node.Annotations[0].Style!;
         newStyle.Color = textConnector ? "#323232" : textNode ? "#323232" : "black";
         newStyle.Bold = textConnector ? true : textNode ? true : false;
         newStyle.FontSize = textConnector ? 20 : textNode ? 20 : 12.0;
@@ -572,7 +572,7 @@
                 node.Annotations[0].Constraints = AnnotationConstraints.ReadOnly;
                 break;
         }
-        DiagramNodes.Add(node);
+        DiagramNodes!.Add(node);
     }
     @*Hidden:Lines*@
     public void Dispose()
@@ -592,18 +592,18 @@
 
     public void OnUndoItemClick()
     {
-        DiagramInstance.Undo();
+        DiagramInstance!.Undo();
     }
     public void OnRedoItemClick()
     {
-        DiagramInstance.Redo();
+        DiagramInstance!.Redo();
     }
     public void OnZoomInItemClick()
     {
-        DiagramInstance.Zoom(1.2, new DiagramPoint() { X = 100, Y = 100 });
+        DiagramInstance!.Zoom(1.2, new DiagramPoint() { X = 100, Y = 100 });
     }
     public void OnZoomOutItemClick()
     {
-       DiagramInstance.Zoom(1/1.2, new DiagramPoint() { X = 100, Y = 100 });
+       DiagramInstance!.Zoom(1/1.2, new DiagramPoint() { X = 100, Y = 100 });
     }
 }

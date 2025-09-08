@@ -26,7 +26,7 @@
 
         </ol>
     </p>
-    <p>More information on the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/cell-edit-types#custom-editors-using-templatecell-edit-template' aria-label="Navigate to the documentation for data grid cell edit template">cell edit template</a> can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/cell-edit-types' aria-label="Navigate to the documentation for cell-edit-types in DataGrid component">documentation</a> section.</p>
+    <p>More information on the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/cell-edit-types#custom-editors-using-templatecell-edit-template' aria-label="Navigate to the documentation for DataGrid cell edit template">cell edit template</a> can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/cell-edit-types' aria-label="Navigate to the documentation for cell-edit-types in DataGrid component">documentation</a> section.</p>
 </ActionDescription>
 
 <div class="col-lg-12 control-section">
@@ -42,7 +42,7 @@
                     <GridColumn Field="@nameof(Blog.BlogId)" HeaderText="Blog ID" IsPrimaryKey="true" Width="110" ValidationRules="@(new ValidationRules { Required = true})">
 
                         <EditTemplate>
-                            <SfTextBox ID="BlogId" Placeholder="BLOG-0000" @bind-Value="(context as Blog).BlogId" Enabled="@Check">
+                            <SfTextBox ID="BlogId" Placeholder="BLOG-0000" @bind-Value="(context as Blog)!.BlogId" Enabled="@Check">
 
                             </SfTextBox>
                         </EditTemplate>
@@ -53,23 +53,36 @@
                     <GridColumn Field="@nameof(Blog.AuthorName)" HeaderText="Author Name" Width="120">
                         <EditTemplate>
                             @* Using the SfDropdownList *@
-                            <SfDropDownList  DataSource="authorNamesList" TValue="string" TItem="BlogAuthorNames" @bind-Value="((context as Blog).AuthorName)">
-                                <DropDownListFieldSettings Text="authorNames"></DropDownListFieldSettings>
-                            </SfDropDownList>
-
+                            @{
+                                var dropDownAuthor = (context as Blog);
+                            }
+                            @if (dropDownAuthor != null)
+                            {
+                                @* Using the SfDropdownList *@
+                                <SfDropDownList DataSource="authorNamesList" TValue="string" TItem="BlogAuthorNames" @bind-Value="(dropDownAuthor.AuthorName)">
+                                    <DropDownListFieldSettings Text="authorNames"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            }
                         </EditTemplate>
                     </GridColumn>
 
                     <GridColumn Field="@nameof(Blog.Status)" TextAlign="TextAlign.Center" Width="150"  ValidationRules="@(new ValidationRules { Required = true })">
                         <EditTemplate>
-                            <SfDropDownList ID="Status" DataSource="blogStatusList" TValue="string" TItem="BlogStatus" @bind-Value="((context as Blog).Status)">
-                                <DropDownListFieldSettings Text="Statuses"></DropDownListFieldSettings>
-                            </SfDropDownList>
+							@* Using the SfDropdownList *@
+                            @{
+                                var dropDownStatus = (context as Blog);
+                            }
+                            @if (dropDownStatus != null)
+                            {
+                                <SfDropDownList ID="Status" DataSource="blogStatusList" TValue="string" TItem="BlogStatus" @bind-Value="(dropDownStatus.Status)">
+                                    <DropDownListFieldSettings Text="Statuses"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            }
                         </EditTemplate>
-
+                        
                         <Template>
                             @{
-                                var Context = (context as Blog).Status;
+                                var Context = (context as Blog)?.Status;
                                 @if (Context == "Published")
                                 {
                                     <div class="title-published">
@@ -95,7 +108,7 @@
                     <GridColumn Field="@nameof(Blog.Tags)" TextAlign="TextAlign.Center" Width="170" >
                         <Template>
                             @{
-                                var Context = (context as Blog).Tags;
+                                var Context = (context as Blog)?.Tags;
                                 @for (int i = 0; i < Context?.Length; i++)
                                 {
                                     <div class="tags">@Context[i]</div>
@@ -104,10 +117,16 @@
                         </Template>
                         <EditTemplate>
                             @* Using the MultiSelect *@
-                            <SfMultiSelect @ref="multiSelect" DataSource="bloggerContents" TValue="string[]" TItem="TagContent" @bind-Value="((context as Blog).Tags)">
+                            @{
+                                var multiSelectValue = (context as Blog);
+                            }
+                            @if (multiSelectValue != null)
+                            {
+                                <SfMultiSelect @ref="multiSelect" DataSource="bloggerContents" TValue="string[]" TItem="TagContent" @bind-Value="(multiSelectValue.Tags)">
 
-                                <MultiSelectFieldSettings Value="TagTopic"></MultiSelectFieldSettings>
-                            </SfMultiSelect>
+                                    <MultiSelectFieldSettings Value="TagTopic"></MultiSelectFieldSettings>
+                                </SfMultiSelect>
+                            }
                         </EditTemplate>
 
                     </GridColumn>
@@ -154,9 +173,9 @@
 
 @code
 {
-    SfMultiSelect<string[], TagContent> multiSelect;
+    SfMultiSelect<string[], TagContent>? multiSelect;
     public Boolean Check = true;
-    public List<Blog> blogs { get; set; }
+    public List<Blog>? blogs { get; set; }
 
 
     protected override void OnInitialized()
@@ -176,7 +195,7 @@
 
     public void ActionBeginHandler(ActionEventArgs<Blog> args)
     {
-        if (args.RequestType == Syncfusion.Blazor.Grids.Action.Save)
+        if (args.RequestType == Syncfusion.Blazor.Grids.Action.Save && multiSelect != null)
         {
             //Save the multiselect value in Grid datasource.
             args.Data.Tags = multiSelect.Value;
@@ -194,7 +213,7 @@
 
     public class BlogStatus
     {
-        public string Statuses { get; set; }
+        public string? Statuses { get; set; }
     }
 
     public List<BlogStatus> blogStatusList = new List<BlogStatus>
@@ -207,7 +226,7 @@
 
     public class BlogAuthorNames
     {
-        public string authorNames { get; set; }
+        public string? authorNames { get; set; }
     }
 
     public List<BlogAuthorNames> authorNamesList = new List<BlogAuthorNames>
@@ -223,7 +242,7 @@
     public class TagContent
     {
         public int TagId { get; set; }
-        public string TagTopic { get; set; }
+        public string? TagTopic { get; set; }
     }
 
     public List<TagContent> bloggerContents = new List<TagContent>
@@ -240,13 +259,13 @@
     {
 
         [RegularExpression("BLOG-[0-9]*", ErrorMessage = "Blog ID field should start with BLOG-")]
-        public string BlogId { get; set; }
+        public string? BlogId { get; set; }
 
-        public string Title { get; set; }
+        public string? Title { get; set; } 
 
-        public string AuthorName { get; set; }
+        public string? AuthorName { get; set; }
 
-        public string Status { get; set; }
+        public string? Status { get; set; }
 
         public string[] Tags { get; set; } = new string[] { };
 

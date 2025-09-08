@@ -179,25 +179,25 @@
 @code{
     
     DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
-    public DiagramSize SymbolPreviewSettings { get; set; }
-    public SymbolMargin SymbolMarginSettings = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
-    public SfDiagramComponent DiagramComponentRef { get; set; }
-    public SfSymbolPaletteComponent PaletteComponentRef { get; set; }
+    public DiagramSize? SymbolPreviewSettings { get; set; }
+    public SymbolMargin? SymbolMarginSettings = new SymbolMargin { Left = 15, Right = 15, Top = 15, Bottom = 15 };
+    public SfDiagramComponent? DiagramComponentRef { get; set; }
+    public SfSymbolPaletteComponent? PaletteComponentRef { get; set; }
     public DiagramObjectCollection<UserHandle> UserHandleCollection = new DiagramObjectCollection<UserHandle>();
     //Defines Diagram's nodes collection
-    public DiagramObjectCollection<Node> NodeCollection = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node>? NodeCollection = new DiagramObjectCollection<Node>();
 
     //Defines Diagram's connectors collection
-    public DiagramObjectCollection<Connector> DiagramConnectors = new DiagramObjectCollection<Connector>();
+    public DiagramObjectCollection<Connector>? DiagramConnectors = new DiagramObjectCollection<Connector>();
 
     //Define palettes collection
-    private DiagramObjectCollection<Palette> palettes = new DiagramObjectCollection<Palette>();
+    private DiagramObjectCollection<Palette>? palettes = new DiagramObjectCollection<Palette>();
 
     // Defines palette's flow-shape collection
-    private DiagramObjectCollection<NodeBase> BPMNShapeSymbols = new DiagramObjectCollection<NodeBase>();
+    private DiagramObjectCollection<NodeBase>? BPMNShapeSymbols = new DiagramObjectCollection<NodeBase>();
     [Inject]
-    protected IJSRuntime JsRuntime { get; set; }
-    public List<ContextMenuItem> ContextMenuItems { get; set; }
+    protected IJSRuntime? JsRuntime { get; set; }
+    public List<ContextMenuItem>? ContextMenuItems { get; set; }
 
     public List<string> Event = new List<string>() { "EventType", "Trigger" };
     public List<string> BpmnGateWayType = new List<string>() { "GateWayType" };
@@ -214,7 +214,7 @@
     public List<string> BpmnAssociationConnector = new List<string>() { "Sequence", "Message", "Association", "Direction" };
 
     // Defines interval values for GridLines
-    public double[] GridLineIntervals { get; set; }
+    public double[]? GridLineIntervals { get; set; }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
@@ -223,7 +223,7 @@
         {
             UpdateHandle();
         }
-        PaletteComponentRef.Targets = new DiagramObjectCollection<SfDiagramComponent>
+        PaletteComponentRef!.Targets = new DiagramObjectCollection<SfDiagramComponent?>
         {
             DiagramComponentRef
         };
@@ -231,33 +231,33 @@
 
     private void OnSelectionChanged(SelectionChangedEventArgs args)
     {
-        if (args.NewValue.Count > 0 && args.NewValue[0] is Node)
+        if (args.NewValue!.Count > 0 && args.NewValue[0] is Node)
         {
-            DiagramComponentRef.SelectionSettings.Constraints = DiagramComponentRef.SelectionSettings.Constraints | SelectorConstraints.UserHandle;
+            DiagramComponentRef!.SelectionSettings!.Constraints = DiagramComponentRef.SelectionSettings.Constraints | SelectorConstraints.UserHandle;
         }
         else if (args.NewValue.Count > 0)
         {
-            DiagramComponentRef.SelectionSettings.Constraints = DiagramComponentRef.SelectionSettings.Constraints & ~SelectorConstraints.UserHandle;
+            DiagramComponentRef!.SelectionSettings!.Constraints = DiagramComponentRef.SelectionSettings.Constraints & ~SelectorConstraints.UserHandle;
         }
     }
 
     private void OnCreated()
     {
         FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
-        DiagramComponentRef.FitToPage(mobileoptions);
+        DiagramComponentRef!.FitToPage(mobileoptions);
     }
 
     // Method to customize the tool
     public InteractionControllerBase GetCustomTool(DiagramElementAction action, string id)
     {
-        InteractionControllerBase tool = null;
+        InteractionControllerBase? tool = null;
         if (id == "Draw")
         {
-            tool = new DrawTool(DiagramComponentRef);
+            tool = new DrawTool(DiagramComponentRef!);
         }
         else
         {
-            tool = new AddDeleteTool(DiagramComponentRef);
+            tool = new AddDeleteTool(DiagramComponentRef!);
         }
         return tool;
     }
@@ -265,26 +265,26 @@
     public class AddDeleteTool : InteractionControllerBase
     {
         SfDiagramComponent sfDiagram;
-        Node deleteObject = null;
+        Node? deleteObject = null;
         public AddDeleteTool(SfDiagramComponent Diagram) : base(Diagram)
         {
             sfDiagram = Diagram;
         }
         public override void OnMouseDown(DiagramMouseEventArgs args)
         {
-            if (sfDiagram.SelectionSettings.Nodes.Count > 0 && ((sfDiagram.SelectionSettings.Nodes[0]) is Node))
+            if (sfDiagram.SelectionSettings!.Nodes!.Count > 0 && ((sfDiagram.SelectionSettings.Nodes[0]) is Node))
             {
                 deleteObject = (sfDiagram.SelectionSettings.Nodes[0]) as Node;
             }
             base.OnMouseDown(args);
         }
-        public override void OnMouseUp(DiagramMouseEventArgs args)
+        public override void OnMouseUp(DiagramMouseEventArgs? args)
         {
             if (deleteObject != null)
             {
                 sfDiagram.StartGroupAction();
                 sfDiagram.BeginUpdate();
-                sfDiagram.Nodes.Remove(deleteObject);
+                sfDiagram.Nodes!.Remove(deleteObject);
                 _ = sfDiagram.EndUpdateAsync();
                 sfDiagram.EndGroupAction();
             }
@@ -297,14 +297,14 @@
     public class DrawTool : ConnectorDrawingController
     {
         SfDiagramComponent sfDiagram;
-        Connector newConnector = null;
+        Connector? newConnector = null;
         public DrawTool(SfDiagramComponent Diagram) : base(Diagram, DiagramElementAction.ConnectorSourceEnd)
         {
             sfDiagram = Diagram;
             newConnector = new Connector()
                 {
                     ID = "BpmnConnector",
-                    SourceID = sfDiagram.SelectionSettings.Nodes[0].ID,
+                    SourceID = sfDiagram.SelectionSettings!.Nodes![0].ID,
                     Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow },
                     Type = ConnectorSegmentType.Orthogonal,
                 };
@@ -317,7 +317,7 @@
         {
             base.OnMouseDown(args);
         }
-        public override void OnMouseUp(DiagramMouseEventArgs args)
+        public override void OnMouseUp(DiagramMouseEventArgs? args)
         {
             base.OnMouseUp(args);
         }
@@ -343,7 +343,7 @@
                     Text = "Loop",
                     ID = "bpmn_Loop",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "Loop",
                     IconCss = "e-icons e-uncheck", },
@@ -363,7 +363,7 @@
                     Text = "Task Type",
                     ID = "bpmn_TaskType",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "TaskType",
                     IconCss = "e-icons e-uncheck", },
@@ -441,7 +441,7 @@
                     Text = "Condition",
                     ID = "bpmn_Condition",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "Condition",
                     IconCss = "e-icons e-uncheck", },
@@ -458,7 +458,7 @@
                     Text = "Initiating",
                     ID = "bpmn_Initiating",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "Initiating",
                     IconCss = "e-icons e-uncheck", },
@@ -475,7 +475,7 @@
                     Text = "Direction",
                     ID = "bpmn_Direction",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "Direction",
                     IconCss = "e-icons e-uncheck", },
@@ -492,7 +492,7 @@
                     Text = "Activity Type",
                     ID = "bpmn_ActivityType",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "Task",
                     ID = "ActivityType",
                     IconCss = "e-icons e-uncheck", },
@@ -506,7 +506,7 @@
                     Text = "GateWay Type",
                     ID = "bpmn_GateWayType",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "GateWayType",
                     IconCss = "e-icons e-uncheck", },
@@ -538,7 +538,7 @@
                     Text = "Event Type",
                     ID = "bpmn_EventType",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "Start",
                     ID = "Event Type",
                     IconCss = "e-icons e-uncheck", },
@@ -564,7 +564,7 @@
                     Text = "Trigger/Result",
                     ID = "bpmn_Trigger",
                     IconCss = "e-uncheck",
-                     Items = new List<ContextMenuItem>(){
+                     Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "Trigger",
                     IconCss = "e-icons e-uncheck", },
@@ -612,7 +612,7 @@
                     Text = "Collection",
                     ID = "bpmn_Collection",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "Collection",
                     IconCss = "e-icons e-uncheck", },
@@ -626,7 +626,7 @@
                     Text = "Data Object",
                     ID = "bpmn_DataObjectType",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "DataObjectType",
                     IconCss = "e-icons e-uncheck", },
@@ -643,7 +643,7 @@
                     Text = "Boundary",
                     ID = "bpmn_Boundary",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "Default",
                     ID = "Boundary",
                     IconCss = "e-icons e-uncheck", },
@@ -663,7 +663,7 @@
                     Text = "SubProcessTypes",
                     ID = "bpmn_SubProcessTypes",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "None",
                     ID = "SubProcessTypes",
                     IconCss = "e-icons e-uncheck", },
@@ -680,7 +680,7 @@
                     Text = "Orientation",
                     ID = "bpmn_Orientation",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "Left",
                     ID = "Orientation",
                     IconCss = "e-icons e-uncheck", },
@@ -703,7 +703,7 @@
                     Text = "FlowType",
                     ID = "bpmn_FlowType",
                     IconCss = "e-icons e-uncheck",
-                    Items = new List<ContextMenuItem>(){
+                    Items = new List<ContextMenuItem?>(){
                         new ContextMenuItem (){ Text = "AssociationFlow",
                     ID = "FlowType",
                     IconCss = "e-icons e-uncheck", },
@@ -755,7 +755,7 @@
                      new PointPort() { ID="port4", Visibility = PortVisibility.Hidden, Offset = new DiagramPoint() { X = 0.5, Y = 1}, Height = 20, Width = 20 }
                  },
             };
-        NodeCollection.Add(node1);
+        NodeCollection!.Add(node1);
 
         Node node2 = new Node()
             {
@@ -1152,7 +1152,7 @@
             };
         NodeCollection.Add(node16);
         Connector connector1 = new Connector() { ID = "connector1", SourceID = "node1", TargetID = "node2", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
-        DiagramConnectors.Add(connector1);
+        DiagramConnectors!.Add(connector1);
         Connector connector2 = new Connector() { ID = "connector2", SourceID = "node2", TargetID = "node3", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
         DiagramConnectors.Add(connector2);
         Connector connector3 = new Connector() { ID = "connector3", SourceID = "node3", TargetID = "node4", SourcePortID = "port3", TargetPortID = "port1", Type = ConnectorSegmentType.Straight, Shape = new BpmnFlow() { Flow = BpmnFlowType.SequenceFlow } };
@@ -1363,7 +1363,7 @@
     {
         if (args.Element != null && args.Element is Connector connector)
         { 
-            if (connector.ID.Contains("Message Flow"))
+            if (connector.ID!.Contains("Message Flow"))
                 connector.Shape = new BpmnFlow() { Flow = BpmnFlowType.MessageFlow };
         }
         if (args.Element is Node node && node.Tooltip != null)
@@ -1379,8 +1379,8 @@
     }
     private void OnNodeCreating(IDiagramObject obj)
     {
-        Node node = obj as Node;
-        if (node.Shape is BpmnEvent)
+        Node? node = obj as Node;
+        if (node!.Shape is BpmnEvent)
         {
             node.Width = 50;
             node.Height = 50;
@@ -1424,11 +1424,11 @@
     }
     private void OnConnectorCreating(IDiagramObject obj)
     {
-        Connector node = obj as Connector;
-        node.Style.Fill = "black";
+        Connector? node = obj as Connector;
+        node!.Style!.Fill = "black";
         node.Style.StrokeColor = "black";
         node.Style.Opacity = 1;
-        node.TargetDecorator.Style.Fill = "black";
+        node.TargetDecorator!.Style.Fill = "black";
         node.TargetDecorator.Style.StrokeColor = "black";
     }
     private void UpdateHandle()
@@ -1462,10 +1462,10 @@
     }
     private void ItemClicked(DiagramMenuClickEventArgs args)
     {
-        if (DiagramComponentRef.SelectionSettings.Nodes.Count != 0 && DiagramComponentRef.SelectionSettings.Connectors.Count == 0)
+        if (DiagramComponentRef!.SelectionSettings!.Nodes!.Count != 0 && DiagramComponentRef.SelectionSettings.Connectors!.Count == 0)
         {
             Node node = DiagramComponentRef.SelectionSettings.Nodes[0];
-            if (args.Item.ID == "Loop")
+            if (args.Item!.ID == "Loop")
             {
                 if (node.Shape is BpmnActivity bpmnActivity)
                 {
@@ -1923,12 +1923,12 @@
                 }
             }
         }
-        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors.Count != 0)
+        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors!.Count != 0)
         {
             Connector connector = DiagramComponentRef.SelectionSettings.Connectors[0];
             if (connector.Shape is BpmnFlow bpmnShape)
             { 
-                if (args.Item.ID == "bpmn_Sequence")
+                if (args.Item!.ID == "bpmn_Sequence")
                 {
                     bpmnShape.Flow = BpmnFlowType.SequenceFlow;
                 } 
@@ -1990,19 +1990,19 @@
     }
     private void ContextMenuOpen(DiagramMenuOpeningEventArgs args)
     {
-        if (DiagramComponentRef.SelectionSettings.Nodes.Count != 0 && DiagramComponentRef.SelectionSettings.Connectors.Count == 0)
+        if (DiagramComponentRef!.SelectionSettings!.Nodes!.Count != 0 && DiagramComponentRef.SelectionSettings.Connectors!.Count == 0)
         {
             Node node = DiagramComponentRef.SelectionSettings.Nodes[0];
 
-            if (node.Shape.Type == NodeShapes.Bpmn)
+            if (node.Shape!.Type == NodeShapes.Bpmn)
             {
                 if (node.Shape is BpmnEvent bpmnEvent)
                 {
-                    foreach (var item in args.Items)
+                    foreach (var item in args.Items!)
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && !Event.Contains(item.ID.Split('_')[1]))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && Event.Contains(item.ID.Split('_')[1]))
                         {
@@ -2010,9 +2010,9 @@
                             {
                                 if (bpmnEvent.EventType == BpmnEventType.Start)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Start")
+                                        if (subItem!.Text == "Start")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2024,9 +2024,9 @@
                                 }
                                 if (bpmnEvent.EventType == BpmnEventType.NonInterruptingStart)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Start (Non-Interrupting)")
+                                        if (subItem!.Text == "Start (Non-Interrupting)")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2038,9 +2038,9 @@
                                 }
                                 if (bpmnEvent.EventType == BpmnEventType.Intermediate)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Intermediate")
+                                        if (subItem!.Text == "Intermediate")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2052,9 +2052,9 @@
                                 }
                                 if (bpmnEvent.EventType == BpmnEventType.NonInterruptingIntermediate)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Intermediate (Non-Interrupting)")
+                                        if (subItem!.Text == "Intermediate (Non-Interrupting)")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2066,9 +2066,9 @@
                                 }
                                 if (bpmnEvent.EventType == BpmnEventType.ThrowingIntermediate)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Intermediate (Throwing)")
+                                        if (subItem!.Text == "Intermediate (Throwing)")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2080,9 +2080,9 @@
                                 }
                                 if (bpmnEvent.EventType == BpmnEventType.End)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "End")
+                                        if (subItem!.Text == "End")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2097,9 +2097,9 @@
                             {
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.None)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "None")
+                                        if (subItem!.Text == "None")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2111,9 +2111,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Error)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Error")
+                                        if (subItem!.Text == "Error")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2125,9 +2125,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Timer)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Timer")
+                                        if (subItem!.Text == "Timer")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2139,9 +2139,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Terminate)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Terminate")
+                                        if (subItem!.Text == "Terminate")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2153,9 +2153,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Multiple)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Multiple")
+                                        if (subItem!.Text == "Multiple")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2167,9 +2167,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Message)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Message")
+                                        if (subItem!.Text == "Message")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2181,9 +2181,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Cancel)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Cancel")
+                                        if (subItem!.Text == "Cancel")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2195,9 +2195,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Compensation)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Compensation")
+                                        if (subItem!.Text == "Compensation")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2209,9 +2209,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Conditional)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Conditional")
+                                        if (subItem!.Text == "Conditional")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2223,9 +2223,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Error)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Error")
+                                        if (subItem!.Text == "Error")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2237,9 +2237,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Parallel)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Parallel Multiple")
+                                        if (subItem!.Text == "Parallel Multiple")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2251,9 +2251,9 @@
                                 }
                                 if (bpmnEvent.Trigger == BpmnEventTrigger.Link)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Link")
+                                        if (subItem!.Text == "Link")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2269,11 +2269,11 @@
                 }
                 else if (node.Shape is BpmnGateway bpmnGateway)
                 {
-                    foreach (var item in args.Items)
+                    foreach (var item in args.Items!)
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && !BpmnGateWayType.Contains(item.ID.Split('_')[1]))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && BpmnGateWayType.Contains(item.ID.Split('_')[1]))
                         {
@@ -2281,9 +2281,9 @@
                             {
                                 if (bpmnGateway.GatewayType == BpmnGatewayType.None)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "None")
+                                        if (subItem!.Text == "None")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2295,9 +2295,9 @@
                                 }
                                 if (bpmnGateway.GatewayType == BpmnGatewayType.Inclusive)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Inclusive")
+                                        if (subItem!.Text == "Inclusive")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2310,9 +2310,9 @@
 
                                 if (bpmnGateway.GatewayType == BpmnGatewayType.Exclusive)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Exclusive")
+                                        if (subItem!.Text == "Exclusive")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2325,9 +2325,9 @@
 
                                 if (bpmnGateway.GatewayType == BpmnGatewayType.Parallel)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Parallel")
+                                        if (subItem!.Text == "Parallel")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2340,9 +2340,9 @@
 
                                 if (bpmnGateway.GatewayType == BpmnGatewayType.EventBased)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Event Based")
+                                        if (subItem!.Text == "Event Based")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2355,9 +2355,9 @@
 
                                 if (bpmnGateway.GatewayType == BpmnGatewayType.ExclusiveEventBased)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Event Based (Exclusive)")
+                                        if (subItem!.Text == "Event Based (Exclusive)")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2369,9 +2369,9 @@
                                 }
                                 if (bpmnGateway.GatewayType == BpmnGatewayType.ParallelEventBased)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Event Based (Parallel)")
+                                        if (subItem!.Text == "Event Based (Parallel)")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2383,9 +2383,9 @@
                                 }
                                 if (bpmnGateway.GatewayType == BpmnGatewayType.Complex)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Complex")
+                                        if (subItem!.Text == "Complex")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2401,33 +2401,33 @@
                 }
                 else if (node.Shape is BpmnMessage)
                 {
-                    foreach (var item in args.Items)
+                    foreach (var item in args.Items!)
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && !BpmnMessageData.Contains(item.ID.Split('_')[1]))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && BpmnMessageData.Contains(item.ID.Split('_')[1]))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                     }
                 }
                 else if (node.Shape is BpmnDataObject bpmnDataObject)
                 {
-                    foreach (var item in args.Items)
+                    foreach (var item in args.Items!)
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && !BpmnDataObjectProperties.Contains(item.ID.Split('_')[1]))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && BpmnDataObjectProperties.Contains(item.ID.Split('_')[1]))
                         {
                             if (item.Text == "Collection")
                             {
-                                foreach (var subItem in item.Items)
+                                foreach (var subItem in item.Items!)
                                 {
-                                    if ((subItem.Text == "Collection" && bpmnDataObject.IsCollectiveData) || (subItem.Text == "None" && !bpmnDataObject.IsCollectiveData))
+                                    if ((subItem!.Text == "Collection" && bpmnDataObject.IsCollectiveData) || (subItem.Text == "None" && !bpmnDataObject.IsCollectiveData))
                                     {
                                         subItem.IconCss = "e-icons e-check";
                                     }
@@ -2439,9 +2439,9 @@
                             }
                             if (item.Text == "Data Object")
                             {
-                                foreach (var subItem in item.Items)
+                                foreach (var subItem in item.Items!)
                                 {
-                                    if (subItem.Text == bpmnDataObject.Type.ToString())
+                                    if (subItem!.Text == bpmnDataObject.Type.ToString())
                                     {
                                         subItem.IconCss = "e-icons e-check";
                                     }
@@ -2456,31 +2456,31 @@
                 }
                 else if (node.Shape is BpmnDataStore)
                 {
-                    foreach (var item in args.Items)
+                    foreach (var item in args.Items!)
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && !BpmnDataStore.Contains(item.ID.Split('_')[1]))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                     }
                 }
                 else if (node.Shape is BpmnActivity bpmnActivity)
                 {
-                    foreach (var item in args.Items)
+                    foreach (var item in args.Items!)
                     {
                         if (bpmnActivity.ActivityType == BpmnActivityType.Task)
                         {
                             if (item.ID.Split('_')[0] == "bpmn" && !(BpmnActivityProperties.Contains(item.ID.Split('_')[1]) || BpmnTaskProperties.Contains(item.ID.Split('_')[1])))
                             {
-                                args.HiddenItems.Add(item.ID);
+                                args.HiddenItems!.Add(item.ID);
                             }
                             if (item.Text == "Task Type")
                             {
                                 if (bpmnActivity.TaskType == BpmnTaskType.None)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "None")
+                                        if (subItem!.Text == "None")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2492,9 +2492,9 @@
                                 }
                                 if (bpmnActivity.TaskType == BpmnTaskType.Service)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Service")
+                                        if (subItem!.Text == "Service")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2506,9 +2506,9 @@
                                 }
                                 if (bpmnActivity.TaskType == BpmnTaskType.Receive)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Receive")
+                                        if (subItem!.Text == "Receive")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2520,9 +2520,9 @@
                                 }
                                 if (bpmnActivity.TaskType == BpmnTaskType.Send)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Send")
+                                        if (subItem!.Text == "Send")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2534,9 +2534,9 @@
                                 }
                                 if (bpmnActivity.TaskType == BpmnTaskType.InstantiatingReceive)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Instantiating Receive")
+                                        if (subItem!.Text == "Instantiating Receive")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2548,9 +2548,9 @@
                                 }
                                 if (bpmnActivity.TaskType == BpmnTaskType.Manual)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Manual")
+                                        if (subItem!.Text == "Manual")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2562,9 +2562,9 @@
                                 }
                                 if (bpmnActivity.TaskType == BpmnTaskType.BusinessRule)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Business Rule")
+                                        if (subItem!.Text == "Business Rule")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2576,9 +2576,9 @@
                                 }
                                 if (bpmnActivity.TaskType == BpmnTaskType.User)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "User")
+                                        if (subItem!.Text == "User")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2590,9 +2590,9 @@
                                 }
                                 if (bpmnActivity.TaskType == BpmnTaskType.Script)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Script")
+                                        if (subItem!.Text == "Script")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2620,7 +2620,7 @@
                         {
                             if (item.ID.Split('_')[0] == "bpmn" && !(BpmnActivityProperties.Contains(item.ID.Split('_')[1]) || ActivityCollapsedSubProcess.Contains(item.ID.Split('_')[1])))
                             {
-                                args.HiddenItems.Add(item.ID);
+                                args.HiddenItems!.Add(item.ID);
                             }
                             if (item.ID.Split('_')[0] == "bpmn" && ActivityCollapsedSubProcess.Contains(item.ID.Split('_')[1]))
                             {
@@ -2640,9 +2640,9 @@
                                 {
                                     if (bpmnActivity.SubProcessType == BpmnSubProcessType.Default)
                                     {
-                                        foreach (var subItem in item.Items)
+                                        foreach (var subItem in item.Items!)
                                         {
-                                            if (subItem.Text == "Default")
+                                            if (subItem!.Text == "Default")
                                             {
                                                 subItem.IconCss = "e-icons e-check";
                                             }
@@ -2654,9 +2654,9 @@
                                     }
                                     if (bpmnActivity.SubProcessType == BpmnSubProcessType.Event)
                                     {
-                                        foreach (var subItem in item.Items)
+                                        foreach (var subItem in item.Items!)
                                         {
-                                            if (subItem.Text == "Event")
+                                            if (subItem!.Text == "Event")
                                             {
                                                 subItem.IconCss = "e-icons e-check";
                                             }
@@ -2668,9 +2668,9 @@
                                     }
                                     if (bpmnActivity.SubProcessType == BpmnSubProcessType.Call)
                                     {
-                                        foreach (var subItem in item.Items)
+                                        foreach (var subItem in item.Items!)
                                         {
-                                            if (subItem.Text == "Call")
+                                            if (subItem!.Text == "Call")
                                             {
                                                 subItem.IconCss = "e-icons e-check";
                                             }
@@ -2682,9 +2682,9 @@
                                     }
                                     if (bpmnActivity.SubProcessType == BpmnSubProcessType.Transaction)
                                     {
-                                        foreach (var subItem in item.Items)
+                                        foreach (var subItem in item.Items!)
                                         {
-                                            if (subItem.Text == "Transaction")
+                                            if (subItem!.Text == "Transaction")
                                             {
                                                 subItem.IconCss = "e-icons e-check";
                                             }
@@ -2704,9 +2704,9 @@
                             {
                                 if (bpmnActivity.Loop == BpmnLoopCharacteristic.None)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "None")
+                                        if (subItem!.Text == "None")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2718,9 +2718,9 @@
                                 }
                                 if (bpmnActivity.Loop == BpmnLoopCharacteristic.Standard)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Standard")
+                                        if (subItem!.Text == "Standard")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2732,9 +2732,9 @@
                                 }
                                 if (bpmnActivity.Loop == BpmnLoopCharacteristic.ParallelMultiInstance)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Parallel Multi-Instance")
+                                        if (subItem!.Text == "Parallel Multi-Instance")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2746,9 +2746,9 @@
                                 }
                                 if (bpmnActivity.Loop == BpmnLoopCharacteristic.SequenceMultiInstance)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Sequential Multi-Instance")
+                                        if (subItem!.Text == "Sequential Multi-Instance")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2774,9 +2774,9 @@
                             {
                                 if (bpmnActivity.ActivityType == BpmnActivityType.Task)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Task")
+                                        if (subItem!.Text == "Task")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2788,9 +2788,9 @@
                                 }
                                 if (bpmnActivity.ActivityType == BpmnActivityType.CollapsedSubProcess)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Collapsed Sub-Process")
+                                        if (subItem!.Text == "Collapsed Sub-Process")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2806,11 +2806,11 @@
                 }
                 else if (node.Shape is BpmnExpandedSubProcess bpmnExpandedSubProcess)
                 {
-                    foreach (var item in args.Items)
+                    foreach (var item in args.Items!)
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && !ExpandedSubProcess.Contains(item.ID.Split('_')[1]))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && ExpandedSubProcess.Contains(item.ID.Split('_')[1]))
                         {
@@ -2818,9 +2818,9 @@
                             {
                                 if (bpmnExpandedSubProcess.Loop == BpmnLoopCharacteristic.None)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "None")
+                                        if (subItem!.Text == "None")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2832,9 +2832,9 @@
                                 }
                                 if (bpmnExpandedSubProcess.Loop == BpmnLoopCharacteristic.Standard)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Standard")
+                                        if (subItem!.Text == "Standard")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2846,9 +2846,9 @@
                                 }
                                 if (bpmnExpandedSubProcess.Loop == BpmnLoopCharacteristic.ParallelMultiInstance)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Parallel Multi-Instance")
+                                        if (subItem!.Text == "Parallel Multi-Instance")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2860,9 +2860,9 @@
                                 }
                                 if (bpmnExpandedSubProcess.Loop == BpmnLoopCharacteristic.SequenceMultiInstance)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Sequential Multi-Instance")
+                                        if (subItem!.Text == "Sequential Multi-Instance")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2899,9 +2899,9 @@
                             {
                                 if (bpmnExpandedSubProcess.SubProcessType == BpmnSubProcessType.Default)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Default")
+                                        if (subItem!.Text == "Default")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2913,9 +2913,9 @@
                                 }
                                 if (bpmnExpandedSubProcess.SubProcessType == BpmnSubProcessType.Event)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Event")
+                                        if (subItem!.Text == "Event")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2927,9 +2927,9 @@
                                 }
                                 if (bpmnExpandedSubProcess.SubProcessType == BpmnSubProcessType.Call)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Call")
+                                        if (subItem!.Text == "Call")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2941,9 +2941,9 @@
                                 }
                                 if (bpmnExpandedSubProcess.SubProcessType == BpmnSubProcessType.Transaction)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Transaction")
+                                        if (subItem!.Text == "Transaction")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2959,11 +2959,11 @@
                 }
                 else if (node.Shape is BpmnTextAnnotation bpmnTextAnnotation)
                 {
-                    foreach (var item in args.Items)
+                    foreach (var item in args.Items!)
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && !BpmnTextAnnotation.Contains(item.ID.Split('_')[1]))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && BpmnTextAnnotation.Contains(item.ID.Split('_')[1]))
                         {
@@ -2971,9 +2971,9 @@
                             {
                                 if (bpmnTextAnnotation.TextAnnotationDirection == TextAnnotationDirection.Left)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Left")
+                                        if (subItem!.Text == "Left")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2985,9 +2985,9 @@
                                 }
                                 if (bpmnTextAnnotation.TextAnnotationDirection == TextAnnotationDirection.Right)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Right")
+                                        if (subItem!.Text == "Right")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -2999,9 +2999,9 @@
                                 }
                                 if (bpmnTextAnnotation.TextAnnotationDirection == TextAnnotationDirection.Top)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Top")
+                                        if (subItem!.Text == "Top")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3013,9 +3013,9 @@
                                 }
                                 if (bpmnTextAnnotation.TextAnnotationDirection == TextAnnotationDirection.Bottom)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Bottom")
+                                        if (subItem!.Text == "Bottom")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3027,9 +3027,9 @@
                                 }
                                 if (bpmnTextAnnotation.TextAnnotationDirection == TextAnnotationDirection.Auto)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Automatic")
+                                        if (subItem!.Text == "Automatic")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3045,19 +3045,19 @@
                 }
             }
         }
-        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors.Count != 0)
+        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors!.Count != 0)
         {
             Connector connector = DiagramComponentRef.SelectionSettings.Connectors[0];
-            Node node = (Node)DiagramComponentRef.GetObject(connector.TargetID);
+            Node node = (Node)DiagramComponentRef.GetObject(connector.TargetID)!;
             if (connector.Shape is BpmnFlow bpmnShape)
             {
-                foreach (var item in args.Items)
+                foreach (var item in args.Items!)
                 {
                     if (bpmnShape.Flow == BpmnFlowType.AssociationFlow || bpmnShape.Flow == BpmnFlowType.BiDirectionalAssociationFlow || bpmnShape.Flow == BpmnFlowType.DirectionalAssociationFlow)
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && (!BpmnAssociationConnector.Contains(item.ID.Split('_')[1]) || node != null && node.Shape is BpmnTextAnnotation))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && (BpmnAssociationConnector.Contains(item.ID.Split('_')[1])))
                         {
@@ -3073,9 +3073,9 @@
                             {
                                 if (bpmnShape.Flow == BpmnFlowType.AssociationFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "None")
+                                        if (subItem!.Text == "None")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3087,9 +3087,9 @@
                                 }
                                 if (bpmnShape.Flow == BpmnFlowType.DirectionalAssociationFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "one")
+                                        if (subItem!.Text == "one")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3101,9 +3101,9 @@
                                 }
                                 if (bpmnShape.Flow == BpmnFlowType.BiDirectionalAssociationFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Both")
+                                        if (subItem!.Text == "Both")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3120,7 +3120,7 @@
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && (!BpmnMessageConnector.Contains(item.ID.Split('_')[1]) || node != null && node.Shape is BpmnTextAnnotation))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && (BpmnMessageConnector.Contains(item.ID.Split('_')[1]) || node != null && node.Shape is BpmnTextAnnotation))
                         {
@@ -3136,9 +3136,9 @@
                             {
                                 if (bpmnShape.Flow == BpmnFlowType.MessageFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "None")
+                                        if (subItem!.Text == "None")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3150,9 +3150,9 @@
                                 }
                                 if (bpmnShape.Flow == BpmnFlowType.InitiatingMessageFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Initiating")
+                                        if (subItem!.Text == "Initiating")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3164,9 +3164,9 @@
                                 }
                                 if (bpmnShape.Flow == BpmnFlowType.NonInitiatingMessageFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Non-Initiating")
+                                        if (subItem!.Text == "Non-Initiating")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3183,7 +3183,7 @@
                     {
                         if (item.ID.Split('_')[0] == "bpmn" && (!BpmnSequenceConnector.Contains(item.ID.Split('_')[1]) || node != null && node.Shape is BpmnTextAnnotation))
                         {
-                            args.HiddenItems.Add(item.ID);
+                            args.HiddenItems!.Add(item.ID);
                         }
                         if (item.ID.Split('_')[0] == "bpmn" && (BpmnSequenceConnector.Contains(item.ID.Split('_')[1]) || node != null && node.Shape is BpmnTextAnnotation))
                         {
@@ -3199,9 +3199,9 @@
                             {
                                 if (bpmnShape.Flow == BpmnFlowType.SequenceFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "None")
+                                        if (subItem!.Text == "None")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3213,9 +3213,9 @@
                                 }
                                 if (bpmnShape.Flow == BpmnFlowType.ConditionalSequenceFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Conditional")
+                                        if (subItem!.Text == "Conditional")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3227,9 +3227,9 @@
                                 }
                                 if (bpmnShape.Flow == BpmnFlowType.DefaultSequenceFlow)
                                 {
-                                    foreach (var subItem in item.Items)
+                                    foreach (var subItem in item.Items!)
                                     {
-                                        if (subItem.Text == "Default")
+                                        if (subItem!.Text == "Default")
                                         {
                                             subItem.IconCss = "e-icons e-check";
                                         }
@@ -3245,21 +3245,20 @@
                 }
             }
         }
-        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors.Count == 0)
+        else if (DiagramComponentRef.SelectionSettings.Nodes.Count == 0 && DiagramComponentRef.SelectionSettings.Connectors!.Count == 0)
         {
-            foreach (var item in args.Items)
+            foreach (var item in args.Items!)
             {
                 if (item.ID.Split('_')[0] == "bpmn")
                 {
-                    args.HiddenItems.Add(item.ID);
+                    args.HiddenItems?.Add(item.ID);
                 }
             }
         }
     }
-    string data;
     public async Task ShowHideSymbolPalette()
     {
-        await JsRuntime.InvokeAsync<object>("openPalette");
+        await JsRuntime!.InvokeAsync<object>("openPalette");
     }
     public void Dispose()
     {

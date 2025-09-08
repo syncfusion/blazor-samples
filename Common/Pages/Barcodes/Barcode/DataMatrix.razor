@@ -266,13 +266,13 @@
     double bottomMargin = 10;
     double topTextMargin = 0;
     double bottomTextMargin = 0;
-    private SfDataMatrixGenerator dataMatrixGenerator;
+    private SfDataMatrixGenerator? dataMatrixGenerator;
     string CssClass { get; set; } = "e-success";
     string size = "Auto";
     DataMatrixSize dataMatrixSize = DataMatrixSize.Auto;
     public class MatrixSize
     {
-        public string dataMatrix { get; set; }
+        public string? dataMatrix { get; set; }
         public int value { get; set; }
     }
     List<MatrixSize> matrixSize = new List<MatrixSize> {
@@ -312,7 +312,7 @@
     DataMatrixEncoding dataMatrixEncoding = DataMatrixEncoding.Auto;
     public class MatrixEncoding
     {
-        public string matrixEncoding { get; set; }
+        public string? matrixEncoding { get; set; }
     }
     List<MatrixEncoding> encodingLevel = new List<MatrixEncoding> {
     new MatrixEncoding() { matrixEncoding = "Auto" },
@@ -340,11 +340,11 @@
     }
     public void BackgroundColorChange(ColorPickerEventArgs args)
     {
-        backgroundColor = args.CurrentValue.Hex.ToString();
+        backgroundColor = args.CurrentValue!.Hex!.ToString();
     }
     public void ForeColorChange(ColorPickerEventArgs args)
     {
-        foreColor = args.CurrentValue.Hex.ToString();
+        foreColor = args.CurrentValue!.Hex!.ToString();
     }
     public void TopMarginChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
     {
@@ -366,10 +366,10 @@
     {
         if (dataMatrixEncoding == DataMatrixEncoding.ASCIINumeric)
         {
-            if (Regex.IsMatch(args.Value.ToString(), @"^\d+$"))
+            if (Regex.IsMatch(args.Value!.ToString()!, @"^\d+$"))
             {
                 CssClass = "e-success";
-                barcodeValue = args.Value.ToString();
+                barcodeValue = args.Value.ToString()!;
             }
             else
             {
@@ -379,12 +379,12 @@
         else
         {
             CssClass = "e-success";
-            barcodeValue = args.Value.ToString();
+            barcodeValue = args.Value!.ToString()!;
         }
     }
     private void matrixSizeChanged(ChangeEventArgs<string, MatrixSize> args)
     {
-        size = args.Value;
+        size = args.Value!;
         switch (size)
         {
             case "Auto":
@@ -546,46 +546,33 @@
     }
     public void matrixEncodingChanged(ChangeEventArgs<string, MatrixEncoding> args)
     {
-        encoding = args.Value;
+        encoding = args.Value!;
+        CssClass = "e-success";
         switch (encoding)
         {
             case "Auto":
-                {
-                    CssClass = "e-success";
-                    dataMatrixEncoding = DataMatrixEncoding.Auto;
-                    CssClass = "e-success";
-                    break;
-                }
+                dataMatrixEncoding = DataMatrixEncoding.Auto;
+                break;
             case "ASCII":
-                {
-                    CssClass = "e-success";
-                    dataMatrixEncoding = DataMatrixEncoding.ASCII;
-                    CssClass = "e-success";
-                    break;
-                }
+                dataMatrixEncoding = DataMatrixEncoding.ASCII;
+                break;
             case "ASCIINumeric":
+                if (Regex.IsMatch(dataMatrixGenerator!.Value, @"^\d+$"))
                 {
-                    if (Regex.IsMatch(dataMatrixGenerator.Value, @"^\d+$"))
-                    {
-                        dataMatrixEncoding = DataMatrixEncoding.ASCIINumeric;
-                    }
-                    else
-                    {
-                        CssClass = "e-error";
-                    }
-                    break;
+                    dataMatrixEncoding = DataMatrixEncoding.ASCIINumeric;
                 }
+                else
+                {
+                    CssClass = "e-error";
+                }
+                break;
             case "Base256":
-                {
-                    CssClass = "e-success";
-                    dataMatrixEncoding = DataMatrixEncoding.Base256;
-                    CssClass = "e-success";
-                    break;
-                }
+                dataMatrixEncoding = DataMatrixEncoding.Base256;
+                break;
         }
     }
     private void ExportBarcode()
     {
-        dataMatrixGenerator.Export("DataMatrix", BarcodeExportType.JPG);
+        dataMatrixGenerator!.Export("DataMatrix", BarcodeExportType.JPG);
     }
 }

@@ -60,7 +60,7 @@ namespace BlazorDemos
                 FileName = "DateRange.razor",
                 MetaTitle = "Blazor Calendar Date Range | Min Max Date Selection | Syncfusion",
                 HeaderText = "Blazor Calendar Example - Date Range",
-                MetaDescription = "This Blazor Calendar date range example demonstrates minimum and maximum date restrictions for controlled date selection within specified boundaries.",
+                MetaDescription = "This Blazor Calendar date range example demonstrates the minimum and maximum date restrictions for controlled date selection within specified boundaries.",
                 Type = SampleType.None
             },
               new Sample
@@ -72,7 +72,7 @@ namespace BlazorDemos
                 FileName = "MultiSelection.razor",
                 MetaTitle = "Blazor Calendar Multi Selection | Multiple Dates | Syncfusion",
                 HeaderText = "Blazor Calendar Example - Multi Selection",
-                MetaDescription = "This Blazor Calendar multi selection example demonstrates multiple date selection functionality for selecting multiple dates simultaneously in calendar applications.",
+                MetaDescription = "This Blazor Calendar multi selection demo shows multiple date selection functionality for selecting multiple dates simultaneously in calendar applications.",
                 Type = SampleType.None
             },
               new Sample
@@ -84,7 +84,7 @@ namespace BlazorDemos
                 FileName = "MonthPicker.razor",
                 MetaTitle = "Blazor Calendar Month Picker | Month Selection | Syncfusion",
                 HeaderText = "Blazor Calendar Example - Month Picker",
-                MetaDescription = "This Blazor Calendar month picker example demonstrates month-level selection with year navigation for month-based date selection scenarios.",
+                MetaDescription = "This Blazor Calendar month picker example demonstrates the month-level selection with intuitive year navigation for month-based date selection scenarios.",
                 Type = SampleType.None
             },
             new Sample
@@ -96,7 +96,7 @@ namespace BlazorDemos
                 FileName = "WeekNumber.razor",
                 MetaTitle = "Blazor Calendar Week Number | Week Display | Syncfusion",
                 HeaderText = "Blazor Calendar Example - Week Number",
-                MetaDescription = "This Blazor Calendar week number example demonstrates week number display functionality for enhanced calendar navigation and week-based planning.",
+                MetaDescription = "This Blazor Calendar demo highlights week number functionality. It enhances navigation and supports week-based planning, providing an intuitive user experience.",
                 Type = SampleType.None
             },
             new Sample
@@ -135,7 +135,7 @@ namespace BlazorDemos
                 FileName = "DefaultFunctionalities.razor",
                 MetaTitle = "Blazor DatePicker Default | Date Input Component | Syncfusion",
                 HeaderText = "Blazor DatePicker Example - Default Functionalities",
-                MetaDescription = "This Blazor DatePicker default example demonstrates date input with calendar popup, formatting options, and validation for form-based date selection.",
+                MetaDescription = "This Blazor DatePicker default example demonstrates the date input with calendar popup, formatting options, and validation for form-based date selection.",
                 Type = SampleType.None,
             },
               new Sample
@@ -171,7 +171,7 @@ namespace BlazorDemos
                 FileName = "DateRange.razor",
                 MetaTitle = "Blazor DatePicker Date Range | Min Max Date Input | Syncfusion",
                 HeaderText = "Blazor DatePicker Example - Date Range",
-                MetaDescription = "This Blazor DatePicker date range example demonstrates minimum and maximum date restrictions for controlled date input within specified boundaries.",
+                MetaDescription = "This Blazor DatePicker date range example demonstrates the minimum and maximum date restrictions for controlled date input within specified boundaries.",
                 Type = SampleType.None
             },
              new Sample
@@ -207,7 +207,7 @@ namespace BlazorDemos
                 FileName = "MonthPicker.razor",
                 MetaTitle = "Blazor DatePicker Month Picker | Month Selection Input | Syncfusion",
                 HeaderText = "Blazor DatePicker Example - Month Picker",
-                MetaDescription = "This Blazor DatePicker month picker example demonstrates month-level selection input with year navigation for month-based date entry scenarios.",
+                MetaDescription = "This Blazor DatePicker month picker example demonstrates month-level selection input with seamless year navigation for month-based date entry scenarios.",
                 Type = SampleType.None
             },
             new Sample
@@ -219,7 +219,7 @@ namespace BlazorDemos
                 FileName = "WeekNumber.razor",
                 MetaTitle = "Blazor DatePicker Week Number | Week Display Input | Syncfusion",
                 HeaderText = "Blazor DatePicker Example - Week Number",
-                MetaDescription = "This Blazor DatePicker week number example demonstrates week number display in calendar popup for enhanced date navigation and week-based selection.",
+                MetaDescription = "This Blazor DatePicker week number example demonstrates week number display within calendar popup for enhanced date navigation and week-based selection.",
                 Type = SampleType.None
             },
              new Sample
@@ -231,7 +231,7 @@ namespace BlazorDemos
                 FileName = "FormsValidation.razor",
                 MetaTitle = "Blazor DatePicker Validation | Form Validation | Syncfusion",
                 HeaderText = "Blazor DatePicker Example - Validation",
-                MetaDescription = "This Blazor DatePicker validation example demonstrates form validation with error handling and validation messages for robust date input forms.",
+                MetaDescription = "This Blazor DatePicker validation example demonstrates form validation with effective error handling and validation messages for robust date input forms.",
                 Type = SampleType.None
             },
              new Sample
@@ -255,7 +255,7 @@ namespace BlazorDemos
                 FileName = "IslamicDatePicker.razor",
                 MetaTitle = "Blazor Islamic DatePicker | Hijri Calendar Input | Syncfusion",
                 HeaderText = "Blazor DatePicker Example - Islamic DatePicker",
-                MetaDescription = "This Blazor Islamic DatePicker example demonstrates Hijri calendar input support with Islamic date system for culturally appropriate date entry.",
+                MetaDescription = "This Blazor Islamic DatePicker example demonstrates Hijri calendar input support, facilitating culturally appropriate date entry using the Islamic date.",
                 Type = SampleType.None
             }
         };
@@ -280,9 +280,9 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Disabled-Dates",
                 FileName = "DisabledDates.razor",
-                MetaTitle = "Blazor DateTimePicker Disabled Dates | DateTime Restriction | Syncfusion",
+                MetaTitle = "Blazor DateTimePicker Disabled Dates | Restriction | Syncfusion",
                 HeaderText = "Blazor DateTimePicker Example - Disabled Dates",
-                MetaDescription = "This Blazor DateTimePicker disabled dates example demonstrates date restriction functionality with customizable disabled date ranges for controlled datetime input.",
+                MetaDescription = "This Blazor DateTimePicker disabled dates demo shows date restriction functionality with customizable disabled date ranges for controlled datetime input.",
                 Type = SampleType.None
             },
              new Sample
@@ -292,7 +292,7 @@ namespace BlazorDemos
                 Directory = "Calendars/DateTimePicker",
                 Url = "DateTime-Picker/Special-Dates",
                 FileName = "SpecialDates.razor",
-                MetaTitle = "Blazor DateTimePicker Special Dates | DateTime Highlighting | Syncfusion",
+                MetaTitle = "Blazor DateTimePicker Special Dates | DateTime Highlight | Syncfusion",
                 HeaderText = "Blazor DateTimePicker Example - Special Dates",
                 MetaDescription = "This Blazor DateTimePicker special dates example demonstrates date highlighting with custom styling for holidays and important dates in datetime picker.",
                 Type = SampleType.None
@@ -378,7 +378,7 @@ namespace BlazorDemos
                 FileName = "IslamicDateTimePicker.razor",
                 MetaTitle = "Blazor Islamic DateTimePicker | Hijri DateTime Input | Syncfusion",
                 HeaderText = "Blazor DateTimePicker Example - Islamic DateTimePicker",
-                MetaDescription = "This Blazor Islamic DateTimePicker example demonstrates Hijri calendar datetime input support with Islamic date system for culturally appropriate datetime entry.",
+                MetaDescription = "This Blazor Islamic DateTimePicker example shows Hijri calendar datetime input support with Islamic date system for culturally appropriate datetime entry.",
                 Type = SampleType.None
             },
         };
@@ -418,7 +418,7 @@ namespace BlazorDemos
                 FileName = "Format.razor",
                 MetaTitle = "Blazor TimePicker Format | Time Display Formatting | Syncfusion",
                 HeaderText = "Blazor TimePicker Example - Time Format",
-                MetaDescription = "This Blazor TimePicker format example demonstrates time display formatting with customizable time patterns and 12/24 hour format support for global applications.",
+                MetaDescription = "This Blazor TimePicker format demo shows time display formatting with customizable time patterns and 12/24 hour format support for global applications.",
                 Type = SampleType.None,
             },
               new Sample
@@ -454,7 +454,7 @@ namespace BlazorDemos
                 FileName = "FormsValidation.razor",
                 MetaTitle = "Blazor TimePicker Validation | Form Validation | Syncfusion",
                 HeaderText = "Blazor TimePicker Example - Validation",
-                MetaDescription = "This Blazor TimePicker validation example demonstrates form validation with error handling and validation messages for robust time input forms.",
+                MetaDescription = "This Blazor TimePicker validation demo shows form validation, including error handling and validation messages, to ensure robust and accurate time input forms.",
                 Type = SampleType.None
             },
              new Sample
@@ -480,8 +480,8 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Default-Functionalities",
                 FileName = "DefaultFunctionalities.razor",
-                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This Blazor DataRangePicker example demonstrates the default functionalities. Explore here for more details.",
+                MetaTitle = "Blazor DateRangePicker | Default Range | Syncfusion",
+                MetaDescription = "This Blazor DataRangePicker example demonstrates the date range input with calendar popup, formatting options, validations for form-based date range selection.",
                 HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None,
             },
@@ -492,8 +492,8 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Date-Range",
                 FileName = "DateRange.razor",
-                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This example demonstrates the setting minimum and maximum date range in Blazor DataRangePicker. Explore here for more details.",
+                MetaTitle = "Blazor DateRangePicker Example | Date Range | Syncfusion",
+                MetaDescription = "This Blazor DateRangePicker date range example demonstrates the setting minimum and maximum date range in Blazor DataRangePicker. Explore here for more details.",
                 HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
             },
@@ -504,8 +504,8 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Day-Span",
                 FileName = "DaySpan.razor",
-                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This example demonstrates the minimum and maximum day span in Blazor DataRangePicker. Explore here for more details.",
+                MetaTitle = "Blazor DateRangePicker Example | Day Span | Syncfusion",
+                MetaDescription = "This example highlights how to configure the minimum and maximum day span within a Blazor DateRangePicker. Click here for additional information and insights.",
                 HeaderText = "Blazor Date Range Picker Example",
                 Type = SampleType.None
             },
@@ -518,7 +518,7 @@ namespace BlazorDemos
                 FileName = "PresetRanges.razor",
                 MetaTitle = "Blazor DateRangePicker Preset Ranges | Quick Selection | Syncfusion",
                 HeaderText = "Blazor DateRangePicker Example - Preset Ranges",
-                MetaDescription = "This Blazor DateRangePicker preset ranges example demonstrates quick date range selection with predefined ranges like Today, Last Week, Last Month for efficient selection.",
+                MetaDescription = "This Blazor DateRangePicker preset ranges example showcases quick selection with predefined ranges like Today, Last Week, Last Month for efficient selection.",
                 Type = SampleType.None
             },
              new Sample
@@ -528,8 +528,8 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Format",
                 FileName = "Format.razor",
-                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This example demonstrates the formatting in Blazor DataRangePicker. Explore here for more details.",
+                MetaTitle = "Blazor DateRangePicker Example | Format | Syncfusion",
+                MetaDescription = "This example illustrates the formatting capabilities within the Blazor DateRangePicker. Click here to explore further details and insights about its features.",
                 HeaderText = "Example of Formatting in Blazor Date Range Picker Component",
                 Type = SampleType.None,
             },
@@ -540,8 +540,8 @@ namespace BlazorDemos
                 Directory = "Calendars/DateRangePicker",
                 Url = "DateRangePicker/Month-Range-Picker",
                 FileName = "MonthRangePicker.razor",
-                MetaTitle = "Blazor DateRangePicker Example - Syncfusion Demos",
-                MetaDescription = "This example demonstrates creating Month Range Picker using Blazor DataRangePicker. Explore here for more details.",
+                MetaTitle = "Blazor DateRangePicker Example | Month Range | Syncfusion",
+                MetaDescription = "This example demonstrates how to create a Month Range Picker using the Blazor DataRangePicker. Click here for more details insights into its features.",
                 HeaderText = "Blazor Month Range Picker Example",
                 Type = SampleType.None
             },

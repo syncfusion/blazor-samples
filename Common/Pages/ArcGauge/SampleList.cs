@@ -32,7 +32,7 @@ namespace BlazorDemos
                 MetaTitle = "Arc Gauge Customer Satisfaction Score - Syncfusion Demos",
                 FileName = "CustomerSatisfactionScore.razor",
                 HeaderText = "Blazor Arc Gauge Example - Customer Satisfaction Score",
-                MetaDescription = "This Blazor Arc Gauge example shows how to visualize customer satisfaction scores with customizable ranges, colors, and annotations to help track customer feedback metrics effectively."
+                MetaDescription = "This Arc Gauge demo showcases visualizing customer satisfaction using customizable scales, hues, and notes, aiding in effective tracking of feedback metrics."
             },
             new Sample
             {
@@ -43,7 +43,7 @@ namespace BlazorDemos
                 FileName = "KeyPerformanceIndicator.razor",
                 MetaTitle = "Blazor Arc Gauge KPI | Performance Indicators | Syncfusion",
                 HeaderText = "Blazor Arc Gauge Example - Key Performance Indicator",
-                MetaDescription = "This Blazor Arc Gauge KPI example demonstrates how to create key performance indicators with multiple gauges, threshold marks, and customizable appearance for business metric visualization."
+                MetaDescription = "This Blazor Arc Gauge KPI example illustrates creating KPIs with multiple gauges, thresholds, and tailored visuals for effective business metric visualization."
             },            
             new Sample
             {
@@ -54,7 +54,7 @@ namespace BlazorDemos
                 FileName = "Patterns.razor",
                 MetaTitle = "Blazor Arc Gauge Patterns | Multiple Styling Options | Syncfusion",
                 HeaderText = "Blazor Arc Gauge Example - Pattern Styles",
-                MetaDescription = "This Blazor Arc Gauge patterns example showcases various styling options including different fill patterns, color schemes, and layout configurations for creating visually appealing gauges."
+                MetaDescription = "This Arc Gauge pattern demo showcases diverse styling options, including fill patterns, color schemes, and layouts, crafted to create visually appealing gauges."
             }
         };
     }

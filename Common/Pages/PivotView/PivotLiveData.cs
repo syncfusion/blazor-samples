@@ -11,8 +11,8 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
 {
     public class PivotLiveData
     {
-        public string Category { get; set; }
-        public string Type { get; set; }
+        public string Category { get; set; } = string.Empty;
+        public string Type { get; set; } = string.Empty;
         public double Spread { get; set; }
         public double OpenPrice { get; set; }
         public double Price { get; set; }
@@ -21,8 +21,8 @@ namespace BlazorDemos.Pages.PivotView.PivotTable
         public double Change { get; set; }
         public double Change_Percentage { get; set; }
         public double Volume { get; set; }
-        public string Country { get; set; }
-        public string Region { get; set; }
+        public string Country { get; set; } = string.Empty;
+        public string Region { get; set; } = string.Empty;
 
         public static List<PivotLiveData> GetPivotLiveData()
         {

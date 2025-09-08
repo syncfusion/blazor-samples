@@ -3,6 +3,7 @@
 @using Syncfusion.Blazor.Gantt
 @using Syncfusion.Blazor.Navigations
 @using Syncfusion.Blazor.Buttons
+
 @*Hidden:Lines*@
 @inherits SampleBaseComponent
 @*End:Hidden*@
@@ -17,7 +18,7 @@
     </p>
 
     <p>
-        Resources can be mapped using <a aria-label="Navigate to the class reference for gantt resource fields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttResource-1.html">GanttResource</a> component with the following properties:
+        Resources can be mapped using <a aria-label="Navigate to the class reference for gantt resource fields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttResource-2.html">GanttResource</a> component with the following properties:
     </p>
     <ul>
         <li><code>Id</code> - To map resource ID</li>
@@ -27,7 +28,7 @@
     </ul>
 
     <p>
-        Resource assignment can be mapped using <a aria-label="Navigate to the class reference for gantt assignment fields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttAssignmentFields-1.html">GanttAssignmentFields</a> component with the following properties:
+        Resource assignment can be mapped using <a aria-label="Navigate to the class reference for gantt assignment fields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttAssignmentFields-2.html">GanttAssignmentFields</a> component with the following properties:
     </p>
     <ul>
         <li><code>PrimaryKey</code> - To map primary key</li>
@@ -53,9 +54,9 @@
                 <label class="showhide"> Resource View </label>
             </div>
             <SfGantt @ref="Gantt" ShowOverallocation="@ShowOverallocation" TreeColumnIndex="1" DataSource="@TaskCollection" Height="450px" Width="100%" AllowRowDragAndDrop="true" RowHeight="37"
-                     Toolbar="@(new List<Object>() { "Add", "Cancel", "Update" , "Delete", "Edit", "CollapseAll", "ExpandAll",new ToolbarItem() { Text = "Show/Hide Overallocation", TooltipText = "Show/Hide Overallocation", Id = "ShowHideBar", Visible=IsCheck, PrefixIcon="e-icons e-eye" } })" AllowResizing ViewType="@viewType">
+                     Toolbar="@ToolbarItems" AllowResizing ViewType="@viewType">
                 <GanttTaskFields Id="Id" Name="Name" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
-                                 ParentID="ParentId" Work="Work" Dependency="Predecessor">
+                ParentID="ParentId" Work="Work" Dependency="Predecessor">
                 </GanttTaskFields>
                 <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit" Group="Group" TValue="TaskInfoModel" TResources="ResourceInfoModel"></GanttResource>
                 <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="Id" TaskID="TaskId" ResourceID="ResourceId" TValue="TaskInfoModel" TAssignment="AssignmentModel"></GanttAssignmentFields>
@@ -76,36 +77,39 @@
 </div>
 <style>
     .showhide {
-        font-size: 15px;
-        font-weight: 400;
-        margin-bottom: 1px;
-        padding:10px;
+    font-size: 15px;
+    font-weight: 400;
+    margin-bottom: 1px;
+    padding:10px;
     }
 
     .e-switch-control {
-        display: flex;
-        align-items: center;
+    display: flex;
+    align-items: center;
     }
 
 </style>
 @code {
-    public SfGantt<TaskInfoModel> Gantt;
-    private List<TaskInfoModel> TaskCollection { get; set; }
-    private List<ResourceInfoModel> ResourceCollection { get; set; }
+    public SfGantt<TaskInfoModel>? Gantt;
+    private List<TaskInfoModel> TaskCollection { get; set; } = new List<TaskInfoModel>();
+    private List<ResourceInfoModel> ResourceCollection { get; set; } = new List<ResourceInfoModel>();
     private ViewType viewType = ViewType.ResourceView;
     private bool ShowOverallocation { get; set; } = true;
-    private Boolean IsCheck { get; set; } = true;
-    private static List<AssignmentModel> AssignmentCollection { get; set; }
+    private bool IsCheck { get; set; } = true;
+    private List<Object>? ToolbarItems { get; set; }
+    private static List<AssignmentModel> AssignmentCollection { get; set; } = new List<AssignmentModel>();
+
     protected override void OnInitialized()
     {
         TaskCollection = GetTaskCollection();
         ResourceCollection = GetResources;
         AssignmentCollection = GetAssignmentCollection();
+        UpdateToolbar();
     }
     public class ResourceInfoModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public double MaxUnit { get; set; }
         public string? Group { get; set; }
     }
@@ -134,16 +138,16 @@
     public class TaskInfoModel
     {
         public int Id { get; set; }
-        public string Name { get; set; }
+        public string Name { get; set; } = string.Empty;
         public DateTime StartDate { get; set; }
         public DateTime? EndDate { get; set; }
-        public string Duration { get; set; }
+        public string? Duration { get; set; }
         public int Progress { get; set; }
         public int? ParentId { get; set; }
-        public string Predecessor { get; set; }
-        public string Notes { get; set; }
+        public string Predecessor { get; set; } = string.Empty;
+        public string Notes { get; set; } = string.Empty;
         public double? Work { get; set; }
-        public string TaskType { get; set; }
+        public string TaskType { get; set; } = string.Empty;
         public DateTime BaselineStartDate { get; set; }
         public DateTime BaselineEndDate { get; set; }
         public string? Details { get; set; }
@@ -173,7 +177,7 @@
             new TaskInfoModel() { Id = 20, Name = "Building test", StartDate = new DateTime(2022, 04, 01), Duration = "4", ParentId = 5, Work=60, Progress=50, TaskType="FixedWork", },
 
        };
-       return Tasks;
+        return Tasks;
     }
 
     public static List<AssignmentModel> GetAssignmentCollection()
@@ -210,6 +214,7 @@
 
     public void Resource()
     {
+        UpdateToolbar();
         if (viewType == ViewType.ResourceView)
         {
             viewType = ViewType.ProjectView;
@@ -219,5 +224,21 @@
             viewType = ViewType.ResourceView;
         }
         StateHasChanged();
+    }
+
+    private void UpdateToolbar()
+    {
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
+        ToolbarItems = new List<Object>() {
+            "Add", "Cancel", "Update", "Delete", "Edit", "CollapseAll", "ExpandAll",
+            new ToolbarItem() {
+                Text = "Show/Hide Overallocation",
+                TooltipText = "Show/Hide Overallocation",
+                Id = "ShowHideBar",
+                Visible = IsCheck,
+                PrefixIcon = "e-icons e-eye"
+            }
+        };
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
     }
 }

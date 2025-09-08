@@ -15,7 +15,7 @@ const compNameMappings = {
     'ai-documenteditor': { cssDirectory: 'ai-documenteditor', jsFile: ['syncfusion-blazor-documenteditor','sf-ai-assistview','sf-spinner', 'sf-toast'] },
     'ai-kanban': { cssDirectory: 'ai-kanban', jsFile: ['sf-kanban', 'sf-toast'] },
     'ai-datagrid': { cssDirectory: 'ai-datagrid', jsFile: ['sf-grid', 'sf-toast'] },
-    'datagrid': { cssDirectory: 'grid', jsFile: ['sf-grid','sf-chart'] },
+    'datagrid': { cssDirectory: 'grid', jsFile: ['sf-grid','sf-chart','sf-toast'] },
     'pivot-table': { cssDirectory: 'pivotview', jsFile: ['sf-pivotview','sf-dropdownlist','sf-numerictextbox','sf-heatmap','sf-multiselect', 'sf-textbox'] },
     'spreadsheet': { cssDirectory: 'spreadsheet', jsFile: ['syncfusion-blazor-spreadsheet'] },
     'tree-grid': { cssDirectory: 'treegrid', jsFile: ['sf-treegrid', 'sf-dropdownlist'] },
@@ -27,7 +27,7 @@ const compNameMappings = {
     'arc-gauge': { cssDirectory: 'arc-gauge', jsFile: ['sf-circulargauge'] },
     'diagram': { cssDirectory: 'diagram', jsFile: ['sf-diagramcomponent','sf-uploader','sf-numerictextbox', 'sf-colorpicker', 'sf-textbox', 'sf-drop-down-button','sf-toolbar','sf-tab','sf-treeview','sf-grid','sf-daterangepicker','sf-chart','sf-accumulation-chart','sf-dropdownlist'] },
     'heatmap-chart': { cssDirectory: 'heatmap-chart', jsFile: ['sf-heatmap', 'sf-dropdownlist', 'sf-chart'] },
-    'kanban': { cssDirectory: 'kanban', jsFile: ['sf-kanban'] },
+    'kanban': { cssDirectory: 'kanban', jsFile: ['sf-kanban','sf-toast'] },
     'linear-gauge': { cssDirectory: 'linear-gauge', jsFile: ['sf-lineargauge', 'sf-dropdownlist', 'sf-tooltip'] },
     'maps': { cssDirectory: 'maps', jsFile: ['sf-maps', 'sf-dropdownlist', 'sf-textbox','sf-slider','sf-accumulation-chart'] },
     'range-selector': { cssDirectory: 'range-selector', jsFile: ['sf-range-navigator','sf-grid', 'sf-dropdownlist', 'sf-textbox','sf-chart'] },
@@ -38,11 +38,11 @@ const compNameMappings = {
     'treemap': { cssDirectory: 'treemap', jsFile: ['sf-treemap', 'sf-dropdownlist', 'sf-textbox'] },
     'pdf-viewer-2': { cssDirectory: 'pdfviewer', jsFile: ['syncfusion-blazor-sfpdfviewer','sf-grid','sf-uploader','sf-multiselect','sf-accordion', 'sf-sidebar', 'sf-dropdownlist' ] },
     'document-editor': { cssDirectory: 'document-editor', jsFile: ['syncfusion-blazor-documenteditor','sf-grid', 'sf-dialog','sf-multiselect','sf-treeview','sf-spinner'] },
-    'rich-text-editor': { cssDirectory: 'rich-text-editor', jsFile: ['sf-richtexteditor', 'sf-dropdownlist','sf-mention','sf-chat-ui'] },
+    'rich-text-editor': { cssDirectory: 'rich-text-editor', jsFile: ['sf-richtexteditor', 'sf-dropdownlist','sf-mention','sf-chat-ui','sf-toast', 'sf-dialog', 'sf-drop-down-button'] },
     'markdown-editor': { cssDirectory: 'markdown-editor', jsFile: ['sf-richtexteditor','sf-mention'] },
     'image-editor': { cssDirectory: 'image-editor', jsFile: ['sf-image-editor','sf-toolbar', 'sf-drop-down-button', 'sf-textbox', 'sf-uploader','sf-colorpicker','sf-slider','sf-spinner', 'sf-dialog','sf-multiselect'] },
     'in-place-editor': { cssDirectory: 'inplace-editor', jsFile: ['sf-inplaceeditor','sf-dropdownlist','sf-datepicker','sf-timepicker','sf-daterangepicker'] },
-    'scheduler': { cssDirectory: 'schedule', jsFile: ['sf-schedule', 'sf-uploader','sf-drop-down-button','sf-toolbar','sf-contextmenu','sf-multiselect','sf-dropdownlist','sf-timepicker','sf-sidebar','sf-grid','sf-pager','sf-calendar','sf-listview','sf-dialog', 'sf-textbox','sf-toast','sf-treeview', 'sf-colorpicker'] },
+    'scheduler': { cssDirectory: 'schedule', jsFile: ['sf-schedule', 'sf-uploader','sf-drop-down-button','sf-toolbar','sf-contextmenu','sf-multiselect','sf-dropdownlist','sf-timepicker','sf-sidebar','sf-grid','sf-pager','sf-calendar','sf-listview','sf-dialog', 'sf-textbox','sf-toast','sf-treeview', 'sf-colorpicker','sf-tab','sf-spinner'] },
     'gantt-chart': { cssDirectory: 'gantt', jsFile: ['sf-gantt','sf-sidebar','sf-listview','sf-slider','sf-multiselect','sf-numerictextbox','sf-dropdownlist','sf-toolbar','sf-querybuilder','sf-textbox','sf-daterangepicker','sf-chart','sf-accumulation-chart','sf-schedule'] },
     'calendar': { cssDirectory: 'calendar', jsFile: ['sf-calendar','sf-dropdownlist'] },
     'datepicker': { cssDirectory: 'datepicker', jsFile: ['sf-datepicker','sf-dropdownlist','sf-multiselect'] },
@@ -111,7 +111,7 @@ const compNameMappings = {
     'spinner': { cssDirectory: 'spinner', jsFile: ['sf-spinner'] },
     'skeleton': { cssDirectory: 'skeleton', jsFile: ['sf-listview'] },
     'badge': { cssDirectory: 'badge', jsFile: ['sf-accordion','sf-listview']  },
-    'query-builder': { cssDirectory: 'query-builder', jsFile: ['sf-querybuilder','sf-grid'] },
+    'query-builder': { cssDirectory: 'query-builder', jsFile: ['sf-querybuilder','sf-grid','sf-toast'] },
     'data-form': { cssDirectory: 'data-form', jsFile: ['sf-numerictextbox','sf-maskedtextbox','sf-datepicker','sf-dropdownlist','sf-stepper','sf-textbox','sf-datepicker','sf-timepicker'] },
     'word': { cssDirectory: 'word', jsFile: ['sf-dropdownlist', 'sf-textbox'] },
     'pdf': { cssDirectory: 'pdf', jsFile: ['sf-dropdownlist'] },
@@ -122,7 +122,7 @@ const compNameMappings = {
 let theme = new URL(window.location.href).searchParams.get("theme");
 theme = theme ? theme : "fluent2";
 if (window.location.href.indexOf('blazor.syncfusion.com') != -1 || window.location.href.indexOf('localhost') != -1) {
-   theme = theme === "bootstrap5" ? "bootstrap5.3" : theme === "bootstrap5-dark" ? "bootstrap5.3-dark" : theme;
+    theme = theme === "bootstrap5" ? "bootstrap5.3" : theme === "bootstrap5-dark" ? "bootstrap5.3-dark" : theme;
 }
 
 function getCompNameFromURL() {
@@ -132,7 +132,7 @@ function getCompNameFromURL() {
         .filter(segment => segment.length > 0);
     const specialCaseComponents = ['split-button', 'button-group', 'dropdown-menu', 'progress-button', 'toggle-switch-button', 'checkbox','radio-button'];
     for (const componentName of specialCaseComponents) {
-        if (pathSegments.includes(componentName)) {
+        if (window.location.pathname.includes('buttons/' + componentName)) {
             return componentName;
         }
     }
@@ -148,50 +148,49 @@ window.sfBlazorSBStaticAssets = {
             const values = compNameMappings[compName];
             //Dynamically patch the resources to the DOM
             if (values.cssDirectory === "overall") {
-                loadAssets("https://cdn.syncfusion.com/blazor/29.2.4/styles/" + theme + ".css");
+                loadAssets("https://cdn.syncfusion.com/blazor/30.2.4/styles/" + theme + ".css");
             }
             else {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/" + values.cssDirectory + "/" + theme + ".min.css");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/30.2.4/" + values.cssDirectory + "/" + theme + ".min.css");
             }
             if (!values.jsFile || !values.jsFile.includes('syncfusion-blazor')) {
                 // Dynamically import necessary scripts for the common layout components
-                import("https://cdn.syncfusion.com/blazor/29.2.4/sf-tab.min.js");
-                import("https://cdn.syncfusion.com/blazor/29.2.4/sf-tooltip.min.js");
+                import("https://cdn.syncfusion.com/blazor/30.2.4/sf-tab.min.js");
+                import("https://cdn.syncfusion.com/blazor/30.2.4/sf-tooltip.min.js");
             }
             if (values.jsFile) {
                 for (const file of values.jsFile) {
                     if (file === "syncfusion-blazor") {
-                        import("https://cdn.syncfusion.com/blazor/29.2.4/syncfusion-blazor.min.js");
+                        import("https://cdn.syncfusion.com/blazor/30.2.4/syncfusion-blazor.min.js");
                     }
                     else {
-                        import("https://cdn.syncfusion.com/blazor/29.2.4/" + file + ".min.js");
+                        import("https://cdn.syncfusion.com/blazor/30.2.4/" + file + ".min.js");
                     }
                 }
             }
 
             if (window.location.href.indexOf('image-editor') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/image-editor.min.js");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/30.2.4/image-editor.min.js");
             }
             if (window.location.href.indexOf('ribbon') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/ribbon.min.js");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/30.2.4/ribbon.min.js");
             }
             if (window.location.href.indexOf('rich-text-editor') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/richtexteditor.min.js");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/30.2.4/richtexteditor.min.js");
             }
             if (window.location.href.indexOf('speech-to-text') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/speechtotext.min.js");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/scripts/30.2.4/speechtotext.min.js");
             }
             if (window.location.href.indexOf('diagram') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/diagram/syncfusion-blazor-icons.min.css");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/30.2.4/common/diagram/syncfusion-blazor-icons.min.css");
             }
             if (window.location.href.indexOf('dark') != -1 || window.location.href.indexOf('fluent2-highcontrast') != -1 || window.location.href.indexOf('highcontrast') != -1) {
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/highcontrast.min.css");
-                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/dark-theme.min.css");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/30.2.4/common/highcontrast.min.css");
+                loadAssets("https://cdn.syncfusion.com/blazor/sb/styles/30.2.4/common/dark-theme.min.css");
             }
         }
         else {
             loadAssets("_content/Syncfusion.Blazor.Themes/" + theme + ".css");
-            loadAssets("_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js");
 	        if (window.location.href.indexOf('pdf-viewer-2') != -1 || window.location.href.indexOf('powerpoint') != -1 || window.location.href.indexOf('ai-pdfviewer-2') != -1) {
 	            loadAssets("_content/Syncfusion.Blazor.SfPdfViewer/scripts/syncfusion-blazor-sfpdfviewer.min.js");
 	        }
@@ -261,9 +260,8 @@ function samplePageAssets() {
     if (data.configuration == "Release") {
         assetFiles = [
             'https://cdn.syncfusion.com/blazor/sb/favicon.ico',
-            'https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/roboto.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/styles/29.2.4/common/highlight.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/scripts/29.2.4/highlight.min.js'
+            'https://cdn.syncfusion.com/blazor/sb/styles/30.2.4/common/roboto.min.css',
+            'https://cdn.syncfusion.com/blazor/sb/scripts/30.2.4/highlight.min.js'
         ];
     } 
     else if(data.configuration == "Staging"){
@@ -271,7 +269,6 @@ function samplePageAssets() {
             '/styles/common/highcontrast.min.css',
             '/favicon.ico',
             '/styles/common/roboto.min.css',
-            '/styles/common/highlight.min.css',
             '/scripts/common/highlight.min.js',
             '/scripts/image-editor.min.js',
             '/scripts/richtexteditor.min.js',
@@ -286,7 +283,6 @@ function samplePageAssets() {
             '/styles/common/highcontrast.css',
             '/favicon.ico',
             '/styles/common/roboto.css',
-            '/styles/common/highlight.css',
             '/scripts/common/highlight.min.js',
             '/scripts/image-editor.js',
             '/scripts/richtexteditor.js',
@@ -310,11 +306,8 @@ if (homepagepath.indexOf(window.location.pathname) !== -1) {
     homePageAssets();
     if (data.configuration == "Release") {
         // Dynamically import necessary scripts for the homepage
-        import("https://cdn.syncfusion.com/blazor/29.2.4/sf-carousel.min.js");
-        import("https://cdn.syncfusion.com/blazor/29.2.4/sf-drop-down-button.min.js");
-    }
-    else {
-        loadAssets("_content/Syncfusion.Blazor.Core/scripts/syncfusion-blazor.min.js");
+        import("https://cdn.syncfusion.com/blazor/30.2.4/sf-carousel.min.js");
+        import("https://cdn.syncfusion.com/blazor/30.2.4/sf-drop-down-button.min.js");
     }
 }
 else {

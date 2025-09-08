@@ -49,10 +49,10 @@
     
     private Theme Theme { get; set; }
     public string Width { get; set; } = "90%";
-    public string Fill { get; set; }
-    public string BorderColor { get; set; }
+    public string? Fill { get; set; }
+    public string? BorderColor { get; set; }
     public EdgeLabelPlacement EdgeLabelPlacement { get; set; } = EdgeLabelPlacement.Hide;
-    public ChartData[] ChartPoints { get; set; }
+    public ChartData[]? ChartPoints { get; set; }
 
     public List<ChartData> ChartPoints1 = new List<ChartData>()
     {
@@ -74,7 +74,7 @@
     {
         base.OnAfterRender(firstRender);
         if(firstRender) {
-            if (SampleService.IsDevice)
+            if (SampleService != null && SampleService.IsDevice)
             {
                 Width = "100%";
                 EdgeLabelPlacement = EdgeLabelPlacement.Shift;
@@ -86,7 +86,7 @@
     protected async override Task OnInitializedAsync()
     {
         ChartPoints = new ChartData[] { };
-        ChartPoints = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService.WebAssetsPath + "data/chart/range-data.json");
+        ChartPoints = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/chart/range-data.json") ?? null!;
 
     }
 
@@ -113,7 +113,7 @@
     
     public class ChartData
     {
-        public string X { get; set; }
+        public string? X { get; set; }
         public double High { get; set; }
         public double Low { get; set; }
     }
