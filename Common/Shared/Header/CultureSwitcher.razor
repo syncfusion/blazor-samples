@@ -46,39 +46,6 @@
                 NavigationManager.NavigateTo("/" + path + "/Culture/SetCulture" + query, forceLoad: true);
             }
     #endif
-	#if WEBAPP
-#if NET8_0
-            if (OperatingSystem.IsBrowser())
-#else
-            
-            if (RendererInfo.Name == "WebAssembly")
-#endif
-            {
-		        if (CultureInfo.CurrentCulture.Name != args.ID)
-		        {
-		            await JSRuntime.InvokeVoidAsync("cultureInfo.set", args.ID);
-		            NavigationManager.NavigateTo(NavigationManager.Uri, forceLoad:  true);
-		        }
-		    }
-		    else
-		    {
-		        var culture = args.ID;
-		        string currentUri = SampleService.SampleInfo.Url.ToLower();
-		        string themeName = (NavigationManager.Uri.IndexOf('?') >= 0) ? (NavigationManager.Uri.Split('?')[1]) : null;
-		        string replacedContent = (themeName != null) ? (currentUri + '?' + themeName) : currentUri;
-		        var uri = new Uri(NavigationManager.Uri).GetComponents(UriComponents.PathAndQuery, UriFormat.Unescaped);
-		        var path = uri.Replace(replacedContent, "").Trim('/');
-		        var query = $"?culture={Uri.EscapeDataString(culture)}&" + $"redirectUri={Uri.EscapeDataString(uri)}";
-		        if (String.IsNullOrEmpty(path))
-		        {
-		            NavigationManager.NavigateTo("/Culture/SetCulture" + query, forceLoad: true);
-		        }
-		        else
-		        {
-		            NavigationManager.NavigateTo("/" + path + "/Culture/SetCulture" + query, forceLoad: true);
-		        }
-		    }
-	#endif
     }
         protected override void OnInitialized()
         {

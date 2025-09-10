@@ -451,7 +451,7 @@ namespace BlazorDemos.Shared
         public string DefaultSamplePath { get; set; }
         public List<NotificationData> SampleList { get; set; }
         public string[] NotificationContent { get; set; }
-#if SERVER || WEBAPP
+#if SERVER
         public async Task<List<NotificationList>> GetNotificationDataAsync()
 #else
         public List<NotificationList> GetNotificationData()
@@ -459,7 +459,7 @@ namespace BlazorDemos.Shared
         {
             var notificationlist = new List<NotificationList>();
             var sampleList = SampleBrowser.SampleList;
-#if SERVER || WEBAPP
+#if SERVER
             await Task.Run(() => { 
 #endif
             for (int i = 0; i < sampleList.Count; i++)
@@ -482,13 +482,13 @@ namespace BlazorDemos.Shared
                         notificationlist.Add(new NotificationList { Name = sampleList[i].Name, DefaultSamplePath = sampleList[i].DemoPath, SampleList = notificationResultData });
                     }
                 }
-#if SERVER || WEBAPP
+#if SERVER
             });
 #endif
             return notificationlist;
         }
 
-#if SERVER || WEBAPP
+#if SERVER
         public async Task<List<NotificationList>> GetComponentNotificationDataAsync()
 #else
         public List<NotificationList> GetComponentNotificationData()
@@ -497,7 +497,7 @@ namespace BlazorDemos.Shared
             var listcomponentnotification = new List<NotificationList>();
             var notificationResultData = new List<NotificationData>();
             var sampleList = SampleBrowser.SampleList;
-#if SERVER || WEBAPP
+#if SERVER
             await Task.Run(() => { 
 #endif
             for (int i = 0; i < sampleList.Count; i++)
@@ -507,7 +507,7 @@ namespace BlazorDemos.Shared
                         listcomponentnotification.Add(new NotificationList { Name = sampleList[i].Name, DefaultSamplePath = sampleList[i].DemoPath, NotificationContent = sampleList[i].NotificationDescription });
                     }
                 }
-#if SERVER || WEBAPP
+#if SERVER
             });
 #endif
             return listcomponentnotification;

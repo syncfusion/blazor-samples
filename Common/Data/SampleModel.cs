@@ -84,27 +84,19 @@ namespace BlazorDemos
             "_content/Blazor_WASM_Common_NET9/styles/common/fonts/open-sans-700.woff2",
             "_content/Blazor_WASM_Common_NET9/styles/common/fonts/open-sans-regular.woff2"
     #endif  
-#elif WEBAPP
-    #if NET8_0
-            "_content/Blazor_WebApp_Common_NET8/styles/common/fonts/open-sans-700.woff2",
-            "_content/Blazor_WebApp_Common_NET8/styles/common/fonts/open-sans-regular.woff2"
-    #else
-            "_content/Blazor_WebApp_Common_NET9/styles/common/fonts/open-sans-700.woff2",
-            "_content/Blazor_WebApp_Common_NET9/styles/common/fonts/open-sans-regular.woff2"
-    #endif
 #else
-#if DEBUG || STAGING
-    #if NET8_0
-            "_content/Blazor_Server_Common_NET8/styles/common/fonts/open-sans-700.woff2",
-            "_content/Blazor_Server_Common_NET8/styles/common/fonts/open-sans-regular.woff2",
+    #if DEBUG || STAGING
+        #if NET8_0
+                "_content/Blazor_Server_Common_NET8/styles/common/fonts/open-sans-700.woff2",
+                "_content/Blazor_Server_Common_NET8/styles/common/fonts/open-sans-regular.woff2",
+        #else
+                "_content/Blazor_Server_Common_NET9/styles/common/fonts/open-sans-700.woff2",
+                "_content/Blazor_Server_Common_NET9/styles/common/fonts/open-sans-regular.woff2",
+        #endif
     #else
-            "_content/Blazor_Server_Common_NET9/styles/common/fonts/open-sans-700.woff2",
-            "_content/Blazor_Server_Common_NET9/styles/common/fonts/open-sans-regular.woff2",
+                "https://cdn.syncfusion.com/blazor/sb/styles/30.1.37/common/fonts/open-sans-700.woff2",            
+                "https://cdn.syncfusion.com/blazor/sb/styles/30.1.37/common/fonts/open-sans-regular.woff2"
     #endif
-#else
-            "https://cdn.syncfusion.com/blazor/sb/styles/30.1.37/common/fonts/open-sans-700.woff2",            
-            "https://cdn.syncfusion.com/blazor/sb/styles/30.1.37/common/fonts/open-sans-regular.woff2"
-#endif
 #endif
         };
     }
