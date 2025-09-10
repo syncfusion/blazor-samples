@@ -82,21 +82,6 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pivot-table/getting-started">Pivot Table</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/treegrid/getting-started">TreeGrid</a></div>
             <p>&nbsp;</p>
-            <div><p class="controlcategory">FILE VIEWERS & EDITORS</p></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/in-place-editor/getting-started">InPlace Editor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rich-text-editor/getting-started">RichTextEditor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rich-text-editor/getting-started">Markdown Editor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/image-editor/getting-started">Image Editor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/document-editor/getting-started/features">Word Processor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer/getting-started/features">PDF Viewer</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/features">PDF Viewer (NextGen)</a></div>     
-            <p>&nbsp;</p>
-            <div><p class="controlcategory">DOCUMENT PROCESSING LIBRARIES</p></div>
-            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/docio/create-word-document-in-blazor">Word (DocIO)</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/pdf/create-pdf-document-in-blazor">PDF</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/presentation/create-read-edit-powerpoint-files-in-blazor">PowerPoint (Presentation)</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-formats/xlsio/create-read-edit-excel-files-in-blazor-c-sharp">Excel (XlsIO)</a></div>
-            <p>&nbsp;</p>
             <div><p class="controlcategory">LAYOUT</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/card/getting-started">Card</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/dashboard-layout/getting-started">Dashboard Layout</a></div>
