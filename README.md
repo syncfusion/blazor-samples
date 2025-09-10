@@ -23,10 +23,9 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 ## How to run the demo
 
-Clone the repository. This repository contains Blazor Web App Server demos, Blazor Web App WASM demos and Blazor MAUI demos project and solution files for .NET 8 and .NET 9. This repository has Common, Blazor Web App Server Demos, Blazor Web App WASM Demos and Blazor MAUI demos folders.
+Clone the repository. This repository contains Blazor Web App Server demos, Blazor Web App WASM demos and solution files for .NET 8 and .NET 9. This repository has Common, Blazor Web App Server Demos and Blazor Web App WASM Demos folders.
 * `Blazor-Server-Demos` folder has solution and project files to run Blazor server demos.
 * `Blazor-WASM-Demos` folder has solution and project files to run Blazor WebAssembly demos.
-* `Blazor-MAUI-Demos` folder has project file to run Blazor MAUI demos(Android).
 * The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Web App Server demos and Blazor Web App WASM demos.
 
 ### Run the demo using .NET CLI
