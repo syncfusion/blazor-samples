@@ -17,41 +17,34 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 * [System requirements](https://blazor.syncfusion.com/documentation/system-requirements/)
 
-* [NET 8 WebAssembly Workload / NET 9 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools) (For [PDF Viewer Component](https://blazor.syncfusion.com/documentation/pdfviewer-2/getting-started/web-app#prerequisites))
+* [NET 8 WebAssembly Workload / NET 9 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools)
 
 * Nodejs Version : [10.24.* or above](https://nodejs.org/download/release/v8.1.0/)
 
 ## How to run the demo
 
-Clone the repository. This repository contains Blazor Server demos, Blazor WASM demos, Blazor Web App demos and Blazor MAUI demos project and solution files for .NET 8 and .NET 9. This repository has Common, Blazor Server Demos, Blazor WASM Demos and Blazor Web App demos folders.
+Clone the repository. This repository contains Blazor Web App Server demos, Blazor Web App WASM demos and Blazor MAUI demos project and solution files for .NET 8 and .NET 9. This repository has Common, Blazor Web App Server Demos, Blazor Web App WASM Demos and Blazor MAUI demos folders.
 * `Blazor-Server-Demos` folder has solution and project files to run Blazor server demos.
 * `Blazor-WASM-Demos` folder has solution and project files to run Blazor WebAssembly demos.
-* `Blazor-WebApp-Demos` folder has solution and project files to run Blazor Web app(InteractiveMode Auto) demos.
 * `Blazor-MAUI-Demos` folder has project file to run Blazor MAUI demos(Android).
-* The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Server demos, Blazor WASM demos and Blazor Web App demos.
+* The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Web App Server demos and Blazor Web App WASM demos.
 
 ### Run the demo using .NET CLI
 
 * Open the command prompt from the demo's directory.
 * Run the demo using the following command.
    
-   To run .NET 8 Blazor Server Demos project
+   To run .NET 8 Blazor Web App Server Demos project
    > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET8.csproj`
 
-   To run .NET 9 Blazor Server Demos project
+   To run .NET 9 Blazor Web App Server Demos project
    > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET9.csproj`
 
-   To run .NET 8 Blazor WASM Demos project
-   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET8.csproj`
+   To run .NET 8 Blazor Web App WASM Demos project
+   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos/Blazor_WASM_Demos_NET8.csproj`
 
-   To run .NET 9 Blazor WASM Demos project
-   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos_NET9.csproj`
-
-   To run .NET 8 Blazor WebApp Demos project(InteractiveMode Auto)
-   > `dotnet run --project Blazor-WebApp-Demos/Blazor_WebApp_Demos/Blazor_WebApp_Demos.csproj`
-
-   To run .NET 9 Blazor WebApp Demos project(InteractiveMode Auto)
-   > `dotnet run --project Blazor-WebApp-Demos/Blazor_WebApp_Demos/Blazor_WebApp_Demos_NET9.csproj`
+   To run .NET 9 Blazor Web App WASM Demos project
+   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos/Blazor_WASM_Demos_NET9.csproj`
 
 ### Run the demo using Visual Studio
 
@@ -262,6 +255,5 @@ The Syncfusion license that contains the terms and conditions can be found at
 * [Blazor Components](https://www.syncfusion.com/blazor-components)
 * [Blazor Live Demos - Server](https://blazor.syncfusion.com/demos/)
 * [Blazor Live Demos - WebAssembly](https://blazor.syncfusion.com/wasm/demos/)
-* [Blazor Live Demos - Web app(InteractiveMode Auto) demos](https://blazor.syncfusion.com/webapp/demos/)
 * [Blazor Playground](https://blazorplayground.syncfusion.com/)
 * [Blazor Smart/AI Samples](https://github.com/syncfusion/smart-ai-samples)  
