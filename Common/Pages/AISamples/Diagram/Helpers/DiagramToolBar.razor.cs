@@ -30,7 +30,7 @@ namespace TextToMindMapDiagram
         /// In a Blazor application, this property should be set to an instance of the IJSRuntime interface provided by the framework.
         /// </remarks>
         [Inject]
-        protected IJSRuntime? jsRuntime { get; set; } = null!;
+        protected IJSRuntime jsRuntime { get; set; }
 #pragma warning disable CS8618
         /// <summary>
         /// Represents the DiagramMain instance that serves as the parent.
