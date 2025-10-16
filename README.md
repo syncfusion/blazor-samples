@@ -229,7 +229,7 @@ You may not use this product without first purchasing a Community License or a C
 The Syncfusion® license that contains the terms and conditions can be found at
 [https://www.syncfusion.com/content/downloads/syncfusion_license.pdf](https://www.syncfusion.com/content/downloads/syncfusion_license.pdf)
 
-## Support and feedback
+## Support and feedback 
 
 * For any other queries, reach the [Syncfusion® support team](https://support.syncfusion.com/) or post the queries through the [community forums](https://www.syncfusion.com/forums?utm_source=github&utm_medium=listing&utm_campaign=blazor-samples).
 
