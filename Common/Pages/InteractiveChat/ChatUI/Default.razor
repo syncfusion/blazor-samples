@@ -1,0 +1,154 @@
+﻿@page "/chat-ui/default-functionalities"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the features of the Chat UI component, designed to simulate a real-time chat interface. It highlights customizable elements like headers, avatars, synchronized messaging update, and real-time typing indicators.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, two blazor Chat UI web components are used to represent users <b>Albert</b> and <b>Reena</b>, each with a unique header, avatar, and toolbar. Messages are instantly synchronized between the two users through the <code>MessageSend</code> event, while typing indicators are shown in the other chat interface via the <code>TypingUsers</code> event, adding a more interactive feel.
+        The toolbar for each chat includes a dropdown menu with options like muting and deleting messages, demonstrating the component’s ability to customize and control the chat experience.
+    </p>
+</ActionDescription>
+
+<div class="control-section chat-ui">
+    <div class="default-chatui">
+        <SfChatUI @ref="ChatUser1" ID="chatUser2" User="Reena" HeaderText="Albert" HeaderIconCss="chat_user1_avatar" Messages="User1ChatMessages" MessageSend="(ChatMessageSendEventArgs args) => MessageSend(args, Albert)" UserTyping="(ChatUserTypingEventArgs args) => UserTypingFunc(args, ChatUser2)">
+            <HeaderToolbar>
+                <HeaderToolbarItem Type="ItemType.Spacer"></HeaderToolbarItem>
+                <HeaderToolbarItem Type="ItemType.Input">
+                    <Template>
+                        <SfDropDownButton ID="dduser1Menu" style="border: none; background: none !important;" CssClass="e-caret-hide" IconCss="e-icons e-more-horizontal-1">
+                            <DropDownButtonEvents ItemSelected="(MenuEventArgs args) => ItemSelected(args, ChatUser1)"></DropDownButtonEvents>
+                            <DropDownMenuItems>
+                                <DropDownMenuItem Text="@MuteText" IconCss="e-icons e-eye-slash"></DropDownMenuItem>
+                                <DropDownMenuItem Separator="true"></DropDownMenuItem>
+                                <DropDownMenuItem Text="Delete" IconCss="e-icons e-trash"></DropDownMenuItem>
+                            </DropDownMenuItems>
+                        </SfDropDownButton>
+                    </Template>
+                </HeaderToolbarItem>
+            </HeaderToolbar>
+        </SfChatUI>
+        <SfChatUI @ref="ChatUser2" ID="chatUser1" User="Albert" HeaderText="Reena" HeaderIconCss="chat_user2_avatar" Messages="User2ChatMessages" MessageSend="(ChatMessageSendEventArgs args) => MessageSend(args, Reena)" UserTyping="(ChatUserTypingEventArgs args) => UserTypingFunc(args, ChatUser1)" Suggestions="Suggestions">
+            <HeaderToolbar>
+                <HeaderToolbarItem Type="ItemType.Spacer"></HeaderToolbarItem>
+                <HeaderToolbarItem Type="ItemType.Input">
+                    <Template>
+                        <SfDropDownButton style="border: none; background: none !important;" CssClass="e-caret-hide" IconCss="e-icons e-more-horizontal-1">
+                            <DropDownButtonEvents ItemSelected="(MenuEventArgs args) => ItemSelected(args, ChatUser2)"></DropDownButtonEvents>
+                            <DropDownMenuItems>
+                                <DropDownMenuItem Text="@MuteText2" IconCss="e-icons e-eye-slash"></DropDownMenuItem>
+                                <DropDownMenuItem Separator="true"></DropDownMenuItem>
+                                <DropDownMenuItem Text="Delete" IconCss="e-icons e-trash"></DropDownMenuItem>
+                            </DropDownMenuItems>
+                        </SfDropDownButton>
+                    </Template>
+                </HeaderToolbarItem>
+            </HeaderToolbar>
+        </SfChatUI>
+    </div>
+</div>
+
+<style>
+    .default-chatui {
+        height: 500px;
+        width: 65%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+    }
+
+    .default-chatui .chat_user1_avatar {
+        background-image: url(@(SampleService!.WebAssetsPath + "images/chat-ui/andrew.png"));
+        background-color: unset;
+    }
+
+    .default-chatui .chat_user2_avatar {
+        background-image: url(@(SampleService.WebAssetsPath + "images/chat-ui/reena.png"));
+        background-color: unset;
+    }
+
+    @@media only screen and (max-width: 850px) {
+        .default-chatui {
+            flex-direction: column;
+            height: 500px;
+            width: 80%;
+        }
+        .chat-ui.control-section {
+            height: 1050px;
+        }
+    }
+</style>
+
+
+@code {
+    private SfChatUI ChatUser1 = new SfChatUI();
+    private SfChatUI ChatUser2 = new SfChatUI();
+    private List<string> Suggestions = new ChatMessagesData().GetChatSuggestions();
+    private UserModel Albert = new ChatMessagesData().GetSpecificUser("User1", "Albert", "andrew", String.Empty);
+    private UserModel Reena = new ChatMessagesData().GetSpecificUser("User2", "Reena", "reena", String.Empty);
+    private List<ChatMessage> User1ChatMessages = new ChatMessagesData().GetUserChatMessages();
+    private List<ChatMessage> User2ChatMessages = new ChatMessagesData().GetUserChatMessages();
+    private string MuteText = "Mute";
+    private string MuteText2 = "Mute";
+    private void MessageSend(ChatMessageSendEventArgs args, UserModel currentUser)
+    {
+        Suggestions.Clear();
+        ChatMessage newMessage = new ChatMessage()
+            {
+                Text = args.Message.Text,
+                Author = args.Message.Author,
+                Timestamp = DateTime.Now
+            };
+        if (currentUser.ID == Albert.ID)
+        {
+            User2ChatMessages.Add(newMessage);
+        }
+        else
+        {
+            User1ChatMessages.Add(newMessage);
+        }
+    }
+    private void UserTypingFunc(ChatUserTypingEventArgs args, SfChatUI user)
+    {
+        if (args.IsTyping)
+        {
+            if (!user.TypingUsers.Exists(user => user.User == args.User.User))
+            {
+                user.TypingUsers.Add(args.User);
+            }
+        }
+        else
+        {
+            user.TypingUsers.RemoveAll(user => user.User == args.User.User);
+        }
+    }
+    private List<string> ItemsText = new List<string>() { "Mute", "Unmute" };
+    private void ItemSelected(MenuEventArgs args, SfChatUI chatObj)
+    {
+        if (ItemsText.Contains(args.Item.Text))
+        {
+            var newText = args.Item.Text == "Mute" ? "Unmute" : "Mute";
+            if (chatObj.User == Reena) MuteText = newText;
+            else MuteText2 = newText;
+        }
+        if (args.Item.Text == "Delete")
+        {
+            chatObj.Messages.Clear();
+        }
+    }
+
+}

@@ -1,0 +1,446 @@
+@page "/diagram/neural-network"
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Popups
+@*Hidden:Lines*@
+@inject IJSRuntime JSRuntime
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample provides an interactive visualization of a neural network architecture using the Syncfusion<sup>®</sup> Blazor Diagram component. It displays multi-layered networks with configurable neurons, connections, and data flow patterns.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        This multi-layered neural network visualizer allows users to explore input, hidden, and output layers with configurable neurons. Connections clearly display weight values—positive in blue, negative in red—with thickness indicating magnitude. Interactive tooltip provide detailed information.
+    </p>
+</ActionDescription>
+@*Hidden:Lines*@
+<style>
+    .neural-network-container {
+        padding: 20px;
+        font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+
+    .control-panel {
+        margin-bottom: 20px;
+        display: flex;
+        gap: 10px;
+    }
+
+    .btn {
+        padding: 8px 16px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+        font-weight: 500;
+    }
+
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+
+    .btn-info {
+        background-color: #17a2b8;
+        color: white;
+    }
+
+    .layer-label {
+        font-weight: bold;
+        font-size: 14px;
+        color: #495057;
+    }
+
+    .e-tooltip-wrap {
+        padding: 0px;
+    }
+
+    .e-tip-content {
+        padding: 0px !important;
+    }
+
+    hr {
+        margin: 0px !important;
+    }
+</style>
+@*End:Hidden*@
+
+<div class="neural-network-container">
+
+    <SfDiagramComponent @ref="DiagramRef"
+                        Height="500px"
+                        Width="100%"
+                        Nodes="@Nodes"
+                        Connectors="@Connectors"
+                        NodeCreating="@OnNodeCreating"
+                        ConnectorCreating="@OnConnectorCreating"
+                        Created="@Created"
+                        Constraints="@Constraints"
+                        InteractionController="@DiagramInteractions.ZoomPan">
+
+        <SnapSettings Constraints=SnapConstraints.None>
+        </SnapSettings>
+        <DiagramTemplates>
+            <AnnotationTemplate>
+                @{
+                    @if (context is Annotation annotation)
+                    {
+                        if (!string.IsNullOrEmpty(annotation.Content))
+                        {
+                            string id = annotation.ID + "label_";
+                            <div id="@id" style="height: 100%; width: 100%; display: flex; justify-content: center; align-items: center; color: black; border-radius: 10px">
+
+                                <div style="height: 10px; width: 10px; border-radius: 5px; background: @GetLayerColor(annotation.Content); margin-right: 10px "></div>
+
+                                <span>@annotation.Content</span>
+                            </div>
+                        }
+                    }
+                }
+            </AnnotationTemplate>
+            <TooltipTemplate>
+                @{
+                    if (context is Node node && node.AdditionalInfo != null)
+                    {
+                        <div style="padding: 8px 12px; border-radius: 6px; font-family: 'Segoe UI', sans-serif; width: 100%; height: 100% ">
+                            <div style="font-weight: bold; font-size: 13px; margin-bottom: 4px;">
+                                🧠 Neuron Information
+                            </div>
+                            <hr />
+                            @if (node.AdditionalInfo.ContainsKey("Layer"))
+                            {
+                                <div style="font-size: 13px; margin-bottom: 2px;">
+                                    <span style="font-weight: bold;">Layer:</span>
+                                    <span>@node.AdditionalInfo["Layer"]</span>
+                                </div>
+                            }
+                            @if (node.AdditionalInfo.ContainsKey("Neuron"))
+                            {
+                                <div style="font-size: 13px;">
+                                    <span style=" font-weight: bold;">Neuron:</span>
+                                    <span>@node.AdditionalInfo["Neuron"]</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                    else if (context is Connector connector && connector.AdditionalInfo != null)
+                    {
+                        <div style="padding: 8px 12px; border-radius: 6px; font-family: 'Segoe UI', sans-serif; width: 100%; height: 100%">
+                            <div style="font-weight: bold; font-size: 13px; margin-bottom: 4px;">
+                                🔗 Connection Details
+                            </div>
+                            <hr />
+                            @if (connector.AdditionalInfo.ContainsKey("Weight"))
+                            {
+                                var weight = (double)connector.AdditionalInfo["Weight"];
+                                var weightColor = weight >= 0 ? "#2ecc71" : "#e74c3c";
+                                <div style="font-size: 13px; margin-bottom: 2px;">
+                                    <span style="font-weight: bold;">Weight:</span>
+                                    <span style="color: @weightColor; font-weight: bold;">@weight</span>
+                                </div>
+                            }
+                            @if (connector.AdditionalInfo.ContainsKey("sourceId"))
+                            {
+                                <div style="font-size: 13px; margin-bottom: 1px;">
+                                    <span style="font-weight: bold;">From:</span>
+                                    <span>@connector.AdditionalInfo["sourceId"]</span>
+                                </div>
+                            }
+                            @if (connector.AdditionalInfo.ContainsKey("targetId"))
+                            {
+                                <div style="font-size: 13px;">
+                                    <span style="font-weight: bold;">To:</span>
+                                    <span>@connector.AdditionalInfo["targetId"]</span>
+                                </div>
+                            }
+                        </div>
+                    }
+                }
+            </TooltipTemplate>
+        </DiagramTemplates>
+    </SfDiagramComponent>
+</div>
+
+
+@code {
+    public SfDiagramComponent? DiagramRef { get; set; }
+    public bool ShowWeights { get; set; } = true;
+
+    public DiagramConstraints Constraints { get; set; } = DiagramConstraints.Default & ~DiagramConstraints.UndoRedo;
+    // Collections for diagram elements
+    public DiagramObjectCollection<Node>? Nodes { get; set; } = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Connector>? Connectors { get; set; } = new DiagramObjectCollection<Connector>();
+
+    // Neural network configuration
+    public int[] LayerSizes { get; set; } = { 3, 5, 4, 2 }; // Input, Hidden1, Hidden2, Output
+    public string[] LayerNames { get; set; } = { "Input Layer", "Hidden Layer 1", "Hidden Layer 2", "Output Layer" };
+    public string[] LayerColors { get; set; } = { "#0087EA", "#FE871F", "#7925E5", "#04AE45" };
+    public string[] NodeLabels { get; set; } = {
+            "Feature 1,Feature 2,Feature 3", // Input layer
+            "H1-1,H1-2,H1-3,H1-4,H1-5", // Hidden layer 1
+            "H2-1,H2-2,H2-3,H2-4", // Hidden layer 2
+            "Output 1,Output 2" // Output layer
+    };
+
+    protected override void OnInitialized()
+    {
+        CreateLayerLabels();
+        CreateNeurons();
+        CreateConnections();
+    }
+
+
+    public async Task CreateLayerLabels()
+    {
+        double startX = 100;
+        double labelY = 50;
+        double layerSpacing = 250;
+        var labels = new DiagramObjectCollection<NodeBase>();
+        for (int i = 0; i < LayerNames.Length; i++)
+        {
+            var labelNode = new Node()
+            {
+                ID = $"label_{i}",
+                OffsetX = startX + (i * layerSpacing),
+                OffsetY = labelY,
+                Width = 150,
+                Height = 30,
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+        {
+                    new ShapeAnnotation
+                    {
+                        Content = LayerNames[i],
+                        Width = 150,
+                        Height = 50,
+                        Style = new TextStyle()
+                        {
+                            FontSize = 14,
+                            Color = "#2c3e50",
+                        },
+                        UseTemplate = true,
+                    }
+                },
+                Style = new ShapeStyle()
+                {
+                    Fill = "transparent",
+                    StrokeColor = "transparent"
+                },
+                Constraints = NodeConstraints.Default & ~NodeConstraints.Select
+            };
+            Nodes.Add(labelNode);
+        }
+    }
+
+    public async Task CreateNeurons()
+    {
+        double startX = 100;
+        double startY = 120;
+        double layerSpacing = 250;
+        double neuronSpacing = 100;
+        var neurons = new DiagramObjectCollection<NodeBase>();
+        for (int layerIndex = 0; layerIndex < LayerSizes.Length; layerIndex++)
+        {
+            int neuronsInLayer = LayerSizes[layerIndex];
+            string[] labels = NodeLabels[layerIndex].Split(',');
+
+            // Calculate starting Y position to center neurons vertically
+            double layerStartY = startY + ((5 - neuronsInLayer) * neuronSpacing / 2);
+
+            for (int neuronIndex = 0; neuronIndex < neuronsInLayer; neuronIndex++)
+            {
+                var neuron = new Node()
+                {
+                    ID = $"neuron_{layerIndex}_{neuronIndex}",
+                    OffsetX = startX + (layerIndex * layerSpacing),
+                    OffsetY = layerStartY + (neuronIndex * neuronSpacing),
+                    Width = 75,
+                    Height = 75,
+                    Shape = new BasicShape() { Type = NodeShapes.Basic, Shape = NodeBasicShapes.Ellipse },
+                    Style = new ShapeStyle()
+                    {
+                        Fill = LayerColors[layerIndex],
+                        StrokeColor = GetStrokeColor(layerIndex),
+                        StrokeWidth = 2
+                    },
+                    Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                        new ShapeAnnotation
+                        {
+                            Content = labels[neuronIndex],
+                            Style = new TextStyle()
+                            {
+                                FontSize = 12,
+                                Color = "White",
+                                Bold = true
+                            }
+                        }
+                    },
+                    AdditionalInfo = new Dictionary<string, object>()
+            {
+                        {"Layer", LayerNames[layerIndex]},
+                        {"Neuron", labels[neuronIndex]}
+                    },
+                    Tooltip = new DiagramTooltip()
+                    {
+                        Position = Position.TopCenter,
+                    }
+                };
+                Nodes.Add(neuron);
+            }
+        }
+    }
+
+    public async Task CreateConnections()
+    {
+        Random random = new Random(42); // Fixed seed for consistent results
+        var connections = new DiagramObjectCollection<NodeBase>();
+        for (int layerIndex = 0; layerIndex < LayerSizes.Length - 1; layerIndex++)
+        {
+            int currentLayerSize = LayerSizes[layerIndex];
+            int nextLayerSize = LayerSizes[layerIndex + 1];
+
+            for (int currentNeuron = 0; currentNeuron < currentLayerSize; currentNeuron++)
+            {
+                for (int nextNeuron = 0; nextNeuron < nextLayerSize; nextNeuron++)
+                {
+                    string sourceId = $"neuron_{layerIndex}_{currentNeuron}";
+                    string targetId = $"neuron_{layerIndex + 1}_{nextNeuron}";
+
+                    // Generate random weight for demonstration
+                    double weight = Math.Round((random.NextDouble() * 2 - 1), 2);
+
+                    var connector = new Connector()
+                    {
+                        ID = $"conn_{layerIndex}_{currentNeuron}_{nextNeuron}",
+                        SourceID = sourceId,
+                        TargetID = targetId,
+                        Type = ConnectorSegmentType.Straight,
+                        Style = new ShapeStyle()
+                        {
+                            StrokeColor = GetConnectionColor(weight),
+                            StrokeWidth = GetConnectionWidth(Math.Abs(weight)),
+                            Opacity = 0.7
+                        },
+                        TargetDecorator = new DecoratorSettings()
+                        {
+                            Shape = DecoratorShape.Arrow,
+                            Style = new ShapeStyle()
+                            {
+                                Fill = GetConnectionColor(weight),
+                                StrokeColor = GetConnectionColor(weight)
+                            }
+                        },
+                        Annotations = ShowWeights ? new DiagramObjectCollection<PathAnnotation>()
+                {
+                            new PathAnnotation
+                            {
+                                Content = weight.ToString(),
+                                Style = new TextStyle()
+                                {
+                                    FontSize = 13,
+                                    Color = "#495057",
+                                    Fill = "white"
+                                }
+                            }
+                        } : new DiagramObjectCollection<PathAnnotation>(),
+                        AdditionalInfo = new Dictionary<string, object>()
+                {
+                            {"Weight", weight},
+                            {"sourceId", sourceId},
+                            {"targetId", targetId},
+                        },
+                        Tooltip = new DiagramTooltip()
+                        {
+                            Position = Position.TopCenter
+                        }
+                    };
+
+                    Connectors.Add(connector);
+                }
+            }
+        }
+    }
+
+    public string GetStrokeColor(int layerIndex)
+    {
+        string[] strokeColors = { "#0087EA", "#FE871F", "#7925E5", "#04AE45" };
+        return strokeColors[layerIndex];
+    }
+
+    public string GetConnectionColor(double weight)
+    {
+        // Positive weights in blue, negative in red
+        return weight >= 0 ? "#2196f3" : "#f44336";
+    }
+
+    public double GetConnectionWidth(double absWeight)
+    {
+        // Width based on weight magnitude (1-3 pixels)
+        return Math.Max(1, Math.Min(3, absWeight * 3));
+    }
+
+
+    public string GetLayerColor(string layerName)
+    {
+        var layerMap = new Dictionary<string, string>
+    {
+            { "Input Layer", "#0087EA" },
+            { "Hidden Layer 1", "#FE871F" },
+            { "Hidden Layer 2", "#7925E5" },
+            { "Output Layer", "#04AE45" }
+        };
+
+        return layerMap.TryGetValue(layerName, out var color) ? color : "#000000";
+    }
+
+    public async void Created()
+    {
+        DiagramRef!.FitToPage(new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content });
+    }
+
+    public void OnNodeCreating(IDiagramObject obj)
+    {
+        if (obj is Node node)
+        {
+            // Enable tooltip for all nodes
+            node.Constraints = (NodeConstraints.Default & ~NodeConstraints.Select) | NodeConstraints.Tooltip;
+        }
+    }
+
+    public void OnConnectorCreating(IDiagramObject obj)
+    {
+        if (obj is Connector connector)
+        {
+            // Enable tooltip for all connectors
+            connector.Constraints = (ConnectorConstraints.Default & ~ConnectorConstraints.Select) | ConnectorConstraints.Tooltip;
+        }
+    }
+    @*End:Hidden*@
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (Nodes != null)
+        {
+            Nodes.Clear();
+            Nodes = null;
+        }
+        if (Connectors != null)
+        {
+            Connectors.Clear();
+            Connectors = null;
+        }
+    }
+    @*End:Hidden*@
+
+}

@@ -1,0 +1,661 @@
+﻿@page "/ai-kanban/aitask-recommendation"
+@page "/kanban/ai-task-recommendation"
+
+@using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Layouts
+@using System.Text.Json
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Grids
+@using BlazorDemos.Service
+@using BlazorDemos.Model
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+@inject AzureAIService OpenAIService
+
+<SampleDescription>
+    <p> This sample showcases the integration of AI to automatically generate task segments based on the provided project details and allocate them to team members according to their capacity. Additionally, it includes the ability to manually adjust assignees within the Syncfusion Kanban component.</p>
+    <p>
+        Explore our <strong>Smart AI demos</strong> with limited AI token usage directly in your browser. To dive deeper and try out these features locally using your own API key, check out our
+        <a href="https://github.com/syncfusion/smart-ai-samples/tree/master/blazor" target="_blank" aria-label="Navigate to the Syncfusion Smart AI Samples GitHub repository">
+            <strong>Syncfusion Smart AI Samples</strong>
+        </a> on GitHub.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <strong>In this sample, users can access the following AI-powered features:</strong>
+    <ul>
+        <li><strong>Add Project Details:</strong> Users input project details and specify the number of tasks.</li>
+        <li><strong>Generate Tasks:</strong> Automatically creates tasks based on the provided project details and adds them to the backlog grid view.</li>
+        <li><strong>View as Board:</strong> Allows users to switch from the backlog grid to a Kanban board view.</li>
+        <li><strong>Sprint Plan:</strong> Gathers assignee details and prepares the sprint based on assignee capacity, then updates the sprint board with the tasks.</li>
+        <li><strong>Sprint:</strong> Provides a Kanban board view of the current sprint.</li>
+        <li><strong>Backlog:</strong> Initially displays tasks in a grid view, with the option to switch to a Kanban board view using "View as Board."</li>
+    </ul>
+</ActionDescription>
+
+@*Hidden:Lines*@
+<AINotification></AINotification>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<AIToastNotification></AIToastNotification>
+@*End:Hidden*@
+
+@if (isHomapage)
+{
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row" id="customcontainer">
+                <div class="col-12 text-center my-3">
+                    <h3>AI Smart Task Suggestion</h3>
+                </div>
+                <div class="col-12 text-center my-3">
+                    <div style="display:flex; justify-content:center;">
+                        <div class="col-12 col-md-6 d-flex cuscol-1 justify-content-center">
+                            <div style="width:100%; max-width: 500px; margin: auto;">
+                                <div class="e-rte-label1" >
+                                    <label>Project Details</label>
+                                </div>
+                                <div class="e-rte-field" style="margin: 10px">
+                                    <SfTextBox @bind-Value="@TextBoxValue" Multiline=true />
+                                </div>
+                                <div class="e-rte-label2">
+                                    <label>Number of tasks</label>
+                                </div>
+                                <div class="e-rte-field" style="margin: 10px">
+                                    <SfTextBox @bind-Value="@TasksValue" min="1" Type="InputType.Number" />
+                                </div>
+                                <div class="d-flex justify-content-center" style="margin: 10px;">
+                                    <SfProgressButton Content="@ContentGenerateTask" OnClick="@GenerateTasks" EnableProgress="false">
+                                        <ProgressButtonEvents OnBegin="BeginGenerateTasks" OnEnd="EndGenerateTasks"></ProgressButtonEvents>
+                                    </SfProgressButton>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+else
+{
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper">
+            <div class="row" id="toast-kanban-observable">
+                @if (showBacklogs)
+                {
+                    <div class="col-12 text-center my-3">
+                        <h3>Kanban Board</h3>
+                        <div style="float: right;">
+                            <SfButton OnClick="OpenProjectDetailsDialog">Add New Projects</SfButton>
+                        </div>
+                        <div style="float: left;">
+                            <SfButton OnClick="GoToBacklogBoardView" Content="@BacklogButtonViewContent"></SfButton>
+                        </div>
+                    </div>
+                    if (!showBacklogBoard)
+                    {
+                        <div class="grid-container">
+                            <SfGrid DataSource="@smartSuggestion" AllowPaging="true" Toolbar="@(new List<string>() { "Add" })">
+                                <GridEvents OnActionBegin="TaskEditingHandler" RowCreated="RowCreatedHandler" TValue="SmartSuggestionDataModel"></GridEvents>
+                                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Dialog" Dialog="DialogParams">
+                                    <Template>
+                                        @{
+                                            var AISuggestion = (context as SmartSuggestionDataModel);
+                                        }
+                                        <div style="margin: 10px;">
+                                            <div class="form-group" style="margin: 10px;">
+                                                <SfTextBox ID="OrderID" @bind-Value="@(AISuggestion.Id)" Enabled="@enableTaskEditing" FloatLabelType="FloatLabelType.Always" Placeholder="Task ID" Width="100%"></SfTextBox>
+                                            </div>
+                                            <div class="form-group" style="margin: 10px;">
+                                                <SfTextBox ID="Title" @bind-Value="@(AISuggestion.Title)" TValue="string" FloatLabelType="FloatLabelType.Always" Placeholder="Title" Width="100%"></SfTextBox>
+                                            </div>
+                                            <div class="form-group" style="margin: 10px;">
+                                                <SfTextBox ID="Description" @bind-Value="@(AISuggestion.Description)" FloatLabelType="FloatLabelType.Always" Multiline="true" Placeholder="Description" Width="100%"></SfTextBox>
+                                            </div>
+                                            <div class="form-group" style="margin: 10px;">
+                                                <SfNumericTextBox ID="Title" @bind-Value="@(AISuggestion.StoryPoints)" TValue="int" FloatLabelType="FloatLabelType.Always" Placeholder="StoryPoints" Width="100%"></SfNumericTextBox>
+                                            </div>
+                                            <div class="form-group" style="margin: 10px;">
+                                                <SfTextBox ID="Status" @bind-Value="@(AISuggestion.Status)" Enabled="@enableTaskEditing" TValue="string" FloatLabelType="FloatLabelType.Always" Placeholder="Status" Width="100%"></SfTextBox>
+                                            </div>
+                                        </div>
+                                    </Template>
+                                </GridEditSettings>
+                                <GridColumns>
+                                    <GridColumn Field=@nameof(SmartSuggestionDataModel.Id) HeaderText="Task ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true})"></GridColumn>
+                                    <GridColumn Field=@nameof(SmartSuggestionDataModel.Title) HeaderText="Title" ValidationRules="@(new ValidationRules{ Required=true})" Format="C2"></GridColumn>
+                                    <GridColumn Field=@nameof(SmartSuggestionDataModel.Description) HeaderText="Description" EditType=EditType.DefaultEdit></GridColumn>
+                                    <GridColumn Field=@nameof(SmartSuggestionDataModel.StoryPoints) HeaderText="StoryPoints" ValidationRules="@(new ValidationRules{ Required=true})" EditType=EditType.DefaultEdit></GridColumn>
+                                    <GridColumn Field=@nameof(SmartSuggestionDataModel.Status) HeaderText="Status" ValidationRules="@(new ValidationRules{ Required=true})"></GridColumn>
+                                </GridColumns>
+                            </SfGrid>
+                        </div>
+                    }
+                    else if (showBacklogBoard)
+                    {
+                        <div>
+                            <SfKanban TValue="SmartSuggestionDataModel" KeyField="Status" DataSource="@smartSuggestion">
+                                <KanbanColumns>
+                                    <KanbanColumn HeaderText="To Do" KeyField="@(new List<string>() {"Open"})"></KanbanColumn>
+                                    <KanbanColumn HeaderText="In Progress" KeyField="@(new List<string>() {"InProgress"})"></KanbanColumn>
+                                    <KanbanColumn HeaderText="Review" KeyField="@(new List<string>() {"Review"})"></KanbanColumn>
+                                    <KanbanColumn HeaderText="Done" KeyField="@(new List<string>() {"Close"})"></KanbanColumn>
+                                </KanbanColumns>
+                                <KanbanCardSettings HeaderField="Title" ContentField="Description" GrabberField="Color">
+                                    <Template>
+                                        @{
+                                            SmartSuggestionDataModel card = (SmartSuggestionDataModel)context;
+                                            <div class="card-template">
+                                                <div class="e-card-header">
+                                                    <div class="e-card-header-caption">
+                                                        <div class="e-card-header-title e-tooltip-text">@card.Title</div>
+                                                    </div>
+                                                </div>
+                                                <div class="e-card-content">
+                                                    <div class="e-text e-tooltip-text">@card.Description</div>
+                                                </div>
+                                                <div class="e-card-footer">
+                                                    @{
+                                                        <div class="e-card-tag e-tooltip-text">@card.StoryPoints</div>
+                                                    }
+                                                </div>
+                                            </div>
+                                        }
+                                    </Template>
+                                </KanbanCardSettings>
+                            </SfKanban>
+                        </div>
+                    }
+                }
+            </div>
+        </div>
+    </div>
+}
+<SfToast @ref="ToastObj" ID="toast_type" Target="@ToastTarget" ShowCloseButton="true">
+    <ToastPosition X="Right" Y="Top" />
+</SfToast>
+<SfDialog ShowCloseIcon="true" IsModal="true" Width="400px" @bind-Visible="@enableProjectDetailsDialog" CssClass="custom-dialog">
+    <DialogTemplates>
+        <Header>AI Smart Task Suggestion</Header>
+        <Content>
+            <div class="custom-row-1">
+                <div class="col-12 col-md-6 d-flex cuscol-1 justify-content-start e-left">
+                    <div class="w-100">
+                        <div class="e-rte-label1" style="margin: 10px">
+                            <label>Project Details</label>
+                        </div>
+                        <div class="e-rte-field" style="margin: 10px">
+                            <SfTextBox @bind-Value="@TextBoxValue" Multiline=true />
+                        </div>
+                        <div class="e-rte-label2" style="margin: 10px; padding-top: 20px;">
+                            <label>Number of tasks</label>
+                        </div>
+                        <div class="e-rte-field" style="margin: 10px">
+                            <SfTextBox @bind-Value="@TasksValue" min="1" Type="InputType.Number" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </Content>
+        <FooterTemplate>
+            <div class="custom-row-2">
+                <div class="col-12 d-flex cuscol-0">
+                    <div class="w-100">
+                        <SfProgressButton Content="@ContentGenerateTask" OnClick="@GenerateTasks" EnableProgress="false">
+                            <ProgressButtonEvents OnBegin="BeginGenerateTasks" OnEnd="EndGenerateTasks"></ProgressButtonEvents>
+                        </SfProgressButton>
+                    </div>
+                </div>
+            </div>
+        </FooterTemplate>
+    </DialogTemplates>
+    <DialogEvents OnClose="CloseDialog"></DialogEvents>
+</SfDialog>
+
+@code{
+    SfToast ToastObj;
+    public string[] SelectedAssignees { get; set; } = new string[] { };
+    private string ToastTarget { get; set; } = "#toast-kanban-observable";
+    SfKanban<SmartSuggestionDataModel> kanbanObj;
+    public string ContentGenerateTask = "Generate Tasks";
+    public string BacklogButtonViewContent = "View as Backlog";
+    private string TextBoxValue = string.Empty;
+    private string TasksValue = string.Empty;
+    private bool enableProjectDetailsDialog = false;
+    private bool isGeneratedProjectTasks = false;
+    private bool enableTaskEditing = false;
+    private bool isHomapage = true;
+    private bool showSprintBoard = false;
+    private bool showBacklogs = false;
+    private bool showBacklogBoard = true;
+    private List<SmartSuggestionDataModel> smartSuggestion = new List<SmartSuggestionDataModel>();
+    private DialogSettings DialogParams = new DialogSettings { MinHeight = "400px", Width = "450px" };
+    private string waringText = "Click \"Generate Tasks\" to preview";
+    private void GoToBacklogBoardView()
+    {
+        if (BacklogButtonViewContent == "View as Board")
+        {
+            BacklogButtonViewContent = "View as Backlog";
+            showBacklogBoard = true;
+        }
+        else
+        {
+            showBacklogBoard = false;
+            BacklogButtonViewContent = "View as Board";
+        }
+        showSprintBoard = false;
+    }
+
+    private RenderFragment GetTemplate() => builder =>
+    {
+        builder.OpenElement(0, "div");
+        builder.AddContent(1, "An error occurred during the AI process, Please try again.");
+        builder.CloseElement();
+    };
+
+    public void BeginGenerateTasks(Syncfusion.Blazor.SplitButtons.ProgressEventArgs args)
+    {
+        ContentGenerateTask = "Generating...";
+    }
+
+    public async Task EndGenerateTasks(Syncfusion.Blazor.SplitButtons.ProgressEventArgs args)
+    {
+        while (!isGeneratedProjectTasks)
+        {
+            await Task.Delay(1000);
+        }
+        this.isHomapage = false;
+        this.CloseDialog();
+        showBacklogs = true;
+    }
+
+    private async Task GenerateProjectTasks()
+    {
+        try
+        {
+            if (!string.IsNullOrEmpty(TextBoxValue) && !string.IsNullOrEmpty(TasksValue))
+            {
+                string result = "";
+                var description = $"Generate {TasksValue} task recommendations for {TextBoxValue}. Each task should include the following fields: Id (like example: ID should be in project name simple 4char word - 1), Title, Status, Description, Assignee, StoryPoints, Color and Due Date, formatted according to the dataset. Assign each task to the Assignee: empty string, set the Status to 'Open', and use black for the Color. Use the dataset provided below to create your recommendations. IMPORTANT: Return the data strictly in JSON format with all the required fields. Only the JSON data is needed, no additional text.Return only the JSON array format without any explanations.";
+                result = await OpenAIService.GetCompletionAsync(description);
+                if (result != null)
+                {
+                    string data = result.Replace("```json", "").Replace("```", "").Replace("\r", "").Replace("\n", "").Replace("\t", "").Trim();
+                    List<SmartSuggestionDataModel> modifiedData;
+                    modifiedData = JsonSerializer.Deserialize<List<SmartSuggestionDataModel>>(data);
+                    smartSuggestion = modifiedData != null ? smartSuggestion.Concat(modifiedData).ToList() : smartSuggestion;
+                    this.isGeneratedProjectTasks = true;
+                }
+                ContentGenerateTask = "Generate Tasks";
+
+            }
+            else
+            {
+                waringText = string.IsNullOrEmpty(TextBoxValue) && string.IsNullOrEmpty(TasksValue) ? "Enter the required task creation details" : !string.IsNullOrEmpty(TasksValue) ? "Enter the Project Details" : "Enter the number of tasks";
+            }
+        }
+        catch
+        {
+            await this.ToastObj.ShowAsync(new ToastModel { ContentTemplate = @GetTemplate(), ShowCloseButton = true, Timeout = 0 });
+        }
+    }
+
+    private void OpenProjectDetailsDialog()
+    {
+        this.enableProjectDetailsDialog = true;
+    }
+
+    private async Task GenerateTasks()
+    {
+        this.isGeneratedProjectTasks = false;
+        await this.GenerateProjectTasks();
+    }
+
+    private void SaveTask()
+    {
+        this.enableProjectDetailsDialog = false;
+        this.TasksValue = string.Empty;
+        this.TextBoxValue = string.Empty;
+        this.isGeneratedProjectTasks = false;
+        StateHasChanged();
+    }
+
+    private void CloseDialog()
+    {
+        this.enableProjectDetailsDialog = false;
+        this.TasksValue = string.Empty;
+        this.TextBoxValue = string.Empty;
+        this.isGeneratedProjectTasks = false;
+        StateHasChanged();
+    }
+
+    public void TaskEditingHandler(Syncfusion.Blazor.Grids.ActionEventArgs<SmartSuggestionDataModel> args)
+    {
+        if (args.RequestType.ToString() == "Add")
+        {
+            enableTaskEditing = true;
+        }
+        else
+        {
+            enableTaskEditing = false;
+        }
+    }
+
+    public void RowCreatedHandler(RowCreatedEventArgs<SmartSuggestionDataModel> args)
+    {
+        args.Data.Status = "Open";
+        args.Data.Color = "#000000";
+    }
+}
+
+<style type="text/css">
+    .tailwind-dark .e-kanban .e-kanban-header .e-header-cells .e-item-count,
+    .tailwind .e-kanban .e-kanban-header .e-header-cells .e-item-count,
+    .bootstrap5-dark .e-kanban .e-kanban-header .e-header-cells .e-item-count,
+    .bootstrap5 .e-kanban .e-kanban-header .e-header-cells .e-item-count {
+        margin-top: 3px;
+    }
+
+    .e-kanban .header-template-wrap {
+        display: inline-flex;
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+    .e-kanban .header-template-wrap .header-icon {
+        font-family: 'Kanban priority icons';
+        margin-top: 3px;
+        width: 10%;
+    }
+
+    .e-kanban .header-template-wrap .header-text {
+        margin-left: 15px;
+    }
+
+    .e-kanban.e-rtl .header-template-wrap .header-text {
+        margin-right: 15px;
+    }
+
+    .e-kanban.e-rtl .e-card-avatar {
+        left: 12px;
+        right: auto;
+    }
+
+    .e-kanban .e-card-avatar {
+        width: 30px;
+        height: 30px;
+        text-align: center;
+        background: gainsboro;
+        color: #6b6b6b;
+        border-radius: 50%;
+        position: absolute;
+        right: 12px;
+        bottom: 10px;
+        font-size: 12px;
+        font-weight: 400;
+        padding: 7px 3px;
+    }
+
+    .bootstrap5 .e-kanban .e-card-avatar, .bootstrap5-dark .e-kanban .e-card-avatar, .tailwind .e-kanban .e-card-avatar, .tailwind-dark .e-kanban .e-card-avatar {
+        padding: 8px 3px;
+    }
+
+    .e-kanban .Open::before {
+        content: '\e700';
+        color: #0251cc;
+        font-size: 16px;
+    }
+
+    .e-kanban .In.Progress::before {
+        content: '\e703';
+        color: #ea9713;
+        font-size: 16px;
+    }
+
+    .e-kanban .e-image img {
+        background: #ececec;
+        border: 1px solid #c8c8c8;
+        border-radius: 50%;
+    }
+
+    .e-kanban .Review::before {
+        content: '\e701';
+        color: #8e4399;
+        font-size: 16px;
+    }
+
+    .e-kanban .Close::before {
+        content: '\e702';
+        color: #63ba3c;
+        font-size: 16px;
+    }
+
+    .e-kanban .e-card .e-card-tag {
+        background: #ececec;
+        color: #6b6b6b;
+        margin-right: 5px;
+        line-height: 1.1;
+        font-size: 13px;
+        border-radius: 3px;
+        padding: 4px;
+    }
+
+    .e-kanban .e-card-footer {
+        display: flex;
+        padding: 0px 12px 12px;
+        line-height: 1;
+        height: 35px;
+    }
+
+    .bootstrap5 .e-kanban .e-card-footer,
+    .bootstrap5-dark .e-kanban .e-card-footer {
+        height: 51px;
+    }
+
+    .tailwind .e-kanban .e-card-footer,
+    .tailwind-dark .e-kanban .e-card-footer {
+        height: 41px;
+    }
+
+    .bootstrap5.e-bigger .e-kanban .e-card-footer,
+    .bootstrap5-dark.e-bigger .e-kanban .e-card-footer,
+    .tailwind.e-bigger .e-kanban .e-card-footer,
+    .tailwind-dark.e-bigger .e-kanban .e-card-footer {
+        height: 37px;
+    }
+
+    .e-kanban .e-kanban-content .e-content-row .e-content-cells .e-card-wrapper .e-card.Low.e-selection:hover,
+    .card-template.Low {
+        border-left: 3px solid #ffd600
+    }
+
+    .e-kanban .e-kanban-content .e-content-row .e-content-cells .e-card-wrapper .e-card.High.e-selection:hover,
+    .card-template.High {
+        border-left: 3px solid #990099
+    }
+
+    .e-kanban .e-kanban-content .e-content-row .e-content-cells .e-card-wrapper .e-card.Normal.e-selection:hover,
+    .card-template.Normal {
+        border-left: 3px solid #66cc33
+    }
+
+    .e-kanban .e-kanban-content .e-content-row .e-content-cells .e-card-wrapper .e-card.Critical.e-selection:hover,
+    .card-template.Critical {
+        border-left: 3px solid #cc0000
+    }
+
+    .e-kanban.e-rtl .card-template {
+        border-left: none
+    }
+
+    @@font-face {
+        font-family: 'Kanban priority icons';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    [class^="sf-icon-"],
+    [class*=" sf-icon-"] {
+        font-family: 'Kanban priority icons' !important;
+        speak: none;
+        font-size: 55px;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .fluent .e-kanban .e-kanban-content .e-content-row .e-content-cells .e-card-wrapper .e-card .e-card-tag,
+    .fluent .e-kanban .e-kanban-content .e-content-row .e-content-cells .e-card-container .e-card .e-card-tag,
+    .fluent-dark .e-kanban .e-kanban-content .e-content-row .e-content-cells .e-card-wrapper .e-card .e-card-tag,
+    .fluent-dark .e-kanban .e-kanban-content .e-content-row .e-content-cells .e-card-container .e-card .e-card-tag {
+        padding: 0px 4px;
+        font-size: 12px;
+    }
+
+    .fluent .e-kanban .e-card-avatar {
+        padding: 7px 4px;
+    }
+
+    .row-small {
+        flex: 0 1 auto;
+        display: flex;
+        justify-content: start;
+        align-items: start;
+        padding: 5px !important;
+        margin-bottom: 5px !important;
+    }
+
+    .row-large {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 0;
+    }
+
+    .form-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .form-table th, .form-table td {
+        padding: 10px;
+        text-align: left;
+    }
+
+    .form-table th {
+        font-weight: bold;
+        text-align: center;
+    }
+
+    .custom-dialog .e-dialog .e-dlg-header {
+        text-align: center;
+    }
+
+    .form-input {
+        width: 100%;
+        padding: 8px;
+        box-sizing: border-box;
+        border: 1px solid #ccc;
+        border-radius: 4px;
+    }
+
+    .no-results-found {
+        text-align: center;
+        margin-top: 2rem;
+    }
+
+    .no-results-found img {
+        display: block;
+        margin: 0 auto;
+    }
+
+    .h-100 {
+        height: 100%;
+    }
+
+    .w-100 {
+        width: 100%;
+    }
+
+    textarea {
+        resize: none !important;
+    }
+
+    textarea.e-input, .e-input-group textarea.e-input, .e-input-group.e-control-wrapper textarea.e-input {
+        height: 100px;
+    }
+
+    .e-left {
+        flex: 3;
+    }
+
+    .e-right {
+        flex: 7;
+    }
+
+    .custom-dialog .e-dialog .e-dlg-header {
+        text-align: center;
+    }
+    .container {
+      display: flex;
+      flex-direction: column;
+      height: auto;
+      padding: 20px;
+    }
+    .row {
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+      padding: 20px;
+    }
+    .custom-row-1 {
+      padding-left: 12px !important;
+      padding-right: 12px !important;
+      padding-top: 0px !important;
+      padding-bottom: 0px !important;
+      height: 100%;
+    }
+
+    .custom-row-1, .custom-row-2 {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .cuscol-0, .cuscol-1, .cuscol-2, .cuscol-01 {
+      padding: 0.5rem;
+    }
+
+    .cuscol-2 {
+      padding: 20px;
+    }
+    .cuscol-1 {
+      display: flex;
+      flex-direction: column !important;
+    }
+
+    .cuscol-2 {
+      display: flex;
+      flex-direction: column !important;
+    }
+</style>

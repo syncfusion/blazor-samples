@@ -1,0 +1,377 @@
+﻿@page "/gantt-chart/advanced-filtering"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.QueryBuilder;
+@using Syncfusion.Blazor.Grids;
+@using ej2_blazor_filterdata
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the integration of the QueryBuilder component for complex filtering in the Gantt Chart.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        In this example, the process involves retrieving the complex query from the <a aria-label="Navigate to the documentation for getting started with query builder component" target="_blank" href="https://blazor.syncfusion.com/documentation/query-builder/getting-started">QueryBuilder</a> component and subsequently integrating it into the Gantt Chart by updating its <a aria-label="Navigate to the query property reference for gantt chart component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_Query">Query</a> property. The QueryBuilder component tool is located in a <a aria-label="Navigate to the documentation for getting started with sidebar component" target="_blank" href="https://blazor.syncfusion.com/documentation/sidebar/getting-started">SideBar</a> component that appears when you click on the toolbar.
+    </p>
+</ActionDescription>
+
+<div id="control-section" class="col-lg-12 control-section">
+    <div class="row">
+        <div style="padding-left: 10px; padding-right: 20px;">
+            @if (IsSidebarVisible)
+            {
+                <SfSidebar Animate="false"  Width="65%" Type="SidebarType.Over" Target="#GanttAdvancedFilter" Position="SidebarPosition.Right" @bind-IsOpen="IsSidebarOpen">
+                    <ChildContent>
+                        <div class="title-header">
+                            <div class="e-gantt-advance-filtering-title">
+                                Advanced Filters
+                            </div>
+                            <span id="close" class="e-close" @onclick="@CloseSidebar" style="position: absolute; top: 2%; right: 4%;"></span>
+                        </div>
+                        <div>
+                            <SfQueryBuilder @ref="QueryBuilder" DataSource="@QueryBuilderDataSource" AllowValidation="true" Width="100%">
+                                <QueryBuilderEvents TValue="ColumnDetail" RuleChanged="UpdateRule" Created="OnCreated"></QueryBuilderEvents>
+                                <QueryBuilderColumns>
+                                    <QueryBuilderColumn Field="TaskId" Label="ID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number></QueryBuilderColumn>
+                                    <QueryBuilderColumn Field="TaskName" Label="Task Name" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                                    <QueryBuilderColumn Field="StartDate" Label="Start Date" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date></QueryBuilderColumn>
+                                    <QueryBuilderColumn Field="Duration" Label="Duration" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                                    <QueryBuilderColumn Field="EndDate" Label="End Date" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date></QueryBuilderColumn>
+                                </QueryBuilderColumns>
+                            </SfQueryBuilder>
+                        </div>
+                        <div style="padding: 2%; float: right;">
+                            <SfButton style="background: #0078d4; border-color: #0078d4; color: #fff;" @onclick="ApplyFilters">Apply</SfButton>
+                            <SfButton style="margin-left: 5px;" @onclick="ClearFilters">Clear</SfButton>
+                        </div>
+                    </ChildContent>
+                </SfSidebar>
+            }
+        </div>
+
+        <SfGantt @ref="Gantt" ID="GanttAdvancedFilter" DataSource="@TaskCollection" AllowResizing="true" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate"
+        Query="@SearchQuery" ScrollToTaskbarOnClick="true" Toolbar="@Toolbaritems">
+            <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
+            Duration="Duration" ParentID="ParentId" Dependency="Predecessor"></GanttTaskFields>
+            <GanttColumns>
+                <GanttColumn Field="TaskId" HeaderText="ID"></GanttColumn>
+                <GanttColumn Field="TaskName" HeaderText="Task Name" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" Width="280px"></GanttColumn>
+                <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+            </GanttColumns>
+            <GanttSplitterSettings Position="380px"></GanttSplitterSettings>
+            <GanttLabelSettings LeftLabel="TaskName" TValue="FilterData.TaskData"></GanttLabelSettings>
+            <GanttEvents TValue="FilterData.TaskData" RowSelected="OnRowSelected" OnToolbarClick="ToolbarClickHandler"></GanttEvents>
+        </SfGantt>
+    </div>
+</div>
+
+@code {
+    public bool IsSidebarOpen { get; set; }
+    public bool IsSidebarVisible { get; set; }
+    public string FilterQuery { get; set; } = string.Empty;
+    public bool Querybuilderevent { get; set; } = false;
+    public SfGantt<FilterData.TaskData>? Gantt { get; set; }
+    public Query? SearchQuery { get; set; }
+    public WhereFilter ColumnPredicate { get; set; } = new WhereFilter();
+    public List<WhereFilter> FilterPredicates { get; set; } = new List<WhereFilter>();
+    public WhereFilter PredicateValue { get; set; }
+
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 24);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 6);
+    private IEnumerable<ColumnDetail> QueryBuilderDataSource { get; set; }
+    private SfQueryBuilder<ColumnDetail> QueryBuilder { get; set; }
+    private List<FilterData.TaskData> TaskCollection { get; set; } = new List<FilterData.TaskData>();
+#pragma warning disable BL0005 // Component parameter should not be set outside of its component.
+    public List<Object> Toolbaritems { get; set; } = new List<Object>() { new ToolbarItem() { Text = "Advanced Filters", TooltipText = "Advanced Filters", Id = "Advanced_Filters", PrefixIcon = "e-filter-icon", Align = ItemAlign.Right } };
+#pragma warning restore BL0005 // Component parameter should not be set outside of its component.
+    protected override void OnInitialized()
+    {
+        TaskCollection = FilterData.GetTaskCollection();
+    }
+
+    public void OnRowSelected(RowSelectEventArgs<FilterData.TaskData> args)
+    {
+        IsSidebarOpen = false;
+        if (IsSidebarVisible)
+        {
+            FilterQuery = QueryBuilder.GetSqlFromRules();
+            IsSidebarVisible = false;
+        }
+    }
+    void ToolbarClickHandler(ClickEventArgs args)
+    {
+        if (args.Item.Text == "Advanced Filters")
+        {
+            ToggleSidebar();
+        }
+
+    }
+    private void UpdateRule(Syncfusion.Blazor.QueryBuilder.RuleChangeEventArgs args)
+    {
+        PredicateValue = QueryBuilder.GetPredicate(args.Rule);
+        if (args.Type == "DeleteRule" && PredicateValue != null)
+        {
+            SearchQuery = new Query().Where(PredicateValue);
+        }
+        else if (PredicateValue == null && args.Type == "DeleteRule")
+        {
+            ColumnPredicate = WhereFilter.And(FilterPredicates);
+            SearchQuery = new Query().Where(ColumnPredicate);
+        }
+    }
+
+    private void OnCreated()
+    {
+        Querybuilderevent = true;
+        if (!string.IsNullOrEmpty(FilterQuery))
+        {
+            QueryBuilder.SetRulesFromSql(FilterQuery);
+        }
+    }
+
+    private void ApplyFilters()
+    {
+        if (PredicateValue != null)
+        {
+            SearchQuery = new Query().Where(PredicateValue);
+        }
+        else
+        {
+            ColumnPredicate = WhereFilter.And(FilterPredicates);
+            SearchQuery = new Query().Where(ColumnPredicate);
+        }
+    }
+
+    private void ClearFilters()
+    {
+        QueryBuilder.Reset();
+        PredicateValue = null;
+        SearchQuery = new Query();
+    }
+
+    public void CloseSidebar()
+    {
+        FilterQuery = QueryBuilder.GetSqlFromRules();
+        IsSidebarOpen = false;
+        IsSidebarVisible = false;
+    }
+
+    private void ToggleSidebar()
+    {
+        IsSidebarOpen = !IsSidebarOpen;
+        IsSidebarVisible = true;
+        if (Querybuilderevent)
+        {
+            FilterQuery = QueryBuilder.GetSqlFromRules();
+        }
+
+        StateHasChanged();
+    }
+
+    public class ColumnDetail
+    {
+        public static List<ColumnDetail> GetAllRecords()
+        {
+            return new List<ColumnDetail>();
+        }
+    }
+
+}
+<style>
+
+    .e-sidebar .title-header #close {
+        cursor: pointer;
+        line-height: 25px;
+        font-size: 14px;
+        float: right;
+    }
+
+    #wrapper #close:before {
+        font-family: 'e-icons' !important;
+        content: '\e109';
+    }
+
+    .e-gantt-advance-filtering-title {
+        font-weight: 500;
+        line-height: 24px;
+        font-size: 18px;
+        margin-top: 0;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        padding: 8px;
+    }
+
+
+    .material3 .e-sidebar-absolute, 
+    .fluent .e-sidebar-absolute,
+    .fluent2 .e-sidebar-absolute,
+    .bootstrap5 .e-sidebar-absolute,
+    .tailwind .e-sidebar-absolute,
+    .material3 .title, 
+    .fluent .title,
+    .fluent2 .title,
+    .bootstrap5 .title,
+    .tailwind .title,
+    .material3 .title-header, 
+    .fluent .title-header,
+    .fluent2 .title-header,
+    .bootstrap5 .title-header,
+    .tailwind .title-header {
+        background: #f3f2f1;
+    }
+
+    .material3-dark .e-sidebar-absolute, 
+    .fluent-dark .e-sidebar-absolute,
+    .fluent2-dark .e-sidebar-absolute,
+    .bootstrap5-dark .e-sidebar-absolute,
+    .tailwind-dark .e-sidebar-absolute,
+    .highcontrast .e-sidebar-absolute,
+    .fluent2-highcontrast .e-sidebar-absolute,
+    .material3-dark .title, 
+    .fluent-dark .title,
+    .fluent2-dark .title,
+    .bootstrap5-dark .title,
+    .tailwind-dark .title,
+    .highcontrast .title,
+    .fluent2-highcontrast .title,
+    .material3-dark .title-header, 
+    .fluent-dark .title-header,
+    .fluent2-dark .title-header,
+    .bootstrap5-dark .title-header,
+    .tailwind-dark .title-header,
+    .highcontrast .title-header,
+    .fluent2-highcontrast .title-header {
+        background: #0C0D0E;
+    }
+
+    .material3 .e-query-builder, 
+    .fluent .e-query-builder,
+    .fluent2 .e-query-builder,
+    .bootstrap5 .e-query-builder,
+    .tailwind .e-query-builder{
+        background: #fff;
+    }
+    .material3-dark .e-query-builder, 
+    .fluent-dark .e-query-builder,
+    .fluent2-dark .e-query-builder,
+    .bootstrap5-dark .e-query-builder,
+    .tailwind-dark .e-query-builder,
+    .highcontrast .e-query-builder,
+    .fluent2-highcontrast .e-query-builder{
+        background: #000000;
+    }
+    .material3 .e-filter-icon::before,
+    .material3-dark .e-filter-icon::before,
+    .material3 .e-filter-icon::before {
+        content: '\e7f7';
+        font-family: 'e-icons';
+        font-size: 13px;
+    }
+
+    .material .e-filter-icon::before,
+    .material-dark .e-filter-icon::before,
+    .material .e-filter-icon::before {
+        content: '\e251';
+        font-family: 'e-icons';
+        font-size: 13px;
+    }
+
+    .fabric .e-filter-icon::before,
+    .fabric-dark .e-filter-icon::before,
+    .highcontrast .e-filter-icon::before {
+        content: '\e7f7';
+        font-family: 'e-icons';
+        font-size: 13px;
+    }
+
+    .bootstrap .e-filter-icon::before,
+    .bootstrap-dark .e-filter-icon::before {
+        content: '\e249';
+        font-family: 'e-icons';
+        font-size: 13px;
+    }
+
+    .bootstrap4 .e-filter-icon::before {
+        content: '\e714';
+        font-family: 'e-icons';
+        font-size: 13px;
+    }
+
+    .fabric .e-filter-icon::before,
+    .fabric-dark .e-filter-icon::before,
+    .highcontrast .e-filter-icon::before {
+        content: '\e250';
+        font-family: 'e-icons';
+        font-size: 13px;
+    }
+    .fluent .e-filter-icon::before, .fluent-dark .e-filter-icon::before,
+    .tailwind3 .e-filter-icon::before, .tailwind3-dark .e-filter-icon::before,
+    .fluent2 .e-filter-icon::before, .fluent2-dark .e-filter-icon::before, .fluent2-highcontrast .e-filter-icon::before, 
+    .bootstrap5\.3 .e-filter-icon::before, .bootstrap5\.3-dark .e-filter-icon::before, .bootstrap5 .e-filter-icon::before, .bootstrap5-dark .e-filter-icon::before {
+        content: '\e7f7';
+        font-family: 'e-icons';
+        font-size: 13px;
+    }
+    .material3 .e-close::before,
+    .material3-dark .e-close::before,
+    .material3 .e-close::before {
+        content: '\e7e7';
+        font-family: 'e-icons';
+    }
+    .material .e-close::before,
+    .material-dark .e-close::before,
+    .material .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+    }
+    .fabric .e-close::before,
+    .fabric-dark .e-close::before,
+    .highcontrast  .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+    }
+
+    .bootstrap .e-close::before,
+    .bootstrap-dark .e-close::before {
+        content: '\e7fc';
+        font-family: 'e-icons';
+    }
+
+    .bootstrap4 .e-close::before {
+        content: '\e745';
+        font-family: 'e-icons';
+    }
+
+    .bootstrap5 .e-close::before,
+    .bootstrap5-dark .e-close::before,
+    .fluent .e-close::before, .fluent-dark .e-close::before,
+    .tailwind3 .e-close::before, .tailwind3-dark .e-close::before,
+    .fluent2 .e-close::before, .fluent2-dark .e-close::before, .fluent2-highcontrast .e-close::before, .bootstrap5\.3 .e-close::before, .bootstrap5\.3-dark .e-close::before  {
+        content: '\e7e7';
+        font-family: 'e-icons';
+    }
+
+    @@media screen and (max-width: 768px) {
+        .e-bigger .e-sidebar {
+            width: 100% !important;
+    }
+    }
+
+    .e-bigger .e-gantt-advance-filtering-title {
+        height: 48px;
+    }
+    
+    .e-btn-icon.e-icon-left {
+        margin-top: -1px;
+    }
+</style>

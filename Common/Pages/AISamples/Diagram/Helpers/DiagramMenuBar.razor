@@ -1,0 +1,67 @@
+﻿@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Navigations;
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.PdfExport;
+@using System.Text.Json.Serialization;
+@using System.Text.Json;
+@using System.Collections.ObjectModel;
+@using Syncfusion.Blazor.SplitButtons;
+@using Microsoft.JSInterop
+@using Microsoft.AspNetCore.Components.Web
+@using System;
+@namespace TextToMindMapDiagram
+@inject IJSRuntime jsRuntime
+
+<div class="db-header-container db-menu-container" style="display: block;">
+        <SfDropDownButton @ref="FileButton" Id ="btnFileMenu"  Content="File" CssClass="e-dropDown-button">
+            <ChildContent>
+                <DropDownButtonEvents OnOpen="@DropDownButtonOpen"></DropDownButtonEvents>
+            </ChildContent>
+            <PopupContent>
+                <SfContextMenu @ref="ContextMenu" Items="@FileMenuItems" TValue="ContextMenuItemModel">
+                    <MenuEvents TValue="ContextMenuItemModel" Created="OnMenuCreated" ItemSelected="@MenuClick"></MenuEvents>
+                </SfContextMenu>
+            </PopupContent>
+        </SfDropDownButton>
+        <SfDropDownButton  @ref="EditButton" Id ="btnEditMenu" Content="Edit" CssClass="e-dropDown-button">
+            <ChildContent>
+                <DropDownButtonEvents OnOpen="@DropDownfileOpenButtonOpen"></DropDownButtonEvents>
+            </ChildContent>
+            <PopupContent>
+                <SfContextMenu @ref="ContextMenu" Items="@EditMenuItems" TValue="ContextMenuItemModel">
+                  <MenuEvents TValue="ContextMenuItemModel" Created="OnMenuCreated" ItemSelected="@MenuClick"></MenuEvents>
+                </SfContextMenu>
+            </PopupContent>
+        </SfDropDownButton>
+        <SfDropDownButton @ref="ViewButton" Id ="btnViewMenu" Content="View" CssClass="e-dropDown-button">
+            <ChildContent>
+                <DropDownButtonEvents OnOpen="@DropDownViewButtonOpen"></DropDownButtonEvents>
+            </ChildContent>
+            <PopupContent>
+                <SfContextMenu @ref="ContextMenu" Items="@ViewMenuItems">
+                   <MenuEvents TValue="ContextMenuItemModel" Created="OnMenuCreated" ItemSelected="@MenuClick"></MenuEvents>
+                </SfContextMenu>
+            </PopupContent>
+        </SfDropDownButton>
+        <SfDropDownButton @ref="WindowButton"  Id ="btnWindowMenu" Content="Window" CssClass="e-dropDown-button">
+            <ChildContent>
+                <DropDownButtonEvents OnOpen="@DropDownWindowButtonOpen"></DropDownButtonEvents>
+            </ChildContent>
+            <PopupContent>
+                <SfContextMenu @ref="ContextMenu" Items="@WindowMenuItems" >
+                   <MenuEvents TValue="ContextMenuItemModel" Created="OnMenuCreated" ItemSelected="@MenuClick"></MenuEvents>
+                </SfContextMenu>
+            </PopupContent>
+        </SfDropDownButton>
+    <div style="display: none;visibility: hidden;">
+        <SfUploader @ref="@UploadFiles" Id="UploadFiles" ShowFileList="false" AllowedExtensions="@ExtensionType">
+            <UploaderEvents Success="@OnUploadSuccess" OnUploadStart="@OnUploadFileSelected"></UploaderEvents>
+            <UploaderAsyncSettings SaveUrl="http://localhost:63028/api/FileUploader/Save" RemoveUrl="http://localhost:63028/api/FileUploader/Remove"></UploaderAsyncSettings>
+        </SfUploader>
+        </div>
+    <DiagramSaveDialog @ref="@SaveDialogBox"></DiagramSaveDialog>
+    <DiagramExportDialog @ref="@ExportDialogBox"></DiagramExportDialog>
+    <DiagramPrintDialog @ref="@PrintDialogBox"></DiagramPrintDialog>
+    </div>
+
+

@@ -1,0 +1,270 @@
+﻿@page "/tree-grid/observable-binding"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using System.Collections.ObjectModel;
+@using System.ComponentModel;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@using ObservableCollection
+@using ObservableCollectionProperties
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates real-time observable data binding in the Blazor TreeGrid, enabling instant updates for any changes made to hierarchical support ticket data.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The TreeGrid uses an <code>ObservableCollection</code> to reflect hierarchical changes, including adding, resolving, escalating, or removing actions, directly in the UI as users interact with the ticket list. These interactive operations instantly update the display for seamless synchronization without manual refreshing.
+    </p>
+    <p>
+        In this demo, <strong>Add Ticket</strong> opens a dialog with three required fields: Category (from existing root tickets), Title (custom user input), and Priority. New tickets automatically inherit the category and customer from their parent.
+    </p>
+    <p>
+        <strong>Additional Actions:</strong> <strong>Mark as Resolved</strong> changes the selected ticket status to resolved; <strong>Escalate Ticket</strong> changes the status to Escalated and priority to Critical; and <strong>Delete Resolved Ticket</strong> removes only the selected ticket from the collection if it has a Resolved status.
+    </p>
+    <p>
+        Underlying collections must implement <a target="_blank" href="https://learn.microsoft.com/en-us/dotnet/api/system.collections.specialized.inotifycollectionchanged?view=net-9.0">INotifyCollectionChanged</a> and models should implement <a target="_blank" href="https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.inotifypropertychanged?view=net-9.0">INotifyPropertyChanged</a> for property-level notifications.
+    </p>
+</ActionDescription>
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="row mb-3">
+                <div class="col-md-12">
+                    <div class="btn-toolbar" role="toolbar">
+                        <div class="btn-group me-2" role="group">
+                            <SfButton Content="Add Ticket" CssClass="e-outline me-2" OnClick="AddHighPriorityTicket" />
+                            <SfButton Content="Mark as Resolved"
+                                      @ref="ResolveTicketButtonRef"
+                                      OnClick="ResolveRandomTicket"
+                                      CssClass="e-outline me-2" />
+                            <SfButton Content="Escalate Ticket"
+                                      @ref="EscalateTicketButtonRef"
+                                      OnClick="EscalateTicket"
+                                      CssClass="e-outline me-2" />
+                        </div>
+                        <div class="btn-group me-2" role="group">
+                            <SfButton Content="Delete Resolved Ticket"
+                                      @ref="RemoveResolvedTicketButtonRef"
+                                      CssClass="e-outline me-2"
+                                      OnClick="RemoveSelectedResolvedTicket" />
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <SfTreeGrid @ref="TreeGridRef" DataSource="@TicketData" IdMapping="TicketID" ParentIdMapping="ParentTicketID" TreeColumnIndex="1" Height="400px" GridLines="GridLine.Both"
+                                Toolbar="@(new List<string>() { "Search"})">
+
+                        <TreeGridEvents TValue="SupportTicketData" RowSelected="OnRowSelected" RowDeselected="OnRowDeselected" />
+
+                        <TreeGridPageSettings PageSize="2" />
+                        <TreeGridFilterSettings Type="Syncfusion.Blazor.TreeGrid.FilterType.FilterBar" HierarchyMode="FilterHierarchyMode.Parent" />
+                        <TreeGridEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true" Mode="Syncfusion.Blazor.TreeGrid.EditMode.Row" />
+
+                        <TreeGridColumns>
+                            <TreeGridColumn Field="TicketID" HeaderText="Ticket ID" Width="100" TextAlign="TextAlign.Right" IsPrimaryKey="true" AllowEditing="false" />
+                            <TreeGridColumn Field="Title" HeaderText="Title" Width="250" ClipMode="ClipMode.EllipsisWithTooltip" />
+                            <TreeGridColumn Field="Category" HeaderText="Category" Width="120" />
+                            <TreeGridColumn Field="Priority" HeaderText="Priority" Width="100">
+                                <Template>
+                                    @{
+                                        var ticket = context as SupportTicketData;
+                                        var badgeClass = ticket?.Priority switch
+                                        {
+                                            "Critical" => "badge bg-danger",
+                                            "High" => "badge bg-warning",
+                                            "Medium" => "badge bg-info",
+                                            "Low" => "badge bg-success",
+                                            _ => "badge bg-secondary"
+                                        };
+                                    }
+                                    <span class="@badgeClass">@ticket?.Priority</span>
+                                </Template>
+                            </TreeGridColumn>
+                            <TreeGridColumn Field="Status" HeaderText="Status" Width="120">
+                                <Template>
+                                    @{
+                                        var ticket = context as SupportTicketData;
+                                        var statusClass = ticket?.Status switch
+                                        {
+                                            "Open" => "badge bg-primary",
+                                            "In Progress" => "badge bg-warning",
+                                            "Resolved" => "badge bg-success",
+                                            "Closed" => "badge bg-secondary",
+                                            "Escalated" => "badge bg-danger",
+                                            _ => "badge bg-light text-dark"
+                                        };
+                                    }
+                                    <span class="@statusClass">@ticket?.Status</span>
+                                </Template>
+                            </TreeGridColumn>
+                            <TreeGridColumn Field="AssignedAgent" HeaderText="Assigned To" Width="150" />
+                            <TreeGridColumn Field="CustomerName" HeaderText="Customer" ClipMode="ClipMode.EllipsisWithTooltip" Width="140" />
+                            <TreeGridColumn Field="CreatedDate" HeaderText="Created Date" Width="130" Format="MM/dd/yyyy" Type="ColumnType.Date" />
+                            <TreeGridColumn Field="DueDate" HeaderText="Due Date" Width="130" Format="MM/dd/yyyy" Type="ColumnType.Date" />
+                        </TreeGridColumns>
+
+                        <TreeGridAggregates>
+                            <TreeGridAggregate>
+                                <TreeGridAggregateColumns>
+                                    <TreeGridAggregateColumn Field="Priority" Type="Syncfusion.Blazor.Grids.AggregateType.Count">
+                                        <FooterTemplate>
+                                            @{
+                                                var summary = TicketData
+                                                .GroupBy(t => t.Priority)
+                                                .ToDictionary(grp => grp.Key, grp => grp.Count());
+                                                var critical = summary.ContainsKey("Critical") ? summary["Critical"] : 0;
+                                            }
+                                            <div class="d-flex flex-column">
+                                                <span>Critical: @critical</span>
+                                            </div>
+                                        </FooterTemplate>
+                                    </TreeGridAggregateColumn>
+                                    <TreeGridAggregateColumn Field="Status" Type="Syncfusion.Blazor.Grids.AggregateType.Count">
+                                        <FooterTemplate>
+                                            @{
+                                                var statusSummary = TicketData
+                                                .GroupBy(t => t.Status)
+                                                .ToDictionary(grp => grp.Key, grp => grp.Count());
+                                                var escalated = statusSummary.ContainsKey("Escalated") ? statusSummary["Escalated"] : 0;
+                                            }
+                                            <div class="d-flex flex-column">
+                                                <span>Escalated: @escalated</span>
+                                            </div>
+                                        </FooterTemplate>
+                                    </TreeGridAggregateColumn>
+                                </TreeGridAggregateColumns>
+                            </TreeGridAggregate>
+                            <TreeGridAggregate>
+                                <TreeGridAggregateColumns>
+                                    <TreeGridAggregateColumn Field="Status" Type="Syncfusion.Blazor.Grids.AggregateType.Custom">
+                                        <FooterTemplate>
+                                            @{
+                                                var statusSummary = TicketData
+                                                .GroupBy(t => t.Status)
+                                                .ToDictionary(grp => grp.Key, grp => grp.Count());
+                                                var resolved = statusSummary.ContainsKey("Resolved") ? statusSummary["Resolved"] : 0;
+                                            }
+                                            <div class="d-flex flex-column">
+                                                <span>Resolved: @resolved</span>
+                                            </div>
+                                        </FooterTemplate>
+                                    </TreeGridAggregateColumn>
+                                </TreeGridAggregateColumns>
+                            </TreeGridAggregate>
+                        </TreeGridAggregates>
+                    </SfTreeGrid>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Ticket Modal Dialog -->
+<SfDialog @ref="AddDialogRef" Width="500px" Height="auto" IsModal="true" ShowCloseIcon="true">
+    <DialogTemplates>
+        <Header>
+            <div>Add New Support Ticket</div>
+        </Header>
+        <Content>
+            <div class="container-fluid">
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label"><strong>Category:</strong> <span class="text-danger">*</span></label>
+                        <SfDropDownList TValue="int?" TItem="SupportTicketData"
+                                        @bind-Value="SelectedParentTicketId"
+                                        DataSource="@RootParentTickets"
+                                        Placeholder="Select Category"
+                                        AllowClear="true">
+                            <DropDownListFieldSettings Value="TicketID" Text="Title"></DropDownListFieldSettings>
+                            <DropDownListTemplates TItem="SupportTicketData">
+                                <ItemTemplate>
+                                    <div>
+                                        <strong>#@((context as SupportTicketData).TicketID)</strong> - @((context as SupportTicketData).Title)
+                                        <br />
+                                        <small class="text-muted">@((context as SupportTicketData).Category) | @((context as SupportTicketData).CustomerName)</small>
+                                    </div>
+                                </ItemTemplate>
+                            </DropDownListTemplates>
+                            <DropDownListEvents TValue="int?" TItem="SupportTicketData" ValueChange="@((e) => ValidateForm())" />
+                        </SfDropDownList>
+                    </div>
+                </div><br />
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label"><strong>Title:</strong> <span class="text-danger">*</span></label>
+                        <SfTextBox @bind-Value="CustomTicketTitle"
+                                   Placeholder="Enter ticket title"
+                                   ShowClearButton="true"
+                                   FloatLabelType="FloatLabelType.Never">
+                        </SfTextBox>
+                    </div>
+                </div><br />
+
+                <div class="row mb-3">
+                    <div class="col-12">
+                        <label class="form-label"><strong>Priority:</strong></label>
+                        <SfDropDownList TValue="string" TItem="string"
+                                        @bind-Value="SelectedPriority"
+                                        DataSource="@PriorityOptions"
+                                        Placeholder="Select priority">
+                        </SfDropDownList>
+                    </div>
+                </div>
+            </div>
+        </Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content="Add Ticket"
+                      IsPrimary="true"
+                      OnClick="AddTicketWithParent"
+                      Disabled="@(!IsAddTicketFormValid())"
+                      CssClass="@(IsAddTicketFormValid() ? "" : "e-btn-disabled")" />
+        <DialogButton Content="Cancel" OnClick="CloseAddTicketDialog" />
+    </DialogButtons>
+</SfDialog>
+@*Hidden:Lines*@
+<style>
+    .bg-warning {
+        --bs-bg-opacity: 1;
+        background-color: rgba(255, 193, 7, 1) !important;
+    }
+
+    .bg-danger {
+        --bs-bg-opacity: 1;
+        background-color: rgba(220, 53, 69, 1) !important;
+    }
+
+    .bg-info {
+        --bs-bg-opacity: 1;
+        background-color: rgba(13, 202, 240, 1) !important;
+    }
+
+    .bg-success {
+        --bs-bg-opacity: 1;
+        background-color: rgba(25, 135, 84, 1) !important;
+    }
+
+    .bg-primary {
+        --bs-bg-opacity: 1;
+        background-color: rgba(13, 110, 253, 1) !important;
+    }
+
+    .bg-secondary {
+        --bs-bg-opacity: 1;
+        background-color: rgba(108, 117, 125, 1 !important;
+    }
+</style>
+@*End:Hidden*@

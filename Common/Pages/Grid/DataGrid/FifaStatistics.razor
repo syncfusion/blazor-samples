@@ -1,0 +1,376 @@
+@page "/datagrid/fifa-statistics"
+@using FifaStatsSample.Data
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Popups
+@inject NavigationManager UriHelper
+@inherits SampleBaseComponent
+
+<ActionDescription>
+    <p>This section provides detailed information about the FIFA World Cup, including the year, host country, champion team, top scorer, best player, and winning coach. The data is enhanced with flags, icons, and hyperlinks for easy access to more details.The Grid <a target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_Template">Column Template</a> feature allows custom content in grid cells, creating a rich, interactive display.</p>
+</ActionDescription>
+<SampleDescription>
+    <p>In this demo, the Syncfusion DataGrid displays comprehensive FIFA World Cup records and statistics, covering the entire history of the tournament from 1930 to 2022. The FIFA World Cup statistics and data used in this application are sourced from <a target='_blank' href="https://en.wikipedia.org/wiki/FIFA_World_Cup_records_and_statistics">Wikipedia</a>. We sincerely thank Wikipedia for their invaluable resource, which has been instrumental in preparing this demonstration.</p>
+</SampleDescription>
+
+<div class="control-pane">
+    <div class="control-section">
+        <SfTooltip ID="tooltip" CssClass="fifa_tooltip" Target=".infotooltip" OpensOn="Hover" OnClose="OnTooltipClose" @ref="ToolTipInstance" Width="@ToolTipWidth" OnRender="OnTooltipRender" OnOpen="OnTooltipOpen">
+            <ContentTemplate>
+                <div id="democontent" class="democontent">
+                    @if (CurrentColumnField == "Host" || (CurrentColumnField == "Coach" && IsImageHover))
+                    {
+                        <div class="image-container">
+                            <img src="@TooltipImageSource" decoding="async" width="275" height="175" />
+                        </div>
+                        <div class="tooltip-text">
+                            @((MarkupString)TooltipContent!)
+                        </div>
+                    }
+                    else
+                    {
+                        string displayStyle = HideImage ? "none" : "block";
+                        <div class="other-content" style="display: inline;">
+                            <div class="right-floated-image" style="display: @displayStyle;">
+                                <img src="@TooltipImageSource" alt="" decoding="async" width="190" height="270" />
+                            </div>
+                            <div class="tooltip-text">
+                                @((MarkupString)TooltipContent!)
+                            </div>
+                        </div>
+                    }
+                </div>
+            </ContentTemplate>
+            <ChildContent>
+                <SfGrid DataSource="@FifaDetails" ID="fifa_grid" GridLines="GridLine.Both" @ref="GridInstance" AllowSorting="true" EnableStickyHeader="true" AllowTextWrap="true" EnableAltRow="true" EnableHover="false" AllowSelection="false">
+                    <GridTextWrapSettings WrapMode="WrapMode.Content"></GridTextWrapSettings>
+                    <GridColumns>
+                        @* GridColumn for year *@
+                        <GridColumn Field=@nameof(FifaData.Year) HeaderText="Year" TextAlign="TextAlign.Right" Width="100"></GridColumn>
+                        @* GridColumn for organizer *@
+                        <GridColumn Field=@nameof(FifaData.Host) HeaderText="Organizer" TextAlign="TextAlign.Left" Width="140">
+                            <Template>
+                                @{
+                                    var hostsInfo = (context as FifaData)?.Host.Split(',') ?? new string[0];
+                                    foreach (var hostInfo in hostsInfo)
+                                    {
+                                        var imageFileName = WebpFiles.Contains(hostInfo) ? $"{hostInfo.ToLower().Replace(" ", "-")}.webp" : $"{hostInfo.ToLower().Replace(" ", "-")}.png";
+                                        <div>
+                                            <span><img src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/country/{imageFileName}")" width="23" height="15" title="@hostInfo" alt="organizer country" /></span>
+                                            <span @onmouseover="() => OnHover(nameof(FifaData.Host),hostInfo,false)">
+                                                <a class="infotooltip" href="https://ej2.syncfusion.com/home/">@hostInfo</a>
+                                            </span>
+                                        </div>
+                                    }
+                                }
+                            </Template>
+                        </GridColumn>
+                        @* GridColumn for Champions *@
+                        <GridColumn Field=@nameof(FifaData.Champions) HeaderText="Champions" TextAlign="TextAlign.Left" Width="140">
+                            <Template>
+                                @{
+                                    var championInfo = (context as FifaData)?.Champions;
+                                    var imageFileName = WebpFiles.Contains(championInfo!) ? $"{championInfo}.webp" : $"{championInfo}.png";
+                                    <div>
+                                        <span>
+                                            <img src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/country/{imageFileName.ToLower().Replace(" ", "-")}")" width="23" height="15" title="@championInfo" />
+                                        </span>
+                                        <span @onmouseover="() => OnHover(nameof(FifaData.Champions),championInfo!, false)">
+                                            <a class="infotooltip" href="https://ej2.syncfusion.com/home/">@championInfo</a>
+                                        </span>
+                                    </div>
+                                }
+                            </Template>
+                        </GridColumn>
+                        @* GridColumn for Winning Coach *@
+                        <GridColumn Field=@nameof(FifaData.Coach) HeaderText="Winning Coach" TextAlign="TextAlign.Left" Width="185">
+                            <Template>
+                                @{
+                                    var coachCountry = (context as FifaData)?.Champions;
+                                    var coachInfo = (context as FifaData)?.Coach;
+                                    var imageFileName = coachCountry != null && WebpFiles.Contains(coachCountry) ? $"{coachCountry}.webp" : $"{coachCountry}.png";
+                                    <div>
+                                        <span class="infotooltip" @onmouseover="() => OnHover(nameof(FifaData.Coach), coachCountry!, true)">
+                                            <img src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/country/{imageFileName.ToLower().Replace(" ", "-")}")" width="23" height="15" />
+                                        </span>
+                                        <span @onmouseover="() => OnHover(nameof(FifaData.Coach), coachInfo!, false)">
+                                            <a class="infotooltip" href="">@coachInfo</a>
+                                        </span>
+                                    </div>
+                                }
+                            </Template>
+                        </GridColumn>
+                        @* GridColumn for Most Scorer *@
+                        <GridColumn Field=@nameof(FifaData.TopScorer) HeaderText="Most Scorer(s)" TextAlign="TextAlign.Left" Width="165">
+                            <Template>
+                                @{
+                                    var topScorerCountries = (context as FifaData)?.TopScorerCountry.Split(',') ?? new string[0];
+                                    var topScorers = (context as FifaData)?.TopScorer.Split(',') ?? new string[0];
+                                    var totalGoal = (context as FifaData)?.TotalGoal;
+                                    for (var index = 0; index < topScorers?.Length; index++)
+                                    {
+                                        var topScorerCountry = topScorerCountries[index];
+                                        var topScorer = topScorers[index];
+                                        var convertedValue = topScorer?.Replace(" ", "_");
+                                        var imageFileName = WebpFiles.Contains(topScorerCountry) ? $"{topScorerCountry}.webp" : $"{topScorerCountry}.png";
+                                        <div>
+                                            @if (!string.IsNullOrEmpty(topScorerCountry))
+                                            {
+                                                <span class="infotooltip e-space" @onmouseover="() => OnHover(nameof(FifaData.TopScorer), topScorerCountry, true)">
+                                                    <img src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/country/{imageFileName.ToLower().Replace(" ", "-")}")" width="23" height="15" />
+                                                </span>
+                                            }
+                                            @if (TooltipData.topScorerInfo.ContainsKey(convertedValue!))
+                                            {
+                                                <span @onmouseover="() => OnHover(nameof(FifaData.TopScorer), topScorer!, false)">
+                                                    <a class="infotooltip" href="https://ej2.syncfusion.com/home/">@topScorer</a>
+                                                </span>
+                                            }
+                                            else
+                                            {
+                                                <span>@topScorer</span>
+                                            }
+                                        </div>
+                                    }
+                                    <div>
+                                        @for (var i = 0; i < totalGoal; i++)
+                                        {
+                                            <svg class="goal" width="14" height="14" xmlns="http://www.w3.org/2000/svg">
+                                                <path fill-rule="evenodd" clip-rule="evenodd"
+                                                      d="M7 14C10.866 14 14 10.866 14 7C14 3.13401 10.866 0 7 0C3.13401 0 0 3.13401 0 7C0 10.866 3.13401 14 7 14ZM9.45103 9.48743L11.9038 9.65149C12.3112 8.95696 12.5764 8.16672 12.6584 7.32454L10.5776 6.01477C10.46 5.93821 10.3698 5.82336 10.326 5.68938C10.2823 5.5554 10.2877 5.41047 10.3397 5.27922L11.253 2.99875C10.7088 2.38625 10.0334 1.89133 9.27329 1.55774L7.38384 3.13274C7.2772 3.22297 7.13774 3.27219 6.99829 3.27219C6.85884 3.27219 6.72212 3.22297 6.61274 3.13274L4.72329 1.55774C3.96313 1.89133 3.28774 2.38625 2.7436 2.99875L3.65415 5.27922C3.7061 5.41047 3.71157 5.5554 3.66782 5.68938C3.62407 5.82336 3.53657 5.93821 3.41626 6.01477L1.33813 7.32454C1.41743 8.16672 1.6854 8.95696 2.09282 9.65149L4.54556 9.48743C4.68774 9.47922 4.82993 9.51751 4.94204 9.60227C5.05415 9.68704 5.13618 9.80735 5.17173 9.94407L5.77329 12.3284C6.16978 12.4132 6.5772 12.4597 6.99829 12.4597C7.41938 12.4597 7.82954 12.4159 8.22329 12.3284L8.82485 9.94407C8.85767 9.80462 8.9397 9.68704 9.05454 9.60227C9.16938 9.51751 9.30884 9.47922 9.45103 9.48743ZM5.30298 5.81516L6.61274 4.86633C6.84243 4.69954 7.15415 4.69954 7.38384 4.86633V4.8636L8.6936 5.81516C8.92329 5.98196 9.01899 6.27727 8.93149 6.54797L8.4311 8.08743C8.3436 8.35813 8.09204 8.54133 7.80767 8.54133H6.18892C5.90454 8.54133 5.65298 8.35813 5.56548 8.08743L5.06509 6.54797C4.97759 6.27727 5.07329 5.98196 5.30298 5.81516Z">
+                                                </path>
+                                            </svg>
+                                        }
+                                    </div>
+                                }
+                            </Template>
+                        </GridColumn>
+                        @* GridColumn for Player of the season *@
+                        <GridColumn Field=@nameof(FifaData.BestPlayerAward) HeaderText="Player of season" TextAlign="TextAlign.Left" Width="170">
+                            <Template>
+                                @{
+                                    var bestPlayerAward = (context as FifaData)?.BestPlayerAward;
+                                    var bestPlayerCountry = (context as FifaData)?.BestPlayerCountry;
+                                    var convertedValue = bestPlayerAward?.Replace(" ", "_");
+                                    <div>
+                                        @if (!string.IsNullOrEmpty(bestPlayerCountry))
+                                        {
+                                            var imageFileName = WebpFiles.Contains(bestPlayerCountry) ? $"{bestPlayerCountry}.webp" : $"{bestPlayerCountry}.png";
+                                            <span class="infotooltip e-space" @onmouseover="() => OnHover(nameof(FifaData.BestPlayerAward), bestPlayerCountry, true)">
+                                                <img src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/country/{imageFileName.ToLower().Replace(" ", "-")}")" width="23" height="17" class="most-scorer" />
+                                            </span>
+                                        }
+                                        @if (convertedValue != null && TooltipData.bestPlayerInfo.ContainsKey(convertedValue))
+                                        {
+                                            <span @onmouseover="() => OnHover(nameof(FifaData.BestPlayerAward), bestPlayerAward!, false)">
+                                                <a class="infotooltip" href="https://ej2.syncfusion.com/home/">@bestPlayerAward</a>
+                                            </span>
+                                        }
+                                        else
+                                        {
+                                            <span>@bestPlayerAward</span>
+                                        }
+                                    </div>
+                                }
+                            </Template>
+                        </GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </ChildContent>
+        </SfTooltip>
+    </div>
+</div>
+
+@code {
+    private SfGrid<FifaData>? GridInstance { get; set; }
+    public SfTooltip? ToolTipInstance { get; set; }
+    public string? CurrentColumnField { get; set; }
+    public List<FifaData>? FifaDetails { get; set; }
+    public string? CurrentFieldName { get; set; }
+    public string? CurrentCellValue { get; set; }
+    public bool IsImageHover { get; set; }
+    public string? TooltipContent { get; set; }
+    public string? ToolTipWidth { get; set; }
+    public bool HideImage { get; set; } = false;
+    public string? TooltipImageSource { get; set; }
+
+    @* Method for retrieving all FIFA records and assigns them to the FifaDetails list. *@
+    protected override void OnInitialized()
+    {
+        FifaDetails = FifaData.GetAllRecords();
+    }
+
+    @* A list of country names that correspond to WebP image files. *@
+    public List<string> WebpFiles { get; set; } = new List<string>
+    {
+        "Brazil", "Bulgaria", "Chile", "Colombia", "Croatia", "England",
+        "Hungary", "Italy", "Poland", "Qatar", "Russia", "South Africa", "Spain", "Sweden", "Uruguay"
+    };
+
+    @* This method is triggered when a user hovers over a specific cell in the DataGrid.
+    It updates the tooltip details based on the hovered field and value. *@
+    private void OnHover(string currentField, string currentCellValue, bool isImage)
+    {
+        CurrentFieldName = currentField;
+        CurrentCellValue = currentCellValue;
+        IsImageHover = isImage;
+    }
+
+    @* Method for rendering the tooltip *@
+    public async Task OnTooltipRender(TooltipEventArgs args)
+    {
+        CurrentColumnField = CurrentFieldName;
+        string value = CurrentCellValue!;
+        bool isImageHovered = IsImageHover;
+        string convertedValue = value.Replace(" ", "_");
+        string imageFileName = WebpFiles.Contains(value) ? $"{value.ToLower().Replace(" ", "-")}.webp" : $"{value.ToLower().Replace(" ", "-")}.png";
+
+        switch (CurrentColumnField)
+        {
+            case "Host":
+                SetImageSource("country", imageFileName);
+                TooltipContent = GetTooltipContent("countryInfo", convertedValue);
+                break;
+            case "Champions":
+                SetImageSource("team", $"{value.ToLower().Replace(" ", "-")}.webp");
+                TooltipContent = GetTooltipContent("teamInfo", convertedValue);
+                break;
+            case "Coach":
+                if (isImageHovered)
+                {
+                    SetImageSource("country", imageFileName);
+                    TooltipContent = GetTooltipContent("countryInfo", convertedValue);
+                }
+                else
+                {
+                    if (value == "Juan Lopez")
+                    {
+                        HideImage = true;
+                    }
+                    SetImageSource("coach", $"{value.ToLower().Replace(" ", "-")}.png");
+                    TooltipContent = GetTooltipContent("coachInfo", convertedValue);
+                }
+                break;
+            case "TopScorer":
+            case "BestPlayerAward":
+                if (isImageHovered)
+                {
+                    if (value == "Croatia")
+                    {
+                        HideImage = true;
+                    }
+
+                    SetImageSource("team", $"{value.ToLower().Replace(" ", "-")}.webp");
+                    TooltipContent = GetTooltipContent("teamInfo", convertedValue);
+                }
+                else
+                {
+                    string directory = CurrentColumnField == "TopScorer" ? "top-scorer" : "best-player";
+                    SetImageSource(directory, $"{value.ToLower().Replace(" ", "-")}.png");
+                    TooltipContent = CurrentColumnField == "TopScorer"
+                        ? GetTooltipContent("topScorerInfo", convertedValue)
+                        : GetTooltipContent("bestPlayerInfo", convertedValue);
+                }
+
+                break;
+        }
+    }
+
+    @* Method for setting the image source while rendering the tooltip *@
+    private void SetImageSource(string directory, string fileName)
+    {
+        TooltipImageSource = UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/{directory}/{fileName}").ToString();
+    }
+
+    @* Method for returning the tooltip content based on the specified data type and key. *@
+    private string GetTooltipContent(string dataType, string key)
+    {
+
+        return dataType switch
+        {
+            "countryInfo" => TooltipData.countryInfo[key],
+            "teamInfo" => TooltipData.teamInfo[key],
+            "coachInfo" => TooltipData.coachInfo[key],
+            "topScorerInfo" => TooltipData.topScorerInfo[key],
+            "bestPlayerInfo" => TooltipData.bestPlayerInfo[key],
+            _ => null!
+        };
+    }
+
+    @* Method for reseting the HideImage flag when the tooltip closes *@
+    private void OnTooltipClose(TooltipEventArgs args)
+    {
+        HideImage = false;
+    }
+
+    @* Method for setting the tooltip width dynamically based on the hovered column. *@
+    public async Task OnTooltipOpen(TooltipEventArgs args)
+    {
+        ToolTipWidth = CurrentColumnField == "Host" || (CurrentColumnField == "Coach" && IsImageHover) ? "275" : "425";
+    }
+}
+<style>
+    #fifa_grid .goal {
+        margin-right: 3px;
+        margin-top: 5px;
+        opacity: 0.6;
+    }
+
+    #fifa_grid .goal path {
+        fill: #000000;
+    }
+
+    #fifa_grid .e-space {
+        padding-right: 2%;
+    }
+
+    .fluent-dark #fifa_grid .goal path,
+    .fluent2-dark #fifa_grid .goal path,
+    .tailwind-dark #fifa_grid .goal path,
+    .tailwind3-dark #fifa_grid .goal path,
+    .bootstrap5\.3-dark #fifa_grid .goal path,
+    .material-dark #fifa_grid .goal path,
+    .material3-dark #fifa_grid .goal path,
+    .fabric-dark #fifa_grid .goal path,
+    .bootstrap-dark #fifa_grid .goal path,
+    .bootstrap4-dark #fifa_grid .goal path,
+    .bootstrap5-dark #fifa_grid .goal path,
+    .highcontrast #fifa_grid .goal path,
+    .bds-dark #fifa_grid .goal path,
+    .fluent2-highcontrast #fifa_grid .goal path {
+        fill: #D3D8D4;
+    }
+
+    .tooltip-text {
+        padding: 12px;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    .fifa_tooltip.e-tooltip-wrap .e-tip-content {
+        padding: 0;
+        line-height: 20px;
+    }
+
+    .fifa_tooltip.e-tooltip-wrap {
+        border-radius: 15px;
+    }
+
+    .image-container {
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+    .right-floated-image {
+        float: right;
+        border-left: 1px solid #e0e0e0;
+        margin-left: 12px;
+        object-fit: fill;
+    }
+
+    .infotooltip {
+        text-decoration: none;
+    }
+
+    .infotooltip:hover {
+        text-decoration: underline;
+    }
+</style>

@@ -1,0 +1,215 @@
+﻿@page "/chart/area"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/area-chart' aria-label="Navigate to documentation for area-chart in chart types">Blazor Area Chart</a> example visualizes music sales data by format in US by using a default area series in the chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how the area type chart can be rendered and configured. It is like the line chart, which represents time-dependent data and shows trends at equal intervals, but the area is closed and filled with the color of the series.</p>
+    <p>More information about the area series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/area' aria-label="Navigate to documentation for area in chart types">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="US Music Sales By Format (1974 - 2024)" SubTitle="Source: riaa.com" Theme="@Theme" Width="@Width">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis Minimum="new DateTime(1974, 01, 01)" Maximum="new DateTime(2024, 01, 01)" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMinorTickLines Width="1"></ChartAxisMinorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="In Billions (USD)" Minimum="0" Maximum="15" Interval="3">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@Compact" XName="Period" YName="USD" Type="ChartSeriesType.Area">
+                <ChartSeriesBorder Width="1.5" Color="white"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries DataSource="@Download" XName="Period" YName="USD" Type="ChartSeriesType.Area">
+                <ChartSeriesBorder Width="1.5" Color="white"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries DataSource="@Casette" XName="Period" YName="USD" Type="ChartSeriesType.Area">
+                <ChartSeriesBorder Width="1.5" Color="white"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries DataSource="@PaidSubscription" XName="Period" YName="USD" Type="ChartSeriesType.Area">
+                <ChartSeriesBorder Width="1.5" Color="white"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries DataSource="@LP" XName="Period" YName="USD" Type="ChartSeriesType.Area">
+                <ChartSeriesBorder Width="1.5" Color="white"></ChartSeriesBorder>
+            </ChartSeries>
+            <ChartSeries DataSource="@Vinyl" XName="Period" YName="USD" Type="ChartSeriesType.Area">
+                <ChartSeriesBorder Width="1.5" Color="white"></ChartSeriesBorder>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartAnnotations>
+            <ChartAnnotation CoordinateUnits="Units.Point" X="new DateTime(1980, 01, 01)" Y="1.0">
+                <ContentTemplate>
+                    <div style="font-weight: bold; font-size: @Size; color: white; font-family: @FontFamily; text-shadow: @TextShadow;">LP/EP</div>
+                </ContentTemplate>
+            </ChartAnnotation>
+            <ChartAnnotation CoordinateUnits="Units.Point" X="new DateTime(2009, 06, 01)" Y="0.7">
+                <ContentTemplate>
+                    <div style="font-weight: bold; font-size: @Size; color: white; font-family: @FontFamily; text-shadow: @TextShadow;">DOWNLOAD</div>
+                </ContentTemplate>
+            </ChartAnnotation>
+            <ChartAnnotation CoordinateUnits="Units.Point" X="new DateTime(2001, 01, 01)" Y="10">
+                <ContentTemplate>
+                    <div style="font-weight: bold; font-size: @Size; color: white; font-family: @FontFamily; text-shadow: @TextShadow;">COMPACT DISC</div>
+                </ContentTemplate>
+            </ChartAnnotation>
+            <ChartAnnotation CoordinateUnits="Units.Point" X="new DateTime(1990, 01, 01)" Y="2.5">
+                <ContentTemplate>
+                    <div style="font-weight: bold; font-size: @Size; color: white; font-family: @FontFamily; text-shadow: @TextShadow;">CASSETTE</div>
+                </ContentTemplate>
+            </ChartAnnotation>
+            <ChartAnnotation CoordinateUnits="Units.Point" X="new DateTime(1976, 01, 01)" Y="0.3">
+                <ContentTemplate>
+                    <div style="font-weight: bold; font-size: @Size; color: white; font-family: @FontFamily; text-shadow: @TextShadow;">VINYL</div>
+                </ContentTemplate>
+            </ChartAnnotation>
+            <ChartAnnotation CoordinateUnits="Units.Point" X="new DateTime(2020, 01, 01)" Y="2.5">
+                <ContentTemplate>
+                    <div style="font-weight: bold; font-size: @Size; color: white; font-family: @FontFamily; text-shadow: @TextShadow;">PAID <br>SUBSCRIPTION</div>
+                </ContentTemplate>
+            </ChartAnnotation>
+        </ChartAnnotations>
+    </SfChart>
+</div>
+
+@code{
+
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public string Size { get; set; } = "11px";
+    public string? FontFamily { get; set; }
+    public string TextShadow { get; set; } = "";
+    public class AreaChartData {
+        public DateTime Period { get; set; }
+        public double USD { get; set; }
+    }
+
+    public List<AreaChartData> LP { get; set; } = new List<AreaChartData>
+    {
+        new AreaChartData { Period = new DateTime(1973, 01, 01), USD = 1.2 },
+        new AreaChartData { Period = new DateTime(1974, 01, 01), USD = 1.4 },
+        new AreaChartData { Period = new DateTime(1977, 01, 01), USD = 2.2 },
+        new AreaChartData { Period = new DateTime(1978, 01, 01), USD = 2.5 },
+        new AreaChartData { Period = new DateTime(1979, 01, 01), USD = 2.1 },
+        new AreaChartData { Period = new DateTime(1981, 01, 01), USD = 2.3 },
+        new AreaChartData { Period = new DateTime(1983, 01, 01), USD = 1.7 },
+        new AreaChartData { Period = new DateTime(1985, 01, 01), USD = 1.3 },
+        new AreaChartData { Period = new DateTime(1986, 01, 01), USD = 0.983 },
+        new AreaChartData { Period = new DateTime(1987, 01, 01), USD = 0.7931 },
+        new AreaChartData { Period = new DateTime(1993, 01, 01), USD = 0.0103 },
+        new AreaChartData { Period = new DateTime(2019, 01, 01), USD = 0.515 },
+        new AreaChartData { Period = new DateTime(2021, 01, 01), USD = 1.1 },
+        new AreaChartData { Period = new DateTime(2022, 01, 01), USD = 1.2 },
+        new AreaChartData { Period = new DateTime(2023, 01, 01), USD = 1.4 },
+        new AreaChartData { Period = new DateTime(2024, 01, 01), USD = 1.4 },
+    };
+
+    public List<AreaChartData> Download { get; set; } = new List<AreaChartData>
+    {
+        new AreaChartData { Period = new DateTime(2004, 01, 01), USD = 0.138 },
+        new AreaChartData { Period = new DateTime(2007, 01, 01), USD = 0.811 },
+        new AreaChartData { Period = new DateTime(2012, 01, 01), USD = 1.6 },
+        new AreaChartData { Period = new DateTime(2013, 01, 01), USD = 1.6 },
+        new AreaChartData { Period = new DateTime(2015, 01, 01), USD = 1.2 },
+        new AreaChartData { Period = new DateTime(2016, 01, 01), USD = 0.9002 },
+        new AreaChartData { Period = new DateTime(2017, 01, 01), USD = 0.6679 }
+    };
+
+    public List<AreaChartData> Compact { get; set; } = new List<AreaChartData>
+    {
+        new AreaChartData { Period = new DateTime(1990, 01, 01), USD = 3.5 },
+        new AreaChartData { Period = new DateTime(1992, 01, 01), USD = 5.3 },
+        new AreaChartData { Period = new DateTime(1995, 01, 01), USD = 9.4 },
+        new AreaChartData { Period = new DateTime(1996, 01, 01), USD = 9.9 },
+        new AreaChartData { Period = new DateTime(1997, 01, 01), USD = 9.9 },
+        new AreaChartData { Period = new DateTime(1998, 01, 01), USD = 11.4 },
+        new AreaChartData { Period = new DateTime(1999, 01, 01), USD = 12.8 },
+        new AreaChartData { Period = new DateTime(2000, 01, 01), USD = 13.2 },
+        new AreaChartData { Period = new DateTime(2001, 01, 01), USD = 12.9 },
+        new AreaChartData { Period = new DateTime(2004, 01, 01), USD = 11.4 },
+        new AreaChartData { Period = new DateTime(2005, 01, 01), USD = 10.5 },
+        new AreaChartData { Period = new DateTime(2006, 01, 01), USD = 9.4 },
+        new AreaChartData { Period = new DateTime(2007, 01, 01), USD = 7.5 },
+        new AreaChartData { Period = new DateTime(2008, 01, 01), USD = 5.5 },
+        new AreaChartData { Period = new DateTime(2010, 01, 01), USD = 3.4 },
+        new AreaChartData { Period = new DateTime(2011, 01, 01), USD = 3.1 },
+        new AreaChartData { Period = new DateTime(2014, 01, 01), USD = 1.8 },
+        new AreaChartData { Period = new DateTime(2017, 01, 01), USD = 1.0 },
+        new AreaChartData { Period = new DateTime(2018, 01, 01), USD = 0.6958 }
+    };
+
+    public List<AreaChartData> Casette { get; set; } = new List<AreaChartData>
+    {
+        new AreaChartData { Period = new DateTime(1976, 01, 01), USD = 0.1457 },
+        new AreaChartData { Period = new DateTime(1979, 01, 01), USD = 0.5806 },
+        new AreaChartData { Period = new DateTime(1980, 01, 01), USD = 0.705 },
+        new AreaChartData { Period = new DateTime(1982, 01, 01), USD = 1.4 },
+        new AreaChartData { Period = new DateTime(1984, 01, 01), USD = 2.4 },
+        new AreaChartData { Period = new DateTime(1985, 01, 01), USD = 2.4 },
+        new AreaChartData { Period = new DateTime(1988, 01, 01), USD = 3.4 },
+        new AreaChartData { Period = new DateTime(1989, 01, 01), USD = 3.3 },
+        new AreaChartData { Period = new DateTime(1990, 01, 01), USD = 3.5 },
+        new AreaChartData { Period = new DateTime(1992, 01, 01), USD = 3.1 },
+        new AreaChartData { Period = new DateTime(1993, 01, 01), USD = 2.9 },
+        new AreaChartData { Period = new DateTime(1994, 01, 01), USD = 3.0 },
+        new AreaChartData { Period = new DateTime(1997, 01, 01), USD = 1.5 },
+        new AreaChartData { Period = new DateTime(1998, 01, 01), USD = 1.4 },
+        new AreaChartData { Period = new DateTime(1999, 01, 01), USD = 1.1 },
+        new AreaChartData { Period = new DateTime(2001, 01, 01), USD = 0.3634 }
+    };
+
+    public List<AreaChartData> Vinyl { get; set; } = new List<AreaChartData>
+    {
+        new AreaChartData { Period = new DateTime(1973, 01, 01), USD = 0.190 },
+        new AreaChartData { Period = new DateTime(1974, 01, 01), USD = 0.194 },
+        new AreaChartData { Period = new DateTime(1976, 01, 01), USD = 0.2451 },
+        new AreaChartData { Period = new DateTime(1977, 01, 01), USD = 0.2451 },
+        new AreaChartData { Period = new DateTime(1978, 01, 01), USD = 0.2603 },
+        new AreaChartData { Period = new DateTime(1979, 01, 01), USD = 0.3536 },
+        new AreaChartData { Period = new DateTime(1981, 01, 01), USD = 0.2564 },
+        new AreaChartData { Period = new DateTime(1982, 01, 01), USD = 0.283 },
+        new AreaChartData { Period = new DateTime(1984, 01, 01), USD = 0.2987 },
+        new AreaChartData { Period = new DateTime(1985, 01, 01), USD = 0.281 },
+        new AreaChartData { Period = new DateTime(1989, 01, 01), USD = 0.1164 },
+        new AreaChartData { Period = new DateTime(1990, 01, 01), USD = 0.0944 }
+    };
+
+    public List<AreaChartData> PaidSubscription { get; set; } = new List<AreaChartData>
+    {
+        new AreaChartData { Period = new DateTime(2011, 01, 01), USD = 0.2478 },
+        new AreaChartData { Period = new DateTime(2015, 01, 01), USD = 1.2 },
+        new AreaChartData { Period = new DateTime(2016, 01, 01), USD = 2.2 },
+        new AreaChartData { Period = new DateTime(2019, 01, 01), USD = 6.1 },
+        new AreaChartData { Period = new DateTime(2020, 01, 01), USD = 7.0 },
+        new AreaChartData { Period = new DateTime(2023, 01, 01), USD = 10.1 },
+        new AreaChartData { Period = new DateTime(2024, 01, 01), USD = 10.7 }
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Size = "6px";
+            TextShadow = "1px 1px black";
+            Width = "100%";
+            StateHasChanged();
+        }
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+    }
+}

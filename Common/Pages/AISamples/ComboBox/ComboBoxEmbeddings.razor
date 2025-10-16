@@ -1,0 +1,85 @@
+﻿@page "/ai-combobox/embeddings"
+@page "/combobox/embeddings"
+
+@inject LocalEmbedder embedder;
+@using Syncfusion.Blazor.DropDowns
+@using SmartComponents.LocalEmbeddings
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This demo highlights the advanced capabilities of the Syncfusion Blazor ComboBox, specifically focusing on the Semantic Search feature:
+    </p>
+    <p>
+        <strong>Semantic Search:</strong> Users can search for items based on the meaning and context of their queries, rather than relying solely on exact keyword matches. This AI-driven feature enhances search accuracy by understanding the intent behind user inputs, delivering more relevant and intuitive results. It is especially beneficial in applications where finding the right item quickly is crucial.
+    </p>
+    <p>
+        This feature makes the Syncfusion Blazor ComboBox a powerful tool for creating more intelligent and responsive search interfaces.
+    </p>
+    <p>
+        Explore our <strong>Smart AI demos</strong> with limited AI token usage directly in your browser. To dive deeper and try out these features locally using your own API key, check out our
+        <a href="https://github.com/syncfusion/smart-ai-samples/tree/master/blazor" target="_blank" aria-label="Navigate to the Syncfusion Smart AI Samples GitHub repository">
+            <strong>Syncfusion Smart AI Samples</strong>
+        </a> on GitHub.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        <strong>Semantic Search:</strong> The Semantic Search feature empowers users to find items by interpreting the context and meaning of their search queries. Unlike traditional search methods that depend on exact keyword matches, Semantic Search understands the intent behind the query, offering more accurate and relevant results. This enhances user experience, particularly in complex or large datasets, by making search interactions more intuitive and effective.
+    </p>
+</ActionDescription>
+
+<div class="control-container" style="margin: 50px; text-align: center;">
+    <p style="font-weight: 600">Select a Expense</p>
+    <SfComboBox @ref="comboboxObj" Width="50%" TValue="string" TItem="ExpenseCategory" PopupHeight="230px" AllowFiltering="true" Placeholder="Enter any expense" @bind-Value="@ComboBoxValue" DataSource="@cbxDataSource">
+        <ComboBoxEvents TValue="string" TItem="ExpenseCategory" Filtering="OnSearchTermChanged"/>
+        <ComboBoxFieldSettings Text="Name" Value="ID" />
+    </SfComboBox>
+</div>
+
+
+@code {
+    SfComboBox<string, ExpenseCategory> comboboxObj;
+    public double similarityValue = 0.65;
+
+    private string SearchTerm = "";
+    public string ComboBoxValue = "";
+    private List<ExpenseCategory> expenseCategories;
+    private List<ExpenseCategory> cbxDataSource;
+    public Dictionary<string, EmbeddingF32> ProductEmbeddings { get; set; } = new Dictionary<string, EmbeddingF32>();
+
+    protected override void OnInitialized()
+    {
+        embedder = new LocalEmbedder();
+        expenseCategories = GetAllRecords();
+        cbxDataSource = expenseCategories;
+        foreach (var expense in expenseCategories)
+        {
+            ProductEmbeddings.Add(expense.ID, embedder.Embed(expense.Name));
+        }
+    }
+
+
+    private void OnSearchTermChanged(FilteringEventArgs args)
+    {
+        args.PreventDefaultAction = true;
+        SearchTerm = args.Text;
+        if (String.IsNullOrEmpty(SearchTerm))
+        {
+            comboboxObj.FilterAsync(cbxDataSource);
+            return;
+        }
+        var queryVector = embedder.Embed(SearchTerm);
+        List<ExpenseCategory> filteredRecords = expenseCategories
+            .Where(expense => LocalEmbedder.Similarity(ProductEmbeddings[expense.ID], queryVector) > similarityValue)
+            .ToList();
+        comboboxObj.FilterAsync(filteredRecords);
+    }
+}

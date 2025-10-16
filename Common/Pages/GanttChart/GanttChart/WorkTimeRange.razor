@@ -1,0 +1,71 @@
+﻿@page "/gantt-chart/working-time-range"
+@using Syncfusion.Blazor.Gantt
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes the support for changing the default timeline <a aria-label="Navigate to the DurationUnit property reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_DurationUnit'>DurationUnit</a> from day to hours. Tasks progress can be visualized in hourly basis.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see how to render a Gantt chart with the provided data source and customizable working hours in a day using <a aria-label="Navigate to the class reference for Gantt DayWorkingTime" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttDayWorkingTime.html">GanttDayWorkingTime</a>. Given duration in dataSource will be considered with this unit. Gantt chart supports the following <code>DurationUnit</code> values:
+    </p>
+    <ul>
+        <li><code>Day</code></li>
+        <li><code>Hour</code></li>
+        <li><code>Minute</code></li>
+    </ul>
+    <p>The working hours vary between organizations. This feature will help keep track of each task and resource task status based on the company's working time.</p>
+    <p>More information on the work time range can be found in this <a aria-label="Navigate to the documentation for Working time range in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/scheduling-tasks/#working-time-range">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true" DurationUnit="DurationUnit.Hour"
+                     AllowSelection="true" GridLines="GridLine.Both" TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                                 Dependency="Predecessor" ParentID="ParentId" Notes="Notes"></GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" Width="100"></GanttColumn>
+                    <GanttColumn Field="TaskName" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Predecessor" HeaderText="Dependency" MinWidth="200"></GanttColumn>
+                    <GanttColumn Field="Notes" Width="100"></GanttColumn>
+                </GanttColumns>
+                <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true"></GanttEditSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="WorkTimeRangeData.TaskData"></GanttLabelSettings>
+                <GanttSplitterSettings Position="28%"></GanttSplitterSettings>
+                <GanttDayWorkingTimeCollection>
+                    <GanttDayWorkingTime From="9" To="12"></GanttDayWorkingTime>
+                    <GanttDayWorkingTime From="14" To="18"></GanttDayWorkingTime>
+                </GanttDayWorkingTimeCollection>
+                <GanttTimelineSettings TimelineUnitSize="40">
+                    <GanttTopTierSettings Unit="TimelineViewMode.Day" Format="ddd"></GanttTopTierSettings>
+                    <GanttBottomTierSettings Unit="TimelineViewMode.Hour"></GanttBottomTierSettings>
+                </GanttTimelineSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+<style>
+html, body {
+    height:100%;
+}
+</style>
+
+@code{
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 04, 02);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 04, 13);
+    private List<WorkTimeRangeData.TaskData> TaskCollection { get; set; } = new List<WorkTimeRangeData.TaskData>();
+    
+    protected override void OnInitialized()
+    {
+        TaskCollection = WorkTimeRangeData.ProjectNewData();
+    }
+
+}

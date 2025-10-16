@@ -1,0 +1,321 @@
+﻿@page "/ai-diagram/text-to-sequence-diagram"
+@page "/diagram/ai-text-to-sequence-diagram"
+
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Diagram.SymbolPalette
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Spinner
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.Inputs
+@using System.Text.RegularExpressions
+@namespace TextToSequenceDiagram
+
+@using BlazorDemos.Service
+@using BlazorDemos.Model
+@inject AzureAIService ChatGptService
+@implements IDisposable
+
+@inject IJSRuntime JS
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates how a dynamic sequence diagram is generated using the SfDiagram Component, powered by AI assistance. The process begins with user input, which is analyzed to identify key participants, messages, interaction fragments, and activation regions. These elements are then arranged in a sequential timeline to illustrate how components interact over time. The result is a visual representation that effectively documents and clarifies complex system processes and interactions.
+    </p>
+    <p>
+        Explore our <strong>Smart AI demos</strong> with limited AI token usage directly in your browser. To dive deeper and try out these features locally using your own API key, check out our
+        <a href="https://github.com/syncfusion/smart-ai-samples/tree/master/blazor" target="_blank" aria-label="Navigate to the Syncfusion Smart AI Samples GitHub repository">
+            <strong>Syncfusion Smart AI Samples</strong>
+        </a> on GitHub.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        This sample demonstrates how a user submits a request to generate a sequence diagram using an AI Prompt Processor. The processor forwards this request to the OpenAI API, which returns interaction data representing participants, messages, and activation regions. This data is parsed and arranged into a sequence diagram layout, visually depicting the flow of interactions and thought processes over time. Finally, the diagram is rendered for the user to explore the dynamic sequence diagram or system interactions.
+    </p>
+</ActionDescription>
+
+@*Hidden:Lines*@
+<AINotification></AINotification>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<AIToastNotification></AIToastNotification>
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="control-section" style="height: calc(100% - 350px); width: 100%">
+            <div style="border: 2px solid #ccc;">
+                <SequenceDiagramToolbar @ref="ToolbarRef"></SequenceDiagramToolbar>
+                <div class="diagram-area">
+
+                    <SfDiagramComponent ID="diagram-area" @ref="Diagram" Height="700px" @bind-Model="@umlModel" NodeCreating="@OnNodeCreating" SelectionSettings="@selectionSettings" @bind-InteractionController="@DiagramTool">
+                        <RulerSettings>
+                            <HorizontalRuler>
+                            </HorizontalRuler>
+                            <VerticalRuler>
+                            </VerticalRuler>
+                        </RulerSettings>
+                        <SnapSettings>
+                            <HorizontalGridLines LineColor="#e0e0e0 " LineIntervals="@GridLineIntervals">
+                            </HorizontalGridLines>
+                            <VerticalGridLines LineColor="#e0e0e0" LineIntervals="@GridLineIntervals">
+                            </VerticalGridLines>
+                        </SnapSettings>
+                        <PageSettings MultiplePage="true">
+                        </PageSettings>
+                        <SfSpinner @ref="@SpinnerRef" Label="Generating diagram...." Type="@SpinnerType.Bootstrap"> </SfSpinner>
+                    </SfDiagramComponent>
+                </div>
+            </div>
+            <div style="display: none;visibility: hidden;">
+                <SfUploader @ref="@uploadFiles" ID="UploadFiles" ShowFileList="false" AllowedExtensions="@ExtensionType">
+                    <UploaderEvents OnUploadStart="@OnUploadFileSelected"></UploaderEvents>
+                    <UploaderAsyncSettings SaveUrl="http://localhost:63028/api/FileUploader/Save"
+                    RemoveUrl="http://localhost:63028/api/FileUploader/Remove"></UploaderAsyncSettings>
+                </SfUploader>
+            </div>
+        </div>
+    </div>
+</div>
+<SequenceDiagramOpenAI @ref="DiagramOpenAIRef"></SequenceDiagramOpenAI>
+
+@code{
+        DiagramSelectionSettings selectionSettings = new DiagramSelectionSettings();
+    public SfDiagramComponent? Diagram;
+    public bool IsDiagramLoading = false;
+    public bool InitialRendering = true;
+    public SfSpinner? SpinnerRef;
+    public SequenceDiagramOpenAI? DiagramOpenAIRef;
+    public SequenceDiagramToolbar? ToolbarRef;
+    public string ExtensionType = ".json";
+    public bool IsGeneratingFromAI = false;
+    public DiagramInteractions DiagramTool = DiagramInteractions.Default;
+    // Defines interval values for GridLines
+    public double[] GridLineIntervals { get; set; } = new double[] { };
+    //Reference to uploder
+    SfUploader? uploadFiles;
+#pragma warning disable CS0414
+    bool CanUpdateStyle = false;
+#pragma warning restore CS0414
+    private double newWidth = 0;
+    [Inject]
+    protected IJSRuntime? jsRuntime { get; set; }
+#pragma warning restore CS8618
+    private void OnNodeCreating(IDiagramObject obj){
+        Node? node=obj as Node;
+        if (node!.ID!.Contains("1_Fragment"))
+        {
+            node.Style!.StrokeColor = "#0067C0";
+        }
+        foreach (ShapeAnnotation annotation in node.Annotations!)
+        {
+            if (node.ID.Contains("Transaction") || node.ID.Contains("FraudDetectionSystem"))
+            {
+                annotation.Style!.Color = "white";
+            }
+            if (!node.ID.Contains("User")){
+
+            UpdateNodeWidth(node, annotation.Content!);
+        }
+            if (node.Width < newWidth)
+            {
+                node.Width = newWidth;
+            }
+        }
+
+    }
+
+    private void UpdateNodeWidth(Node node, string text)
+    {
+        if (node == null) return;
+        if (text == null) text = string.Empty;
+
+        double fontSize = 18.0;
+        double charWidthEstimate = fontSize * 0.5; // Adjust multiplier based on font
+
+        double estimatedTextWidth = text.Length * charWidthEstimate;
+        double measuredWidth = estimatedTextWidth + 20; // Padding
+
+        double calculateWidth = Math.Max(100, measuredWidth);
+
+        newWidth = calculateWidth;
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            if (DiagramOpenAIRef != null)
+                DiagramOpenAIRef.Parent = this;
+            if (ToolbarRef != null)
+                ToolbarRef.Parent = this;
+        }
+    }
+    DiagramModel? umlModel;
+    protected override void OnInitialized()
+    {
+        selectionSettings.Constraints = SelectorConstraints.All & ~SelectorConstraints.Rotate & ~SelectorConstraints.ResizeAll;
+        umlModel = new UmlSequenceDiagramModel()
+            {
+                SpaceBetweenParticipants = 300,
+                Participants = new List<UmlSequenceParticipant>()
+                {
+                     new UmlSequenceParticipant()
+                     {
+                        ID  = "User",
+                        Content= "User",
+                        IsActor= true,
+                     },
+                     new UmlSequenceParticipant()
+                     {
+                        ID  = "Transaction",
+                        Content= "Transaction",
+                        ActivationBoxes= new List<UmlSequenceActivationBox>()
+                        {
+                            new UmlSequenceActivationBox() { ID  = "act1", StartMessageID= "1", EndMessageID= "4" }
+                        }
+                     },
+                     new UmlSequenceParticipant()
+                     {
+                         ID  = "FraudDetectionSystem",
+                         Content= "FraudDetectionSystem",
+
+                         ActivationBoxes= new List<UmlSequenceActivationBox>()
+                         {
+                             new UmlSequenceActivationBox() { ID  = "act2", StartMessageID= "2", EndMessageID= "3" },
+                             new UmlSequenceActivationBox() { ID  = "act3", StartMessageID= "5", EndMessageID= "6" }
+                         }
+                     },
+
+                },
+
+                Messages = new List<UmlSequenceMessage>()
+                {
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "1",
+                       Content = "Initiate Transaction",
+                       FromParticipantID = "User",
+                       ToParticipantID = "Transaction",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "2",
+                       Content = "Send Transaction Data",
+                       FromParticipantID = "Transaction",
+                       ToParticipantID = "FraudDetectionSystem",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "3",
+                       Content = "Validate Transaction",
+                       FromParticipantID = "FraudDetectionSystem",
+                       ToParticipantID = "Transaction",
+                       MessageType = UmlSequenceMessageType.Reply
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "4",
+                       Content = "Transaction Approved",
+                       FromParticipantID = "Transaction",
+                       ToParticipantID = "User",
+                       MessageType = UmlSequenceMessageType.Asynchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "5",
+                       Content = "Flag Transaction",
+                       FromParticipantID = "Transaction",
+                       ToParticipantID = "FraudDetectionSystem",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "6",
+                       Content = "Fraud Detected",
+                       FromParticipantID = "FraudDetectionSystem",
+                       ToParticipantID = "User",
+                       MessageType = UmlSequenceMessageType.Reply
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "7",
+                       Content = "Cancel Transaction",
+                       FromParticipantID = "User",
+                       ToParticipantID = "Transaction",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "8",
+                       Content = "Complete Transaction",
+                       FromParticipantID = "User",
+                       ToParticipantID = "Transaction",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                },
+                Fragments = new List<UmlSequenceFragment>()
+                {
+                    new UmlSequenceFragment()
+                    {
+                       ID  = "1",
+                       FragmentType = UmlSequenceFragmentType.Alternative,
+                       Conditions = new List<UmlSequenceFragmentCondition>()
+                       {
+                           new UmlSequenceFragmentCondition()
+                           {
+                              Content = "Fraud Detected",
+                              MessageIds = new List<string>(){"5", "6", "7"},
+                           },
+                           new UmlSequenceFragmentCondition()
+                           {
+                              Content = "No Fraud Detected",
+                              MessageIds = new List<string>(){"8"},
+                           }
+                       }
+                    }
+                }
+            };
+
+    }
+
+    public async Task OnUploadFileSelected(UploadingEventArgs args)
+    {
+        if (args.FileData!.Type == "json")
+        {
+            IsDiagramLoading = true; newWidth = 0;
+            string json = await FileUtil.LoadFile(jsRuntime!, args.FileData);
+            json = json.Replace(System.Environment.NewLine, string.Empty);
+            await Diagram!.LoadDiagramAsync(json.ToString());
+            await uploadFiles!.ClearAllAsync();
+            IsDiagramLoading = false;
+        }
+    }
+    public void StateChanged()
+    {
+        StateHasChanged();
+    }
+    public void Dispose()
+    {
+        if (umlModel != null)
+        {
+            umlModel = null;
+        }
+        if (GridLineIntervals != null)
+        {
+            Array.Clear(GridLineIntervals, 0, GridLineIntervals.Length);
+        }
+    }
+}

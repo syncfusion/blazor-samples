@@ -1,0 +1,381 @@
+﻿@page "/barcodes/qr-code-with-logo"
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+@using Syncfusion.Blazor.BarcodeGenerator
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using System.IO
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+    <p>This sample displays a machine-readable optical label that contains information about the item to which it is attached. And also visualize the logo image that will be displayed in the center of the QR code</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example shows how to render the logo in the center of the QRCode. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.QRCodeLogo.html#Syncfusion_Blazor_BarcodeGenerator_QRCodeLogo_ImageSource" aria-label="ImageSource">ImageSource</a></code> can be specified as an image path, a base64-encoded image, an online image URL, or an icon of the QR code.</p>
+    <p>You can customize the QR barcode's <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.SfQRCodeGenerator.html#Syncfusion_Blazor_BarcodeGenerator_SfQRCodeGenerator_Value" aria-label="Value">Value</a></code>, allowing you to modify the barcode content. Adjust its <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.SfQRCodeGenerator.html#Syncfusion_Blazor_BarcodeGenerator_SfQRCodeGenerator_Width" aria-label="Width">Width</a></code>, <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.SfQRCodeGenerator.html#Syncfusion_Blazor_BarcodeGenerator_SfQRCodeGenerator_Height" aria-label="Height">Height</a></code>, <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.SfQRCodeGenerator.html#Syncfusion_Blazor_BarcodeGenerator_SfQRCodeGenerator_BackgroundColor" aria-label="Background Color">Background Color</a></code>, and <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.SfQRCodeGenerator.html#Syncfusion_Blazor_BarcodeGenerator_SfQRCodeGenerator_ForeColor" aria-label="Fore Color">Fore Color</a></code> to control its size and appearance.</p>
+    <p>The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.QRCodeGeneratorDisplayText.html#Syncfusion_Blazor_BarcodeGenerator_QRCodeGeneratorDisplayText_Visibility" aria-label="Text Visibility">Text Visibility</a></code> option lets you choose whether to display the accompanying text. <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.QRCodeGeneratorDisplayText.html#Syncfusion_Blazor_BarcodeGenerator_QRCodeGeneratorDisplayText_Margin" aria-label="Margin">Margin</a></code> properties such as left, right, top, and bottom define the spacing around the barcode.</p>
+    <p>The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.SfQRCodeGenerator.html#Syncfusion_Blazor_BarcodeGenerator_SfQRCodeGenerator_Version" aria-label="Version">Version</a></code> property is used to set the version of the QR barcode. Also, the Barcode component provides support to set the error correction level on a QR-type barcode by using the <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.SfQRCodeGenerator.html#Syncfusion_Blazor_BarcodeGenerator_SfQRCodeGenerator_ErrorCorrectionLevel" aria-label="ErrorCorrectionLevel">ErrorCorrectionLevel</a></code> property.</p>
+    <p>The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.BarcodeGenerator.SfQRCodeGenerator.html#Syncfusion_Blazor_BarcodeGenerator_SfQRCodeGenerator_Export_System_String_Syncfusion_Blazor_BarcodeGenerator_BarcodeExportType_" aria-label="Download">Download</a></code> button allows users to save the barcode as an image.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section" style="width: 64%;height:600px">
+    <div class="center">
+        <div class="centercontrol">
+            <SfQRCodeGenerator @ref="QRCodeGenerator" Width="@barcodeWidth" Height="@barcodeHeight" Value="@qrcodeValue" BackgroundColor="@backgroundColor" ForeColor="@foreColor" Version="@version" ErrorCorrectionLevel="@errorCorrectionLevel">
+                <QRCodeGeneratorDisplayText Text="@qrcodeValue" Visibility="@textVisibility">
+                    <QRCodeTextMargin Top="@topTextMargin" Bottom="@bottomTextMargin"></QRCodeTextMargin>
+                </QRCodeGeneratorDisplayText>
+                <QRCodeLogo ImageSource="@base64Image"></QRCodeLogo>
+                <QRMargin Left="@leftMargin" Top="@topMargin" Right="@rightMargin" Bottom="@bottomMargin"></QRMargin>
+            </SfQRCodeGenerator>
+        </div>
+    </div>
+</div>
+<div class="col-lg-3 property-section" style="padding-right: 0px; min-width:36%;border-left:1px solid #D7D7D7; height:630px">
+    <div class="property-panel-header">
+        Appearance
+    </div>
+    <div id="propertypanel">
+        <div class="property-section-content">
+            <div class="row sb-child-row">
+                <div class="col-xs-2 top barcode-panel-left">
+                    Value
+                </div>
+                <div class="col-xs-10">
+                    <SfTextBox Value="@qrcodeValue" OnInput="@QRcodeValueChange" CssClass="@CssClass" Width="103%"></SfTextBox>
+                </div>
+            </div>
+            <div class="row sb-child-row">
+                <div>
+                    <div class="col-xs-2 top barcode-panel-left">
+                        Width
+                    </div>
+                    <div class="col-xs-4 barcode-panel-left">
+                        <SfNumericTextBox TValue="double" Value="@width" Format="n0" Decimals=0 Min=0 Step=5 Width="110%">
+                            <NumericTextBoxEvents TValue="double" ValueChange="BarcodeWidthChanged" />
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-xs-2 top barcode-panel-left">
+                        Height
+                    </div>
+                    <div class="col-xs-4 barcode-panel-left">
+                        <SfNumericTextBox TValue="double" Value="@height" Format="n0" Decimals=0 Min=0 Step=5 Width="110%">
+                            <NumericTextBoxEvents TValue="double" ValueChange="BarcodeHeightChanged" />
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+            </div>
+            <div class="row sb-child-row">
+                <div>
+                    <div class="col-xs-3 top barcode-panel-left">
+                        Background Color
+                    </div>
+                    <div class="col-xs-3 top barcode-panel-left">
+                        <SfColorPicker @bind-Value="@backgroundColor" ValueChange="BackgroundColorChange"></SfColorPicker>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-xs-3 top barcode-panel-left">
+                        Fore Color
+                    </div>
+                    <div class="col-xs-3 top barcode-panel-left">
+                        <SfColorPicker @bind-Value="@foreColor" ValueChange="ForeColorChange"></SfColorPicker>
+                    </div>
+                </div>
+            </div>
+            <div class="row sb-child-row">
+                <div class="col-xs-3 top barcode-panel-left">
+                    Text Visibility
+                </div>
+                <div class="col-xs-3" style="margin-top:6px">
+                    <SfCheckBox Checked="@textVisibility" ValueChange="TextVisibilityChange" TChecked="bool"></SfCheckBox>
+                </div>
+            </div>
+            <div class="property-panel-header">
+                Margin
+            </div>
+            <div class="row sb-child-row">
+                <div>
+                    <div class="col-xs-2 top barcode-panel-left">
+                        Left
+                    </div>
+                    <div class="col-xs-4 barcode-panel-left">
+                        <SfNumericTextBox TValue="double" Value="@leftMargin" Format="n0" Decimals=0 Min=-10 Max=30 Step=1 Width="110%">
+                            <NumericTextBoxEvents TValue="double" ValueChange="LeftMarginChanged" />
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-xs-2 top barcode-panel-left">
+                        Right
+                    </div>
+                    <div class="col-xs-4 barcode-panel-left">
+                        <SfNumericTextBox TValue="double" Value="@rightMargin" Format="n0" Decimals=0 Min=-10 Max=30 Step=1 Width="110%">
+                            <NumericTextBoxEvents TValue="double" ValueChange="RightMarginChanged" />
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+            </div>
+            <div class="row sb-child-row">
+                <div>
+                    <div class="col-xs-2 top barcode-panel-left">
+                        Top
+                    </div>
+                    <div class="col-xs-4 barcode-panel-left">
+                        <SfNumericTextBox TValue="double" Value="@topMargin" Format="n0" Decimals=0 Min=-10 Max=30 Step=1 Width="110%">
+                            <NumericTextBoxEvents TValue="double" ValueChange="TopMarginChanged" />
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+                <div>
+                    <div class="col-xs-2 top barcode-panel-left">
+                        Bottom
+                    </div>
+                    <div class="col-xs-4 barcode-panel-left">
+                        <SfNumericTextBox TValue="double" Value="@bottomMargin" Format="n0" Decimals=0 Min=-10 Max=30 Step=1 Width="110%">
+                            <NumericTextBoxEvents TValue="double" ValueChange="BottomMarginChanged" />
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+            </div>
+            <div class="row sb-child-row">
+                <div>
+                    <div class="col-xs-2 top barcode-panel-left" style="width:42%">
+                        Version
+                    </div>
+                    <div class="col-xs-4 barcode-panel-left" style="width:42%">
+                        <SfNumericTextBox TValue="int" Value="@vesionNo" Format="n0" Decimals=0 Min=0 Max=40 Step=1 Width="155%">
+                            <NumericTextBoxEvents TValue="int" ValueChange="versionChanged" />
+                        </SfNumericTextBox>
+                    </div>
+                </div>
+            </div>
+            <div class="row sb-child-row">
+                <div>
+                    <div class="col-xs-2 top barcode-panel-left" style="width:42%">
+                        Error Correction Level
+                    </div>
+                    <div class="col-xs-4 barcode-panel-left" style="width:46%">
+                        <SfDropDownList TValue="string" TItem="CorrectionLevel" @bind-Value="@level" DataSource="@correctionLevel" Width="140%">
+                            <DropDownListFieldSettings Value="correction" Text="correction"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" TItem="CorrectionLevel" ValueChange="errorCorrectionLevelChanged"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                </div>
+            </div>
+            <div class="row sb-child-row" style="padding-top:20px">
+                <div class="col-xs-4 barcode-panel-left">
+                    <SfButton @onclick="ExportBarcode" Content="Download" iconCss="e-icons e-download"></SfButton>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .centercontrol {
+        margin: auto;
+        width: 50%;
+        padding-left: 12%;
+        padding-top: 5%;
+        height: 50%;
+    }
+
+    .top {
+        margin-top: 10px;
+    }
+
+    .sb-child-row {
+        margin-top: 8px;
+    }
+
+    .col-xs-2 {
+        width: 16.66666667%;
+    }
+
+    .allowedText {
+        margin-left: 14px;
+        margin-right: 17px;
+        margin-top: 14px;
+        width: auto;
+        height: auto;
+    }
+
+    .row {
+        margin-left: 0px;
+        margin-right: 0px;
+        display: block;
+    }
+
+    .texstyle {
+        display: table;
+        height: 35px;
+        padding-right: 4px;
+        padding-left: 0px;
+        width: 50%;
+        padding-top: 15px;
+        float: left;
+        position: relative;
+        min-height: 1px;
+    }
+
+    .col-xs-6 {
+        padding-left: 0px;
+        padding-right: 0px;
+        padding-top: 5px;
+        float: left;
+    }
+
+    .property-section {
+        padding-bottom: 20px;
+        height: 740px;
+        padding-right: 0px;
+        display: inline-block;
+    }
+
+    .center {
+        margin-left: 14px;
+        margin-right: 17px;
+        margin-top: 14px;
+        min-width: 280px;
+        width: auto;
+        border: 2px solid lightgray;
+        min-height: 55%;
+        padding-top: 35px;
+    }
+
+    @@media screen and (max-width: 570px) {
+        .centercontrol {
+            width: 60%;
+            padding-left: 0px;
+        }
+    }
+</style>
+
+
+@code
+{
+    string qrcodeValue = "Syncfusion";
+    double width = 200;
+    double height = 150;
+    string barcodeWidth = "200px";
+    string barcodeHeight = "150px";
+    string backgroundColor = "#FFFFFF";
+    bool textVisibility = true;
+    string foreColor = "#000000";
+    double leftMargin = 10;
+    double rightMargin = 10;
+    double topMargin = 10;
+    double bottomMargin = 10;
+    double topTextMargin = 0;
+    double bottomTextMargin = 0;
+    private SfQRCodeGenerator? QRCodeGenerator;
+    string? CssClass { get; set; }
+    int vesionNo = 0;
+    QRCodeVersion version = QRCodeVersion.Auto;
+    string level = "Low";
+    ErrorCorrectionLevel errorCorrectionLevel = ErrorCorrectionLevel.Low;
+    public class CorrectionLevel
+    {
+        public string? correction { get; set; }
+    }
+    List<CorrectionLevel> correctionLevel = new List<CorrectionLevel> {
+    new CorrectionLevel() { correction = "Low" },
+    new CorrectionLevel() { correction = "Medium" },
+    new CorrectionLevel() { correction = "Quartile" },
+    new CorrectionLevel() { correction = "High" },
+    };
+    string base64Image = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAOQAAADdCAMAAACc/C7aAAAAsVBMVEX///8rNXz2kh6uscm5vNAXJXUVI3UAGXHy8/gIG3KNkbHu7vI8RYaztswaJ3ago73V1uMmMXpMVI4eKnf1igAOH3P/+vH6wIr3oUJwdaGChqr70bD1iQD2kBT2jgAAAGz969v+8uf3pFD84Mj6xpj4qVr4snD4rmb6yJv2lij6zKP5un782Lj+9ez3mzn3nTyUl7bFxtYzPYL5tnj83MIAEW9dZJlASYnj5OzO0NxobZ11NT2/AAAEjklEQVR4nO2da1vaMBiGYz0gotucFZk0pYigKIdtypT9/x82PLWlpkneQK8k3XN/f5LcBpI3TccYAwAAAP4T+p227SFUTxAHie0xVM0VD3g4sD2KahnFwYrozvY4quQ6DF4J722PpDomUfBOOLQ9lqpIUscg4OOp7eFUwpQHOXic2B5QFYzXJFcf2YntEW2fYcFxtche2x7TtnkIi46rubyxPartcidwDIK4VjXeJBI5rpafoG97aFsjEc7jq2VtarzppzUnv/zUpMabySRrUuMNY5ljPWq8+9Iv5AfxzPca765kYc3je403UM7j20fW5xov0ZjHVzyu8dqBdGFdm8uR7cGaMtd29LfGu1FsHuvwsY813oXeopNZeljjdXUXnQzvarwB3XFleSFp8fDyiMzPNL2kh49+KRz7xM/qO7Iar9U7o7L/O02fLMjpxle5Y7v4SEcXSY3XauxQOT3OJA/I6S8KyY6ho6zGc01yRNo8CpTVeI5JUjePAiU1nluSZY909OdSWOM5JWm0eawTdwTLj0uS002+jx9EXbclTTePPKGoKHBI8moLjrHw2bo7khttHu/wubBpZyRvN9s83hwD8cnSFUmDk8dnwpJzpSuSossrKlHZqdIVSXa78VSWnymdkWSPG1pKbg3ckWQJ32QPiWXnSXckWXtmvovwWbmjU5KM3ZguP5zLHku6JckuDL+YUSJr1TFJw/0yepQ26pokG8T05Se8lbfpnCTrkw8j4YOiSfckV8cR2iLLr1QNuijJRpRFlo+V7TkpSarxYvWVupuS7FF7LsNE3Zqjkto1XqRzne6qJJvOdZafUOsy3VlJxobqj2ysd5XusKS6xlNvHu5Lsq58LjU2Dw8k2SCULT+x7qsCbktKa7zSRzq+SUpqPNF9gK+SZTWe8D7AW0l2LVpkxfcB/kqKajzeoTTggyRLigdp+SMdPyVZu1Djld0HeC1ZqPH0Nw+/JPOvTIT6m4dnktlzPPq/IvBH8uM5Hmnz8E6S9V9eZ5beB9RA8qXGK7tMrpEkG8nvA+ohyUwcvZM0ApK1keydU2mepulderpnQZJ9MyD7ExmEny1IAgAAAKCcQwO2lW7TMXJs9ZpUGvmyjpzOlXXdKKQSGf1KhM0CvUt/KTIm3IBAEpKQhCQkIQlJSEISkpCEJCQhCUlIQhKSkIQkJCEJSUhCEpKQhCQkIQlJSEISkpCEJCQhCUlIQhKSnkguTsnkJM/J4YOcZMipUH7WJCd5/J3MnzS990QOP+2m6cmsQ2Wu+NVIAAAAAAARuwak4ZZBOPtv4J43ShNo9fapHDTS9JKebv5N03sLcrpxaSTZJJ8jds4yyXN6+EcmST/DnEESktSeIKkKQ1KZhiQkqT1BUhWGpDINSUhSe4KkKgxJZRqSkKT2BElVGJLKNCQhSe0JkqowJJVpSEKS2hMkVWFIKtOQhCS1J0iqwpBUpiEJSWpPkFSFIalMQxKS1J4gqQpDUpmGJCSpPXkn2Tsgk39zmR7OvblMTy+MJNmeAdmf6IQeXqbpZ4OulyIHAAAAAABQZ/4BUpFG1g/DdfIAAAAASUVORK5CYII=";
+    public void OnInvalid(ValidationFailedEventArgs args)
+    {
+        CssClass = "e-error";
+    }
+    private void BarcodeWidthChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
+    {
+        barcodeWidth = args.Value.ToString() + "px";
+        width = args.Value;
+    }
+    private void BarcodeHeightChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
+    {
+        barcodeHeight = args.Value.ToString() + "px";
+        height = args.Value;
+    }
+    public void BackgroundColorChange(ColorPickerEventArgs args)
+    {
+        backgroundColor = args.CurrentValue!.Hex!.ToString();
+    }
+    public void ForeColorChange(ColorPickerEventArgs args)
+    {
+        foreColor = args.CurrentValue!.Hex!.ToString();
+    }
+    public void TopMarginChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
+    {
+        topMargin = args.Value;
+    }
+    public void BottomMarginChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
+    {
+        bottomMargin = args.Value;
+    }
+    public void LeftMarginChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
+    {
+        leftMargin = args.Value;
+    }
+    public void RightMarginChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<double> args)
+    {
+        rightMargin = args.Value;
+    }
+    private void QRcodeValueChange(ChangeEventArgs args)
+    {
+        qrcodeValue = args.Value!.ToString()!;
+    }
+    private void TextVisibilityChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        if (args.Checked)
+            textVisibility = true;
+        else
+            textVisibility = false;
+    }
+    public void versionChanged(Syncfusion.Blazor.Inputs.ChangeEventArgs<int> args)
+    {
+        int value = args.Value; vesionNo = args.Value;
+        if (value >= 0 && value <= 40)
+        {
+
+            QRCodeVersion newVersion = (QRCodeVersion)value;
+
+            if (Enum.IsDefined(typeof(QRCodeVersion), newVersion))
+            {
+                version = newVersion;
+            }
+        }
+    }
+    private void errorCorrectionLevelChanged(ChangeEventArgs<string, CorrectionLevel> args)
+    {
+        switch(args.Value)
+        {
+            case "Low":
+                errorCorrectionLevel = ErrorCorrectionLevel.Low;
+                break;
+            case "Medium":
+                errorCorrectionLevel = ErrorCorrectionLevel.Medium;
+                break;
+            case "High":
+                errorCorrectionLevel = ErrorCorrectionLevel.High;
+                break;
+            case "Quartile":
+                errorCorrectionLevel = ErrorCorrectionLevel.Quartile;
+                break;
+        }
+    }
+    private void ExportBarcode()
+    {
+        if (QRCodeGenerator != null)
+        {
+            QRCodeGenerator.Export("QRCodeWithLogo", BarcodeExportType.JPG);
+        }
+    }
+
+}

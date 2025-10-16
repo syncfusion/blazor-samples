@@ -1,0 +1,381 @@
+﻿@page "/dashboard-layout/editable-dashboard-layout"
+
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Popups
+@inject IJSRuntime JSRuntime
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>The following sample demonstrates about using the dashboard layout as an editable layout.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The following sample demonstrates a editable dashboard layout. Initially the DashboardLayout component doesn't allow to drag, resize or reorder the panels. After clicking the edit button, the layout becomes editable which allows to drag and reorder the panels as per the requirement and also you can add new panels to the layout with predefined templates by clicking the add new button and reorder them by dragging and placing in the required position. Drag and resizing of the panles are not applicable in mobile resolution.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="edit-save-btn">
+        <SfButton CssClass="e-flat e-outline" IsToggle="true" aria-label="Edit layout configuration" IsPrimary="true" Content="@ButtonContent" IconCss="@ButtonIconClass" @onclick="OnToggleClick"></SfButton>
+    </div>
+
+    @if (isDivVisible)
+    {
+        <SfButton CssClass="add-widget-button" @onclick="AddWidget"><b>Add New Widget</b></SfButton>
+    }
+
+    <SfDialog IsModal="true" @ref="dialogObj" CssClass="add-widget-dialog" Visible="Visibility" ShowCloseIcon Height="260px" Width="500px">
+        <DialogTemplates>
+            <Header> Add a widget </Header>
+            <Content>
+                <div id="dialog-content">
+                    <div>
+                        <div id="barTemplate">
+                            <SfButton CssClass="dialog-text" OnClick="@barTemplateClick"><b>Barchart (1x1)</b></SfButton>
+                        </div>
+                        <div id="pieTemplate">
+                            <SfButton CssClass="dialog-text" OnClick="@pieTemplateClick"><b>Piechart (1x1)</b></SfButton>
+                        </div>
+                        <div id="splineTemplate">
+                            <SfButton CssClass="dialog-text" OnClick="@splineTemplateClick"><b>Splinechart (2x1)</b></SfButton>
+                        </div>
+                    </div>
+                </div>
+            </Content>
+        </DialogTemplates>
+        <DialogAnimationSettings Effect="@DialogEffect.Zoom"></DialogAnimationSettings>
+    </SfDialog>
+
+    <SfDashboardLayout @ref="dashboardObject" Columns="2" AllowResizing="@AllowResizing" AllowDragging="@AllowDragging">
+        <DashboardLayoutEvents OnResizeStop="@OnResizeStop" OnResizeStart="OnResizeStart"></DashboardLayoutEvents>
+        <DashboardLayoutPanels>
+            <DashboardLayoutPanel Id="one" Row="0" Column="0">
+                <HeaderTemplate><b>Bar Chart</b></HeaderTemplate>
+                <ContentTemplate>
+                    @if (!IsResizing)
+                    {
+                        <div class="content-container">
+                            <SfChart Width="100%">
+                                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
+                                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                                </ChartPrimaryXAxis>
+                                <ChartPrimaryYAxis>
+                                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                                    <ChartAxisLabelStyle Color="transparent"></ChartAxisLabelStyle>
+                                </ChartPrimaryYAxis>
+                                <ChartSeriesCollection>
+                                    <ChartSeries DataSource="@ChartPoints" XName="x" YName="y1" Name="Jan" Type="ChartSeriesType.Column" Fill="#00bdae">
+                                        <ChartMarker>
+                                            <ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                                                <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                                            </ChartDataLabel>
+                                        </ChartMarker>
+                                    </ChartSeries>
+                                    <ChartSeries DataSource="@ChartPoints" XName="x" YName="y2" Name="Feb" Type="ChartSeriesType.Column" Fill="#e36593">
+                                        <ChartMarker>
+                                            <ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                                                <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                                            </ChartDataLabel>
+                                        </ChartMarker>
+                                    </ChartSeries>
+                                    <ChartSeries DataSource="@ChartPoints" XName="x" YName="y3" Name="Mar" Type="ChartSeriesType.Column" Fill="#357cd2">
+                                        <ChartMarker>
+                                            <ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                                                <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                                            </ChartDataLabel>
+                                        </ChartMarker>
+                                    </ChartSeries>
+                                </ChartSeriesCollection>
+                            </SfChart>
+                        </div>
+                    }
+                </ContentTemplate>
+            </DashboardLayoutPanel>
+            <DashboardLayoutPanel Id="two" Row="0" Column="1">
+                <HeaderTemplate><b>Pie Chart</b></HeaderTemplate>
+                <ContentTemplate>
+                    @if (!IsResizing)
+                    {
+                        <div class="content-container">
+                            <SfAccumulationChart Width="100%" Height="99%">
+                                <AccumulationChartSeriesCollection>
+                                    <AccumulationChartSeries DataSource="@AccChartDetails" XName="X" YName="Y" Radius="100%" StartAngle="0" EndAngle="360"
+                                                             Name="Earnings" InnerRadius="40%" Palettes="@palettes">
+                                        <AccumulationDataLabelSettings Visible="true" Name="Value" Position="AccumulationLabelPosition.Inside"></AccumulationDataLabelSettings>
+                                    </AccumulationChartSeries>
+                                </AccumulationChartSeriesCollection>
+                                <AccumulationChartTooltipSettings Enable="true" Header="<b>${point.x}</b>" Format="Composition : <b>${point.y}%</b>"></AccumulationChartTooltipSettings>
+                                <AccumulationChartLegendSettings Visible="false" ToggleVisibility="false"></AccumulationChartLegendSettings>
+                            </SfAccumulationChart>
+                        </div>
+                    }
+                </ContentTemplate>
+            </DashboardLayoutPanel>
+            <DashboardLayoutPanel Id="three" Row="1" Column="0" SizeX=2 SizeY=1>
+                <HeaderTemplate><b>Spline Chart</b></HeaderTemplate>
+                <ContentTemplate>
+                    @if (!IsResizing)
+                    {
+                        <div class="content-container">
+                            <SfChart Width="100%">
+                                <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+                                <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                                    <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                                </ChartPrimaryXAxis>
+                                <ChartPrimaryYAxis LabelFormat="{value}%" Maximum="4" Interval="1">
+                                    <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                                    <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                                    <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+                                </ChartPrimaryYAxis>
+                                <ChartLegendSettings Visible="true"></ChartLegendSettings>
+                                <ChartSeriesCollection>
+                                    <ChartSeries DataSource="@splineChartPoints" Name="Jan" XName="xName"
+                                                 Opacity="0.5" YName="yName1" Type="ChartSeriesType.SplineArea" Fill="rgb(239, 183, 202)">
+                                        <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+                                    </ChartSeries>
+                                    <ChartSeries DataSource="@splineChartPoints" Name="Feb" XName="xName"
+                                                 Opacity="0.5" YName="yName2" Type="ChartSeriesType.SplineArea" Fill="rgb(0, 189, 174)">
+                                        <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+                                    </ChartSeries>
+                                </ChartSeriesCollection>
+                            </SfChart>
+                        </div>
+                    }
+                </ContentTemplate>
+            </DashboardLayoutPanel>
+        </DashboardLayoutPanels>
+    </SfDashboardLayout>
+</div>
+
+@code {
+    public SfDashboardLayout dashboardObject;
+    public SfDialog dialogObj;
+    public int Count = 1;
+    public bool IsResizing = false;
+    private bool AllowResizing = false;
+    private bool AllowDragging = false;
+    public void OnResizeStop() => IsResizing = false;
+    public void OnResizeStart() => IsResizing = true;
+    public string ButtonContent { get; set; } = "Edit";
+    public string ButtonIconClass { get; set; } = "e-icons e-edit";
+    private void OnToggleClick()
+    {
+        (ButtonContent, ButtonIconClass, AllowResizing, AllowDragging) = ButtonContent == "Edit"
+        ? ("Save", "e-save e-icons", true, true)
+        : ("Edit", "e-edit e-icons", false, false);
+        isDivVisible = !isDivVisible;
+    }
+    private bool isDivVisible = false;
+    private bool Visibility { get; set; } = false;
+    public async Task AddWidget()
+    {
+        await dialogObj.ShowAsync();
+    }
+    public async Task barTemplateClick()
+    {
+        await dialogObj.HideAsync();
+        PanelModel panel = new PanelModel
+                {
+                    Id = this.Count.ToString() + "_layout",
+                    SizeX = 1,
+                    SizeY = 1,
+                    Column = 0,
+                    Row = 0,
+                    Header = @<div class='text-align'><b>Bar Chart</b></div>,
+            Content =@<div class="content-container">
+        @if(!IsResizing){
+        <SfChart Width="100%" ID=@($"bar_{this.Count.ToString()}")>
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisLabelStyle Color="transparent"></ChartAxisLabelStyle>
+            </ChartPrimaryYAxis>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@ChartPoints" XName="x" YName="y1" Name="Jan" Type="ChartSeriesType.Column" Fill="#00bdae">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                            <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@ChartPoints" XName="x" YName="y2" Name="Feb" Type="ChartSeriesType.Column" Fill="#e36593">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                            <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+                <ChartSeries DataSource="@ChartPoints" XName="x" YName="y3" Name="Mar" Type="ChartSeriesType.Column" Fill="#357cd2">
+                    <ChartMarker>
+                        <ChartDataLabel Visible="false" Position="Syncfusion.Blazor.Charts.LabelPosition.Top">
+                            <ChartDataLabelFont FontWeight="600" Color="#ffffff"></ChartDataLabelFont>
+                        </ChartDataLabel>
+                    </ChartMarker>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    }
+    </div>
+            };
+        await this.dashboardObject.AddPanelAsync(panel);
+        this.Count = this.Count + 1;
+    }
+    public async Task pieTemplateClick()
+    {
+        await dialogObj.HideAsync();
+        PanelModel panel = new PanelModel
+                {
+                    Id = this.Count.ToString() + "_layout",
+                    SizeX = 1,
+                    SizeY = 1,
+                    Column = 0,
+                    Row = 0,
+                    Header = @<div class='text-align'><b>Pie Chart</b></div>,
+            Content =@<div class="content-container">
+        @if(!IsResizing){
+        <SfAccumulationChart Width="100%" Height="99%" ID=@($"pie_{this.Count.ToString()}")>
+            <AccumulationChartSeriesCollection>
+                <AccumulationChartSeries DataSource="@AccChartDetails" XName="X" YName="Y" Radius="100%" StartAngle="0" EndAngle="360"
+                                         Name="Earnings" InnerRadius="40%" Palettes="@palettes">
+                    <AccumulationDataLabelSettings Visible="true" Name="Value" Position="AccumulationLabelPosition.Inside"></AccumulationDataLabelSettings>
+                </AccumulationChartSeries>
+            </AccumulationChartSeriesCollection>
+            <AccumulationChartTooltipSettings Enable="true" Header="<b>${point.x}</b>" Format="Composition : <b>${point.y}%</b>"></AccumulationChartTooltipSettings>
+            <AccumulationChartLegendSettings Visible="false" ToggleVisibility="false"></AccumulationChartLegendSettings>
+        </SfAccumulationChart>
+    }
+    </div>
+            };
+        await this.dashboardObject.AddPanelAsync(panel);
+        this.Count = this.Count + 1;
+    }
+    public async Task splineTemplateClick()
+    {
+        await dialogObj.HideAsync();
+        PanelModel panel = new PanelModel
+                {
+                    Id = this.Count.ToString() + "_layout",
+                    SizeX = 2,
+                    SizeY = 1,
+                    Column = 0,
+                    Row = 0,
+                    Header = @<div class='text-align'><b>Spline Chart</b></div>,
+            Content =@<div class="content-container">
+        @if(!IsResizing){
+        <SfChart Width="100%" ID=@($"spline_{this.Count.ToString()}")>
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" LabelFormat="yyyy" IntervalType="IntervalType.Years" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis LabelFormat="{value}%" Maximum="4" Interval="1">
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+                <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+                <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            </ChartPrimaryYAxis>
+            <ChartLegendSettings Visible="true"></ChartLegendSettings>
+            <ChartSeriesCollection>
+                <ChartSeries DataSource="@splineChartPoints" Name="Jan" XName="xName"
+                             Opacity="0.5" YName="yName1" Type="ChartSeriesType.SplineArea" Fill="rgb(239, 183, 202)">
+                    <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+
+                </ChartSeries>
+                <ChartSeries DataSource="@splineChartPoints" Name="Feb" XName="xName"
+                             Opacity="0.5" YName="yName2" Type="ChartSeriesType.SplineArea" Fill="rgb(0, 189, 174)">
+                    <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+                </ChartSeries>
+            </ChartSeriesCollection>
+        </SfChart>
+    }
+    </div>
+        };
+        await this.dashboardObject.AddPanelAsync(panel);
+        this.Count = this.Count + 1;
+    }
+    public List<ColumnChartData> ChartPoints { get; set; } = new List<ColumnChartData>
+    {
+        new ColumnChartData { x = "Jan", y1 = 46, y2 =37, y3 = 38 },
+        new ColumnChartData { x = "Feb", y1= 27, y2 = 23, y3 = 17 },
+        new ColumnChartData { x = "Mar", y1 = 26, y2 = 18, y3 = 26 },
+    };
+    public class ColumnChartData
+    {
+        public string? x { get; set; }
+        public double? y1 { get; set; }
+        public double? y2 { get; set; }
+        public double? y3 { get; set; }
+    }
+    string[] palettes = new string[] { "#00bdae", "#357cd2", "#e56691" };
+    public class AccChartData
+    {
+        public string? X { get; set; }
+        public double? Y { get; set; }
+        public string? Text { get; set; }
+    }
+    public List<AccChartData> AccChartDetails = new List<AccChartData>
+    {
+        new AccChartData { X = "Jan", Y = 12.5, Text = "January" },
+        new AccChartData { X = "Feb", Y = 25, Text = "February" },
+        new AccChartData { X = "Mar", Y = 50, Text = "March" }
+    };
+    public class SplineAreaChartData
+    {
+        public DateTime xName { get; set; }
+        public double yName1 { get; set; }
+        public double yName2 { get; set; }
+    }
+    public List<SplineAreaChartData> splineChartPoints { get; set; } = new List<SplineAreaChartData>
+    {
+        new SplineAreaChartData { xName = new DateTime(2002, 01, 1), yName1 = 2.2,  yName2 = 2  },
+        new SplineAreaChartData { xName = new DateTime(2003, 01, 1), yName1 = 3.4,  yName2 = 1.7 },
+        new SplineAreaChartData { xName = new DateTime(2004, 01, 1), yName1 = 2.8,  yName2 = 1.8 },
+        new SplineAreaChartData { xName = new DateTime(2005, 01, 1), yName1 = 1.6,  yName2 = 2.1 },
+        new SplineAreaChartData { xName = new DateTime(2006, 01, 1), yName1 = 2.3,  yName2 = 2.3 },
+        new SplineAreaChartData { xName = new DateTime(2007, 01, 1), yName1 = 2.5,  yName2 = 1.7 },
+        new SplineAreaChartData { xName = new DateTime(2008, 01, 1), yName1 = 2.9,  yName2 = 1.5 },
+        new SplineAreaChartData { xName = new DateTime(2009, 01, 1), yName1 = 3.8,  yName2 = 2.8},
+        new SplineAreaChartData { xName = new DateTime(2010, 01, 1), yName1 = 1.4,  yName2 = 1.5 },
+        new SplineAreaChartData { xName = new DateTime(2011, 01, 1), yName1 = 3.1,  yName2 = 2.3 }
+    };
+}
+
+<style>
+    .add-widget-button {
+        margin-bottom: 10px;
+        width: 100%;
+    }
+
+    .edit-save-btn {
+        padding-right: 10px;
+        padding-bottom: 10px;
+        text-align: right;
+    }
+
+    .content-container {
+        height: 100%;
+        width: 100%;
+    }
+
+    .mobile .e-control.e-lib.e-dashboardlayout.e-responsive {
+        overflow: scroll;
+    }
+
+    .e-control.e-lib.e-dashboardlayout.e-responsive {
+        z-index: 0;
+    }
+
+    .add-widget-dialog .dialog-text {
+        margin-bottom: 5%;
+        width: 98%;
+    }
+</style>

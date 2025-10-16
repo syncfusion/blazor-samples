@@ -1,0 +1,968 @@
+@page "/scheduler/event-calendar"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Lists
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using System.Globalization
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject IJSRuntime JSRuntime
+@*End:Hidden*@
+<SampleDescription>
+    <p>
+        This demo showcases the way to organize and filter multiple types of events such as Personal, Birthdays, Work,
+        and Holidays in the scheduler.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example the multiple type of appointments such as Personal, Birthdays, Work,
+        and Holidays organized with filter option in a single scheduler. It helps the user to view a
+        specific or multiple type of appointments at one place.
+    </p>
+    <p>
+        The left sidebar helps the user to navigate between the scheduler dates and filter the appointments based
+        on their type.
+    </p>
+    <p>
+        The Schedule component is configured to show the appointments in colors based on their type to identify
+        the appointment type.
+    </p>
+    <p>The right sidebar displays the list of unplanned events, which can be useful for the user to plan them later.</p>
+</ActionDescription>
+<div id="wrapper" class="control-section event-calendar">
+<div class="toolbar-container">
+    <SfToolbar>
+        <ToolbarItems>
+            <ToolbarItem Align="ItemAlign.Left" PrefixIcon="e-menu" TooltipText="Menu" OnClick=LeftSidebarToggle CssClass="e-menu-btn"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Left" PrefixIcon="e-chevron-left" TooltipText="Previous" OnClick="NavigatePrevious" CssClass="e-previous"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Left" PrefixIcon="e-chevron-right" TooltipText="Next" OnClick="NavigateNext"  CssClass="e-next"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Left" Text="@DateRangeText" CssClass="e-date-ranage"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right">
+                <Template>
+                    <SfButton IconCss="e-icons e-plus" Content="Create" CssClass="e-primary" @onclick="OnNewEventAdd"></SfButton>
+                </Template>
+            </ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Type="ItemType.Separator"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Text="Today" CssClass="e-today" OnClick="OnTodaySet"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Type="ItemType.Separator"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Text="Day" CssClass="e-day" OnClick="OnDayView"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Text="Week" CssClass="e-week" OnClick="OnWeekView"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Text="Month" CssClass="e-month" OnClick="OnMonthView"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Text="Agenda" CssClass="e-agenda" OnClick="OnAgendaView"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Text="Timeline" CssClass="e-timeline" OnClick="OnTimelineView"></ToolbarItem>
+            <ToolbarItem Align="ItemAlign.Right" Text="Year" CssClass="e-year" OnClick="OnYearView"></ToolbarItem>
+        </ToolbarItems>
+    </SfToolbar>
+</div>
+<div class="calendar-left-sidebar">
+    <SfSidebar  Width="310px" Target=".main-content" @bind-IsOpen="IsLeftSidebarOpen" Type="@SidebarType.Push" Changed="SidebarStateChange" EnableGestures="false">
+        <ChildContent>
+            <div class="content-area table-content">
+                <div class="calendar-listview-container">
+                    <div class="calendar-container">
+                        <SfCalendar TValue="DateTime" CssClass="selected-date-calendar" @bind-Value='@CurrentDate'></SfCalendar>
+                    </div>
+                    <div class="listview-container">
+                        <SfListView DataSource="@CalendarCollections" TValue="CalendarData" Height="240px" CssClass="calendars-list" ShowHeader="true" ShowCheckBox="true">
+                            <ListViewFieldSettings TValue="CalendarData" Id="Id" Text="Text" IsChecked="IsChecked"></ListViewFieldSettings>
+                            <ListViewTemplates TValue="CalendarData">
+                                <HeaderTemplate>
+                                    <div class="calendars-list-header">
+                                        <div class="header-text">Calendars</div>
+                                        <div class="header-icon e-icons e-plus" @onclick="() => OpenAddCalendarDialog()"></div>
+                                    </div>
+                                </HeaderTemplate>
+                                <Template>
+                                    <div class="calendar-list-item">
+                                        <div class="calendar-name">
+                                            @((context as CalendarData).Name)
+                                        </div>
+                                        @if (((context as CalendarData).Id) != 1)
+                                        {
+                                        <div class="calendar-buttons">
+                                            <span class="e-icons e-edit calendar-edit-button" @onclick="() => OpenEditCalendarDialog(context as CalendarData)" @onclick:stopPropagation @onclick:preventDefault @onmousedown="PreventListViewClick"></span>
+                                            <span class="e-icons e-trash calendar-delete-button" @onclick="() => DeleteCalendar(context as CalendarData)"></span>
+                                        </div>
+                                        }
+                                    </div>
+                                </Template>
+                            </ListViewTemplates>
+                            <ListViewEvents TValue="CalendarData" Clicked="OnListViewItemSelect"></ListViewEvents>
+                        </SfListView>
+                    </div>
+                </div>
+            </div>
+        </ChildContent>
+    </SfSidebar>
+</div>
+<div class="component-wrapper" style="display: flex">
+    <div class="main-content">
+        <div class="sidebar-content">
+            <div class="schedule-container">
+                <SfSchedule @ref="ScheduleInstance" ID="Schedule" TValue="ScheduleData.ResourceEventsData" Width="100%" Height="550px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView" ShowHeaderBar="false" EventDragArea=".component-wrapper">
+                    <ScheduleEvents TValue="ScheduleData.ResourceEventsData" Dragged="ScheduleDragStop" DataBound="OnDataBound" OnPopupOpen="OnPopUpOpen" ActionCompleted="OnActionCompleted" Created="OnScheduleCreated" EventRendered="OnEventRendered"></ScheduleEvents>
+                    <ScheduleResources>
+                        <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@OwnerData" Field="OwnerId" Title="Owner" Name="Owner" TextField="Text" IdField="Id" ColorField="Color"></ScheduleResource>
+                    </ScheduleResources>
+                    <ScheduleTemplates>
+                        <EditorTemplate>
+                            <div class="e-dialog-parent">
+                                <div class="e-title-location-row">
+                                    <div class="e-subject-container">
+                                        <label class="e-textlabel">Title</label>
+                                        <div>
+                                            <SfTextBox @bind-Value="@((context as ScheduleData.ResourceEventsData).Subject)" Placeholder="Enter title"></SfTextBox>
+                                        </div>
+                                    </div>
+                                    <div class="e-location-container">
+                                        <label class="e-textlabel">Location</label>
+                                        <div>
+                                            <SfTextBox @bind-Value="@((context as ScheduleData.ResourceEventsData).Location)" Placeholder="Enter location"></SfTextBox>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="e-start-end-row">
+                                    <div class="e-date-container">
+                                        <label class="e-textlabel">Start Date</label>
+                                        <div class="e-date-picker">
+                                            <SfDatePicker @bind-Value="@((context as ScheduleData.ResourceEventsData).StartTime)"></SfDatePicker>
+                                        </div>
+                                    </div>
+                                    <div class="e-time-container">
+                                        <label class="e-textlabel">Start Time</label>
+                                        @{
+                                            bool isEnabled = !((context as ScheduleData.ResourceEventsData)?.IsAllDay ?? false);
+                                        }
+                                        <SfTimePicker Enabled="@isEnabled" @bind-Value="@((context as ScheduleData.ResourceEventsData).StartTime)"></SfTimePicker>
+                                    </div>
+                                </div>
+                                <div class="e-start-end-row">
+                                    <div class="e-date-container">
+                                        <label class="e-textlabel">End Date</label>
+                                        <div class="e-date-picker">
+                                            <SfDatePicker @bind-Value="@((context as ScheduleData.ResourceEventsData).EndTime)"></SfDatePicker>
+                                        </div>
+                                    </div>
+                                    <div class="e-time-container">
+                                        <label class="e-textlabel">End Time</label>
+                                        <SfTimePicker Enabled="@isEnabled" @bind-Value="@((context as ScheduleData.ResourceEventsData).EndTime)"></SfTimePicker>
+                                    </div>
+                                </div>
+                                <div class="e-allday-repeat-checbox">
+                                    <div class="e-all-day-container">
+                                        <SfCheckBox @bind-Checked="@((context as ScheduleData.ResourceEventsData).IsAllDay)" Label="All day"></SfCheckBox>
+                                    </div>
+                                    <div>
+                                        <div class="e-repeat-checkbox">
+                                            <SfCheckBox @bind-Checked="@IsRepeat" @onchange="RecurrenceLabelChange">Repeat at @Recurrencelabel</SfCheckBox>
+                                            @if (IsRepeat)
+                                            {
+                                            <SfButton IconCss="e-icons e-edit" CssClass="title-bar-btn e-inherit" OnClick="EditRepeatDialog"></SfButton>
+                                            }
+                                        </div>
+                                        <div class="Repeat-popup">
+                                            <SfDialog Width="500px" IsModal="true" ShowCloseIcon="true" @bind-Visible="@IsRepeatDialogOpen">
+                                                <DialogEvents Closed="@CloseRepeatDialog"></DialogEvents>
+                                                <DialogTemplates>
+                                                    <Content>
+                                                        <SfRecurrenceEditor @ref="RecurrenceInstance" @bind-Value="@((context as ScheduleData.ResourceEventsData).RecurrenceRule)">
+                                                            <RecurrenceEditorEvents OnChange="@RuleChange"></RecurrenceEditorEvents>
+                                                        </SfRecurrenceEditor>
+                                                    </Content>
+                                                </DialogTemplates>
+                                                <DialogButtons>
+                                                    <DialogButton Content="Save" IsPrimary="true" OnClick="@SaveRepeatDialog"/>
+                                                    <DialogButton Content="Close" IsPrimary="false" OnClick="@CloseRepeatDialog"/>
+                                                </DialogButtons>
+                                            </SfDialog>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="custom-field-row">
+                                    <div class="custom-field-container">
+                                        <label class="e-textlabel">Calendar</label>
+                                        <div>
+                                            <SfDropDownList ID="CalendarType" TValue="int" TItem="CalendarData" DataSource="@CalendarCollections" Placeholder="Select Calendar" @bind-Value="@((context as ScheduleData.ResourceEventsData).CalendarId)">
+                                                <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
+                                            </SfDropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="e-resources-row">
+                                    <div class="e-ResourceId-container e-resources">
+                                        <label class="e-textlabel">Resources</label>
+                                        <div>
+                                            <SfDropDownList ID="ResourceType" TValue="int" TItem="ResourceData" DataSource="@OwnerData" Placeholder="Select Resource" @bind-Value="@((context as ScheduleData.ResourceEventsData).OwnerId)">
+                                                <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
+                                            </SfDropDownList>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="e-description-row">
+                                    <div class="e-description-container">
+                                        <label class="e-textlabel">Description</label>
+                                        <div>
+                                            <SfTextBox Multiline="true" @bind-Value="@((context as ScheduleData.ResourceEventsData).Description)" Placeholder="Enter description"></SfTextBox>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </EditorTemplate>
+                    </ScheduleTemplates>
+                    <ScheduleViews>
+                        <ScheduleView Option="View.Day"></ScheduleView>
+                        <ScheduleView Option="View.Week"></ScheduleView>
+                        <ScheduleView Option="View.Month"></ScheduleView>
+                        <ScheduleView Option="View.Agenda"></ScheduleView>
+                        <ScheduleView Option="View.TimelineMonth" MaxEventsPerRow="2">
+                            <ScheduleViewGroup Resources="@ResourceName"></ScheduleViewGroup>
+                        </ScheduleView>
+                        <ScheduleView Option="View.Year"></ScheduleView>
+                    </ScheduleViews>
+                    <ScheduleEventSettings DataSource="@AssignedData"></ScheduleEventSettings>
+                </SfSchedule>
+            </div>
+            <div class="unplanned-events-expander @UnplannedOpen">
+                <div class="sidebar-open-icon-text-container">
+                    <div class="sidebar-open-icon">
+                        <span class="e-icons e-chevron-left-double" @onclick="() => OnRigtSidebarToggle()"></span>
+                    </div>
+                    <div class="unplanned-events-text">Unplanned events</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="right-sidebar-container" style="display: @(IsRightSidebarOpen ? "block" : "none");">
+        <div class="expand-close-icon-headertext-container">
+            <div class="expand-icon">
+                <span class="e-icons e-exit-full-screen" @onclick="() => OnRightSidebarClose()"></span>
+            </div>
+            <div class="unplaned-events-headertext">
+                <h4>Unplanned Events</h4>
+            </div>
+        </div>
+        <div class="content-area">
+            <SfGrid DataSource="@UnassignedData" Width="280px" Height="455px" id="Grid" class="drag-grid" @ref="GridRef" AllowRowDragAndDrop="true" AllowSelection="true">
+                <GridRowDropSettings TargetID="Schedule"></GridRowDropSettings>
+                <GridEditSettings AllowAdding="true"></GridEditSettings>
+                <GridEvents RowDropping="GridDragStop" TValue="ScheduleData.ResourceEventsData"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field="@nameof(ScheduleData.ResourceEventsData.Id)" Visible="false" IsPrimaryKey="true" HeaderText="ID"></GridColumn>
+                    <GridColumn Field="@nameof(ScheduleData.ResourceSampleData.Subject)" HeaderText="Event" Width="120px"></GridColumn>
+                    <GridColumn Field="StartTime" HeaderText="Date" Width="120px" Format="dd MMMM yyyy" Type="ColumnType.DateTime"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+    <div id="dialog" class="custom-template">
+        <SfDialog Width="320px" CssClass="calendar-edit-dialog" Header=@DialogHeaderText Height="250px" IsModal="true" ShowCloseIcon="true" @bind-Visible="@IsDialogVisible">
+            <DialogAnimationSettings Effect="DialogEffect.Zoom"></DialogAnimationSettings>
+            <DialogTemplates>
+                <Content>
+                    <div>Calendar Name</div>
+                    <div class="dialog-content">
+                        <div><SfTextBox @bind-Value="@CalendarName"></SfTextBox></div>
+                        <div><SfColorPicker Value="@CalendarColorName" ValueChanged="@OnCheckboxColorChange"></SfColorPicker></div>
+                    </div>
+                </Content>
+                <FooterTemplate>
+                    <SfButton Content=@DialogButtonText CssClass="e-primary" @onclick="SaveCalendar"></SfButton>
+                </FooterTemplate>
+            </DialogTemplates>
+        </SfDialog>
+    </div>
+    
+</div>
+@code {
+    public SfRecurrenceEditor RecurrenceInstance { get; set; }
+    SfSchedule<ScheduleData.ResourceEventsData> ScheduleInstance { get; set; }
+    SfGrid<ScheduleData.ResourceEventsData> GridRef;
+    public bool IsLeftSidebarOpen { get; set; } = true;
+    public bool IsRightSidebarOpen { get; set; } = false;
+    public string UnplannedOpen { get; set; }
+    public View CurrentView { get; set; } = View.Week;
+    public bool IsDialogVisible { get; set; } = false;
+    public bool IsEditMode { get; set; } = false;
+    public int EditedCalendarID { get; set; }
+    public string CalendarName { get; set; }
+    public string CalendarColorName { get; set; } = "#377e37";
+    public string DialogButtonText => IsEditMode ? "Save" : "Add";
+    public string DialogHeaderText => IsEditMode ? "Edit Calendar" : "New Calendar";
+    public string[] ResourceName { get; set; } = { "Owner" };
+    public DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 5, 1);
+    public string DateRangeText = new DateTime(DateTime.Today.Year, 5, 1).ToString("MMMM yyyy", CultureInfo.InvariantCulture);
+    public List<ScheduleData.ResourceEventsData> Datas = new List<ScheduleData.ResourceEventsData> { };
+    public List<ScheduleData.ResourceEventsData> AssignedData = new List<ScheduleData.ResourceEventsData> { };
+    private List<ScheduleData.ResourceEventsData> UnassignedData = new List<ScheduleData.ResourceEventsData> { };
+    public bool IsRepeat { get; set; } = false;
+    public bool IsRepeatDialogOpen { get; set; } = false;
+    public string Recurrencelabel { get; set; }
+    public bool IsEditor { get; set; }= false;
+    public string Recurrencesummary { get; set; }
+    public bool IsIconClick { get; set; }
+    private List<ResourceData> OwnerData { get; set; } = new List<ResourceData>
+    {
+        new ResourceData { Text = "Nancy", Id = 1, Color = "#df5286" },
+        new ResourceData { Text = "Steven", Id = 2, Color = "#7fa900" },
+        new ResourceData { Text = "Robert", Id = 3, Color = "#ea7a57" },
+        new ResourceData { Text = "Smith", Id = 4, Color = "#5978ee" },
+        new ResourceData { Text = "Micheal", Id = 5, Color = "#df5286" },
+        new ResourceData { Text = "Root", Id = 6, Color = "#00bdae" }
+    };
+    private List<CalendarData> CalendarCollections = new List<CalendarData>
+    {
+        new CalendarData { Name = "My Calendar", Id = 1, IsChecked = true, Color = "#c43081" },
+        new CalendarData { Name = "Company", Id = 2, IsChecked = true, Color = "#ff7f50" },
+        new CalendarData { Name = "Birthday", Id = 3, IsChecked = true, Color = "#AF27CD" },
+        new CalendarData { Name = "Holiday", Id = 4, IsChecked = true, Color = "#808000" }
+    };
+
+    private async void OnNewEventAdd()
+    {
+        IsRepeat = false;
+        Recurrencelabel = string.Empty;
+        DateTime Date = this.ScheduleInstance.SelectedDate;
+        DateTime Start = new DateTime(Date.Year, Date.Month, Date.Day, DateTime.Now.Hour, 0, 0);
+        ScheduleData.ResourceEventsData eventData = new ScheduleData.ResourceEventsData
+        {
+            Id = await ScheduleInstance.GetMaxEventIdAsync<int>(),
+            Subject = "Add title",
+            StartTime = Start,
+            EndTime = Start.AddHours(1),
+            IsAllDay = false,
+            Location = string.Empty,
+            Description = string.Empty,
+            CalendarId = 1,
+            OwnerId = 1,
+            IsPlanned = true
+        };
+        await ScheduleInstance.OpenEditorAsync(eventData, CurrentAction.Add);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        List<ScheduleData.ResourceEventsData> calendarData = new ScheduleData().GetHolidayData();
+        List<ScheduleData.ResourceEventsData> nonAlldayData = GetNonAllDayData();
+        Datas = calendarData.Concat(nonAlldayData).ToList();
+        Random random = new Random();
+        foreach (var item in Datas)
+        {
+            item.OwnerId = random.Next(1, 6);
+        }
+        UpdateData();
+    }
+    private List<ScheduleData.ResourceEventsData> GetNonAllDayData()
+    {
+        List<ScheduleData.ResourceEventsData> nonAllDayData = new List<ScheduleData.ResourceEventsData>();
+        DateTime currentDate = new DateTime(DateTime.Today.Year, 5, 1);
+        Random random = new Random();
+        string[] subjects = new string[]
+        {
+            "Team Meeting",
+            "Client Call",
+            "Product Launch",
+            "Training Session",
+            "Strategy Planning",
+            "Marketing Meeting",
+            "Team Building",
+            "Quarterly Review",
+            "Budget Planning",
+            "Project Kickoff"
+        };
+
+        for (int i = 0; i < 20; i++)
+        {
+            int hour = random.Next(9, 15);
+            int minute = random.Next(0, 60);
+            DateTime startTime = currentDate.AddDays(i).AddHours(hour).AddMinutes(minute);
+            DateTime endTime = startTime.AddHours(1);
+            int calendarId = random.Next(1, 5);
+            nonAllDayData.Add(new ScheduleData.ResourceEventsData
+                {
+                    Id = 406 + i,
+                    Subject = subjects[random.Next(subjects.Length)],
+                    StartTime = startTime,
+                    EndTime = endTime,
+                    IsAllDay = false,
+                    CalendarId = random.Next(1, 5),
+                    IsPlanned = true,
+                    OwnerId = random.Next(1, 6)
+                });
+        }
+        return nonAllDayData;
+    }
+    private void OnPopUpOpen(Syncfusion.Blazor.Schedule.PopupOpenEventArgs<ScheduleData.ResourceEventsData> args)
+    {
+        if (args.Data != null && args.Data.Id == 0)
+        {
+            args.Data.CalendarId = 1;
+            args.Data.OwnerId = 1;
+        }
+        if (args.Type == PopupType.Editor)
+        {
+            if (args.Data != null && args.Data.RecurrenceRule == null)
+            {
+                IsRepeat = false;
+                Recurrencelabel = string.Empty;
+            }
+            else if (args.Data != null && args.Data.RecurrenceRule != null)
+            {
+                IsRepeat = true;
+                Recurrencelabel = RecurrenceInstance.GetRuleSummary(args.Data.RecurrenceRule);
+            }
+        }
+    }
+
+    public async Task ScheduleDragStop(Syncfusion.Blazor.Schedule.DragEventArgs<ScheduleData.ResourceEventsData> args)
+    {
+        var gridData = await JSRuntime.InvokeAsync<bool>("isSelectorFromPoint", args.MouseEventArgs.ClientX, args.MouseEventArgs.ClientY, "content-area");
+        if (gridData)
+        {
+            args.Cancel = true;
+            ScheduleData.ResourceEventsData data = new ScheduleData.ResourceEventsData
+                {
+                    Id = args.Data.Id,
+                    StartTime = args.StartTime,
+                    EndTime = args.EndTime,
+                    Subject = args.Data.Subject,
+                    RecurrenceID = args.Data.RecurrenceID,
+                    RecurrenceRule = args.Data.RecurrenceRule,
+                    RecurrenceException = args.Data.RecurrenceException
+                };
+            await ScheduleInstance.DeleteEventAsync(args.Data.Id);
+            await GridRef.AddRecordAsync(data);
+        }
+    }
+
+    public async Task GridDragStop(RowDroppingEventArgs<ScheduleData.ResourceEventsData> args)
+    {
+        if (args.TargetDimension != null)
+        {
+            CellClickEventArgs cellData = await ScheduleInstance.GetTargetCellAsync(Convert.ToInt32(args.TargetDimension.Left), Convert.ToInt32((int)args.TargetDimension.Top));
+            var eventData = args.Data;
+            if (cellData != null)
+            {
+                args.Cancel = true;
+                ScheduleData.ResourceEventsData newEvent = new ScheduleData.ResourceEventsData
+                    {
+                        Id = eventData[0].Id,
+                        Subject = eventData[0].Subject,
+                        StartTime = cellData.StartTime,
+                        EndTime = cellData.EndTime,
+                        IsAllDay = cellData.IsAllDay,
+                        StartTimezone = eventData[0].StartTimezone,
+                        EndTimezone = eventData[0].EndTimezone
+                    };
+                await ScheduleInstance.AddEventAsync(newEvent);
+                var draggedIds = eventData.Select(item => item.Id).ToList();
+                UnassignedData = UnassignedData.Where(item => !draggedIds.Contains(item.Id)).ToList();
+            }
+        }
+    }
+
+    private void LeftSidebarToggle()
+    {
+        IsLeftSidebarOpen = !IsLeftSidebarOpen;
+    }
+    private async Task OnRigtSidebarToggle()
+    {
+        IsRightSidebarOpen = !IsRightSidebarOpen;
+        UnplannedOpen = "hidden";
+        if (ScheduleInstance != null)
+        {
+            await ScheduleInstance.RefreshEventsAsync();
+        }
+    }
+
+    private async Task OnRightSidebarClose()
+    {
+        IsRightSidebarOpen = !IsRightSidebarOpen;
+        UnplannedOpen = string.Empty;
+        if (ScheduleInstance != null)
+        {
+            await ScheduleInstance.RefreshEventsAsync();
+        }
+    }
+
+    private async Task SidebarStateChange()
+    {
+        if (ScheduleInstance != null)
+        {
+            await ScheduleInstance.RefreshEventsAsync();
+        }
+    }
+
+    private void OnTodaySet()
+    {
+        CurrentDate = DateTime.Today;
+        UpdateDateRangeText();
+    }
+
+    private void OnDayView()
+    {
+        CurrentView = View.Day;
+        UpdateDateRangeText();
+    }
+
+    private void OnWeekView()
+    {
+        CurrentView = View.Week;
+    }
+
+    private void OnMonthView()
+    {
+        CurrentView = View.Month;
+        UpdateDateRangeText();
+    }
+
+    private void OnTimelineView()
+    {
+        CurrentView = View.TimelineMonth;
+        UpdateDateRangeText();
+    }
+
+    private void OnYearView()
+    {
+        CurrentView = View.Year;
+        UpdateDateRangeText();
+    }
+
+    private void OnAgendaView()
+    {
+        CurrentView = View.Agenda;
+    }
+
+    private void UpdateData()
+    {
+        List<CalendarData> SelectedCalendarsList = CalendarCollections.Where(c => c.IsChecked).ToList();
+        int[] SelectedCalendars = new int[SelectedCalendarsList.Count];
+        for (int i = 0; i < SelectedCalendarsList.Count; i++)
+        {
+            SelectedCalendars[i] = SelectedCalendarsList[i].Id;
+        }
+
+        AssignedData = Datas.Where(d => d.IsPlanned && SelectedCalendars.Contains(d.CalendarId)).ToList();
+        UnassignedData = Datas.Where(d => !d.IsPlanned && SelectedCalendars.Contains(d.CalendarId)).ToList();
+    }
+
+    private void RecurrenceLabelChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        IsRepeatDialogOpen = IsRepeat;
+        Recurrencelabel = IsRepeat ? Recurrencelabel : string.Empty;
+    }
+
+    private void OnActionCompleted(Syncfusion.Blazor.Schedule.ActionEventArgs<ScheduleData.ResourceEventsData> args)
+    {
+        if (args.ActionType == ActionType.EventCreate)
+        {
+            foreach (var record in args.AddedRecords)
+            {
+                record.IsPlanned = true;
+            }
+            Datas.AddRange(args.AddedRecords);
+        }
+        else if (args.ActionType == ActionType.EventChange)
+        {
+            foreach (var record in args.ChangedRecords)
+            {
+                Datas.RemoveAll(d => d.Id == record.Id);
+                Datas.Add(record);
+            }
+        }
+        UpdateData();
+    }
+
+    private void EditRepeatDialog()
+    {
+        IsRepeatDialogOpen = true;
+        IsEditor = true;
+    }
+
+    private void RuleChange(RecurrenceEditorChangeEventArgs args)
+    {
+        Recurrencesummary = args.Value == null ? string.Empty : RecurrenceInstance.GetRuleSummary(args.Value);
+    }
+
+    private void SaveRepeatDialog()
+    {
+        Recurrencelabel = Recurrencesummary;
+        IsRepeatDialogOpen = false;
+        IsRepeat = !string.IsNullOrEmpty(Recurrencesummary);
+    }
+
+    private void CloseRepeatDialog()
+    {
+        IsRepeatDialogOpen = false;
+        if (!IsEditor)
+            IsRepeat = false;
+        IsRepeat = !string.IsNullOrEmpty(Recurrencelabel);
+    }
+
+    private void OpenAddCalendarDialog()
+    {
+        IsEditMode = false;
+        IsDialogVisible = true;
+        CalendarName = string.Empty;
+        CalendarColorName = "#008000";
+    }
+
+    private void OpenEditCalendarDialog(CalendarData calendar)
+    {
+        IsEditMode = true;
+        CalendarName = calendar.Name;
+        CalendarColorName = calendar.Color;
+        EditedCalendarID = calendar.Id;
+        IsDialogVisible = true;
+    }
+
+    private async Task SaveCalendar()
+    {
+        if (IsEditMode)
+        {
+            CalendarData currentItem = CalendarCollections.Find(item => item.Id == EditedCalendarID);
+            if (currentItem != null)
+            {
+                currentItem.Color = CalendarColorName;
+                currentItem.Name = CalendarName;
+            }
+        }
+        else
+        {
+            CalendarCollections.Add(new CalendarData { Name = CalendarName == string.Empty ? "New Calendar" : CalendarName, Id = CalendarCollections.Count + 1, IsChecked = true, Color = CalendarColorName });
+            IsDialogVisible = false;
+        }
+        await ScheduleInstance.RefreshAsync();
+        IsDialogVisible = false;
+    }
+
+    private void OnCheckboxColorChange(string args)
+    {
+        CalendarColorName = args;
+    }
+
+    private void DeleteCalendar(CalendarData calendar)
+    {
+        CalendarCollections.Remove(calendar);
+    }
+    private async Task NavigatePrevious()
+    {
+        CurrentDate = GetPreviousNextDate(true);
+        UpdateDateRangeText();
+        await ScheduleInstance.RefreshAsync();
+    }
+
+    private async Task NavigateNext()
+    {
+        CurrentDate = GetPreviousNextDate(false);
+        UpdateDateRangeText();
+        await ScheduleInstance.RefreshAsync();
+    }
+    private void UpdateDateRangeText()
+    {
+        switch (CurrentView)
+        {
+            case View.Day:
+                DateRangeText = CurrentDate.ToString("MMMM dd, yyyy", CultureInfo.InvariantCulture);
+                break;
+            case View.Month:
+            case View.TimelineMonth:
+                DateRangeText = CurrentDate.ToString("MMMM yyyy", CultureInfo.InvariantCulture);
+                break;
+            case View.Year:
+                DateRangeText = CurrentDate.ToString("yyyy", CultureInfo.InvariantCulture);
+                break;
+        }
+    }
+
+    private DateTime GetPreviousNextDate(bool isPrevious)
+    {
+        DateTime updatedDate = CurrentDate;
+
+        switch (CurrentView)
+        {
+            case View.Day:
+            case View.Agenda:
+                updatedDate = updatedDate.AddDays(isPrevious ? -1 : 1);
+                break;
+
+            case View.Week:
+                updatedDate = updatedDate.AddDays(isPrevious ? -7 : 7);
+                break;
+
+            case View.Month:
+            case View.TimelineMonth:
+                updatedDate = updatedDate.AddMonths(isPrevious ? -1 : 1);
+                break;
+
+            case View.Year:
+                updatedDate = updatedDate.AddYears(isPrevious ? -1 : 1);
+                break;
+
+            default:
+                break;
+        }
+
+        return updatedDate;
+    }
+    private void PreventListViewClick()
+    {
+        IsIconClick = true;
+    }
+    private void OnListViewItemSelect(ClickEventArgs<CalendarData> args)
+    {
+        if (IsIconClick)
+        {
+            args.Cancel = true;
+            IsIconClick = false;
+        }
+        else 
+        {
+            if (args.IsChecked)
+            {
+                var selectedData = Datas.Where(c => c.CalendarId == args.ItemData.Id).ToList();
+                foreach (var data in selectedData)
+                {
+                    if (!AssignedData.Contains(data) && !UnassignedData.Contains(data))
+                    {
+                        if (data.IsPlanned)
+                        {
+                            AssignedData.Add(data);
+                            AssignedData = AssignedData.ToList();
+                        }
+                        else
+                        {
+                            UnassignedData.Add(data);
+                            UnassignedData = UnassignedData.ToList();
+                        }
+                    }
+                }
+            }
+            else
+            {
+                AssignedData.RemoveAll(c => c.CalendarId == args.ItemData.Id);
+                UnassignedData.RemoveAll(c => c.CalendarId == args.ItemData.Id);
+                AssignedData = AssignedData.ToList();
+                UnassignedData = UnassignedData.ToList();
+            }
+        }
+        
+    }
+    private void OnDataBound(Syncfusion.Blazor.Schedule.DataBoundEventArgs<ScheduleData.ResourceEventsData> args)
+    {
+            if (ScheduleInstance != null && CurrentView == View.Agenda|| CurrentView ==View.Week)
+            {
+                UpdateWeeklyDateRange();
+            }
+    }
+
+    private async Task OnScheduleCreated()
+    {
+        await ScheduleInstance.RefreshEventsAsync();
+    }
+
+    private void UpdateWeeklyDateRange()
+    {
+        var currentViewDates = ScheduleInstance.GetCurrentViewDates();
+        if (currentViewDates == null || currentViewDates.Count == 0)
+        {
+            currentViewDates = new List<DateTime>
+            {
+                GetWeekFirstDate(ScheduleInstance.SelectedDate, (DayOfWeek)ScheduleInstance.FirstDayOfWeek),
+                GetWeekLastDate(ScheduleInstance.SelectedDate, (DayOfWeek)ScheduleInstance.FirstDayOfWeek)
+            };
+        }
+
+        if (currentViewDates.Count > 0)
+        {
+            var startDate = currentViewDates.First();
+            var endDate = currentViewDates[currentViewDates.Count - 1];
+
+            DateRangeText = startDate.Year != endDate.Year
+                ? $"{startDate:MMMM dd, yyyy} - {endDate:MMMM dd, yyyy}"
+                : startDate.Month != endDate.Month
+                    ? $"{startDate:MMMM dd} - {endDate:MMMM dd, yyyy}"
+                    : $"{startDate:MMMM dd} - {endDate:dd, yyyy}";
+        }
+    }
+
+    private DateTime GetWeekFirstDate(DateTime date, DayOfWeek firstDayOfWeek)
+    {
+        int diff = (7 + (date.DayOfWeek - firstDayOfWeek)) % 7;
+        return date.AddDays(-diff).Date;
+    }
+
+    private DateTime GetWeekLastDate(DateTime date, DayOfWeek firstDayOfWeek)
+    {
+        return GetWeekFirstDate(date, firstDayOfWeek).AddDays(6).Date;
+    }
+
+    private void OnEventRendered(EventRenderedArgs<ScheduleData.ResourceEventsData> args)
+    {
+        Dictionary<string, object> attributes = new Dictionary<string, object>();
+        var calendarItem = CalendarCollections.Find(calendar => calendar.Id == args.Data.CalendarId);
+        if (calendarItem != null && ScheduleInstance != null && ScheduleInstance.CurrentView != View.Agenda)
+        {
+            attributes.Add("style", "background: " + calendarItem.Color);
+        }
+        args.Attributes = attributes;
+    }
+
+    public class CalendarData
+    {
+        public int Id { get; set; }
+        public string Name { get; set; }
+        public string Color { get; set; }
+        public bool IsChecked { get; set; }
+    }
+    
+    public class ResourceData
+    {
+        public int Id { get; set; }
+        public string Text { get; set; }
+        public string Color { get; set; }
+    }
+}
+<style>
+    #wrapper .main-content {
+        height: 550px;
+    }
+    .selected-date-calendar.e-calendar .e-btn.e-today.e-flat.e-primary,
+    .selected-date-calendar.e-calendar .e-css.e-btn.e-today.e-flat.e-primary {
+        display: none;
+    }
+    .event-calendar .main-content.e-sidebar-context .sidebar-content,
+    .expand-close-icon-headertext-container, .dialog-content {
+        display: flex;
+    }
+    .expand-close-icon-headertext-container {
+        display: flex;
+        padding: 4px 0;
+        align-items: baseline;
+    }
+    .expand-close-icon-headertext-container .expand-icon {
+        padding: 0 8px;
+        cursor: pointer;
+        margin-top: 10px;
+        margin-bottom: 10px;
+        margin-left: 8px;
+        font-size: large;
+    }
+    .control-section.event-calendar {
+        border: 1px solid #D7D7D7;
+        padding-top: unset;
+        margin: 20px 0;
+    }
+    .toolbar-container {
+        border-bottom: 1px solid #D7D7D7;
+    }
+    .unplanned-events-expander {
+        text-align: center;
+        width: 50px;
+        padding: 12px 0;
+    }
+    .unplanned-events-expander .sidebar-open-icon-text-container {
+        margin: 0 10px;
+    }
+    .unplanned-events-expander .sidebar-open-icon-text-container .sidebar-open-icon {
+        font-size: large;
+        font-weight: bold;
+    }
+    .unplaned-events-expand {
+        width: inherit;
+    }
+    .unplanned-events-expander div {
+        padding: 6px 0;
+        font-size: 16px;
+        font-weight: 600;
+    }
+    
+    .unplanned-events-text {
+        writing-mode: vertical-rl;
+        margin: auto;
+    }
+    .calendar-left-sidebar .table-content {
+        padding: 10px;
+    }
+    .calendars-list .e-list-header,
+    .calendars-list .e-list-header .calendars-list-header,
+    .calendars-list .e-list-item.e-checklist .e-text-content.e-checkbox,
+    .calendars-list .e-list-item.e-checklist:hover .calendar-list-item .calendar-buttons,
+    .calendars-list .calendar-list-item {
+        display: flex;
+        align-items: center;
+    }
+    .calendar-container, .listview-container {
+        margin: 10px;
+    }
+    .calendar-listview-container .calendar-container .e-calendar {
+        max-width: none;
+        min-width: inherit;
+    }
+    .calendars-list .e-list-header .calendars-list-header .header-text,
+    .calendars-list .calendar-list-item .calendar-name {
+        flex-grow: 1;
+    }
+    .calendars-list .e-list-header .e-headertemplate-text.header {
+        flex-grow: 1;
+        font-size: 16px;
+    }
+    .calendars-list .calendar-list-item .calendar-buttons, .hidden {
+        display: none;
+    }
+    .calendars-list .e-list-header .calendars-list-header .header-icon.e-plus {
+        cursor: pointer;
+    }
+    .calendars-list .calendar-list-item .calendar-buttons .calendar-edit-button,
+    .calendars-list .calendar-list-item .calendar-buttons .calendar-delete-button {
+        padding: 0 6px;
+    }
+
+    .e-schedule-dialog.e-popup:not(.e-device) .e-dialog-parent .e-date-container {
+        padding-right: 8px;
+    }
+    .e-dialog-parent .e-allday-repeat-checbox {
+        display: flex;
+        padding-bottom: 12px;
+        padding-top: 4px;
+        width: 100%;
+    }
+
+    .e-schedule-dialog.e-popup:not(.e-device) .e-dialog-parent .e-time-container {
+        padding-left: 8px;
+        width: 50%;
+    }
+    .e-dialog-parent .custom-field-row{
+        padding-bottom: 12px;
+    }
+    .e-dialog-parent .e-all-day-container {
+        padding-right: 16px;
+    }
+    .e-bigger .event-calendar.e-schedule .e-year-view .e-calendar-wrapper .e-month-calendar.e-calendar {
+        min-width: 307px;
+    }
+    label {
+        font-weight: unset;
+        font-size: small;
+    }
+
+    .e-bigger .e-repeat-checkbox .e-btn.e-icon-btn {
+        padding: 0 5px;
+    }
+
+    @@media only screen and (max-width: 800px) {
+        .e-dialog-parent .e-date-container, .e-dialog-parent .e-time-container {
+            padding: unset;
+            width: 100%;
+        }
+    }
+</style>

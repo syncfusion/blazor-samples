@@ -1,0 +1,765 @@
+﻿@page "/diagram/tooltip"
+
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@implements IDisposable
+@using ButtonChangeArgs = Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This sample shows how to add information to nodes and connectors in a diagram and how to display it using common user interface elements.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>You can add <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramTooltip.html' aria-label="DiagramTooltip">DiagramTooltip</a></code> to both nodes and connectors. Customize their appearance by controlling <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramTooltip.html#Syncfusion_Blazor_Diagram_DiagramTooltip_AnimationSettings' aria-label="Type">Animation</a></code> , <code><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.DiagramTooltip.html#Syncfusion_Blazor_Diagram_DiagramTooltip_Position' aria-label="Type">Position</a></code> , and effects through the tooltip settings. You can set either text or an HTML element as the content of the tooltip. Each node and connector can have its own unique tooltip settings.</p><br>
+</ActionDescription>
+@*End:Hidden*@
+<div>
+    <div class="col-lg-9 control-section" style="border-right: 1px solid #D7D7D7">
+        <SfDiagramComponent @ref="@Diagram" Height="640px"
+                            Nodes="@nodes"
+                            NodeCreating="@OnNodeCreating"
+                            ConnectorCreating="@OnConnectorCreating"
+                            Connectors="@connectors"
+                            Created="OnCreated">
+            <SnapSettings Constraints="SnapConstraints.None">
+            </SnapSettings>
+        </SfDiagramComponent>
+    </div>
+
+    @*Hidden:Lines*@
+
+    <style>
+
+        .texstyle {
+            display: table;
+            height: 35px;
+            padding-right: 2px;
+            padding-left: 0px;
+            width: 35%;
+            padding-top: 10px;
+            float: left;
+            position: relative;
+            min-height: 1px;
+        }
+
+        .row {
+            margin-left: 0px;
+            margin-right: 0px;
+            display: block;
+        }
+    </style>
+    <div class="col-lg-3 property-section">
+        <div class="property-panel-header">
+            Tooltip settings
+        </div>
+        <div class="row property-panel-content" style="padding-top: 10px">
+
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Position
+                </div>
+                <div class="col-xs-6">
+                    <SfDropDownList TValue="@string" Width="160px" @bind-Enabled="positionValue" TItem="TooltipPosition" @bind-Value="@position" ID="position" PopupHeight="120" PopupWidth="160" CssClass="textboxstyle" DataSource="TooltipPositionLists">
+                        <DropDownListEvents TItem="TooltipPosition" TValue="string" ValueChange="PositionChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Animation
+                </div>
+                <div class="col-xs-6">
+                    <SfNumericTextBox TValue="int?" Width="160px" Step="100" @bind-Value="@AnimationValue" Max="2000" Format="n0" Decimals=0 Min=100>
+                        <NumericTextBoxEvents TValue="int?" ValueChange="Animationchange"></NumericTextBoxEvents>
+                    </SfNumericTextBox>
+                </div>
+            </div>
+            <div class="row" style="padding-top: 8px">
+                <div class="texstyle">
+                    Effect
+                </div>
+                <div class="col-xs-6">
+                    <SfDropDownList TValue="@string" Width="160px" @bind-Enabled="effectValue" TItem="Effects"  PopupHeight="120" PopupWidth="160px" @bind-Value="@EffectValue" CssClass="textboxstyle" DataSource="EffectLists">
+                        <DropDownListEvents TItem="Effects" TValue="string" ValueChange="ChangeEffect"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </div>
+            <div class="row" style="padding-top:8px">
+                <div class="texstyle">
+                    Sticky Mode
+                </div>
+                <div style="margin-left:128px;padding-top:8px;padding-left:1px">
+                    <SfCheckBox Checked="@sticky" ValueChange="@EnableSticky" TChecked="bool">
+                    </SfCheckBox>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+@*End:Hidden*@
+
+@code
+{
+    @*Hidden:Lines*@
+
+    string position = "BottomRight";
+    string EffectValue = "FadeZoomIn";
+    bool positionValue = true;
+    bool effectValue = true;
+    int? AnimationValue = 100;
+    private bool sticky = false;
+    @*End:Hidden*@
+    public SfDiagramComponent? Diagram;
+    // Defines diagram's nodes collection
+    public DiagramObjectCollection<Node>? nodes { get; set; }
+
+    // Defines diagram's connector collection
+    public DiagramObjectCollection<Connector>? connectors { get; set; }
+
+    AnimationModel animationModel = new AnimationModel()
+        {
+            Open = new TooltipAnimationSettings() { Effect = Effect.FadeZoomIn, Duration = 100 },
+            Close = new TooltipAnimationSettings() { Effect = Effect.FadeZoomIn, Duration = 100 }
+        };
+    DiagramTooltip? diagramTooltip;
+
+    private void EnableSticky(ButtonChangeArgs value)
+    {
+        sticky = value.Checked;
+        if ((bool)sticky)
+        {
+            foreach (Node node in Diagram!.Nodes!)
+            {
+                diagramTooltip = node.Tooltip;
+                diagramTooltip!.IsSticky = true;
+            }
+            foreach (Connector connector in Diagram.Connectors!)
+            {
+                diagramTooltip = connector.Tooltip;
+                diagramTooltip!.IsSticky = true;
+            }
+        }
+        else
+        {
+            foreach (Node node in Diagram!.Nodes!)
+            {
+                diagramTooltip = node.Tooltip;
+                diagramTooltip!.IsSticky = false;
+            }
+            foreach (Connector connector in Diagram.Connectors!)
+            {
+                diagramTooltip = connector.Tooltip;
+                diagramTooltip!.IsSticky = false;
+            }
+        }
+
+    }
+    private void OnConnectorCreating(IDiagramObject obj)
+    {
+        Connector? connector = obj as Connector;
+        connector!.Type = ConnectorSegmentType.Orthogonal;
+        connector.Style = new ShapeStyle()
+            {
+                StrokeWidth = 2
+            };
+    }
+    private void OnNodeCreating(IDiagramObject obj)
+    {
+        Node? node = obj as Node;
+        node!.Constraints = NodeConstraints.Default | NodeConstraints.Tooltip;
+    }
+    protected override void OnInitialized()
+    {
+        InitDiagramModel();
+    }
+    private void OnCreated()
+    {
+        FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram!.FitToPage(options);
+    }
+
+    @*Hidden:Lines*@
+    public class TooltipPosition
+    {
+        public string? Name { get; set; }
+        public string? Value { get; set; }
+    }
+    private List<TooltipPosition> TooltipPositionLists = new List<TooltipPosition>() {
+        new TooltipPosition() { Name ="Top Left" , Value="TopLeft"},
+        new TooltipPosition() { Name ="Top Center", Value="TopCenter" },
+        new TooltipPosition() { Name ="Top Right", Value="TopRight" },
+        new TooltipPosition() { Name ="Bottom Left", Value="BottomLeft"},
+        new TooltipPosition() { Name ="Bottom Center", Value="BottomCenter" },
+        new TooltipPosition() { Name ="Bottom Right", Value="BottomRight" },
+        new TooltipPosition() { Name ="Left Top", Value="LeftTop"},
+        new TooltipPosition() { Name ="Left Center", Value="LeftCenter" },
+        new TooltipPosition() { Name ="Left Bottom", Value="LeftBottom" },
+        new TooltipPosition() { Name ="Right Top", Value="RightTop"},
+        new TooltipPosition() { Name ="Right Center", Value="RightCenter"},
+        new TooltipPosition() { Name ="Right Bottom", Value="RightBottom" },
+    };
+    public class Effects
+    {
+        public string? Name { get; set; }
+        public string? Value { get; set; }
+    }
+    private List<Effects> EffectLists = new List<Effects>()
+    {
+        new Effects() { Name = "Fade In", Value="FadeIn" },
+        new Effects() { Name = "Fade Out", Value="FadeOut" },
+        new Effects() { Name = "Fade Zoom In", Value="FadeZoomIn" },
+        new Effects() { Name = "Fade Zoom Out", Value="FadeZoomOut" },
+        new Effects() { Name = "FlipX Down In", Value="FlipXDownIn" },
+        new Effects() { Name = "FlipX Down Out", Value="FlipXDownOut" },
+        new Effects() { Name = "FlipX Up In", Value="FlipXUpIn" },
+        new Effects() { Name = "FlipX Up Out", Value="FlipXUpOut" },
+        new Effects() { Name = "FlipY Left In", Value="FlipYLeftIn" },
+        new Effects() { Name = "FlipY Left Out", Value="FlipYLeftOut" },
+        new Effects() { Name = "FlipY Right In", Value="FlipYRightIn" },
+        new Effects() { Name = "FlipY Right Out", Value="FlipYRightOut" },
+        new Effects() { Name = "None", Value="None" }
+    };
+    public void PositionChange(ChangeEventArgs<string, TooltipPosition> args)
+    {
+        foreach (Node node in Diagram!.Nodes!)
+        {
+            node.Tooltip!.Position = (Position)Enum.Parse(typeof(Position), args.Value!);
+        }
+        foreach (Connector connector in Diagram.Connectors!)
+        {
+            connector.Tooltip!.Position = (Position)Enum.Parse(typeof(Position), args.Value!);
+        }
+    }
+    public void Animationchange(Syncfusion.Blazor.Inputs.ChangeEventArgs<int?> args)
+    {
+        foreach (Node node in Diagram!.Nodes!)
+        {
+            diagramTooltip = node.Tooltip;
+            diagramTooltip!.AnimationSettings!.Open!.Duration = (int)args.Value!;
+            diagramTooltip.AnimationSettings.Close!.Duration = (int)args.Value;
+        }
+        foreach (Connector connector in Diagram.Connectors!)
+        {
+            diagramTooltip = connector.Tooltip;
+            diagramTooltip!.AnimationSettings!.Open!.Duration = (int)args.Value!;
+            diagramTooltip.AnimationSettings.Close!.Duration = (int)args.Value;
+        }
+    }
+    public void ChangeEffect(ChangeEventArgs<string, Effects> args)
+    {
+        foreach (Node node in Diagram!.Nodes!)
+        {
+            diagramTooltip = node.Tooltip;
+            diagramTooltip!.AnimationSettings!.Open!.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value!);
+            diagramTooltip.AnimationSettings.Close!.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value!);
+        }
+        foreach (Connector connector in Diagram.Connectors!)
+        {
+            diagramTooltip = connector.Tooltip;
+            diagramTooltip!.AnimationSettings!.Open!.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value!);
+            diagramTooltip.AnimationSettings.Close!.Effect = (Effect)Enum.Parse(typeof(Effect), args.Value!);
+        }
+    }
+    @*End:Hidden*@
+    private void InitDiagramModel()
+    {
+
+        nodes = new DiagramObjectCollection<Node>();
+        connectors = new DiagramObjectCollection<Connector>();
+        Node node = new Node()
+            {
+                ID = "node1",
+                Width = 60,
+                Height = 60,
+                OffsetX = 35,
+                OffsetY = 120,
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation()
+                {
+                    Content = "Customer query",
+                    Offset = new DiagramPoint(0.5, 1),
+                    Margin = new DiagramThickness() { Top = 15 }
+                }
+            },
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Queries from the customer",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnEvent()
+                {
+                    Trigger = BpmnEventTrigger.Message,
+                    EventType = BpmnEventType.Start,
+                },
+            };
+        Node node2 = new Node()
+            {
+                ID = "node2",
+                Width = 75,
+                Height = 70,
+                OffsetX = 140,
+                OffsetY = 120,
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation()
+                {
+                    Content = "Enough details?",
+                    Offset = new DiagramPoint(0.50, 0.50),
+                }
+            },
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Whether the provided information is enough?",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnGateway()
+                {
+                    GatewayType = BpmnGatewayType.None
+                },
+            };
+        Node node3 = new Node()
+            {
+                ID = "node3",
+                Width = 60,
+                Height = 50,
+                OffsetX = 270,
+                OffsetY = 120,
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation()
+                {
+                    Content = "Analyse",
+                    Offset = new DiagramPoint(0.50, 0.50),
+                }
+            },
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Analysing the query",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnActivity()
+                {
+                    ActivityType = BpmnActivityType.Task,
+                },
+            };
+        Node node4 = new Node()
+            {
+                ID = "node4",
+                Width = 75,
+                Height = 70,
+                OffsetX = 370,
+                OffsetY = 120,
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "proceed to validate?",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnGateway()
+                {
+                    GatewayType = BpmnGatewayType.Exclusive
+                }
+            };
+        Node node5 = new Node()
+            {
+                ID = "node5",
+                Width = 75,
+                Height = 70,
+                OffsetX = 570,
+                OffsetY = 120,
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation()
+                {
+                    Content = "Validate",
+                    Offset = new DiagramPoint(0.50, 0.50),
+                }
+            },
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Whether the reported/requested bug/feature is valid?",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnGateway()
+                {
+                    GatewayType = BpmnGatewayType.None
+                }
+            };
+        Node node6 = new Node()
+            {
+                ID = "node6",
+                Width = 60,
+                Height = 60,
+                OffsetX = 720,
+                OffsetY = 120,
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Send the invalid message to customer",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnEvent()
+                {
+                    Trigger = BpmnEventTrigger.Message,
+                    EventType = BpmnEventType.End
+                },
+            };
+        Node node7 = new Node()
+            {
+                ID = "node7",
+                Width = 60,
+                Height = 50,
+                OffsetX = 140,
+                OffsetY = 280,
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation()
+                {
+                    Content = "Request",
+                    Offset = new DiagramPoint(0.50, 0.50),
+                    Margin = new DiagramThickness() { Top = 15 }
+                }
+            },
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Requesting for more information",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnActivity()
+                {
+                    ActivityType = BpmnActivityType.Task,
+                    TaskType = BpmnTaskType.Send
+                },
+            };
+        Node node8 = new Node()
+            {
+                ID = "node8",
+                Width = 60,
+                Height = 60,
+                OffsetX = 370,
+                OffsetY = 280,
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Share the User Guide/Knowledge Base link",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnEvent()
+                {
+                    Trigger = BpmnEventTrigger.Message,
+                    EventType = BpmnEventType.Start
+                },
+            };
+        Node node9 = new Node()
+            {
+                ID = "node9",
+                Width = 70,
+                Height = 50,
+                OffsetX = 570,
+                OffsetY = 280,
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation()
+                {
+                    Content = "Log bug/feature",
+                    Offset = new DiagramPoint(0.50, 0.50),
+                }
+            },
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Log the bug/feature",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnActivity()
+                {
+                    ActivityType = BpmnActivityType.Task,
+                },
+            };
+        Node node10 = new Node()
+            {
+                ID = "node10",
+                Width = 75,
+                Height = 55,
+                OffsetX = 390,
+                OffsetY = 430,
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+                {
+                    new ShapeAnnotation()
+                    {
+                        Content = "Implement",
+                        Offset = new DiagramPoint(0.50, 0.50),
+                    }
+                },
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Fix the bug/Add the feature",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnExpandedSubProcess(),
+            };
+        Node node12 = new Node()
+            {
+                ID = "node12",
+                Width = 60,
+                Height = 60,
+                OffsetX = 265,
+                OffsetY = 430,
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Provide the solution",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnEvent()
+                {
+                    Trigger = BpmnEventTrigger.Message,
+                    EventType = BpmnEventType.End
+                },
+            };
+        Node node13 = new Node()
+            {
+                ID = "node13",
+                Width = 60,
+                Height = 60,
+                OffsetX = 720,
+                OffsetY = 430,
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "Share the task details",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnEvent()
+                {
+                    Trigger = BpmnEventTrigger.Message,
+                    EventType = BpmnEventType.End
+                },
+            };
+        Node node14 = new Node()
+            {
+                ID = "node14",
+                Width = 60,
+                Height = 60,
+                OffsetX = 570,
+                OffsetY = 430,
+                Tooltip = new DiagramTooltip()
+                {
+                    Content = "can log?",
+                    AnimationSettings = animationModel,
+                },
+                Shape = new BpmnGateway()
+                {
+                    GatewayType = BpmnGatewayType.Parallel
+                }
+            };
+        nodes.Add(node);
+        nodes.Add(node2);
+        nodes.Add(node3);
+        nodes.Add(node4);
+        nodes.Add(node5);
+        nodes.Add(node6);
+        nodes.Add(node7);
+        nodes.Add(node8);
+        nodes.Add(node9);
+        nodes.Add(node10);
+        nodes.Add(node12);
+        nodes.Add(node13);
+        nodes.Add(node14);
+
+        Connector connector = new Connector()
+            {
+                ID = "connector1",
+                SourceID = "node1",
+                TargetID = "node2",
+                Tooltip = new DiagramTooltip() { Content = "Receive query", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector2 = new Connector()
+            {
+                ID = "connector2",
+                SourceID = "node2",
+                TargetID = "node3",
+                Tooltip = new DiagramTooltip() { Content = "Sufficient details", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector3 = new Connector()
+            {
+                ID = "connector3",
+                SourceID = "node3",
+                TargetID = "node4",
+                Tooltip = new DiagramTooltip() { Content = "Analysed details", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector4 = new Connector()
+            {
+                ID = "connector4",
+                SourceID = "node4",
+                TargetID = "node5",
+                Annotations = new DiagramObjectCollection<PathAnnotation>()
+            {
+                new PathAnnotation()
+                {
+                    Content = "Feature/Bug",
+                    Offset = 0.5,
+                    Style = new TextStyle()
+                    {
+                        Fill = "white",
+                        TextWrapping= TextWrap.Wrap
+                    }
+
+                }
+            },
+                Tooltip = new DiagramTooltip() { Content = "Feature/Bug identified", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector5 = new Connector()
+            {
+                ID = "connector5",
+                SourceID = "node5",
+                TargetID = "node6",
+                Annotations = new DiagramObjectCollection<PathAnnotation>()
+            {
+                new PathAnnotation()
+                {
+                    Content = "Invalid",
+                    Offset = 0.5,
+                    Style = new TextStyle()
+                    {
+                        Fill = "white",
+                    }
+                }
+            },
+                Tooltip = new DiagramTooltip() { Content = "Invalid query", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector6 = new Connector()
+            {
+                ID = "connector6",
+                SourceID = "node2",
+                TargetID = "node7",
+                Tooltip = new DiagramTooltip() { Content = "Insufficient details", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector7 = new Connector()
+            {
+                ID = "connector7",
+                SourceID = "node4",
+                TargetID = "node8",
+                Annotations = new DiagramObjectCollection<PathAnnotation>()
+            {
+                new PathAnnotation()
+                {
+                    Content = "How to?",
+                    Offset = 0.5,
+                    Style = new TextStyle()
+                    {
+                        Fill = "white",
+                    }
+                }
+            },
+                Tooltip = new DiagramTooltip() { Content = "Guidance required", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector8 = new Connector()
+            {
+                ID = "connector8",
+                SourceID = "node5",
+                TargetID = "node9",
+                Tooltip = new DiagramTooltip() { Content = "Valid query", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector9 = new Connector()
+            {
+                ID = "connector9",
+                SourceID = "node14",
+                TargetID = "node13",
+                Tooltip = new DiagramTooltip() { Content = "Task completed", AnimationSettings = animationModel }, 
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector10 = new Connector()
+            {
+                ID = "connector10",
+                SourceID = "node7",
+                TargetID = "node3",
+                Type = ConnectorSegmentType.Orthogonal,
+                Segments = new DiagramObjectCollection<ConnectorSegment>()
+            {
+                new OrthogonalSegment()
+                {
+                    Length=100,
+                    Direction=Direction.Right
+                },
+                new OrthogonalSegment()
+                {
+                    Length=100,
+                    Direction=Direction.Top
+                }
+            },
+                Tooltip = new DiagramTooltip() { Content = "Resubmitted details", AnimationSettings = animationModel }, 
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector11 = new Connector()
+            {
+                ID = "connector11",
+                SourceID = "node14",
+                TargetID = "node10",
+                Tooltip = new DiagramTooltip() { Content = "Proceed to implementation", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector12 = new Connector()
+            {
+                ID = "connector12",
+                SourceID = "node10",
+                TargetID = "node12",
+                Tooltip = new DiagramTooltip() { Content = "Solution provided", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        Connector connector13 = new Connector()
+            {
+                ID = "connector13",
+                SourceID = "node9",
+                TargetID = "node14",
+                Tooltip = new DiagramTooltip() { Content = "Log and proceed", AnimationSettings = animationModel },
+                Constraints = ConnectorConstraints.Default | ConnectorConstraints.Tooltip,
+            };
+        connectors.Add(connector);
+        connectors.Add(connector2);
+        connectors.Add(connector3);
+        connectors.Add(connector4);
+        connectors.Add(connector5);
+        connectors.Add(connector6);
+        connectors.Add(connector7);
+        connectors.Add(connector8);
+        connectors.Add(connector9);
+        connectors.Add(connector10);
+        connectors.Add(connector11);
+        connectors.Add(connector12);
+        connectors.Add(connector13);
+    }
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+    }
+    @*End:Hidden*@
+}
