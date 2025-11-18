@@ -1,0 +1,224 @@
+﻿@page "/chat-ui/template"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the template functionality of the Chat UI component, showing how you can customize various elements of the chat interface. It highlights the ability to adjust the appearance of message items, time breaks, and empty chat screens using templates.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, a bot provides order tracking updates by customizing each message using the templates. The <code>MessageTemplate</code> property components the layout of messages, including the avatar, message content, and suggestions. The <code>TimeBreakTemplate</code> adjusts the display of time breaks, showing either "Today" or the specific date.
+    </p>
+    <p>
+        The bot sends a default response when a message is sent, and suggestions appear below the message. When a suggestion is clicked, the bot replies with a new message or set of suggestions, demonstrating how templates enhance the interaction flow within the Chat UI component.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="template-chatui">
+        <SfChatUI @ref="TemplateChatUI" Messages="@Messages" AutoScrollToBottom="true" User="BotAdmin" HeaderIconCss="chat-bot" HeaderText="Order Assistant" ShowTimeBreak="ShowTimebreak" ShowFooter="ShowFooter" ID="chatTemplate" Created="Created" MessageSend="MessageSend">
+            <EmptyChatTemplate>
+                <div class="emptychat-content">
+                    <h3><span class="e-icons e-comment-show"></span></h3>
+                    <div class="emptyChatText" style="font-size: 16px;">Just a second, we're preparing your chat...</div>
+                </div>
+            </EmptyChatTemplate>
+            <TimeBreakTemplate>
+                @{
+                    var dateText = "";
+                    if (context?.MessageDate != null && context.MessageDate.Value.Date == DateTime.Today.Date)
+                    {
+                        dateText = "Today";
+                    }
+                }
+                <div class="timebreak-template">@dateText</div>
+            </TimeBreakTemplate>
+            <MessageTemplate>
+                @{
+                    var IsAdmin = context.Message.Author.ID == "admin";
+                    var message = context.Message;
+                    var IsLastMessage = context.Message == Messages[Messages.Count - 1];
+                }
+                <div class="message-wrapper">
+                    <div class="message-template">
+                        @if (!IsAdmin)
+                        {
+                            <img class="message-user" src="@message.Author.AvatarUrl" alt="@message.Author" />
+                        }
+                        <div class="message-items e-card">
+                            <div class="message-text">@((MarkupString)message.Text)</div>
+                        </div>
+                    </div>
+                    @if (Suggestions?.Count > 0 && !IsAdmin && IsLastMessage)
+                    {
+                        <div class="suggestion-container">
+                            <div class="message-suggestions">
+                                @foreach (var suggestion in Suggestions)
+                                {
+                                    <button class="suggestion-button e-btn e-primary e-outline" @onclick="() => OnSuggestionClick(suggestion)">@suggestion</button>
+                                }
+                            </div>
+                        </div>
+                    }
+                </div>
+            </MessageTemplate>
+        </SfChatUI>
+    </div>
+</div>
+
+<style>
+    .template-chatui {
+        height: 500px;
+        width: 40%;
+        margin: 0 auto;
+    }
+
+    .template-chatui .e-header-icon.chat-bot {
+        background-image: url(@(SampleService!.WebAssetsPath + "images/chat-ui/bot.png"));
+        background-color: unset;
+    }
+
+    .template-chatui .emptyChatText {
+        font-size: 16px;
+        font-style: italic;
+    }
+
+    .template-chatui .emptychat-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        text-align: center;
+        align-items: center;
+        padding: 10px;
+        width: 90%;
+        margin: 0 auto;
+        height: 380px;
+    }
+
+    .template-chatui .e-right .message-items {
+        border-radius: 16px 16px 2px 16px;
+    }
+
+    .template-chatui .e-left .message-items {
+        border-radius: 16px 16px 16px 2px;
+    }
+
+    .template-chatui .message-user {
+        height: 30px;
+        width: 30px;
+        margin-right: 3px;
+    }
+
+    .template-chatui .e-left .message-template,
+    .template-chatui .e-right .message-template {
+        display: flex;
+        align-items: flex-end;
+    }
+
+
+    .template-chatui .message-items.e-card {
+        line-height: 20px;
+        box-shadow: none;
+        background: none;
+    }
+
+    .template-chatui .message-items.e-card:hover {
+        background-color: unset;
+    }
+
+    .template-chatui .e-left .message-template {
+        flex-direction: row;
+        margin-top: 10px;
+    }
+
+    .template-chatui .e-right .message-template {
+        flex-direction: column;
+        padding: 5px;
+    }
+
+    .template-chatui .message-text {
+        margin: 5px;
+        padding: 4px;
+        font-size: 14px;
+    }
+
+    .template-chatui .message-suggestions {
+        margin: 10px 30px;
+        display: flex;
+        gap: 5px;
+    }
+
+    .template-chatui .suggestion-button {
+        border-radius: 8px;
+        cursor: pointer;
+        padding: 5px 12px;
+        font-size: 13px;
+    }
+
+    @@media only screen and (max-width: 850px) {
+        .template-chatui {
+            width: 70%;
+        }
+
+        .template-chatui .message-suggestions {
+            flex-direction: column;
+            width: 80%;
+        }
+
+        .template-chatui .message-suggestions .suggestion-button {
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+    }
+</style>
+
+@code {
+    private SfChatUI TemplateChatUI = new SfChatUI();
+    private bool ShowFooter = false;
+    private bool ShowTimebreak = true;
+    private List<ChatMessage> Messages = new List<ChatMessage>();
+    private UserModel BotAdmin = new ChatMessagesData().GetSpecificUser("admin", "Admin", String.Empty, String.Empty);
+    private UserModel Bot = new ChatMessagesData().GetSpecificUser("bot", "Bot", "bot", String.Empty);
+    private List<TemplateMessageData> templateDatas = new ChatMessagesData().GetTemplateMessages();
+    private List<string> Suggestions = new List<string>();
+    private async Task Created()
+    {
+        await Task.Delay(1500);
+        Messages = new List<ChatMessage>() { new ChatMessage() { Text = templateDatas[0].Text, Author = Bot } };
+        Suggestions = templateDatas[0].Suggestions;
+    }
+
+    private async Task MessageSend()
+    {
+        await Task.Delay(500);
+        Suggestions.Clear();
+        var defaultResponse = "Unfortunately, I don't have information on that. Use any real-time data streaming service to provide chat updates.";
+        Messages.Add(new ChatMessage() { Text = defaultResponse, Author = Bot });
+        await TemplateChatUI.ScrollToBottomAsync();
+    }
+
+    private async Task OnSuggestionClick(string suggestion)
+    {
+        var message = templateDatas.FirstOrDefault(message => message.Text == suggestion);
+        if (message != null)
+        {
+            Messages.Add(new ChatMessage() { Text = message.Text, Author = BotAdmin });
+            await Task.Delay(500);
+            Suggestions = message.Suggestions;
+            Messages.Add(new ChatMessage() { Text = message.Reply, Author = Bot });
+            if (Suggestions.Count == 0)
+            {
+                ShowFooter = true;
+            }
+        }
+    }
+}

@@ -1,0 +1,192 @@
+﻿@page "/chart/stacked-bar"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example demonstrates a Blazor stacked bar chart that illustrates renewable energy generation in China from 2020 to 2023, segmented by wind, solar, and hydro sources. The legend in the sample shows more information about the series.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the stacked bar chart. The stacked bar chart stacks points in the series horizontally. You can also use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartSeries.html#Syncfusion_Blazor_Charts_ChartSeries_StackingGroup' aria-label="Navigate to the StackingGroup property reference for chart series">StackingGroup</a> property to group stacked collections based on category.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point in touch-enabled devices.</p>
+    <p>More information about the stacked bar series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/stacked-bar' aria-label="Navigate to the documentation for stacked-bar in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Annual Renewable Energy Generation in China (2020–2023) by Source" SubTitle="Source: wikipedia.org" Width="@Width" Theme="@Theme">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartEvents OnLegendClick="OnLegendClick"></ChartEvents>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis EdgeLabelPlacement="EdgeLabelPlacement.Shift" Maximum="3500" Interval="500" LabelFormat="{value}TWh">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries @ref="FirstSeries" ColumnWidth="0.6" DataSource="@Data1" XName="X" YName="Y" Width="2" Name="Wind" Type="ChartSeriesType.StackingBar" LegendShape="LegendShape.Rectangle">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+                <ChartCornerRadius BottomRight="@BottomRight1" TopRight="@TopRight1"></ChartCornerRadius>
+                <ChartMarker>
+                    <ChartDataLabel Visible="true"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries @ref="SecondSeries" ColumnWidth="0.6" DataSource="@Data2" XName="X" YName="Y" Width="2" Name="Solar" Type="ChartSeriesType.StackingBar" LegendShape="LegendShape.Rectangle">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+                <ChartCornerRadius BottomRight="@BottomRight2" TopRight="@TopRight2"></ChartCornerRadius>
+                <ChartMarker>
+                    <ChartDataLabel Visible="true"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries @ref="ThirdSeries" ColumnWidth="0.6" DataSource="@Data3" XName="X" YName="Y" Width="2" Name="Hydro" Type="ChartSeriesType.StackingBar" LegendShape="LegendShape.Rectangle">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+                <ChartCornerRadius BottomRight="@BottomRight3" TopRight="@TopRight3"></ChartCornerRadius>
+                <ChartMarker>
+                    <ChartDataLabel Visible="true"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartStackLabelSettings Visible="true" Format="{value}TWh"></ChartStackLabelSettings>
+        <ChartLegendSettings Visible="true" EnableHighlight="true" ShapeHeight="9" ShapeWidth="9"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Header="<b>Renewable Energy Generation</b>" Format="${series.name}: <b>${point.y}</b>" EnableHighlight="true"></ChartTooltipSettings>
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    private ChartSeries? FirstSeries;
+    private ChartSeries? SecondSeries;
+    private ChartSeries? ThirdSeries;
+    private int BottomRight1 { get; set; } = 0;
+    private int TopRight1 { get; set; } = 0;
+    private int BottomRight2 { get; set; } = 0;
+    private int TopRight2 { get; set; } = 0;
+    private int BottomRight3 { get; set; } = 4;
+    private int TopRight3 { get; set; } = 4;
+    public string Width { get; set; } = "90%";
+    public List<DataPoint> Data1 = new List<DataPoint>
+    {
+        new DataPoint { X = "2020", Y = 466 },
+        new DataPoint { X = "2021", Y = 656 },
+        new DataPoint { X = "2022", Y = 763 },
+        new DataPoint { X = "2023", Y = 886 }
+    };
+
+    public List<DataPoint> Data2 = new List<DataPoint>
+    {
+        new DataPoint { X = "2020", Y = 261 },
+        new DataPoint { X = "2021", Y = 327 },
+        new DataPoint { X = "2022", Y = 427 },
+        new DataPoint { X = "2023", Y = 584 }
+    };
+
+    public List<DataPoint> Data3 = new List<DataPoint>
+    {
+        new DataPoint { X = "2020", Y = 1355 },
+        new DataPoint { X = "2021", Y = 1340 },
+        new DataPoint { X = "2022", Y = 1352 },
+        new DataPoint { X = "2023", Y = 1286 }
+    };
+
+    public class DataPoint
+    {
+        public string? X { get; set; }
+        public double Y { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService != null && SampleService.IsDevice)
+        {
+                Width = "100%";
+        }
+    }
+
+    public void OnLegendClick(LegendClickEventArgs args)
+    { 
+        if(args.Series.Name =="Wind")
+        {
+            if(ThirdSeries != null && ThirdSeries.Visible)
+            {
+                BottomRight3 = 4;
+                TopRight3 = 4;
+                BottomRight1 = 0;
+                TopRight1 = 0;
+            }
+            else if(SecondSeries != null && SecondSeries.Visible)
+            {
+                BottomRight2 = 4;
+                TopRight2 = 4;
+                BottomRight1 = 0;
+                TopRight1 = 0;
+            }
+            else
+            {
+               BottomRight1 = 4;
+               TopRight1 = 4; 
+            }
+        }
+        else if(args.Series.Name =="Solar")
+        {
+             if (ThirdSeries != null && ThirdSeries.Visible) {
+                BottomRight3 = 4;
+                TopRight3 = 4;
+                BottomRight2 = 0;
+                TopRight2 = 0;
+            } 
+            else if (SecondSeries != null && SecondSeries.Visible && args.Series.Visible) {
+                BottomRight1 = 4;
+                TopRight1 = 4;
+                BottomRight2 = 0;
+                TopRight2 = 0;
+            } 
+            else {
+                BottomRight2 = 4;
+                TopRight2 = 4;
+                BottomRight1 = 0;
+                TopRight1 = 0;
+            }
+        }
+        else if(args.Series.Name =="Hydro")
+        {
+            if (!args.Series.Visible) {
+                BottomRight3 = 4;
+                TopRight3 = 4;
+                BottomRight2 = 0;
+                TopRight2 = 0;
+                BottomRight1 = 0;
+                TopRight1 = 0;
+            } 
+            else if (SecondSeries != null && SecondSeries.Visible) 
+            {
+                BottomRight2 = 4;
+                TopRight2 = 4;
+                BottomRight3 = 0;
+                TopRight3 = 0;
+            } 
+            else if (args.Series.Visible && FirstSeries != null && FirstSeries.Visible) 
+            {
+                BottomRight1 = 4;
+                TopRight1 = 4;
+                BottomRight3 = 0;
+                TopRight3 = 0;
+            }
+        }
+    }
+}

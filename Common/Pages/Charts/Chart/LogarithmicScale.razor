@@ -1,0 +1,85 @@
+﻿@page "/chart/logarithmic-scale"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows a logarithmic axis in a chart with data about the revenue of Meta between 2011 to 2024.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The logarithmic axis uses a logarithmic scale and is very useful when viewing data with values of both lower orders of magnitude (e.g., 10^-6) and higher orders of magnitude (e.g. 10^6). To use the logarithmic axis, set <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.ChartAxis.html#Syncfusion_Blazor_Charts_ChartAxis_ValueType' aria-label="Navigate to the ValueType property reference for chart axis">ValueType</a> in axis to <b>Logarithmic</b>.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a data point or tap one on touch-enabled devices.</p>
+    <p>More information about the logarithmic axis can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/logarithmic-axis' aria-label="Navigate to the documentation for logarithmic axis in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Meta Revenue (2011 - 2024)" SubTitle="Source: wikipedia.org" Width="@Width" Theme="@Theme">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis LabelFormat="yyyy" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="100" Maximum="1000000" Interval="1" LabelFormat="${value}" MinorTicksPerInterval="5" EdgeLabelPlacement="EdgeLabelPlacement.Shift" ValueType="Syncfusion.Blazor.Charts.ValueType.Logarithmic">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorGridLines Width="1.5"></ChartAxisMajorGridLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartTooltipSettings Enable="true" Shared="true" Header="" Format="${point.x} : <b>${point.y}</b>"></ChartTooltipSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Meta Revenue" XName="Period" Width="2" Opacity="1" YName="Revenue" Type="ChartSeriesType.Spline">
+                <ChartMarker Visible="true" Height="7" IsFilled="true" Width="7">
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code{
+
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<LogarithmicData> ChartPoints { get; set; } = new List<LogarithmicData>
+    {
+        new LogarithmicData { Period = new DateTime(2011, 1, 1),  Revenue = 3711  },
+        new LogarithmicData { Period = new DateTime(2012, 1, 1),  Revenue = 5089  },
+        new LogarithmicData { Period = new DateTime(2013, 1, 1),  Revenue = 7872  },
+        new LogarithmicData { Period = new DateTime(2014, 1, 1),  Revenue = 12466  },
+        new LogarithmicData { Period = new DateTime(2015, 1, 1),  Revenue = 17928 },
+        new LogarithmicData { Period = new DateTime(2016, 1, 1),  Revenue = 27638 },
+        new LogarithmicData { Period = new DateTime(2017, 1, 1),  Revenue = 40653 },
+        new LogarithmicData { Period = new DateTime(2018, 1, 1),  Revenue = 55838 },
+        new LogarithmicData { Period = new DateTime(2019, 1, 1),  Revenue = 70697 },
+        new LogarithmicData { Period = new DateTime(2020, 1, 1),  Revenue = 85965 },
+        new LogarithmicData { Period = new DateTime(2021, 1, 1),  Revenue = 117929 },
+        new LogarithmicData { Period = new DateTime(2022, 1, 1),  Revenue = 116609 },
+        new LogarithmicData { Period = new DateTime(2023, 1, 1),  Revenue = 134902 },
+        new LogarithmicData { Period = new DateTime(2024, 1, 1),  Revenue = 164501 }
+    };
+
+    protected override void OnInitialized()
+    {
+
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService != null && SampleService.IsDevice)
+        {
+             Width = "100%";
+        }
+    }
+
+    public class LogarithmicData
+    {
+        public DateTime Period { get; set; }
+        public double Revenue { get; set; }
+    }
+}

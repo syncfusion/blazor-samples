@@ -1,0 +1,456 @@
+﻿@page "/diagram/workflow-diagram"
+
+@using Syncfusion.Blazor.Diagram
+@using System.Collections.ObjectModel
+@using Syncfusion.Blazor.Navigations
+@using System.Text.RegularExpressions
+@*Hidden:Lines*@
+@inject IJSRuntime jsRuntime
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+@implements IDisposable
+
+<SampleDescription>
+	<p>This sample provides a visual representation of a streamlined Travel Request Approval workflow created with the Syncfusion Blazor Diagram. The diagram incorporates BPMN nodes, connectors, and annotations to represent various diagram elements.</p>
+</SampleDescription>
+<ActionDescription>
+	<p>This example showcases the process of building a workflow diagram using the diagram control. Upon clicking the 'Execute' button, the workflow will commence. It will be indicated by animated connectors, followed by the display of loading indicators as HTML templates on the nodes. Subsequently, the loading indicators will transition to checkmarks, signifying successful execution. Finally, in the last phase, the workflow execution will reach its conclusion. The “Reset” button will refresh the diagram elements. Here, zoom and pan options are enabled. The tool property of the diagram control allows you to enable or disable zoom and pan options.</p>
+</ActionDescription>
+<div class="col-lg-12 control-section" style="width:100%;">
+	<div style="width:100%;">
+		<SfToolbar>
+			<ToolbarItems>
+				<ToolbarItem  PrefixIcon="e-play" Text="Execute" TooltipText="Start Execution" Disabled="@isExecute" OnClick="@(()=>HandleToolbarAction(ToolbarAction.Execute))"></ToolbarItem>
+				<ToolbarItem Type="ItemType.Separator"></ToolbarItem>
+				<ToolbarItem  PrefixIcon="e-icons e-refresh" Text="Reset" TooltipText="Reset Work Flow" OnClick="@(()=>HandleToolbarAction(ToolbarAction.Reset))" Disabled="@isReset"></ToolbarItem>
+			</ToolbarItems>
+		</SfToolbar>
+	</div>
+	<div id="diagram-space" class="content-wrapper" style="width:100%">
+		<div style="border:1px solid #d7d7d7; width: 100%; height: 100%;">
+			@*End:Hidden*@
+			<SfDiagramComponent @ref="@diagram" Constraints="@DiagramConstraints" InteractionController="@tool" Width="100%" Height="645px" @bind-Connectors="@connectors" Created="@OnCreated" @bind-Nodes="@nodes" >
+				<SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+				<DiagramTemplates>
+					<NodeTemplate>
+						@{
+							<div style="display: flex; flex-direction: column; align-items: center;justify-content:center;">
+								<div id="loadingIndicator" class="loading-indicator"></div>
+								<div class="tick">✓</div>
+
+							</div>
+						}
+					</NodeTemplate>
+				</DiagramTemplates>
+			</SfDiagramComponent>
+			@*Hidden:Lines*@
+		</div>   
+	</div>
+</div>
+<style>
+	.e-diagram-icons {
+	font-family: "e-diagram-icons";
+	font-size: 54px;
+	font-style: normal;
+	font-weight: normal;
+	font-variant: normal;
+	text-transform: none;
+	line-height: 1;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
+	}
+
+
+
+
+	.loading-indicator {
+	border: 4px solid #f3f3f3;
+	border-top: 4px solid #3498db;
+	border-radius: 50%;
+	width: 15px;
+	height: 15px;
+	animation: spin 2s linear infinite;
+	}
+
+
+	.tick {
+	display: none;
+	animation: showTick 0.5s 0.2s forwards;
+	font-size: 10px;
+	width: 15px;
+	height: 15px;
+	background-color: green;
+	line-height: 1;
+	color: white;
+	border-radius: 50%;
+	justify-content:center;
+	align-items:center;
+	}
+
+
+
+
+	@@keyframes spin {
+	0% {
+	transform: rotate(0deg);
+	}
+
+	100% {
+	transform: rotate(360deg);
+	}
+	}
+
+	@@keyframes showTick {
+	0% {
+	opacity: 0;
+	transform: scale(0.5);
+	}
+
+	100% {
+	opacity: 1;
+	transform: scale(1);
+	}
+	}
+
+</style>
+
+@*End:Hidden*@
+
+@code {
+	//declare ref variable for Sfdiagramcomponent
+	SfDiagramComponent? diagram;
+	// adding ZoomPan interactions for the diagram
+	public DiagramInteractions tool = DiagramInteractions.ZoomPan;
+	// adding bridging and Routing constraints to the default 
+	DiagramConstraints DiagramConstraints = DiagramConstraints.Default | (DiagramConstraints.Bridging | DiagramConstraints.Routing);
+
+	DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
+	DiagramObjectCollection<Connector>? connectors = new DiagramObjectCollection<Connector>();
+	// declaring ref variable for toolabarItems
+	private enum ToolbarAction { Execute, Reset };
+	//this variable used to disable and enable the toolBarButton
+	bool isExecute = false, isReset = true;
+	private bool isDispose = false;
+#pragma warning disable CS0414
+	private static int connectorID = 0;
+#pragma warning restore CS0414
+	// This variable used to store the diagram data values
+	string? diagramData;
+
+	bool firstDataInitialize = false;
+	int nodeID = 0;
+	// This enum stores Shapetypes 
+	public enum ShapeType
+	{
+		StartEvent,
+		Task,
+		ExclusiveGateway,
+		HtmlTemplate
+	};
+	// This invokes the function to initialize  nodes and connectors
+#pragma warning disable CS1998
+	protected override async Task OnInitializedAsync()
+#pragma warning disable CS1998
+	{
+		CreateNodes();
+		CreateConnectors();
+	}
+	// ShapeObject class encapsulates different shapes objects
+	public static class CreateShape
+	{
+		public static readonly Shape StartEvent = new BpmnEvent
+			{
+				EventType = BpmnEventType.Start,
+				Trigger = BpmnEventTrigger.None
+			};
+
+		public static readonly Shape Task = new BpmnActivity
+			{
+				ActivityType = BpmnActivityType.Task
+			};
+
+		public static readonly Shape ExclusiveGateway = new BpmnGateway
+			{
+				GatewayType = BpmnGatewayType.Exclusive
+			};
+		public static readonly Shape HtmlTemplate = new Shape { Type = NodeShapes.HTML };
+
+		public static Shape GetShape(ShapeType type)
+		{
+			return type switch
+			{
+				ShapeType.StartEvent => StartEvent,
+				ShapeType.Task => Task,
+				ShapeType.ExclusiveGateway => ExclusiveGateway,
+				ShapeType.HtmlTemplate => HtmlTemplate,
+				_ => throw new ArgumentOutOfRangeException(nameof(type), type, null)
+			};
+		}
+	}
+
+
+
+	private void OnCreated()
+	{
+		FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+		diagram!.FitToPage(mobileoptions);
+	}
+	//Initializes the nodes for the diagram
+	private void CreateNodes()
+	{
+		CreateNode("requestStart","New travel request received", 50, 50, 100, 245, CreateShape.GetShape(ShapeType.StartEvent));
+		CreateNode("Travel","Get travel Request  details", 100, 80, 250, 245, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("profile","Get requester profile", 100, 80, 400, 245, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("manager","Get manager details", 100, 80, 550, 245, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("rejected", "Get status as rejected", 100, 80, 700, 245, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("accepted", "Get status as accepted", 100, 80, 850, 245, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("approvalRejected","Set next approval status as rejected", 100, 80, 1100, 245, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("approvalAccepted","Set next approval status as accepted", 100, 80, 1250, 245, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("approvalManager","Initiate approval with manager", 100, 80, 550, 445, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("checkStatus","Check approval status", 80, 60, 700, 445, CreateShape.GetShape(ShapeType.ExclusiveGateway));
+		CreateNode("checkTravel","Check If It is an international travel", 80, 60, 850, 445, CreateShape.GetShape(ShapeType.ExclusiveGateway));
+		CreateNode("levelManager","Initiate approval with next level manager", 100, 80, 1000, 445, CreateShape.GetShape(ShapeType.Task));
+		CreateNode("checkLevel","Check level2 approval status", 80, 60, 1130, 445, CreateShape.GetShape(ShapeType.ExclusiveGateway));
+	}
+	// This method create and apply defualt styles to the node
+	private void CreateNode(string id,string content, int width, int height, double offsetX, double offsetY, Shape shape)
+	{
+
+		Node node = new Node()
+			{
+				ID = id,
+				Width = width,
+				Height = height,
+				OffsetX = offsetX,
+				OffsetY = offsetY,
+				Shape = shape,
+				Annotations = new DiagramObjectCollection<ShapeAnnotation>
+			{
+				new ShapeAnnotation { Content = content , Offset = GetAnnotationOffset(id,shape), Style = new TextStyle { FontSize = 15 } }
+			}
+
+			};
+		if (node.ID == "checkLevel")
+		{
+			node.Ports = new DiagramObjectCollection<PointPort>() { new PointPort() { ID = "rightport", Offset = new DiagramPoint() { X = 1, Y = 0.5 } } };
+
+		}
+	    if (shape is BpmnGateway)
+	    {
+			node.Annotations[0].Style!.FontSize = 14;
+        }
+
+		nodes!.Add(node);
+	}
+	private DiagramPoint GetAnnotationOffset(string id, Shape shape)
+	{
+		return id switch
+		{
+			"travelRequestApprovalProcess" => new DiagramPoint { X = 0.1, Y = 0.5 },
+			"travelRequest" => new DiagramPoint { X = 0.95, Y = 0.5 },
+			_ when shape is BpmnGateway || shape is BpmnEvent => new DiagramPoint { X = 0.5, Y = 1.8 },
+			_ => new DiagramPoint { X = 0.5, Y = 0.5 } // Default offset
+		};
+	}
+	//Initializes the connectors for the diagram
+	private void CreateConnectors()
+	{
+
+		CreateConnector("connector1","requestStart", "Travel");
+		CreateConnector("connector2", "Travel", "profile");
+		CreateConnector("connector3", "profile", "manager");
+		CreateConnector("connector4", "manager", "approvalManager");
+		CreateConnector("connector5", "approvalManager", "checkStatus");
+		CreateConnector("connector6", "checkStatus", "rejected", new PathAnnotation() { Content = "Rejected", Style = new TextStyle() { Fill = "white" } });
+		CreateConnector("connector7", "checkStatus", "checkTravel", new PathAnnotation() { Content = "Accepted", Style = new TextStyle() { Fill = "white" } });
+		CreateConnector("connector8", "checkTravel", "accepted", new PathAnnotation() { Content = "No", Offset = 0.4, Style = new TextStyle() { Fill = "white" } });
+		CreateConnector("connector9", "checkTravel", "levelManager", new PathAnnotation() { Content = "Yes", Offset = 0.4, Style = new TextStyle() { Fill = "white" } });
+		CreateConnector("connector10", "levelManager", "checkLevel");
+		CreateConnector("connector11", "checkLevel", "approvalRejected", new PathAnnotation() { Content = "Rejected", Offset = 0.4, Style = new TextStyle() { Fill = "white" } });
+		CreateConnector("connector12", "checkLevel", "approvalAccepted", new PathAnnotation() { Content = "Approved", Style = new TextStyle() { Fill = "white" } }, "rightport");
+
+	}
+	private void CreateConnector(string id,string sourceID, string targetID, PathAnnotation? pathAnnotation = null, String? sourcePortID = null)
+	{
+
+		Connector connector = new Connector()
+			{
+				ID = id,
+				SourceID = sourceID,
+				TargetID = targetID,
+
+				Type = ConnectorSegmentType.Orthogonal,
+				Style = new ShapeStyle() { StrokeColor = "#B6B6B4" },
+				TargetDecorator = new DecoratorSettings()
+				{
+					Style = new ShapeStyle() { StrokeColor = "#B6B6B4", Fill = "#B6B6B4" }
+				},
+			};
+		if (sourcePortID != null)
+		{
+			connector.SourcePortID = sourcePortID;
+		}
+		if (pathAnnotation != null)
+		{
+			connector.Annotations!.Add(pathAnnotation);
+		}
+		connector.Annotations!.Add(new PathAnnotation()
+			{
+				Content = " ",
+				Height = 8,
+				Width = 8,
+				Offset = 0,
+				Style = new TextStyle() { Fill = "transparent" }
+
+			});
+		if (connector.Annotations.Count > 1)
+		{
+			connector.Annotations[0].Style!.FontSize = 14;
+
+			if (connector.Annotations[0].Content == "Accepted" || connector.Annotations[0].Content == "Yes")
+			{
+				connector.Annotations[0].Alignment = AnnotationAlignment.Before;
+				connector.Annotations[0].Displacement = new DiagramPoint() { X = 0, Y = 10 };
+			}
+			else
+			{
+				connector.Annotations[0].Style = new TextStyle() { Fill = "white", FontSize = 14 };
+			}
+		}
+		connectors!.Add(connector);
+
+	}
+
+
+	private async Task HandleToolbarAction(ToolbarAction action)
+	{
+		switch (action)
+		{
+			case ToolbarAction.Execute:
+
+				isExecute = isReset = true;
+				// Storing the diagram on initial rendering can be used to reset the diagram.
+				if (!firstDataInitialize) diagramData = diagram!.SaveDiagram();
+				await StartWorkFlow();
+				isReset = false;
+				break;
+			case ToolbarAction.Reset:
+				await ResetWorkFlow();
+				isReset = true;
+				isExecute = false;
+				break;
+		}
+	}
+
+	// This method initiates the flow and animation
+	private async Task StartWorkFlow(int level = 1)
+	{
+		if (isDispose) return;
+		// Invokes JS method to remove the loadIndicator
+		await jsRuntime.InvokeVoidAsync("loadIndicator");
+
+		if (level > 12) return;
+
+		var connectors = diagram!.Connectors;
+
+
+		var connector = connectors![level - 1];
+		const int intervalDuration = 120;
+		var annotation = connector.Annotations![^1]; 
+
+		bool IsRejectedConnector(string connectorId) =>
+			connectorId == "connector6" ||
+			connectorId == "connector8" ||
+			connectorId == "connector11";
+
+		if (IsRejectedConnector(connector.ID!))
+		{
+			await StartWorkFlow(level + 1);
+			return;
+		}
+
+		while (!isDispose)
+		{
+			annotation.Style!.Fill = "#76F543";
+			if (annotation.Offset < 0.9)
+			{
+				annotation.Offset += 0.05; // Increment for animation
+				connector.Style!.StrokeColor = "#F8FC02";
+			}
+			else
+			{
+				await ConnectorAnimation(connector);
+				var targetNode = diagram.GetObject(connector.TargetID) as Node;
+
+				if (!isDispose && targetNode != null && IsProcessableNode(targetNode) )
+				{
+					CreateLoadingNode(targetNode);
+
+					await Task.Delay(1800);
+
+					HighlightNode(targetNode);
+				}
+
+				await StartWorkFlow(level + 1);
+				return;
+			}
+
+			StateHasChanged();
+			await Task.Delay(intervalDuration);
+		}
+	}
+	// This method display connctor animation 
+	private async Task ConnectorAnimation(Connector connector)
+	{
+		var annotation = connector.Annotations![^1];
+		annotation.Style!.Fill = "Transparent";
+		connector.Style!.StrokeColor = "green";
+		connector.TargetDecorator!.Style.StrokeColor = "green";
+		connector.TargetDecorator.Style.Fill = "green";
+
+		StateHasChanged();
+		await Task.Delay(10);
+	}
+
+	private bool IsProcessableNode(Node targetNode)
+	{
+		return !(targetNode.Shape is BpmnGateway) &&
+						targetNode.ID != "setStatusAsRejected" &&
+						targetNode.ID != "setStatusAsAccepted" &&
+						targetNode.ID != "setNextApprovalStatusAsRejected";
+	}
+	// create node for display animation on the targetNode
+	private void CreateLoadingNode(Node targetNode)
+	{
+		nodes!.Add(new Node() { ID = ("node" + (nodeID++)), Width = 15, Height = 15, OffsetX = (targetNode.OffsetX - (targetNode.Width ?? 0) * targetNode.Pivot!.X) + 1, OffsetY = (targetNode.OffsetY - (targetNode.Height ?? 0) * targetNode.Pivot.Y) + 2, Shape = new Shape { Type = NodeShapes.HTML } });
+		StateHasChanged();
+	}
+
+	private void HighlightNode(Node targetNode)
+	{
+		if (!isDispose)
+		{
+			targetNode.Style!.StrokeWidth = 2;
+			targetNode.Style.StrokeColor = "green";
+			StateHasChanged();
+		}
+	}
+
+	//Function to reset the workflow when the reset option is clicked
+	private async Task ResetWorkFlow()
+	{
+		await diagram!.LoadDiagramAsync(diagramData);
+	}
+	@*Hidden:Lines*@
+	public void Dispose()
+	{
+		isDispose = true;
+		nodes?.Clear();
+		connectors?.Clear();
+		nodes = null;
+		connectors = null;
+	}
+
+    @*End:Hidden*@
+}
+   

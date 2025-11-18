@@ -1,0 +1,138 @@
+﻿@page "/gantt-chart/excel-filtering"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.DropDowns
+@using ej2_blazor_filterdata
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example demonstrates how to manage and analyze a new product development using the Gantt Chart component. It showcases Excel-like filtering capabilities that allow efficient navigation and data refinement within complex project structures.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample demonstrates <b>Excel-like column filtering</b> in the Blazor Gantt Chart. When the <a aria-label="Navigate to the AllowFiltering property reference for gantt chart component" target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_AllowFiltering">AllowFiltering</a> property is enabled and the <a aria-label="Navigate to the FilterType property reference for gantt chart component" target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttFilterSettings.html#Syncfusion_Blazor_Gantt_GanttFilterSettings_FilterType">FilterType</a> is set to <a aria-label="Navigate to the Excel filtertype reference for gantt chart component" target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.FilterType.html#Syncfusion_Blazor_Gantt_FilterType_Excel">Excel</a>, column headers display filtering menus that support condition-based filtering. The <a aria-label="Navigate to the HierarchyMode property reference for gantt chart filter settings" target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttFilterSettings.html#Syncfusion_Blazor_Gantt_GanttFilterSettings_HierarchyMode">HierarchyMode</a> property defines how related records are displayed during filtering:
+    </p>
+    <ul>
+        <li><code><b>Parent</b>(default)</code> : displays filtered tasks along with their parent records.</li>
+        <li><code><b>Child</b></code> : displays filtered tasks along with their child records.</li>
+        <li><code><b>Both</b></code> : displays filtered tasks with both parent and child records.</li>
+        <li><code><b>None</b></code> : displays only the filtered tasks.</li>
+    </ul>
+    <p>
+        More information about the filtering feature can be found in this <a aria-label="Navigate to the documentation for filtering in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/excel-like-filter">documentation section</a>.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGantt DataSource="@TaskCollection" Height="650px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1" AllowFiltering="true" AllowSorting="true" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate" ScrollToTaskbarOnClick="true" Toolbar="@toolbarItems">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" ParentID="ParentId" Dependency="Predecessor"></GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" HeaderText="Task ID" Width="120"></GanttColumn>
+                    <GanttColumn Field="TaskName" HeaderText="Task Name" Width="260" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date" Width="130"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date" Width="130"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration" Width="130"></GanttColumn>
+                </GanttColumns>
+                <GanttFilterSettings HierarchyMode="@CurrentHierarchyMode" FilterType="Syncfusion.Blazor.Gantt.FilterType.Excel"></GanttFilterSettings>
+                <GanttSplitterSettings Position="60%"></GanttSplitterSettings>
+                <GanttLabelSettings LeftLabel="TaskName" TValue="FilterData.TaskData"></GanttLabelSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+<style>
+    .showhide {
+    font-size: 14px;
+    font-weight: 700;
+    margin-bottom: 0px;
+    }
+    .e-toolbar .e-toolbar-item > * {
+    margin-right: 5px;
+    }
+</style>
+@code {
+    private List<FilterData.TaskData> TaskCollection { get; set; } = new List<FilterData.TaskData>();
+    private DateTime ProjectStartDate { get; set; } = new DateTime(2021, 3, 24);
+    private DateTime ProjectEndDate { get; set; } = new DateTime(2021, 7, 6);
+    public FilterHierarchyMode CurrentHierarchyMode { get; set; } = FilterHierarchyMode.Both;
+    public string SelectedHierarchyMode { get; set; } = "Both";
+    public class HierarchyModeFields
+    {
+        public string? Id { get; set; }
+        public string? Text { get; set; }
+    }
+    private static List<HierarchyModeFields> HierarchyModes = new List<HierarchyModeFields>
+    {
+        new HierarchyModeFields { Id = "Parent", Text = "Parent" },
+        new HierarchyModeFields { Id = "Child", Text = "Child" },
+        new HierarchyModeFields { Id = "Both", Text = "Both" },
+        new HierarchyModeFields { Id = "None", Text = "None" }
+    };
+    private List<Object>? toolbarItems;
+    protected override void OnInitialized()
+    {
+        TaskCollection = FilterData.GetTaskCollection();
+        toolbarItems = new List<Object>
+        {
+            new ItemModel
+            {
+                Id = "HierarchyLabel",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "showhide");
+                    builder.AddAttribute(2, "style", "margin-right: 10px;");
+                    builder.AddContent(3, "Hierarchy Mode:");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "HierarchyDropDown",
+                Align = ItemAlign.Left,
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfDropDownList<string, HierarchyModeFields>>(0);
+                    builder.AddAttribute(1, "Width", "150px");
+                    builder.AddAttribute(2, "DataSource", HierarchyModes);
+                    builder.AddAttribute(3, "Placeholder", "Select Mode");
+                    builder.AddAttribute(4, "Value", SelectedHierarchyMode);
+                    builder.AddAttribute(5, "ValueChanged", EventCallback.Factory.Create<string>(this, v => SelectedHierarchyMode = v));
+                    builder.AddAttribute(6, "Text", "Text");
+                    builder.AddAttribute(7, "ValueField", "Id");
+                    builder.AddAttribute(8, "TItem", typeof(HierarchyModeFields));
+                    builder.AddAttribute(9, "ChildContent", (RenderFragment)(childBuilder =>
+                    {
+                        childBuilder.OpenComponent<DropDownListFieldSettings>(0);
+                        childBuilder.AddAttribute(1, "Text", "Text");
+                        childBuilder.AddAttribute(2, "Value", "Id");
+                        childBuilder.CloseComponent();
+                        childBuilder.OpenComponent<DropDownListEvents<string, HierarchyModeFields>>(3);
+                        childBuilder.AddAttribute(4, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<string, HierarchyModeFields>>(this, OnHierarchyModeChanged));
+                        childBuilder.CloseComponent();
+                    }));
+                    builder.CloseComponent();
+                })
+            }
+        };
+    }
+    public async void OnHierarchyModeChanged(ChangeEventArgs<string, HierarchyModeFields> args)
+    {
+        if (!string.IsNullOrEmpty(args.Value))
+        {
+            SelectedHierarchyMode = args.Value;
+            CurrentHierarchyMode = args.Value == "Parent" ? FilterHierarchyMode.Parent :
+                                   args.Value == "Child" ? FilterHierarchyMode.Child :
+                                   args.Value == "None" ? FilterHierarchyMode.None :
+                                   FilterHierarchyMode.Both;
+        }
+        await Task.CompletedTask;
+    }
+
+}

@@ -1,0 +1,243 @@
+﻿@page "/progress-bar/radius"
+@using Syncfusion.Blazor.ProgressBar
+@using Syncfusion.Blazor
+@using ThemeHelper
+@inject NavigationManager Navigation
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>A circular progress bar with different radius, inner-radius, pie progress, track, and progress thickness is shown in this example.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, you can see how to configure the radius, inner radius, pie progress, track, and progress thickness of a circular progress bar using the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_Radius" aria-label="Radius">Radius</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_InnerRadius" aria-label="InnerRadius">InnerRadius</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_TrackColor" aria-label="TrackColor">TrackColor</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_TrackThickness" aria-label="TrackThickness">TrackThickness</a>, and <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_ProgressThickness" aria-label="ProgressThickness">ProgressThickness</a> properties.</p>
+    <p>More information about the radius and inner radius for circular progress bar can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/progress-bar/customization#radius" aria-label="documentation section">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="row" style="margin-top: 4%;">
+        <div class="col-lg-3 col-md-3 col-3" align="center">
+            <SfProgressBar ID="FullProgressBar"
+                           @ref="FullProgress"
+                           Type="ProgressType.Circular"
+                           Minimum="0"
+                           Maximum="100"
+                           Value="60"
+                           Width="160px"
+                           Height="170px"
+                           Radius="100%"
+                           InnerRadius="190%"
+                           ProgressThickness="10"
+                           TrackThickness="80"
+                           ProgressColor="@ProgressColor"
+                           CornerRadius="CornerType.Round"
+                           TrackColor="@FullTrackColor"
+                           Theme="@CurrentTheme">
+                <ProgressBarAnimation Enable="true" Duration="3000" Delay="0" />
+                <ProgressBarAnnotations>
+                    <ProgressBarAnnotation>
+                        <ContentTemplate>
+                            <div style='font-size:20px;font-weight:bold;color:@TextColor;font-family:@FontFamily'>
+                                <span>60%</span>
+                            </div>
+                        </ContentTemplate>
+                    </ProgressBarAnnotation>
+                </ProgressBarAnnotations>
+            </SfProgressBar>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-3" align="center">
+            <SfProgressBar ID="OuterProgressBar"
+                           @ref="OuterProgress"
+                           Type="ProgressType.Circular"
+                           Value="90"
+                           Minimum="0"
+                           Maximum="100"
+                           Width="160px"
+                           Height="170px"
+                           InnerRadius="72"
+                           ProgressThickness="8"
+                           CornerRadius="CornerType.Round"
+                           Theme="@CurrentTheme">
+                <ProgressBarAnimation Enable="true" Duration="3000" Delay="0" />
+            </SfProgressBar>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-3" align="center">
+            <SfProgressBar ID="ThinProgressBar"
+                           @ref="ThinProgress"
+                           Type="ProgressType.Circular"
+                           Value="90"
+                           Minimum="0"
+                           Maximum="100"
+                           Width="160px"
+                           Height="170px"
+                           TrackThickness="3"
+                           ProgressThickness="8"
+                           CornerRadius="CornerType.Round"
+                           Theme="@CurrentTheme">
+                <ProgressBarAnimation Enable="true" Duration="3000" Delay="0" />
+            </SfProgressBar>
+        </div>
+
+        <div class="col-lg-3 col-md-3 col-3" align="center">
+            <SfProgressBar ID="PieProgressBar"
+                           @ref="PieProgress"
+                           Type="ProgressType.Circular"
+                           Value="70"
+                           Minimum="0"
+                           Maximum="100"
+                           Width="160px"
+                           Height="170px"
+                           EnablePieProgress="true"
+                           CornerRadius="CornerType.Round"
+                           Theme="@CurrentTheme">
+                <ProgressBarAnimation Enable="true" Duration="3000" Delay="0" />
+            </SfProgressBar>
+        </div>
+    </div>
+
+    <div class="row" align="center" style="font-family:@FontFamily">
+        <button id="reloadButton" class="e-control e-btn e-lib e-outline e-primary" @onclick="ReloadProgressBars">Reload</button>
+    </div>
+</div>
+
+@code{
+    public SfProgressBar? FullProgress { get; set; }
+    public SfProgressBar? OuterProgress { get; set; }
+    public SfProgressBar? ThinProgress { get; set; }
+    public SfProgressBar? PieProgress { get; set; }
+    public Theme CurrentTheme { get; set; }
+    public string? FullTrackColor { get; set; }
+    public string ProgressColor { get; set; } = "#FFFFFF";
+    public string TextColor { get; set; } = "#FFFFFF";
+    public string? FontFamily { get; set; }
+
+    public async Task ReloadProgressBars()
+    {
+        if (FullProgress != null)
+        await FullProgress.RefreshAsync();
+        if (OuterProgress != null)
+        await OuterProgress.RefreshAsync();
+        if (ThinProgress != null)
+        await ThinProgress.RefreshAsync();
+        if (PieProgress != null)
+        await PieProgress.RefreshAsync();
+    }
+
+    protected override void OnInitialized()
+    {
+        FontFamily = ThemeHelper.GetFontFamily(Navigation.Uri);
+        UpdateThemeBasedOnUri(Navigation.Uri);
+    }
+
+    private void UpdateThemeBasedOnUri(string uri)
+    {
+        if (uri.Contains("material3-dark"))
+        {
+            SetTheme(Theme.Material3Dark, "#D0BCFF");
+        }
+        else if (uri.Contains("material3"))
+        {
+            SetTheme(Theme.Material3, "#6750A4");
+        }
+        else if (uri.Contains("fabric-dark"))
+        {
+            SetTheme(Theme.FabricDark, "#9A9A9A");
+        }
+        else if (uri.Contains("fabric"))
+        {
+            SetTheme(Theme.Fabric, "#0078D6");
+        }
+        else if (uri.Contains("bootstrap-dark"))
+        {
+            SetTheme(Theme.BootstrapDark, "#9A9A9A");
+        }
+        else if (uri.Contains("bootstrap5-dark"))
+        {
+            SetTheme(Theme.Bootstrap5Dark, "#0D6EFD");
+        }
+        else if (uri.Contains("bootstrap5"))
+        {
+            SetTheme(Theme.Bootstrap5, "#0D6EFD");
+        }
+        else if (uri.Contains("fluent2-highcontrast"))
+        {
+            SetTheme(Theme.Fluent2HighContrast, "#1AEBFF");
+        }
+        else if (uri.Contains("fluent2-dark"))
+        {
+            SetTheme(Theme.Fluent2Dark, "#115EA3");
+        }
+        else if (uri.Contains("fluent2"))
+        {
+            SetTheme(Theme.Fluent2, "#0F6CBD");
+        }
+        else if (uri.Contains("fluent-dark"))
+        {
+            SetTheme(Theme.FluentDark, "#0D6EFD");
+        }
+        else if (uri.Contains("fluent"))
+        {
+            SetTheme(Theme.Fluent, "#0D6EFD");
+        }
+        else if (uri.Contains("bootstrap4"))
+        {
+            SetTheme(Theme.Bootstrap4, "#007bff");
+        }
+        else if (uri.Contains("bootstrap"))
+        {
+            SetTheme(Theme.Bootstrap, "#317ab9");
+        }
+        else if (uri.Contains("highcontrast"))
+        {
+            SetTheme(Theme.HighContrast, "#FFD939");
+        }
+        else if (uri.Contains("tailwind3-dark"))
+        {
+            SetTheme(Theme.Tailwind3Dark, "#6366F1");
+        }
+        else if (uri.Contains("tailwind3"))
+        {
+            SetTheme(Theme.Tailwind3, "#4F46E5");
+        }
+        else if (uri.Contains("material-dark"))
+        {
+            SetTheme(Theme.MaterialDark, "#9A9A9A");
+        }
+        else if (uri.Contains("material"))
+        {
+            SetTheme(Theme.Material, "#E3165B");
+        }
+    }
+
+    private void SetTheme(Theme theme, string progressColor)
+    {
+        CurrentTheme = theme;
+        ProgressColor = progressColor;
+        TextColor = progressColor;
+    }
+
+}
+
+
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    .progress-text-align {
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #3D3E3C;
+    }
+
+    #reLoad {
+        border-radius: 4px;
+        text-transform: capitalize;
+        margin-top: 3%;
+    }
+</style>

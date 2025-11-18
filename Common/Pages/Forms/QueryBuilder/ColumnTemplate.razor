@@ -1,0 +1,114 @@
+﻿@page "/query-builder/column-template"
+
+@using Syncfusion.Blazor.QueryBuilder
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the Column Template functionality in QueryBuilder component using DropDownList and RadioButton components. In the Country column, user can change the Operator as equal/not equal using RadioButton component and select the Value from DropDownList component.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample illustrates how to integrate the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.QueryBuilder.QueryBuilderTemplates.html#Syncfusion_Blazor_QueryBuilder_QueryBuilderTemplates_ColumnTemplate">ColumnTemplate</a> to the columns in the QueryBuilder. It is used for creating a custom user interface for the columns with custom components and updating the rule collection by handling component events. This can be specified using the ColumnTemplate directive of the QueryBuilderColumn directive. Inside the template, the data can be accessed using the implicit named parameter <strong>Context</strong>.
+    </p>
+    <p>More information about the Blazor QueryBuilder Column Template can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/query-builder/templates/#column-template" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <SfQueryBuilder TValue="Employee" @ref="QueryBuilder">
+        <QueryBuilderRule Condition="and" Rules="@InitialRules"></QueryBuilderRule>
+        <QueryBuilderColumns>
+            <QueryBuilderColumn Field="EmployeeID" Label="Employee ID" Type="ColumnType.Number"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="FirstName" Label="First Name" Type="ColumnType.String"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="LastName" Label="Last Name" Type="ColumnType.String"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="HireDate" Label="Hire Date" Type="ColumnType.Date"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="Country" Label="Country" Type="ColumnType.String">
+                <QueryBuilderTemplates>
+                    <ColumnTemplate>
+                        <div class="e-rule-filter">
+                            @{
+                                string selectedField = (string)context.Field;
+                                string selectedValue = (string)context.Value;
+                                string selectedOperator = (string)context.Operator;
+                                string radioGroupName = radioPrefix + Guid.NewGuid();
+                            }
+                            <SfDropDownList @bind-Value="@selectedField" TItem="string" TValue="string" DataSource="@AvailableFields">
+                                <DropDownListEvents TItem="string" TValue="string" ValueChange="args => UpdateField(args, context)"></DropDownListEvents>
+                            </SfDropDownList>
+                        </div>
+                        <div class="e-rule-operator e-operator">
+                            <SfRadioButton Label="Is Equal" Name="@radioGroupName" Value="equal" Checked="@selectedOperator" @onchange="@((e) => UpdateOperator(e, context))"></SfRadioButton>
+                            <SfRadioButton Label="Is Not Equal" Name="@radioGroupName" Value="notequal" Checked="@selectedOperator" @onchange="@((e) => UpdateOperator(e, context))"></SfRadioButton>
+                        </div>
+                        <div class="e-rule-value e-value">
+                            <SfDropDownList @bind-Value="@selectedValue" TValue="string" Placeholder="Select Country" TItem="Country" DataSource="@CountryList">
+                                <DropDownListFieldSettings Text="Name"></DropDownListFieldSettings>
+                                <DropDownListEvents TItem="Country" TValue="string" ValueChange="args => UpdateValue(args, context)"></DropDownListEvents>
+                            </SfDropDownList>
+                        </div>
+                    </ColumnTemplate>
+                </QueryBuilderTemplates>
+            </QueryBuilderColumn>
+        </QueryBuilderColumns>
+    </SfQueryBuilder>
+</div>
+
+@code {
+
+    private SfQueryBuilder<Employee> QueryBuilder { get; set; }
+    const string radioPrefix = "rule_";
+    public class Employee
+    {
+        public int EmployeeID { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime HireDate { get; set; }
+        public string Country { get; set; }
+    }
+
+    public string[] AvailableFields { get; set; } =
+    {
+        "EmployeeID", "FirstName", "LastName", "HireDate", "Country"
+    };
+
+    public class Country
+    {
+        public string Name { get; set; }
+    }
+
+    private List<RuleModel> InitialRules { get; set; } = new List<RuleModel>
+    {
+        new RuleModel { Label = "First Name", Field = "FirstName", Type = "String", Operator = "equal", Value = "Nancy" },
+        new RuleModel { Label = "Country", Field = "Country", Type = "String", Operator = "equal", Value = "USA" }
+    };
+
+    public List<Country> CountryList { get; set; } = new List<Country>
+    {
+        new Country { Name = "England" },
+        new Country { Name = "India" },
+        new Country { Name = "Spain" },
+        new Country { Name = "USA" }
+    };
+
+    private void UpdateField(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args, RuleModel rule)
+    {
+        rule.Field = args.Value;
+        rule.Label = args.Value;
+        rule.Type = QueryBuilder.GetColumn(args.Value).Type.ToString();
+        rule.Value = null; // Reset value since the field has changed
+    }
+
+    private void UpdateValue(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Country> args, RuleModel rule)
+    {
+        rule.Value = args.Value;
+    }
+
+    private void UpdateOperator(Microsoft.AspNetCore.Components.ChangeEventArgs args, RuleModel rule)
+    {
+        rule.Operator = args.Value;
+    }
+}

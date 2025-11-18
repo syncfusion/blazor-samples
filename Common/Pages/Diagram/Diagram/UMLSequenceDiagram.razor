@@ -1,0 +1,207 @@
+﻿@page "/diagram/uml-sequence"
+
+@using Syncfusion.Blazor.Diagram
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@implements IDisposable
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This UML Sequence Diagram visualizes the step-by-step interactions in a transaction processing system. The process starts with a user initiating a transaction, which is forwarded to a fraud detection system for validation. If the transaction passes the fraud check, it proceeds to completion. Otherwise, it is flagged and canceled, effectively illustrating the conditional control flow in real-world transaction systems.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This example demonstrates how to build a UML Sequence Diagram using the <code>UmlSequenceDiagramModel</code> in the Blazor Diagram component. The diagram model is bound to the <code>SfDiagramComponent</code> through the <code>Model</code> property. Participants in the sequence are defined using <code>UmlSequenceParticipant</code>, where the <code>IsActor</code> property indicates if the participant should be rendered as an actor (stick figure). The <code>UmlSequenceMessage</code> class is used to represent interactions between participants, and its <code>MessageType</code> property defines the type of UML message connector (e.g., synchronous, asynchronous, return). Control flow structures like loops, conditionals, and alternatives are modeled using the <code>Fragments</code> property of <code>UmlSequenceFragment</code>, allowing you to represent complex interactions and behaviors within the sequence.</p> <br>
+</ActionDescription>
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <SfDiagramComponent @ref="diagram" Height="650px" Model="@umlModel" @bind-InteractionController="@diagramTools" NodeCreating="NodeCreating" >
+        <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+    </SfDiagramComponent>
+</div>
+
+@code
+{
+
+    DiagramModel? umlModel;
+    SfDiagramComponent? diagram;
+    DiagramInteractions diagramTools = DiagramInteractions.ZoomPan;
+    protected override void OnInitialized()
+    {
+        umlModel = new UmlSequenceDiagramModel()
+            {
+                SpaceBetweenParticipants = 300,
+                Participants = new List<UmlSequenceParticipant>()
+                {
+                     new UmlSequenceParticipant()
+                     {
+                        ID  = "User",
+                        Content= "User",
+                        IsActor= true,
+                     },
+                     new UmlSequenceParticipant()
+                     {
+                        ID  = "Transaction",
+                        Content= "Transaction",
+                        ActivationBoxes= new List<UmlSequenceActivationBox>()
+                        {
+                            new UmlSequenceActivationBox() { ID  = "act1", StartMessageID= "1", EndMessageID= "4" }
+                        }
+                     },
+                     new UmlSequenceParticipant()
+                     {
+                         ID  = "FraudDetectionSystem",
+                         Content= "Fraud Detection System",
+                         ActivationBoxes= new List<UmlSequenceActivationBox>()
+                         {
+                             new UmlSequenceActivationBox() { ID  = "act2", StartMessageID= "2", EndMessageID= "3" },
+                             new UmlSequenceActivationBox() { ID  = "act3", StartMessageID= "5", EndMessageID= "6" }
+                         }
+                     },
+
+                },
+
+                Messages = new List<UmlSequenceMessage>()
+                {
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "1",
+                       Content = "Initiate Transaction",
+                       FromParticipantID = "User",
+                       ToParticipantID = "Transaction",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "2",
+                       Content = "Send Transaction Data",
+                       FromParticipantID = "Transaction",
+                       ToParticipantID = "FraudDetectionSystem",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "3",
+                       Content = "Validate Transaction",
+                       FromParticipantID = "FraudDetectionSystem",
+                       ToParticipantID = "Transaction",
+                       MessageType = UmlSequenceMessageType.Reply
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "4",
+                       Content = "Transaction Approved",
+                       FromParticipantID = "Transaction",
+                       ToParticipantID = "User",
+                       MessageType = UmlSequenceMessageType.Asynchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "5",
+                       Content = "Flag Transaction",
+                       FromParticipantID = "Transaction",
+                       ToParticipantID = "FraudDetectionSystem",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "6",
+                       Content = "Fraud Detected",
+                       FromParticipantID = "FraudDetectionSystem",
+                       ToParticipantID = "User",
+                       MessageType = UmlSequenceMessageType.Reply
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "7",
+                       Content = "Cancel Transaction",
+                       FromParticipantID = "User",
+                       ToParticipantID = "Transaction",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                    new UmlSequenceMessage()
+                    {
+                       ID  = "8",
+                       Content = "Complete Transaction",
+                       FromParticipantID = "User",
+                       ToParticipantID = "Transaction",
+                       MessageType = UmlSequenceMessageType.Synchronous
+                    },
+                },
+                Fragments = new List<UmlSequenceFragment>()
+                {
+                    new UmlSequenceFragment()
+                    {
+                       ID  = "1",
+                       FragmentType = UmlSequenceFragmentType.Alternative,
+                       Conditions = new List<UmlSequenceFragmentCondition>()
+                       {
+                           new UmlSequenceFragmentCondition()
+                           {
+                              Content = "Fraud Detected",
+                              MessageIds = new List<string>(){"5", "6", "7"},
+                           },
+                           new UmlSequenceFragmentCondition()
+                           {
+                              Content = "No Fraud Detected",
+                              MessageIds = new List<string>(){"8"},
+                           }
+                       }
+                    }
+                }
+            };
+    }
+
+    private void NodeCreating(IDiagramObject obj)
+    { 
+        Node? node = obj as Node;
+        if (node!.ID!.Equals("FraudDetectionSystem"))
+        {
+            node.Annotations![0].Style!.Color = "white";
+            node.Width = 200;
+        }
+        if (node.ID.Equals("1_Fragment"))
+        {
+            node.Style!.StrokeColor = "#0067C0";
+        }
+        else
+        {
+            node.Style!.StrokeColor = "#0067C0";
+            node.Style.Fill = "#0067C0";
+            if (node.ID.Equals("Transaction"))
+            {
+                node.Annotations![0].Style!.Color = "white";
+            }
+        }
+    }
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (diagram!.Nodes != null)
+        {
+            diagram.Nodes.Clear();
+#pragma warning disable BL0005
+            diagram.Nodes = null;
+#pragma warning restore BL0005
+        }
+        if (diagram.Connectors != null)
+        {
+            diagram.Connectors.Clear();
+#pragma warning disable BL0005
+            diagram.Connectors = null;
+#pragma warning restore BL0005
+        }
+
+        if (umlModel != null)
+        {
+            umlModel = null;
+        }
+    }
+    @*End:Hidden*@
+    
+    }
+
+}

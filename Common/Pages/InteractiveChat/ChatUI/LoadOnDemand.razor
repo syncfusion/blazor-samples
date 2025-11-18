@@ -1,0 +1,89 @@
+﻿@page "/chat-ui/loadondemand"
+
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the load on-demand feature of the Chat UI component to render a large number of data's.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the chat <code>Messages</code> are the list of conversations between two users allowing to scroll through their conversation history. The <code>LoadOnDemand</code> property allows you to load more messages on demand, improving the performance and reducing load times, particularly in long conversations. Only the visible conversations are render, reducing the amount of DOM elements and improving the overall performance.
+    </p>
+</ActionDescription>
+
+<div class="control-section chat-ui">
+    <div class="loadonDemand-chatui">
+        <SfChatUI LoadOnDemand="true" HeaderIconCss="@headerIconCss" HeaderText="@headerText" User="@currentUserModel" Messages="@chatMessages" Created="@LoadInitialMessages" ShowTimeBreak="true"></SfChatUI>
+    </div>
+</div>
+
+<style>
+    .loadonDemand-chatui {
+        height: 500px;
+        width: 40%;
+        margin: 0 auto;
+        display: flex;
+        flex-direction: row;
+        gap: 50px;
+    }
+
+    .loadonDemand-chatui .chat_user2_avatar {
+        background-image: url( @(SampleService!.WebAssetsPath + "images/chat-ui/andrew.png"));
+        background-color: unset;
+    }
+
+    @@media only screen and (max-width: 850px) {
+        .loadonDemand-chatui {
+            flex-direction: column;
+            height: 500px;
+            width: 80%;
+        }
+
+        .chat-ui.control-section {
+            height: 1050px;
+        }
+    }
+</style>
+
+
+@code {
+    private string headerText = "Michale Suyama";
+    private string headerIconCss = "chat_user2_avatar";
+    private UserModel currentUserModel = new ChatMessagesData().GetSpecificUser("user1", "Albert", String.Empty, String.Empty);
+    private UserModel michaleUserModel = new ChatMessagesData().GetSpecificUser("user2", "Michale Suyama", "andrew", String.Empty);
+    private List<ChatMessage> chatMessages = new List<ChatMessage>();
+    private DateTime baseDate = DateTime.Now.AddDays(-3);
+    private const int MessageCount = 200;
+    private const int MessagesPerDay = 50;
+
+    private void LoadInitialMessages()
+    {
+        var authorNames = new List<string> { "Albert", "Michale" };
+
+        for (var i = 1; i <= MessageCount; i++)
+        {
+            if (i % MessagesPerDay == 1 && i != 1)
+            {
+                baseDate = baseDate.AddDays(1);
+            }
+
+            var authorIndex = i % 2;
+
+            chatMessages.Add(new ChatMessage
+            {
+                Text = $"Message {i} from {authorNames[authorIndex]}",
+                Author = authorIndex == 0 ? currentUserModel : michaleUserModel,
+                Timestamp = baseDate.AddMinutes(i - MessageCount)
+            });
+        }
+    }
+}

@@ -1,0 +1,240 @@
+@using System.Text.RegularExpressions;
+@using Syncfusion.Blazor.Navigations;
+@using Syncfusion.Blazor.Popups;
+@using Syncfusion.Blazor.Buttons;
+@using System.IO;
+
+@namespace BlazorDemos.Shared
+@implements IDisposable;
+
+@inject HttpClient Http;
+@inject IJSRuntime JsRuntime;
+@inject SampleService SampleService;
+
+<div class='sb-source-section' style="display:@(isSourceCodeRequired ? "block" : "none")">
+    <SfTab ID='sb-source-tab' Items="@sourceCodeItems" HeaderPlacement="@HeaderPosition.Bottom" @bind-SelectedItem="tabSelectedIndex">
+        <TabEvents Selected="OnSourceClicked"></TabEvents>
+    </SfTab>
+    <div class="copy-tooltip">
+        <SfTooltip OpensOn="Click" ID="copy-tooltip-ele" Content="Copied to clipboard" @ref="CopyTooltipRef" Target=".copycode" Position="Position.BottomCenter">
+            <SfButton ID="copy-code" IconCss="@COPY_ICON" role="button" aria-label="Copy code" OnClick="OnCopyClick"></SfButton>
+        </SfTooltip>
+        <div class=""></div>
+    </div>
+</div>
+@if (!isSourceCodeRequired)
+{
+    <div class='sb-tab-content'>
+        <span>Loading...</span>
+    </div>
+}
+<PageTitle>@pageTitle</PageTitle>
+
+
+@code {
+    const string COPY_ICON = "e-icons copycode";
+
+    private List<TabItem>? sourceCodeItems;
+    private string? sourceCode { get; set; }
+    private string? fileName { get; set; }
+    private bool isSourceCodeRequired { get; set; }
+    private bool shouldResetSourceCodeRequired { get; set; }
+    private int tabSelectedIndex { get; set; }
+    private string? pageTitle { get; set; }
+    protected SfTooltip? CopyTooltipRef { get; set; }
+
+    // Source code tab selected event handler.
+    private async Task OnSourceClicked(SelectEventArgs args)
+    {
+        string response = string.Empty;
+        await this.GetSourceData((int)args.SelectedIndex);
+    }
+
+    private async Task GetSourceData(int index)
+    {
+        await InvokeAsync(async () =>
+        {
+         #if NET8_0 
+            #if WASM
+                string projectPath = "Blazor_WASM_Common_NET8";
+            #else
+                string projectPath = "Blazor_Server_Common_NET8";
+            #endif
+        #elif NET9_0 
+            #if WASM
+                string projectPath = "Blazor_WASM_Common_NET9";
+            #else
+                string projectPath = "Blazor_Server_Common_NET9";
+            #endif
+        #else
+            #if WASM
+                string projectPath = "Blazor_WASM_Common_NET10";
+            #else
+                string projectPath = "Blazor_Server_Common_NET10";
+            #endif
+        #endif
+            sourceCode = string.Empty;
+            fileName = string.Empty;
+            string? directory = SampleService?.SampleInfo?.Directory ;
+            if (SampleService?.SampleInfo?.SourceFiles.Count > index && SampleService.SampleInfo.Directory != null)
+            {
+                fileName = SampleService.SampleInfo.SourceFiles[index].FileName;
+                var filePath = $"_content/{projectPath}/scripts/Pages/{directory}/{fileName}.txt";
+                var response = await Http.SendAsync(new HttpRequestMessage(HttpMethod.Head, filePath));
+                var contentType = response.Content.Headers.ContentType?.MediaType;
+                if(contentType != null && contentType.Equals("text/plain", StringComparison.OrdinalIgnoreCase)) {
+                    directory = directory;
+                }
+                else {
+                    directory = directory?.Split("/")[0];
+                }
+                sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt"); 
+            }
+            else
+            {
+                fileName = SampleService?.SampleInfo?.FileName;
+                sourceCode = await Http.GetStringAsync("_content/" + projectPath + "/scripts/Pages/" + directory + "/" + fileName + ".txt");
+            }
+            pageTitle = this.PageTitleContent(sourceCode);
+            sourceCode = this.FormatSourceCode(sourceCode);
+        });
+
+        await Task.Delay(1000);
+        this.isSourceCodeRequired = true;
+        this.shouldResetSourceCodeRequired = true;
+    }
+
+    private string RemoveString(string comments, string startTag, string endTag)
+    {
+        int StartIndex = comments.IndexOf(startTag);
+        if (StartIndex > 0)
+        {
+            int EndIndex = comments.IndexOf(endTag,StartIndex) + endTag.Length;
+            string Content = comments.Substring(StartIndex, EndIndex - StartIndex);
+            return comments.Replace(Content, string.Empty);
+        }
+        else
+        {
+            return comments;
+        }
+    }
+
+    private string PageTitleContent(string sourceCode)
+    {
+        string pattern = @"(?<=<PageTitle>).*?(?=</PageTitle>)";
+        MatchCollection matches = Regex.Matches(sourceCode, pattern);
+        if (matches == null || matches.Count <= 0)
+        {
+            return string.Empty;
+        }
+        return matches[0].Value;
+    }
+
+    private string FormatSourceCode(string response)
+    {
+        response = RemoveString(response, "<SampleDescription>", "</SampleDescription>");
+        response = RemoveString(response, "<ActionDescription>", "</ActionDescription>");
+        response = response.Replace("<", "&lt;");
+        response = response.Replace(">", "&gt;");
+        while (response.IndexOf("@*Hidden:Lines*@") > -1)
+        {
+            response = RemoveString(response, "@*Hidden:Lines*@", "@*End:Hidden*@");
+        }
+        while (response.IndexOf("//Hidden:Lines") > -1)
+        {
+            response = RemoveString(response, "//Hidden:Lines", "//End:Hidden");
+        }
+        // Option to ignore the WASM/Server-side conditional compilation sample code.
+        response = Regex.Replace(response, @"^(?:[\t ]*(?:\r?\n|\r))+", string.Empty, RegexOptions.Multiline);
+
+        response = Regex.Replace(response, @"@\(\s*SampleService\.WebAssetsPath\s*\+\s*""images/([^""]+)""\s*\)", "\"https://cdn.syncfusion.com/blazor/images/$1\"");
+        response = Regex.Replace(response, @"SampleService\.WebAssetsPath\s*\+\s*""images/([^""]+)""", "\"https://cdn.syncfusion.com/blazor/images/$1\"");
+        response = Regex.Replace(response, @"@\(\s*SampleService\.WebAssetsPath\s*\+\s*""styles/([^""]+)""\s*\)", "https://cdn.syncfusion.com/blazor/styles/$1");
+        response = Regex.Replace(response, @"@\(SampleService\.WebAssetsPath\)images/([^""@]+)(?:(@\(.*?\))\.(png|jpg|svg))?", "https://cdn.syncfusion.com/blazor/images/$1$2.$3");
+        response = Regex.Replace(response, @"(UriHelper|NavigationManager|navigationManager|Navigation)\.ToAbsoluteUri\(\$""[^""]+(images/[^\s/]+/)([^""]+)""\)", "$1.ToAbsoluteUri($\"https://cdn.syncfusion.com/blazor/$2$3\")");
+        response = Regex.Replace(response, @"\$\""\{SampleService\.WebAssetsPath\}(images/[^\s""]+/)([^""]+)""", "\"https://cdn.syncfusion.com/blazor/$1$2\"");
+        response = Regex.Replace(response, @"@\(\s*SampleService!\.WebAssetsPath\s*\+\s*""([^""]+)""\s*\)", "\"https://cdn.syncfusion.com/blazor/$1\"");
+        response = Regex.Replace(response, @"@\(\s*navigationManager\.BaseUri\s*\+\s*SampleService\.WebAssetsPath\s*\+\s*""([^""]+)""\s*\)", "https://cdn.syncfusion.com/blazor/$1");
+        response = Regex.Replace(response, @"NavigationManager\.BaseUri\s*\+\s*SampleService\?\.WebAssetsPath\s*\+\s*""([^""]+)""", "\"https://cdn.syncfusion.com/blazor/$1\"");
+        response = Regex.Replace(response, @"url\(@\(\s*SampleService\?\.\s*WebAssetsPath\s*\+\s*""([^""]+)""\s*\)\)", @"url(""https://cdn.syncfusion.com/blazor/$1"")");
+        response = Regex.Replace(response, @"@\(\s*SampleService\?\.\s*WebAssetsPath\s*\+\s*""([^""]+)""\s*\)", @"https://cdn.syncfusion.com/blazor/$1");
+        response = Regex.Replace(response, @"SampleService\?\.WebAssetsPath\s*\+\s*""([^""]+)""", "\"https://cdn.syncfusion.com/blazor/$1\"");
+        response = Regex.Replace(response, @"\$\s*""\s*\{\s*NavigationManager\.BaseUri\s*\}\s*\{\s*SampleService\?\.WebAssetsPath\s*\}([^""]*)""", @"$""https://cdn.syncfusion.com/blazor/$1""");
+
+        return response;
+    }
+
+    // Copy code click handler.
+    private async Task OnCopyClick()
+    {
+        CopyTooltipRef?.CloseAsync();
+        this.isSourceCodeRequired = true;
+        this.shouldResetSourceCodeRequired = false; // Don't reset when copy is clicked
+        await JsRuntime.InvokeVoidAsync("copyCode");
+    }
+
+    /// <summary>
+    /// Renders the dynamic source code tab for showcase the source codes.
+    /// </summary>
+    /// <param name="args">Arguments used to render the dynamic tab items.</param>
+    public async Task OnSourceTabSelected(SelectEventArgs? args)
+    {
+        sourceCodeItems = new List<TabItem>();
+        if (args == null || (args != null && args.SelectedIndex == 1))
+        {
+            if (SampleService.SampleInfo?.SourceFiles.Count != 0)
+            {
+                for (var i = 0; i < SampleService.SampleInfo?.SourceFiles.Count; i++)
+                {
+#pragma warning disable
+                    sourceCodeItems.Add(
+                    new TabItem()
+                    {
+                        Header = new TabHeader() { Text = SampleService.SampleInfo.SourceFiles[i].FileName },
+                        ContentTemplate =@<pre class='sb-src-code'><code></code></pre>
+                        
+                    });
+#pragma warning restore
+                }
+                await this.GetSourceData(0);
+            }
+            else
+            {
+                sourceCodeItems = new List<TabItem>() {
+#pragma warning disable
+                new TabItem() {
+                        Header = new TabHeader() { Text = SampleService.SampleInfo.FileName },
+                        ContentTemplate = @<pre id='code' class='sb-src-code' tabindex="0"><code></code></pre>
+                }};
+#pragma warning restore
+                await this.GetSourceData(0);
+            }
+            this.tabSelectedIndex = 0;
+            this.StateHasChanged();
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            await this.OnSourceTabSelected(null);
+            await JsRuntime.InvokeAsync<Object>("refreshTab", sourceCode, fileName);
+        }
+        if (this.isSourceCodeRequired && this.shouldResetSourceCodeRequired)
+        {
+            this.isSourceCodeRequired = false;
+            await JsRuntime.InvokeAsync<Object>("refreshTab", sourceCode, fileName);
+        }
+        else if (this.isSourceCodeRequired)
+        {
+            await JsRuntime.InvokeAsync<Object>("refreshTab", sourceCode, fileName);
+        }
+    }
+
+    public void Dispose()
+    {
+        sourceCodeItems = null;
+    }
+}

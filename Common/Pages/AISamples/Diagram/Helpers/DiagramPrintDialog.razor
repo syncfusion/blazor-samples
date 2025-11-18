@@ -1,0 +1,72 @@
+﻿@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+
+@inject IJSRuntime jsRuntime
+@namespace TextToMindMapDiagram
+
+<SfDialog @ref="@PrintDialog" @bind-Visible="@printDialogVisible" IsModal="true" Width="350px" ShowCloseIcon="true" CssClass="custom-dialog">
+    <DialogTemplates>
+        <Header>Print Diagram</Header>
+        <Content>
+            <div id="printDialogContent">
+                <div>
+                    <div>Region</div> <div class="db-dialog-child-prop-row">
+                        <SfDropDownList ID="printRegionDropdown" TValue="Regions" TItem="string" Placeholder="Content" @bind-Value="@CurrentRegionValue" DataSource="@RegionValues">
+                        </SfDropDownList>
+                    </div>
+                </div><div class="db-dialog-prop-row">
+                    <div>Print Settings</div>
+                    <div class="db-dialog-child-prop-row">
+                        <SfDropDownList ID="printPaperSizeDropdown" TValue="string" TItem="PaperListFields" @bind-Value="@Papersize" DataSource="@PaperList">
+                            <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TValue="string" TItem="PaperListFields" ValueChange="@PaperChanged"></DropDownListEvents>
+                        </SfDropDownList>
+                    </div>
+                </div>
+                <div id="printCustomSize" class="db-dialog-prop-row" style="display:none; height: 28px;">
+                    <div class="col-xs-6 db-col-left">
+                        <div class="db-text-container">
+                            <div class="db-text"><span>W</span></div><div class="db-text-input">
+                                <SfNumericTextBox ID="printPageWidth" TValue="int" Min="100" Step="1" Format="int">
+                                </SfNumericTextBox>
+                            </div>
+                        </div>
+                    </div> <div class="col-xs-6 db-col-right">
+                        <div class="db-text-container">
+                            <div class="db-text"><span>H</span></div>
+                            <div class="db-text-input">
+                                <SfNumericTextBox ID="printPageHeight" TValue="int" Min="100" Step="1" Format="int">
+                                </SfNumericTextBox>
+                            </div>
+                        </div>
+                    </div>
+                </div><div id="printOrientation" class="row db-dialog-prop-row" style="height: 28px; padding: 5px 0px;">
+                    <div class="col-xs-3 db-prop-col-style" style="margin-right: 8px; width: 25%;">
+                        <SfRadioButton TChecked="string" Label="Potrait" Name="printSettings" Value="portrait" Checked="@orientationCheckedValue" ValueChange="@OrientationChanged">
+
+                        </SfRadioButton>
+                    </div>
+                    <div class="col-xs-3 db-prop-col-style" style="width: 25%;">
+                        <SfRadioButton TChecked="string" Label="Landscape" Name="printSettings" Value="landscape" Checked="@orientationCheckedValue" ValueChange="@OrientationChanged">
+                        </SfRadioButton>
+                    </div>
+                </div>
+                <div class="row db-dialog-prop-row" style="margin-top: 16px">
+                    <SfCheckBox ID="printMultiplePage" TChecked="bool" Label="Scale to fit entire page to single page" Checked="@IsMultiplePage" ValueChange="@MultiplePage">
+                    </SfCheckBox>
+                </div>
+            </div>
+        </Content>
+    </DialogTemplates>
+    <DialogAnimationSettings Effect="@DialogEffect.None"></DialogAnimationSettings>
+    <DialogButtons>
+        <DialogButton OnClick="@PrintDialogHandler" Content="Print" CssClass="e-flat e-db-primary" IsPrimary="true">
+        </DialogButton>
+        <DialogButton OnClick="@PrintDialogCloseHandler" Content="Cancel" CssClass="e-flat">
+        </DialogButton>
+    </DialogButtons>
+</SfDialog>
+

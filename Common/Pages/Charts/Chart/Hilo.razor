@@ -1,0 +1,191 @@
+﻿@page "/chart/hilo"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+@using System.Net.Http.Json
+@using PointRender
+
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This <a target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-charts/chart-types/hilo-chart' aria-label="Navigate to explore the Blazor Hilo Chart">Blazor Hilo Chart</a> example visualizes the AAPL stock price with a default Hilo series in the chart. The tooltip shows information about the stock price.</p>
+</SampleDescription>
+<ActionDescription>
+    <p> This example demonstrates how to render and configure the HILO series with a last value label using the <code>ChartLastDataLabel</code>. This series shows the high and low stock values over a given period of time.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p> More information about the HILO series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/high-low' aria-label="Navigate to the documentation for high-low in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="AAPL Historical" Width="@Width" Theme="@Theme">
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime">
+            <ChartAxisCrosshairTooltip Enable="true"></ChartAxisCrosshairTooltip>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Price" Minimum="10" Maximum="180" OpposedPosition="true" Interval="30" LabelFormat="${value}">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" EnableMarker="false" Shared="true" Header="" Format="<b>Apple Inc.(AAPL)</b> <br> High : <b>${point.high}</b> <br> Low : <b>${point.low}</b>"></ChartTooltipSettings>
+        <ChartCrosshairSettings Enable="false" LineType="LineType.Vertical">
+        </ChartCrosshairSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Apple Inc.(AAPL)" XName="Period" High="High" Low="Low" Type="ChartSeriesType.Hilo">
+                <ChartLastDataLabel ShowLabel=true LineWidth=1 DashArray="3,2" Background="@LastLabelBackgroundColor">
+                    <ChartLastDataLabelFont Color="@LastLabelTextColor"></ChartLastDataLabelFont>
+                </ChartLastDataLabel>
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+</div>
+
+@code{
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public HiloData[] ChartPoints { get; set; } = new HiloData[] { };
+    public string? LastLabelBackgroundColor { get; set; }
+    public string? LastLabelTextColor { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        ChartPoints = await Http.GetFromJsonAsync<HiloData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/chart/financial-data.json") ?? null!;
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+        SetLastLabelTheme(Theme);
+    }
+    private void SetLastLabelTheme(Theme theme)
+    {
+        switch (theme)
+        {
+            case Theme.Fluent:
+                LastLabelBackgroundColor = PointColor.FluentColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.FluentDark:
+                LastLabelBackgroundColor = PointColor.FluentDarkColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Material3:
+                LastLabelBackgroundColor = PointColor.Material3Colors[0];
+                LastLabelTextColor = "#FFFFFF";
+                break;
+
+            case Theme.Material3Dark:
+                LastLabelBackgroundColor = PointColor.Material3DarkColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Material:
+                LastLabelBackgroundColor = PointColor.MaterialColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.MaterialDark:
+                LastLabelBackgroundColor = PointColor.MaterialDarkColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Fabric:
+                LastLabelBackgroundColor = PointColor.FabricColors[0];
+                LastLabelTextColor = "#FFFFFF";
+                break;
+
+            case Theme.FabricDark:
+                LastLabelBackgroundColor = PointColor.FluentDarkColors[0];
+                LastLabelTextColor = "#FFFFFF";
+                break;
+
+            case Theme.Bootstrap5:
+                LastLabelBackgroundColor = PointColor.Bootstrap5Colors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Bootstrap4:
+                LastLabelBackgroundColor = PointColor.BootstrapColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Bootstrap5Dark:
+                LastLabelBackgroundColor = PointColor.Bootstrap5Colors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Fluent2HighContrast:
+                LastLabelBackgroundColor = PointColor.Fluent2HighContrastColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Fluent2:
+                LastLabelBackgroundColor = PointColor.Fluent2Colors[0];
+                LastLabelTextColor = "#FFFFFF";
+                break;
+            
+            case Theme.Fluent2Dark:
+                LastLabelBackgroundColor = PointColor.Fluent2DarkColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Bootstrap:
+                LastLabelBackgroundColor = PointColor.BootstrapColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            case Theme.Tailwind3:
+                LastLabelBackgroundColor = PointColor.Tailwind3Colors[0];
+                LastLabelTextColor = "#FFFFFF";
+                break;
+
+            case Theme.Tailwind3Dark:
+                LastLabelBackgroundColor = PointColor.Tailwind3DarkColors[0];
+                LastLabelTextColor = "#FFFFFF";
+                break;
+
+            case Theme.Tailwind:
+                LastLabelBackgroundColor = PointColor.TailwindColors[0];
+                LastLabelTextColor = "#FFFFFF";
+                break;
+
+            case Theme.TailwindDark:
+                LastLabelBackgroundColor = PointColor.TailwindDarkColors[0];
+                LastLabelTextColor = "#FFFFFF";
+                break;
+
+            case Theme.HighContrast:
+                LastLabelBackgroundColor = PointColor.HighContrastColors[0];
+                LastLabelTextColor = "#000000";
+                break;
+
+            default:
+                LastLabelBackgroundColor = "#ffffff";
+                LastLabelTextColor = "#000000";
+                break;
+        }
+    }
+    public class HiloData
+    {
+        public DateTime Period { get; set; }
+        public double High { get; set; }
+        public double Low { get; set; }
+    }
+}
+

@@ -1,0 +1,236 @@
+﻿@page "/heatmap-chart/cell-selection"
+@inject NavigationManager NavigationManager
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.HeatMap
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using sf_blazor_heatmapdata
+@using System.Globalization
+@inherits SampleBaseComponent;
+
+<SampleDescription>
+    <p>This sample visualizes the revenue from the top exported products between 2014 and 2018, measured in USD million. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to select a cell in a HeatMap and display a column chart based on the data you've selected.</p>
+    <p>The tooltip is enabled in this example. To see the tooltip in action, hover the mouse over an item or tap an item on touch-enabled devices.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section">
+    <div id="container" align="center">
+        <SfHeatMap @ref="Heatmap" Height="300px" DataSource="@DataSource" Theme="@Theme" AllowSelection=true>
+            <HeatMapEvents CellSelected="@CellSelected"></HeatMapEvents>
+            <HeatMapTitleSettings Text="Top export products 2014-2018, Value in USD million">
+                <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontStyle="Normal" FontFamily="inherit" TextOverflow="Syncfusion.Blazor.HeatMap.TextOverflow.Trim"></HeatMapTitleTextStyle>
+            </HeatMapTitleSettings>
+            <HeatMapXAxis Labels="@XLabels">
+                <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit" />
+            </HeatMapXAxis>
+            <HeatMapYAxis Labels="@YLabels">
+                <HeatMapYAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit" />
+            </HeatMapYAxis>
+            <HeatMapPaletteSettings>
+                <HeatMapPalettes>
+                    <HeatMapPalette Color="#3C5E62"></HeatMapPalette>
+                    <HeatMapPalette Color="#86C843"></HeatMapPalette>
+                </HeatMapPalettes>
+            </HeatMapPaletteSettings>
+            <HeatMapLegendSettings Visible=false></HeatMapLegendSettings>
+        </SfHeatMap>
+    </div>
+    <div id="container1" align="center">
+        <SfChart Theme="@Theme" EnableAnimation=true Height="300px">
+            <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+            <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartArea>
+                    <ChartAreaBorder Width="0"></ChartAreaBorder>
+                </ChartArea>
+            </ChartPrimaryXAxis>
+            <ChartPrimaryYAxis>
+                <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+                <ChartAxisMajorTickLines Width="0">
+                </ChartAxisMajorTickLines>
+                <ChartAxisLabelStyle Color="transparent"></ChartAxisLabelStyle>
+                <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            </ChartPrimaryYAxis>
+
+            <ChartSeriesCollection>
+                @for (int i = 0; i < SeriesCollection.Count; i++)
+                {
+                    SeriesData series = SeriesCollection[i];
+                    <ChartSeries @key="@series" XName=@series.XName YName=@series.YName Name="@series.Name" Type="ChartSeriesType.Column" DataSource=@series.Data>
+                    </ChartSeries>
+                }
+            </ChartSeriesCollection>
+            <ChartTooltipSettings Enable="true" Format="<b>${point.x} : $${point.y} million</b>"></ChartTooltipSettings>
+        </SfChart>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <table id="property" title="Properties" style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td style="width: 40%;">
+                    <div>
+                        <SfButton @onclick="ClearSelection" Disabled="@IsButtonDisabled">Clear Selection</SfButton>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    public string AxisLabelColor = "Black";
+    public SfHeatMap<double[,]>? Heatmap;
+    public int YIndex = 0;
+    public string[] XLabels = new string[] { "Cereals", "Meat", "Spices", "Tea", "Edible Oil", "Dairy Products", "Wheat" };
+    public string[] YLabels = new string[] { "2014", "2015", "2016", "2017", "2018" };
+    public bool IsButtonDisabled = true;
+
+    public double[,] DataSource = new double[,]
+    {
+        { 2.9, 5.2, 3.4, 5.6, 4.4 },
+        { 6.6, 4.8, 8, 3.9, 6.5 },
+        { 5.1, 4.6, 5.4, 3.9, 4.3 },
+        { 5.2, 4.3, 3.9, 6.2, 6.4 },
+        { 7, 3, 1.9, 5.9, 3.5 },
+        { 7.8, 5.9, 3.9, 4.3, 4.3 },
+        { 6.5, 4.3, 3.9, 5.2, 3.9 }
+    };
+    public List<SeriesData> SeriesCollection = new List<SeriesData>();
+    public class SeriesData
+    {
+        public string? XName { get; set; }
+        public string? YName { get; set; }
+        public string? Name { get; set; }
+        public List<LineChartData>? Data { get; set; }
+    }
+
+    public class LineChartData
+    {
+        public string? XValue { get; set; }
+        public string? YValue { get; set; }
+    }
+    public async Task ClearSelection()
+    {
+        SeriesCollection.Clear();
+        YIndex = 0;
+        GetInitialChartData();
+        IsButtonDisabled = true;
+        Heatmap?.ClearSelectionAsync();
+    }
+    public void CellSelected(SelectedEventArgs args)
+    {
+        SeriesCollection.Clear();
+        List<RectModel> dataCollection = args.Data;
+        List<string> xAxis = new List<string> { };
+        List<bool> flag = new List<bool> { };
+        for (int dataIndex = 0; dataIndex < dataCollection.Count; dataIndex++)
+        {
+            if (xAxis.Count == 0)
+            {
+                xAxis.Add(dataCollection[dataIndex].XLabel);
+                flag.Add(false);
+            }
+            else
+            {
+                for (int xIndex = 0; xIndex < xAxis.Count; xIndex++)
+                {
+                    if (xAxis.IndexOf(dataCollection[dataIndex].XLabel) == -1)
+                    {
+                        xAxis.Add(dataCollection[dataIndex].XLabel);
+                        flag.Add(false);
+                    }
+                }
+            }
+        }
+
+        for (int dataIndex = 0; dataIndex < dataCollection.Count; dataIndex++)
+        {
+            int index = xAxis.IndexOf(dataCollection[dataIndex].XLabel);
+            if (!flag[index])
+            {
+                flag[index] = true;
+                SeriesCollection.Add(new SeriesData
+                    {
+                        XName = "XValue",
+                        YName = "YValue",
+                        Name = dataCollection[dataIndex].XLabel,
+                        Data = GetSelectedData(dataCollection[dataIndex])
+                    });
+            }
+            else
+            {
+                SeriesCollection[index].Data?.Add(new LineChartData { XValue = dataCollection[dataIndex].YLabel, YValue = dataCollection[dataIndex].Value });
+            }
+        }
+        if (dataCollection.Count != 35)
+        {
+            IsButtonDisabled = false;
+        } 
+        else
+        {
+            IsButtonDisabled = true;
+        }
+    }
+
+    private List<LineChartData> GetSelectedData(RectModel DataCollection)
+    {
+        List<LineChartData> data = new List<LineChartData>();
+        data.Add(new LineChartData()
+        {
+            XValue = DataCollection.YLabel,
+            YValue = DataCollection.Value
+        });
+        return data;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        
+        Theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        AxisLabelColor = (Theme.ToString().IndexOf("Dark") > -1 || Theme.ToString().IndexOf("HighContrast") > -1) ? "#FFFFFF" : "#000000";
+        GetInitialChartData();
+    }
+
+    public void GetInitialChartData()
+    {
+        for (int j = 0; j < XLabels.Length; j++)
+        {
+            SeriesCollection.Add(new SeriesData
+                {
+                    XName = "XValue",
+                    YName = "YValue",
+                    Name = XLabels[j],
+                    Data = GetChartData()
+                }
+            );
+        }
+    }
+
+    private List<LineChartData> GetChartData()
+    {
+        List<LineChartData> data = new List<LineChartData>();
+        for (int i = 0; i < YLabels.Length; i++)
+        {
+            data.Add(new LineChartData()
+                {
+                    XValue = YLabels[i],
+                    YValue = DataSource[YIndex, i].ToString(CultureInfo.InvariantCulture)
+                });
+        }
+        YIndex++;
+        return data;
+    }
+}
+
+<style>
+    .col-lg-3.property-section {
+        padding-top: 60px;
+    }
+</style>

@@ -1,0 +1,93 @@
+﻿@page "/file-manager/flat-Data"
+
+@using Syncfusion.Blazor.FileManager
+@using BlazorDemos.Pages.FileManager
+@inject NavigationManager UriHelper
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription> 
+    <p>The <a target="_blank" href="https://www.syncfusion.com/blazor-components/blazor-file-manager" aria-label="Feature Tour of Blazor File Manager">Blazor File Manager</a> has been enhanced to support rendering the component based on a flat data object, eliminating the need for HTTP client requests and backend URL configuration. This streamlined file and folder management tool provides an extensive array of features, including a <code>toolbar</code>, <code>navigation pane</code>, and <code>details view</code>, facilitating seamless access, editing, and sorting of files using flat data objects. Users can continue to benefit from the user-friendly interface, effortlessly navigating through folders and selecting their desired files or folders.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor File Manager component is a great tool for navigating a file system within a web application, offering functionality similar to Windows Explorer. It supports essential file operations, including <code>creating</code>, <code>renaming</code>, <code>deleting</code>, <code>refreshing</code>, and more.</p>
+    <p>With the latest enhancement, the File Manager component now employs a flat data object for rendering, eliminating the need to define <code>FileManagerAjaxSettings</code>. Instead, in the demo sample, a FileManagerService is injected, providing comprehensive folder data as a list of objects during the initial render.</p>
+    <p>File operations such as read, delete, and folder creation are seamlessly executed in the injected FileManagerService, showcasing the component's versatility. The context menu can be customized using the <code>ContextMenuSettings API</code>, allowing for the addition of new menu items.</p>
+    <p>Furthermore, integrating and customizing custom toolbar items is effortless using the <code>FileManagerToolbarSettings API</code>. If a new toolbar item is needed, it can be seamlessly added using the <code>ToolbarSettings</code>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    @* Initialization of default File Manager component *@
+    <SfFileManager TValue="FileManagerDirectoryContent">
+        <FileManagerEvents TValue="FileManagerDirectoryContent" OnRead="OnReadAsync" ItemsDeleting="ItemsDeletingAsync" FolderCreating="FolderCreatingAsync" Searching="SearchingAsync" ItemRenaming="ItemRenamingAsync" ItemsMoving="ItemsMovingAsync" BeforeImageLoad="BeforeImageLoadAsync"></FileManagerEvents>
+        <FileManagerToolbarSettings ToolbarItems="@Items"></FileManagerToolbarSettings>
+        <FileManagerContextMenuSettings Layout="@LayoutItems" File=@FileItems Folder=@FolderItems Visible="true"></FileManagerContextMenuSettings>
+    </SfFileManager>
+</div>
+@code{
+
+    public List<ToolBarItemModel> Items = new List<ToolBarItemModel>()
+    {
+        new ToolBarItemModel() { Name = "NewFolder" },
+        new ToolBarItemModel() { Name = "Cut" },
+        new ToolBarItemModel() { Name = "Copy" },
+        new ToolBarItemModel() { Name = "Paste" },
+        new ToolBarItemModel() { Name = "Delete" },
+        new ToolBarItemModel() { Name = "Rename" },
+        new ToolBarItemModel() { Name = "SortBy" },
+        new ToolBarItemModel() { Name = "Refresh" },
+        new ToolBarItemModel() { Name = "Selection" },
+        new ToolBarItemModel() { Name = "View" },
+        new ToolBarItemModel() { Name = "Details" },
+    };
+
+    public string[] LayoutItems = new string[] { "SortBy", "View", "Refresh", "|", "Paste", "|", "NewFolder", "|", "Details", "|", "SelectAll" };
+
+    public string[] FileItems = new string[] { "Cut", "Copy", "|", "Delete", "Rename", "|", "Details" };
+
+    public string[] FolderItems = new string[] { "Open", "|", "Cut", "Copy", "Paste", "|", "Delete", "Rename", "|", "Details"};
+
+    public FileManagerService  FileService = new FileManagerService();
+
+    public async Task OnReadAsync(ReadEventArgs<FileManagerDirectoryContent> args)
+    {
+        args.Response = await FileService.ReadAsync(args.Path, args.Folder);
+    }
+
+    public async Task ItemsDeletingAsync(ItemsDeleteEventArgs<FileManagerDirectoryContent> args)
+    {
+        args.Response = await FileService.DeleteAsync(args.Path, args.Files);
+    }
+
+    public async Task FolderCreatingAsync(FolderCreateEventArgs<FileManagerDirectoryContent> args)
+    {
+        args.Response = await FileService.CreateAsync(args.Path, args.FolderName, args.ParentFolder);
+    }
+
+    public async Task SearchingAsync(SearchEventArgs<FileManagerDirectoryContent> args)
+    {
+        args.Response = await FileService.SearchAsync(args.Path, args.SearchText);
+    }
+
+    public async Task ItemRenamingAsync(ItemRenameEventArgs<FileManagerDirectoryContent> args)
+    {
+        args.Response = await FileService.RenameAsync(args.Path, args.NewName, args.File);
+    }
+    public async Task ItemsMovingAsync(ItemsMoveEventArgs<FileManagerDirectoryContent> args)
+    {
+        if (args.IsCopy)
+        {
+            args.Response = await FileService.CopyAsync(args.Path, args.TargetData, args.RenameFiles, args.Files);
+        }
+        else{
+            args.Response = await FileService.MoveAsync(args.Path, args.TargetData, args.Files);
+        }
+    }
+
+    public void BeforeImageLoadAsync(BeforeImageLoadEventArgs<FileManagerDirectoryContent> args)
+    {
+        string relativePath = $"{SampleService.WebAssetsPath}images/filemanager/{args.FileDetails.Name}";
+        args.ImageUrl = UriHelper.ToAbsoluteUri(relativePath).ToString();
+    }
+}

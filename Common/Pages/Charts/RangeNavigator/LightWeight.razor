@@ -1,0 +1,100 @@
+@page "/range-selector/light-weight"
+@using  Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@using ThemeHelper
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample represents the total number of business and weekend days in a selected period.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure the lightweight range navigator. To personalize the thumb in the range navigator, use the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Width" aria-label="Width">Width</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Height" aria-label="Height">Height</a>, <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Fill" aria-label="Fill">Fill</a>, and <code>Border</code> properties. The <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.RangeNavigatorThumbSettings.html#Syncfusion_Blazor_Charts_RangeNavigatorThumbSettings_Type" aria-label="Type">Type</a> property can also be used to modify the Thumb's type.</p>
+    <p>More information about the lightweight range navigator can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/range-selector/light-weight" aria-label="documentation section">documentation section</a>.</p>
+</ActionDescription>
+
+@if (LightWeightData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="control-section" align="center">
+        <h4 style="font-family: Segoe UI; font-weight: 500; font-style: normal; font-size: 15px;">
+            Calculate the Business and Weekend Days in a Period
+        </h4>
+        <br />
+        <div>
+            <SfRangeNavigator 
+                Value="@DateRangeSelection" 
+                IntervalType="RangeIntervalType.Months" 
+                Theme="@SelectedTheme" 
+                AnimationDuration="500" 
+                LabelFormat="MMM" 
+                ValueType="Syncfusion.Blazor.Charts.RangeValueType.DateTime" 
+                DataSource="@LightWeightData" 
+                XName="x" 
+                YName="y" 
+                Interval="@TimeInterval">
+                <RangeNavigatorStyleSettings SelectedRegionColor="@SelectedRegionColor"></RangeNavigatorStyleSettings>
+                <RangeNavigatorMajorGridLines Width="0.000001"></RangeNavigatorMajorGridLines>
+            </SfRangeNavigator>
+        </div>
+    </div>
+}
+
+@code {
+    public Theme SelectedTheme { get; set; } = Theme.Bootstrap4;
+    public ChartData[]? LightWeightData { get; set; }
+    public object[] DateRangeSelection { get; set; } = new object[] { new DateTime(2017, 10, 1), new DateTime(2017, 11, 1) };
+    public double TimeInterval { get; set; }
+    private string? CurrentUri { get; set; }
+    private string? SelectedRegionColor { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+	    LightWeightData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/range-navigator/default-data.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double y { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        CurrentUri = NavigationManager.Uri;
+        TimeInterval = SampleService != null && SampleService.IsDevice ? 2 : 1;
+
+        SelectedTheme = ThemeHelper.GetCurrentTheme(CurrentUri);
+        SelectedRegionColor = SelectedTheme switch
+        {
+            Theme.Material3Dark => "#4EAAFF",
+            Theme.Material3 => "#6355C7",
+            Theme.MaterialDark => "#9ECB08",
+            Theme.Material => "#00bdae",
+            Theme.FabricDark => "#4472c4",
+            Theme.Fabric => "#4472c4",
+            Theme.Bootstrap5Dark => "#FD7E14",
+            Theme.Bootstrap5 => "#FD7E14",
+            Theme.Fluent2HighContrast => "#9BB449",
+            Theme.Fluent2Dark => "#9BB449",
+            Theme.Fluent2 => "#6200EE",
+            Theme.FluentDark => "#1AC9E6",
+            Theme.Fluent => "#1AC9E6",
+            Theme.BootstrapDark => "#a16ee5",
+            Theme.Bootstrap => "#a16ee5",
+            Theme.HighContrast => "#79ECE4",
+            Theme.Tailwind3Dark => "#8B5CF6",
+            Theme.Tailwind3 => "#5A61F6",
+            _ => "#a16ee5",
+        };
+    }
+}

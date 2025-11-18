@@ -1,0 +1,102 @@
+﻿@page "/chart/area-empty"
+
+@using Syncfusion.Blazor
+@using ThemeHelper
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates an area series with empty points. Data points with null points are shown here.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render an area series with empty points. Also, a legend is enabled in the shape of the series.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see a tooltip in action, hover over or tap on the chart.</p>
+    <p>More information about the empty points can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/working-with-data#empty-points' aria-label="Navigate to documentation for Empty points in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart Title="Data Consumption" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}</b>" EnableHighlight="true" ShowNearestTooltip="true"></ChartTooltipSettings>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+        <ChartPrimaryXAxis Minimum="new DateTime(2021, 11, 15)" Maximum="new DateTime(2021, 11, 24)" LabelFormat="dd MMM" ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisLabelStyle FontStyle="bold"></ChartAxisLabelStyle>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}MB" Minimum="0" Maximum="5" Interval="1">
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartPoints" Name="Andrew" XName="Period" Width="2"
+                         Opacity="0.5" YName="Andrew_Data" Type="ChartSeriesType.Area">
+                <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+                <ChartMarker IsFilled="true" Visible="true" Height="7" Width="7"></ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@ChartPoints" Name="Thomas" XName="Period" Width="2"
+                         Opacity="0.5" YName="Thomas_Data" Type="ChartSeriesType.Area">
+                <ChartSeriesBorder Width="2"></ChartSeriesBorder>
+                <ChartMarker IsFilled="true" Visible="true" Height="7" Width="7" Shape="ChartShape.Diamond"></ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>        
+    </SfChart>
+</div>
+
+@code{
+
+    
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<AreaEmptyChartData> ChartPoints { get; set; } = new List<AreaEmptyChartData>
+    {
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 15), Andrew_Data = 2.2, Thomas_Data = 0.8 },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 16), Andrew_Data = 2.0, Thomas_Data = 1.7 },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 17), Andrew_Data = 2.8, Thomas_Data = 1.8 },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 18), Andrew_Data = 1.6, Thomas_Data = 2.1 },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 19), Andrew_Data = 2.3, Thomas_Data = null },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 20), Andrew_Data = 2.5, Thomas_Data = 2.3 },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 21), Andrew_Data = 2.9, Thomas_Data = 1.7 },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 22), Andrew_Data = 1.1, Thomas_Data = 1.5 },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 23), Andrew_Data = 1.4, Thomas_Data = 0.5 },
+        new AreaEmptyChartData { Period = new DateTime(2021, 11, 24), Andrew_Data = 1.1, Thomas_Data = 1.3 }
+
+    };
+
+    public List<AnnotationData> SplineAnnotations = new List<AnnotationData> {
+        new AnnotationData() { Visible = true, Url = "images/chart/warning-icon.png", X = "Nov 19", Y = "1.4" }
+    };
+
+
+    public class AnnotationData
+    {
+        public string? X { get; set; }
+        public string? Y { get; set; }
+        public string? Url { get; set; }
+        public bool Visible { get; set; }
+    }
+
+    public class AreaEmptyChartData
+    {
+        public DateTime Period { get; set; }
+        public double Andrew_Data { get; set; }
+        public double? Thomas_Data { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+    }
+
+}
