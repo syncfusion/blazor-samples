@@ -1,0 +1,69 @@
+@page "/chart/pie-rounded-corners"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+<SampleDescription>
+    This sample demonstrates the global usage share of operating systems across all platforms in 2024 using a donut chart with rounded corners.
+</SampleDescription>
+<ActionDescription>
+    <p>In this example, you can see how to render and configure a donut chart with customized corners for each slice. By specifying a value for <code>BorderRadius</code>, you can create rounded corners for each slice, giving the chart a modern and polished look.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point on touch-enabled devices.
+        More information about the doughnut series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/chart-types/pie-doughnut' aria-label="Navigate to the documentation for Pie and Doughnut in accumulation chart component">documentation section</a>.
+    </p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <SfAccumulationChart EnableBorderOnMouseMove="false" Title="Global Operating System Usage Share - 2024" SubTitle="Source: wikipedia.org" EnableAnimation="true" Theme="@Theme">
+        <AccumulationChartTooltipSettings Header="" Format="<b>${point.x}</b><br>Percentage: <b>${point.y}%</b>" Enable="true" EnableHighlight="true"></AccumulationChartTooltipSettings>
+        <AccumulationChartLegendSettings Visible="false"></AccumulationChartLegendSettings>
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@PieChartPoints" XName="OperatingSystem" YName="Percentage" Radius="@Radius" StartAngle="@StartAngle" InnerRadius="50%" Name="Project" Explode="false" BorderRadius="8">
+                <AccumulationChartSeriesBorder Width="0.5" Color="#FFFFFF"></AccumulationChartSeriesBorder>
+                <AccumulationDataLabelSettings Visible="true" Name="DataLabelMappingName" Position="AccumulationLabelPosition.Outside">
+                    <AccumulationChartDataLabelFont FontWeight="600" Size=@Size></AccumulationChartDataLabelFont>
+                    <AccumulationChartConnector Length=@ConnectorLength Type="ConnectorType.Curve"></AccumulationChartConnector>
+                </AccumulationDataLabelSettings>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+    </SfAccumulationChart>
+</div>
+
+@code {
+    private Theme Theme { get; set; }
+    private string Radius { get; set; } = "70%";
+    public double StartAngle { get; set; } = 120;
+    public string Size { get; set; } = "12px";
+    public string ConnectorLength { get; set; } = "20px";
+
+    public List<PieData> PieChartPoints { get; set; } = new List<PieData>
+	{
+        new PieData { OperatingSystem = "Android", Percentage = 45.49, DataLabelMappingName = "Android: 45.49%"},
+        new PieData { OperatingSystem = "Windows", Percentage = 25.35, DataLabelMappingName = "Windows: 25.35%"},
+        new PieData { OperatingSystem = "iOS", Percentage = 18.26, DataLabelMappingName = "iOS: 18.26%"},
+        new PieData { OperatingSystem = "macOS", Percentage = 5.06, DataLabelMappingName = "macOS: 5.06%"},
+        new PieData { OperatingSystem = "Linux", Percentage = 1.48, DataLabelMappingName = "Linux: 1.48%"},
+        new PieData { OperatingSystem = "Others", Percentage = 4.36, DataLabelMappingName = "Others: 4.36%"}
+    };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public class PieData
+    {
+        public string? OperatingSystem { get; set; }
+        public double Percentage { get; set; }
+        public string? DataLabelMappingName { get; set; }
+    }
+}

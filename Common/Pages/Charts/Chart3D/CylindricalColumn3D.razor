@@ -1,0 +1,155 @@
+@page "/chart-3d/cylinder"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Chart3D
+@using PointRender
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+<SampleDescription>
+    <p>
+        This sample visualizes passenger car production in selected countries for 2021 using a 3D cylindrical column chart. Tapping or mouse over the data points reveals detailed tooltips, providing specific information about each data point.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see the rendering and configuration of a 3D cylindrical column chart. This type of chart is similar to a 3D column chart but features distinct cylindrical shapes. To render the chart with cylindrical columns, the <code>ColumnFacet</code> property of the 3D chart series must be set to the cylindrical shape type.
+    </p>
+</ActionDescription>
+
+<div class="control-section" align="center">
+    <SfChart3D WallColor="transparent" RotationAngle="7" TiltAngle="10" Depth="100" Width="@ChartWidth" Height="@ChartHeight" Title="Passenger Car Production in Selected Countries – 2021" Theme="@ChartTheme" PointRendering="RenderPoint3D" AxisLabelRendering="RenderAxisLabel">
+        <Chart3DPrimaryXAxis ValueType="Syncfusion.Blazor.Chart3D.ValueType.Category" Interval="1" LabelRotationAngle="-45" LabelPlacement="LabelPlacement.BetweenTicks"></Chart3DPrimaryXAxis>
+        <Chart3DPrimaryYAxis Maximum="4" Interval="1"></Chart3DPrimaryYAxis>
+        <Chart3DSeriesCollection>
+            <Chart3DSeries DataSource="@ChartData" XName="Country" YName="Production" ColumnWidth="0.9" Type="Chart3DSeriesType.Column" ColumnFacet="Chart3DShapeType.Cylinder"></Chart3DSeries>
+        </Chart3DSeriesCollection>
+        <Chart3DTooltipSettings Enable="true" Header="${point.x}" Format="Car Production : <b>${point.y}M"></Chart3DTooltipSettings>
+    </SfChart3D>
+</div>
+
+@code {
+    private Theme ChartTheme { get; set; }
+    public string? ChartWidth { get; set; }
+    public string ChartHeight { get; set; } = "400";
+
+    public List<ColumnChart3DData> ChartData { get; set; } = new List<ColumnChart3DData>
+    {
+        new ColumnChart3DData { Country = "Czechia", Production = 1.11 },
+        new ColumnChart3DData { Country = "Spain", Production = 1.66 },
+        new ColumnChart3DData { Country = "USA", Production = 1.56 },
+        new ColumnChart3DData { Country = "Germany", Production = 3.1 },
+        new ColumnChart3DData { Country = "Russia", Production = 1.35 },
+        new ColumnChart3DData { Country = "Slovakia", Production = 1 },
+        new ColumnChart3DData { Country = "South Korea", Production = 3.16 },
+        new ColumnChart3DData { Country = "France", Production = 0.92 }
+    };
+
+    protected override void OnInitialized()
+    {
+        ApplyTheme(null!);
+        ChartWidth = "75%";
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            ChartWidth = "100%";
+        }
+        @*End:Hidden*@
+    }
+
+    private void RenderAxisLabel(Chart3DAxisLabelRenderEventArgs args)
+    {
+        if (args.Axis.Name == "PrimaryYAxis")
+        {
+            args.Text = $"{args.Text}M";
+        }
+    }
+
+    private void RenderPoint3D(Chart3DPointRenderEventArgs args)
+    {
+        ApplyTheme(args);
+    }
+
+    private void ApplyTheme(Chart3DPointRenderEventArgs args)
+    {
+        var uri = NavigationManager.Uri;
+
+        if (uri.Contains("material3"))
+        {
+            ChartTheme = uri.Contains("dark") ? Theme.Material3Dark : Theme.Material3;
+            if (args != null)
+                args.Fill = uri.Contains("dark") ? PointColor.Material3DarkColors[args.Point.Index % 10] : PointColor.Material3Colors[args.Point.Index % 10];
+        }
+        else if (uri.Contains("material"))
+        {
+            ChartTheme = uri.Contains("dark") ? Theme.MaterialDark : Theme.Material;
+            if (args != null)
+                args.Fill = uri.Contains("dark") ? PointColor.MaterialDarkColors[args.Point.Index % 10] : PointColor.MaterialColors[args.Point.Index % 10];
+        }
+        else if (uri.Contains("fabric"))
+        {
+            ChartTheme = uri.Contains("dark") ? Theme.FabricDark : Theme.Fabric;
+            if (args != null)
+                args.Fill = PointColor.FabricColors[args.Point.Index % 10];
+        }
+        else if (uri.Contains("bootstrap5"))
+        {
+            ChartTheme = uri.Contains("dark") ? Theme.Bootstrap5Dark : Theme.Bootstrap5;
+            if (args != null)
+                args.Fill = PointColor.Bootstrap5Colors[args.Point.Index % 10];
+        }
+        else if (uri.Contains("fluent2"))
+        {
+            ChartTheme = uri.Contains("highcontrast") ? Theme.Fluent2HighContrast : (uri.Contains("dark") ? Theme.Fluent2Dark : Theme.Fluent2);
+            if (args != null)
+                args.Fill = uri.Contains("highcontrast") ? PointColor.Fluent2HighContrastColors[args.Point.Index % 10] : (uri.Contains("dark") ? PointColor.Fluent2DarkColors[args.Point.Index % 10] : PointColor.Fluent2Colors[args.Point.Index % 10]);
+        }
+        else if (uri.Contains("fluent"))
+        {
+            ChartTheme = uri.Contains("dark") ? Theme.FluentDark : Theme.Fluent;
+            if (args != null)
+                args.Fill = uri.Contains("dark") ? PointColor.FluentDarkColors[args.Point.Index % 10] : PointColor.FluentColors[args.Point.Index % 10];
+        }
+        else if (uri.Contains("bootstrap4"))
+        {
+            ChartTheme = Theme.Bootstrap4;
+            if (args != null)
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (uri.Contains("bootstrap"))
+        {
+            ChartTheme = uri.Contains("dark") ? Theme.BootstrapDark : Theme.Bootstrap;
+            if (args != null)
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+        else if (uri.Contains("tailwind3"))
+        {
+            ChartTheme = uri.Contains("dark") ? Theme.Tailwind3Dark : Theme.Tailwind3;
+            if (args != null)
+                args.Fill = uri.Contains("dark") ? PointColor.Tailwind3DarkColors[args.Point.Index % 10] : PointColor.Tailwind3Colors[args.Point.Index % 10];
+        }
+        else if (uri.Contains("highcontrast"))
+        {
+            ChartTheme = Theme.HighContrast;
+            if (args != null)
+                args.Fill = PointColor.HighContrastColors[args.Point.Index % 10];
+        }
+        else
+        {
+            ChartTheme = Theme.Bootstrap4;
+            if (args != null)
+                args.Fill = PointColor.BootstrapColors[args.Point.Index % 10];
+        }
+    }
+
+    public class ColumnChart3DData
+    {
+        public string? Country { get; set; }
+        public double Production { get; set; }
+    }
+
+}

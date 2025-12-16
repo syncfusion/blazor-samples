@@ -1,0 +1,234 @@
+@page "/tree-grid/dynamic-object"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using System.Dynamic;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<SampleDescription>
+    <p>This sample demonstrates how to bind the Tree Grid to a list of <b>DynamicObject</b> instances, which is useful when the data schema is not defined at compile time. This approach supports core Tree Grid capabilities by resolving members at runtime.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>DynamicObject binding can be enabled by assigning a dynamic collection to the Tree Grid's <a aria-label="Navigate to the data source property reference for tree grid rows" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_DataSource">DataSource</a> and exposing runtime members by overriding <a aria-label="Navigate to microsoft document for GetDynamicMemberNames method" target="_blank" href="https://learn.microsoft.com/en-us/dotnet/api/system.dynamic.dynamicobject.getdynamicmembernames?view=net-8.0">GetDynamicMemberNames</a>, allowing the Tree Grid to automatically discover columns and perform data operations without requiring a predefined model.</p>
+    <p>In this demo, the tree column is "<b>Project Title</b>". The Tree Grid supports inline CRUD operations through its toolbar, which includes buttons for <b>Add</b>, <b>Delete</b>, <b>Update</b>, and <b>Cancel</b>. Paging is configured with a page size of two for root items, and a footer aggregate displays the total sum of the "<b>Budget</b>" column.</p>
+    <p>For more detailed information on <b>DynamicObject</b> binding, please refer to this <a aria-label="Navigate to the documentation for DynamicObject binding in tree grid component" target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/data-binding/#dynamicobject-binding">documentation</a> section.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+
+            <SfTreeGrid DataSource="@TreeData" AllowPaging="true" AllowFiltering="true" AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Delete", "Update", "Cancel" })" IdMapping="ItemID" ParentIdMapping="ParentID" TreeColumnIndex="1">
+                <TreeGridEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true" NewRowPosition="RowPosition.Below" />
+                <TreeGridPageSettings PageSize="2" PageSizeMode="PageSizeMode.Root"></TreeGridPageSettings>
+                <TreeGridAggregates>
+                    <TreeGridAggregate>
+                        <TreeGridAggregateColumns>
+                            <TreeGridAggregateColumn Field="Budget" Type="Syncfusion.Blazor.Grids.AggregateType.Sum" Format="C2">
+                                <FooterTemplate>
+                                    @{
+                                        var SumValue = (context as Syncfusion.Blazor.Grids.AggregateTemplateContext);
+                                        <div>
+                                            <p>Total Budget: @SumValue?.Sum</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </TreeGridAggregateColumn>
+                        </TreeGridAggregateColumns>
+                    </TreeGridAggregate>
+                </TreeGridAggregates>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="ItemID" HeaderText="ID" Width="120" IsPrimaryKey="true" ValidationRules="@(new ValidationRules { Required = true, Number = true })" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Title" HeaderText="Project Title" ClipMode="ClipMode.EllipsisWithTooltip" Width="260" ValidationRules="@(new ValidationRules() { Required = true })"></TreeGridColumn>
+                    <TreeGridColumn Field="Department" HeaderText="Department" Width="110" ></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Width="130" TextAlign="TextAlign.Right" ValidationRules="@(new ValidationRules() { Required = true })"></TreeGridColumn>
+                    <TreeGridColumn Field="EndDate" HeaderText="End Date" Format="d" Width="150" TextAlign="TextAlign.Right" ValidationRules="@(new ValidationRules() { Required = true })"></TreeGridColumn>
+                    <TreeGridColumn Field="Status" HeaderText="Status" Width="140" ValidationRules="@(new ValidationRules() { Required = true })"></TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="100" ></TreeGridColumn>
+                    <TreeGridColumn Field="Budget" HeaderText="Budget" Format="C0" Width="170" TextAlign="TextAlign.Right" EditorSettings="NumericParams" EditType="Syncfusion.Blazor.Grids.EditType.NumericEdit"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<DynamicDictionary> TreeData { get; set; } = new List<DynamicDictionary>();
+    private static List<DynamicDictionary> DataSource = new List<DynamicDictionary>();
+
+    private static int ItemIdCounter { get; set; }
+    private static int WorkItemCounter { get; set; }
+
+    protected override void OnInitialized()
+    {
+        TreeData = GetData().ToList();
+    }
+
+    public Syncfusion.Blazor.Grids.NumericEditCellParams NumericParams = new Syncfusion.Blazor.Grids.NumericEditCellParams()
+    {
+        Params = new Syncfusion.Blazor.Inputs.NumericTextBoxModel<object>() { Format = "C0", Min = 0 }
+    };
+    // Portfolio Projects (Parent) + Work Items (Children)
+    public static List<DynamicDictionary> GetData()
+    {
+        DataSource.Clear();
+        ItemIdCounter = 2111;
+        WorkItemCounter = 0;
+
+        var owners = new[] { "Ava Thompson", "Liam Carter", "Noah Patel", "Emma Johnson", "Olivia Smith", "Sophia Miller" };
+        var departments = new[] { "Finance", "Operations", "Marketing", "Sales", "IT", "HR" };
+        var statuses = new[] { "Initiated", "In Progress", "Blocked", "On Hold", "Completed" };
+        var priorities = new[] { "Low", "Medium", "High", "Critical" };
+
+        // Add this catalog of real project names
+        var projectNames = new[]
+        {
+        "Finance Data Lake Buildout",
+        "ERP Modernization – Procurement",
+        "Customer 360 Analytics Platform",
+        "Sales Forecasting ML Pilot",
+        "Marketing Automation Rollout",
+        "HR Onboarding Portal",
+        "IT Asset Management Refresh",
+        "Supplier Risk Assessment Program",
+        "Compliance Reporting Suite",
+        "Inventory Optimization Initiative",
+        "Website Replatform to Blazor",
+        "Mobile App v3 Redesign",
+        "Data Governance Framework",
+        "Single Sign-On (SSO) Implementation",
+        "Data Warehouse Migration to Azure",
+        "Customer Support Chatbot",
+        "Field Service Scheduling Upgrade",
+        "Pricing Optimization Engine",
+        "Document Management Migration",
+        "Operations KPI Dashboard",
+        "Finance Close Acceleration",
+        "Sales CRM Enhancements",
+        "HR Benefits Enrollment Upgrade",
+        "Cybersecurity Vulnerability Management"
+    };
+
+        var baseStart = new DateTime(2024, 01, 15);
+        var rand = new Random(2025);
+
+        for (var i = 1; i <= 24; i++)
+        {
+            var projectStart = baseStart.AddDays(i * 7);
+            var projectEnd = projectStart.AddDays(45 + (i % 6) * 10);
+
+            dynamic project = new DynamicDictionary();
+            project.ItemID = ++ItemIdCounter;
+            project.ParentID = null;
+
+            // Use a real project name
+            project.Title = projectNames[(i - 1) % projectNames.Length];
+
+            project.StartDate = projectStart;
+            project.EndDate = projectEnd;
+            project.Owner = owners[i % owners.Length];
+            project.Department = departments[i % departments.Length];
+            project.Status = statuses[i % statuses.Length];
+            project.Priority = priorities[(i + 1) % priorities.Length];
+            project.Budget = 50000 + (i % 8) * 15000 + rand.Next(0, 5000);
+            project.Progress = Math.Min(100, 10 + (i % 10) * 9);
+
+            DataSource.Add(project);
+
+            var childCount = 3 + (i % 3); // 3,4,5 pattern
+            AddChildRecords(project.ItemID, childCount, projectStart, projectEnd, owners, statuses, priorities, departments[i % departments.Length], rand);
+        }
+
+        return DataSource;
+    }
+
+    public static void AddChildRecords(
+    int parentId,
+    int count,
+    DateTime parentStart,
+    DateTime parentEnd,
+    string[] owners,
+    string[] statuses,
+    string[] priorities,
+    string department,
+    Random rand)
+    {
+        // Add this pool of task names
+        var childTasks = new[]
+        {
+        "Requirements Workshop",
+        "Solution Architecture",
+        "Data Model Design",
+        "API Contract Design",
+        "ETL Pipeline Development",
+        "Frontend UI Development",
+        "Backend Service Development",
+        "Database Schema Migration",
+        "Test Automation Setup",
+        "Performance Tuning",
+        "Security Review",
+        "UAT Coordination",
+        "Production Deployment",
+        "Post-Go-Live Support",
+        "Training and Enablement",
+        "Integration with SSO",
+        "Build CI/CD Pipeline",
+        "Monitoring and Alerting"
+    };
+
+        for (var i = 1; i <= count; i++)
+        {
+            var childStart = parentStart.AddDays(3 * i + rand.Next(0, 6));
+            var childEnd = childStart.AddDays(7 + (i % 3) * 5 + rand.Next(0, 4));
+
+            if (childEnd > parentEnd) childEnd = parentEnd.AddDays(-rand.Next(0, 3));
+            if (childStart < parentStart) childStart = parentStart;
+
+            dynamic workItem = new DynamicDictionary();
+            workItem.ItemID = ++ItemIdCounter;
+            workItem.ParentID = parentId;
+
+            var task = childTasks[(parentId + i) % childTasks.Length];
+            workItem.Title = $"{task}";
+
+            workItem.StartDate = childStart;
+            workItem.EndDate = childEnd;
+            workItem.Owner = owners[(parentId + i) % owners.Length];
+            workItem.Department = department;
+            workItem.Status = statuses[(parentId + i) % statuses.Length];
+            workItem.Priority = priorities[(parentId + i + 1) % priorities.Length];
+            workItem.Budget = 5000 + (i % 5) * 3000 + rand.Next(0, 2500);
+            workItem.Progress = Math.Min(100, 15 + (parentId + i) % 85);
+
+            DataSource.Add(workItem);
+        }
+    }
+
+    // Dynamic object that backs the TreeGrid rows
+    public class DynamicDictionary : DynamicObject
+    {
+        Dictionary<string, object> Dictionary = new Dictionary<string, object>();
+
+        public override bool TryGetMember(GetMemberBinder binder, out object? result)
+        {
+            string name = binder.Name;
+            return Dictionary.TryGetValue(name, out result!);
+        }
+
+        public override bool TrySetMember(SetMemberBinder binder, object? value)
+        {
+            Dictionary[binder.Name] = value!;
+            return true;
+        }
+
+        public override IEnumerable<string> GetDynamicMemberNames()
+        {
+            return Dictionary != null ? (IEnumerable<string>)Dictionary.Keys : Array.Empty<string>();
+        }
+    }
+}
+
+

@@ -1,0 +1,90 @@
+﻿@page "/chart/bar-with-gradient"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>Horizontal bars visualize product revenue with a left-to-right color transition, ordered by value to emphasize ranking and relative contribution.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>Read product names on the left and dollar values at bar ends; assess bar length and color intensity to identify leaders and laggards at a glance.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover a point or tap on a point in touch enabled devices.</p>
+    <p><code>Linear Gradient</code> is applied to each bar to create a smooth left-to-right color blend that reinforces direction and magnitude.</p>
+</ActionDescription>
+
+<div class="control-section" align="center">
+    <SfChart Title="Revenue by product (Q4, USD)" Width="@Width" Theme="@Theme">
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Visible="false" LabelFormat="${value}k">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@GradientBarData" XName="Product" YName="Revenue" Type="ChartSeriesType.Bar" ColumnSpacing="0.25">
+                <ChartCornerRadius TopRight="10" BottomRight="10" TopLeft="10" BottomLeft="10"></ChartCornerRadius>
+                <ChartLinearGradient X1="0" Y1="0" X2="1" Y2="0">
+                    <ChartGradientColorStops>
+                        <ChartGradientColorStop Offset="0"   Color="#0b1026" Opacity="1" />
+                        <ChartGradientColorStop Offset="50"  Color="#e11d74" Opacity="1" />
+                        <ChartGradientColorStop Offset="100" Color="#fdb025" Opacity="1" />
+                    </ChartGradientColorStops>
+                </ChartLinearGradient>
+                <ChartMarker Visible="false">
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Outer" Format="${value}k"></ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartLegendSettings Visible="false"></ChartLegendSettings>
+        <ChartTooltipSettings Enable="true" Format="${point.x}: <b>${point.y}</b>"></ChartTooltipSettings>
+    </SfChart>
+</div>
+
+@code {
+
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public class ChartData
+    {
+        public string? Product { get; set; }
+        public double Revenue { get; set; }
+    }
+
+    public List<ChartData> GradientBarData = new List<ChartData>
+    {
+        new ChartData { Product = "Mobile",       Revenue = 260 },
+        new ChartData { Product = "Integrations", Revenue = 310 },
+        new ChartData { Product = "Support",      Revenue = 360 },
+        new ChartData { Product = "Billing",      Revenue = 420 },
+        new ChartData { Product = "CRM",          Revenue = 460 },
+        new ChartData { Product = "Analytics",    Revenue = 520 }
+    };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+        @*End:Hidden*@
+    }
+}

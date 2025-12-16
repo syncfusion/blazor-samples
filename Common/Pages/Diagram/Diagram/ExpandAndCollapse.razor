@@ -1,0 +1,146 @@
+@page "/diagram/expandcollapse"
+
+@using Syncfusion.Blazor.Diagram
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>This example demonstrates how to toggle the visibility of child nodes in a diagram by clicking the icon of the associated parent node.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Diagram component supports managing the state of nodes, such as whether they are expanded or collapsed. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_IsExpanded" aria-label="IsExpanded">IsExpanded</a></code> property controls the expansion or collapse of child nodes. This feature helps condense the hierarchical view by displaying only root elements. The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_ExpandIcon" aria-label="ExpandIcon">ExpandIcon</a></code> and <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Diagram.Node.html#Syncfusion_Blazor_Diagram_Node_CollapseIcon" aria-label="CollapseIcon">CollapseIcon</a></code> properties visually indicate a node’s expanded or collapsed state.</p>
+</ActionDescription>
+@*End:Hidden*@
+
+<div id="diagram-space" class="col-lg-12 control-section">
+    <SfDiagramComponent @ref="DiagramInstance" Width="100%" Height="600px" InteractionController="@DiagramInteractions.ZoomPan" NodeCreating="OnNodeCreating" ConnectorCreating="OnConnectorCreating">
+        <DataSourceSettings DataSource="HierarchicalData" ID="Id" ParentID="ManagerId"></DataSourceSettings>
+        <Layout @bind-Type="LayoutType" @bind-HorizontalSpacing="HorizontalSpacing" @bind-FixedNode="FixedNode" @bind-Orientation="LayoutOrientation"
+                @bind-VerticalSpacing="VerticalSpacing" @bind-HorizontalAlignment="HorizontalAlign" @bind-VerticalAlignment="VerticalAlign">
+            <LayoutMargin @bind-Top="MarginTop" @bind-Bottom="MarginBottom" @bind-Right="MarginRight" @bind-Left="MarginLeft"></LayoutMargin>
+        </Layout>
+        <SnapSettings></SnapSettings>
+    </SfDiagramComponent>
+</div>
+
+@code {
+    public SfDiagramComponent? DiagramInstance { get; set; }
+
+// Layout properties for the diagram
+    public double MarginTop { get; set; } = 50;
+    public double MarginBottom { get; set; } = 50;
+    public double MarginRight { get; set; } = 50;
+    public double MarginLeft { get; set; } = 50;
+    public LayoutType LayoutType { get; set; } = LayoutType.OrganizationalChart;
+    public LayoutOrientation LayoutOrientation { get; set; } = LayoutOrientation.TopToBottom;
+    public HorizontalAlignment HorizontalAlign { get; set; } = HorizontalAlignment.Auto;
+    public VerticalAlignment VerticalAlign { get; set; } = VerticalAlignment.Auto;
+    public int HorizontalSpacing { get; set; } = 30;
+    public int VerticalSpacing { get; set; } = 30;
+    public string? FixedNode { get; set; }
+
+// Data source for hierarchical nodes
+    public List<HierarchicalNode> HierarchicalData { get; set; } = new List<HierarchicalNode>
+    {
+        new HierarchicalNode { Id = "1", Role = "Board", Color = "#71AF17" },
+        new HierarchicalNode { Id = "2", Role = "General Manager", ManagerId = "1", ChartType = "right", Color = "#13ab11" },
+        new HierarchicalNode { Id = "3", Role = "Human Resource\n Manager", ManagerId = "2", Color = "#1859B7" },
+        new HierarchicalNode { Id = "4", Role = "Design Manager", ManagerId = "2", ChartType = "right", Color = "#1859B7" },
+        new HierarchicalNode { Id = "5", Role = "Operations Manager", ManagerId = "2", Color = "#1859B7" },
+        new HierarchicalNode { Id = "6", Role = "Marketing Manager", ManagerId = "2", Color = "#1859B7" },
+        new HierarchicalNode { Id = "61", Role = "Trainers", ManagerId = "3", Color = "#2E95D8" },
+        new HierarchicalNode { Id = "7", Role = "Recruiting Team", ManagerId = "3", ChartType = "right", Color = "#2E95D8" },
+        new HierarchicalNode { Id = "8", Role = "Design Supervisor", ManagerId = "4", Color = "#2E95D8" },
+        new HierarchicalNode { Id = "9", Role = "Development \nSupervisor", ManagerId = "4", Color = "#2E95D8" },
+        new HierarchicalNode { Id = "10", Role = "Statistics Department", ManagerId = "5", Color = "#2E95D8" },
+        new HierarchicalNode { Id = "11", Role = "Logistics Department", ManagerId = "5", ChartType = "right", Color = "#2E95D8" },
+        new HierarchicalNode { Id = "12", Role = "Overseas Sales \nManager", ManagerId = "6", Color = "#2E95D8" },
+        new HierarchicalNode { Id = "13", Role = "Service Department \nManager", ManagerId = "6", Color = "#2E95D8" }
+    };
+
+    private void OnNodeCreating(IDiagramObject obj)
+    {
+        if (obj is Node node)
+        {
+            InitializeNodeProperties(node);
+        }
+    }
+
+    private void OnConnectorCreating(IDiagramObject connector)
+    {
+        if (connector is Connector connection)
+        {
+            connection.Type = ConnectorSegmentType.Orthogonal;
+            connection.TargetDecorator!.Shape = DecoratorShape.None;
+        }
+    }
+
+// Initializes node properties based on hierarchical data
+    private void InitializeNodeProperties(Node node)
+    {
+        if (node.Data is System.Text.Json.JsonElement jsonData)
+        {
+            node.Data = System.Text.Json.JsonSerializer.Deserialize<HierarchicalNode>(jsonData.ToString());
+        }
+
+        if (node.Data is HierarchicalNode hierarchicalData)
+        {
+            node.Width = 150;
+            node.Height = 50;
+            node.Style!.Fill = hierarchicalData.Color;
+            node.Annotations = CreateAnnotations(hierarchicalData.Role!);
+            node.ExpandIcon = CreateExpandIcon();
+            node.CollapseIcon = CreateCollapseIcon();
+        }
+    }
+
+// Creates annotations for the node
+    private DiagramObjectCollection<ShapeAnnotation> CreateAnnotations(string content)
+    {
+        return new DiagramObjectCollection<ShapeAnnotation>
+        {
+            new ShapeAnnotation
+            {
+                Content = content,
+                Style = new TextStyle { Color = "white" }
+            }
+        };
+    }
+
+// Configures the expand icon for nodes
+    private DiagramExpandIcon CreateExpandIcon()
+    {
+        return new DiagramExpandIcon
+        {
+            Shape = DiagramExpandIcons.Minus,
+            Height = 15,
+            Width = 15,
+            CornerRadius = 10
+        };
+    }
+
+// Configures the collapse icon for nodes
+    private DiagramCollapseIcon CreateCollapseIcon()
+    {
+        return new DiagramCollapseIcon
+        {
+            Shape = DiagramCollapseIcons.Plus,
+            Height = 15,
+            Width = 15,
+            CornerRadius = 10
+        };
+    }
+
+// Represents each hierarchical node with clear property names
+    public class HierarchicalNode
+    {
+        public string? Id { get; set; }
+        public string? Role { get; set; }
+        public string? ManagerId { get; set; }
+        public string? ChartType { get; set; }
+        public string? Color { get; set; }
+    }
+
+}

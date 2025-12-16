@@ -1,0 +1,110 @@
+@page "/bullet-chart/customization"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@using ThemeHelper
+@inherits SampleBaseComponent;
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This example demonstrates a Bullet Chart configured with various customization options for axis ranges and labels. The Blazor Bullet Chart component allows developers to fine-tune the appearance and behavior of the chart by using properties such as LabelPosition to control label placement and Ranges to define performance thresholds or value segments. In this demo, the chart is rendered in a right-to-left (RTL) layout, aligning the feature bar, comparative bar, labels, and target indicators from right to left.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor Bullet Chart component allows you to configure the axis labels and ranges using <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.SfBulletChart-1.html#Syncfusion_Blazor_Charts_SfBulletChart_1_LabelPosition" aria-label="Navigate to the LabelPosition property reference for bullet chart component">LabelPosition</a> and <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.BulletChartRange.html" aria-label="Navigate to the class reference for bullet chart range">Ranges</a>.</p>
+    <p>Tooltip is enabled in this example. To see the tooltip in action, hover over a feature bar or comparative bar on the bullet chart.</p>
+    <p>More information about the ranges can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/bullet-chart/ranges" aria-label="Navigate to the documentation for ranges in bullet chart component">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="row">
+    <div class="control-section col-lg-8" align='center'>
+        >
+        <SfBulletChart DataSource="@BulletChartData" Theme="@CurrentTheme" ValueField="ActualValue" TargetField="TargetValue" Minimum="0" Maximum="3"
+                       Interval="0.5" Title="Package Downloads" Subtitle="in Thousands">
+            <BulletChartTooltip TValue="ChartData" Enable="true"></BulletChartTooltip>
+            <BulletChartMinorTickLines Width="0"></BulletChartMinorTickLines>
+            <BulletChartRangeCollection>
+                <BulletChartRange End="1.5" Color="@StartColor"> </BulletChartRange>
+                <BulletChartRange End="2.5" Color="@MiddleColor"></BulletChartRange>
+                <BulletChartRange End="3" Color="@EndColor"></BulletChartRange>
+            </BulletChartRangeCollection>
+        </SfBulletChart>
+    </div>
+    <PropertyPanel ControlSecClass="col-lg-8">
+        <table style="width: 100%">
+            <tr style="height:50px"><th>Properties</th></tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Start Color:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div align="center">
+                        <SfColorPicker Value="@StartColor" Mode="ColorPickerMode.Palette" ShowButtons="false" ValueChange="StartColorChange"></SfColorPicker>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>Middle Color:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div align="center">
+                        <SfColorPicker Value="@MiddleColor" Mode="ColorPickerMode.Palette" ShowButtons="false" ValueChange="MiddleColorChange"></SfColorPicker>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 60%">
+                    <div>End Color:</div>
+                </td>
+                <td style="width: 40%;">
+                    <div align="center">
+                        <SfColorPicker Value="@EndColor" Mode="ColorPickerMode.Palette" ShowButtons="false" ValueChange="EndColorChange"></SfColorPicker>
+                    </div>
+                </td>
+            </tr>
+        </table>
+    </PropertyPanel>
+</div>
+
+@code{
+    public string StartColor { get; set; } = "#599C20";
+    public string MiddleColor { get; set; } = "#EFC820";
+    public string EndColor { get; set; } = "#CA4218";
+
+    public void StartColorChange(ColorPickerEventArgs args)
+    {
+        StartColor = args?.CurrentValue?.Hex ?? StartColor;
+    }
+
+    public void MiddleColorChange(ColorPickerEventArgs args)
+    {
+        MiddleColor = args?.CurrentValue?.Hex ?? MiddleColor;
+    }
+
+    public void EndColorChange(ColorPickerEventArgs args)
+    {
+        EndColor = args?.CurrentValue?.Hex ?? EndColor;
+    }
+
+    public class ChartData
+    {
+        public double ActualValue { get; set; }
+        public double TargetValue { get; set; }
+    }
+
+    public List<ChartData> BulletChartData = new List<ChartData>
+    {
+        new ChartData { ActualValue = 1.7, TargetValue = 2.5 }
+    };
+    
+    public Theme CurrentTheme { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+}

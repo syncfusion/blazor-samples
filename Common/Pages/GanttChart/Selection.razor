@@ -1,0 +1,320 @@
+@page "/gantt-chart/selection"
+
+@using Syncfusion.Blazor.Buttons;
+@using Syncfusion.Blazor.DropDowns;
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations;
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates how selection behavior works in the <a class="e-gantt-selection-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                        href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                        target="_blank">Blazor Gantt Chart</a>. The selection feature highlights a row or cell when
+        <a class="e-gantt-selection-reference-link" aria-label="Navigate to the allow selection property reference for gantt chart component"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_AllowSelection"
+           target="_blank">AllowSelection</a>
+        is set to <code>true</code>. This behavior provides immediate visual focus on the active records within the project schedule.
+    </p>
+
+    <p>
+        Selection behavior can be tailored through
+        <a class="e-gantt-selection-reference-link" aria-label="Navigate to the type property reference for gantt selection settings"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttSelectionSettings.html#Syncfusion_Blazor_Gantt_GanttSelectionSettings_Type"
+           target="_blank">SelectionSettings.Type</a>,
+        which supports two types of selection:
+    </p>
+    <ul>
+        <li><code>Single</code> - Allows selecting only one row or cell at a time.</li>
+        <li><code>Multiple</code> - Allows selecting multiple rows or cells. To perform the multi-selection, press and hold the <code>Ctrl</code> or <code>Shift</code> key and click the desired rows or cells.</li>
+    </ul>
+
+    <p>
+        The interaction scope is further defined by
+        <a class="e-gantt-selection-reference-link" aria-label="Navigate to the mode property reference for gantt selection settings"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttSelectionSettings.html#Syncfusion_Blazor_Gantt_GanttSelectionSettings_Mode"
+           target="_blank">SelectionSettings.Mode</a>,
+        offering three alternative selection modes:
+    </p>
+    <ul>
+        <li><code>Row</code> - Allows selecting only rows, and it is the default mode of selection in Gantt.</li>
+        <li><code>Cell</code> - Allows selecting only cells.</li>
+        <li><code>Both</code> - Allows selecting both rows and cells at the same time.</li>
+    </ul>
+
+    <p>
+        Additional refinements include
+        <a class="e-gantt-selection-reference-link" aria-label="Navigate to the enable toggle property reference for gantt selection settings"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttSelectionSettings.html#Syncfusion_Blazor_Gantt_GanttSelectionSettings_EnableToggle"
+           target="_blank">SelectionSettings.EnableToggle</a>
+        for toggling a highlighted item with a subsequent click and setting the <a class="e-gantt-selection-reference-link" aria-label="Navigate to the scroll to taskbar on click property"
+                                                                                   href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_ScrollToTaskbarOnClick"
+                                                                                   target="_blank">ScrollToTaskbarOnClick</a> property to <code>true</code> for automatic scrolling that brings the related taskbar into view when its row is selected.
+    </p>
+
+    <p>
+        Setting the
+        <a class="e-gantt-selection-reference-link" aria-label="Navigate to the enable row hover property reference for gantt chart component"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_EnableRowHover"
+           target="_blank">EnableRowHover</a>
+        property to <code>true</code> applies hover feedback that distinguishes the row under the pointer, aiding navigation through dense schedules.
+    </p>
+
+    <p>
+        For further details, refer to the
+        <a class="e-gantt-selection-reference-link" aria-label="Navigate to the documentation for selection in gantt chart component"
+           href="https://blazor.syncfusion.com/documentation/gantt-chart/selection"
+           target="_blank">documentation</a>.
+    </p>
+</SampleDescription>
+
+<div class="control-section e-gantt-selection-sample">
+    <SfGantt @ref="GanttInstance" DataSource="@TaskCollection" TreeColumnIndex="1" Height="450px" Width="100%" ProjectStartDate="@(new DateTime(2021, 3, 27))" ProjectEndDate="@(new DateTime(2021, 7, 6))" AllowSelection="@IsSelectionEnabled" SelectedRowIndex="@SelectedRowIndex" ScrollToTaskbarOnClick="@IsAutoScrollEnabled" EnableRowHover="@IsRowHoverEnabled" Toolbar="@ToolbarItems">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Task Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+		</GanttColumns>
+		<GanttSelectionSettings Mode="@GanttSelectionMode" Type="@GanttSelectionType" EnableToggle="@IsToggleEnabled"></GanttSelectionSettings>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="SelectionData.TaskData"></GanttLabelSettings>
+		<GanttSplitterSettings Position="58%"></GanttSplitterSettings>
+	</SfGantt>
+</div>
+@code{
+    /// <summary>
+    /// Initializes the Gantt Selection sample by loading task data, setting default selection mode and type, and configuring toolbar items for user interaction.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        TaskCollection = SelectionData.GetTaskCollection();
+        selectedMode = GanttSelectionMode.ToString();
+        selectedType = GanttSelectionType.ToString();
+        ToolbarItems = new List<Object>
+        {
+            new ItemModel
+            {
+                Id = "ModeLabel",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "showhide");
+                    builder.AddAttribute(2, "style", "padding: 10px 15px 10px 10px");
+                    builder.AddContent(3, "Mode");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "ModeDropdown",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfDropDownList<string, DropDownOption>>(0);
+                    builder.AddAttribute(1, "Width", "90px");
+                    builder.AddAttribute(2, "DataSource", SelectionModes);
+                    builder.AddAttribute(3, "Value", selectedMode);
+                    builder.AddAttribute(4, "Placeholder", "e.g. Cell");
+                    builder.AddAttribute(5, "CssClass", "e-selection-mode");
+                    builder.AddAttribute(6, "ValueChanged", EventCallback.Factory.Create<string>(this, v => selectedMode = v));
+                    builder.AddAttribute(7, "ChildContent", (RenderFragment)(childBuilder =>
+                    {
+                        childBuilder.OpenComponent<DropDownListEvents<string, DropDownOption>>(0);
+                        childBuilder.AddAttribute(1, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<string, DropDownOption>>(this, OnModeChange));
+                        childBuilder.CloseComponent();
+
+                        childBuilder.OpenComponent<DropDownListFieldSettings>(2);
+                        childBuilder.AddAttribute(3, "Text", "Mode");
+                        childBuilder.AddAttribute(4, "Value", "ID");
+                        childBuilder.CloseComponent();
+                    }));
+                    builder.CloseComponent();
+                })
+            },
+            new ItemModel
+            {
+                Id = "TypeLabel",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "showhide");
+                    builder.AddAttribute(2, "style", "padding: 10px 15px 10px 25px");
+                    builder.AddContent(3, "Type");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "TypeDropdown",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfDropDownList<string, DropDownOption>>(0);
+                    builder.AddAttribute(1, "Width", "110px");
+                    builder.AddAttribute(2, "DataSource", SelectionTypes);
+                    builder.AddAttribute(3, "Value", selectedType);
+                    builder.AddAttribute(4, "Placeholder", "e.g. Multiple");
+                    builder.AddAttribute(5, "CssClass", "e-selection-type");
+                    builder.AddAttribute(6, "ValueChanged", EventCallback.Factory.Create<string>(this, v => selectedType = v));
+                    builder.AddAttribute(7, "ChildContent", (RenderFragment)(childBuilder =>
+                    {
+                        childBuilder.OpenComponent<DropDownListEvents<string, DropDownOption>>(0);
+                        childBuilder.AddAttribute(1, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<string, DropDownOption>>(this, OnTypeChange));
+                        childBuilder.CloseComponent();
+
+                        childBuilder.OpenComponent<DropDownListFieldSettings>(2);
+                        childBuilder.AddAttribute(3, "Text", "Mode");
+                        childBuilder.AddAttribute(4, "Value", "ID");
+                        childBuilder.CloseComponent();
+                    }));
+                    builder.CloseComponent();
+                })
+            },
+            new ItemModel
+            {
+                Id = "ToggleLabel",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "showhide");
+                    builder.AddAttribute(2, "style", "padding: 10px 10px 10px 25px");
+                    builder.AddContent(3, "Toggle");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "ToggleSwitch",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfSwitch<bool>>(0);
+                    builder.AddAttribute(1, "Checked", IsToggleEnabled);
+                    builder.AddAttribute(2, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => IsToggleEnabled = v));
+                    builder.AddAttribute(3, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<bool>>(this, HandleToggleChange));
+                    builder.CloseComponent();
+                })
+            },
+            new ItemModel
+            {
+                Id = "AutoScrollLabel",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "showhide");
+                    builder.AddAttribute(2, "style", "padding: 10px 10px 10px 25px");
+                    builder.AddContent(3, "Autoscroll to taskbar");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "AutoScrollSwitch",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfSwitch<bool>>(0);
+                    builder.AddAttribute(1, "Checked", IsAutoScrollEnabled);
+                    builder.AddAttribute(2, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => IsAutoScrollEnabled = v));
+                    builder.AddAttribute(3, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<bool>>(this, HandleAutoScrollChange));
+                    builder.CloseComponent();
+                })
+            },
+            new ItemModel
+            {
+                Id = "RowHoverLabel",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "showhide");
+                    builder.AddAttribute(2, "style", "padding: 10px 10px 10px 25px");
+                    builder.AddContent(3, "Enable row hover");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "RowHoverSwitch",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfSwitch<bool>>(0);
+                    builder.AddAttribute(1, "Checked", IsRowHoverEnabled);
+                    builder.AddAttribute(2, "ValueChanged", EventCallback.Factory.Create<bool>(this, v => IsRowHoverEnabled = v));
+                    builder.AddAttribute(3, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<bool>>(this, HandleRowHoverChange));
+                    builder.CloseComponent();
+                })
+            }
+        };
+        @*Hidden:Lines*@
+        SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+        @*End:Hidden*@
+    }
+    @*Hidden:Lines*@
+    private async void OnTouchMousePreferenceChanged()
+    {
+        await GanttInstance.RefreshAsync();
+        await GanttInstance.CallStateHasChangedAsync();
+    }
+
+    public void Dispose()
+    {
+        SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+    }
+    @*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-selection-sample {
+		padding: 20px;
+	}
+
+		.e-gantt-selection-sample .showhide {
+			font-size: 15px;
+			font-weight: 400;
+			margin-bottom: 1px;
+		}
+
+		.e-gantt-selection-sample .e-switch-control {
+			display: flex;
+			align-items: center;
+			flex-wrap: wrap;
+		}
+
+		.e-gantt-selection-sample .e-mastertext {
+			font-size: 15px;
+			font-family: Roboto;
+			font-weight: bolder;
+			opacity: 0.87;
+			padding: 0.7em;
+		}
+
+		.e-gantt-selection-sample .e-selection-mode {
+			min-width: 90px !important;
+		}
+
+		.e-gantt-selection-sample .e-selection-type {
+			min-width: 110px !important;
+		}
+
+		.e-gantt-selection-sample .e-switch-wrapper:focus {
+			box-shadow: none !important;
+		}
+
+        .e-gantt-selection-reference-link {
+            text-decoration: none !important;
+        }
+
+        .e-gantt-selection-reference-link:hover,
+        .e-gantt-selection-reference-link:focus {
+            text-decoration: underline !important;
+        }
+</style>

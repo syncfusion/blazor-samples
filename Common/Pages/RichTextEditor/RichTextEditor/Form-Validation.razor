@@ -1,0 +1,135 @@
+@page "/rich-text-editor/form-validation"
+
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.RichTextEditor
+@using System.ComponentModel.DataAnnotations;
+@using System.Text.RegularExpressions
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to use Rich Text Editor inside <code>EditForm</code> and validate using <code>Data Annotations</code>. Click <b>Submit</b> button to validate the Form.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this demo, <code>EditForm</code> validates all data annotation rules using <code>DataAnnotationsValidator</code> while clicking the Submit button.</p>
+</ActionDescription>
+
+<div class="control-section" id="rte-form">
+    <div class="content-wrapper">
+        <div id='content' class='box-form' style="margin: 0 auto; max-width:750px; padding:25px">
+            <EditForm Model="@Model" OnValidSubmit="@ValidSubmit">
+                <DataAnnotationsValidator />
+                <SfRichTextEditor SaveInterval="1" ShowCharCount="true" @bind-Value="@Model.Description" MaxLength="100" Placeholder="Type something...">
+                    <RichTextEditorEvents ValueChange="@OnRteValueChange"></RichTextEditorEvents>
+                </SfRichTextEditor>
+                <ValidationMessage For="@(() => Model.Description)" />
+                <div class="btn-grp">
+                    <button class="samplebtn e-control e-btn" type="submit" data-ripple="true" disabled="@submitDisable">Submit</button>
+                    <button class="samplebtn e-control e-btn" type="reset" data-ripple="true" @onclick="@ResetHandler">Reset</button>
+                </div>
+            </EditForm>
+        </div>
+    </div>
+</div>
+<SfDialog @bind-Visible="@Visible" Target="#rte-form" IsModal="true" Width="250px">
+    <DialogTemplates>
+        <Header>Alert</Header>
+        <Content>Form value successfully submitted.</Content>
+    </DialogTemplates>
+    <DialogButtons>
+        <DialogButton Content="OK" OnClick="@CloseDialog" />
+    </DialogButtons>
+</SfDialog>
+<style>
+    .box-form {
+        webkit-box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 0 2px 2px 0 rgba(0, 0, 0, 0.14), 0 3px 1px -2px rgba(0, 0, 0, 0.12), 0 1px 5px 0 rgba(0, 0, 0, 0.2);
+    }
+
+    .btn-grp {
+        text-align: center;
+        margin-top: 15px;
+    }
+
+    .validation-message {
+        color: #f44336;
+        font-family: "Roboto", "Segoe UI", "GeezaPro", "DejaVu Serif", "sans-serif", "-apple-system", "BlinkMacSystemFont";
+        font-size: 12px;
+        font-weight: normal;
+    }
+</style>
+@code {
+    private class FormModel
+    {
+        [Required]
+        [EditorMinLength(20)]
+        public string Description { get; set; }
+    }
+    private bool submitDisable = true;
+    private FormModel Model = new FormModel();
+    private bool Visible { get; set; } = false;
+    private void CloseDialog()
+    {
+        this.Visible = false;
+    }
+    private void ResetHandler()
+    {
+        Model.Description = String.Empty;
+        Model = new FormModel();
+        StateHasChanged();
+    }
+    [AttributeUsage(AttributeTargets.Property)]
+    public class EditorMinLengthAttribute : ValidationAttribute
+    {
+        public int Minimum { get; }
+
+        public EditorMinLengthAttribute(int minimum)
+        {
+            Minimum = minimum;
+            ErrorMessage = "The Rich Text Editor content must contain at least 20 characters.";
+        }
+
+        protected override ValidationResult? IsValid(object? value, ValidationContext validationContext)
+        {
+            var html = value?.ToString() ?? "";
+            var plain = Regex.Replace(html, "<.*?>", string.Empty).Replace(" ", "");
+            var imgCount = Regex.Matches(html, "<img[^>]*>", RegexOptions.IgnoreCase).Count;
+            var total = plain.Length + imgCount;
+
+            return total >= Minimum
+                ? ValidationResult.Success
+                : new ValidationResult(ErrorMessage);
+        }
+    }
+    private void ValidSubmit(EditContext context)
+    {
+        Model.Description = String.Empty;
+        this.Visible = true;
+        Model = new FormModel();
+        StateHasChanged();
+        submitDisable = true;
+    }
+    private string RemoveHtmlTags(string htmlContent)
+    {
+        return Regex.Replace(htmlContent, "<.*?>", string.Empty);
+    }
+    private int CountImageTags(string text)
+    {
+        var imgCount = Regex.Matches(text, "<img[^>]*>").Count;
+        return imgCount;
+    }
+    private void OnRteValueChange(Syncfusion.Blazor.RichTextEditor.ChangeEventArgs args)
+    {
+        UpdateSubmitButtonState();
+    }
+    private void UpdateSubmitButtonState()
+    {
+        var validationResults = new List<ValidationResult>();
+        var validationContext = new ValidationContext(Model);
+        bool isValid = Validator.TryValidateObject(Model, validationContext, validationResults, true);
+        submitDisable = !isValid;
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,407 @@
+@page "/query-builder/default-functionalities"
+
+@using Syncfusion.Blazor.QueryBuilder
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using System.Text.Json.Serialization
+
+@*Hidden:Lines*@
+@using blazor_griddata
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the default functionalities of the QueryBuilder component. Click the plus button to add a group or conditions, and see how to import and export a query in JSON format. The query preview can be showcased in the Tab component, and the query can be imported to QueryBuilder using the Import button.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>The <code><a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.QueryBuilder.SfQueryBuilder-1.html" aria-label="QueryBuilder">QueryBuilder</a></code> component is used to create or edit filters. You can modify filters by changing the fields. This demo showcases the export and import of queries in JSON format.</p>
+    <p>In mobile mode, the component is displayed vertically.</p>
+    <p>More information about the Blazor QueryBuilder component can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/query-builder/getting-started/" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="control-pane">
+    <div class="control-section">
+        <div class="top-right-button">
+            <SfButton CssClass="e-btn e-custom-btn" id="json-btn" Content="Import JSON" @onclick="ImportButtonClick"></SfButton>
+        </div>
+        <div class="row">
+            <div class="col-lg-12 control-section" id="query-default">
+                <div class="App">
+                    <SfDialog @ref="DialogObj" ID="dialog" Width="@DialogWidth" Height="@DialogHeight" IsModal="true" Header="JSON" @bind-Visible="@IsVisible" CloseOnEscape="false" ShowCloseIcon="true">
+                        <DialogEvents OnOpen="@DialogOpen"></DialogEvents>
+                        <DialogAnimationSettings Effect="@AnimationEffect" Duration=400 Delay="0" />
+                        <DialogButtons>
+                            <DialogButton Content="Cancel" OnClick="@CancelClick" />
+                            <DialogButton Content="Import" IsPrimary="true" OnClick="@ImportClick" />
+                        </DialogButtons>
+                        <DialogTemplates>
+                            <Content>
+                                <form>
+                                    <textarea class="json-content-area" id="json-content-area" @bind="JsonContent"></textarea>
+                                    <span class="@ErrorValue">Invalid Query</span>
+                                </form>
+                            </Content>
+                        </DialogTemplates>
+                    </SfDialog>
+                </div>
+                <SfQueryBuilder DataSource="@OrdersData" @ref="QueryBuilderObj">
+                    <QueryBuilderRule Condition="and" Rules="@rules"></QueryBuilderRule>
+                    <QueryBuilderColumns>
+                        <QueryBuilderColumn Field="CustomerID" Label="CustomerID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                        <QueryBuilderColumn Field="EmployeeID" Label="EmployeeID" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Number></QueryBuilderColumn>
+                        <QueryBuilderColumn Field="Verified" Label="Verified" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Boolean></QueryBuilderColumn>
+                        <QueryBuilderColumn Field="ShipName" Label="ShipName" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                        <QueryBuilderColumn Field="OrderDate" Label="OrderDate" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.Date Format="dd/MM/yyyy"></QueryBuilderColumn>
+                        <QueryBuilderColumn Field="ShipCountry" Label="ShipCountry" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                        <QueryBuilderColumn Field="ShipAddress" Label="ShipAddress" Type=Syncfusion.Blazor.QueryBuilder.ColumnType.String></QueryBuilderColumn>
+                    </QueryBuilderColumns>
+                    <QueryBuilderEvents TValue=Orders Created="CreatedControl" RuleChanged="UpdateRule"></QueryBuilderEvents>
+                </SfQueryBuilder>
+                <div id="json-preview" class="e-query-json-preview" style="border: none;">
+                    <div style="border: none; width: 100% ">
+                        <label style="padding: 10px">JSON</label>
+                        <div class="copy-tooltip" style="display: none">
+                            <SfTooltip ID="Tooltip" Target="#target" Content="Copied to clipboard" OpensOn="Click">
+                                <div id="target" class="e-icons e-copy"></div>
+                            </SfTooltip>
+                        </div>
+                    </div>
+                    <SfTextBox class="json-content-area" id="json-content-area" Multiline=true Value="@JsonContent" CssClass="e-text-area-content"></SfTextBox>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code{
+    SfQueryBuilder<Orders> QueryBuilderObj;
+    SfDialog DialogObj;
+    const string DialogWidth = "700px";
+    const string DialogHeight = "420px";
+    private DialogEffect AnimationEffect = DialogEffect.Zoom;
+    string JsonContent = "";
+    string ErrorValue = "error-msg-hide";
+    private bool IsVisible = false;
+    private string TextAreaValue { get; set; }
+    private List<RuleModel> rules = new List<RuleModel>()
+    {
+         new RuleModel { Label="EmployeeID", Field="EmployeeID", Type="Number", Operator="equal", Value = 1001 },
+         new RuleModel { Label="CustomerID", Field="CustomerID", Type="String", Operator="equal", Value = "FLKIN" }
+    };
+
+    private List<Orders> OrdersData { get; set; }
+    protected override void OnInitialized()
+    {
+
+        OrdersData = Orders.GetAllRecords();
+    }
+
+    public void CreatedControl()
+    {
+        JsonContent = JsonSerializer.Serialize(QueryBuilderObj.GetValidRules(), new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = true,
+                Converters = { new CustomConverter() }
+            });
+        TextAreaValue = JsonContent;
+    }
+
+
+    private void UpdateRule()
+    {
+        JsonContent = JsonSerializer.Serialize(QueryBuilderObj.GetValidRules(), new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = true,
+                Converters = { new CustomConverter() }
+            });
+        TextAreaValue = JsonContent;
+    }
+
+    private void DialogOpen()
+    {
+        JsonContent = JsonSerializer.Serialize(QueryBuilderObj.GetValidRules(), new JsonSerializerOptions
+            {
+                DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingNull,
+                WriteIndented = true,
+                Converters = { new CustomConverter() }
+            });
+        ErrorValue = "error-msg-hide";
+    }
+
+    private void ImportClick()
+    {
+        try
+        {
+            RuleModel ruleModel = JsonSerializer.Deserialize<RuleModel>(JsonContent);
+            ruleModel = RuleModelCreation(ruleModel);
+            QueryBuilderObj.SetRules(ruleModel.Rules, "and");
+            UpdateRule();
+            this.IsVisible = false;
+        }
+        catch (Exception e)
+        {
+            ErrorValue = "error-msg";
+        }
+    }
+
+    private RuleModel RuleModelCreation(RuleModel ObjectRules)
+    {
+        for (var i = 0; i < ObjectRules.Rules.Count; i++)
+        {
+            if (ObjectRules.Rules[i].Condition != null)
+            {
+                ObjectRules.Rules[i] = RuleModelCreation(ObjectRules.Rules[i]);
+            }
+            else
+            {
+                ObjectRules.Rules[i].Operator = GetValue(ObjectRules.Rules[i].Operator);
+                ObjectRules.Rules[i].Value = GetValue(ObjectRules.Rules[i].Value);
+            }
+        }
+        return ObjectRules;
+    }
+
+    private void ImportButtonClick()
+    {
+        this.IsVisible = true;
+    }
+
+    private void CancelClick()
+    {
+        this.IsVisible = false;
+    }
+
+    private dynamic GetValue(dynamic operatorElement)
+    {
+        dynamic value = operatorElement;
+        switch (operatorElement.ValueKind)
+        {
+            case JsonValueKind.String:
+                string stringValue = operatorElement.GetString();
+                value = stringValue;
+                break;
+            case JsonValueKind.Number:
+                if (operatorElement.TryGetInt32(out int intValue))
+                {
+                    value = intValue;
+                }
+                else if (operatorElement.TryGetDouble(out double doubleValue))
+                {
+                    value = doubleValue;
+                }
+                break;
+            case JsonValueKind.True:
+                value = true;
+                break;
+            case JsonValueKind.False:
+                value = false;
+                break;
+            case JsonValueKind.Array:
+                dynamic[] val = Array.Empty<dynamic>();
+                for (int i = 0; i < value.GetArrayLength(); i++)
+                {
+                    val = AddObject(val, GetValue(value[i]));
+                }
+                value = val;
+                break;
+        }
+        return value;
+    }
+    private static object[] AddObject(object[] objectArray, object obj)
+    {
+        object[] newArray = new object[objectArray.Length + 1];
+        Array.Copy(objectArray, newArray, objectArray.Length);
+        newArray[newArray.Length - 1] = obj;
+        return newArray;
+    }
+    public class CustomConverter : JsonConverter<RuleModel>
+    {
+        public override RuleModel Read(ref Utf8JsonReader reader, Type typeToConvert, JsonSerializerOptions options)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Write(Utf8JsonWriter writer, RuleModel value, JsonSerializerOptions options)
+        {
+            writer.WriteStartObject();
+            if (value.Condition != null)
+            {
+                writer.WriteString("Condition", value.Condition);
+            }
+            if (value.Operator != null)
+            {
+                writer.WriteString("Operator", value.Operator);
+            }
+            if (value.Field != null)
+            {
+                writer.WriteString("Field", value.Field);
+            }
+            if (value.Type != null)
+            {
+                writer.WriteString("Type", value.Type);
+            }
+            if (value.Not != null)
+            {
+                writer.WriteBoolean("Not", value.Not.Value);
+            }
+            if (value.Value != null)
+            {
+                writer.WritePropertyName("Value");
+                JsonSerializer.Serialize(writer, value.Value, options);
+            }
+            if (value.Rules != null)
+            {
+                writer.WritePropertyName("Rules");
+                JsonSerializer.Serialize(writer, value.Rules, options);
+            }
+            writer.WriteEndObject();
+        }
+    }
+}
+
+<style>
+    .e-query-builder {
+        margin: 0 auto;
+    }
+
+    .e-query-json-preview {
+        margin-bottom: 20px !important;
+        margin-top: 20px !important;
+        border: 1px solid #e5e7eb;
+        border-radius: 4px;
+        height: 330px;
+    }
+
+    .top-right-button {
+        height: 32px;
+    }
+
+    .top-right-button {
+        float: right;
+    }
+
+    .json-content-area {
+        border: none;
+    }
+    .e-query-json-preview .copy-tooltip {
+        position: unset;
+        margin-top: 10px;
+        float: right;
+        height: 32px;
+        width: 32px;
+        cursor: pointer;
+        background: #f4f4f4;
+        border-radius: 2px;
+    }
+
+        .e-query-json-preview .copy-tooltip.e-control.e-tooltip:hover {
+            background: #D8D8D8;
+        }
+
+
+    .e-query-json-preview .copy-tooltip {
+        position: unset;
+        margin-top: 10px;
+        float: right;
+        height: 32px;
+        width: 32px;
+        cursor: pointer;
+        background: #f4f4f4;
+        border-radius: 2px;
+    }
+
+    .e-query-json-preview .e-icons.e-copy {
+        padding-left: 3px;
+        padding-top: 4px;
+        color: rgba(0, 0, 0, .54);
+        float: right;
+        font-size: 25px;
+        padding-right: 5px;
+        padding-top: 4px;
+        color: rgba(0, 0, 0, .54);
+    }
+
+    .e-query-json-preview .e-json-content {
+        margin: 10px;
+        border: none;
+        height: 180px;
+        width: 98%;
+        overflow-y: hidden;
+    }
+
+    .e-query-json-preview .CodeMirror {
+        height: 280px !important;
+    }
+
+    #json-btn {
+        margin-left: 15px;
+    }
+    #query-default {
+        margin-top: 25px;
+    }
+    #mongo-btn {
+        margin-left: 15px;
+    }
+
+    #sql-btn {
+        margin-left: 15px;
+    }
+
+    .json-content-area {
+        border: 1px solid black;
+        height: 225px !important;
+        width: 100% !important;
+        overflow-x: hidden;
+        padding: 10px;
+    }
+
+    .error-msg-hide {
+        display: none;
+    }
+    .error-msg {
+        display: block;
+        color: red;
+        float: left;
+    }
+
+    .fluent-dark .json-content-area,
+    .tailwind-dark .json-content-area,
+    .highcontrast-dark .json-content-area,
+    .bootstrap5\.3-dark .json-content-area,
+    .bootstrap-dark .json-content-area,
+    .material-dark  .json-content-area,
+    .material3-dark .json-content-area,
+    .fabric-dark .json-content-area,
+    .highcontrast .json-content-area,
+    .fluent2-dark .json-content-area,
+    .fluent2-highcontrast .json-content-area,
+    .bootstrap5\.3-dark .json-content-area {
+        background-color: #1f1f1f;
+    }
+
+    .bootstrap-dark .e-query-json-preview .e-icons.e-copy,
+    .bootstrap5\.3-dark .e-query-json-preview .e-icons.e-copy,
+    .fabric-dark .e-query-json-preview .e-icons.e-copy,
+    .highcontrast .e-query-json-preview .e-icons.e-copy,
+    .highcontrast-dark .e-query-json-preview .e-icons.e-copy,
+    .fabric-dark .e-query-json-preview .e-icons.e-copy,
+    .material3-dark .e-query-json-preview .e-icons.e-copy,
+    .tailwind-dark .e-query-json-preview .e-icons.e-copy,
+    .fluent2-dark .e-query-json-preview .e-icons.e-copy,
+    .fluent2-highcontrast .e-query-json-preview .e-icons.e-copy,
+    .bootstrap5-dark .e-query-json-preview .e-icons.e-copy {
+        padding-bottom: 3px;
+        color: white;
+        background-color: black;
+    }
+
+    .tailwind3-dark .json-content-area {
+        background: transparent;
+        border-color: #374151;
+    }
+</style>

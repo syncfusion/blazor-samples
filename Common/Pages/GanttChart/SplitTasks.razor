@@ -1,0 +1,110 @@
+@page "/gantt-chart/split-tasks"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the split tasks feature in the <a class="e-gantt-splittasks-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                   href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                   target="_blank">Blazor Gantt Chart</a>, which allows tasks to be divided into multiple segments. This is useful in scenarios where work is interrupted due to unexpected events or shifting priorities, enabling tasks to be paused and resumed on different dates.
+    </p>
+    <p>
+        Split tasks are represented as segments, and each task can be split into multiple segments, with a minimum of one time unit per segment. Segments are defined in the data source and mapped using the <code>GanttSegmentFields</code> component.
+    </p>
+    <p>
+        Segments can be created or merged using either the Edit Dialog or the Context Menu.
+    </p>
+    <p>Segments can be mapped using the <a class="e-gantt-splittasks-reference-link" aria-label="Navigate to the class reference for GanttSegmentFields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttSegmentFields-2.html">GanttSegmentFields</a> component with the following properties and event:</p>
+    <ul>
+        <li><code>PrimaryKey</code> - Maps the segment's primary identifier.</li>
+        <li><code>ForeignKey</code> - Maps the associated task ID.</li>
+        <li><code>StartDate</code> - Maps the segment's start date.</li>
+        <li><code>EndDate</code> - Maps the segment's end date.</li>
+        <li><code>Duration</code> - Maps the duration of the segment.</li>
+        <li><code>OnSegmentUpdate</code> - Maps segment event.</li>
+    </ul>
+    <p>
+        To enable splitting, a task must span at least two distinct time unit cells. Note that milestone tasks and parent tasks cannot be split into segments.
+    </p>
+    <p>
+        The toolbar provides add, update, delete, expand, collapse and zooming operations, enabling interactive task management.
+    </p>
+    <p>
+        For further details, refer to the  <a class="e-gantt-splittasks-reference-link" aria-label="Navigate to the documentation for Split task in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/split-task">
+            documentation</a>.
+    </p>
+</SampleDescription>
+
+<div class="control-section e-gantt-splitTasks-sample">
+	<SfGantt @ref="GanttInstance" TValue="SplitTasksData.TaskData" DataSource="@TaskCollection" Height="450px" Width="100%" TreeColumnIndex="1" Toolbar="@(new List<Object>() { "Add", "Cancel", "Update", "Delete", "Edit", "CollapseAll", "ExpandAll", "ZoomIn", "ZoomOut", "ZoomToFit" })"
+			 EnableContextMenu="true" RowHeight="37" ProjectStartDate="@(new DateTime(2022, 03, 23))" ProjectEndDate="@(new DateTime(2022, 05, 10))" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+		</GanttTaskFields>
+		<GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+		<GanttSegmentFields PrimaryKey="id" ForeignKey="TaskId" StartDate="StartDate" EndDate="EndDate" Duration="Duration" TValue="SplitTasksData.TaskData" TSegments="SplitTasksData.SegmentModel" DataSource="SegmentCollection"></GanttSegmentFields>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="SplitTasksData.TaskData"></GanttLabelSettings>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100" Visible="false"></GanttColumn>
+			<GanttColumn Field="TaskName" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+		</GanttColumns>
+		<GanttSplitterSettings Position="28%"></GanttSplitterSettings>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<SplitTasksData.TaskData>? GanttInstance { get; set; }
+	public List<SplitTasksData.TaskData> TaskCollection { get; set; } = new List<SplitTasksData.TaskData>();
+	public List<SplitTasksData.SegmentModel> SegmentCollection { get; set; } = new List<SplitTasksData.SegmentModel>();
+
+	/// <summary>
+	/// Initializes the Split Tasks sample with task and segment data.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = SplitTasksData.GetTaskCollection();
+		SegmentCollection = SplitTasksData.GetSegmentCollection();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-splitTasks-sample {
+		padding: 20px;
+	}
+	.e-gantt-splittasks-reference-link {
+    text-decoration: none !important;
+}
+
+.e-gantt-splittasks-reference-link:hover,
+.e-gantt-splittasks-reference-link:focus {
+     text-decoration: underline !important;
+}
+</style>

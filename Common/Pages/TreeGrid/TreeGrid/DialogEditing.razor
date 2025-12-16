@@ -1,0 +1,72 @@
+@page "/tree-grid/dialog-editing"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+
+@*Hidden:Lines*@
+@using EmployeeData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the dialog editing functionality in Tree Grid. While editing or adding a record, a dialog pop-up opens to display the edit form.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        Dialog editing allows users to edit or add records using a pop-up dialog interface, and it is enabled by setting the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridEditSettings.html#Syncfusion_Blazor_TreeGrid_TreeGridEditSettings_Mode">Mode</a> property of <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridEditSettings.html">TreeGridEditSettings</a> to <code>EditMode.Dialog</code>.
+    </p>
+
+    <p>
+        In this demo, dialog editing is triggered by double-clicking a row or clicking the Edit button in the toolbar. The selected row's data is displayed in a dialog where changes can be made and saved to the data source.
+    </p>
+
+    <p>
+        More information about dialog editing can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/editing/dialog-editing">documentation</a> section.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid DataSource="@TreeData" IdMapping="EmployeeID" ParentIdMapping="ParentId" TreeColumnIndex="1" AllowPaging="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })" Height="390">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.Blazor.TreeGrid.EditMode.Dialog"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn IsPrimaryKey="true" Field="EmpID" HeaderText="Employee ID" Width="150" TextAlign="TextAlign.Right" ValidationRules="@(new ValidationRules { Required = true})"></TreeGridColumn>
+                    <TreeGridColumn Field="FullName" HeaderText="Full Name" Width="245"></TreeGridColumn>
+                    <TreeGridColumn Field="Designation" HeaderText="Designation" Width="200"></TreeGridColumn>
+                    <TreeGridColumn Field="JoinedDate" HeaderText="Joined Date" Width="160" Format="dd/MM/yyyy" Type="ColumnType.Date" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Country" HeaderText="Country" Width="160"></TreeGridColumn>
+                    <TreeGridColumn Field="Availability" HeaderText="Availability" Width="140" ValidationRules="@(new ValidationRules { Required = true})"></TreeGridColumn>
+                    <TreeGridColumn Field="Email" HeaderText="Email" Width="240">
+                        <Template>
+                            @{
+                                var e = (context as EmployeeData)!;
+                            }
+                            <a href="mailto:@e.Email" class="link" onclick="event.preventDefault();">@e.Email</a>
+                        </Template>
+                    </TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private List<EmployeeData> TreeData { get; set; }
+
+    private Syncfusion.Blazor.Grids.NumericEditCellParams DurationParams = new Syncfusion.Blazor.Grids.NumericEditCellParams()
+    {
+        Params = new Syncfusion.Blazor.Inputs.NumericTextBoxModel<object>() { Format = "N2", ShowSpinButton = true }
+    };
+
+    protected override void OnInitialized()
+    {
+        TreeData = EmployeeData.GetTemplateData().Take(110).ToList();
+    }
+}

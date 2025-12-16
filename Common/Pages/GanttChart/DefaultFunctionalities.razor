@@ -1,0 +1,113 @@
+@page "/gantt-chart/default-functionalities"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+	<p>
+		This
+		<a class="e-gantt-defaultfunctionalities-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+		   href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+		   target="_blank">Blazor Gantt Chart</a>
+		sample demonstrates the phases in a manufacturing process, showing how a product progresses from a concept to a sale ready item.
+	</p>
+
+	<p>
+		The chart is bound to a provided data source and renders a structured view of tasks and milestones. The
+		<a class="e-gantt-defaultfunctionalities-reference-link" aria-label="Navigate to the documentation for timeline in gantt chart component"
+		   href="https://blazor.syncfusion.com/documentation/gantt-chart/time-line"
+		   target="_blank">Timeline view</a>
+		is designed to display in <code>Week</code> mode by default, making it easy to review schedules at a glance.
+	</p>
+
+	<p>
+		The dependency lines are enabled in this example to represent the execution order or the hierarchy between the phases.
+		<a class="e-gantt-defaultfunctionalities-reference-link" aria-label="Navigate to the documentation for tooltip in gantt chart component"
+		   href="https://blazor.syncfusion.com/documentation/gantt-chart/tooltip"
+		   target="_blank">Tooltip</a> is enabled across all UI elements. To view them in action, hover over taskbars, timeline units, or dependency lines in touch-enabled devices.
+	</p>
+</SampleDescription>
+
+<div class="control-section e-gantt-default-functionalities-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1"
+			 ProjectStartDate="@(new DateTime(2021, 3, 24))" ProjectEndDate="@(new DateTime(2021, 7, 25))" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
+						 Duration="Duration" Progress="Progress" Dependency="Predecessor" ParentID="ParentId">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId"></GanttColumn>
+			<GanttColumn Field="TaskName" Width="250"></GanttColumn>
+			<GanttColumn Field="StartDate"></GanttColumn>
+			<GanttColumn Field="EndDate"></GanttColumn>
+			<GanttColumn Field="Duration"></GanttColumn>
+			<GanttColumn Field="Progress"></GanttColumn>
+			<GanttColumn Field="Predecessor"></GanttColumn>
+		</GanttColumns>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="DefaultData.TaskData"> </GanttLabelSettings>
+		<GanttSplitterSettings Position="30%"> </GanttSplitterSettings>
+		<GanttTemplates TValue="DefaultData.TaskData">
+			<TaskbarTemplate>
+				@{
+					var task = (context as DefaultData.TaskData);
+				}
+				<div class="e-gantt-child-taskbar-inner-div e-gantt-child-taskbar" tabindex="-1">
+					<div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="height:100%;width:@task?.Progress%;border-radius:0;">
+						<span class="e-task-label">
+							@(task.Progress + "%")
+						</span>
+					</div>
+				</div>
+			</TaskbarTemplate>
+			<ParentTaskbarTemplate>
+				@{
+					var task = (context as DefaultData.TaskData);
+				}
+				<div class="e-gantt-parent-taskbar-inner-div e-gantt-parent-taskbar" style="text-overflow:ellipsis;width:100%;" tabindex="-1">
+					<div class="e-gantt-parent-progressbar-inner-div e-row-expand e-gantt-parent-progressbar" style="height:100%;text-overflow:ellipsis;width:@task?.Progress%;border-radius:0;">
+						<span class="e-task-label">
+							@(task.Progress + "%")
+						</span>
+					</div>
+				</div>
+			</ParentTaskbarTemplate>
+		</GanttTemplates>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<DefaultData.TaskData>? GanttInstance { get; set; }
+	public List<DefaultData.TaskData> TaskCollection { get; set; } = new List<DefaultData.TaskData>();
+
+	/// <summary>
+	/// Initializes the Gantt chart with default task data.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = DefaultData.ProjectNewData();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}	
+</style>

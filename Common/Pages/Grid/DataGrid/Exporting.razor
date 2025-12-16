@@ -1,0 +1,70 @@
+@page "/datagrid/exporting"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_ordersdetails
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+   <p>This sample shows how to export the DataGrid's data to the Excel, PDF, and CSV file formats.</p>
+</SampleDescription>
+<ActionDescription>
+   <p>Using the toolbar buttons, the Blazor DataGrid allows you to export data to Excel, PDF, and CSV file formats.</p>
+    <p>Actions for exporting toolbar items can be defined using <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_ExportToExcelAsync_Syncfusion_Blazor_Grids_ExcelExportProperties_System_Nullable_System_Boolean__System_Object_System_Nullable_System_Boolean__' aria-label="Navigate to the ExportToExcelAsync method reference for DataGrid component">ExportToExcelAsync</a>,<a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_ExportToPdfAsync_Syncfusion_Blazor_Grids_PdfExportProperties_System_Nullable_System_Boolean__System_Object_System_Nullable_System_Boolean__' aria-label="Navigate to the ExportToPdfAsync method reference for DataGrid component"> ExportToPdfAsync</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_ExportToCsvAsync_Syncfusion_Blazor_Grids_ExcelExportProperties_System_Nullable_System_Boolean__System_Object_System_Nullable_System_Boolean__' aria-label="Navigate to the ExportToCsvAsync method reference for DataGrid component">ExportToCsvAsync</a> methods in this demo.</p>
+    <p>More information about the Exporting feature can be found in the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/excel-exporting' aria-label="Navigate to the documentation for excel exporting in DataGrid component">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid ID="Grid" @ref="Grid" DataSource="@GridData" AllowPaging="true" Toolbar="@(new List<string>() { "ExcelExport", "CsvExport", "PdfExport" })" AllowExcelExport="true" AllowPdfExport="true">
+                <GridEvents OnToolbarClick="ToolbarClick" TValue="OrdersDetails"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) HeaderText="Freight" Format="C2" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" TextAlign="TextAlign.Right" Type="ColumnType.Date" Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country" Width="150"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+    SfGrid<OrdersDetails>? Grid;
+
+    public List<OrdersDetails>? GridData { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+
+        GridData = OrdersDetails.GetAllRecords();
+    }
+
+    public void ToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        if (this.Grid != null)
+        {
+            if (args.Item.Id == "Grid_pdfexport")
+            {
+                this.Grid.ExportToPdfAsync();
+            }
+            else if (args.Item.Id == "Grid_excelexport")
+            {
+                this.Grid.ExportToExcelAsync();
+            }
+            else
+            {
+                this.Grid.ExportToCsvAsync();
+            }
+        }
+    }
+}

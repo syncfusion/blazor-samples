@@ -1,0 +1,131 @@
+@page "/linear-gauge/tooltip"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.LinearGauge
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample depicts the linear gauge as a measuring scale and shows the tooltip in the linear gauge.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The tooltip is used to track the current value that is closest to the mouse position or touch contact. When using a touch-enabled device, the tooltip is displayed by hovering or tapping.</p>
+    <p>More information about tooltip can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/linear-gauge/user-interaction#tooltip" aria-label="Blazor Linear Gauge User Interaction documentation" >documentation section</a>.</p>
+</ActionDescription>
+
+<style>
+    .annotationText {
+        font-size: 15px;
+        margin-top: -4px
+    }
+</style>
+
+<div class="control-section">
+    <SfLinearGauge Orientation="@Orientation" Theme="@Theme" Background="transparent">
+        <LinearGaugeEvents AxisLabelRendering="AxisLabel" Loaded="Loaded" TooltipRendering="TooltipRender" />
+        <LinearGaugeContainer Width="140">
+            <LinearGaugeContainerBorder Width="2" Color="#a6a6a6" />
+        </LinearGaugeContainer>
+        <LinearGaugeTooltipSettings Enable="true" ShowAtMousePosition="true">
+            <LinearGaugeTooltipTextStyle FontFamily="inherit"></LinearGaugeTooltipTextStyle>
+        </LinearGaugeTooltipSettings>
+        <LinearGaugeAnnotations>
+            <LinearGaugeAnnotation AxisIndex="0" AxisValue="5.4" X="@AnnotationX" Y="AnnotationY" ZIndex="1">
+                <ContentTemplate>
+                    <div><h1 class="annotationText" style="color:@AnnotationColor; transform: @Rotate;">Inches</h1></div>
+                </ContentTemplate>
+            </LinearGaugeAnnotation>
+            <LinearGaugeAnnotation AxisIndex="1" AxisValue="16.5" X="@AnnotationX1" Y="@AnnotationY1" ZIndex="1">
+                <ContentTemplate>
+                    <div><h1 class="annotationText" style="color:@AnnotationColor; transform: @Rotate;">Centimeters</h1></div>
+                </ContentTemplate>
+            </LinearGaugeAnnotation>
+        </LinearGaugeAnnotations>
+        <LinearGaugeAxes>
+            <LinearGaugeAxis Maximum="@LinearOneMaximum" Minimum="@LinearOneMinimum">
+                <LinearGaugeLine Offset="140" Color="#a6a6a6" />
+                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20" />
+                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="0.2" Height="10" />
+                <LinearGaugeAxisLabelStyle>
+                    <LinearGaugeAxisLabelFont FontFamily="inherit" />
+                </LinearGaugeAxisLabelStyle>
+                <LinearGaugePointers>
+                    <LinearGaugePointer PointerValue="5.4" Offset="15" Type="Point.Bar" Color="#ff66b3" />
+                </LinearGaugePointers>
+            </LinearGaugeAxis>
+            <LinearGaugeAxis OpposedPosition="true" Maximum="@LinearTwoMaximum" Minimum="@LinearTwoMinimum">
+                <LinearGaugeLine Offset="-140" Color="#a6a6a6" />
+                <LinearGaugeMajorTicks Color="#9E9E9E" Interval="1" Height="20" />
+                <LinearGaugeMinorTicks Color="#9E9E9E" Interval="0.2" Height="10" />
+                <LinearGaugeAxisLabelStyle>
+                    <LinearGaugeAxisLabelFont FontFamily="inherit" />
+                </LinearGaugeAxisLabelStyle>
+                <LinearGaugePointers>
+                    <LinearGaugePointer PointerValue="16.5" Offset="-15" Type="Point.Bar" Color="#4d94ff" />
+                </LinearGaugePointers>
+            </LinearGaugeAxis>
+        </LinearGaugeAxes>
+    </SfLinearGauge>
+</div>
+
+@code {
+    public static Theme Theme { get; set; }
+    public double LinearOneMinimum = 0;
+    public double LinearOneMaximum = 10;
+    public double LinearTwoMinimum = 0;
+    public double LinearTwoMaximum = 25;
+    public string AnnotationColor = "#686868";
+    public Orientation Orientation = Orientation.Horizontal;
+    public string Rotate = "rotate(0deg)";
+    public double AnnotationX = 10 ;
+    public double AnnotationY = -58;
+    public double AnnotationX1 = 10;
+    public double AnnotationY1 = 52;
+    
+    public void AxisLabel(AxisLabelRenderEventArgs args)
+    {
+        if (this.LinearOneMinimum == args.AxisValue || this.LinearTwoMaximum == args.AxisValue ||
+            this.LinearOneMaximum == args.AxisValue || this.LinearTwoMinimum == args.AxisValue)
+        {
+            args.Text = "";
+        }
+        this.StateHasChanged();
+    }
+
+    public void TooltipRender(TooltipRenderEventArgs tooltipData)
+    {
+        tooltipData.Content = (tooltipData.Content == "16.5" || tooltipData.Content == "16,5") ? tooltipData.Content + " cm" : tooltipData.Content + " in";
+    }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        AnnotationColor = (Theme == Theme.HighContrast || Theme == Theme.Fluent2HighContrast || Theme.ToString().IndexOf("Dark") > -1) ? "#DADADA" : "#686868";
+    }
+
+    public void Loaded(LoadedEventArgs args)
+    {
+        if (args.CurrentSize.Width < 500)
+        {
+            Orientation = Orientation.Vertical;
+            AnnotationX = -77;
+            AnnotationY = -35;
+            AnnotationX1 = 15;
+            AnnotationY1 = -55;
+            Rotate = "rotate(-90deg)";
+        }
+        else
+        {
+            Orientation = Orientation.Horizontal;
+            AnnotationX = 10;
+            AnnotationY = -58;
+            AnnotationX1 = 10;
+            AnnotationY1 = 52;
+            Rotate = "rotate(0deg)";
+        }
+    }
+}

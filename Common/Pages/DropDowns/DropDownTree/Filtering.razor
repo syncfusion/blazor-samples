@@ -1,0 +1,159 @@
+@page "/DropDown-Tree/Filtering"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.Data
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the filtering functionalities of the Dropdown Tree. Click the Dropdown Tree element, and then type a character in the search box. It will display the filtered list items based on the typed characters.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The Dropdown Tree component has built-in support to filter the data source when the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.SfDropDownTree-2.html#Syncfusion_Blazor_Navigations_SfDropDownTree_2_AllowFiltering">AllowFiltering</a> is enabled. It performs when the characters are typed in the search box.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12">
+    <div class="col-lg-8 control-section sb-property-border">
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label class="example-label" aria-label="Filter list data by typing">List Data</label>
+                <SfDropDownTree TItem="ListData" TValue="string" ID="filter" Placeholder="Select a country" PopupHeight="230px" AllowFiltering="true" FilterBarPlaceholder="Search" FilterType="Type">
+                    <DropDownTreeField TItem="ListData" DataSource="@ListDataSource" ID="Id" ParentID="Pid" Text="Name" HasChildren="HasChild" Expanded="Expanded"></DropDownTreeField>
+                </SfDropDownTree>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label for="multiselection" class="selection-label" aria-label="Filter remote data by typing">Remote data</label>
+                <SfDropDownTree TValue="int?" TItem="ProductCategory" ID="remote" PopupHeight="230px" Placeholder="Select a Category" AllowFiltering="true" FilterType="Type">
+                    <DropDownTreeField TItem="ProductCategory" Query="@TreeQuery" ID="Id" ParentID="ParentId" Text="Name" HasChildren="HasChild" Expanded="Expanded">
+                        <SfDataManager Url="http://localhost:63028/api/treeview" CrossDomain="true" Adaptor="Syncfusion.Blazor.Adaptors.WebApiAdaptor"></SfDataManager>
+                    </DropDownTreeField>
+                </SfDropDownTree>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4 property-section">
+        <div class="property-panel-section">
+            <div class="property-panel-header">Properties</div><div class="property-panel-content">
+                <table id="property" class="property-panel-table">
+                    <tbody>
+                        <tr>
+                            <td style="width: 30%;">
+                                <div>Filter Type</div>
+                            </td>
+                            <td style="width: 70%;">
+                                <div>
+                                    <SfDropDownButton Content="@FilterTypeText" id="filter" CssClass="e-custom">
+                                        <DropDownMenuItems>
+                                            <DropDownMenuItem Text="Starts With"></DropDownMenuItem>
+                                            <DropDownMenuItem Text="Ends With"></DropDownMenuItem>
+                                            <DropDownMenuItem Text="Contains"></DropDownMenuItem>
+                                        </DropDownMenuItems>
+                                        <DropDownButtonEvents ItemSelected="ChangeType"></DropDownButtonEvents>
+                                    </SfDropDownButton>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 20px 0px 0px;
+    }
+
+    .e-dropdown-btn.e-custom {
+        width: 150px;
+    }
+
+    .e-custom.e-dropdown-popup {
+        width: 150px;
+    }
+
+</style>
+
+@code {
+
+    Syncfusion.Blazor.DropDowns.FilterType Type = Syncfusion.Blazor.DropDowns.FilterType.StartsWith;
+    private string FilterTypeText = "Starts With";
+    private Query? TreeQuery;
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        TreeQuery = new Query();
+    }
+    private List<ListData> ListDataSource = new List<ListData>
+    {
+        new ListData { Id = "1", Name = "Australia", HasChild = true, Expanded = true },
+        new ListData { Id = "2", Pid = "1", Name = "New South Wales" },
+        new ListData { Id = "3", Pid = "1", Name = "Victoria" },
+        new ListData { Id = "4", Pid = "1", Name = "South Australia" },
+        new ListData { Id = "6", Pid = "1", Name = "Western Australia" },
+        new ListData { Id = "7", Name = "Brazil", HasChild = true },
+        new ListData { Id = "8", Pid = "7", Name = "Parana" },
+        new ListData { Id = "9", Pid = "7", Name = "Ceara" },
+        new ListData { Id = "10", Pid = "7", Name = "Acre" },
+        new ListData { Id = "11", Name = "China", HasChild = true },
+        new ListData { Id = "12", Pid = "11", Name = "Guangzhou" },
+        new ListData { Id = "13", Pid = "11", Name = "Shanghai" },
+        new ListData { Id = "14", Pid = "11", Name = "Beijing" },
+        new ListData { Id = "15", Pid = "11", Name = "Shantou" },
+        new ListData { Id = "16", Name = "France", HasChild = true },
+        new ListData { Id = "17", Pid = "16", Name = "Pays de la Loire" },
+        new ListData { Id = "18", Pid = "16", Name = "Aquitaine" },
+        new ListData { Id = "19", Pid = "16", Name = "Brittany" },
+        new ListData { Id = "20", Pid = "16", Name = "Lorraine" },
+        new ListData { Id = "21", Name = "India", HasChild = true },
+        new ListData { Id = "22", Pid = "21", Name = "Assam" },
+        new ListData { Id = "23", Pid = "21", Name = "Bihar" },
+        new ListData { Id = "24", Pid = "21", Name = "Tamil Nadu" }
+    };
+
+    private void ChangeType(MenuEventArgs args)
+    {
+        switch (args.Item.Text)
+        {
+            case "Starts With":
+                Type = Syncfusion.Blazor.DropDowns.FilterType.StartsWith;
+                FilterTypeText = "Starts With";
+                break;
+            case "Ends With":
+                Type = Syncfusion.Blazor.DropDowns.FilterType.EndsWith;
+                FilterTypeText = "Ends With";
+                break;
+            case "Contains":
+                Type = Syncfusion.Blazor.DropDowns.FilterType.Contains;
+                FilterTypeText = "Contains";
+                break;
+
+        }
+    }
+    private class ProductCategory
+    {
+        public int? Id { get; set; }
+        public string? Name { get; set; }
+        public int? ParentId { get; set; }
+        public bool HasChild { get; set; }
+        public bool Expanded { get; set; }
+    }
+    private class ListData
+    {
+        public string? Id { get; set; }
+        public string? Pid { get; set; }
+        public string? Name { get; set; }
+        public bool HasChild { get; set; }
+        public bool Expanded { get; set; }
+    }
+}

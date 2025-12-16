@@ -1,0 +1,254 @@
+@page "/gantt-chart/timezone"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using BlazorDemos.Pages.GanttChart.Data
+
+@inject IJSRuntime JsInterop
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates how to plan and coordinate a multi region marketing campaign using the <a class="e-gantt-timezone-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                                                           href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                                                           target="_blank">Blazor Gantt Chart</a>. It highlights the automatic adjustment of task dates and times based on the selected timezone, ensuring consistent scheduling accuracy across different geographic locations.
+    </p>
+    <p>
+		The <a class="e-gantt-timezone-reference-link" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_Timezone" target="_blank">Timezone</a> property ensures that all date related elements such as task start and end dates, baselines, indicators, and event markers are displayed according to the selected timezone. A dropdown allows switching between timezones at runtime, instantly updating the chart without requiring a page reload.
+    </p>
+    <p>
+        The component also handles Daylight Saving Time (DST) automatically, maintaining schedule accuracy throughout the year. This feature is especially useful for teams operating across multiple regions, enabling seamless coordination with consistent time references.
+    </p>
+    <p>
+		For further details, refer to the <a class="e-gantt-timezone-reference-link" aria-label="Navigate to the documentation for timezone support in Gantt Chart" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/timezone">
+            documentation</a>.
+    </p>
+</SampleDescription>
+
+<div class="control-section e-gantt-timezone-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Toolbar="@ToolbarItems" DateFormat="MMM dd, hh:mm tt" IncludeWeekend="true"
+			 DurationUnit="DurationUnit.Hour" Height="550px" Timezone="@TimeZone" Width="100%" AllowSelection="true" TreeColumnIndex="1"
+			 ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+						 Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100" Visible="false"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Task Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+		</GanttColumns>
+		<GanttDayWorkingTimeCollection>
+			<GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
+		</GanttDayWorkingTimeCollection>
+		<GanttEventMarkers>
+			<GanttEventMarker Day="new DateTime(2025, 10, 10, 11, 0, 0)" Label="Executive Brief & Stakeholder Sync"></GanttEventMarker>
+			<GanttEventMarker Day="new DateTime(2025, 10, 12, 03, 0, 0)" Label="Creative & Copy Approved"></GanttEventMarker>
+			<GanttEventMarker Day="new DateTime(2025, 10, 12, 07, 0, 0)" Label="First Ad Campaign Live"></GanttEventMarker>
+			<GanttEventMarker Day="new DateTime(2025, 10, 13, 10, 0, 0)" Label="Campaign Wrap-Up"></GanttEventMarker>
+		</GanttEventMarkers>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="TimezoneData.TaskData"></GanttLabelSettings>
+		<GanttSplitterSettings ColumnIndex="2"></GanttSplitterSettings>
+		<GanttTimelineSettings TimelineViewMode="@TimelineViewMode" TimelineUnitSize="50">
+			<GanttTopTierSettings Unit="TimelineViewMode.Day" Format="@TopFormat"></GanttTopTierSettings>
+			<GanttBottomTierSettings Unit="TimelineViewMode.Hour" Format="@BottomFormat"></GanttBottomTierSettings>
+		</GanttTimelineSettings>
+	</SfGantt>
+</div>
+@code{
+    /// <summary>
+    /// Initializes the sample by loading task data and configuring the toolbar.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        TaskCollection = TimezoneData.GetTimezoneData().ToList();
+        ToolbarItems = new List<Object>()
+        {
+            new ItemModel
+            {
+                Id = "TimezoneLable",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "showhide");
+                    builder.AddAttribute(2, "style", "margin-right: 10px;");
+                    builder.AddContent(2, "Time Zone:");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "TimeZoneDropDown",
+                Align = ItemAlign.Left,
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfDropDownList<string, TimeZoneFields>>(0);
+                    builder.AddAttribute(1, "Width", "350px");
+                    builder.AddAttribute(2, "DataSource", TimeZoneValues);
+                    builder.AddAttribute(3, "Placeholder", "Select a Timezone");
+                    builder.AddAttribute(4, "Value", selectedTimeZone);
+                    builder.AddAttribute(5, "ValueChanged", EventCallback.Factory.Create<string>(this, v => selectedTimeZone = v));
+                    builder.AddAttribute(6, "Text", "Text");
+                    builder.AddAttribute(7, "ValueField", "Id");
+                    builder.AddAttribute(8, "TItem", typeof(TimeZoneFields));
+                    builder.AddAttribute(9, "ChildContent", (RenderFragment)(childBuilder =>
+                    {
+                        childBuilder.OpenComponent<DropDownListFieldSettings>(0);
+                        childBuilder.AddAttribute(1, "Text", "Text");
+                        childBuilder.AddAttribute(2, "Value", "Id");
+                        childBuilder.CloseComponent();
+
+                        childBuilder.OpenComponent<DropDownListEvents<string, TimeZoneFields>>(3);
+                        childBuilder.AddAttribute(4, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<string, TimeZoneFields>>(this, OnTimeZoneChanged));
+                        childBuilder.CloseComponent();
+                    }));
+                    builder.CloseComponent();
+                })
+            },
+            new ItemModel
+            {
+                TooltipText = "Previous time span",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfButton>(0);
+                    builder.AddAttribute(1, "CssClass", "previous-timespan");
+                    builder.AddAttribute(2, "IconCss", "e-icons e-chevron-left");
+                    builder.AddAttribute(3, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, (MouseEventArgs e) => ButtonClickHandler("PreviousTimeSpan")));
+                    builder.AddAttribute(4, "Id", "previous-btn");
+                    builder.CloseComponent();
+                }),
+                Align = ItemAlign.Right
+            },
+            new ItemModel
+            {
+                Type=ItemType.Separator,
+                Align = ItemAlign.Right
+            },
+            new ItemModel
+            {
+                Id = "TimelineMode",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfDropDownList<string, string>>(0);
+                    builder.AddAttribute(1, "Width", "100px");
+                    builder.AddAttribute(2, "DataSource", timelineModeValues);
+                    builder.AddAttribute(3, "Value", selectedTimelineMode);
+                    builder.AddAttribute(4, "ValueChanged", EventCallback.Factory.Create<string>(this, v => selectedTimelineMode = v));
+                    builder.AddAttribute(5, "ChildContent", (RenderFragment)(childBuilder =>
+                    {
+                        childBuilder.OpenComponent<DropDownListEvents<string, string>>(0);
+                        childBuilder.AddAttribute(1, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<string, string>>(this, OnTimeLineModeChanged));
+                        childBuilder.CloseComponent();
+                    }));
+                    builder.CloseComponent();
+                }),
+                Align = ItemAlign.Right
+            },
+            new ItemModel
+            {
+                Type = ItemType.Separator,
+                Align = ItemAlign.Right
+            },
+            new ItemModel
+            {
+                TooltipText = "Next time span",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<Syncfusion.Blazor.Buttons.SfButton>(0);
+                    builder.AddAttribute(1, "CssClass", "next-timespan");
+                    builder.AddAttribute(2, "IconCss", "e-icons e-chevron-right");
+                    builder.AddAttribute(3, "OnClick", EventCallback.Factory.Create<MouseEventArgs>(this, (MouseEventArgs e) => ButtonClickHandler("NextTimeSpan")));
+                    builder.AddAttribute(4, "Id", "next-btn");
+                    builder.CloseComponent();
+                }),
+                Align = ItemAlign.Right
+            },
+        };
+        @*Hidden:Lines*@
+        SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+        @*End:Hidden*@
+    }
+    @*Hidden:Lines*@
+    private async void OnTouchMousePreferenceChanged()
+    {
+        await GanttInstance.RefreshAsync();
+        await GanttInstance.CallStateHasChangedAsync();
+    }
+
+    public void Dispose()
+    {
+        SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+    }
+    @*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-timezone-sample {
+		padding: 20px;
+	}
+
+		.e-gantt-timezone-sample .showhide {
+			font-size: 14px;
+			font-weight: 700;
+			margin-bottom: 0px;
+		}
+
+		.e-gantt-timezone-sample .previous-timespan,
+		.next-timespan {
+			height: 32px !important;
+			width: 32px !important;
+			padding: 0 !important;
+		}
+
+		.e-gantt-timezone-sample .e-bigger .previous-timespan,
+		.e-bigger .next-timespan {
+			height: 40px !important;
+			width: 40px !important;
+			padding: 0 !important;
+		}
+
+		.e-gantt-timezone-sample .e-bigger .previous-timespan {
+			margin-left: 10px !important;
+		}
+
+		.e-gantt-timezone-sample .bootstrap5\.3 .previous-timespan .e-icons,
+		.bootstrap5\.3 .next-timespan .e-icons,
+		.bootstrap5 .previous-timespan .e-icons,
+		.bootstrap5 .next-timespan .e-icons {
+			color: white;
+		}
+
+		.e-gantt-timezone-sample .e-bigger .showhide {
+			font-size: 16px;
+			font-weight: 700;
+		}
+
+		.e-gantt-timezone-reference-link {
+			text-decoration: none !important;
+		}
+
+		.e-gantt-timezone-reference-link:hover,
+		.e-gantt-timezone-reference-link:focus {
+			text-decoration: underline !important;
+		}
+</style>
+
+<script>
+	window.removeFocus = function (id) {
+		var btn = document.getElementById(id);
+		if (btn) {
+			btn.blur();
+		}
+	};
+</script>

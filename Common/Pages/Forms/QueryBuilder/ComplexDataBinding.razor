@@ -1,0 +1,97 @@
+@page "/query-builder/complex-databinding"
+
+@using Syncfusion.Blazor.QueryBuilder
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the Complex Databinding capabilities of the Query Builder component, which allows users to work with structured and hierarchical data sources. In this mode, users can select items from a predefined hierarchical list of options, enabling the creation of complex queries that reflect nested relationships and multi-level data structures.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>More information about the Blazor QueryBuilder component can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/query-builder/getting-started/" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+
+<SfQueryBuilder TValue="ComplexModel" Separator="." @ref="QueryBuilderReference">
+    <QueryBuilderRule Condition="or" Rules="@InitialRules"></QueryBuilderRule>
+    <QueryBuilderColumns>
+        <QueryBuilderColumn Field="Employee" Label="Employee" Type="ColumnType.Object">
+            <QueryBuilderColumns>
+                <QueryBuilderColumn Field="ID" Label="Employee ID" Type="ColumnType.Number"></QueryBuilderColumn>
+                <QueryBuilderColumn Field="DateOfBirth" Label="Date of Birth" Type="ColumnType.Date"></QueryBuilderColumn>
+                <QueryBuilderColumn Field="HireDate" Label="Hire Date" Type="ColumnType.Date"></QueryBuilderColumn>
+                <QueryBuilderColumn Field="Salary" Label="Salary" Type="ColumnType.Number"></QueryBuilderColumn>
+                <QueryBuilderColumn Field="Age" Label="Age" Type="ColumnType.Number"></QueryBuilderColumn>
+                <QueryBuilderColumn Field="JobTitle" Label="Title" Type="ColumnType.String"></QueryBuilderColumn>
+            </QueryBuilderColumns>
+        </QueryBuilderColumn>
+        <QueryBuilderColumn Field="FullName" Label="Name" Type="ColumnType.Object">
+            <QueryBuilderColumns>
+                <QueryBuilderColumn Field="FirstName" Label="First Name" Type="ColumnType.String"></QueryBuilderColumn>
+                <QueryBuilderColumn Field="LastName" Label="Last Name" Type="ColumnType.String"></QueryBuilderColumn>
+            </QueryBuilderColumns>
+        </QueryBuilderColumn>
+        <QueryBuilderColumn Field="Location" Label="Country" Type="ColumnType.Object">
+            <QueryBuilderColumns>
+                <QueryBuilderColumn Field="StateDetails" Label="State" Type="ColumnType.Object">
+                    <QueryBuilderColumns>
+                        <QueryBuilderColumn Field="CityName" Label="City" Type="ColumnType.String"></QueryBuilderColumn>
+                        <QueryBuilderColumn Field="PostalCode" Label="Zip Code" Type="ColumnType.String"></QueryBuilderColumn>
+                    </QueryBuilderColumns>
+                </QueryBuilderColumn>
+                <QueryBuilderColumn Field="RegionName" Label="Region" Type="ColumnType.String"></QueryBuilderColumn>
+                <QueryBuilderColumn Field="CountryName" Label="Country Name" Type="ColumnType.String"></QueryBuilderColumn>
+            </QueryBuilderColumns>
+        </QueryBuilderColumn>
+    </QueryBuilderColumns>
+</SfQueryBuilder>
+
+@code {
+    SfQueryBuilder<ComplexModel> QueryBuilderReference { get; set; }
+
+    List<RuleModel> InitialRules { get; set; } = new List<RuleModel>
+    {
+        new RuleModel { Field = "Employee.ID", Label = "Employee ID", Type = "Number", Operator = "equal", Value = 1001 },
+        new RuleModel { Field = "FullName.FirstName", Label = "First Name", Type = "String", Operator = "equal", Value = "Mark" },
+        new RuleModel { Field = "Location.StateDetails.CityName", Label = "City", Type = "String", Operator = "equal", Value = "Jersey City" }
+    };
+
+    public class EmployeeDetails
+    {
+        public int ID { get; set; }
+        public DateTime DateOfBirth { get; set; }
+        public DateTime HireDate { get; set; }
+        public int Salary { get; set; }
+        public int Age { get; set; }
+        public string JobTitle { get; set; }
+    }
+
+    public class LocationDetails
+    {
+        public StateDetails StateDetails { get; set; }
+        public string RegionName { get; set; }
+        public string CountryName { get; set; }
+    }
+
+    public class StateDetails
+    {
+        public string CityName { get; set; }
+        public string PostalCode { get; set; }
+    }
+
+    public class FullNameDetails
+    {
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+    }
+
+    public class ComplexModel
+    {
+        public EmployeeDetails Employee { get; set; }
+        public FullNameDetails FullName { get; set; }
+        public LocationDetails Location { get; set; }
+    }
+
+}

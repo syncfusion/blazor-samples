@@ -1,0 +1,395 @@
+@page "/tree-grid/tree-grid-row-template"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Popups
+
+@*Hidden:Lines*@
+@inject NavigationManager UriHelper
+@using ProjectPortfolioData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates how to customize each row using a row template in the Tree Grid. It allows displaying data in a personalized layout with custom content and styling.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        Row templates are configured using the <a aria-label="Navigate to the RowTemplate property reference for Tree Grid templates" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridTemplates.html#Syncfusion_Blazor_TreeGrid_TreeGridTemplates_RowTemplate">RowTemplate</a> property within the <a aria-label="Navigate to the class reference for Tree Grid templates" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridTemplates.html">TreeGridTemplates</a> component. To maintain the hierarchical structure and expand/collapse behavior, the tree column must be defined using the <a aria-label="Navigate to the class reference for RowTemplateTreeColumn" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.RowTemplateTreeColumn.html">RowTemplateTreeColumn</a> component.
+    </p>
+    <p>
+        In this demo, the row template is used to customize the layout of each row by combining multiple fields into a structured design:
+    </p>
+    <ul>
+        <li>
+            The <b>"Project"</b> column is set as the tree column using <code>RowTemplateTreeColumn</code> and displays an icon, project name, owner, and department.
+        </li>
+        <li>
+            The <b>"Status / Tags"</b> column includes a status chip and tag indicators.
+        </li>
+        <li>
+            The <b>"Timeline"</b> column shows the start and end dates.
+        </li>
+        <li>
+            The <b>"Progress"</b> column displays a progress bar based on calculated values.
+        </li>
+        <li>
+            The <b>"Budget"</b> column shows the spent and total budget with percentage usage.
+        </li>
+        <li>
+            The <b>"Actions"</b> column includes a dropdown to update status and buttons to open or hold the project.
+        </li>
+    </ul>
+
+    <p>
+        More information about auto wrap can be found in this <a aria-label="Navigate to the documentation for Row Template in Tree Grid component" target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/rows/row-template">documentation</a> section.
+    </p>
+</ActionDescription>
+
+
+@*Hidden:Lines*@
+<style>
+    #treeRowTemplate .e-treecolumn-container .e-icons.e-treegridcollapse {
+        padding-left:5px !important;
+    }
+
+    #treeRowTemplate .e-treecolumn-container .e-icons.e-treegridexpand{
+        padding-bottom: 35px !important;
+    }
+    .pf-tree {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .pf-icon {
+        width: 28px;
+        height: 28px;
+        border-radius: 6px;
+        background: #0ea5e9;
+        color: #fff;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+    }
+
+    .pf-title {
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .pf-sub {
+        color: #6b7280;
+        font-size: 12px;
+    }
+
+    .chip {
+        display: inline-block;
+        padding: 3px 10px;
+        border-radius: 9999px;
+        font-size: 11px;
+        border: 1px solid transparent;
+    }
+
+    .st-planned {
+        background: #eef2ff;
+        color: #4338ca;
+        border-color: #c7d2fe;
+    }
+
+    .st-active {
+        background: #ecfeff;
+        color: #0e7490;
+        border-color: #a5f3fc;
+    }
+
+    .st-atrisk {
+        background: #fff7ed;
+        color: #b45309;
+        border-color: #fed7aa;
+    }
+
+    .st-onhold {
+        background: #fef2f2;
+        color: #991b1b;
+        border-color: #fecaca;
+    }
+
+    .st-done {
+        background: #ecfdf5;
+        color: #065f46;
+        border-color: #a7f3d0;
+    }
+
+    .bar {
+        width: 160px;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .fill {
+        height: 100%;
+        background: linear-gradient(90deg,#22c55e,#84cc16);
+    }
+
+    .burn {
+        width: 160px;
+        height: 8px;
+        background: #e5e7eb;
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+    .burn-fill.ok {
+        background: #60a5fa;
+    }
+
+    .burn-fill.warn {
+        background: #f59e0b;
+    }
+
+    .burn-fill.danger {
+        background: #ef4444;
+    }
+
+    .rowcell {
+        padding: 10px 8px;
+        border-bottom: 0.5px solid #e5e7eb;
+    }
+
+    .treecell {
+        padding-left: 0;
+        border-bottom: 0.5px solid #e5e7eb;
+    }
+
+    .tags {
+        color: #6b7280;
+        font-size: 12px;
+        display: flex;
+        gap: 6px;
+        flex-wrap: wrap;
+    }
+
+    .tag-chip {
+        display: inline-block;
+        padding: 3px 8px;
+        border-radius: 12px;
+        background: #f3f4f6;
+        color: #374151;
+        border: 1px solid #e5e7eb;
+    }
+
+    .actions {
+        display: flex;
+        gap: 8px;
+    }
+
+    .btn-sm {
+        --height: 26px;
+        --padding: 0 10px;
+        font-size: 12px;
+    }
+
+    /* Align template content with expand/collapse icon for this page only */
+    .portfolio-rt .e-treecolumn-container {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+        .portfolio-rt .e-treecolumn-container .pf-tree {
+            margin: 0;
+        }
+</style>
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row portfolio-rt">
+            <SfTreeGrid ID="treeRowTemplate" Height="380" AllowPaging AllowSorting DataSource="@Items" IdMapping="Id" ParentIdMapping="ParentId" TreeColumnIndex="0" RowHeight="90" GridLines="@GridLine.Horizontal">
+                <TreeGridPageSettings PageSize="8"></TreeGridPageSettings>
+                <TreeGridTemplates>
+                    <RowTemplate>
+                        @{
+                            var p = context as ProjectItem;
+                        }
+                        <!-- Tree column: icon + title + owner/department -->
+                        <td class="treecell">
+                            <RowTemplateTreeColumn>
+                                <div class="pf-tree">
+                                    <div class="pf-icon">@IconFor(p)</div>
+                                    <div>
+                                        <div class="pf-title">@p?.Name</div>
+                                        <div class="pf-sub">@p?.Owner • @p?.Department</div>
+                                    </div>
+                                </div>
+                            </RowTemplateTreeColumn>
+                        </td>
+                        <!-- Status + Tags -->
+                        <td class="rowcell">
+                            <div style="display:flex; gap:10px; align-items:center;">
+                                <span class="chip @StatusClass(p?.Status)">@p?.Status</span>
+                                @if (!string.IsNullOrWhiteSpace(p?.Tags))
+                                {
+                                    <div class="tags">
+                                        @foreach (var tg in p.Tags.Split(',', StringSplitOptions.RemoveEmptyEntries))
+                                        {
+                                            <span class="tag-chip">@tg.Trim()</span>
+                                        }
+                                    </div>
+                                }
+                            </div>
+                        </td>
+                        <!-- Timeline -->
+                        <td class="rowcell">
+                            <div class="pf-sub">@p?.Start.ToShortDateString() → @p?.End.ToShortDateString()</div>
+                        </td>
+                        <!-- Progress (computed from time and spend) -->
+                        <td class="rowcell">
+                            @{
+                                var prog = GetProgress(p);
+                            }
+                            <div class="bar"><div class="fill" style="width:@prog%"></div></div>
+                            <div class="pf-sub">@prog% complete</div>
+                        </td>
+                        <!-- Budget burn -->
+                        <td class="rowcell">
+                            @{
+                                var pct = BurnInfoDisplay(p);
+                            }
+
+                            <div class="pf-sub">$@p?.Spent.ToString("N0") / $@p?.Budget.ToString("N0") (@pct%)</div>
+                        </td>
+                        <!-- Inline actions -->
+                        <td class="rowcell">
+                            <div class="actions">
+                                <SfDropDownList TItem="StatusItem" TValue="string" Width="200px" @bind-Value="p.Status" DataSource="@StatusOptions">
+                                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                                <SfButton CssClass="e-primary btn-sm" Content="Open" OnClick="@(() => Open(p))" />
+                                <SfButton CssClass="e-normal btn-sm" Content="Hold" OnClick="@(() => Hold(p))" />
+                            </div>
+                        </td>
+                    </RowTemplate>
+                </TreeGridTemplates>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="Name" HeaderText="Project" Width="300"></TreeGridColumn>
+                    <TreeGridColumn Field="Status" HeaderText="Status / Tags" Width="260"></TreeGridColumn>
+                    <TreeGridColumn Field="Start" HeaderText="Timeline" Width="180" Type=ColumnType.Date Format="d"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="180"></TreeGridColumn>
+                    <TreeGridColumn Field="Budget" HeaderText="Budget" Width="200"></TreeGridColumn>
+                    <TreeGridColumn HeaderText="Actions" Width="250"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+            <SfDialog @bind-Visible="IsDialogOpen" Header="Project Details" Width="400px" Height="auto" IsModal="true" ShowCloseIcon>
+                @if (CurrentItem is not null)
+                {
+                    <div style="display:flex; flex-direction:column; gap:10px;">
+                        <div><strong>Name:</strong> @CurrentItem.Name</div>
+                        <div><strong>Owner:</strong> @CurrentItem.Owner</div>
+                        <div><strong>Department:</strong> @CurrentItem.Department</div>
+                        <div><strong>Timeline:</strong> @CurrentItem.Start.ToShortDateString() → @CurrentItem.End.ToShortDateString()</div>
+                        <div>
+                            <strong>Status:</strong>
+                            <SfDropDownList TItem="StatusItem" TValue="string" Width="180px" @bind-Value="CurrentItem.Status" DataSource="@StatusOptions">
+                                <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </div>
+                        <div>
+                            <strong>Budget:</strong> $@CurrentItem.Spent.ToString("N0") / $@CurrentItem.Budget.ToString("N0")
+                        </div>
+                    </div>
+                }
+                <DialogButtons>
+                    <DialogButton Content="Close" IsPrimary OnClick="@(() => IsDialogOpen = false)" />
+                </DialogButtons>
+            </SfDialog>
+
+        </div>
+    </div>
+</div>
+
+
+@code {
+    public class StatusItem { public string Text { get; set; } = string.Empty; public string Value { get; set; } = string.Empty; }
+
+    private List<ProjectItem> Items { get; set; } = new();
+    private readonly List<StatusItem> StatusOptions = new() {
+        new StatusItem{ Text = "Planned", Value = "Planned" },
+        new StatusItem{ Text = "Active", Value = "Active" },
+        new StatusItem{ Text = "At Risk", Value = "At Risk" },
+        new StatusItem{ Text = "On Hold", Value = "On Hold" },
+        new StatusItem{ Text = "Done", Value = "Done" }
+    };
+    private bool IsDialogOpen = false;
+    private ProjectItem? CurrentItem;
+
+    protected override void OnInitialized()
+    {
+        Items = ProjectItem.Get();
+    }
+
+    private string IconFor(ProjectItem? p)
+    {
+        if (p == null) return "P";
+        var name = p.Name?.Trim();
+        if (string.IsNullOrEmpty(name)) return "P";
+        // Return initials
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length == 1) return parts[0].Substring(0, Math.Min(2, parts[0].Length)).ToUpperInvariant();
+        return ($"{parts[0][0]}{parts[^1][0]}").ToUpperInvariant();
+    }
+
+    private string StatusClass(string? s)
+    {
+        var v = (s ?? string.Empty).Replace(" ", string.Empty).ToLowerInvariant();
+        return v switch
+        {
+            "active" => "st-active",
+            "atrisk" => "st-atrisk",
+            "onhold" => "st-onhold",
+            "done" => "st-done",
+            _ => "st-planned"
+        };
+    }
+
+    private int BurnInfoDisplay(ProjectItem? p)
+    {
+        if (p == null || p.Budget <= 0) return 0;
+        var pct = (int)Math.Clamp((double)(p.Spent / p.Budget) * 100d, 0d, 100d);
+        return pct;
+    }
+
+    private void Open(ProjectItem? p)
+    {
+        if (p is null) return;
+        CurrentItem = p;
+        IsDialogOpen = true;
+    }
+
+
+    private int GetProgress(ProjectItem? p)
+    {
+        if (p is null) return 0;
+        var totalDays = Math.Max(1, (p.End - p.Start).Days);
+        var elapsedDays = Math.Clamp((DateTime.Today - p.Start).Days, 0, totalDays);
+        var timePct = (int)Math.Clamp((double)elapsedDays / totalDays * 100d, 0d, 100d);
+        var costPct = p.Budget > 0 ? (int)Math.Clamp((double)(p.Spent / p.Budget) * 100d, 0d, 100d) : 0;
+        var final = (int)Math.Round((timePct * 0.6 + costPct * 0.4));
+        if (final >= 100) p.Status = "Done";
+        return Math.Clamp(final, 0, 100);
+    }
+
+    private void Hold(ProjectItem? p)
+    {
+        if (p is null) return;
+        p.Status = "On Hold";
+        StateHasChanged();
+    }
+}

@@ -1,0 +1,122 @@
+﻿@page "/gantt-chart/undo-redo"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the Undo and Redo functionality of the <a class="gantt-undo-redo-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component" href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart" target="_blank">Blazor Gantt Chart</a> in a Software Development Lifecycle scenario. The feature makes it possible to safely revert or reapply recent changes during planning and execution, ensuring accurate timelines and organized workflows.
+        <ul>
+            <li><strong>Undo:</strong> Reverts the most recent change.</li>
+            <li><strong>Redo:</strong> Restores a change that was undone.</li>
+        </ul>
+    </p>
+    <p>
+        Both options are available through toolbar buttons or keyboard shortcuts:
+        <ul>
+            <li><strong>Windows:</strong> <kbd>Ctrl</kbd> + <kbd>Z</kbd> (Undo), <kbd>Ctrl</kbd> + <kbd>Y</kbd> (Redo).</li>
+            <li><strong>macOS:</strong> <kbd>Command</kbd> + <kbd>Z</kbd> (Undo), <kbd>Command</kbd> + <kbd>Shift</kbd> + <kbd>Z</kbd> (Redo).</li>
+        </ul>
+    </p>
+    <p>
+        The Gantt Chart tracks and manages a wide range of actions, including:
+        <ul>
+            <li><strong>Task operations:</strong> Editing, adding, and deleting tasks.</li>
+            <li><strong>Dependency and timeline updates:</strong> Modifying task relationships and adjusting schedules.</li>
+            <li><strong>Column operations:</strong> Sorting, reordering, resizing, and saving column state.</li>
+            <li><strong>View operations:</strong> Searching, filtering, zooming in/out, navigating timespans, resizing splitters, and expanding or collapsing rows.</li>
+        </ul>
+    </p>
+    <p>
+        The Blazor Gantt Chart enables undo and redo actions through the <a class="gantt-undo-redo-reference-link" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html" target="_blank">UndoRedoActions</a> API.
+        <ul>
+            <li>The feature is enabled by setting the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html" target="_blank">EnableUndoRedo</a> property to <strong>true</strong>.</li>
+            <li>The number of steps that can be undone or redone is controlled by the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html" target="_blank">MaxUndoRedoSteps</a> property.</li>
+        </ul>
+    </p>
+    <p>
+        With these settings, changes made in the chart can be reverted or reapplied seamlessly, ensuring timelines remain accurate and workflows stay consistent.
+    </p>
+    <p>
+        For detailed configuration and customization guidance, refer to the <a class="gantt-undo-redo-reference-link" aria-label="Navigate to the documentation for undo redo in Gantt Chart" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/overview">documentation</a>.
+    </p>
+</SampleDescription>
+<div class="control-section e-gantt-undo-redo-sample">
+    <SfGantt @ref="GanttInstance" ID="GanttChart" DataSource="@TaskCollection" Height="500px" Width="100%" HighlightWeekends="true" EnableUndoRedo="true" UndoRedoActions="@undoRedoActions" ProjectStartDate="new DateTime(2025, 11, 02)" ProjectEndDate="new DateTime(2025, 12, 12)"
+             Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Undo", "Redo", "ZoomIn", "ZoomOut", "ZoomToFit", "PrevTimeSpan", "NextTimeSpan" })"
+            TreeColumnIndex="1" EnableContextMenu="true" AllowSorting="true" ShowColumnMenu="true" AllowResizing="true" AllowReordering="true" AllowFiltering="true" ScrollToTaskbarOnClick="true">
+            <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+                Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+            <GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+            <GanttColumns>
+                <GanttColumn Field="TaskId" HeaderText="ID"></GanttColumn>
+                <GanttColumn Field="TaskName" HeaderText="Task Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+                <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                <GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+                <GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+            </GanttColumns>
+            <GanttSplitterSettings ColumnIndex="2"></GanttSplitterSettings>
+        <GanttLabelSettings RightLabel="TaskName" TValue="UndoRedoData.TaskModel"></GanttLabelSettings>
+    </SfGantt>
+</div>
+<style>
+    .container-fluid {
+        padding: 0px !important;
+    }
+
+    .e-gantt-undo-redo-sample {
+        padding: 20px;
+    }
+
+    .gantt-undo-redo-reference-link {
+        text-decoration: none !important;
+    }
+
+    .gantt-undo-redo-reference-link:hover,
+    .gantt-undo-redo-reference-link:focus {
+        text-decoration: underline !important;
+    }
+</style>
+@code{
+    public SfGantt<UndoRedoData.TaskModel>? GanttInstance { get; set; }
+    public List<UndoRedoData.TaskModel> TaskCollection { get; set; } = new();
+
+    /// <summary>
+    /// Initializes the component by setting up the task collection and toolbar items.
+    /// </summary>
+    private List<GanttUndoRedoAction> undoRedoActions = new List<GanttUndoRedoAction> {
+        GanttUndoRedoAction.Sort, GanttUndoRedoAction.Add, GanttUndoRedoAction.ColumnReorder, GanttUndoRedoAction.TaskbarEdit,
+        GanttUndoRedoAction.ColumnState, GanttUndoRedoAction.Edit, GanttUndoRedoAction.Filter, GanttUndoRedoAction.NextTimeSpan, GanttUndoRedoAction.PreviousTimeSpan, GanttUndoRedoAction.Search,GanttUndoRedoAction.Delete,
+        GanttUndoRedoAction.ZoomIn, GanttUndoRedoAction.ZoomOut, GanttUndoRedoAction.ZoomToFit,GanttUndoRedoAction.Collapse,GanttUndoRedoAction.Expand,GanttUndoRedoAction.SplitterResize
+    };
+
+    /// <summary>
+    /// Initializes the UndoRedo sample with Gantt task data.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        this.TaskCollection = UndoRedoData.GetUndoRedoData();
+        @*Hidden:Lines*@
+        SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+        @*End:Hidden*@
+    }
+    @*Hidden:Lines*@
+    private async void OnTouchMousePreferenceChanged()
+    {
+        await GanttInstance.RefreshAsync();
+        await GanttInstance.CallStateHasChangedAsync();
+    }
+
+    public void Dispose()
+    {
+        SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+    }
+    @*End:Hidden*@
+}

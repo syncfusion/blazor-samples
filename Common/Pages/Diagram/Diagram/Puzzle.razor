@@ -1,0 +1,754 @@
+@page "/diagram/puzzle"
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Buttons
+@using System.Timers
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject IJSRuntime JS;
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>
+        This sample showcases an interactive sliding image puzzle game built using the Syncfusion<sup>®</sup> Blazor Diagram component, transforming images into a 4x4 grid of draggable tiles, with features like move and time tracking.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This interactive 4x4 sliding image puzzle challenges users to reconstruct an image by moving tiles adjacent to an empty space. The game dynamically tracks moves and time, offering multiple image themes, pause/resume functionality, and a "Clue" option. A congratulatory message with statistics appears upon puzzle completion.
+    </p>
+</ActionDescription>
+
+<div class="puzzle">
+    <div class="@ClassNames @CssClass">
+        <div id="loader" class="@LoadingClass">
+            <svg class="circular prerender-style" height="40" width="40" role="progressbar">
+                <circle class="path" cx="25" cy="25" r="20" fill="none" stroke-width="6" stroke-miterlimit="10"></circle>
+            </svg>
+        </div>
+        <div class="caption">
+            @{ var loading_text = "Loading Syncfusion Blazor Demos…";}
+            <h4 class="my-4" id="Loading-Text">@loading_text</h4>
+        </div>
+    </div>
+    @*End:Hidden*@
+    <SfDiagramComponent @ref="Diagram"
+                        Height="800px"
+                        Nodes="Nodes"
+                        Constraints="@Constraints"
+                        Created="@OnCreated"
+                        SelectionChanged="OnSelectionChanged">
+        <DiagramTemplates>
+            <NodeTemplate>
+                @if (context is Node node)
+                {
+                    if (node.ID == "moves")
+                    {
+                        <div class="moves-counter">
+                            <span class="label">MOVES :</span>
+                            <span class="count">@MoveCount</span>
+                        </div>
+                    }
+                    if (node.ID == "time")
+                    {
+                        <div class="timer">
+                            <span class="label">TIME :</span>
+                            <span class="time-display">@TimeDisplay</span>
+                        </div>
+                    }
+                    if (node.ID == "newgame")
+                    {
+                        <button class="new-game-btn" @onclick="NewGame">
+                            <span class="icon">🎮</span>
+                            NEW GAME
+                        </button>
+                    }
+                    if (node.ID == "clue")
+                    {
+                        <button class="clue-btn" @onclick="ToggleClue">
+                            <span class="icon">💡</span>
+                            <span class="text">@(ShowClue ? "HIDE CLUE" : "SHOW CLUE")</span>
+                        </button>
+                    }
+                    if (node.ID == "pause")
+                    {
+                        <button class="pause-btn" id="pauseBtn" @onclick="TogglePause">
+                            <span class="icon">@(IsPaused ? "▶️" : "⏸️")</span>
+                            <span class="text">@(IsPaused ? "RESUME" : "PAUSE")</span>
+                        </button>
+                    }
+                }
+            </NodeTemplate>
+            <AnnotationTemplate>
+                @if (context is Annotation annotation)
+                {
+                    int pieceNumber = int.Parse(annotation.ID.Substring(10));
+                    <div class="number-badge">@pieceNumber</div>
+                }
+            </AnnotationTemplate>
+        </DiagramTemplates>
+        <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+    </SfDiagramComponent>
+    @if (ShowWinDialog)
+    {
+        <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.7); display: flex; justify-content: center; align-items: center; z-index: 1000;">
+            <div style="background: #2c2c2c; padding: 40px; border-radius: 20px; text-align: center; box-shadow: 0 10px 30px rgba(0,0,0,0.5); color: white; font-family: Arial, sans-serif; position: relative;">
+                <!-- Close Icon -->
+                <div @onclick="CloseWinDialog" style="position: absolute; top: 15px; right: 20px; font-size: 24px; cursor: pointer; color: #ccc; hover: color: white;" title="Close">✕</div>
+                <!-- Celebration Icon -->
+                <div style="font-size: 80px; margin-bottom: 20px;">🎉</div>
+                <!-- Congratulations Text -->
+                <h1 style="color: white; margin-bottom: 20px; font-size: 36px; font-weight: bold;">
+                    Congratulations!
+                </h1>
+                <!-- Steps Text -->
+                <p style="color: #ccc; font-size: 18px; margin-bottom: 30px;">
+                    you did it in @MoveCount steps in @TimeDisplay
+                </p>
+            </div>
+        </div>
+    }
+</div>
+@code {
+    public SfDiagramComponent? Diagram;
+    public DiagramConstraints Constraints = DiagramConstraints.Default & ~DiagramConstraints.UndoRedo;
+    public int[] GameBoard = new int[16];
+    public int EmptyIndex = 0;
+    public int MoveCount = 0;
+    public Timer? GameTimer;
+    public int ElapsedSeconds = 0;
+    public string TimeDisplay = "00:00";
+    public bool IsPaused = false;
+    public bool GameStarted = false;
+    public DiagramObjectCollection<Node>? Nodes = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<NodeBase> NodeBases = new DiagramObjectCollection<NodeBase>();
+    public bool ShowWinDialog = false;
+    public bool ShowClue = false;
+    public bool IsPuzzleSolved;
+    public List<Dictionary<int, string>> ImageCollections = new List<Dictionary<int, string>>();
+    public Dictionary<int, string>? CurrentImageMap;
+    public Random ImageRandom = new Random();
+    public int CurrentThemeIndex = 0;
+
+    public string ClassNames = "overlay visible";
+    public string LoadingClass = "loading visible";
+    public string? DemoName { get; set; }
+    public string? CssClass { get; set; }
+
+    public void OnCreated()
+    {
+        ClassNames = "hidden";
+        LoadingClass = "hidden";
+        FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram!.FitToPage(options);
+    }
+
+    public void CloseWinDialog()
+    {
+        ShowWinDialog = false;
+        NewGame(); // Start a new game automatically
+    }
+
+    public void ShowCompletionMessage()
+    {
+        ShowWinDialog = true;
+        StateHasChanged();
+    }
+
+    public void ToggleClue()
+    {
+        ShowClue = !ShowClue;
+        foreach (Node node in Diagram!.Nodes!)
+        {
+            if (node.Annotations!.Count > 0)
+            {
+                node.Annotations[0].Visibility = ShowClue;
+            }
+        }
+        StateHasChanged();
+    }
+    public void SelectRandomImageCollection()
+    {
+        if (ImageCollections.Count > 1)
+        {
+            int newIndex;
+            do
+            {
+                newIndex = ImageRandom.Next(ImageCollections.Count);
+            }
+            while (newIndex == CurrentThemeIndex); // Keep trying until we get a different index
+            CurrentThemeIndex = newIndex;
+            CurrentImageMap = ImageCollections[CurrentThemeIndex];
+        }
+    }
+
+    public string GetImageSourceForTile(int tileNumber)
+    {
+        return CurrentImageMap != null && CurrentImageMap.ContainsKey(tileNumber)
+            ? CurrentImageMap[tileNumber]
+            : "";
+    }
+
+    protected override void OnInitialized()
+    {
+        InitializeImageCollections();
+        InitializeGame();
+        SetupTimer();
+    }
+
+    public void UpdateVisualFeedback()
+    {
+        foreach (var node in Nodes!)
+        {
+            if (node.ID!.StartsWith("tile"))
+            {
+                int tileNumber = int.Parse(node.ID.Substring(4));
+                int tileIndex = Array.IndexOf(GameBoard, tileNumber);
+                if (CanMoveTile(tileIndex))
+                {
+                    node.Constraints = NodeConstraints.Default | NodeConstraints.Select;
+                }
+                else
+                {
+                    node.Constraints = NodeConstraints.None;
+                }
+            }
+        }
+    }
+
+    public void InitializeImageCollections()
+    {
+        var beachTheme = new Dictionary<int, string>
+{
+        {1, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image1x1.png"},
+        {2, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image2x1.png"},
+        {3, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image3x1.png"},
+        {4, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image4x1.png"},
+        {5, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image1x2.png"},
+        {6, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image3x2.png"},
+        {8, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image4x2.png"},
+        {9, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image1x3.png"},
+        {10, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image2x3.png"},
+        {11, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image3x3.png"},
+        {12, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image4x3.png"},
+        {13, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image1x4.png"},
+        {14, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image2x4.png"},
+        {15, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image3x4.png"},
+        {16, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/image4x4.png"}
+    };
+
+        // Theme 2: Man/Person
+        var manTheme = new Dictionary<int, string>
+{
+        {1, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man1x1.png"},
+        {2, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man2x1.png"},
+        {3, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man3x1.png"},
+        {4, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man4x1.png"},
+        {5, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man1x2.png"},
+        {6, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man2x2.png"},
+        {7, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man3x2.png"},
+        {8, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man4x2.png"},
+        {9, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man1x3.png"},
+        {10, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man2x3.png"},
+        {11, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man3x3.png"},
+        {12, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man4x3.png"},
+        {13, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man1x4.png"},
+        {14, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man2x4.png"},
+        {15, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man3x4.png"},
+        {16, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/man4x4.png"}
+    };
+
+        // Theme 3: Golden Gate Bridge
+        var bridgeTheme = new Dictionary<int, string>
+{
+        {1, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge1x1.png"},
+        {2, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge2x1.png"},
+        {3, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge3x1.png"},
+        {4, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge4x1.png"},
+        {5, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge1x2.png"},
+        {6, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge2x2.png"},
+        {7, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge3x2.png"},
+        {8, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge4x2.png"},
+        {9, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge1x3.png"},
+        {10, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge2x3.png"},
+        {11, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge3x3.png"},
+        {12, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge4x3.png"},
+        {13, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge1x4.png"},
+        {14, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge2x4.png"},
+        {15, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge3x4.png"},
+        {16, "https://cdn.syncfusion.com/blazor/images/diagram/puzzle/bridge4x4.png"}
+    };
+
+        // Add all themes to the collection
+        ImageCollections.Add(beachTheme);
+        ImageCollections.Add(manTheme);
+        ImageCollections.Add(bridgeTheme);
+
+        // Set initial theme (first one)
+        CurrentImageMap = ImageCollections[0];
+        CurrentThemeIndex = 0;
+    }
+
+    public void CreateNodes()
+    {
+        Nodes!.Clear();
+        Node backgroundNode = new Node()
+        {
+            ID = "backgroundNode",
+            OffsetX = 788,
+            OffsetY = 392,
+            Height = 755,
+            Width = 639,
+            Style = new ShapeStyle()
+            {
+                Fill = "#B0C4DE",
+                Opacity = 0.5,
+            },
+            Constraints = NodeConstraints.None,
+            Shape = new BasicShape() { Type = NodeShapes.Basic, Shape = NodeBasicShapes.Rectangle, CornerRadius = 5 },
+        };
+        Nodes.Add(backgroundNode);
+
+        Node moveNode = new Node()
+        {
+            ID = "moves",
+            OffsetX = 613,
+            OffsetY = 80,
+            Width = 160,
+            Height = 100,
+            Constraints = NodeConstraints.None,
+            Shape = new Shape() { Type = NodeShapes.HTML },
+        };
+        Nodes.Add(moveNode);
+
+        Node timeNode = new Node()
+        {
+            ID = "time",
+            OffsetX = 980,
+            OffsetY = 80,
+            Width = 160,
+            Height = 100,
+            Constraints = NodeConstraints.None,
+            Shape = new Shape() { Type = NodeShapes.HTML },
+        };
+        Nodes.Add(timeNode);
+
+        Node newGameNode = new Node()
+        {
+            ID = "newgame",
+            OffsetX = 580,
+            OffsetY = 750,
+
+            Constraints = NodeConstraints.None,
+            Shape = new Shape() { Type = NodeShapes.HTML },
+        };
+        Nodes.Add(newGameNode);
+
+        Node pauseNode = new Node()
+        {
+            ID = "pause",
+            OffsetX = 980,
+            OffsetY = 725,
+            Constraints = NodeConstraints.None,
+            Width = 150,
+            Height = 50,
+            Shape = new Shape() { Type = NodeShapes.HTML },
+        };
+        Nodes.Add(pauseNode);
+
+        Node clueNode = new Node()
+        {
+            ID = "clue",
+            OffsetX = 765, // Position between other buttons
+            OffsetY = 750,
+            Constraints = NodeConstraints.None,
+            Shape = new Shape() { Type = NodeShapes.HTML },
+        };
+        Nodes.Add(clueNode);
+
+        for (int i = 0; i < GameBoard.Length; i++)
+        {
+            if (GameBoard[i] != 0)
+            {
+                int pieceNumber = GameBoard[i];
+                Node node = new Node()
+                {
+                    ID = $"tile{pieceNumber}",
+                    Width = 130,
+                    Height = 130,
+                    OffsetX = GetTileX(i),
+                    OffsetY = GetTileY(i),
+                    Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+{
+                    new ShapeAnnotation()
+                    {
+                        ID = $"annotation{pieceNumber}",
+                        Width = 25,
+                        Height = 25,
+                        UseTemplate = true,
+                        Visibility = false,
+                        Offset = new DiagramPoint() { X = 0.7, Y = 0.1 },
+                        HorizontalAlignment = HorizontalAlignment.Center,
+                        VerticalAlignment = VerticalAlignment.Center,
+                    }
+                },
+                    Style = new ShapeStyle()
+                    {
+                        StrokeColor = "white",
+                    },
+                    Shape = new ImageShape()
+                    {
+                        Type = NodeShapes.Image,
+                        Source = GetImageSourceForTile(pieceNumber)
+                    }
+                };
+
+                if (CanMoveTile(i))
+                {
+                    node.Constraints = NodeConstraints.Default | NodeConstraints.Select;
+                }
+                else
+                {
+                    node.Constraints = NodeConstraints.None;
+                }
+
+                Nodes.Add(node);
+            }
+        }
+    }
+
+    public void InitializeGame()
+    {
+        GameBoard[0] = 1; GameBoard[1] = 2; GameBoard[2] = 3; GameBoard[3] = 4;
+        GameBoard[4] = 5; GameBoard[5] = 6; GameBoard[6] = 7; GameBoard[7] = 8;
+        GameBoard[8] = 9; GameBoard[9] = 10; GameBoard[10] = 11; GameBoard[11] = 12;
+        GameBoard[12] = 13; GameBoard[13] = 14; GameBoard[14] = 15; GameBoard[15] = 0; // 16th position empty
+        EmptyIndex = 15;
+        ShuffleBoard();
+        MoveCount = 0;
+        IsPuzzleSolved = false;
+        ElapsedSeconds = 0;
+        UpdateTimeDisplay();
+        GameStarted = false;
+        CreateNodes();
+    }
+
+    public void SetupTimer()
+    {
+        GameTimer = new Timer(1000);
+        GameTimer.Elapsed += OnTimerElapsed!;
+        GameTimer.Start();
+    }
+
+    public void OnTimerElapsed(object sender, ElapsedEventArgs e)
+    {
+        if (!IsPaused && GameStarted && !IsPuzzleSolved)
+        {
+            ElapsedSeconds++;
+            UpdateTimeDisplay();
+            InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public void UpdateTimeDisplay()
+    {
+        int minutes = ElapsedSeconds / 60;
+        int seconds = ElapsedSeconds % 60;
+        TimeDisplay = $"{minutes:D2}:{seconds:D2}";
+    }
+
+    public const double TILE_WIDTH = 130;
+    public const double TILE_HEIGHT = 130;
+    public const int GRID_SIZE = 4;
+
+    public double GetTileX(int index)
+    {
+        int col = index % GRID_SIZE;
+        double startX = 600;
+        return startX + (col * TILE_WIDTH);
+    }
+
+    public double GetTileY(int index)
+    {
+        int row = index / GRID_SIZE;
+        double startY = 200;
+        return startY + (row * TILE_HEIGHT);
+    }
+
+    public bool CanMoveTile(int tileIndex)
+    {
+        int tileRow = tileIndex / 4;
+        int tileCol = tileIndex % 4;
+        int emptyRow = EmptyIndex / 4;
+        int emptyCol = EmptyIndex % 4;
+
+        bool isVerticallyAdjacent = (Math.Abs(tileRow - emptyRow) == 1 && tileCol == emptyCol);
+        bool isHorizontallyAdjacent = (Math.Abs(tileCol - emptyCol) == 1 && tileRow == emptyRow);
+
+        return isVerticallyAdjacent || isHorizontallyAdjacent;
+    }
+
+    public async Task AddFinalPiece()
+    {
+        NodeBases.Clear();
+        Node finalPiece = new Node()
+        {
+            ID = "tile16final",
+            Width = 130,
+            Height = 130,
+            OffsetX = GetTileX(15),
+            OffsetY = GetTileY(15),
+            Style = new ShapeStyle()
+            {
+                Fill = "transparent",
+                StrokeColor = "#FFD700",
+                StrokeWidth = 4
+            },
+            Shape = new ImageShape()
+            {
+                Type = NodeShapes.Image,
+                Source = GetImageSourceForTile(16)
+            },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+{
+            new ShapeAnnotation()
+            {
+                ID = $"annotation16",
+                Width = 25,
+                Height = 25,
+                UseTemplate = true,
+                Offset = new DiagramPoint() { X = 0.9, Y = 0.1 },
+                HorizontalAlignment = HorizontalAlignment.Center,
+                VerticalAlignment = VerticalAlignment.Center,
+            }
+        },
+            Constraints = NodeConstraints.None
+        };
+        NodeBases.Add(finalPiece);
+        await Diagram!.AddDiagramElementsAsync(NodeBases);
+    }
+
+    public async Task CheckPuzzleSolved()
+    {
+        bool solved = true;
+        for (int i = 0; i < 15; i++)
+        {
+            if (GameBoard[i] != i + 1)
+            {
+                solved = false;
+                break;
+            }
+        }
+
+        if (solved && GameBoard[15] != 0)
+        {
+            solved = false;
+        }
+
+        if (solved && EmptyIndex == 15)
+        {
+            IsPuzzleSolved = true;
+            GameTimer!.Stop();
+            await AddFinalPiece();
+            ShowCompletionMessage();
+        }
+    }
+
+    public async Task MoveTileToEmptySpace(int tileNumber)
+    {
+        int tileIndex = Array.IndexOf(GameBoard, tileNumber);
+        if (!CanMoveTile(tileIndex))
+            return;
+
+        if (!GameStarted)
+        {
+            GameStarted = true;
+            ElapsedSeconds = 0;
+            UpdateTimeDisplay();
+        }
+
+        int oldEmptyIndex = EmptyIndex;
+        GameBoard[EmptyIndex] = tileNumber;
+        GameBoard[tileIndex] = 0;
+        EmptyIndex = tileIndex;
+        MoveCount++;
+
+        var node = Nodes!.FirstOrDefault(n => n.ID == $"tile{tileNumber}");
+        if (node != null)
+        {
+            node.OffsetX = GetTileX(oldEmptyIndex);
+            node.OffsetY = GetTileY(oldEmptyIndex);
+        }
+
+        UpdateVisualFeedback();
+        await CheckPuzzleSolved();
+        StateHasChanged();
+    }
+
+    public async Task OnSelectionChanged(Syncfusion.Blazor.Diagram.SelectionChangedEventArgs args)
+    {
+        if (IsPaused || IsPuzzleSolved)
+            return;
+
+        if (args.NewValue!.Count > 0 && args.NewValue[0] is Node selectedNode)
+        {
+            if (!GameStarted)
+            {
+                GameStarted = true;
+                ElapsedSeconds = 0;
+                UpdateTimeDisplay();
+            }
+
+            string nodeId = selectedNode.ID!;
+            if (nodeId.StartsWith("tile"))
+            {
+                int tileNumber = int.Parse(nodeId.Substring(4));
+                await MoveTileToEmptySpace(tileNumber);
+            }
+        }
+    }
+    public void NewGame()
+    {
+        GameTimer?.Stop();
+        SelectRandomImageCollection();
+        MoveCount = 0;
+        ElapsedSeconds = 0;
+        GameStarted = false;
+        IsPaused = false;
+        IsPuzzleSolved = false;
+        ShowWinDialog = false;
+        ShowClue = false;
+
+        GameBoard[0] = 1; GameBoard[1] = 2; GameBoard[2] = 3; GameBoard[3] = 4;
+        GameBoard[4] = 5; GameBoard[5] = 6; GameBoard[6] = 7; GameBoard[7] = 8;
+        GameBoard[8] = 9; GameBoard[9] = 10; GameBoard[10] = 11; GameBoard[11] = 12;
+        GameBoard[12] = 13; GameBoard[13] = 14; GameBoard[14] = 15; GameBoard[15] = 0;
+        EmptyIndex = 15;
+
+        UpdateTimeDisplay();
+        ShuffleBoard();
+        ClearDiagramNodes();
+        CreateNodes();
+        UpdateVisualFeedback();
+        SetupTimer();
+        StateHasChanged();
+    }
+
+    public void ShuffleBoard()
+    {
+        Random random = new Random();
+        for (int i = 0; i < 1000; i++)
+        {
+            var validMoves = GetValidMoves();
+            if (validMoves.Count > 0)
+            {
+                int randomMove = validMoves[random.Next(validMoves.Count)];
+                GameBoard[EmptyIndex] = GameBoard[randomMove];
+                GameBoard[randomMove] = 0;
+                EmptyIndex = randomMove;
+            }
+        }
+    }
+
+    public List<int> GetValidMoves()
+    {
+        List<int> validMoves = new List<int>();
+        int emptyRow = EmptyIndex / 4;
+        int emptyCol = EmptyIndex % 4;
+        int[] directions = { -4, 4, -1, 1 };
+
+        foreach (int dir in directions)
+        {
+            int newIndex = EmptyIndex + dir;
+            if (newIndex >= 0 && newIndex < 16)
+            {
+                int newRow = newIndex / 4;
+                int newCol = newIndex % 4;
+
+                if ((dir == -1 || dir == 1) && Math.Abs(newRow - emptyRow) == 0 && Math.Abs(newCol - emptyCol) == 1)
+                {
+                    validMoves.Add(newIndex);
+                }
+                else if ((dir == -4 || dir == 4) && Math.Abs(newRow - emptyRow) == 1 && Math.Abs(newCol - emptyCol) == 0)
+                {
+                    validMoves.Add(newIndex);
+                }
+            }
+        }
+
+        return validMoves;
+    }
+    public void TogglePause()
+    {
+        IsPaused = !IsPaused;
+        if (IsPaused)
+        {
+            GameTimer!.Stop();
+            DisableAllNodes();
+        }
+        else
+        {
+            GameTimer!.Start();
+            EnableAdjacentNodes();
+        }
+        StateHasChanged();
+    }
+
+    public void DisableAllNodes()
+    {
+        foreach (var node in Nodes!)
+        {
+            if (node.ID!.StartsWith("tile"))
+            {
+                node.Constraints = NodeConstraints.None;
+            }
+        }
+    }
+
+    public void ClearDiagramNodes()
+    {
+        if (Diagram != null)
+        {
+            // Get all existing Nodes from the Diagram
+            List<Node> existingNodes = Diagram.Nodes!.ToList();
+            // Remove all Nodes from the Diagram
+            foreach (Node node in existingNodes)
+            {
+                Diagram.Nodes!.Remove(node);
+            }
+        }
+        Nodes!.Clear();
+    }
+
+    public void EnableAdjacentNodes()
+    {
+        foreach (Node node in Nodes!)
+        {
+            if (node.ID!.StartsWith("tile"))
+            {
+                int tileNumber = int.Parse(node.ID.Substring(4));
+                int tileIndex = Array.IndexOf(GameBoard, tileNumber);
+                if (CanMoveTile(tileIndex))
+                {
+                    node.Constraints = NodeConstraints.Default | NodeConstraints.Select;
+                }
+                else
+                {
+                    node.Constraints = NodeConstraints.None;
+                }
+            }
+        }
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        GameTimer?.Dispose();
+        if (Nodes != null)
+        {
+            Nodes.Clear();
+            Nodes = null;
+        }
+    }
+    @*End:Hidden*@
+}

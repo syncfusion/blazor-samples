@@ -1,0 +1,279 @@
+@page "/pivot-table/value-filtering"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates filtering row and column headers based on a specific measure and the grand total. The different conditions that can be applied to the grand total are equals, less than, greater than, between, etc.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>In this sample, any field can be selected from the <b>Fields</b> dropdown list along with value field from <b>Measures</b> dropdown list to filter. Further, choose an option from the <b>Conditions</b> dropdown list, enter the values in <b>Value1</b> and <b>Value2</b> input textbox and apply the same to view the field headers filtered based on the grand total.</p>
+
+    <p>
+        Value filtering can be applied either through code-behind or UI. To achieve this in code-behind, set the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_AllowValueFilter" aria-label="Class reference of AllowValueFilter property in PivotView">AllowValueFilter</a> property in <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html" aria-label="Class reference of PivotViewDataSourceSettings">PivotViewDataSourceSettings</a> to <b>true</b> and use the
+        <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewFilterSetting.html" aria-label="Class reference of PivotViewFilterSetting">PivotViewFilterSetting</a> in the pivot table along with the following properties.
+    </p>
+    <table>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;width:100px'><a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFilterSetting.html#Syncfusion_Blazor_PivotView_PivotFilterSetting_Name" aria-label="Class reference of Name property in PivotView">Name :</a> </td>
+            <td> Specifies the normal field.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'><a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFilterSetting.html#Syncfusion_Blazor_PivotView_PivotFilterSetting_Type" aria-label="Class reference of Type property in PivotView">Type :</a></td>
+            <td> Specifies the filter type and it should be "Value" in this scenario.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'><a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFilterSetting.html#Syncfusion_Blazor_PivotView_PivotFilterSetting_Measure" aria-label="Class reference of Measure property in PivotView">Measure :</a></td>
+            <td> Specifies the value based field.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'> <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFilterSetting.html#Syncfusion_Blazor_PivotView_PivotFilterSetting_Condition" aria-label="Class reference of Condition property in PivotView">Condition :</a> </td>
+            <td> Specifies the operator type like equals, greater than, less than, etc.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'><a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFilterSetting.html#Syncfusion_Blazor_PivotView_PivotFilterSetting_Value1" aria-label="Class reference of Value1 property in PivotView">Value1 :</a></td>
+            <td> Gets the value to view the filter result. For example, select "DoesNotEquals" and enter "9590" to exclude the grand total with this value.</td>
+        </tr>
+        <tr>
+            <td style='vertical-align: top;padding: 4px 0;'> <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFilterSetting.html#Syncfusion_Blazor_PivotView_PivotFilterSetting_Value2" aria-label="Class reference of Value2 property in PivotView">Value2 :</a></td>
+            <td> For conditions like &#34;between&#34; and &#34;not between&#34;, this option will be enabled. Enter both start and end value to view the filter result. For example, enter "9590" and "17500" to filter the grand totals within this range.</td>
+        </tr>
+    </table>
+    <br />
+    <p>To achieve value filtering through UI, navigate to <b>"User Interaction > Field List"</b> sample and open the filter dialog to experience the same. For API details, refer to the <b>"Field List"</b> sample description.</p>
+
+    <p>More information on the value filtering feature can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/filtering/#value-filtering" aria-label="Blazor PivotTable Filtering documentation" >documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="_pivotRef" Height="400" Width="100%" ShowGroupingBar=false EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@PivotViewDataSource" ExpandAll=false EnableSorting=true AllowValueFilter=true AllowMemberFilter=false>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-4 property-section pivottable-property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:0px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Fields:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" Placeholder="Country" TItem="string" @bind-Value="_selectedField" DataSource="@DropDownData">
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Measures:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string"  TItem="DataID" @bind-Value="_selectedMeasure" DataSource="@MeasuresData">
+                                    <DropDownListFieldSettings Value="Name" Text="Id"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Condition:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="Operators" Placeholder="Equals" TItem="OperatorData" @bind-Value="_selectedCondition" DataSource="@ConditionalData">
+                                    <DropDownListFieldSettings Value="Name" Text="Id"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="Operators" TItem="OperatorData" ValueChange="ChangeCondition"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Value 1:
+                            </div>
+                        </td>
+                        <td>
+                            <div class="textcls">
+                                <SfNumericTextBox TValue=double @bind-Value="_value1"  Format="N2" Placeholder="Example:175 ">
+                                </SfNumericTextBox>
+                            </div>
+                        </td>
+                    </tr>
+                    @if (@_showCondition)
+                    {
+                        <tr style="height: 50px">
+                            <td style="padding-right: 10px;">
+                                <div>
+                                    Value 2:
+                                </div>
+                            </td>
+                            <td>
+                                <div class="textcls">
+
+                                    <SfNumericTextBox TValue=double @bind-Value="_value2"  Format="N2" Placeholder="Example:200 "></SfNumericTextBox>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                    <tr style="height: 50px">
+                        <td></td>
+                        <td>
+                            <div style="float:right;">
+                                <SfButton IsPrimary="true" OnClick="OnApply">Apply</SfButton>
+                                <SfButton IsPrimary="false" OnClick="@OnClear">Clear</SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .e-pivottable .e-static {
+        width: 80% !important;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
+</style>
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+</style>
+
+@code {
+    private SfPivotView<PivotProductDetails>? _pivotRef;
+    private double _value1;
+    private double _value2;
+    private List<PivotProductDetails>? PivotViewDataSource { get; set; }
+    private string _selectedField = "Country";
+    private string _selectedMeasure = "In_Stock";
+    private Operators _selectedCondition = Operators.DoesNotEquals;
+    private bool _showCondition = false;
+    private string[] DropDownData = { "Country", "Products", "Year" };
+
+    private List<DataID> MeasuresData = new List<DataID>()
+    {
+        new DataID() { Id = "Units Sold", Name = "Sold" },
+        new DataID() { Id = "In Stock", Name = "In_Stock" },
+        new DataID() { Id = "Sold Amount", Name = "Amount" }
+    };
+
+    private List<OperatorData> ConditionalData = new List<OperatorData>()
+    {
+        new OperatorData() { Id = "Equals", Name = Operators.Equals },
+        new OperatorData() { Id = "Not Equals", Name = Operators.DoesNotEquals },
+        new OperatorData() { Id = "Greater Than", Name = Operators.GreaterThan },
+        new OperatorData() { Id = "Greater Than Or Equal To", Name = Operators.GreaterThanOrEqualTo },
+        new OperatorData() { Id = "Less Than", Name = Operators.LessThan },
+        new OperatorData() { Id = "Less Than Or Equal To", Name = Operators.LessThanOrEqualTo },
+        new OperatorData() { Id = "Between", Name = Operators.Between },
+        new OperatorData() { Id = "Not Between", Name = Operators.NotBetween }
+    };
+    @*Hidden:Lines*@
+#pragma warning disable BL0005
+    @*End:Hidden*@
+    protected override void OnInitialized()
+    {
+        PivotViewDataSource = PivotProductDetails.GetProductData();
+    }
+
+    private void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        List<PivotViewFilterSetting> FilterSettings = new List<PivotViewFilterSetting>();
+        PivotViewFilterSetting ApplyFilter = new PivotViewFilterSetting()
+        {
+            Name = _selectedField,
+            Measure = _selectedMeasure,
+            Condition = _selectedCondition,
+            Type = Syncfusion.Blazor.PivotView.FilterType.Value,
+            Value1 = _value1.ToString(),
+            Value2 = _value2.ToString()
+        };
+        FilterSettings.Add(ApplyFilter);
+        if(_pivotRef != null)
+        {
+            _pivotRef.DataSourceSettings.FilterSettings = FilterSettings;
+        }
+    }
+    @*Hidden:Lines*@
+#pragma warning restore BL0005
+    @*End:Hidden*@
+    private void OnClear(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        _value1 = _value2 = 0;
+        if(_pivotRef != null)
+        {
+            _pivotRef.DataSourceSettings.FilterSettings = new List<PivotViewFilterSetting>();
+        }
+    }
+
+    private void ChangeCondition(Syncfusion.Blazor.DropDowns.ChangeEventArgs<Operators, OperatorData> args)
+    {
+        _showCondition = args.Value == Operators.Between || args.Value == Operators.NotBetween;
+    }
+
+    public class OperatorData
+    {
+        public string Id { get; set; } = string.Empty;
+        public Operators Name { get; set; }
+    }
+
+    public class DataID
+    {
+        public string Id { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+    }
+}

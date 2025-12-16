@@ -1,0 +1,92 @@
+@page "/gantt-chart/scheduling-mode"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+		This sample demonstrates the ability of the <a class="e-gantt-schedulingmode-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                       href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                       target="_blank">Blazor Gantt Chart</a> to support both automatic and manual task scheduling modes. A task’s scheduling mode
+		determines whether its start and end dates are automatically validated. Use the <a class="e-gantt-schedulingmode-reference-link" aria-label="Navigate to the task mode property reference for gantt chart component" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_TaskMode'>TaskMode</a> property to
+        switch between modes as needed. The <code>TaskMode</code> property accepts the following enumeration values
+    </p>
+    <ul>
+        <li><code>Auto</code></li>
+        <li><code>Manual</code></li>
+        <li><code>Custom</code></li>
+    </ul>
+    <p>When the <code>TaskMode</code> property is set to <code>Auto</code> scheduling mode, all the tasks in the project will be rendered as automatically scheduled tasks. Thus the start and end dates of the tasks in the project will be automatically validated.</p>
+    <p>When the <code>TaskMode</code> property is set to <code>Manual</code> scheduling mode, all the tasks in the project will be rendered with dates as they are in the data source. Thus the dates of the tasks will not get validated automatically by the system.</p>
+	<p>When the <code>TaskMode</code> property is set to <code>Custom</code>, the scheduling mode for each task will be mapped from the data source field. The property <a class="e-gantt-schedulingmode-reference-link" aria-label="Navigate to the Manual property reference for gantt task fields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html#Syncfusion_Blazor_Gantt_GanttTaskFields_Manual">Manual</a> of <a class="e-gantt-schedulingmode-reference-link" aria-label="Navigate to the class reference for gantt task fields" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html">GanttTaskFields</a> is used to map the scheduling mode field from the data source.</p>
+	<p>For further details, refer to the  <a class="e-gantt-schedulingmode-reference-link" aria-label="Navigate to the documentation for scheduling tasks in gantt chart component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/scheduling-tasks">documentation</a>.</p>
+</SampleDescription>
+
+<div class="control-section e-gantt-scheduling-mode-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Height="450px" Width="100%" TreeColumnIndex="1" ProjectStartDate="@(new DateTime(2021, 3, 27))" ProjectEndDate="@(new DateTime(2021, 7, 6))" TaskMode="ScheduleMode.Custom">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Manual="IsManual">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId"></GanttColumn>
+			<GanttColumn Field="TaskName"></GanttColumn>
+			<GanttColumn Field="IsManual" HeaderText="Task Mode"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+		</GanttColumns>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="ScheduleData.TaskData"></GanttLabelSettings>
+		<GanttSplitterSettings Position="40%"></GanttSplitterSettings>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<ScheduleData.TaskData>? GanttInstance { get; set; }
+	public List<ScheduleData.TaskData> TaskCollection { get; set; } = new List<ScheduleData.TaskData>();
+
+	/// <summary>
+	/// Initializes the sample by loading task data for the Gantt chart.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = ScheduleData.GetTaskCollection();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-scheduling-mode-sample {
+		padding: 20px;
+	}
+
+	.e-gantt-schedulingmode-reference-link {
+		text-decoration: none !important;
+	}
+
+	.e-gantt-schedulingmode-reference-link:hover,
+	.e-gantt-schedulingmode-reference-link:focus {
+		text-decoration: underline !important;
+	}
+</style>

@@ -1,0 +1,67 @@
+@page "/tree-grid/clipboard"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Navigations
+@*Hidden:Lines*@
+@using TaskData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+@{
+    List<ItemModel> Toolbar = new List<ItemModel>();
+    Toolbar.Add(new ItemModel { Text = "Copy", TooltipText = "Copy", PrefixIcon = "e-copy", Id = "copy" });
+    Toolbar.Add(new ItemModel { Text = "Copy With Header", TooltipText = "Copy With Header", PrefixIcon = "e-copy", Id = "copyHeader" });
+}
+
+<SampleDescription>
+    <p>This sample demonstrates clipboard copy in the Tree Grid, enabling you to copy selected rows or cells directly to the system clipboard. Copy operations can be performed with or without headers, using either toolbar commands or keyboard shortcuts.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Clipboard copy can be invoked programmatically using the <a aria-label="Navigate to the CopyAsync method reference for the Tree Grid component" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_CopyAsync_System_Nullable_System_Boolean__">CopyAsync</a> method, and it can also be triggered by keyboard shortcuts such as <b>Ctrl+C</b> to copy without headers and <b>Ctrl+Shift+H</b> to copy with headers.</p>
+    <p>In this demo, use the toolbar buttons <b>"Copy"</b> and <b>"Copy With Header"</b> to copy the current selection to the clipboard, and multi-row selection is configured via <a aria-label="Navigate to the TreeGridSelectionSettings.Type property reference" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridSelectionSettings.html#Syncfusion_Blazor_TreeGrid_TreeGridSelectionSettings_Type">TreeGridSelectionSettings.Type</a> set to <code>Multiple</code>.</p>
+    <p>For behavior details and additional options, refer to the clipboard <a aria-label="Navigate to documentation for clipboard in the Tree Grid component" target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/clipboard/">documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+             <SfTreeGrid @ref="@TreeGridInstance" Toolbar="Toolbar" Height="312" DataSource="@TreeData" IdMapping="TaskID" AllowPaging="true" ParentIdMapping="ParentID" TreeColumnIndex="1">
+                <TreeGridEvents TValue="TaskData" OnToolbarClick="HandleToolbarClick"></TreeGridEvents>
+                <TreeGridSelectionSettings Type="SelectionType.Multiple"></TreeGridSelectionSettings>
+                <TreeGridPageSettings PageSize="20" PageSizeMode="PageSizeMode.All"></TreeGridPageSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" Width="175" ClipMode="ClipMode.EllipsisWithTooltip"></TreeGridColumn>
+                    <TreeGridColumn Field="AssignedTo" HeaderText="Assignee" Width="120" TextAlign="TextAlign.Left"></TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Status" Width="90"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type=ColumnType.Date Width="110" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration (In Days)" Width="120" ClipMode="ClipMode.EllipsisWithTooltip" TextAlign="TextAlign.Right"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+    SfTreeGrid<TaskData> TreeGridInstance { get; set; } = null!;
+
+    private List<TaskData> TreeData { get; set; } = new List<TaskData>();
+    
+    protected override void OnInitialized()
+    {
+        TreeData = TaskData.GetTree().ToList();
+    }
+
+    public async void HandleToolbarClick(Syncfusion.Blazor.Navigations.ClickEventArgs args)
+    {
+        var selectedTasks = await TreeGridInstance.GetSelectedRecordsAsync();
+        if (selectedTasks.Any())
+        {
+            bool includeHeader = args.Item.Id == "copyHeader";
+            await TreeGridInstance.CopyAsync(includeHeader);
+        }
+    }
+}

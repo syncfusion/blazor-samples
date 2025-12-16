@@ -1,0 +1,200 @@
+@page "/datagrid/detail-template-exporting"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using BlazorDemos
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the export functionality of the detail template in a DataGrid, allowing you to export the detailed grid to Excel and PDF file formats.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>When expanding or collapsing the detail content, the Blazor DataGrid detail template feature displays additional information about a specific row. With the required content, the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridTemplates.html#Syncfusion_Blazor_Grids_GridTemplates_DetailTemplate' aria-label="Navigate to the DetailTemplate property reference for DataGrid templates">DetailTemplate</a> should be wrapped around the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor.Grids.GridTemplates.html' aria-label="Navigate to the class reference for GridTemplates">GridTemplates</a> component. This expanded row is used to visualize the statistical data hierarchy.</p>
+    <p>In this demo, the detail row mode for exporting is enabled by setting <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.PdfDetailRowMode.html' aria-label="Navigate to the class reference for PdfDetailRowMode">PdfDetailRowMode</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.ExcelDetailRowMode.html' aria-label="Navigate to the class reference for ExcelDetailRowMode"> ExcelDetailRowMode </a> to <code>Expand</code> in the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.PdfExportProperties.html' aria-label="Navigate to the class reference for PdfExportProperties">PdfExportProperties</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.ExcelExportProperties.html' aria-label="Navigate to the class reference for ExcelExportProperties">ExcelExportProperties</a>.</p>
+    <p>You can customize the detail row using <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.PdfDetailTemplateExporting.html" aria-label="Navigate to the class reference for PdfDetailTemplateExporting">PdfDetailTemplateExporting</a> and <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.ExcelDetailTemplateExporting.html" aria-label="Navigate to the class reference for ExcelDetailTemplateExporting">ExcelDetailTemplateExporting</a> events. In this, we customize and export detailed employee information in the detail row.</p>
+    <p>The detail template allows you to export the grid with the following options:</p>
+    <ul>
+        <li><strong>Expand</strong> -  Exports all the detail rows in an expanded state.</li>
+        <li><strong>Collapse</strong> - Exports the detail rows in a collapsed state (specifically for Excel exporting).</li>
+        <li><strong>None</strong> - Exports only parent rows.</li>
+    </ul>
+    <p>More information about the Exporting feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/excel-exporting' aria-label="Navigate to the documentation for Excel Export in DataGrid component">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid @ref="DefaultGrid" ID="Grid" DataSource="@Employees" Toolbar="@(new List<string>() { "ExcelExport", "PdfExport" })" AllowPdfExport="true" AllowExcelExport="true" Height="315px">
+                <GridTemplates>
+                    <DetailTemplate>
+                        @{
+                            var employee = (context as EmployeeData);
+                            <table class="detailtable" width="100%">
+                                <colgroup>
+                                    <col width="35%">
+                                    <col width="35%">
+                                    <col width="30%">
+                                </colgroup>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            <span style="font-weight: 500;">First Name: </span> @employee?.FirstName
+                                        </td>
+                                        <td>
+                                            <span style="font-weight: 500;">Hire Date: </span> @employee?.HireDate.ToString("yyyy-MM-dd")
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span style="font-weight: 500;">Last Name: </span> @employee?.LastName
+                                        </td>
+                                        <td>
+                                            <span style="font-weight: 500;">City: </span> @employee?.City
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span style="font-weight: 500;">Title: </span> @employee?.Title
+                                        </td>
+                                        <td>
+                                            <span style="font-weight: 500;">Country: </span> @employee?.Country
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td>
+                                            <span style="font-weight: 500;">Email: </span> @employee?.Email
+                                        </td>
+                                        <td>
+                                            <span style="font-weight: 500;">Address: </span> @employee?.Address
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        }
+                    </DetailTemplate>
+                </GridTemplates>
+                <GridEvents ExcelDetailTemplateExporting="ExcelDetailTemplateHandler" PdfDetailTemplateExporting="PdfDetailTemplateHandler" OnToolbarClick="ToolbarClickHandler" TValue="EmployeeData"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(EmployeeData.FirstName) HeaderText="First Name" Width="110"> </GridColumn>
+                    <GridColumn Field=@nameof(EmployeeData.LastName) HeaderText="Last Name" Width="160"> </GridColumn>
+                    <GridColumn Field=@nameof(EmployeeData.Title) HeaderText="Title" Width="180"></GridColumn>
+                    <GridColumn Field=@nameof(EmployeeData.Country) HeaderText="Country" Width="110"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+<style type="text/css" class="cssStyles">
+    .detailtable td {
+        font-size: 13px;
+        padding: 4px;
+        max-width: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+</style>
+
+@code {
+
+    SfGrid<EmployeeData>? DefaultGrid;
+    public List<EmployeeData> ?Employees { get; set; }
+    public async Task ToolbarClickHandler(ClickEventArgs args)
+    {
+        if (this.DefaultGrid != null)
+        {
+            if (args.Item.Id == "Grid_excelexport")  // Id is the combination of Grid's ID and item name.
+            {
+                ExcelExportProperties ExportProperties = new ExcelExportProperties();
+                ExportProperties.ExcelDetailRowMode = ExcelDetailRowMode.Expand;
+                await this.DefaultGrid.ExportToExcelAsync(ExportProperties);
+            }
+            else if (args.Item.Id == "Grid_pdfexport")  // Id is the combination of Grid's ID and item name.
+            {
+                PdfExportProperties PdfExportProperties = new PdfExportProperties();
+                PdfExportProperties.PdfDetailRowMode = PdfDetailRowMode.Expand;
+                await this.DefaultGrid.ExportToPdfAsync(PdfExportProperties);
+            }
+            else
+            {
+                await this.DefaultGrid.ExportToCsvAsync();
+            }
+        }
+    }
+
+    public void ExcelDetailTemplateHandler(ExcelDetailTemplateEventArgs<EmployeeData> args)
+    {
+        var excelRows = new List<ExcelDetailTemplateRow>();
+        var data = args.ParentRow.Data;
+        excelRows.Add(ProcessExcelRow("First Name", data?.FirstName!, "Hire Date", data?.HireDate.ToString("yyyy-MM-dd")!));
+        excelRows.Add(ProcessExcelRow("Last Name", data?.LastName!, "Country", data?.Country!));
+        excelRows.Add(ProcessExcelRow("Title", data?.Title!, "City", data?.City!));
+        excelRows.Add(ProcessExcelRow("Email", data?.Email!, "Address", data?.Address!));
+        args.RowInfo.Rows = excelRows;
+    }
+
+    ExcelDetailTemplateRow ProcessExcelRow(string label1, string value1, string label2, object value2)
+    {
+        var cells = new List<ExcelDetailTemplateCell>();
+        cells.Add(new ExcelDetailTemplateCell { CellValue = $"{label1}: {value1}", Index = 0 });
+        cells.Add(new ExcelDetailTemplateCell { CellValue = $"{label2}: {value2}", Index = 1 });
+        return new ExcelDetailTemplateRow { Cells = cells };
+    }
+
+    public void PdfDetailTemplateHandler(PdfDetailTemplateEventArgs<EmployeeData> args)
+    {
+        var pdfRows = new List<PdfDetailTemplateRow>();
+        var data = args.ParentRow.Data;
+        pdfRows.Add(ProcessPdfRow("First Name", data?.FirstName!, "Hire Date", data?.HireDate.ToString("yyyy-MM-dd")!));
+        pdfRows.Add(ProcessPdfRow("Last Name", data?.LastName!, "Country", data?.Country!));
+        pdfRows.Add(ProcessPdfRow("Title", data?.Title!, "City", data?.City!));
+        pdfRows.Add(ProcessPdfRow("Email", data?.Email!, "Address", data?.Address!));
+        args.RowInfo.Rows = pdfRows;
+    }
+
+    PdfDetailTemplateRow ProcessPdfRow(string label1, string value1, string label2, object value2)
+    {
+        var cells = new List<PdfDetailTemplateCell>();
+        cells.Add(new PdfDetailTemplateCell { CellValue = $"{label1}: {value1}", Index = 0 });
+        cells.Add(new PdfDetailTemplateCell { CellValue = $"{label2}: {value2}", Index = 1 });
+        return new PdfDetailTemplateRow { Cells = cells };
+    }
+
+    protected override void OnInitialized()
+    {
+        Employees = new List<EmployeeData>
+        {
+            new EmployeeData() {EmployeeID = 1, FirstName="Nancy", LastName ="Davolio", Email = "Nancy@mail.com", Title="Sales Representative",City="Texas", Country="USA", Freight = 32.38, Address = "507 - 20th Ave. E. Apt", HireDate = new DateTime(2023, 05, 15) },
+            new EmployeeData() {EmployeeID = 2, FirstName="Andrew", LastName ="Fuller", Email = "Andrew@mail.com", Title="Vice President",City="London", Country="UK",Freight = 11.61, Address = "908 W. Capital Way", HireDate = new DateTime(2023, 04, 04)},
+            new EmployeeData() {EmployeeID = 3, FirstName="Steven", LastName="Buchanan", Email = "Steven@mail.com",  Title="Sales Coordinator",City="Vegas", Country="USA", Freight = 65.83, Address = "722 Moss Bay Blvd", HireDate = new DateTime(2023, 02, 04)},
+            new EmployeeData() {EmployeeID = 4, FirstName="Smith", LastName="Suyama", Email = "Smith@mail.com", Title="HR Manager",City="Dubai", Country="UAE", Freight = 41.34, Address = "4110 Old Redmond Rd." , HireDate = new DateTime(2023, 08, 02)},
+            new EmployeeData() {EmployeeID = 5, FirstName="Robert", LastName ="King", Email = "Robert@mail.com", Title="Sales Coordinator",City="Paris", Country="France", Freight =51.30, Address = "14 Garrett Hill", HireDate = new DateTime(2023, 01, 01)},
+            new EmployeeData() {EmployeeID = 6, FirstName="Laura", LastName ="Callahan", Email = "Laura@mail.com", Title="HR Manager",City="Mumbai", Country="India", Freight =58.17, Address = "Coventry House Miner Rd" , HireDate = new DateTime(2023, 10, 04)},
+            new EmployeeData() {EmployeeID = 7, FirstName="Anne", LastName="Dodsworth", Email = "Anne@mail.com", Title="HR Manager",City="Chennai", Country="India", Freight = 22.98, Address = "Hollow Winchester Way", HireDate = new DateTime(2023, 08, 04) },
+            new EmployeeData() {EmployeeID = 8, FirstName="Margaret", LastName ="Fuller", Email = "Margaret@mail.com", Title="Vice President",City="London", Country="UK", Freight = 148.33, Address = "4726-11th Ave. N.E" , HireDate = new DateTime(2023, 02, 06)},
+            new EmployeeData() {EmployeeID = 9, FirstName="Janet", LastName="Leverling", Email = "Janet@mail.com",Title="Sales",City="London", Country="UK", Freight = 13.97, Address = "7 Houndstooth Rd" },
+        };
+    }
+
+    public class EmployeeData
+    {
+        public int? EmployeeID { get; set; }
+        public string? FirstName { get; set; } 
+        public string? LastName { get; set; }
+        public string? Title { get; set; }
+        public DateTime HireDate { get; set; }
+        public string? City { get; set; } 
+        public string? Country { get; set; }
+        public String? Email { get; set; } 
+        public double Freight { get; set; }
+        public string? Address { get; set; }
+    }
+}

@@ -1,0 +1,162 @@
+@page "/chart/horizontal-waterfall"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+@using System.Net.Http.Json
+@inject NavigationManager NavigationManager
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample visualizes a company's revenue and profits using the waterfall series chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, you can see how to render and configure a horizontal waterfall chart. The waterfall chart illustrates the gradual change in an entity's quantitative value due to increments or decrements.
+    </p>
+    <p>
+        <code>Tooltips</code> are enabled in this example. To see them in action, hover over a point or tap on a point on touch-enabled devices.
+    </p>
+    <p>
+        More information about the waterfall series can be found in this 
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/chart/chart-types/waterfall" aria-label="documentation section">
+            documentation section
+        </a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfChart @ref=ChartRef Title="Revenue Variation" IsTransposed="true" Theme=@Theme Width="@Width">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartMargin Bottom="40"></ChartMargin>
+        <ChartEvents OnPointRender="PointRender" SizeChanged="OnResize"></ChartEvents>
+        <ChartAnnotations>
+            <ChartAnnotation X="@data0" Y="430" CoordinateUnits="Units.Pixel">
+                <ContentTemplate>
+                    <div style="display: flex; align-items: center;">
+                        <svg width="10" height="10">
+                            <rect width="10" height="10" fill="@Colors" />
+                        </svg>
+                        <span
+                            style="padding-left: 7px; font-size: 12px; font-style: normal; font-family: inherit; font-weight: 400;">Increase</span>
+                    </div>
+                </ContentTemplate>
+            </ChartAnnotation>
+            <ChartAnnotation X="@data1" Y="430" CoordinateUnits="Units.Pixel">
+                <ContentTemplate>
+                    <div style="display: flex; align-items: center;">
+                        <svg width="10" height="10">
+                            <rect width="10" height="10" fill="#e56590" />
+                        </svg>
+                        <span
+                            style="margin-left: 7px; font-size: 12px; font-style: normal; font-family: inherit; font-weight: 400; ">Decrease</span>
+                    </div>
+                </ContentTemplate>
+            </ChartAnnotation>
+            <ChartAnnotation X="@data2" Y="430" CoordinateUnits="Units.Pixel">
+                <ContentTemplate>
+                    <div style="display: flex; align-items: center;">
+                        <svg width="10" height="10">
+                            <rect width="10" height="10" fill="#4E81BC" />
+                        </svg>
+                        <span
+                            style="margin-left: 7px; font-size: 12px; font-style: normal; font-family: inherit; font-weight: 400;">Total</span>
+                    </div>
+                </ContentTemplate>
+            </ChartAnnotation>
+        </ChartAnnotations>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1"
+            EdgeLabelPlacement="EdgeLabelPlacement.Shift" IsInversed="true">
+            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Minimum="0" Maximum="150" Interval="25" LabelFormat="{value}K"
+            EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="1"></ChartAxisMajorGridLines>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>
+            <ChartSeries ColumnWidth="0.5" NegativeFillColor="#e56590" DataSource="@ChartData" XName="X" Width="2"
+                YName="Y" SumIndexes="@index" Type="ChartSeriesType.Waterfall">
+                <ChartCornerRadius TopLeft="3" BottomLeft="3" BottomRight="3" TopRight="3" />
+                <ChartSeriesAnimation Enable="true"></ChartSeriesAnimation>
+                <ChartSeriesConnector Color="#5F6A6A" Width="0.8" DashArray="1,2"></ChartSeriesConnector>
+                <ChartSeriesBorder Width="0.2" Color="black"></ChartSeriesBorder>
+                <ChartMarker>
+                    <ChartDataLabel Visible="true" Position="LabelPosition.Middle">
+                    </ChartDataLabel>
+                </ChartMarker>
+            </ChartSeries>
+            <ChartLegendSettings Visible="false">
+            </ChartLegendSettings>
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true" Format="<b>${point.x}</b> <br> Product Revenue : <b>${point.y}</b>"
+            Header="">
+        </ChartTooltipSettings>
+    </SfChart>
+</div>
+
+@code {
+
+
+    private SfChart? ChartRef;
+    public double data0 = 440;
+    public double data1 = 525;
+    public double data2 = 600;
+    public double ResizedWidth { get; set; }
+    public string? Colors { get; set; }
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    double[] index = new double[] { 6 };
+    
+    public List<Data> ChartData { get; set; } = new List<Data>
+    {
+    new Data { X = "JAN", Y = 55 },
+    new Data { X = "MAR", Y = 42 },
+    new Data { X = "JUNE", Y = -12 },
+    new Data { X = "AUG", Y = 40 },
+    new Data { X = "OCT", Y = -26 },
+    new Data { X = "DEC", Y = 45 },
+    new Data { X = "2023" }
+    };
+
+    public class Data
+    {
+        public string? X { get; set; }
+        public double Y { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+        @*End:Hidden*@
+    }
+
+    public void PointRender(PointRenderEventArgs args)
+    {
+        if (args.Point.Index == 0)
+            Colors = args.Fill;
+    }
+    public void OnResize(ResizeEventArgs args)
+    {
+        ResizedWidth = args.PreviousSize.Width;
+        data1 = args.CurrentSize.Width / 2 + 25;
+        data0 = data1 - 90;
+        data2 = data1 + 75;
+        StateHasChanged();
+    }
+}

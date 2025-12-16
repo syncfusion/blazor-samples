@@ -1,0 +1,83 @@
+@page "/datagrid/inline-editing"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_ordersdata
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample shows how to use the inline or normal editing mode in DataGrid to perform CRUD operations.</p>
+</SampleDescription>
+<ActionDescription>
+  <p>The Blazor DataGrid Normal editing features allow you to edit the currently selected record by changing the state of the corresponding record to edit. You can carry out the following CRUD operations:</p>
+  <ul>
+       <li><strong>Edit</strong> - To edit record, double click a row or click toolbar Edit button after selecting a row.</li>
+       <li><strong>Delete</strong> - To delete record, click toolbar Delete button after selecting a row.</li>
+       <li><strong>Update</strong> - To save the edited changes, click toolbar Update button.</li> 
+       <li><strong>Cancel</strong> - To discard the edited changes, click toolbar Cancel button.</li>
+   </ul>
+    <p>The CRUD operations in DataGrid can be configured using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html' aria-label="Navigate to the class reference for GridEditSettings">GridEditSettings</a> component. Any one of the columns should be defined as a primary key using the <code>GridColumn</code> component's <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_IsPrimaryKey' aria-label="Navigate to the IsPrimaryKey property reference for Grid column">IsPrimaryKey</a> property. It also has various modes for manipulating the datasource.</p>
+   <p>The modes that are available are,</p>
+   <ul>
+       <li><strong>Dialog</strong></li>
+       <li><strong>Batch</strong></li>
+   </ul>
+    <p>In this sample, the <code>ShowAddNewRow</code> property in the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor~Syncfusion.Blazor.Grids.GridEditSettings.html'>GridEditSettings</a> has been enabled. This property guarantees the continuous display of a new blank row within the grid content, simplifying the process of adding new records effortlessly.</p>
+    <p>By default, a new row will be added at the top of the DataGrid. You can change it by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html#Syncfusion_Blazor_Grids_GridEditSettings_NewRowPosition' aria-label="Navigate to the NewRowPosition property reference for GridEditSettings">NewRowPosition</a> to <b>Bottom</b> in <code>GridEditSettings</code>.</p>
+    <p>More information about the Normal editing feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/in-line-editing' aria-label="Navigate to the documentation for in-line editing in DataGrid component">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData" Toolbar="@(new List<string>() { "Edit", "Delete", "Update", "Cancel" })" AllowPaging="true">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" ShowAddNewRow="true"></GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(Orders.OrderID) HeaderText="Order ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(Orders.CustomerID) HeaderText="Customer ID" ValidationRules="@(new ValidationRules{ Required=true})" Width="160">
+                        <EditTemplate>
+                            <SfAutoComplete TItem="Customer" TValue="string" ID="CustomerID" @bind-Value="@((context as Orders)!.CustomerID)" DataSource="@CustomerData">
+                                <AutoCompleteFieldSettings Value="CustomerID"></AutoCompleteFieldSettings>
+                            </SfAutoComplete>
+                        </EditTemplate>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(Orders.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.DateOnly" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(Orders.Freight) ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" EditType="EditType.NumericEdit" Format="C2" TextAlign="TextAlign.Right" Width="145"></GridColumn>
+                    <GridColumn Field=@nameof(Orders.OrderTime) HeaderText="Order Time" Type="ColumnType.TimeOnly" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(Orders.ShipCountry) HeaderText="Ship Country" EditType="EditType.DropDownEdit" Width="160"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public List<Orders>? GridData { get; set; }
+    
+
+    protected override void OnInitialized()
+    {
+        
+        GridData = Orders.GetAllRecords();
+    }
+    public class Customer
+    {
+        public string? CustomerID { get; set; }
+    }
+    List<Customer> CustomerData = new List<Customer>
+    {
+        new Customer() { CustomerID= "ALFKI" },
+        new Customer() { CustomerID= "ANATR"},
+        new Customer() { CustomerID= "ANTON"},
+        new Customer() { CustomerID= "BLONP" },
+        new Customer() { CustomerID= "BOLID"},
+    };
+}

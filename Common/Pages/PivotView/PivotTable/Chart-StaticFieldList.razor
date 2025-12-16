@@ -1,0 +1,405 @@
+@page "/pivot-table/pivotchart-staticfieldList"
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+    <p>
+        This sample demonstrates rendering a pivot table and pivot chart along with the Excel-like field list feature.
+        It also provides interactive controls to toggle the toolbar and dynamically switch between different display modes.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This example showcases the Syncfusion Pivot Table component alongside a Pivot Chart and a field list rendered
+        statically within a sidebar layout. The static field list allows users to configure and customize the report by
+        dragging and dropping fields into the appropriate sections such as rows, columns, values, and filters without
+        relying on a popup interface. This enhances accessibility and usability, especially in wide-screen or dashboard
+        environments.
+    </p>
+    <p>
+        The Pivot Table component supports three display modes, which are implemented in this sample and can be
+        configurable using the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.View.html" aria-label="Class reference of PivotViewDisplayOption.View">PivotViewDisplayOption.View</a> property:
+    </p>
+    <table>
+        <tr>
+            <td style="vertical-align: top;padding: 4px 0;">
+                <code>Table :</code>
+            </td>
+            <td>Displays only the pivot table (default).</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top;padding: 4px 0;">
+                <code>Chart :</code>
+            </td>
+            <td>Displays only the pivot chart.</td>
+        </tr>
+        <tr>
+            <td style="vertical-align: top;padding: 4px 0;">
+                <code>Both :</code>
+            </td>
+            <td>Displays both the pivot table and pivot chart.</td>
+        </tr>
+    </table>
+    <br />
+    <p>
+        A <strong>Primary View</strong> dropdown lets users choose whether to prioritize the chart or table when both
+        are shown.
+    </p>
+    <p>
+        Additionally, the <strong>Show/Hide Toolbar</strong> toggle controls the visibility of the built-in toolbar,
+        which includes options for switching views and chart types. 
+    </p>
+    <p>More information on the pivot chart can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/pivot-chart/" aria-label="Blazor PivotTable PivotChart documentation">documentation section</a>.</p>
+</ActionDescription>
+
+<div id="control-section">
+    <div id="wrapper">
+        <SfSidebar Target=".maincontent" ID="sidebar" @bind-IsOpen="SidebarToggle" OnOpen="OnOpen" OnClose="OnClose"  Type="@SidebarType.Auto" Position="SidebarPosition.Right" EnableGestures="false">
+            <ChildContent>
+                <div class="content-area">
+                    <SfPivotFieldList TValue="PivotProductDetails" ID="fieldlist" @ref="fieldList" AllowCalculatedField="true" RenderMode="Mode.Fixed" ShowFieldSearch="true">
+                        <PivotFieldListDataSourceSettings DataSource="@data" EnableSorting=true ExpandAll="false" AllowLabelFilter="true" AllowValueFilter="true">
+                            <PivotFieldListColumns>
+                                <PivotFieldListColumn Name="Year"></PivotFieldListColumn>
+                                <PivotFieldListColumn Name="Order_Source" Caption="Order Source"></PivotFieldListColumn>
+                            </PivotFieldListColumns>
+                            <PivotFieldListRows>
+                                <PivotFieldListRow Name="Country"></PivotFieldListRow>
+                                <PivotFieldListRow Name="Products"></PivotFieldListRow>
+                            </PivotFieldListRows>
+                            <PivotFieldListValues>
+                                <PivotFieldListValue Name="In_Stock" Caption="In Stock"></PivotFieldListValue>
+                                <PivotFieldListValue Name="Sold" Caption="Unit Sold"></PivotFieldListValue>
+                                <PivotFieldListValue Name="Amount" Caption="Sold Amount"></PivotFieldListValue>
+                            </PivotFieldListValues>
+                            <PivotFieldListFilters>
+                                <PivotFieldListFilter Name="Product_Categories" Caption="Product Categories"></PivotFieldListFilter>
+                            </PivotFieldListFilters>
+                            <PivotFieldListFormatSettings>
+                                <PivotFieldListFormatSetting Name="Amount" Format="C0"></PivotFieldListFormatSetting>
+                            </PivotFieldListFormatSettings>
+                        </PivotFieldListDataSourceSettings>
+                        <PivotFieldListEvents TValue="PivotProductDetails" EnginePopulated="enginepopulated"></PivotFieldListEvents>
+                    </SfPivotFieldList>
+                </div>
+            </ChildContent>
+        </SfSidebar>
+        <div>
+            <SfToolbar CssClass="custom-toolbar" Height="auto">
+                <ToolbarItems>
+                    <ToolbarItem Type="ItemType.Separator">
+                        <Template>
+                            <div class="toolbar-content">
+                                <div class="toolbar-section">
+                                    <label class="toolbar-label">Show/hide Toolbar:</label>
+                                    <SfSwitch @bind-Checked="isChecked"></SfSwitch>
+                                </div>
+                                <div class="toolbar-section">
+                                    <label class="toolbar-label">Display Option:</label>
+                                    <SfDropDownList TValue="Syncfusion.Blazor.PivotView.View" Width="110px" TItem="DisplayOption" DataSource="@DisplayOptions" @bind-Value="selectedView">
+                                        <DropDownListFieldSettings Text="Name" Value="Value" />
+                                        <DropDownListEvents TValue="Syncfusion.Blazor.PivotView.View" TItem="DisplayOption" ValueChange="OnDisplayViewChanged" />
+                                    </SfDropDownList>
+                                </div>
+                                <div class="toolbar-section">
+                                    <label class="toolbar-label">Primary View:</label>
+                                    <SfDropDownList TValue="Syncfusion.Blazor.PivotView.Primary" Readonly="@isPrimaryDisable" Width="110px" TItem="PrimaryOption" DataSource="@PrimaryOptions" @bind-Value="primaryView" ValueChange="OnPrimaryViewChanged">
+                                        <DropDownListFieldSettings Text="Name" Value="Value" />
+                                        <DropDownListEvents TValue="Syncfusion.Blazor.PivotView.Primary" TItem="PrimaryOption" ValueChange="OnPrimaryViewChanged" />
+                                    </SfDropDownList>
+                                </div>
+                            </div>
+                        </Template>
+                    </ToolbarItem>
+                    <ToolbarItem Type="ItemType.Separator" />
+                    @if (_mobileFieldList)
+                    {
+                        <ToolbarItem PrefixIcon="sb-icons sb-icon-next pivot-sidebar" TooltipText="@toolTipText" Align="ItemAlign.Right" />
+                    }
+                    else
+                    {
+                        <ToolbarItem PrefixIcon="@(SidebarToggle ? "sb-icons sb-icon-next" : "sb-icons sb-icon-previous")" TooltipText="@toolTipText" Align="ItemAlign.Right" OnClick="OnToolbarClicked" />
+                    }
+                </ToolbarItems>
+            </SfToolbar>
+        </div>
+        <div class="maincontent" style="height: 720px;">
+            <div class="content">
+                <SfPivotView TValue="PivotProductDetails" @ref="pivotView" ShowFieldList="@_mobileFieldList" Height="350" Width="@pivotTableWidth" ShowToolbar="@isChecked" Toolbar="@(_mobileFieldList ? mobileToolbar : customToolbar)">
+                    @if (_mobileFieldList)
+                    {
+                        <PivotViewDataSourceSettings DataSource="@data" ExpandAll=false EnableSorting=true AllowLabelFilter="true" AllowValueFilter="true">                    
+                            <PivotViewColumns>
+                                <PivotViewColumn Name="Year"></PivotViewColumn>
+                                <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                            </PivotViewColumns>
+                            <PivotViewRows>
+                                <PivotViewRow Name="Country"></PivotViewRow>
+                                <PivotViewRow Name="Products"></PivotViewRow>
+                            </PivotViewRows>
+                            <PivotViewValues>
+                                <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                                <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                                <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                            </PivotViewValues>
+                            <PivotViewFormatSettings>
+                                <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                            </PivotViewFormatSettings>
+                            <PivotViewFilters>
+                                <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                            </PivotViewFilters>
+                        </PivotViewDataSourceSettings>
+                    }
+                    <PivotViewDisplayOption View="@selectedView" Primary="@primaryView"></PivotViewDisplayOption>
+                    <PivotChartSettings Title="Sales Analysis" Theme="@Theme">
+                        <PivotChartLegendSettings Visible="true">
+                        </PivotChartLegendSettings>
+                        <PivotChartSeries></PivotChartSeries>
+                        <PivotChartPrimaryYAxis>
+                            <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
+                        </PivotChartPrimaryYAxis>
+                    </PivotChartSettings>
+                    <PivotViewEvents TValue="PivotProductDetails" OnActionBegin="ActionBegin" EnginePopulated="@pivotenginepopulated"> </PivotViewEvents>
+                </SfPivotView>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    #sidebar{
+        z-index: 999 !important;
+    }
+
+    .e-pivot-calc-dialog-div {
+        top:30% !important;
+    }
+
+    .e-pivotfieldlist-container.e-search-mode.e-static
+    {
+        max-height: 720px !important;
+    }
+    
+    .e-bigger .e-tbar-btn .tb-icons {
+        font-size: 20px;
+    }
+
+    .e-tbar-btn .tb-icons {
+        font-family: 'e-icons';
+        speak: none;
+        font-size: 16px;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+    }
+
+    .control-section {
+        margin-top: 100px;
+    }
+
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    .custom-toolbar {
+        border-bottom: 0px;
+    }
+
+    .toolbar-content {
+        display: flex;
+        align-items: center;
+        gap: 30px;
+    }
+
+    .toolbar-section {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .toolbar-label {
+        font-weight: 600;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+
+    .custom-toolbar .sb-icons {
+        font-size: 20px !important;
+    }
+
+    .custom-toolbar .pivot-sidebar {
+        display: none !important;
+    }
+
+    .e-sidebar {
+        width: 35% !important;
+    }
+
+    .e-sidebar.e-right {
+        border-left: 0px 
+    }
+
+    .content {
+        padding-top: 0px
+    }
+
+</style>
+
+@code {
+
+    public bool isSideBar = false;
+    private bool _mobileFieldList = false;
+    private bool isPrimaryDisable = false;
+    public string pivotTableWidth => SidebarToggle ? "99%" : "100%";
+    private Theme Theme { get; set; }
+    public async void OnSidebarCreated(object args)
+    {
+        await Task.Delay(100);
+        isSideBar = true;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(200);
+        if (pivotView != null)
+        {
+            await pivotView.RefreshAsync();
+        }
+    }
+
+    public Syncfusion.Blazor.PivotView.View selectedView = Syncfusion.Blazor.PivotView.View.Both;
+    public Syncfusion.Blazor.PivotView.Primary primaryView = Syncfusion.Blazor.PivotView.Primary.Chart;
+    private bool showFieldList = true;
+
+    private string toolTipText => SidebarToggle ? "Collapse Field List" : "Expand Field List";
+
+    public List<Syncfusion.Blazor.PivotView.ToolbarItems> customToolbar = new List<Syncfusion.Blazor.PivotView.ToolbarItems>
+    {
+        Syncfusion.Blazor.PivotView.ToolbarItems.Grid,
+        Syncfusion.Blazor.PivotView.ToolbarItems.Chart
+    };
+    public List<Syncfusion.Blazor.PivotView.ToolbarItems> mobileToolbar = new List<Syncfusion.Blazor.PivotView.ToolbarItems>
+    {
+        Syncfusion.Blazor.PivotView.ToolbarItems.Grid,
+        Syncfusion.Blazor.PivotView.ToolbarItems.Chart,
+        Syncfusion.Blazor.PivotView.ToolbarItems.FieldList
+    };
+
+    private void OnToolbarClicked(ClickEventArgs args)
+    {
+        SidebarToggle = !SidebarToggle; // Toggle sidebar on menu icon click
+    }
+    public string Target = ".maincontent";
+    public bool SidebarToggle = true;
+    public void OnDisplayViewChanged(ChangeEventArgs<Syncfusion.Blazor.PivotView.View, DisplayOption> args)
+    {
+        selectedView = args.Value;
+        if (args.Value == Syncfusion.Blazor.PivotView.View.Chart || args.Value == Syncfusion.Blazor.PivotView.View.Table)
+        {
+            isPrimaryDisable = true;
+        }
+        else
+        {
+            isPrimaryDisable = false;
+        }
+        StateHasChanged();
+    }
+    public async void OnOpen()
+    {
+        await Task.Delay(1000);
+        if(pivotView != null)
+        {
+            await pivotView.RefreshAsync();
+        }
+    }
+    public async void OnClose()
+    {
+        await Task.Delay(1000);
+        if(pivotView != null)
+        {
+            await pivotView.RefreshAsync();
+        }
+    }
+    public void OnPrimaryViewChanged(ChangeEventArgs<Syncfusion.Blazor.PivotView.Primary, PrimaryOption> args)
+    {
+        primaryView = args.Value;
+        StateHasChanged();
+    }
+
+    private void ActionBegin(PivotActionBeginEventArgs args)
+    {
+        if (args.ActionName == "Show table view")
+        {
+            args.Cancel = true;
+            primaryView = Primary.Table;
+        }
+        else if (args.ActionName == "Show chart view")
+        {
+            primaryView = Primary.Chart;
+        }
+        StateHasChanged();
+    }
+    private SfPivotView<PivotProductDetails>? pivotView;
+    private SfPivotFieldList<PivotProductDetails>? fieldList;
+    protected override void OnInitialized()
+    {
+        this.data = PivotProductDetails.GetProductData().ToList();
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        @*Hidden:Lines*@
+        if (SampleService.IsDevice)
+        {
+            _mobileFieldList = true;
+            SidebarToggle = false;
+        }
+        @*End:Hidden*@
+    }
+    private List<PivotProductDetails> data = new List<PivotProductDetails>();
+    private bool isChecked = true;
+    public class ChartSeriesType
+    {
+        public string Name { get; set; } = string.Empty;
+        public Syncfusion.Blazor.PivotView.ChartSeriesType Value { get; set; }
+    }
+    public enum View { Chart, Table, Both }
+    public class DisplayOption
+    {
+        public string Name { get; set; } = string.Empty;
+        public Syncfusion.Blazor.PivotView.View Value { get; set; }
+    }
+    private List<DisplayOption> DisplayOptions = new List<DisplayOption>
+    {
+        new DisplayOption { Name = "Chart", Value = Syncfusion.Blazor.PivotView.View.Chart },
+        new DisplayOption { Name = "Table", Value = Syncfusion.Blazor.PivotView.View.Table },
+        new DisplayOption { Name = "Both", Value = Syncfusion.Blazor.PivotView.View.Both }
+    };
+    public class PrimaryOption
+    {
+        public string Name { get; set; } = string.Empty;
+        public Syncfusion.Blazor.PivotView.Primary Value { get; set; }
+    }
+    private List<PrimaryOption> PrimaryOptions = new List<PrimaryOption>
+    {
+        new PrimaryOption { Name = "Chart", Value = Syncfusion.Blazor.PivotView.Primary.Chart },
+        new PrimaryOption { Name = "Table", Value = Syncfusion.Blazor.PivotView.Primary.Table },
+    };
+    public void pivotenginepopulated(EnginePopulatedEventArgs args)
+    {
+        if(pivotView != null && fieldList != null)
+        {
+            this.fieldList.UpdateAsync(this.pivotView);
+        }
+    }
+    public void enginepopulated(EnginePopulatedEventArgs args)
+    {
+        if(pivotView != null && fieldList != null)
+        {
+            this.fieldList.UpdateViewAsync(this.pivotView);
+        }
+    }
+}

@@ -1,0 +1,159 @@
+﻿@page "/chart/donut-with-gradient"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This Blazor Donut Chart example shows the latest percentage share of e-commerce orders by country using a doughnut series with radial gradient fills. Data labels annotate each slice and the legend on the right lists the exact percentages.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>Use the legend to read country names and match slice colors; read the percentage values shown on the labels around the chart to understand each contribution and quickly identify the largest slice.</p>
+    <p><code>Tooltip</code> is enabled in this example. To see the tooltip in action, hover over a point or tap on a point on touch-enabled devices.
+        More information about the doughnut series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/chart-types/pie-doughnut' aria-label="Navigate to the documentation for Pie and Doughnut in accumulation chart component">documentation section</a>.
+    </p>
+    <p><code>Radial Gradient</code> is applied to each slice to produce a subtle depth effect that emphasizes distribution from the center outward.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <SfAccumulationChart Title="Share of E-commerce Orders by Country" EnableSmartLabels="true" Width="100%" Theme="@Theme">
+        <AccumulationChartTitleStyle Position="@TitlePosition" X="@X" Y="@Y"></AccumulationChartTitleStyle>
+        <AccumulationChartEvents OnPointRender="OnPointRender" OnLegendItemRender="LegendRenderEvent" />
+        <AccumulationChartLegendSettings Visible="true" Position="LegendPosition.Right" />
+        <AccumulationChartTooltipSettings Enable="true" Format="${point.x} : <b>${point.y}%</b>" />
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@GradientDonutData" XName="Country" YName="Share" Type="AccumulationType.Pie" InnerRadius="70%" Radius="80%" Name="Share by Country">
+                <LegendItemTemplate>
+                    @{
+                        var info = context as AccumulationChartLegendInfo;
+                        var country = Convert.ToString(info?.Data["Country"]);
+                        var share = Convert.ToDouble(info?.Data["Share"]);
+                        var baseColor = GetBaseColor(country);
+                        var textColor = IsDarkMode() ? "white" : "black";
+                        var fontSize = "14px";
+                        var justify = "space-between";
+                        @*Hidden:Lines*@
+                        if (SampleService != null && SampleService.IsDevice)
+                        {
+                            fontSize = "10px";
+                            justify = "";
+                        }
+                        @*End:Hidden*@
+                    }
+                    <div style="display:flex;align-items:center;justify-content:@justify;min-width:180px;">
+                        <div style="display:flex;align-items:center;">
+                            <span style="
+                                display:inline-block;
+                                width:14px;height:14px;border-radius:3px;margin-right:8px;
+                                background:@baseColor;
+                                box-shadow: 0 0 6px rgba(0,0,0,.2);">
+                            </span>
+                            <span style="font-size:@fontSize;color:@textColor;">@country</span>
+                        </div>
+                        <span style="font-size:@fontSize;color:@textColor;">@share.ToString("0.00")%</span>
+                    </div>
+                </LegendItemTemplate>
+                <ChildContent>
+                <AccumulationDataLabelSettings Visible="true" Position="AccumulationLabelPosition.Outside" Name="DataLabelMappingName">
+                    <AccumulationChartConnector Length="10px" />
+                    <AccumulationChartDataLabelFont Size="12px" />
+                </AccumulationDataLabelSettings>
+                </ChildContent>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+    </SfAccumulationChart>
+</div>
+
+@code {
+    private Theme Theme { get; set; }
+    public class CountryShare
+    {
+        public string? Country { get; set; }
+        public double Share { get; set; }
+        public string? DataLabelMappingName { get; set; }
+    }
+    public ChartTitlePosition TitlePosition { get; set; } = ChartTitlePosition.Custom;
+    public double X { get; set; } = 350;
+    public double Y { get; set; } = -13;
+
+    private readonly List<CountryShare> GradientDonutData = new List<CountryShare>
+    {
+        new CountryShare { Country = "Lithuania", Share = 30.46, DataLabelMappingName = "Lithuania: 30.46%" },
+        new CountryShare { Country = "Czechia", Share = 18.32, DataLabelMappingName = "Czechia: 18.32%" },
+        new CountryShare { Country = "Ireland", Share = 12.20, DataLabelMappingName = "Ireland: 12.20%" },
+        new CountryShare { Country = "Germany", Share = 10.06, DataLabelMappingName = "Germany: 10.06%" },
+        new CountryShare { Country = "Australia", Share = 8.49, DataLabelMappingName = "Australia: 8.49%" },
+        new CountryShare { Country = "Austria", Share = 7.79, DataLabelMappingName = "Austria: 7.79%" },
+        new CountryShare { Country = "UK", Share = 6.01, DataLabelMappingName = "UK: 6.01%" },
+        new CountryShare { Country = "Belgium", Share = 3.64, DataLabelMappingName = "Belgium: 3.64%" },
+        new CountryShare { Country = "The Netherlands", Share = 3.03, DataLabelMappingName = "The Netherlands: 3.03%" }
+    };
+
+    private readonly string[] BaseColors = new string[] { "#39B9E6", "#2E79CF", "#4960CF", "#5E47C6", "#8A44C9", "#C24F86", "#D8584E", "#E07245", "#F09A4A" };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            TitlePosition = ChartTitlePosition.Top;
+        }
+        @*End:Hidden*@
+    }
+
+    private void OnPointRender(AccumulationPointRenderEventArgs args)
+    {
+        string baseColor = BaseColors[args.Point.Index % BaseColors.Length];
+        args.RadialGradient = new AccumulationChartRadialGradient
+        {
+            Cx = 0.5, Cy = 0.5, Fx = 0.5, Fy = 0.5, R = 0.6,
+            GradientColorStops = new List<AccumulationChartGradientColorStop>
+            {
+                new AccumulationChartGradientColorStop { Offset = 0,   Color = baseColor, Brighten =  0.20, Opacity = 1 },
+                new AccumulationChartGradientColorStop { Offset = 45,  Color = baseColor, Brighten =  0.10, Opacity = 1 },
+                new AccumulationChartGradientColorStop { Offset = 70,  Color = baseColor, Brighten =  0.00, Opacity = 1 },
+                new AccumulationChartGradientColorStop { Offset = 85,  Color = baseColor, Brighten = -0.10, Opacity = 1 },
+                new AccumulationChartGradientColorStop { Offset = 100, Color = baseColor, Brighten = -0.20, Opacity = 1 }
+            }
+        };
+        if (args.Border != null)
+        {
+            args.Border.Width = 0;
+            args.Border.Color = "transparent";
+        }
+    }
+
+    private string GetBaseColor(string? country)
+    {
+        if (string.IsNullOrWhiteSpace(country)) return "#888";
+        int idx = GradientDonutData.FindIndex(d => string.Equals(d.Country, country, StringComparison.Ordinal));
+        if (idx < 0) idx = 0;
+        return BaseColors[idx % BaseColors.Length];
+    }
+
+    private bool IsDarkMode()
+    {
+        var uri = NavigationManager.Uri.ToLowerInvariant();
+        return uri.Contains("dark") || uri.Contains("highcontrast");
+    }
+
+    private void LegendRenderEvent(AccumulationLegendRenderEventArgs args)
+    {
+        string key = args.Text ?? string.Empty;
+        CountryShare? item = GradientDonutData.Find(d => string.Equals(d.Country, key, StringComparison.Ordinal));
+        if (item != null)
+        {
+            args.Text = item.Country + ": " + item.Share.ToString("0.00") + "%";
+        }
+    }
+}

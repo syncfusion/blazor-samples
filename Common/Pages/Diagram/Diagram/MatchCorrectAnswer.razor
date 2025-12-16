@@ -1,0 +1,556 @@
+@page "/diagram/match-correct-answer"
+
+@using Syncfusion.Blazor.Diagram
+@using System.Collections.ObjectModel
+@*Hidden:Lines*@
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using SelectionChangedEventArgs = Syncfusion.Blazor.Diagram.SelectionChangedEventArgs
+@*End:Hidden*@
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@implements IDisposable
+@*End:Hidden*@
+@using NodeShape = Syncfusion.Blazor.Diagram.NodeShapes
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<SampleDescription>
+    <p>
+        This sample demonstrates the use of standard flowchart shapes to represent different stages and actions in a process. Each shape has a specific meaning and is used to visually communicate the type of operation being performed. The diagram includes shapes such as Start/End, Decision, Document, Data Storage, Manual Operation, and more, providing a comprehensive overview of a typical workflow.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        This example illustrates how to use various flowchart shapes to model a process. Each shape is associated with a specific action:
+    </p>
+    <p>
+        These shapes are connected using connectors to show the flow of the process. Connection points are used to define where connectors attach to each shape, ensuring a clean and logical layout.
+    </p>
+</ActionDescription>
+
+@*End:Hidden*@
+<SfDiagramComponent @ref="diagram"
+Height="900px"
+Nodes="@nodes"
+Connectors="@connectors"
+CollectionChanged="@OnCollectionChange" @bind-DrawingObject="@DrawingObject" MouseLeave="@mouseleave" Created="OnCreated" MouseHover="@mousehover">
+    <DiagramTemplates>
+        <NodeTemplate>
+            @{
+                    <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 20px;">
+                        <SfButton CssClass="e-primary" Content="Reset" OnClick="Reset"
+                        style="background-color: #465A65; color: white; border: none; border-radius: 4px; padding: 10px 20px; font-size: 16px; width: 200px;"></SfButton>
+                    </div>
+                }
+            </NodeTemplate>
+        </DiagramTemplates>
+        <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+    </SfDiagramComponent>
+
+    @code {
+    SfDiagramComponent? diagram;
+    DiagramObjectCollection<Node>? nodes = new DiagramObjectCollection<Node>();
+    DiagramObjectCollection<Connector>? connectors = new DiagramObjectCollection<Connector>();
+    public IDiagramObject? DrawingObject { get; set; }
+    const string ValidConnection = "#4CAF50";
+    const string InvalidConnection = "#F44336";
+    private void OnCreated()
+    {
+        FitOptions mobileoptions = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        diagram!.FitToPage(mobileoptions);
+    }
+    // Correct matching pairs
+    private Dictionary<string, string> Matches = new Dictionary<string, string>()
+{
+    // (text node id, shape node id)
+    {"TextStartEnd", "RightTerminator"},
+    {"TextDecisionPoint", "RightDecision"},
+    {"TextAction", "RightPreDefinedProcess"},
+    {"TextTriangle", "RightTriangle"},
+    {"TextStarNode", "RightStar"},
+    {"TextPentogonNode", "RightPentagon"},
+    {"TextInput/Output", "RightParallelogram"},
+    {"TextOval", "RightEllipse"},
+        {"TextDocument", "RightDocument"},
+         {"TextCylinder", "RightCylinder"},
+
+};
+    private void mouseleave(DiagramElementMouseEventArgs args)
+    {
+        if (args.ActualObject is Node node && !node.ID!.Contains("Text")&&node.Ports!.Count > 0)
+        {
+            node.Ports[0].Constraints &= ~PortConstraints.Draw;
+        }
+    }
+    private void mousehover(DiagramElementMouseEventArgs args)
+    {
+        if (args.ActualObject is Node node && !node.ID!.Contains("Text") &&node.Ports!.Count>0)
+        {
+            node.Ports[0].Constraints |= PortConstraints.Draw;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        DrawingObject = new Connector()
+            {
+                ID = "connector1",
+                Type = ConnectorSegmentType.Straight
+            };
+        CreateMatchingNodes();
+    }
+
+    private void CreateMatchingNodes()
+    {
+
+
+        // Text nodes (center)
+        CreateTextNode("TextStartEnd", "Start/End", 550, 60);
+        CreateTextNode("TextDecisionPoint", "Decision", 550, 140);
+        CreateTextNode("TextAction", "Action", 550, 220);
+        CreateTextNode("TextTriangle", "Triangle", 550, 300);
+        CreateTextNode("TextDocument", "Document", 550, 380);
+        CreateTextNode("TextStarNode", "Star", 550, 460);
+        CreateTextNode("TextPentogonNode", "Pentagon", 550, 540);
+        CreateTextNode("TextInput/Output", "Input/Output", 550, 620);
+        CreateTextNode("TextOval", "Oval", 550, 700);
+        CreateTextNode("TextCylinder", "Cylinder", 550, 780);
+
+        // Left side nodes
+        // Left side flow nodes with equal spacing
+        CreateSymbolNode("PreDefinedProcess", "PreDefinedProcess", 150, 70, NodeShapes.Flow, NodeFlowShapes.PreDefinedProcess);
+        CreateSymbolNode("Decision", "Decision", 150, 260, NodeShapes.Flow, NodeFlowShapes.Decision);
+        CreateSymbolNode("Terminator", "Terminator", 150, 410, NodeShapes.Flow, NodeFlowShapes.Terminator);
+        CreateSymbolNode("Parallelogram", "Parallelogram", 150, 590, NodeShapes.Flow, NodeFlowShapes.Data);
+        CreateSymbolNode("Document", "Document", 150, 780, NodeShapes.Flow, NodeFlowShapes.Document);
+
+        // Right side basic nodes with equal spacing
+        CreateSymbolNode("Cylinder", "Cylinder", 950, 260, NodeShapes.Basic, NodeBasicShapes.Cylinder);
+        CreateSymbolNode("Pentagon", "Pentagon", 950, 70, NodeShapes.Basic, NodeBasicShapes.Pentagon);
+        CreateSymbolNode("Triangle", "Triangle", 950, 410, NodeShapes.Basic, NodeBasicShapes.Triangle);
+        CreateSymbolNode("Star", "Star", 950, 590, NodeShapes.Basic, NodeBasicShapes.Star);
+        CreateSymbolNode("Ellipse", "Ellipse", 950, 780, NodeShapes.Basic, NodeBasicShapes.Ellipse);
+        Connector connector = new Connector()
+            {
+                ID = "Connector",
+                SourceID = "RightTerminator",
+                TargetID = "TextStartEnd",
+                SourcePortID = "Terminatorportleft",
+                TargetPortID = "TextStartEndportleft",
+                Type=ConnectorSegmentType.Straight,
+                TargetDecorator = new DecoratorSettings()
+                {
+                    Style = new ShapeStyle()
+                    {
+                        Fill = ValidConnection,
+                            StrokeColor = ValidConnection
+                    }
+                },
+                Style = new ShapeStyle()
+                {
+                    StrokeColor = ValidConnection,
+                    StrokeWidth = 3
+                }
+
+            };
+        connectors!.Add(connector);
+        Node node = new Node()
+            {
+                ID = "ResetNode",
+                OffsetX = 550,
+                OffsetY = 880,
+                Shape = new Shape()
+                {
+                    Type = NodeShapes.HTML,
+                },
+                Constraints = NodeConstraints.Default & ~NodeConstraints.Select
+            };
+        nodes!.Add(node);
+
+    }
+
+
+    private void CreateTextNode(string id, string text, double x, double y)
+    {
+
+        var node = new Node()
+            {
+                ID = id,
+                OffsetX = x,
+                OffsetY = y,
+                Width = 240,  // Wider to match the image
+                Height = 70,  // Taller to match the image
+                Style = new ShapeStyle()
+                {
+                    Fill = "#BDBDBD",  // White background
+                    StrokeColor = "#BDBDBD",  // Light gray border
+                    StrokeWidth = 1,
+                    //StrokeDashArray = "4,4",  // Dashed border
+                },
+                Shape = new BasicShape()
+                {
+                    Type = NodeShapes.Basic,
+                    Shape = NodeBasicShapes.Rectangle,
+                    CornerRadius = 15  // Rounded corners
+                },
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+        {
+            new ShapeAnnotation()
+            {
+                Constraints = AnnotationConstraints.ReadOnly,
+                Content = text,
+                Style = new TextStyle()
+                {
+                    Color = "#424242",  // Dark gray text
+                    FontSize = 18,  // Larger font
+                    Bold = false,  // Not bold, to match image
+                    FontFamily = "Roboto"
+                }
+            }
+        },
+                Ports = new DiagramObjectCollection<PointPort>()
+        {
+            new PointPort()
+            {
+                ID = id + "portleft",
+                Offset = new DiagramPoint() { X = 0, Y = 0.5 },
+                Visibility =id=="TextStartEnd"? PortVisibility.Visible:PortVisibility.Hover,
+                //Margin = new DiagramThickness() { Right = 60 },
+                Style = new ShapeStyle()
+                {
+                    Fill = id=="TextStartEnd"?"#4CAF50":"#4CAF50",
+                    StrokeColor = "#4CAF50"
+                },
+                Width = 10,
+                Height = 10,
+                Constraints = PortConstraints.Default,
+                Shape = PortShapes.Circle
+            },
+            new PointPort()
+            {
+                ID = id + "portright",
+                Offset = new DiagramPoint() { X = 1, Y = 0.5 },
+                Visibility = PortVisibility.Hover,
+               // Margin = new DiagramThickness() { Left = 60 },
+                Style = new ShapeStyle()
+                {
+                    Fill = "#4CAF50",
+                    StrokeColor = "#4CAF50"
+                },
+                Width = 10,
+                Height = 10,
+                Constraints = PortConstraints.Default,
+                Shape = PortShapes.Circle
+            }
+        },
+                Constraints = NodeConstraints.Default & ~NodeConstraints.Select
+            };
+
+        // Add a small orange dot at the top center (as shown in the image)
+
+
+        nodes!.Add(node);
+    }
+
+    private void CreateSymbolNode(string id, string text, double x, double y, NodeShapes shapeType, object? shape = null)
+    {
+        string fillColor = "#F7941D";
+        if (id == "Terminator") fillColor = "#F85347";
+        else if (id == "Decision") fillColor = "#3DA0FF";
+        else if (id == "PreDefinedProcess") fillColor = "#FD9831";
+        else if (id == "Parallelogram") fillColor = "#FFF9C4";
+        else if (id == "Triangle") fillColor = "#9543C8";
+        else if (id == "Pentagon") fillColor = "#FAC50A";
+        else if (id == "Star") fillColor = "#F7BC0A";
+        else if (id == "Ellipse") fillColor = "#48BB52";
+        else if (id == "Document") fillColor = "#9B6EFF";
+        DiagramThickness thickness = new DiagramThickness() { Right = 80 };
+        if (id == "Terminator" || id == "Decision" || id == "PreDefinedProcess" || id == "Parallelogram"||id=="Document")
+        {
+            thickness = new DiagramThickness() { Left = 80 };
+        }
+        // Adjust dimensions based on the image
+        double width = 80;  // Default width
+        double height = 80; // Default height
+
+        // Specific adjustments per shape
+        if (id == "Triangle")
+        {
+            width = 100;
+            height = 90;
+        }
+        else if (id == "Pentagon")
+        {
+            width = 110;
+            height = 90;
+        }
+        else if (id == "PreDefinedProcess")
+        {
+            width = 120;
+            height = 60;
+        }
+        else if (id == "Ellipse")
+        {
+            width = 120;
+            height = 60;
+        }
+        else if (id == "Star")
+        {
+            width = 100;
+            height = 100;
+        }
+        else if (id == "Decision")
+        {
+            width = 100;
+            height = 100;
+        }
+        else if (id == "Terminator")
+        {
+            width = 130;
+            height = 60;
+        }
+        else if (id == "Parallelogram")
+        {
+            width = 120;
+            height = 60;
+        }
+
+        else if (id == "Document")
+        {
+            width = 140;
+            height = 70;
+        }
+        else if (id == "Cylinder")
+        {
+            width = 100;
+            height = 100;
+        }
+        
+        var node = new Node()
+            {
+                ID = "Right" +id,
+                OffsetX = x,
+                OffsetY = y,
+                Width = width,
+               Height = height,
+                Style = new ShapeStyle()
+                {
+                    Fill = fillColor
+                },
+                Ports = new DiagramObjectCollection<PointPort>()
+        {
+            new PointPort()
+            {
+                ID = id + "portleft",
+                Offset = new DiagramPoint() { X = 0.5, Y = 0.5 },
+                Visibility = PortVisibility.Visible,
+
+                Margin=thickness,
+                Style = new ShapeStyle()
+                {
+                    Fill = id=="Terminator"?"#4CAF50":"#F57C00",
+                    StrokeColor = id=="Terminator"?"#4CAF50":"#F57C00"
+                },
+                Width = 10,
+                Height = 10,
+                Constraints = PortConstraints.Default,
+                Shape = PortShapes.Circle
+            }
+        },
+                 Constraints = NodeConstraints.Default & ~NodeConstraints.Select
+            };
+
+        if (shapeType == NodeShapes.Flow && shape != null)
+        {
+            node.Shape = new FlowShape() { Type = NodeShapes.Flow, Shape = (NodeFlowShapes)shape };
+        }
+        else if (shapeType == NodeShapes.Basic && shape != null)
+        {
+            node.Shape = new BasicShape() { Type = NodeShapes.Basic, Shape = (NodeBasicShapes)shape };
+        }
+        else
+        {
+            node.Shape = new BasicShape() { Type = shapeType };
+        }
+
+        nodes!.Add(node);
+    }
+    private async Task OnCollectionChange(CollectionChangedEventArgs args)
+    {
+        diagram!.BeginUpdate();
+        if (args.Element != null)
+        {
+            var connector = args.Element as Connector;
+            string sourceId = connector!.SourceID!;
+            string targetId = connector.TargetID!;
+            Node? SourceNode = diagram.GetObject(sourceId) as Node;
+            Node? TargetNode = diagram.GetObject(targetId) as Node;
+            bool isCorrect =
+               (Matches.TryGetValue(sourceId, out var expectedTarget) && expectedTarget == targetId) ||
+               (Matches.TryGetValue(targetId, out var expectedSource) && expectedSource == sourceId);
+            if (isCorrect)
+            {
+                connector.Style = new ShapeStyle()
+                    {
+                        StrokeColor = ValidConnection,
+                        StrokeWidth = 3
+                    };
+                connector.TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = ValidConnection,
+                            StrokeColor = ValidConnection
+                        }
+                    };
+
+                string targetPortID = "";
+                if (SourceNode!.ID!.Contains("Terminator") || SourceNode.ID.Contains("Decision") || SourceNode.ID.Contains("PreDefinedProcess") || SourceNode.ID.Contains("Parallelogram") || SourceNode.ID.Contains("Document"))
+                {
+                    targetPortID = TargetNode!.Ports![0].ID;
+                    SourceNode.Ports![0].Style.Fill = ValidConnection;
+                    SourceNode.Ports[0].Style.StrokeColor = ValidConnection;
+                    TargetNode.Ports[0].Style.Fill = ValidConnection;
+                    TargetNode.Ports[0].Style.StrokeColor = ValidConnection;
+                    TargetNode.Ports[0].Visibility = PortVisibility.Visible;
+                    TargetNode.Ports[1].Visibility = PortVisibility.Hidden;
+                }
+                else{
+                    targetPortID = TargetNode!.Ports![1].ID;
+                    SourceNode.Ports![0].Style.Fill = ValidConnection;
+                    SourceNode.Ports[0].Style.StrokeColor = ValidConnection;
+                    TargetNode.Ports[1].Style.Fill = ValidConnection;
+                    TargetNode.Ports[1].Style.StrokeColor = ValidConnection;
+                    TargetNode.Ports[1].Visibility = PortVisibility.Visible;
+                    TargetNode.Ports[0].Visibility = PortVisibility.Hidden;
+                }
+                connector.SourceID = sourceId;
+                connector.TargetID = targetId;
+                connector.SourcePortID = SourceNode.Ports[0].ID;
+                connector.TargetPortID = targetPortID;
+            }
+            else
+            {
+                connector.Style = new ShapeStyle()
+                    {
+                        StrokeColor = InvalidConnection,
+                        StrokeWidth = 3
+                    };
+                connector.TargetDecorator = new DecoratorSettings()
+                    {
+                        Style = new ShapeStyle()
+                        {
+                            Fill = InvalidConnection,
+                            StrokeColor = InvalidConnection
+                        }
+                    };
+                connector.SourceID = sourceId;
+                connector.TargetID = targetId;
+                if (SourceNode != null && TargetNode != null)
+                {
+                    if (SourceNode.ID!.Contains("Terminator") || SourceNode.ID.Contains("Decision") || SourceNode.ID.Contains("PreDefinedProcess") || SourceNode.ID.Contains("Parallelogram") || SourceNode.ID.Contains("Document"))
+                    {
+                        SourceNode.Ports![0].Style.Fill = InvalidConnection;
+                        SourceNode.Ports[0].Style.StrokeColor = InvalidConnection;
+                        connector.SourcePortID = SourceNode.Ports[0].ID;
+                        TargetNode.Ports![0].Style.Fill = InvalidConnection;
+                        TargetNode.Ports[0].Style.StrokeColor = InvalidConnection;
+                        TargetNode.Ports[0].Visibility = PortVisibility.Visible;
+                        TargetNode.Ports[1].Visibility = PortVisibility.Hidden;
+                        connector.TargetPortID = TargetNode.Ports[0].ID;
+                    }
+                    else
+                    {
+                        SourceNode.Ports![0].Style.Fill = InvalidConnection;
+                        SourceNode.Ports[0].Style.StrokeColor = InvalidConnection;
+                        connector.SourcePortID = SourceNode.Ports[0].ID;
+                        TargetNode.Ports![1].Style.Fill = InvalidConnection;
+                        TargetNode.Ports[1].Style.StrokeColor = InvalidConnection;
+                        TargetNode.Ports[1].Visibility = PortVisibility.Visible;
+                        TargetNode.Ports[0].Visibility = PortVisibility.Hidden;
+                        connector.TargetPortID = TargetNode.Ports[1].ID;
+                    }
+                }
+                if (TargetNode != null)
+                {
+
+                }
+                if (diagram != null && diagram.Connectors != null)
+                {
+                    //diagram.Connectors.Remove(connector);
+                }
+
+            }
+        }
+        await diagram!.EndUpdateAsync();
+    }
+    private async Task Reset()
+    {
+        diagram!.BeginUpdate();
+
+        // Clear all connectors
+        if (diagram.Connectors != null)
+        {
+            diagram.Connectors.Clear();
+        }
+
+        // Reset all port colors back to their initial colors
+        foreach (var node in diagram.Nodes!)
+        {
+            if (node.Ports != null && node.Ports.Count > 0)
+            {
+                foreach (var port in node.Ports)
+                {
+                    // Reset text node ports to green
+                    if (node.ID!.Contains("Text"))
+                    {
+                        port.Style = new ShapeStyle()
+                            {
+                                Fill = "#4CAF50",
+                                StrokeColor = "#4CAF50"
+                            };
+                    }
+                    // Reset shape node ports to orange
+                    else
+                    {
+                        port.Style = new ShapeStyle()
+                            {
+                                Fill = "#F57C00",
+                                StrokeColor = "#F57C00"
+                            };
+                    }
+
+                    // Reset port visibility
+                    if (node.ID.Contains("Text"))
+                    {
+                        port.Visibility = PortVisibility.Hover;
+                    }
+                }
+            }
+        }
+
+        await diagram.EndUpdateAsync();
+    }
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (nodes != null)
+        {
+            nodes.Clear();
+            nodes = null;
+        }
+        if (connectors != null)
+        {
+            connectors.Clear();
+            connectors = null;
+        }
+    }
+    @*End:Hidden*@
+
+}

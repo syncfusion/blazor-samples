@@ -1,0 +1,114 @@
+@page "/gantt-chart/work-week"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates adaptable workweek configuration in the <a class="e-gantt-workweek-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                            href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                            target="_blank">Blazor Gantt Chart</a>.
+        It demonstrates how task timelines react when project calendars define unique working day sets and mapped holiday schedules.
+    </p>
+
+    <p>
+        In this example, the Gantt Chart is rendered with a supplied data source while applying a customizable set of working days.
+        A customized working days is applied through the
+        <a class="e-gantt-workweek-reference-link" aria-label="Navigate to the WorkWeek property reference for the Gantt chart component"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_WorkWeek"
+           target="_blank">WorkWeek</a>
+        property so duration calculations and taskbar rendering reflect only the selected working days. Weekend highlighting remains visible on the timeline when the
+        <a class="e-gantt-workweek-reference-link" aria-label="Navigate to the HighlightWeekends property reference for the Gantt chart component"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_HighlightWeekends"
+           target="_blank">HighlightWeekends</a>
+        property is enabled, making it easy to distinguish nonworking days at a glance.
+    </p>
+
+    <p>
+        For further details, refer to the
+        <a class="e-gantt-workweek-reference-link" aria-label="Navigate to the documentation for the working time range in the Gantt chart component"
+           href="https://blazor.syncfusion.com/documentation/gantt-chart/scheduling-tasks/#working-time-range"
+           target="_blank">documentation</a>.
+    </p>
+</SampleDescription>
+
+<div class="control-section e-gantt-work-week-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Height="450px" Width="100%" TreeColumnIndex="1" ProjectStartDate="@(new DateTime(2021, 3, 28))" ProjectEndDate="@(new DateTime(2021, 7, 6))" WorkWeek="@(new string[] { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" })" HighlightWeekends="true" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100"></GanttColumn>
+			<GanttColumn Field="TaskName" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date" MinWidth="120"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date" MinWidth="120"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration" MinWidth="120"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress" MinWidth="120"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency" MinWidth="200"></GanttColumn>
+		</GanttColumns>
+		<GanttHolidays>
+			<GanttHoliday From="new DateTime(2021, 04, 03)" To="new DateTime(2021, 04, 05)" Label="Public holiday"></GanttHoliday>
+		</GanttHolidays>
+		<GanttDayWorkingTimeCollection>
+			<GanttDayWorkingTime From="9" To="18"></GanttDayWorkingTime>
+		</GanttDayWorkingTimeCollection>
+		<GanttSplitterSettings Position="28%"></GanttSplitterSettings>
+		<GanttLabelSettings RightLabel="TaskName" TValue="WorkData.TaskData"></GanttLabelSettings>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<WorkData.TaskData>? GanttInstance { get; set; }
+	public List<WorkData.TaskData> TaskCollection { get; set; } = new List<WorkData.TaskData>();
+
+	public class Weeks
+	{
+		public string Name { get; set; } = string.Empty;
+
+		public string Code { get; set; } = string.Empty;
+	}
+
+	/// <summary>
+	/// Initializes the sample by loading task data for the Gantt chart.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = WorkData.GetTaskCollection();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-work-week-sample {
+		padding: 20px;
+	}
+	.e-gantt-workweek-reference-link {
+    text-decoration: none !important;
+}
+
+	.e-gantt-workweek-reference-link:hover,
+	.e-gantt-workweek-reference-link:focus {
+		 text-decoration: underline !important;
+	}
+</style>

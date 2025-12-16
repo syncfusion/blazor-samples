@@ -1,0 +1,517 @@
+@page "/gantt-chart/education-scheduler"
+
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Gantt
+@using System.Globalization
+@using BlazorDemos.Pages.GanttChart.Data
+
+@inject NavigationManager NavigationManager
+@inject SampleService CustomSampleService
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+	<p>
+		This sample demonstrates an academic scheduling workflow through the <a class="e-gantt-educationscheduler-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+																			  href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+																			  target="_blank">Blazor Gantt Chart</a> and delivers a clear structure for tracking systematic progress across the term.
+	</p>
+
+	<p>
+		Stages of the educational journey reveal comprehensive subject information, including subject codes, subject names, faculty assignments, portion completion percentages, and examination details, creating a consolidated overview of curriculum execution.
+	</p>
+	<p>
+		Interactive search and reset actions streamline exploration of the schedule. Grouping options are available for Professor and Exam, while dedicated filters surface academic periods     such as Freshman Year, Sophomore Year, Junior Year, and Senior Year, as well as semester selections for Fall and Spring. Additional lookups identify specific professors and allow direct entry of subject codes, ensuring that relevant courses and responsibilities are located instantly.
+	</p>
+	<p>
+		Visual presentation is refined through styling applied to the Gantt chart
+		<a class="e-gantt-educationscheduler-reference-link" href="https://blazor.syncfusion.com/documentation/gantt-chart/taskbar">taskbar</a>,
+		<a class="e-gantt-educationscheduler-reference-link" href="https://blazor.syncfusion.com/documentation/gantt-chart/time-line">timeline</a>,
+		<a class="e-gantt-educationscheduler-reference-link" href="https://blazor.syncfusion.com/documentation/gantt-chart/holidays">holidays</a>,
+		and
+		<a class="e-gantt-educationscheduler-reference-link" href="https://blazor.syncfusion.com/documentation/gantt-chart/column-template">column template</a>,
+		aligning the scheduler with academic branding requirements.
+	</p>
+
+	<p>
+		Supporting components streamline filtering and lookup operations:
+	</p>
+	<ul>
+		<li>
+			<a href="https://blazor.syncfusion.com/demos/buttons/default-functionalities?theme=fluent2">SfButton</a>
+			manages search and clear commands.
+		</li>
+		<li>
+			<a href="https://blazor.syncfusion.com/demos/dropdown-list/default-functionalities?theme=fluent2">SfDropDownList</a>
+			captures academic period, semester, and faculty filters.
+		</li>
+		<li>
+			<a href="https://blazor.syncfusion.com/demos/textbox/default-functionalities?theme=fluent2">SfTextBox</a>
+			accepts subject code lookups.
+		</li>
+		<li>
+			<a href="https://blazor.syncfusion.com/demos/tooltip/default?theme=fluent2">SfTooltip</a>
+			enriches professor columns and taskbars with contextual details.
+		</li>
+	</ul>
+</SampleDescription>
+
+<section class="control-section e-gantt-educationScheduler-sample">
+	<div class="eductaion-filter-icon">
+		<button @onclick="onToggleClick" class="e-gantt-eductaion-filter-btn">
+			<img src="@NavigationManager.ToAbsoluteUri($"{CustomSampleService.WebAssetsPath}images/gantt/filter-icon.png")" style="width: 14px; height: 14px;margin: 12px !important;" />
+		</button>
+		<div class="eductaion-filter-row-input1">
+			<label class="education-filter-row-input-label">Group By</label>
+			<SfDropDownList Placeholder="Default" Value="@GroupByContent" ValueChanged="GroupByHandler" TValue="string" DataSource="@GroupByName" TItem="string"></SfDropDownList>
+		</div>
+	</div>
+
+	<div style="padding-left: 10px; padding-right: 20px;">
+		@if (IsSideBar)
+		{
+			<div class="e-gantt-sidebar">
+				<SfSidebar ID="default-sidebar" ShowBackdrop="true" Width="100%" Target="#syncfuction-gantt-chart" EnableGestures="true" Position="SidebarPosition.Left" Type="SidebarType.Slide" @bind-IsOpen="SidebarToggle">
+					<ChildContent>
+						<div class="row eductaion-filter-sidebar-row" id="side-bar-target-element">
+							<div class="eductaion-filter-header-div">
+								<h5 class="eductaion-filter-header-title" style="">Filter</h5>
+								<span class="e-close float-right" @onclick="@Close" style="cursor: pointer; display: inline-block; float: right;"></span>
+							</div>
+							<div class="eductaion-filter-sidebar-input">
+								<label>Academic Period</label>
+								<SfDropDownList Placeholder="Select Academic Period" style="font-size: 14px;" ShowClearButton Value="@AcademicPeriod" ValueChanged="AcademicPeriodHandler" TValue="string" DataSource="@EducationYears" TItem="string"></SfDropDownList>
+							</div>
+							<div class="eductaion-filter-sidebar-input">
+								<label>Semester</label>
+								<SfDropDownList Placeholder="Select Semester" style="font-size: 14px;" ShowClearButton Value="@AcademicSemester" ValueChanged="AcademicSemesterHandler" TValue="string" DataSource="@Semesters" TItem="string"></SfDropDownList>
+							</div>
+							<div class="eductaion-filter-sidebar-input">
+								<label>Professor</label>
+								<SfDropDownList Placeholder="Select Professor" style="font-size: 14px;" ShowClearButton Value="@ProfessorName" ValueChanged="ProfessorNameHandler" TValue="string" DataSource="@ProfessorNames" TItem="string"></SfDropDownList>
+							</div>
+							<div class="eductaion-filter-sidebar-input">
+								<label>Subject Code</label>
+								<SfTextBox Placeholder="Subject Code" style="font-size: 14px;" ShowClearButton Value="@SubjectCode" ValueChanged="SubjectCodeHandler"></SfTextBox>
+							</div>
+							<div class="eductaion-filter-btn-div">
+								<div class="eductaion-filter-search-btn">
+									<SfButton CssClass="gantt-search-btn" IsPrimary="true" OnClick="FilterHandler">Search</SfButton>
+								</div>
+								<div class="eductaion-filter-clear-btn">
+									<SfButton CssClass="gantt-clear-btn" OnClick="ClearFilterHandler">Clear</SfButton>
+								</div>
+							</div>
+						</div>
+					</ChildContent>
+				</SfSidebar>
+			</div>
+		}
+	</div>
+
+	<div class="eductaion-filter-row" id="side-bar-target-element">
+		<div class="education-filter-row-input">
+			<label>Group By</label>
+			<SfDropDownList Placeholder="Default" Value="@GroupByContent" ValueChanged="GroupByHandler" TValue="string" DataSource="@GroupByName" TItem="string"></SfDropDownList>
+		</div>
+		<div class="divider"></div>
+		<div class="education-filter-row-input">
+			<label>Academic Period</label>
+			<SfDropDownList Placeholder="Select Academic Period" ShowClearButton Value="@AcademicPeriod" ValueChanged="AcademicPeriodHandler" TValue="string" DataSource="@EducationYears" TItem="string"></SfDropDownList>
+		</div>
+		<div class="education-filter-row-input">
+			<label>Semester</label>
+			<SfDropDownList Placeholder="Select Semester" ShowClearButton Value="@AcademicSemester" ValueChanged="AcademicSemesterHandler" TValue="string" DataSource="@Semesters" TItem="string"></SfDropDownList>
+		</div>
+		<div class="education-filter-row-input">
+			<label>Professor</label>
+			<SfDropDownList Placeholder="Select Professor" ShowClearButton Value="@ProfessorName" ValueChanged="ProfessorNameHandler" TValue="string" DataSource="@ProfessorNames" TItem="string"></SfDropDownList>
+		</div>
+		<div class="education-filter-row-input">
+			<label>Subject Code</label>
+			<SfTextBox Placeholder="Subject Code" ShowClearButton Value="@SubjectCode" ValueChanged="SubjectCodeHandler" style="box-shadow: none !important;"></SfTextBox>
+		</div>
+		<div class="education-filter-row-input" style="padding:0px;text-align:end">
+			<div>
+				<div class="e-gantt-filter-div" style="display:inline-block; padding-right: 5px;">
+					<label style="visibility:hidden !important;">Label</label>
+					<SfButton CssClass="gantt-search-btn" style="width:100%" IsPrimary="true" OnClick="FilterHandler">Search</SfButton>
+				</div>
+				<div class="e-gantt-filter-div" style="display:inline-block;float:right;">
+					<label style="visibility:hidden !important;">Label</label>
+					<SfButton CssClass="gantt-clear-btn" style="width:100%" OnClick="ClearFilterHandler">Clear</SfButton>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div style="padding: 20px;">
+		<SfTooltip Target="#professor" Position="Position.TopCenter" ShowTipPointer="false">
+			<ContentTemplate>
+				@{
+					string randomString = GetProfessorImgHandler();
+					<div class="e-professor-tooltip">
+						<img style="width: 45px;height: 45px;" src=@(NavigationManager.ToAbsoluteUri($"{CustomSampleService.WebAssetsPath}images/gantt/{@randomString}.png")) />
+						<div style="display:flex;flex-direction:column; padding:0px 5px;">
+							<span>@ProfessorNameTooltip</span>
+							<span>Professor</span>
+						</div>
+					</div>
+				}
+			</ContentTemplate>
+			<ChildContent>
+				<SfGantt @ref="GanttInstance" TValue="EducationSchedulerData.EducationCourseModel" DataSource="@EducationCollection" Width="100%" Height="450px" EnablePredecessorValidation="false" GridLines="GridLine.Both" ScrollToTaskbarOnClick="true" Query="@QueryCollection" TreeColumnIndex="1" ProjectStartDate="@ProjectStartDate" ProjectEndDate="@ProjectEndDate">
+					<GanttTaskFields Id="CourseId" Name="Term" ParentID="ParentId" Progress="Coverage" StartDate="StartDate" Duration="Duration" Indicators="Indicators" Dependency="Prerequisite"></GanttTaskFields>
+					<GanttColumns>
+						<GanttColumn Field="CourseId" Visible="false"></GanttColumn>
+						<GanttColumn Field="Term" HeaderText="Academic Period" Width="@SubjectNameColumnWidth">
+							<Template>
+								@{
+									var taskData = context as EducationSchedulerData.EducationCourseModel;
+									<div>
+										@if (taskData != null && !string.IsNullOrEmpty(taskData.Term))
+										{
+											<span>@taskData.Term</span>
+										}
+										else
+										{
+											<span class="grid-airline-text">@taskData?.Department</span>
+										}
+									</div>
+								}
+							</Template>
+						</GanttColumn>
+						<GanttColumn Field="CourseCode" HeaderText="Code" Width="110" Visible="@IsBatchColumnVisible"></GanttColumn>
+						<GanttColumn Field="CourseName" HeaderText="Subject" Width="400"></GanttColumn>
+						<GanttColumn Field="AcademicYear" HeaderText="Batch" Visible="@IsBatchColumnVisible"></GanttColumn>
+						<GanttColumn Field="Professor" HeaderText="Professor" Visible="@IsProfessorVisible">
+							<Template>
+								@{
+									var data = (context as EducationSchedulerData.EducationCourseModel).Professor;
+									<div id="professor" @onmouseover="@(async (MouseEventArgs e) => { await SetProfessorName(data);})">@data</div>
+								}
+							</Template>
+						</GanttColumn>
+						<GanttColumn Field="Coverage" HeaderText="Course Progress" Visible="@IsPortionCompletionVisible">
+							<Template>
+								<span>@((context as EducationSchedulerData.EducationCourseModel).Coverage) %</span>
+							</Template>
+						</GanttColumn>
+					</GanttColumns>
+					<GanttSplitterSettings ColumnIndex="@SplitterColumnIndex" Collapsible="true"></GanttSplitterSettings>
+					<GanttTooltipSettings ShowTooltip="true" TValue="EducationSchedulerData.EducationCourseModel">
+						<TaskbarTemplate>
+							@{
+								var course = context as EducationSchedulerData.EducationCourseModel;
+								if (IsBatchColumnVisible && !string.IsNullOrEmpty(course.Term) && !string.IsNullOrEmpty(course.Department) && !course.Term.Contains("Semester Midterms") && !course.Term.Contains("Semester Finals") && !course.Term.Contains("Dr. "))
+								{
+									<div class="exam-tooltip">
+										<span class="d-block">Subject: @course.CourseName</span>
+										<span class="d-block">Subject Code: @course.CourseCode</span>
+										<span class="d-block">Subject Completion: @course.Coverage</span>
+									</div>
+								}
+								else if (string.IsNullOrEmpty(course.Department) && !string.IsNullOrEmpty(course.Term) && !course.Term.Contains("Semester Midterms") && !course.Term.Contains("Semester Finals"))
+								{
+									<div>
+										<span>Professor: @course.Professor</span>
+									</div>
+								}
+								else if (string.IsNullOrEmpty(course.Department) && !string.IsNullOrEmpty(course.Term) && (course.Term.Contains("Semester Midterms") || course.Term.Contains("Semester Finals")))
+								{
+									<div>
+										<span>Exam: @course.Term</span>
+									</div>
+								}
+								else if (course.Department == "Freshman Year" || course.Department == "Sophomore Year" || course.Department == "Junior Year" || course.Department == "Senior Year")
+								{
+									<div>
+										<span>Department: @course.Department</span>
+									</div>
+								}
+								else
+								{
+									<div>
+										<span>Exam: @course.Term</span>
+									</div>
+								}
+							}
+						</TaskbarTemplate>
+					</GanttTooltipSettings>
+					<GanttTimelineSettings>
+						<GanttTopTierSettings Unit="TimelineViewMode.Week" Count="2" Format="MMM, yyyy"></GanttTopTierSettings>
+						<GanttBottomTierSettings Unit="TimelineViewMode.Day" Count="1" Format="dd"></GanttBottomTierSettings>
+					</GanttTimelineSettings>
+					<GanttSegmentFields PrimaryKey="Id" ForeignKey="CourseId" StartDate="StartDate" EndDate="EndDate" TValue="EducationSchedulerData.EducationCourseModel" TSegments="EducationSchedulerData.SegmentModel" DataSource="SegmentCollection"></GanttSegmentFields>
+					<GanttHolidays>
+						@{
+							foreach (var holiday in EducationSchedulerData.HolidayCollection)
+							{
+								<GanttHoliday From="holiday.Date" To="holiday.Date" Label="@holiday.HolidayName" CssClass="e-custom-holiday"></GanttHoliday>
+							}
+						}
+					</GanttHolidays>
+					<GanttEventMarkers>
+						<GanttEventMarker Day="@(new DateTime(2023, 12, 11))" Label="Fall 2023 Finals Start"></GanttEventMarker>
+						<GanttEventMarker Day="@(new DateTime(2023, 12, 19))" Label="Fall 2023 Finals End" CssClass="e-custom-event-markers"></GanttEventMarker>
+
+						<GanttEventMarker Day="@(new DateTime(2024, 05, 13))" Label="Spring 2024 Finals Start"></GanttEventMarker>
+						<GanttEventMarker Day="@(new DateTime(2024, 05, 22))" Label="Spring 2024 Finals End" CssClass="e-custom-event-markers"></GanttEventMarker>
+
+						<GanttEventMarker Day="@(new DateTime(2024, 12, 09))" Label="Fall 2024 Finals Start"></GanttEventMarker>
+						<GanttEventMarker Day="@(new DateTime(2024, 12, 18))" Label="Fall 2024 Finals End" CssClass="e-custom-event-markers"></GanttEventMarker>
+
+						<GanttEventMarker Day="@(new DateTime(2025, 05, 12))" Label="Spring 2025 Finals Start"></GanttEventMarker>
+						<GanttEventMarker Day="@(new DateTime(2025, 05, 21))" Label="Spring 2025 Finals End" CssClass="e-custom-event-markers"></GanttEventMarker>
+
+						<GanttEventMarker Day="@(new DateTime(2025, 12, 08))" Label="Fall 2025 Finals Start"></GanttEventMarker>
+						<GanttEventMarker Day="@(new DateTime(2025, 12, 17))" Label="Fall 2025 Finals End" CssClass="e-custom-event-markers"></GanttEventMarker>
+
+						<GanttEventMarker Day="@(new DateTime(2026, 05, 11))" Label="Spring 2026 Finals Start"></GanttEventMarker>
+						<GanttEventMarker Day="@(new DateTime(2026, 05, 20))" Label="Spring 2026 Finals End" CssClass="e-custom-event-markers"></GanttEventMarker>
+
+						<GanttEventMarker Day="@(new DateTime(2026, 12, 07))" Label="Fall 2026 Finals Start"></GanttEventMarker>
+						<GanttEventMarker Day="@(new DateTime(2026, 12, 16))" Label="Fall 2026 Finals End" CssClass="e-custom-event-markers"></GanttEventMarker>
+
+						<GanttEventMarker Day="@(new DateTime(2027, 05, 10))" Label="Spring 2027 Finals Start"></GanttEventMarker>
+						<GanttEventMarker Day="@(new DateTime(2027, 05, 19))" Label="Spring 2027 Finals End" CssClass="e-custom-event-markers"></GanttEventMarker>
+					</GanttEventMarkers>
+
+					<GanttTemplates TValue="EducationSchedulerData.EducationCourseModel">
+						<TaskbarTemplate>
+							@{
+								var task = (context as EducationSchedulerData.EducationCourseModel);
+								if (task == null)
+								{
+									return;
+								}
+								var taskModel = GanttInstance.GetRowTaskModel(task);
+								List<GanttSegmentData> segments = taskModel.Segments;
+								@if (segments != null && segments.Count() > 1)
+								{
+									foreach (var segment in segments)
+									{
+										string left = segment.Left.ToString(CultureInfo.InvariantCulture);
+										string width = segment.Width.ToString(CultureInfo.InvariantCulture);
+										string progressWidth = segment.ProgressWidth.ToString(CultureInfo.InvariantCulture);
+										string textContent = "Segment " + (segment.SegmentIndex + 1);
+										<div>
+											@if (task.Term.Contains("Semester Finals") || (task.Term.Contains("Semester Finals") && task.ParentId != null))
+											{
+												<div class="e-gantt-child-taskbar-inner-div e-gantt-child-taskbar e-segmented-taskbar theoretical-exam" style=@("height:100%;position: absolute;left:" + left + "px; width:" + width + "px;") data-segment-index="@(segment.SegmentIndex)" tabindex="-1" role="progressbar" aria-label="taskbar-label">
+													<div class="e-taskbar-left-resizer e-icon" style="margin-top: 5px; left:2px">
+													</div>
+													<div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar theoretical-exam" style="height:100%;width:@(progressWidth + "px");">
+													</div>
+												</div>
+											}
+											else if (task.Term.Contains("Semester Midterms") || (task.Term.Contains("Semester Midterms") && task.ParentId != null))
+											{
+												<div class="e-gantt-child-taskbar-inner-div e-gantt-child-taskbar e-segmented-taskbar practical-exam" style=@("height:100%;position: absolute;left:" + left + "px; width:" + width + "px;") data-segment-index="@(segment.SegmentIndex)" tabindex="-1" role="progressbar" aria-label="taskbar-label">
+													<div class="e-taskbar-left-resizer e-icon" style="margin-top: 5px; left:2px">
+													</div>
+													<div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar practical-exam" style="height:100%;width:@(progressWidth + "px");">
+													</div>
+												</div>
+											}
+											else
+											{
+												<div class="e-gantt-child-taskbar-inner-div e-gantt-child-taskbar e-segmented-taskbar" style=@("height:100%;position: absolute;left:" + left + "px; width:" + width + "px;") data-segment-index="@(segment.SegmentIndex)" tabindex="-1" role="progressbar" aria-label="taskbar-label">
+													<div class="e-taskbar-left-resizer e-icon" style="margin-top: 5px; left:2px">
+													</div>
+													<div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="height:100%;width:@(progressWidth + "px");">
+													</div>
+												</div>
+											}
+										</div>
+									}
+								}
+								else
+								{
+									if (task.Term.Contains("Semester Midterms") || (task.Term.Contains("Semester Midterms") && task.ParentId != null))
+									{
+										<div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div practical-exam" tabindex=-1 style="height:100%;position: absolute;" role="progressbar" aria-label="taskbar-label">
+											<div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar practical-exam" style="height:100%;width:@(task.Coverage + "%");">
+											</div>
+										</div>
+									}
+									else if (task.Term.Contains("Semester Finals"))
+									{
+										<div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div theoretical-exam" tabindex=-1 style="height:100%;position: absolute;" role="progressbar" aria-label="taskbar-label">
+											<div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar theoretical-exam" style="height:100%;width:@(task.Coverage + "%");">
+											</div>
+										</div>
+									}
+									else
+									{
+										<div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div" tabindex=-1 style="height:100%;position: absolute;" role="progressbar" aria-label="taskbar-label">
+											<div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar" style="height:100%;width:@(taskModel.ProgressWidth + "px");">
+											</div>
+										</div>
+									}
+								}
+							}
+						</TaskbarTemplate>
+					</GanttTemplates>
+					<GanttEvents TValue="EducationSchedulerData.EducationCourseModel" Created="CreatedHandler" DataBound="DataBoundHandler"></GanttEvents>
+				</SfGantt>
+			</ChildContent>
+		</SfTooltip>
+	</div>
+</section>
+@code{
+	/// <summary>
+	/// Initializes the component, sets theme and data collections, and configures layout and splitter settings.
+	/// </summary>
+	protected override async Task OnInitializedAsync()
+	{
+		Layout.Collapse();
+		GetCurrentTheme(NavigationManager.Uri);
+		EducationCollection = AddIndicators(EducationSchedulerData.EducationCourses);
+		SegmentCollection = GetSegmentCollection(EducationCollection);
+		if (CustomSampleService.IsDevice)
+		{
+			SplitterColumnIndex = 2;
+			SubjectNameColumnWidth = "220";
+		}
+		else
+		{
+			SplitterColumnIndex = 3;
+			SubjectNameColumnWidth = "265";
+		}
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+		await Task.CompletedTask;
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.sf-filter-bar-row {
+		display: flex;
+		background: @SarchInputBackgroundColor;
+		padding: 10px;
+		margin-bottom: 9px;
+	}
+
+	.e-professor-tooltip {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		align-items: center;
+		text-align: left;
+	}
+
+	.exam-tooltip {
+		display: flex;
+		flex-direction: column;
+	}
+
+	.control-section {
+		padding: 0px !important;
+	}
+
+	.e-filter-label {
+		font-weight: 500;
+	}
+
+	.gantt-search-btn {
+		width: 45%;
+		font-weight: bold !important;
+		border-color: transparent !important;
+		padding-left: 0px !important;
+		border-radius: 4px;
+		padding-right: 0px !important;
+	}
+
+	.gantt-clear-btn {
+		width: 45%;
+		font-weight: bold;
+		padding-left: 0px !important;
+		border-radius: 4px;
+		padding-right: 0px !important;
+	}
+
+	.e-gantt .e-gantt-chart .e-event-markers.e-custom-event-markers .e-span-label {
+		top: 90px !important;
+	}
+
+	.e-gantt .e-gantt-chart .e-event-markers.e-custom-event-markers .e-gantt-right-arrow {
+		top: 98px !important;
+	}
+
+	.e-gantt-educationScheduler-sample .eductaion-filter-row label {
+		font-weight: 500;
+		color: @LabelColor;
+	}
+
+	.e-gantt-educationScheduler-sample .eductaion-filter-icon {
+		display: none;
+	}
+
+	.e-gantt-educationScheduler-sample .eductaion-filter-sidebar-row label {
+		font-weight: 500;
+		color: @LabelColor;
+	}
+
+	.e-gantt-educationScheduler-sample .eductaion-filter-sidebar-row {
+		background: @SarchInputBackgroundColor;
+	}
+
+	#default-sidebar {
+		height: 100%;
+		background-color: rgba(0, 0, 0, 0.5);
+	}
+
+		#default-sidebar .gantt-search-btn {
+			padding: 6px 0px;
+			width: 67px;
+			font-size: 14px;
+			font-weight: 600 !important;
+			line-height: 19px !important;
+			border-color: transparent !important;
+			padding-left: 0px !important;
+			border-radius: 4px;
+			padding-right: 0px !important;
+		}
+
+		#default-sidebar .gantt-clear-btn {
+			padding: 6px 0px;
+			width: 57px;
+			font-size: 14px;
+			font-weight: 600 !important;
+			line-height: 20px !important;
+			padding-left: 0px !important;
+			border-radius: 4px;
+			padding-right: 0px !important;
+		}
+
+@@media only screen and (max-width:992px) {
+	.control-section {
+		overflow-x: hidden;
+	}
+}
+</style>
+

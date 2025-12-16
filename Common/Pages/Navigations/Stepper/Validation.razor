@@ -1,0 +1,415 @@
+@page "/stepper/validation"
+@using System.Text.RegularExpressions;
+@using Syncfusion.Blazor.Navigations
+
+@*Hidden:Lines*@
+
+@inherits SampleBaseComponent
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample showcases the integration of validation support in the Stepper component.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>Stepper validation ensures that user inputs are correct and guides them to prevent errors before proceeding to the next step. The <code>IsValid</code> property is used for validating the state of each step within the Stepper component.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="validation-stepper-section">
+        <SfStepper Linear=true ID="validation-stepper" @ref="SurveyStepper" StepChanging="@HandleStepChange">
+            <StepperSteps>
+                <StepperStep @ref="SurveyStepIntro" IconCss="sf-icon-survey-intro" Text="Survey Introduction"></StepperStep>
+                <StepperStep @ref="SurveyStepFeedback" IconCss="sf-icon-survey-feedback" Text="Feedback"></StepperStep>
+                <StepperStep @ref="SurveyStepConfirmation" IconCss="sf-icon-survey-status" Text="Status"></StepperStep>
+            </StepperSteps>
+        </SfStepper>
+    </div>
+    <div id="validation-step-content">
+        <div id="intro-container" class="step-content @IntroContainerClass">
+            <div id="agreement-text">
+                <p>
+                    Welcome! This survey is an opportunity for you to share your opinions
+                    and experiences, contributing to the ongoing improvement of our offerings. Your participation is highly appreciated, and we look forward to gaining a deeper understanding of your preferences.
+                </p>
+            </div>
+            <label style="margin-top: 15px;">Enter your email <span class="required">*</span></label>
+            <input class="e-input inputContainer" id="add-e-mail" @bind="Email" placeholder="Enter here" @oninput="@OnEmailInput" aria-label="Enter your email here" />
+            <div class="add-e-mail error-label" style="visibility: @EmailErrorVisibility">@EmailErrorMessage</div>
+            <button style="margin-top: 20px;" class="e-btn nextStep stepperBtn" @onclick="@NextStep">Next</button>
+        </div>
+        <div id="feedback-container" class="step-content @FeedbackContainerClass">
+            <div class='question-container'>
+                <div class="survey-question">
+                    <p> Is this the first time you have visited this website? <span class="required">*</span></p>
+                    <label>
+                        <input type="radio" class="inputContainer" name="service-usage" value="yes" checked="@IsNewUser" @oninput="() => UpdateUserSelection(true)"> Yes
+                    </label>
+                    <label style='margin: 0px 10px'>
+                        <input type="radio" class="inputContainer" name="service-usage" value="no" checked="@IsReturningUser" @oninput="() => UpdateUserSelection(false)"> No
+                    </label>
+                </div>
+                <div class="feedback-section">
+                    <p class="feedback-label">Anything else you'd like to share? <span class="required">*</span></p>
+                    <textarea id="feedback-text" class="inputContainer" @bind="FeedbackText" placeholder="I have feedback on..." @oninput="@OnFeedbackInput" required></textarea>
+                    <div class="feedback-area error-label" style="height: 20px ;visibility: @FeedbackErrorVisibility;">@FeedbackErrorMessage</div>
+                    <div style="display: flex;">
+                        <button style="margin-top: 20px; margin-right: 5%;" class="e-btn previousStep" @onclick="@PreviousStep"> Previous </button>
+                        <button style="margin-top: 20px;" class="e-btn nextStep" @onclick="@NextStep"> Submit Feedback </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="confirmation-container" class="step-content @ConfirmationContainerClass">
+            <div class='step-content @ConfirmStepClass'>
+                <div class='feedback-msg'><b>Please confirm to submit your feedback.</b></div><br />
+                <div class='feedback-msg' id='feedback-message'>@FeedbackText</div>
+                <button style="margin-top: 20px; margin-right: 5%;" class="e-btn previousStep" @onclick="@PreviousStep"> Previous </button>
+                <button style='margin-top: 20px; margin-right: 5%;' class='e-btn confirmbutton' id='confirm-button' @onclick='@ConfirmSubmission'>Confirm</button>
+            </div>
+            <div class="step-content @ResetStepClass">
+                <div class="success-message" id="success-message">Thanks! Feedback has been submitted successfully. </div>
+                <button style="margin-top: 20px; margin-right: 5%;" type="reset" class="e-btn e-hide" id="reset-button" @onclick="@ResetForm"> Reset </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private SfStepper? SurveyStepper { get; set; }
+    private StepperStep? SurveyStepIntro { get; set; }
+    private StepperStep? SurveyStepFeedback { get; set; }
+    private StepperStep? SurveyStepConfirmation { get; set; }
+
+    private string EmailErrorMessage { get; set; } = "";
+    private string FeedbackErrorMessage { get; set; } = "";
+    private string Email { get; set; } = "";
+    private string FeedbackText { get; set; } = "";
+    private string EmailErrorVisibility { get; set; } = "hidden";
+    private string FeedbackErrorVisibility { get; set; } = "hidden";
+    private string IntroContainerClass { get; set; } = "step-active";
+    private string FeedbackContainerClass { get; set; } = "";
+    private string ConfirmationContainerClass { get; set; } = "";
+    private string ConfirmStepClass { get; set; } = "step-active";
+    private string ResetStepClass { get; set; } = "";
+    private bool IsFeedbackValid { get; set; } = false;
+    private bool IsEmailValid { get; set; } = false;
+    private bool IsNewUser { get; set; } = false;
+    private bool IsReturningUser { get; set; } = false;
+    private bool IsNavigatingBackwards { get; set; } = false;
+    private bool IsCurrentStepValid { get; set; } = false;
+    private bool IsUserSelectionMade { get; set; }
+
+    private void HandleStepChange(StepperChangeEventArgs args)
+    {
+        IsNavigatingBackwards = args.ActiveStep < args.PreviousStep;
+        if (!IsNavigatingBackwards)
+        {
+            ValidateCurrentStep(args);
+        }
+        else
+        {
+            ClearStepValidations(args.PreviousStep);
+            IsCurrentStepValid = true;
+        }
+
+        if (IsCurrentStepValid)
+        {
+            UpdateActiveStepClasses(args.ActiveStep);
+        }
+    }
+
+    private void ValidateCurrentStep(StepperChangeEventArgs args)
+    {
+        switch (SurveyStepper?.ActiveStep)
+        {
+            case 0:
+                ValidateEmail();
+                IsCurrentStepValid = !string.IsNullOrEmpty(Email) && IsEmailValid;
+                if (SurveyStepIntro != null)
+                {
+                    SurveyStepIntro.IsValid = IsCurrentStepValid;
+                }
+                break;
+            case 1:
+                IsCurrentStepValid = IsUserSelectionMade && IsFeedbackValid;
+                if (SurveyStepFeedback != null)
+                {
+                    SurveyStepFeedback.IsValid = IsCurrentStepValid;
+                }
+                break;
+            case 2:
+                IsCurrentStepValid = true;
+                if (SurveyStepConfirmation != null)
+                {
+                    SurveyStepConfirmation.IsValid = IsCurrentStepValid;
+                }
+                break;
+        }
+
+        args.Cancel = !IsCurrentStepValid;
+    }
+
+    private void UpdateUserSelection(bool isNewUser)
+    {
+        IsUserSelectionMade = true;
+        IsNewUser = isNewUser;
+        IsReturningUser = !isNewUser;
+    }
+
+    private async Task NextStep()
+    {
+        if (SurveyStepper != null)
+        {
+            await SurveyStepper.NextStepAsync();
+        }
+    }
+    private async Task PreviousStep()
+    {
+        if (SurveyStepper != null)
+        {
+            await SurveyStepper.PreviousStepAsync();
+        }
+    }
+
+    private void ConfirmSubmission()
+    {
+        ConfirmStepClass = "";
+        ResetStepClass = "step-active";
+        if (SurveyStepConfirmation != null)
+        {
+            SurveyStepConfirmation.IsValid = true;
+            SurveyStepConfirmation.Status = StepperStatus.Completed;
+        }
+    }
+
+    private async void ResetForm()
+    {
+        IsCurrentStepValid = false;
+        if (SurveyStepper != null)
+        {
+            await SurveyStepper.ResetAsync();
+        }
+        IsNewUser = true;
+        IsReturningUser = false;
+        FeedbackText = "";
+        IsFeedbackValid = false;
+        Email = "";
+        ConfirmStepClass = "step-active";
+        ResetStepClass = "";
+        FeedbackErrorVisibility = "hidden";
+        EmailErrorVisibility = "hidden";
+        if (SurveyStepIntro != null && SurveyStepFeedback != null && SurveyStepConfirmation != null)
+        {
+            SurveyStepIntro.IsValid = null;
+            SurveyStepFeedback.IsValid = null;
+            SurveyStepConfirmation.IsValid = null;
+        }
+        StateHasChanged();
+    }
+
+    private void OnFeedbackInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        FeedbackText = e.Value?.ToString() ?? string.Empty;
+        if (FeedbackText?.Length == 0)
+        {
+            FeedbackErrorMessage = "Feedback cannot be empty.";
+            IsFeedbackValid = false;
+        }
+        else
+        {
+            IsFeedbackValid = FeedbackText?.Length > 15;
+            FeedbackErrorMessage = IsFeedbackValid ? "" : "Please enter at least 15 characters.";
+        }
+
+        FeedbackErrorVisibility = IsFeedbackValid ? "hidden" : "visible";
+    }
+
+    private void OnEmailInput(Microsoft.AspNetCore.Components.ChangeEventArgs e)
+    {
+        Email = e.Value?.ToString() ?? string.Empty;
+        ValidateEmail();
+    }
+
+    private void ValidateEmail()
+    {
+        if (string.IsNullOrEmpty(Email))
+        {
+            EmailErrorMessage = "Email should not be empty.";
+        }
+        else if (!IsValidEmail(Email))
+        {
+            EmailErrorMessage = "Enter a valid email address.";
+        }
+        else
+        {
+            EmailErrorMessage = "";
+        }
+
+        EmailErrorVisibility = string.IsNullOrEmpty(EmailErrorMessage) ? "hidden" : "visible";
+        IsEmailValid = string.IsNullOrEmpty(EmailErrorMessage);
+    }
+
+    private static bool IsValidEmail(string email) => Regex.IsMatch(email, @"^[^@\s]+@[^@\s]+\.[^@\s]+$");
+
+    private void ClearStepValidations(int previousStep)
+    {
+        switch (previousStep)
+        {
+            case 0:
+                IsEmailValid = true;
+                EmailErrorVisibility = "hidden";
+                break;
+            case 1:
+                IsFeedbackValid = true;
+                FeedbackErrorVisibility = "hidden";
+                break;
+        }
+    }
+
+    private void UpdateActiveStepClasses(int activeStep)
+    {
+        IntroContainerClass = activeStep == 0 ? "step-active" : "";
+        FeedbackContainerClass = activeStep == 1 ? "step-active" : "";
+        ConfirmationContainerClass = activeStep == 2 ? "step-active" : "";
+    }
+
+}
+
+<style>
+    @@font-face {
+        font-family: 'Survey-icons';
+        src:
+            url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    [class^="sf-icon-"],
+    [class*=" sf-icon-"] {
+        font-family: 'Survey-icons' !important;
+        speak: none;
+        font-size: 55px;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: inherit;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .sf-icon-survey-feedback:before {
+        content: "\e700";
+    }
+
+    .sf-icon-survey-intro:before {
+        content: "\e703";
+    }
+
+    .sf-icon-survey-status:before {
+        content: "\e707";
+    }
+
+    #validation-step-content input[type=radio] {
+        vertical-align: top;
+    }
+
+    .feedback-label {
+        margin-bottom: 10px;
+    }
+
+    #feedback-text {
+        color: #000;
+        width: 90%;
+        height: 50px;
+        resize: vertical;
+    }
+
+    #agreement-text p {
+        text-align: justify;
+    }
+
+    #validation-step-content .success-message {
+        color: green;
+        font-weight: bold;
+        margin-top: 10px;
+        font-size: 16px;
+    }
+
+    #validation-step-content .required {
+        color: red;
+    }
+
+    #validation-step-content .error-label {
+        height: 20px;
+        color: #e5184b;
+        font-size: 12px;
+        font-weight: 600;
+        line-height: 15px;
+        visibility: hidden;
+        margin: 3px 0 0;
+    }
+
+    #validation-step-content .question-container {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .validation-stepper-section {
+        width: 70%;
+        margin: 40px auto;
+    }
+
+    #validation-step-content {
+        position: relative;
+        width: 65%;
+        min-height: 250px;
+        margin: 0 auto;
+    }
+
+    .step-content {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    /* Display the active step content */
+    .step-content.step-active {
+        animation: fadeInUp 0.4s;
+        opacity: 1;
+        z-index: 1000;
+        pointer-events: all;
+    }
+
+    /* Keyframes */
+    @@keyframes fadeInUp {
+        from {
+            opacity: 0;
+            -webkit-transform: translate3d(0, 50%, 0);
+            transform: translate3d(0, 50%, 0);
+        }
+
+        to {
+            opacity: 1;
+            -webkit-transform: none;
+            transform: none;
+        }
+    }
+
+    @@media only screen and (max-width: 965px) {
+        .validation-stepper-section {
+            width: 100%;
+        }
+
+        #validation-step-content {
+            width: auto;
+            margin: auto 5%;
+        }
+    }
+</style>

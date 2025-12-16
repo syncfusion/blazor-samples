@@ -1,0 +1,124 @@
+@page "/rich-text-editor/smart-suggestion"
+
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.DropDowns
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample demonstrates the <code>SlashMenu</code> feature of the Rich Text Editor, which allows you to apply to formatting options, media, and table insertion using the Mention component. Type the slash (/) key inside the editor to view a contextual suggestion list and easily apply the desired action.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>This sample demonstrates the <code>SlashMenu</code> feature of the Rich Text Editor, which allows users to apply formatting such as headings, lists, quotes, open insert dialogs, and execute custom commands within the editor. The slash menu can be triggered by typing the "/" character in the editor.</p>
+    <p>In this example, the slash menu is enabled by setting the <code>Enable</code> property within the <code>RichTextEditorSlashMenuSettings</code> to <code>true</code>.</p>
+    <p>This example includes two <b>Custom Slash menu items</b> that allow you to easily insert meeting notes and a signature into the content.</p>
+    <p>The slash menu is configured with the following properties:</p>
+    <ul>
+        <li>
+            <p><code>Enable</code>: Enables or disables the slash menu in the editor. The default value is <code>false</code>.</p>
+        </li>
+        <li>
+            <p><code>Items</code>: Defines the items displayed in the slash menu popup. Custom items can also be added, and their actions can be handled using the <code>SlashMenuItemSelected</code> event.</p>
+        </li>
+    </ul>
+    <p><b>Adding Custom Slash Menu Items</b></p>
+    <p>The custom items can be added to the slash menu by defining the <code>Items</code> child property within <code>SlashMenuItemSelected</code>. The <code>Items</code> property accepts a string of items and  also an array of objects, where each object represents a custom slash menu item. These objects can include the following properties:</p>
+    <ul>
+        <li><code>Text</code> - Sets the text displayed for the slash menu item.</li>
+        <li><code>Command</code> - Specifies the action to be executed when the slash menu item is clicked.</li>
+        <li><code>Type</code> - Groups related items within the slash menu.</li>
+        <li><code>IconCss</code> - Sets the CSS class for the icon associated with the item.</li>
+        <li><code>Description</code> - Provides a description for the slash menu item.</li>
+    </ul>
+</ActionDescription>
+<div class="control-section" id="slashmenuEditor">
+    <SfRichTextEditor @ref="richTextEditorObj" Placeholder="@editorPlaceholder">
+        <RichTextEditorToolbarSettings Items="@tools" />
+        <RichTextEditorEvents SlashMenuItemSelecting = "OnSlashMenuItemSelect" />
+        <RichTextEditorSlashMenuSettings Enable="true" Items="@slashmenuItems" />
+    </SfRichTextEditor>
+</div>
+@code
+{
+    private SfRichTextEditor? richTextEditorObj;
+    private string editorPlaceholder = "Type \"/\" and choose format";
+    private string meetingNotes = @"<p><strong>Meeting Notes</strong></p><table class=""e-rte-table"" style=""width: 100%; min-width: 0px; height: 150px;""> <tbody> <tr style=""height: 20%;""> <td style=""width: 50%;""><strong>Attendees</strong></td> <td style=""width: 50%;""><br></td> </tr> <tr style=""height: 20%;""> <td style=""width: 50%;""><strong>Date &amp; Time</strong></td> <td style=""width: 50%;""><br></td> </tr> <tr style=""height: 20%;""> <td style=""width: 50%;""><strong>Agenda</strong></td> <td style=""width: 50%;""><br></td> </tr> <tr style=""height: 20%;""> <td style=""width: 50%;""><strong>Discussed Items</strong></td> <td style=""width: 50%;""><br></td> </tr> <tr style=""height: 20%;""> <td style=""width: 50%;""><strong>Action Items</strong></td> <td style=""width: 50%;""><br></td> </tr> </tbody> </table>";
+    private string signature = "<p><br></p><p>Warm regards,</p><p>John Doe<br>Event Coordinator<br>ABC Company</p>";
+    private List<ToolbarItemModel> tools = new List<ToolbarItemModel> ()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.StrikeThrough },
+        new ToolbarItemModel() { Command = ToolbarCommand.SuperScript },
+        new ToolbarItemModel() { Command = ToolbarCommand.SubScript },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontName },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontSize },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.LowerCase },
+        new ToolbarItemModel() { Command = ToolbarCommand.UpperCase },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Blockquote },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.NumberFormatList },
+        new ToolbarItemModel() { Command = ToolbarCommand.BulletFormatList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Outdent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Indent },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.Video },
+        new ToolbarItemModel() { Command = ToolbarCommand.Audio },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+        new ToolbarItemModel() { Command = ToolbarCommand.CodeBlock },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.ClearFormat },
+        new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
+    };
+    private List<SlashMenuItemModel> slashmenuItems = new List<SlashMenuItemModel> ()
+    {
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Paragraph},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Heading1},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Heading2},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Heading3},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Heading4},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.OrderedList},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.UnorderedList},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Checklist},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Blockquote},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.CodeBlock},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Image},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Audio},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Video},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Link},
+        new SlashMenuItemModel() {Command = SlashMenuCommand.Table},
+        new SlashMenuItemModel() { Text="Meeting Notes", GroupBy = "Custom" , IconCss = "e-icons e-description", Description= "Insert a meeting note template." },
+        new SlashMenuItemModel() { Text="Signature", GroupBy= "Custom" , IconCss = "e-icons e-signature", Description= "Insert a signature template." }
+    };
+    public async Task OnSlashMenuItemSelect ( SlashMenuSelectEventArgs args )
+    {
+        if (richTextEditorObj != null)
+        {
+            if (args.ItemData.Text == "Meeting Notes")
+            {
+                await richTextEditorObj.ExecuteCommandAsync (CommandName.InsertHTML, meetingNotes);
+            }
+            else if (args.ItemData.Text == "Signature")
+            {
+                await richTextEditorObj.ExecuteCommandAsync (CommandName.InsertHTML, signature);
+            }
+        }
+    }
+}

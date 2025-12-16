@@ -1,0 +1,74 @@
+@page "/tree-grid/tree-grid-detail-template"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@inject NavigationManager UriHelper
+@using Templatedata
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the Tree Grid with a detail template that displays additional information for each record below the corresponding row.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        The detail template is configured using the <a aria-label="Navigate to the DetailTemplate property reference for Tree Grid templates" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridTemplates.html#Syncfusion_Blazor_TreeGrid_TreeGridTemplates_DetailTemplate">DetailTemplate</a> property inside the <a aria-label="Navigate to the class reference for Tree Grid templates" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridTemplates.html">TreeGridTemplates</a> component. It allows rendering custom content for each row without affecting the column structure.
+    </p>
+    <p>
+        In this demo, the detail row displays a panel with the employee's photo, address, country, designation, and contact information, while the Tree Grid displays all the columns.
+    </p>
+    <p>
+        More information about the detail template can be found in this
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/rows/detail-template">documentation</a> section.
+    </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid Height="400" DataSource="@TreeGridData" IdMapping="EmployeeID" ParentIdMapping="ParentId" TreeColumnIndex="0">
+                <TreeGridTemplates>
+                    <DetailTemplate>
+                        <div style="position: relative; display: inline-block; float: left; font-weight: bold; width: 10%;padding:5px 4px 2px 27px;;">
+                        @{
+                            var employee = (context as Employee);
+                            <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/tree-grid/{employee?.FullName?.ToLower()}.png")" alt="Profile Picture" />
+                        }
+                        </div>
+                        <div style="padding-left: 10px; display: inline-block; width: 66%; text-wrap: normal;font-size:13px;font-family:'Segoe UI';">
+                            <div class="e-description" style="word-wrap: break-word;">
+                                <b>@((context as Employee)?.Name)</b> was lives at @((context as Employee)?.Address), @((context as Employee)?.Country). @((context as Employee)?.Name) holds a position of <b>@((context as Employee)?.Designation)</b> in our WA department, (Seattle USA).
+                            </div>
+                            <div class="e-description" style="word-wrap: break-word;margin-top:5px;">
+                                <b style="margin-right:10px;">Contact:</b>@((context as Employee)?.Contact)
+                            </div>
+                        </div>
+                    </DetailTemplate>
+                </TreeGridTemplates>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="Name" HeaderText="Name" Width="160">
+                    </TreeGridColumn>
+                    <TreeGridColumn Field="DOB" HeaderText="DOB" Width="120" Type=ColumnType.Date Format="d" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Designation" HeaderText="Designation" Width="180"></TreeGridColumn>
+                    <TreeGridColumn Field="EmpID" HeaderText="Employee ID" Width="180" TextAlign="TextAlign.Left"></TreeGridColumn>
+                    <TreeGridColumn Field="Country" HeaderText="Country" Width="100"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    private IEnumerable<Employee> TreeGridData { get; set; } = new List<Employee>();
+    
+    protected override void OnInitialized()
+    {
+        TreeGridData = Employee.GetTemplateData();
+    }
+}

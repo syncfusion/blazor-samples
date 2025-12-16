@@ -1,0 +1,100 @@
+@page "/gantt-chart/eventmarkers"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+s
+<SampleDescription>
+    <p>
+		This sample demonstrates how to highlight important dates within a project timeline using Event Markers in the <a class="e-gantt-eventmarkers-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                                                                          href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                                                                          target="_blank">Blazor Gantt Chart</a>.
+    </p>
+	<p><a class="e-gantt-eventmarkers-reference-link" aria-label="Navigate to the class reference for Gantt Event Markers" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEventMarkers.html">EventMarkers</a> serve as visual bookmarks to indicate significant milestones or stages in the project lifecycle. You can display custom labels on specific dates to enhance timeline clarity and communication.</p>
+    <p>Each Event Marker can be customized using the following properties:</p>
+    <ul>
+		<li><a class="e-gantt-eventmarkers-reference-link" aria-label="Navigate to the CssClass property reference for gantt event markers" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEventMarker.html#Syncfusion_Blazor_Gantt_GanttEventMarker_CssClass">CssClass</a> - Allows you to apply custom styles to the marker for visual distinction.</li>
+        <li><a class="e-gantt-eventmarkers-reference-link" aria-label="Navigate to the Day property reference for gantt event markers" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEventMarker.html#Syncfusion_Blazor_Gantt_GanttEventMarker_Day">Day</a> - Specifies the date on which the marker should appear.</li>
+		<li><a class="e-gantt-eventmarkers-reference-link" aria-label="Navigate to the Label property reference for gantt event markers" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEventMarker.html#Syncfusion_Blazor_Gantt_GanttEventMarker_Label">Label</a> - Defines the text to be displayed alongside the marker.</li>
+    </ul>
+    <p>Event Markers provide a simple yet effective way to annotate the Gantt Chart with contextual information, improving project tracking and stakeholder visibility.</p>
+	<p>For further details, refer to the <a class="e-gantt-eventmarkers-reference-link" aria-label="Navigate to the documentation for event markers in gantt component" target="_blank" href="https://blazor.syncfusion.com/documentation/gantt-chart/event-markers">documentation</a>.</p>
+</SampleDescription>
+
+<div class="control-section e-gantt-eventmarkers-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Height="450px" Width="100%" ProjectStartDate="@(new DateTime(2021, 3, 27))" ProjectEndDate="@(new DateTime(2021, 7, 6))" TreeColumnIndex="1" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Indicators="Indicators" Dependency="Predecessor">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" HeaderText="Task Id"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Task Name" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+		</GanttColumns>
+		<GanttEventMarkers>
+			<GanttEventMarker Day="@ResearchPhaseDate" Label="Research phase" CssClass="e-custom-event-marker"></GanttEventMarker>
+			<GanttEventMarker Day="@DesignPhaseDate" Label="Design phase" CssClass="e-custom-event-marker"></GanttEventMarker>
+			<GanttEventMarker Day="@ProductionPhaseDate" Label="Production phase" CssClass="e-custom-event-marker"></GanttEventMarker>
+			<GanttEventMarker Day="@SalesMarketingPhaseDate" Label="Sales and marketing phase" CssClass="e-custom-event-marker"></GanttEventMarker>
+		</GanttEventMarkers>
+		<GanttSplitterSettings Position="28%"></GanttSplitterSettings>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="EventData.TaskData"></GanttLabelSettings>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<EventData.TaskData>? GanttInstance { get; set; }
+	public List<EventData.TaskData> TaskCollection { get; set; } = new List<EventData.TaskData>();
+	public DateTime ResearchPhaseDate { get; set; } = new DateTime(2021, 04, 09);
+	public DateTime DesignPhaseDate { get; set; } = new DateTime(2021, 04, 30);
+	public DateTime ProductionPhaseDate { get; set; } = new DateTime(2021, 05, 22);
+	public DateTime SalesMarketingPhaseDate { get; set; } = new DateTime(2021, 06, 19);
+
+	/// <summary>
+	/// Initializes the sample by loading task data for the Gantt chart.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = EventData.GetTaskCollection();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-eventmarkers-sample {
+		padding: 20px;
+	}
+
+	.e-gantt-eventmarkers-reference-link {
+		text-decoration: none !important;
+	}
+
+	.e-gantt-eventmarkers-reference-link:hover,
+	.e-gantt-eventmarkers-reference-link:focus {
+		text-decoration: underline !important;
+	}
+</style>

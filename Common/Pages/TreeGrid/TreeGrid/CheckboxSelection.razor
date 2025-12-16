@@ -1,0 +1,60 @@
+@page "/tree-grid/checkbox-selection"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using EmployeeData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates checkbox-based row selection in the Tree Grid, including a header master checkbox and selection persistence across paging, filtering.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>Checkbox selection is enabled by adding a checkbox column through <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html">TreeGridColumn</a> with the <code>Type</code> set to <b>Checkbox</b>, which renders a checkbox in each row and a header master checkbox, and persistence across paging, sorting, or filtering is achieved by configuring <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridSelectionSettings.html">TreeGridSelectionSettings</a> and setting <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridSelectionSettings.html#Syncfusion_Blazor_TreeGrid_TreeGridSelectionSettings_PersistSelection">PersistSelection</a> to <b>true</b>.</p>
+
+    <p>The first column is configured as a checkbox column, <code>PersistSelection</code> is set to <b>true</b> in <code>TreeGridSelectionSettings</code> to retain selected rows during paging, filtering, and sorting, and <code>CheckboxOnly</code> is set to <b>true</b> so selection is triggered only through the checkboxes.</p>
+
+    <p>More information about checkbox selection can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/selection/#checkbox-selection">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid DataSource="TreeData" AllowFiltering="true" AllowPaging="true" IdMapping="EmployeeID" ParentIdMapping="ParentId" TreeColumnIndex="2" Height="326">
+                <TreeGridSelectionSettings PersistSelection="true" CheckboxOnly="true"></TreeGridSelectionSettings>
+                <TreeGridFilterSettings Type="Syncfusion.Blazor.TreeGrid.FilterType.Excel"></TreeGridFilterSettings>
+                <TreeGridPageSettings PageSize="2" PageSizeMode="PageSizeMode.Root"></TreeGridPageSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Type="Syncfusion.Blazor.Grids.ColumnType.CheckBox" IsPrimaryKey="true" Width="40"></TreeGridColumn>
+                    <TreeGridColumn Field="EmpID" HeaderText="Employee ID" TextAlign="TextAlign.Right" Width="110"></TreeGridColumn>
+                    <TreeGridColumn Field="Name" HeaderText="Name" Width="120"></TreeGridColumn>
+                    <TreeGridColumn Field="Designation" ClipMode="ClipMode.EllipsisWithTooltip" HeaderText="Designation" Width="110"></TreeGridColumn>
+                    <TreeGridColumn Field="JoinedDate" HeaderText="Joined Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="Country" HeaderText="Country" Width="110"></TreeGridColumn>
+                    <TreeGridColumn Field="Contact" HeaderText="Contact" Width="140" TextAlign="TextAlign.Right">
+                        <Template>
+                            @{
+                                var employee = (context as EmployeeData);
+                                <a href="tel:@employee.Contact" class="e-link" onclick="event.preventDefault();">
+                                    <i class="e-icons e-phone"></i> @employee.Contact
+                                </a>
+                            }
+                        </Template>
+                    </TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    private List<EmployeeData> TreeData { get; set; } = new List<EmployeeData>();
+
+    protected override void OnInitialized()
+    {
+        TreeData = EmployeeData.GetTemplateData().ToList();
+    }
+}

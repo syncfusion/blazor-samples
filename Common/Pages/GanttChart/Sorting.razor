@@ -1,0 +1,102 @@
+@page "/gantt-chart/sorting"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates the sorting capabilities available in the
+        <a class="e-gantt-sorting-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+           href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+           target="_blank">Blazor Gantt Chart</a>.
+        Sorting presents task data in ascending or descending order for any column, making trends and priorities easier to interpret at a glance.
+    </p>
+
+    <p>
+        Sorting is enabled through the
+        <a class="e-gantt-sorting-reference-link" aria-label="Navigate to the AllowSorting property reference for gantt chart component"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_AllowSorting"
+           target="_blank">AllowSorting</a>
+        property. Once enabled, selecting column headers directly within the Gantt chart adjusts the ordering of the associated data.
+    </p>
+
+    <p>
+        <a class="e-gantt-sorting-reference-link" aria-label="Navigate to the AllowMultiSorting property reference for gantt chart component" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_AllowMultiSorting" target="_blank">AllowMultiSorting</a> - The component supports multi sorting out of the box. Holding the <code>Ctrl</code> key while clicking additional column headers appends them to the active sort criteria. To remove a column from the applied sort, hold the <code>Shift</code> key and click that column header again. A single header click without modifier keys toggles the sort order or clears the sort based on its current state.
+    </p>
+
+    <p>
+        For further details, refer to the 
+		<a class="e-gantt-sorting-reference-link" aria-label="Navigate to the documentation for sorting in gantt chart component"
+           href="https://blazor.syncfusion.com/documentation/gantt-chart/sorting"
+           target="_blank">documentation</a>.
+    </p>
+</SampleDescription>
+
+<div class="control-section e-gantt-sorting-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true" TreeColumnIndex="1"
+			 ProjectStartDate="@(new DateTime(2021, 3, 24))" ProjectEndDate="@(new DateTime(2021, 7, 25))" AllowSorting="true" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+						 Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Task Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+		</GanttColumns>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="DefaultData.TaskData"> </GanttLabelSettings>
+		<GanttSplitterSettings Position="56%"> </GanttSplitterSettings>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<DefaultData.TaskData>? GanttInstance { get; set; }
+	public List<DefaultData.TaskData> TaskCollection { get; set; } = new List<DefaultData.TaskData>();
+
+	/// <summary>
+	/// Initializes the Gantt chart with default task data.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = DefaultData.ProjectNewData();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-sorting-sample {
+		padding: 20px;
+	}
+
+	.e-gantt-sorting-reference-link {
+    text-decoration: none !important;
+}
+
+.e-gantt-sorting-reference-link:hover,
+.e-gantt-sorting-reference-link:focus {
+     text-decoration: underline !important;
+}
+</style>

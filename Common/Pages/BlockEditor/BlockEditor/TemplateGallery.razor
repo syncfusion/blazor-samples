@@ -1,0 +1,261 @@
+@page "/block-editor/template"
+@*Hidden:Lines*@
+@using Syncfusion.Blazor.BlockEditor
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.BlockEditorDemo
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using static Syncfusion.Blazor.BlockEditorDemo.EditorBlockData
+@*End:Hidden*@
+<SampleDescription>
+    <p>
+        This sample demonstrates a Template Gallery for the Block Editor; use the horizontal card rail to choose a
+        template, load its blocks into the editor, and customize the content with slash <code>(/)</code> commands, lists, and inline
+        formatting.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        This sample implements a Template Gallery for the Block Editor. A horizontal set of cards acts as a template picker;
+        selecting a card loads its predefined block structure into the editor without reloading the page.
+    </p>
+    <ul>
+        <li><b>Interactive cards:</b> Each card is focusable and clickable, with active styling for the selected template.</li>
+        <li><b>Dynamic loading:</b> Clicking a card loads the template’s blocks into the editor.</li>
+        <li><b>Responsive behavior:</b> The card rail is horizontally scrollable when content overflows.</li>
+        <li><b>Templates included:</b> Blank Page, Project Brief, Team Decisions, Project Planning, and Meeting Notes.</li>
+    </ul>
+    <p>
+        Use this gallery to kickstart common document plan projects, record decisions, run meetings, and more then tailor
+        the content with headings, lists, checklists, and rich inline styles.
+    </p>
+</ActionDescription>
+<div id="control-section" class="blockeditor-template">
+    <!-- Smart Scroll Wrapper -->
+    <div class="cards-wrapper" style="position: relative;">
+        <!-- Left fade -->
+        <div class="fade left"></div>
+        <!-- Scrollable Container (JS-free) -->
+        <div class="cards-container">
+            @foreach (var data in Cards)
+            {
+                <div class="template-card @(SelectedCardId == data.Id ? "active" : "")"
+                     title=@data.Name
+                     @onclick="() => OnCardClick(data)"
+                     tabindex="0">
+                    <div class="card-icon-left">
+                        <span class="icon">@data.Icon</span>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-title">@data.Name</div>
+                        <div class="card-subtitle">@data.Subtitle</div>
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Right fade -->
+        <div class="fade right"></div>
+    </div>
+    <div class="header-label" contenteditable="true">
+        <span class="selectedTitle" aria-placeholder="Untitle">
+            @SelectedCardIcon@SelectedCardName
+        </span>
+    </div>
+    <SfBlockEditor @ref="BlockEditorRef"
+    Height="500px"
+    Blocks="EditorBlocks">
+    </SfBlockEditor>
+    
+</div>
+<style>
+    .blockeditor-template .cards-container {
+        display: flex;
+        gap: 8px;
+        padding: 10px 20px;
+        transition: all 0.3s ease;
+        overflow: hidden;
+        flex-wrap: nowrap;
+    }
+
+    .header-label {
+        padding: 15px 20px;
+    }
+
+    .blockeditor-template {
+        margin: 10px;
+        border: 1px solid #dee2e6;
+    }
+
+        .blockeditor-template .fade {
+            position: absolute;
+            top: 0;
+            width: 60px;
+            height: 100%;
+            pointer-events: none;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+            .blockeditor-template .fade.left {
+                left: 0;
+                background: linear-gradient(to right, #f8f9fa 30%, transparent 100%);
+            }
+
+            .blockeditor-template .fade.right {
+                right: 0;
+                background: linear-gradient(to left, #f8f9fa 30%, transparent 100%);
+            }
+
+        .blockeditor-template .selectedTitle {
+            font-family: var(--fontFamilyBase, var(--fontFamilyBase, var(--ms-themeFontFamilyBody)));
+            font-size: 2.25em;
+            font-weight: 600;
+            color: var(--ms-themeColorBodyText, var(--colorNeutralForeground1, var(--ms-themeColorPaletteNeutralPrimary, #323130)));
+            line-height: 48px;
+            width: 100%;
+            widows: 1;
+            orphans: 1;
+        }
+
+    .template-card {
+        max-width: 180px;
+        min-width: 60px;
+        height: 60px;
+        background: white;
+        border-radius: 18px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+        border: 1px solid #eee;
+        display: flex;
+        align-items: center;
+        padding: 8px;
+        cursor: pointer;
+        transition: all 0.25s ease;
+        user-select: none;
+        text-overflow: ellipsis;
+        overflow: hidden;
+        white-space: nowrap;
+    }
+
+        .template-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .template-card.active {
+            border: 1px solid #007bff;
+            box-shadow: 0 0 0 1px rgba(0, 123, 255, 0.2);
+        }
+
+    .blockeditor-template .card-icon-left {
+        margin-right: 10px;
+    }
+
+    .blockeditor-template .icon {
+        font-size: 28px;
+    }
+
+    .blockeditor-template .card-title {
+        font-size: 14px;
+        font-weight: 500;
+        color: #1a1a1a;
+        margin-bottom: 4px;
+    }
+
+    .blockeditor-template .card-subtitle {
+        font-size: 10px;
+        color: #666;
+    }
+
+    @@media (max-width: 650px) {
+        .blockeditor-template .cards-container {
+            align-items: center;
+            justify-content: center;
+        }
+
+        .template-card {
+            justify-content: center;
+        }
+
+            .template-card .card-content {
+                display: none;
+            }
+
+        .blockeditor-template .card-icon-left {
+            margin-right: 0;
+        }
+    }
+    /* Default styles (for >900px): show full text, no truncation needed */
+    .template-card .card-content {
+        flex: 1;
+        min-width: 0;
+        overflow: hidden;
+    }
+
+    .template-card .card-title,
+    .template-card .card-subtitle {
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        display: block;
+    }
+    /* Between 650px and 900px: Show text but truncate with ellipsis when it overflows */
+    @@media (min-width: 650px) and (max-width: 1050px) {
+        .template-card {
+            min-width: 100px;
+            max-width: 200px;
+        }
+
+            .template-card .card-content {
+                display: block;
+            }
+    }
+
+    body[class*="dark"] .template-card,
+    body[class*="high"] .template-card {
+        background-color: var(--color-sf-content-bg-color);
+    }
+
+    body[class*="dark"] .blockeditor-template .card-subtitle, body[class*="dark"] .blockeditor-template .card-title, body[class*="dark"] .blockeditor-template .selectedTitle,
+    body[class*="high"] .blockeditor-template .card-subtitle, body[class*="high"] .blockeditor-template .card-title, body[class*="high"] .blockeditor-template .selectedTitle {
+        color: #fff;
+    }
+
+    body[class*="high"] .blockeditor-template {
+        background: var(--color-sf-content-bg-color);
+    }
+
+    .blockeditor-template .e-mention.e-editable-element {
+        border: unset;
+    }
+</style>
+@code {
+    private SfBlockEditor? BlockEditorRef;
+    // Data (from the new file, not the existing EditorBlockData)
+    private List<TemplateCard> Cards = new();
+    private List<BlockModel> EditorBlocks = new();
+    // UI state
+    private string? SelectedCardId;
+    private string? SelectedCardName;
+    private string? SelectedCardIcon;
+    protected override void OnInitialized()
+    {
+        Cards = EditorBlockData.GetCards();
+        // Load the first card by default
+        if (Cards.Count > 0)
+        {
+            LoadPage(Cards[1]);
+        }
+    }
+    private void LoadPage(TemplateCard pageData)
+    {
+        EditorBlocks = pageData?.Blocks != null? pageData.Blocks.Select(b => (BlockModel)CloneUtils.Clone(b, typeof(BlockModel))).ToList() : new List<BlockModel>();
+        SelectedCardId = pageData.Id;
+        SelectedCardName = pageData.Name;
+        SelectedCardIcon = pageData.Icon;
+    }
+    private void OnCardClick(TemplateCard selectedPage)
+    {
+        LoadPage(selectedPage);
+    }
+}

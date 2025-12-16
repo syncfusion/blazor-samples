@@ -1,0 +1,118 @@
+@page "/tree-grid/inline-editing"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using TreeFieldServiceScheduleData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample demonstrates CRUD operations in the Tree Grid using both cell and row editing modes.
+    </p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>
+        This demo, CRUD operations are configured through the <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridEditSettings.html">TreeGridEditSettings</a> component, which supports multiple editing modes.
+        </p>
+    <p>
+        You can switch between cell and row editing using the dropdown in the properties panel. Cell editing is the default mode and allows editing individual cells, while row editing enables editing all cells in a row simultaneously.
+    </p>
+    <p>
+        More information about Tree Grid editing modes is available in the
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/editing/row-editing">documentation</a> section.
+    </p>
+</ActionDescription>
+
+
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid @ref="TreeGridInstance" DataSource="TreeData" IdMapping="TaskId" ParentIdMapping="ParentId" Height="328" TreeColumnIndex="1" Toolbar="@ToolbarItems">
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="@GridEditingmode" NewRowPosition="RowPosition.Below"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskId" HeaderText="Task ID" ValidationRules="@(new ValidationRules() { Required = true, Number = true })" Width="120" IsPrimaryKey="true" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" HeaderText="Task Name" ValidationRules="@(new ValidationRules() { Required = true })" Width="260"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type="ColumnType.DateOnly" Width="140" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" EditType=Syncfusion.Blazor.Grids.EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn Field="StartTime" HeaderText="Start Time" Width="120" Type="ColumnType.TimeOnly" EditType="Syncfusion.Blazor.Grids.EditType.TimePickerEdit"></TreeGridColumn>
+                    <TreeGridColumn Field="EndDate" HeaderText="End Date" Format="d" Type="ColumnType.DateOnly" Width="140" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" EditType=Syncfusion.Blazor.Grids.EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn Field="Duration" HeaderText="Duration (In Days)" ValidationRules="@(new ValidationRules() { Number = true, Min = 0 })" Width="140" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" ClipMode="ClipMode.EllipsisWithTooltip"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Progress" Width="160" EditType="Syncfusion.Blazor.Grids.EditType.DropDownEdit"></TreeGridColumn>
+
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <table id="property" title="Properties" style="width: 100%;">
+        <tr style="height: 50px">
+            <td class="left-side" style="width: 35% !important; padding: 6px 6px 6px 6px">Edit Mode</td>
+            <td>
+                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@DropDownEditmode" @bind-Value="@EditMode">
+                    <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ModeChange"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Name" Value="ID"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code {
+    public SfTreeGrid<FieldServiceScheduleData> TreeGridInstance;
+
+    private List<FieldServiceScheduleData> TreeData { get; set; } = new List<FieldServiceScheduleData>();
+    private readonly string[] ProgressOptions = new[] { "Planned", "Assigned", "On Duty", "In Progress", "Scheduled", "Completed" };
+
+    private string EditMode { get; set; } = "Cell Editing";
+
+    private Syncfusion.Blazor.TreeGrid.EditMode GridEditingmode { get; set; }
+
+    private List<string> ToolbarItems { get; set; } = new List<string>();
+
+    private List<DropDownData> DropDownEditmode { get; set; } = new List<DropDownData>();
+
+    protected override void OnInitialized()
+    {
+        ToolbarItems = new List<string>() { "Add", "Delete", "Update", "Cancel" };
+        TreeData = FieldServiceScheduleData.GetFieldServiceScheduleData().ToList();
+        DropDownEditmode.Add(new DropDownData() { ID = "Cell Editing", Name = "Cell Editing" });
+        DropDownEditmode.Add(new DropDownData() { ID = "Row Editing", Name = "Row Editing" });
+    }
+
+    public class DropDownData
+    {
+        public string? ID { get; set; }
+        public string? Name { get; set; }
+    }
+
+    public void ModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+
+    {
+        if (args.Value == "Cell Editing")
+        {
+            TreeGridInstance.EndEditAsync();
+            ToolbarItems = new List<string>() { "Add", "Delete", "Update", "Cancel" };
+            GridEditingmode = Syncfusion.Blazor.TreeGrid.EditMode.Cell;
+        }
+
+        if (args.Value == "Row Editing")
+        {
+            TreeGridInstance.EndEditAsync();
+            ToolbarItems = new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" };
+            GridEditingmode = Syncfusion.Blazor.TreeGrid.EditMode.Row;
+        }
+    }
+
+    public class TreeEditModes
+    {
+        public string? ID { get; set; }
+        public string? Name { get; set; }
+    }
+
+}

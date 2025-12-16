@@ -1,0 +1,188 @@
+@page "/gantt-chart/advanced-exporting"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.PdfExport
+@using Syncfusion.Blazor.Grids
+@using System.IO
+@using System.Net
+@using BlazorDemos.Pages.GanttChart.Data
+
+@inject IJSRuntime JSRuntime
+@inject NavigationManager NavigationManager
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+	<p>
+		This sample demonstrates advanced PDF exporting in the <a class="e-gantt-advanceexporting-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+																  href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+																  target="_blank">Blazor Gantt Chart</a>.
+		It extends PDF export behavior with customizable headers, footers, and taskbar rendering so reports align perfectly with corporate branding or compliance requirements.
+	</p>
+
+	<p>
+		The export workflow invokes
+		<a class="e-gantt-advanceexporting-reference-link" aria-label="Navigate to the ExportToPdfAsync method reference for the Gantt chart component"
+		   href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_ExportToPdfAsync_Syncfusion_Blazor_Gantt_GanttPdfExportProperties_"
+		   target="_blank">ExportToPdfAsync</a> method
+		along with <a class="e-gantt-advanceexporting-reference-link" aria-label="Navigate to the GanttPdfExportProperties for the Gantt chart component"
+				  href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttPdfExportProperties.html"
+				  target="_blank">GanttPdfExportProperties</a> to fine tune page layout.
+		During generation the chart raises
+		<a class="e-gantt-advanceexporting-reference-link" aria-label="Navigate to the PdfQueryTaskbarInfo event reference"
+		   href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEvents-1.html#Syncfusion_Blazor_Gantt_GanttEvents_1_PdfQueryTaskbarInfo"
+		   target="_blank">PdfQueryTaskbarInfo</a>,
+		allowing custom graphics, colors, or annotations to be applied to each taskbar before the document is composed.
+	</p>
+
+	<p>
+		These capabilities ensure the exported Gantt mirrors the interactive view including dependencies, progress, and resource indicators while offering additional presentation control.
+	</p>
+
+	<p>
+		For further details, refer to the
+		<a class="e-gantt-advanceexporting-reference-link" aria-label="Navigate to the documentation for advanced exporting in the Gantt chart component"
+		   href="https://blazor.syncfusion.com/documentation/gantt-chart/pdf-export"
+		   target="_blank">documentation</a>.
+	</p>
+</SampleDescription>
+
+<div class="control-section e-gantt-advanced-exporting-sample">
+	<SfGantt @ref="@GanttChartRef" DataSource="@TaskCollection" EnableCriticalPath="true" AllowResizing="true" AllowPdfExport="true" AllowExcelExport="true" Width="100%" Height="700px" Toolbar="ToolbarItems"
+			 ProjectStartDate="@(new DateTime(2025, 3, 25))" ProjectEndDate="@(new DateTime(2025, 5, 18))" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate"
+						 Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+		</GanttTaskFields>
+		<GanttEditSettings AllowEditing="false" AllowAdding="false" AllowTaskbarEditing="false" AllowSchedulingOnDrag="true" Mode="Syncfusion.Blazor.Gantt.EditMode.Dialog"></GanttEditSettings>
+		<GanttSplitterSettings ColumnIndex="2"></GanttSplitterSettings>
+		<GanttLabelSettings TValue="AdvancedExportingData.TaskData">
+			<RightLabelTemplate>
+				@{
+					var taskData = context as AdvancedExportingData.TaskData;
+					if (!string.IsNullOrEmpty(taskData?.ResourceName))
+					{
+						var resourceName = taskData.ResourceName.Trim().Replace(" ", "").ToLower();
+						<div class="e-right-label-inner-div">
+							<img class="e-label image" role="presentation"
+								 src="@NavigationManager.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png")" alt="@resourceName" />
+
+						</div>
+					}
+				}
+			</RightLabelTemplate>
+			<LeftLabelTemplate>
+				@{
+					var taskItem = context as AdvancedExportingData.TaskData;
+					if (taskItem.TaskId != 7)
+					{
+						<div class="e-left-label-inner-div" style="margin-top:7px;color:#1A3A5E;">
+							<span class="e-label">@taskItem.TaskName</span>
+						</div>
+					}
+					else
+					{
+						<div class="e-left-label-inner-div" style="margin-top:7px;color:#8E2440">
+							<span class="e-label">Custom Label</span>
+						</div>
+					}
+				}
+
+			</LeftLabelTemplate>
+		</GanttLabelSettings>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" HeaderText="Id"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Name" Width="250"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date" Width="100"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date" Width="90px"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration" Width="100"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress" Width="100"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency" Width="105px"></GanttColumn>
+		</GanttColumns>
+		<GanttEventMarkers>
+			<GanttEventMarker Day="new DateTime(2025, 04, 11)" Label="Branding product"
+							  CssClass="e-custom-event-marker"></GanttEventMarker>
+		</GanttEventMarkers>
+		<GanttEvents OnToolbarClick="ToolbarClickHandler" PdfQueryTaskbarInfo="PdfQueryTaskbarInfoHandler" QueryChartRowInfo="QueryChartRowInfo" TValue=AdvancedExportingData.TaskData></GanttEvents>
+		<GanttCriticalPathSettings SlackValue="5"></GanttCriticalPathSettings>
+	</SfGantt>
+</div>
+
+@code{
+
+	/// <summary>
+	/// Initializes the Gantt chart with task data and loads resource images for PDF export.
+	/// </summary>
+	protected override async Task OnInitializedAsync()
+	{
+		TaskCollection = AdvancedExportingData.GetTaskCollection();
+		var resourceNames = TaskCollection
+		.Where(task => !string.IsNullOrEmpty(task.ResourceName))  // Exclude empty/null values
+		.Select(task => task.ResourceName.Trim().Replace(" ", "").ToLower())  // Normalize names
+		.Distinct() // Ensure uniqueness
+		.ToList();
+
+		foreach (var resourceName in resourceNames)
+		{
+			var filePath = NavigationManager.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/gantt/{resourceName}.png").ToString();
+
+			try
+			{
+				var base64String = await JSRuntime.InvokeAsync<string>("convertGanttImageBaseUrl", filePath);
+				if (!string.IsNullOrEmpty(base64String))
+				{
+					pdfExportImage[resourceName] = base64String;
+				}
+			}
+			catch (Exception ex)
+			{
+				Console.WriteLine($"Error loading image {resourceName}: {ex.Message}");
+			}
+		}
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+		await Task.CompletedTask;
+	}
+
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttChartRef.RefreshAsync();
+		await GanttChartRef.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-advanced-exporting-sample .taskbar-critical .e-gantt-child-taskbar {
+		background: #FFCEF4 !important;
+		outline: 1px solid #FFCEF4 !important;
+	}
+
+	.e-gantt-advanced-exporting-sample .progress-critical .e-gantt-child-progressbar {
+		background: #B0008A !important;
+	}
+
+	.e-gantt-advanced-exporting-sample .taskbar-critical-dark .e-gantt-child-taskbar {
+		background: #49043A !important;
+		outline: 1px solid #49043A !important;
+	}
+
+	.e-gantt-advanced-exporting-sample .progress-critical-dark .e-gantt-child-progressbar {
+		background: #AC0688 !important;
+	}
+</style>

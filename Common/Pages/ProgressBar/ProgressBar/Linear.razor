@@ -1,0 +1,229 @@
+@page "/progress-bar/linear"
+@using Syncfusion.Blazor.ProgressBar
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p> This sample illustrates a linear progress bar with determinate and indeterminate states, segments, and buffer values. </p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor ProgressBar indicates the progress of a task with customizable visuals. In this example, you can see how to render and configure the linear progress bar with multiple <a target='_blank' href='https://blazor.syncfusion.com/documentation/progress-bar/customization#segments' aria-label="segments">segments</a> and different states like <a target='_blank' href='https://blazor.syncfusion.com/documentation/progress-bar/states#determinate' aria-label="determinate">determinate</a>, <a target='_blank' href='https://blazor.syncfusion.com/documentation/progress-bar/states#indeterminate' aria-label="indeterminate">indeterminate</a>, and <a target='_blank' href='https://blazor.syncfusion.com/documentation/progress-bar/states#buffer' aria-label="buffer">buffer</a>. </p>
+    <p>More information about the linear progress bar can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/progress-bar/types#linear' aria-label="documentation section" >documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="row linear-parent">
+        @if (ProgressBarModels != null)
+        {
+            foreach (var progressBar in ProgressBarModels)
+            {
+                <div>
+                    <div class="@ProgressLabelClass" style="font-family: @FontFamily">@progressBar.Label</div>
+                    <SfProgressBar @ref="progressBar.Ref" Type="ProgressType.Linear" Height="60"
+                    Value="@progressBar.Value" Minimum="0" Maximum="100"
+                    IsIndeterminate="@progressBar.IsIndeterminate"
+                    SecondaryProgress="@progressBar.SecondaryProgress"
+                    SecondaryProgressColor="@progressBar.SecondaryProgressColor"
+                    SegmentCount="@progressBar.SegmentCount"
+                    IsActive="@progressBar.IsActive"
+                    Theme="@CurrentTheme">
+                        <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
+                    </SfProgressBar>
+                </div>
+            }
+        }
+    </div>
+    <div class="row linear-parent" style="font-family: @FontFamily">
+        <button id="reLoad" @onclick="RefreshAllProgressBars" class="e-control e-btn e-lib e-outline e-primary">Refresh</button>
+    </div>
+</div>
+
+@code {
+    public SfProgressBar? ProObj1, ProObj2, ProObj3, ProObj4, ProObj5;
+    private List<ProgressBarModel>? ProgressBarModels { get; set; }
+
+    private Theme CurrentTheme { get; set; }
+    private string ProgressLabelClass { get; set; } = "col-lg-12 col-sm-12 progressbar-label";
+    private string? FontFamily { get; set; }
+
+    private string? CurrentUri { get; set; }
+
+    protected override void OnInitialized()
+    {
+        CurrentUri = NavigationManager.Uri;
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+
+        // Initialize ProgressBarModels
+        ProgressBarModels = new List<ProgressBarModel>
+        {
+            new ProgressBarModel
+            {
+                Id = "Determinate",
+                Value = 100,
+                Label = "Determinate",
+                Ref = ProObj1 ?? null!
+            },
+            new ProgressBarModel
+            {
+                Id = "Indeterminate",
+                Value = 20,
+                Label = "Indeterminate",
+                Ref = ProObj2 ?? null!,
+                IsIndeterminate = true
+            },
+            new ProgressBarModel
+            {
+                Id = "Segmented",
+                Value = 100,
+                Label = "Segmented",
+                Ref = ProObj4 ?? null!,
+                SegmentCount = 8
+            },
+            new ProgressBarModel
+            {
+                Id = "Buffered",
+                Value = 40,
+                Label = "Buffered",
+                Ref = ProObj3 ?? null!,
+                SecondaryProgress = 60,
+                SecondaryProgressColor = "#98c5f5"
+            },
+            new ProgressBarModel
+            {
+                Id = "Active",
+                Value = 100,
+                Label = "Active",
+                Ref = ProObj5 ?? null!,
+                IsActive = true
+            }
+        };
+
+        // Set the theme and style based on the current URI
+        var themeInfo = DetermineTheme(CurrentUri);
+        CurrentTheme = themeInfo.Theme;
+        ProgressLabelClass = themeInfo.LabelClass;
+    }
+
+    private async Task RefreshAllProgressBars()
+    {
+        if (ProgressBarModels != null)
+        {
+            foreach (var progressBar in ProgressBarModels)
+            {
+                if (progressBar.Ref != null)
+                await progressBar.Ref.RefreshAsync();
+            }
+        }
+    }
+
+    private (Theme Theme, string LabelClass) DetermineTheme(string uri)
+    {
+        if (uri.Contains("material3-dark"))
+            return (Theme.Material3Dark, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("material3"))
+            return (Theme.Material3, "col-lg-12 col-sm-12 progressbar-label-material");
+        if (uri.Contains("fabric-dark"))
+            return (Theme.FabricDark, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("fabric"))
+            return (Theme.Fabric, "col-lg-12 col-sm-12 progressbar-label-material");
+        if (uri.Contains("bootstrap5-dark"))
+            return (Theme.Bootstrap5Dark, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("bootstrap5"))
+            return (Theme.Bootstrap5, "col-lg-12 col-sm-12 progressbar-label-bootstrap");
+        if (uri.Contains("bootstrap-dark"))
+            return (Theme.BootstrapDark, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("fluent2-highcontrast"))
+            return (Theme.Fluent2HighContrast, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("fluent2-dark"))
+            return (Theme.Fluent2Dark, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("fluent2"))
+            return (Theme.Fluent2, "col-lg-12 col-sm-12 progressbar-label-bootstrap");
+        if (uri.Contains("fluent-dark"))
+            return (Theme.FluentDark, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("fluent"))
+            return (Theme.Fluent, "col-lg-12 col-sm-12 progressbar-label-bootstrap");
+        if (uri.Contains("bootstrap4"))
+            return (Theme.Bootstrap4, "col-lg-12 col-sm-12 progressbar-label-bootstrap");
+        if (uri.Contains("bootstrap"))
+            return (Theme.Bootstrap, "col-lg-12 col-sm-12 progressbar-label-bootstrap");
+        if (uri.Contains("highcontrast"))
+            return (Theme.HighContrast, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("tailwind3-dark"))
+            return (Theme.Tailwind3Dark, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("tailwind3"))
+            return (Theme.Tailwind3, "col-lg-12 col-sm-12 progressbar-label-material");
+        if (uri.Contains("material-dark"))
+            return (Theme.MaterialDark, "col-lg-12 col-sm-12 progressbar-label-dark");
+        if (uri.Contains("material"))
+            return (Theme.Material, "col-lg-12 col-sm-12 progressbar-label-material");
+
+// Default settings
+        return (Theme.Material, "col-lg-12 col-sm-12 progressbar-label-material");
+    }
+    private class ProgressBarModel
+    {
+        public string? Id { get; set; }
+        public double Value { get; set; }
+        public string? Label { get; set; }
+        public SfProgressBar? Ref { get; set; }
+        public bool IsIndeterminate { get; set; } = false;  // Optional property
+        public int SegmentCount { get; set; }  // Optional property for segmented progress bars
+        public double SecondaryProgress { get; set; }  // Optional property for buffered progress bars
+        public string? SecondaryProgressColor { get; set; }  // Optional property for buffered progress bars
+        public bool IsActive { get; set; } = false;  // Optional property for active progress bars
+    }
+}
+
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    .linear-parent {
+        text-align: center;
+        width: 80%;
+        margin: auto;
+    }
+
+    .progressbar-label-material {
+        text-align: left;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #3D3E3C;
+        margin-left: 10px;
+        padding: 0px;
+        top: 20px;
+    }
+
+    .progressbar-label-bootstrap {
+        text-align: left;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: #3D3E3C;
+        margin-left: 10px;
+        padding: 0px;
+    }
+
+    .progressbar-label-dark {
+        text-align: left;
+        font-family: Roboto-Regular;
+        font-size: 14px;
+        color: white;
+        margin-left: 10px;
+        padding: 0px;
+        top: 20px;
+    }
+
+    #reLoad {
+        border-radius: 4px;
+        text-transform: capitalize;
+    }
+</style>

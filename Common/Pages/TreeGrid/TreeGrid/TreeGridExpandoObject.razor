@@ -1,0 +1,325 @@
+@page "/tree-grid/expando-object"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using System.Dynamic;
+@using System.Linq
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<SampleDescription>
+    <p>This sample demonstrates a Tree Grid bound to a list of <b>ExpandoObject</b> instances, a technique that supports dynamic data schemas. This allows you to add or remove fields at runtime, with the Tree Grid's columns updating to reflect the changes.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>You can enable dynamic binding by providing a list of <b>ExpandoObject</b> instances to the Tree Grid's <a aria-label="Navigate to the data source property reference for tree grid rows" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_DataSource">DataSource</a> property.</p>
+    <p>In this demo, shipment tracking data is provided as <b>ExpandoObject</b> records, and the Tree Grid displays the columns "<b>Track ID</b>", "<b>Shipment Name</b>", "<b>Start Date</b>", "<b>Duration (Days)</b>", "<b>Status</b>", and "<b>Priority</b>". This sample demonstrates dynamic addition and removal of columns:</p>
+    <ul>
+        <li>Clicking the <b>Add dynamic field: Owner (runtime)</b> button injects an "<b>Owner</b>" field into the data and displays the corresponding column in the Tree Grid.</li>
+        <li>Clicking the <b>Remove dynamic columns</b> button reverses this action, removing the dynamic column from the Tree Grid.</li>
+    </ul>
+    <p>For more information about <b>ExpandoObject</b> binding, refer to this <a aria-label="ExpandoObject binding documentation" target="_blank" href="https://blazor.syncfusion.com/documentation/treegrid/data-binding#expandoobject-binding">documentation</a> section.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row" style="margin-bottom:10px;">
+            <button class="e-btn e-primary" style="margin-left:0;" @onclick="AddOwnerFieldAndColumn">Add dynamic field: Owner (runtime)</button>
+            <button class="e-btn e-danger" style="margin-left:8px;" @onclick="RemoveDynamicColumns">Remove dynamic fields/columns</button>
+        </div>
+
+        <div class="row">
+            <SfTreeGrid DataSource="@TreeData" @ref="TreeGridInstance" AllowPaging="true" IdMapping="TrackID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowFiltering="true" AllowSorting="true" Toolbar="@(new List<string>() { "Add", "Delete", "Update", "Cancel" })">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.Blazor.TreeGrid.EditMode.Cell"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TrackID" HeaderText="Track ID" Width="110" IsPrimaryKey="true" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" ValidationRules="@(new ValidationRules() { Required = true, Number = true })" />
+                    <TreeGridColumn Field="ShipmentName" HeaderText="Shipment Name" Width="300" ValidationRules="@(new ValidationRules() { Required = true })" ClipMode="ClipMode.EllipsisWithTooltip" />
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="d" Type="Syncfusion.Blazor.Grids.ColumnType.Date" EditType="Syncfusion.Blazor.Grids.EditType.DatePickerEdit" Width="110" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" />
+                    <TreeGridColumn Field="Duration" HeaderText="Duration (In Days)" ClipMode="ClipMode.EllipsisWithTooltip" Type="Syncfusion.Blazor.Grids.ColumnType.Integer" EditType="Syncfusion.Blazor.Grids.EditType.NumericEdit" Width="120" TextAlign="Syncfusion.Blazor.Grids.TextAlign.Right" ValidationRules="@(new ValidationRules() { Required = true, Number = true, Min = 0 })" />
+                    <TreeGridColumn Field="Status" HeaderText="Status" Width="140">
+                        <FilterTemplate>
+                            <SfDropDownList TValue="string" TItem="DropdownDataModel" DataSource="@DropdownData" Placeholder="Filter by Status">
+                                <DropDownListEvents ValueChange="Change" TItem="DropdownDataModel" TValue="string" />
+                                <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </FilterTemplate>
+                    </TreeGridColumn>
+                    <TreeGridColumn Field="Priority" HeaderText="Priority" Width="120" ValidationRules="@(new ValidationRules() { Required = true })" />
+                    @if (ShowOwnerColumn)
+                    {
+                        <TreeGridColumn Field="Owner" HeaderText="Owner" Width="180"/>
+                    }
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    // Instance and data
+    SfTreeGrid<ExpandoObject> TreeGridInstance { get; set; } = null!;
+    private List<ExpandoObject> TreeData { get; set; } = new List<ExpandoObject>();
+
+    // Backing store for ExpandoObject rows
+    private static List<ExpandoObject> Data = new List<ExpandoObject>();
+    private static int ParentRecordID { get; set; }
+    private static int ChildRecordID { get; set; }
+
+    // Flags controlling conditional column rendering
+    private bool ShowOwnerColumn { get; set; }
+
+    // DropDown values for Status filter (includes All)
+    // Parents: Delivered, Not Delivered
+    // Children: Completed, On Hold, Not Received
+    private List<DropdownDataModel> DropdownData { get; set; } = new List<DropdownDataModel>
+    {
+        new DropdownDataModel { Text = "Delivered",      Value = "Delivered" },
+        new DropdownDataModel { Text = "Not Delivered",  Value = "Not Delivered" },
+        new DropdownDataModel { Text = "Completed",      Value = "Completed" },
+        new DropdownDataModel { Text = "On Hold",        Value = "On Hold" },
+        new DropdownDataModel { Text = "Not Received",   Value = "Not Received" },
+        new DropdownDataModel { Text = "All",            Value = "All" }
+    };
+
+    protected override void OnInitialized()
+    {
+        TreeData = GetData(); // initial bind
+    }
+
+    // Add runtime property ("Owner") and render its column
+    private async Task AddOwnerFieldAndColumn()
+    {
+        string[] owners = new[] { "Alex Morgan", "Priya Kapoor", "Jonas Schmitt", "Mia Chen", "Luis Ortega", "Sara Ali" };
+        int ownersLen = owners.Length;
+
+        foreach (var item in TreeData)
+        {
+            var dict = (IDictionary<string, object>)item;
+            int id = dict.ContainsKey("TrackID") ? Convert.ToInt32(dict["TrackID"]) : 0;
+            dict["Owner"] = owners[id % ownersLen];
+        }
+
+        ShowOwnerColumn = true;
+        await InvokeAsync(StateHasChanged);
+        await TreeGridInstance.RefreshAsync();
+    }
+
+    // Remove dynamic fields from data and hide the columns
+    private async Task RemoveDynamicColumns()
+    {
+        foreach (var item in TreeData)
+        {
+            var dict = (IDictionary<string, object>)item;
+            if (dict.ContainsKey("Owner")) dict.Remove("Owner");
+        }
+
+        ShowOwnerColumn = false;
+        await InvokeAsync(StateHasChanged);
+        await TreeGridInstance.RefreshAsync();
+    }
+
+    // Data generation with requested field names and status rules
+    public static List<ExpandoObject> GetData()
+    {
+        Data.Clear();
+        ParentRecordID = 1220;
+        ChildRecordID = 0;
+
+        string[] carriers = new[] { "Mark", "File", "Route", "Caliber", "Finder", "Dexer" };
+        string[] lanes = new[] { "NA-East", "NA-West", "EMEA-North", "EMEA-South", "APAC-North", "APAC-South" };
+        string[] prioritiesArr = new[] { "Low", "Normal", "High", "Critical" };
+        string[] cities = new[]
+        {
+            "New York, NY", "Atlanta, GA", "Dallas, TX", "Chicago, IL", "Los Angeles, CA", "Seattle, WA",
+            "Miami, FL", "Denver, CO", "Phoenix, AZ", "Boston, MA", "Toronto, ON", "Vancouver, BC",
+            "London, UK", "Paris, FR", "Berlin, DE", "Tokyo, JP", "Seoul, KR", "Singapore, SG",
+            "Sydney, AU", "Melbourne, AU"
+        };
+
+        DateTime baseStart = new DateTime(2025, 1, 6);
+
+        int carriersLen = carriers.Length;
+        int lanesLen = lanes.Length;
+        int prioritiesLen = prioritiesArr.Length;
+
+        // Create 24 Shipments (parents)
+        for (int i = 0; i < 24; i++)
+        {
+            int shipmentIndex = i + 1;
+
+            // Parent duration between 5 and 15
+            int durationDays = 5 + ((shipmentIndex % 6) * 2); // 5..15
+
+            int carrierIndex = shipmentIndex % carriersLen;
+            int laneIndex = shipmentIndex % lanesLen;
+            int priorityIndex = shipmentIndex % prioritiesLen;
+
+            string poNumber = $"PO-{202500 + shipmentIndex:D4}";
+            string shipmentName = $"Shipment {poNumber} via ({lanes[laneIndex]})";
+
+            // Alternate parent status for demo stability:
+            // Even shipments Delivered, odd Not Delivered
+            string parentStatus = (shipmentIndex % 2 == 0) ? "Delivered" : "Not Delivered";
+
+            dynamic parent = new ExpandoObject();
+            parent.TrackID = ++ParentRecordID;
+            parent.ParentID = null;
+            parent.ShipmentName = shipmentName;
+            parent.StartDate = baseStart.AddDays(shipmentIndex * 2);
+            parent.Duration = durationDays;
+            parent.Status = parentStatus;
+            parent.Priority = prioritiesArr[priorityIndex];
+
+            Data.Add(parent);
+
+            // Generate child stops that exactly cover the parent's duration (3–5 stops if possible)
+            AddChildRecords(
+                parentId: parent.TrackID,
+                shipmentStart: parent.StartDate,
+                totalDurationDays: parent.Duration,
+                minStops: 3,
+                maxStops: 5,
+                citiesArr: cities,
+                prioritiesArr: prioritiesArr,
+                parentStatus: parentStatus
+            );
+        }
+
+        return Data;
+    }
+
+    // Ensures children durations sum to totalDurationDays and dates are sequential
+    // Applies status rules described above
+    public static void AddChildRecords(
+        int parentId,
+        DateTime shipmentStart,
+        int totalDurationDays,
+        int minStops,
+        int maxStops,
+        string[] citiesArr,
+        string[] prioritiesArr,
+        string parentStatus
+    )
+    {
+        // Edge cases and caps
+        minStops = Math.Max(1, Math.Min(minStops, totalDurationDays));
+        maxStops = Math.Max(minStops, Math.Min(maxStops, totalDurationDays));
+
+        // Deterministic stop count for stability across runs
+        int seed = (parentId * 37) % 997;
+        int desiredStops = minStops + (seed % (maxStops - minStops + 1));
+
+        // Split totalDurationDays into desiredStops parts (>= 1 day each)
+        List<int> stopDurations = SplitDuration(totalDurationDays, desiredStops);
+
+        DateTime currentDate = shipmentStart;
+
+        int prioritiesLen = prioritiesArr.Length;
+        int citiesLen = citiesArr.Length;
+
+        // Decide child statuses per rules
+        List<string> childStatuses = new List<string>(desiredStops);
+
+        if (parentStatus == "Delivered")
+        {
+            // All children Completed
+            childStatuses = Enumerable.Repeat("Completed", desiredStops).ToList();
+        }
+        else
+        {
+            // Parent Not Delivered
+            // Special case trigger: when seed % 5 == 0, make first child Not Received => all Not Received
+            bool forceAllNotReceived = (seed % 5 == 0);
+
+            if (forceAllNotReceived)
+            {
+                childStatuses = Enumerable.Repeat("Not Received", desiredStops).ToList();
+            }
+            else
+            {
+                // Ensure at least one On Hold; children after it are Not Received; before it are Completed
+                int onHoldIndex;
+                if (desiredStops == 1)
+                {
+                    onHoldIndex = 0;
+                }
+                else
+                {
+                    // Place On Hold somewhere not necessarily first; pick deterministic middle-ish
+                    onHoldIndex = 1 + (seed % Math.Max(1, desiredStops - 1)); // 1..desiredStops-1
+                    if (onHoldIndex >= desiredStops) onHoldIndex = desiredStops - 1;
+                }
+
+                for (int j = 0; j < desiredStops; j++)
+                {
+                    if (j < onHoldIndex) childStatuses.Add("Completed");
+                    else if (j == onHoldIndex) childStatuses.Add("On Hold");
+                    else childStatuses.Add("Not Received");
+                }
+            }
+        }
+
+        for (int j = 0; j < stopDurations.Count; j++)
+        {
+            int durationDays = stopDurations[j];
+            int priorityIndex = (parentId + j) % prioritiesLen;
+            int cityIndex = (parentId + j) % citiesLen;
+
+            dynamic child = new ExpandoObject();
+            child.TrackID = ++ParentRecordID;
+            child.ParentID = parentId;
+            child.ShipmentName = $"Stop {j + 1}: {citiesArr[cityIndex]}";
+            child.StartDate = currentDate;
+            child.Duration = durationDays;
+            child.Status = childStatuses[j];
+            child.Priority = prioritiesArr[priorityIndex];
+
+            Data.Add(child);
+            ChildRecordID++;
+
+            // Next child starts right after this one ends
+            currentDate = currentDate.AddDays(durationDays);
+        }
+
+        // If special case was applied where first child is Not Received, parent remains "Not Delivered" (already set)
+    }
+
+    // Splits total into 'parts' integers (each >= 1) summing exactly to 'total'
+    private static List<int> SplitDuration(int total, int parts)
+    {
+        parts = Math.Max(1, Math.Min(parts, total));
+
+        // Start with 1 day per part
+        var result = Enumerable.Repeat(1, parts).ToList();
+        int remaining = total - parts;
+
+        // Distribute remaining days in a round-robin deterministic way
+        for (int i = 0; i < remaining; i++)
+        {
+            result[i % parts]++;
+        }
+
+        return result;
+    }
+
+    public class DropdownDataModel
+    {
+        public string? Text { get; set; }
+        public string? Value { get; set; }
+    }
+
+    public async Task Change(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownDataModel> args)
+    {
+        if (args.Value == "All")
+        {
+            await this.TreeGridInstance.ClearFilteringAsync();
+        }
+        else
+        {
+            await this.TreeGridInstance.FilterByColumnAsync("Status", "equal", args.Value);
+        }
+    }
+}
+

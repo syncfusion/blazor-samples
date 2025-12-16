@@ -1,0 +1,279 @@
+@page "/rich-text-editor/insert-special-characters"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.RichTextEditor
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>
+        This sample shows how to add special characters (symbols) chooser toolbar item to the Toolbar of the Rich Text Editor. 
+        Click the <b>Ω</b> icon in the Toolbar to view the list of special characters, and then choose the character to be inserted in the editor.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        The Rich Text Editor allows to configure custom commands to its Toolbar using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html#Syncfusion_Blazor_RichTextEditor_RichTextEditorToolbarSettings_Items" aria-label="Class reference of Items property in Rich Text Editor">Items</a> property of <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html" aria-label="Class reference of RichTextEditorToolbarSettings">RichTextEditorToolbarSettings</a>. 
+        The custom command toolbar item appearance can be configured using <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorCustomToolbarItems.html" aria-label="Class reference of RichTextEditorCustomToolbarItems">RichTextEditorCustomToolbarItems</a> within <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html" aria-label="Class reference of RichTextEditorToolbarSettings">RichTextEditorToolbarSettings</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="sample-container">
+        <div class="default-section" id="rteSection">
+            <SfRichTextEditor @ref="RteObj" @bind-Value="@Value">
+                <RichTextEditorToolbarSettings Items="@Tools">
+                    <RichTextEditorEvents OnActionComplete="@OnActionCompleteHandler" />
+                    <RichTextEditorCustomToolbarItems>
+                        <RichTextEditorCustomToolbarItem Name="Symbol">
+                            <Template>
+                                <SfButton aria-label="Open Special Character Insertion Menu" cssClass="@ButtonCssClass" @onclick="ClickHandler">
+                                    <div class="e-tbar-btn-text" style="font-weight: 400;"> &#937;</div>
+                                </SfButton>
+                            </Template>
+                        </RichTextEditorCustomToolbarItem>
+                    </RichTextEditorCustomToolbarItems>
+                </RichTextEditorToolbarSettings>
+            </SfRichTextEditor>
+        </div>
+    </div>
+</div>
+
+<div>
+    <SfDialog @bind-Visible="@DialogVisible" CssClass="e-rte-elements" ZIndex="1000" ShowCloseIcon="false" IsModal="true" Width="45%" Target="#rteSection" aria-label="Open Special Character Picker">
+        <DialogTemplates>
+            <Header> Special Characters </Header>
+            <Content>
+                <div id="rteSpecial_char">
+                    @for (int i = 0; i < this.CharactersArray.Length; i++)
+                    {
+                        int index = i;
+                        if (CurrentIndex == i)
+                        {
+                            <div class="char_block @ActiveClass" title="@this.CharactersArray[i]" @onclick="@(e => OnIconClick(index))">
+                                @this.CharactersArray[i]
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="char_block" title="@this.CharactersArray[i]" @onclick="@(e => OnIconClick(index))">
+                                @this.CharactersArray[i]
+                            </div>
+                        }
+                    }
+                </div>
+            </Content>
+        </DialogTemplates>
+        <DialogButtons>
+            <DialogButton Content="Insert" IsPrimary="true" OnClick="OnInsert" Disabled="@DisableInsertButton" />
+            <DialogButton Content="Cancel" OnClick="DialogOverlay" />
+        </DialogButtons>
+        <DialogEvents OnOverlayModalClick="DialogOverlay" />
+    </SfDialog>
+</div>
+
+@code{
+    private SfRichTextEditor? RteObj;
+    private string Value { get; set; } = "The custom command <b>Ω - Insert Symbol</b> is configured in the Toolbar. Click on the command and choose the symbol you want to include from the popup.";
+    public string[] CharactersArray = new string[] { "^", "_", "`", "{", "|", "}", "~", " ", "¡", "¢", "£", "¤", "¥", "₹", "¦", "§", "¨", "©", "ª", "«", "¬", "-", "°", "±", "²", "³", "´", "µ", "¶", "·", "¸", "¹", "º", "»", "¼", "½", "¾", "¿", "À", "Á", "Â", "Ã" };
+
+    private int CurrentIndex { get; set; } = -1;
+    private string ActiveClass = "e-active";
+    private string ButtonCssClass = "e-tbar-btn";
+    private bool DialogVisible { get; set; }
+    private bool DisableInsertButton { get; set; } = true;
+
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Blockquote },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Name = "Symbol", TooltipText = "Insert Symbol" },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.SourceCode },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
+    };
+
+    private void OnActionCompleteHandler(ActionCompleteEventArgs args)
+    {
+        if (args.RequestType == "SourceCode")
+        {
+            this.ButtonCssClass = "e-tbar-btn e-overlay";
+        }
+        if (args.RequestType == "Preview")
+        {
+            this.ButtonCssClass = "e-tbar-btn";
+        }
+    }
+
+    private void OnIconClick(int index)
+    {
+        this.DisableInsertButton = false;
+        this.CurrentIndex = index;
+    }
+
+    private async Task ClickHandler()
+    {
+        this.DialogVisible = true;
+        if (this.RteObj != null)
+        {
+            await this.RteObj.SaveSelectionAsync();
+        }
+    }
+
+    private async Task OnInsert()
+    {
+        if (this.CurrentIndex > -1)
+        {
+            ExecuteCommandOption executeCommandOption = new ExecuteCommandOption();
+            executeCommandOption.Undo = true;
+            if (this.RteObj != null)
+            {
+                await this.RteObj.RestoreSelectionAsync();
+                await this.RteObj.ExecuteCommandAsync(CommandName.InsertText, this.CharactersArray[this.CurrentIndex], executeCommandOption);
+            }
+            this.DialogVisible = false;
+            this.CurrentIndex = -1;
+        }
+        this.DisableInsertButton = true;
+    }
+    private void DialogOverlay()
+    {
+        this.DialogVisible = false;
+        this.CurrentIndex = -1;
+    }
+}
+
+<style>
+    #special_char,
+    .char_block {
+        display: inline-block;
+    }
+
+    #custom_tbar,
+    #custom_tbar div {
+        cursor: pointer;
+    }
+
+    #rteSpecial_char {
+        padding: 15px 0 15px 0;
+    }
+
+    .char_block.e-active {
+        outline: 1px solid #e3165b;
+        border-color: #e3165b;
+    }
+
+    .material .char_block.e-active {
+        outline: 1px solid #e3165b;
+        border-color: #e3165b;
+    }
+
+    .material-dark .char_block.e-active {
+        outline: 1px solid #56a4fd;
+        border-color: #56a4fd;
+    }
+
+    .fabric .char_block.e-active,
+    .fabric-dark .char_block.e-active {
+        outline: 1px solid #0078d6;
+        border-color: #0078d6;
+    }
+
+    .bootstrap4 .char_block.e-active {
+        outline: 1px solid #007bff;
+        border-color: #007bff;
+    }
+    
+    .bootstrap .char_block.e-active,
+    .bootstrap-dark .char_block.e-active {
+        outline: 1px solid #317ab9;
+        border-color: #317ab9;
+    }
+
+    .highcontrast .char_block.e-active {
+        outline: 1px solid #ffd939;
+        border-color: #ffd939;
+    }
+
+    .tailwind .char_block.e-active,
+    .tailwind3 .char_block.e-active {
+        outline: 1px solid #3730a3;
+        border-color: #3730a3;
+    }
+
+    .tailwind-dark .char_block.e-active,
+    .tailwind3-dark .char_block.e-active {
+        outline: 1px solid #22d3ee;
+        border-color: #22d3ee;
+    }
+
+    .bootstrap5 .char_block.e-active,
+    .bootstrap5-dark .char_block.e-active ,
+    .bootstrap5\.3 .char_block.e-active,
+    .bootstrap5\.3-dark .char_block.e-active {
+        outline: 1px solid #0D6EFD;
+        border-color: #0D6EFD;
+    }
+
+    .fluent .char_block.e-active,
+    .fluent-dark .char_block.e-active {
+        outline: 1px solid #0078DE;
+        border-color: #0078DE;
+    }
+
+    .fluent2 .char_block.e-active,
+    .fluent2-dark .char_block.e-active {
+        outline: 1px solid #0f6cbd;
+        border-color: #0f6cbd;
+    }
+    
+    .material3 .char_block.e-active,
+    .material3-dark .char_block.e-active {
+        outline: 1px solid #7D69B1;
+        border-color: #7D69B1;
+    }
+
+    .char_block {
+        width: 30px;
+        height: 30px;
+        line-height: 30px;
+        margin: 0 5px 5px 0;
+        text-align: center;
+        vertical-align: middle;
+        border: 1px solid #DDDDDD;
+        font-size: 20px;
+        cursor: pointer;
+        user-select: none;
+    }
+
+    #custom_tbar .rtecustomtool {
+        font-size: 18px;
+    }
+
+    @@media (min-width: 320px) and (max-width: 480px) {
+        #rteSpecial_char {
+            padding: 15px 0 15px 0;
+        }
+        .e-dialog .e-footer-content {
+            display: flex;
+        }
+    }
+
+    #rteSection {
+        min-height: 500px;
+    }
+</style>

@@ -1,0 +1,149 @@
+@page "/gantt-chart/wbs-column"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<SampleDescription>
+	<p>
+		This sample demonstrates Work Breakdown Structure (WBS) visualization in the <a class="e-gantt-wbscolumn-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+																					href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+																					target="_blank">Blazor Gantt Chart</a>.
+		A new product development roadmap is organized hierarchically so each task reflects its exact position within the project.
+	</p>
+
+	<p>
+		Enable the WBS presentation by setting
+		<a class="e-gantt-wbscolumn-reference-link" aria-label="Navigate to the ShowWbsColumn property reference"
+		   href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_ShowWbsColumn"
+		   target="_blank">ShowWbsColumn</a>
+		to <code>true</code> and activate automatic numbering through
+		<a class="e-gantt-wbscolumn-reference-link" aria-label="Navigate to the AutoGenerateWbs property reference"
+		   href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_AutoGenerateWbs"
+		   target="_blank">AutoGenerateWbs</a>.
+		When <code>AutoGenerateWbs</code> is enabled, the chart recalculates codes and predecessors whenever tasks are sorted, added, deleted, or edited so the hierarchy stays accurate.
+	</p>
+    <p>
+		Additionally the toolbar provides built-in options for add, update, delete, expand, and collapse operations, enabling interactive task management.
+	</p>
+	<p>
+		For further details, refer to the
+		<a class="e-gantt-wbscolumn-reference-link" aria-label="Navigate to the documentation for the WBS column in the Gantt chart component"
+		   href="https://blazor.syncfusion.com/documentation/gantt-chart/wbs-column"
+		   target="_blank">documentation</a>.
+	</p>
+</SampleDescription>
+
+<div class="control-section e-gantt-wbscolumn-sample">
+	<SfGantt @ref="GanttInstance"  DataSource="@TaskCollection" Height="550px" Width="100%" ShowWbsColumn="true" AutoGenerateWbs="@IsEnableAutoWbsCode" TreeColumnIndex="1" GridLines="GridLine.Both"
+			 HighlightWeekends="true" EnableContextMenu="true" AllowSelection="true" AllowSorting="true" AllowFiltering="true" AllowResizing="true"
+			 ProjectStartDate="@(new DateTime(2025, 3, 30))" ProjectEndDate="@(new DateTime(2025, 5, 30))" ScrollToTaskbarOnClick="true" Toolbar="@ToolbarItems">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration"
+						 ParentID="ParentId" Dependency="Predecessor" WbsCode="WbsCode" WbsPredecessor="WbsPredecessor" Progress="Progress">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" HeaderText="Task ID" Visible="false"></GanttColumn>
+			<GanttColumn Field="WbsCode" HeaderText="WBS Code" Width="150"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Task Name" Width="300"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date" Width="140" />
+			<GanttColumn Field="WbsPredecessor" HeaderText="WBS Predecessor" Width="190"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration" Width="130"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+		</GanttColumns>
+		<GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true" />
+		<GanttSplitterSettings ColumnIndex="5"></GanttSplitterSettings>
+		<GanttLabelSettings TaskLabel="Progress" TValue="WbsColumnData.TaskData"></GanttLabelSettings>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<WbsColumnData.TaskData>? GanttInstance { get; set; }
+	public List<WbsColumnData.TaskData>? TaskCollection { get; set; } = new List<WbsColumnData.TaskData>();
+	public List<Object>? ToolbarItems { get; set; }
+	public bool IsEnableAutoWbsCode { get; set; } = true;
+
+	/// <summary>
+	/// Initializes the component by setting up the task collection and toolbar items.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		this.TaskCollection = WbsColumnData.WbsColumnRecord();
+		ToolbarItems = new List<Object>()
+		{
+			"Add",
+			"Edit",
+			"Update",
+			"Delete",
+			"Cancel",
+			"ExpandAll",
+			"CollapseAll",
+			new ItemModel
+			{
+				Id = "WbsCheckbox",
+				Align = ItemAlign.Left,
+				Template = (RenderFragment)(builder =>
+				{
+					builder.OpenComponent<SfCheckBox<bool>>(0);
+					builder.AddAttribute(1, "Label", "Auto Generate WBS");
+					builder.AddAttribute(2, "Checked", IsEnableAutoWbsCode);
+					builder.AddAttribute(3, "CheckedChanged", Microsoft.AspNetCore.Components.EventCallback.Factory.Create<bool>(this, __value => IsEnableAutoWbsCode = __value));
+					builder.AddAttribute(4, "ValueChange", Microsoft.AspNetCore.Components.EventCallback.Factory.Create<Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>>(this, HandleAutoWbsChange));
+					builder.CloseComponent();
+				})
+			},
+		};
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+
+	/// <summary>
+	/// Handles the checkbox change event to toggle auto-generation of WBS codes.
+	/// </summary>
+	public void HandleAutoWbsChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+	{
+		IsEnableAutoWbsCode = args.Checked;
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-wbscolumn-sample {
+		padding: 20px;
+	}
+
+		.e-gantt-wbscolumn-sample .e-checkbox-wrapper:focus {
+			border: inherit !important;
+			box-shadow: inherit !important
+		}
+
+		.e-gantt-wbscolumn-reference-link {
+			text-decoration: none !important;
+		}
+
+		.e-gantt-wbscolumn-reference-link:hover,
+		.e-gantt-wbscolumn-reference-link:focus {
+			text-decoration: underline !important;
+		}
+</style>
+

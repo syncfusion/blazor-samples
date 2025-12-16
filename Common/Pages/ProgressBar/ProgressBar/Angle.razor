@@ -1,0 +1,142 @@
+@page "/progress-bar/angle"
+@using Syncfusion.Blazor.ProgressBar
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+@*End:Hidden*@
+
+<SampleDescription>
+    <p>This sample illustrates a circular progress with different start and end angles.</p>
+</SampleDescription>
+
+<ActionDescription>
+    <p>In this example, you can see how to configure the start and sweep angles of circular progress using <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_StartAngle" aria-label="StartAngle">StartAngle</a> and <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.ProgressBar.SfProgressBar.html#Syncfusion_Blazor_ProgressBar_SfProgressBar_EndAngle" aria-label="EndAngle">EndAngle</a> properties to give a unique style to the circular progress bar. <a target="_blank" href="https://blazor.syncfusion.com/documentation/progress-bar/progress-annotation" aria-label="Annotation">Annotation</a> is enabled in the sample to represent the progress value.</p>
+    <p>More information about the customization in progress bar can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/progress-bar/customization" aria-label="documentation section">documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section progress-bar-parent">
+    <div class="row" style="margin-top: 4%">
+        @foreach (var progressBar in ProgressBarSettings)
+        {
+        <div class="col-lg-3 col-md-3 col-3" align="center">
+            <SfProgressBar @ref="progressBar.Reference" Type="ProgressType.Circular" StartAngle="@progressBar.StartAngle" EndAngle="@progressBar.EndAngle"
+                           Width="160px" Height="160px" Value="100" TrackThickness="5" ProgressThickness="5" CornerRadius="CornerType.Round"
+                           Minimum="0" Maximum="100" Theme="@CurrentTheme">
+                <ProgressBarAnimation Enable="true" Duration="2000" Delay="0" />
+                <ProgressBarAnnotations>
+                    <ProgressBarAnnotation>
+                        <ContentTemplate>
+                            @progressBar.Annotation
+                        </ContentTemplate>
+                    </ProgressBarAnnotation>
+                </ProgressBarAnnotations>
+            </SfProgressBar>
+        </div>
+        }
+    </div>
+    <div class="row" align="center" style="font-family: @FontFamily">
+        <button id="reLoad" class="e-control e-btn e-lib e-outline e-primary" @onclick="RefreshProgressBars">Reload</button>
+    </div>
+</div>
+
+@code {
+    public List<ProgressBarConfig> ProgressBarSettings { get; set; } = new List<ProgressBarConfig>();
+    public Theme CurrentTheme { get; set; }
+    public string? FontFamily { get; set; }
+    private string? _currentUri;
+
+// ProgressBar Configuration class
+    public class ProgressBarConfig
+    {
+        public SfProgressBar? Reference { get; set; }
+        public int StartAngle { get; set; }
+        public int EndAngle { get; set; }
+        public RenderFragment? Annotation { get; set; }
+    }
+
+// Method to refresh all progress bars
+    public async Task RefreshProgressBars()
+    {
+        foreach (var progressBar in ProgressBarSettings)
+        {
+            if (progressBar.Reference != null)
+            await progressBar.Reference.RefreshAsync();
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+        _currentUri = NavigationManager.Uri;
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+        InitializeProgressBars();
+        SetThemeAndAnnotations();
+    }
+
+// Initialize the ProgressBar settings
+    private void InitializeProgressBars()
+    {
+        ProgressBarSettings = new List<ProgressBarConfig>
+        {
+            new ProgressBarConfig { Reference = new SfProgressBar(), StartAngle = 240, EndAngle = 120 },
+            new ProgressBarConfig { Reference = new SfProgressBar(), StartAngle = 180, EndAngle = 0 },
+            new ProgressBarConfig { Reference = new SfProgressBar(), StartAngle = 0, EndAngle = 180 },
+            new ProgressBarConfig { Reference = new SfProgressBar(), StartAngle = 270, EndAngle = 90 }
+        };
+    }
+
+// Set theme and annotations dynamically based on current URI
+    private void SetThemeAndAnnotations()
+    {
+        string annotationColor;
+        (CurrentTheme, annotationColor) = _currentUri switch
+        {
+            var uri when uri != null && uri.Contains("material3-dark") => (Theme.Material3Dark, "#D0BCFF"),
+            var uri when uri != null && uri.Contains("material3") => (Theme.Material3, "#6750A4"),
+            var uri when uri != null && uri.Contains("fabric-dark") => (Theme.FabricDark, "#9A9A9A"),
+            var uri when uri != null && uri.Contains("fabric") => (Theme.Fabric, "#0078D6"),
+            var uri when uri != null && uri.Contains("bootstrap-dark") => (Theme.BootstrapDark, "#9A9A9A"),
+            var uri when uri != null && uri.Contains("bootstrap5-dark") => (Theme.Bootstrap5Dark, "#0D6EFD"),
+            var uri when uri != null && uri.Contains("bootstrap5") => (Theme.Bootstrap5, "#0D6EFD"),
+            var uri when uri != null && uri.Contains("fluent2-highcontrast") => (Theme.Fluent2HighContrast, "#1AEBFF"),
+            var uri when uri != null && uri.Contains("fluent2-dark") => (Theme.Fluent2Dark, "#115EA3"),
+            var uri when uri != null && uri.Contains("fluent2") => (Theme.Fluent2, "#0F6CBD"),
+            var uri when uri != null && uri.Contains("fluent-dark") => (Theme.FluentDark, "#0D6EFD"),
+            var uri when uri != null && uri.Contains("fluent") => (Theme.Fluent, "#0D6EFD"),
+            var uri when uri != null && uri.Contains("bootstrap4") => (Theme.Bootstrap4, "#007bff"),
+            var uri when uri != null && uri.Contains("bootstrap") => (Theme.Bootstrap, "#317ab9"),
+            var uri when uri != null && uri.Contains("highcontrast") => (Theme.HighContrast, "#FFD939"),
+            var uri when uri != null && uri.Contains("tailwind3-dark") => (Theme.Tailwind3Dark, "#6366F1"),
+            var uri when uri != null && uri.Contains("tailwind3") => (Theme.Tailwind3, "#4F46E5"),
+            var uri when uri != null && uri.Contains("material-dark") => (Theme.MaterialDark, "#9A9A9A"),
+            var uri when uri != null && uri.Contains("material") => (Theme.Material, "#e91e63"),
+            _ => (Theme.Material, "#e91e63")
+        };
+
+        foreach (var progressBar in ProgressBarSettings)
+        {
+            progressBar.Annotation = CreateAnnotation(annotationColor);
+        }
+    }
+
+// Helper method to create annotation fragment
+    private RenderFragment CreateAnnotation(string color) => @<div style='font-size:24px;font-weight:bold;color:@color;font-family:@FontFamily'><span>100%</span></div>;
+
+}
+
+
+<style>
+    #control-container {
+        padding: 0px !important;
+    }
+
+    #reLoad {
+        border-radius: 4px;
+        text-transform: capitalize;
+        margin-top: 3%;
+    }
+</style>

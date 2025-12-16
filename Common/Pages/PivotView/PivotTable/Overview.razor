@@ -1,0 +1,246 @@
+@page "/pivot-table/overview"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+<p>This sample provides an overview of <a target="_blank" href="https://www.syncfusion.com/blazor-components/blazor-pivot-table" aria-label="Feature Tour of Blazor Pivot Table">Blazor Pivot Table</a>, which allows you to organize and summarize pivot data in a detailed or abstract view and display it as a grid and chart.</p>
+</SampleDescription>
+<ActionDescription>
+    <p>The Blazor Pivot Table is a powerful component for organizing and summarizing business data and displaying the results in a table and chart format. It includes major features such as built-in <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/aggregation" aria-label="Blazor PivotTable Aggregations documentation">aggregations</a>, 
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/field-list" aria-label="Blazor PivotTable FieldList documentation">pivot table field list</a> for report manipulation, Excel-like <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/filtering" aria-label="Blazor PivotTable Filtering documentation">filtering</a> and 
+        <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/sorting" aria-label="Blazor PivotTable Sorting documentation">sorting</a>, <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/editing">editing</a>, <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/excel-export" aria-label="Blazor PivotTable Excel Export documentation">Excel</a> and <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/pdf-export" aria-label="Blazor PivotTable PDF Export documentation">PDF</a> exporting, and so on, which are used in this demo, as well as a large data source loaded without any performance degradation by using <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/virtual-scrolling" aria-label="Blazor PivotTable Virtualization documentation">virtualization</a> support.</p>
+    <p>More information on the Blazor Pivot Table can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/getting-started/" aria-label="Blazor PivotTable Getting Started documentation" >documentation section</a>.</p>
+</ActionDescription>
+
+<meta name="referrer" content="never">
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfPivotView @ref="Pivot" TValue="UniversityData" Height="600" ShowFieldList=true Target="document" AllowDeferLayoutUpdate="true" ExportAllPages=false ShowFieldSearch="true"
+        EnableVirtualization="true" ShowToolbar=true Toolbar="@PivotToolbar" AllowNumberFormatting=true AllowConditionalFormatting=true 
+        AllowCalculatedField=true AllowPdfExport=true AllowExcelExport=true ShowGroupingBar="true" AllowGrouping=true EnableValueSorting=true ShowTooltip=true MaxNodeLimitInMemberEditor="50">
+            <PivotViewDisplayOption Primary="Primary.Table" View="View.Both"></PivotViewDisplayOption>    
+            <PivotViewTemplates>
+                <CellTemplate>
+                @{
+                    var data = (context as AxisSet);
+                    if (data != null)
+                    {
+                        string? rowHeaderStr = data.RowHeaders as string;
+                        if (data.Axis == "value" && !(rowHeaderStr?.Contains('.') ?? false) && Pivot != null)                    
+                        {
+                            Pivot.PivotValues[data.RowIndex][data.ColIndex].CssClass = null!;
+                                @data.FormattedText
+                        }
+                        else
+                        {              
+                                @data.FormattedText                 
+                        }
+                    }
+                }
+                </CellTemplate>
+            </PivotViewTemplates>
+            <PivotViewDataSourceSettings DataSource="@Data" EmptyCellsTextContent="-" ExcludeFields="@(new string[]{"link" ,"logo"})">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="region" Caption="Region"></PivotViewColumn>
+                    <PivotViewColumn Name="country" Caption="Country"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="rank_display" Caption="Rank" ExpandAll="true" AllowDragAndDrop=true></PivotViewRow>
+                        <PivotViewRow Name="university" Caption="University" AllowDragAndDrop=true></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="international_students" Caption="Students"></PivotViewValue>                    
+                    <PivotViewValue Name="faculty_count" Caption="Faculty"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFieldMapping>
+                    <PivotViewField Name="rank_display" DataType="number"></PivotViewField>
+                    <PivotViewField Name="country" Caption="Country"></PivotViewField>
+                    <PivotViewField Name="city" Caption="City"></PivotViewField>
+                    <PivotViewField Name="region" Caption="Region"></PivotViewField>
+                    <PivotViewField Name="research_output" Caption="Research output"></PivotViewField>
+                    <PivotViewField Name="student_faculty_ratio" Caption="Student faculty ratio"></PivotViewField>
+                </PivotViewFieldMapping>
+                <PivotViewFormatSettings>                  
+                    <PivotViewFormatSetting Name="international_students" Format="N0" ></PivotViewFormatSetting>
+                        <PivotViewFormatSetting Name="faculty_count" Format="N0" ></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewConditionalFormatSettings>
+                    <PivotViewConditionalFormatSetting Measure="international_students" Conditions="Condition.Between" Value1=1 Value2="5000" ApplyGrandTotals=false>
+                        <PivotViewStyle BackgroundColor="#E10000" Color="white" FontFamily="Tahoma" FontSize="14px">
+                        </PivotViewStyle>
+                    </PivotViewConditionalFormatSetting>
+                        <PivotViewConditionalFormatSetting Measure="international_students" Conditions="Condition.GreaterThan" Value1="50000" ApplyGrandTotals=false>
+                        <PivotViewStyle BackgroundColor="#0C860C" Color="white" FontFamily="Tahoma" FontSize="14px">
+                        </PivotViewStyle>
+                    </PivotViewConditionalFormatSetting>
+                    <PivotViewConditionalFormatSetting Measure="faculty_count" Conditions="Condition.Between" Value1=1 Value2="1000" ApplyGrandTotals=false>
+                        <PivotViewStyle BackgroundColor="#E10000" Color="white" FontFamily="Tahoma" FontSize="14px">
+                        </PivotViewStyle>
+                    </PivotViewConditionalFormatSetting>
+                    <PivotViewConditionalFormatSetting Measure="faculty_count" Conditions="Condition.GreaterThan" Value1="10000" ApplyGrandTotals=false>
+                        <PivotViewStyle BackgroundColor="#0C860C" Color="white" FontFamily="Tahoma" FontSize="14px">
+                        </PivotViewStyle>
+                    </PivotViewConditionalFormatSetting>
+                </PivotViewConditionalFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotChartSettings Title="Top Universities Analysis" Theme="@Theme">
+                <PivotChartPrimaryYAxis>
+                    <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
+                </PivotChartPrimaryYAxis>
+            </PivotChartSettings>
+            <PivotViewGridSettings AllowSelection=true ColumnWidth="120" RowHeight="36">
+                <PivotViewSelectionSettings Mode="Syncfusion.Blazor.PivotView.SelectionMode.Cell" Type="PivotTableSelectionType.Single" CellSelectionMode="PivotCellSelectionMode.Box"></PivotViewSelectionSettings>
+            </PivotViewGridSettings>
+            <PivotViewEvents TValue="UniversityData" ChartSeriesCreated="ChartSeriesCreated" RenameReport="RenameReport" RemoveReport="RemoveReport" SaveReport="SaveReport" LoadReport="LoadReport" FetchReport="FetchReport"></PivotViewEvents>
+        </SfPivotView>
+        <div class="urllink">
+            Source:
+            <a href="https://www.topuniversities.com/university-rankings?utm_source=topnav" target="_blank">QS World University Rankings</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    html, body {
+        height: 100%;
+    }
+    .e-custom-class {
+        text-decoration: auto;
+    }
+    .e-custom-class:hover {
+        text-decoration: underline;
+    }
+    .university-logo{
+        border-radius: 50%;
+        margin: 0 10px 0 -10px;
+    }
+</Style>
+
+@code {
+    public SfPivotView<UniversityData>? Pivot;
+    public List<UniversityData> Data = new List<UniversityData>();
+    public List<ToolbarItems> PivotToolbar = new List<ToolbarItems>
+    {
+        ToolbarItems.New,
+        ToolbarItems.Save,
+        ToolbarItems.SaveAs,
+        ToolbarItems.Rename,
+        ToolbarItems.Remove,
+        ToolbarItems.Load,
+        ToolbarItems.Grid,
+        ToolbarItems.Chart,
+        ToolbarItems.Export,
+        ToolbarItems.SubTotal,
+        ToolbarItems.GrandTotal,
+        ToolbarItems.Formatting,
+        ToolbarItems.FieldList
+    };
+    public Theme Theme { get; set; }
+    private List<string> _report = new List<string>();
+    private List<string> _reportName = new List<string>();
+    
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        this.Data = UniversityData.GetUniversityData().ToList();
+    }
+
+#pragma warning disable BL0005
+    private void ChartSeriesCreated(ChartSeriesCreatedEventArgs args)
+    {
+        if (Pivot?.ChartSettings.ChartSeries.Type == ChartSeriesType.Polar)
+        {
+            foreach(var series in args.Series)
+            {
+                series.LegendShape = Syncfusion.Blazor.Charts.LegendShape.Rectangle;
+            }
+        }
+    }
+#pragma warning restore BL0005
+    private void SaveReport(SaveReportArgs args)
+    {
+        int i = 0;
+        bool IsSaved = false;
+        for (i = 0; i < this._reportName.Count; i++)
+        {
+            if (this._reportName[i] == args.ReportName)
+            {
+                this._report[i] = args.Report;
+                IsSaved = true;
+            }
+        }
+        if (args.Report != null && !(IsSaved))
+        {
+            this._report.Add(args.Report);
+            this._reportName.Add(args.ReportName);
+        }
+    }
+    private void FetchReport(FetchReportArgs args)
+    {
+        args.ReportName = _reportName.ToArray();
+    }
+    private async Task LoadReport(LoadReportArgs args)
+    {
+        int i = 0;
+        int j = 0;
+        for (i = 0; i < _reportName.Count; i++)
+        {
+            if (_reportName[i] == args.ReportName)
+            {
+                j = i;
+            }
+        }
+        if(Pivot != null)
+        {
+            await this.Pivot.LoadPersistDataAsync(_report[j]);
+        }
+    }
+    private async Task RemoveReport(RemoveReportArgs args)
+    {
+        int i = 0;
+        for (i = 0; i < _reportName.Count; i++)
+        {
+            if (_reportName[i] == args.ReportName)
+            {
+                _reportName.RemoveAt(i);
+                _report.RemoveAt(i);
+                break;
+            }
+        }       
+    }
+    private void RenameReport(RenameReportArgs args)
+    {
+        if (args.IsReportExists)
+        {
+            int j = 0;
+            for (j = 0; j < _reportName.Count; j++)
+            {
+                if (_reportName[j] == args.Rename)
+                {
+                    _reportName.RemoveAt(j);
+                    _report.RemoveAt(j);
+                    break;
+                }
+            }
+        }
+        int i = 0;
+        for (i = 0; i <= (_reportName.Count - 1); i++)
+        {
+            if (_reportName[i] == args.ReportName)
+            {
+                _reportName[i] = args.Rename;
+            }
+        }
+    }
+}

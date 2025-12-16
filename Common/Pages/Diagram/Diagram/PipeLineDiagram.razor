@@ -1,0 +1,1555 @@
+@page "/diagram/pipeline-instrumentation-Diagram"
+
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.LinearGauge
+@inherits SampleBaseComponent
+@inject IJSRuntime JsRuntime;
+@implements IDisposable
+@inject NavigationManager NavigationManager
+
+<SampleDescription>
+    <p>
+        This sample visualizes a real-time chemical reactor system as an interactive Pipeline and Instrumentation Diagram (P&ID) using the Syncfusion<sup>®</sup> Blazor Diagram component, showcasing dynamic fluid flows, tank levels, pressure, and temperature.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        Users actively control valve operations and pump states to observe real-time fluid flow, tank level changes, dynamic pressure, and temperature visualizations. Interactive toggles manage fluid flow between tanks, simulating operational conditions within an industrial process environment.
+    </p>
+</ActionDescription>
+@*End:Hidden*@
+
+<div class="control-section" id="pipeline">
+    <div class="content-wrapper" style="width: 100%">
+        <SfDiagramComponent @ref="Diagram"
+                            Width="100%"
+                            Height="700px"
+                            Nodes="@Nodes"
+                            Connectors="@Connectors"
+                            InteractionController="DiagramInteractions.ZoomPan"
+                            NodeCreating="@NodeCreating"
+                            ConnectorCreating="@ConnectorCreating"
+                            Constraints="@Constraints"
+                            Created="OnCreated">
+            <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+            <DiagramTemplates>
+                <NodeTemplate>
+                    @{
+                        if (context is Node node)
+                        {
+                            if (node.ID == "pressureGuageNode")
+                            {
+                                <div class="pressure-container">
+                                    <div class="pressure-indicator">
+                                        <div class="pressure-gauge">
+                                            <div class="needle" id="needle"></div>
+                                        </div>
+                                        <div class="pressure-value" id="pressureValue">0 PSI</div>
+                                    </div>
+                                </div>
+                            }
+                            else if (node.ID == "pumpRotator")
+                            {
+                                <div style="display: flex; left: -25px; position: absolute; ">
+                                    <div class="pump-container">
+                                        <div class="pump-body"></div>
+                                        <div class="fan-blades @PumpCssClass" id="fan">
+                                            <div class="blade"></div>
+                                            <div class="blade"></div>
+                                            <div class="hub"></div>
+                                        </div>
+                                    </div>
+                                    <div id="pumpCheckBoxContainer">
+                                        <SfSwitch @ref="PumpRotatorSwitch" @bind-Checked="PumpRotatorSwitchIsChecked" ValueChange="@PumpCheckBoxContainerChange" width="50px" TChecked="bool?"></SfSwitch>
+                                    </div>
+                                </div>
+                            }
+                            else if (node.ID == "thermometerNode")
+                            {
+                                <div style="width:100%;height:100%">
+                                    <div id="thermometer">
+                                        <div class="thermometer-tube">
+                                            <SfLinearGauge Height="120px" @ref="@Gauge" Background="transparent">
+                                                <LinearGaugeContainer Width="4" Height="100" RoundedCornerRadius="5" Type="ContainerType.Thermometer">
+                                                    <LinearGaugeAxes>
+                                                        <LinearGaugeAxis Minimum="-20" Maximum="100">
+                                                            <LinearGaugePointers>
+                                                                <LinearGaugePointer PointerValue="@PointerValue" Offset="0" Placement="Syncfusion.Blazor.LinearGauge.Placement.Center" Width="4" Height="10" Type="Point.Bar" MarkerType="MarkerType.Triangle"
+                                                                                    Color="@GaugePointerColor">
+                                                                </LinearGaugePointer>
+                                                            </LinearGaugePointers>
+                                                            <LinearGaugeLine Width="0">
+
+                                                            </LinearGaugeLine>
+                                                            <LinearGaugeMajorTicks Height="7" Interval="30">
+
+                                                            </LinearGaugeMajorTicks>
+                                                            <LinearGaugeMinorTicks Height="0" Interval="5">
+
+                                                            </LinearGaugeMinorTicks>
+                                                            <LinearGaugeAxisLabelStyle>
+                                                                <LinearGaugeAxisLabelFont FontFamily="inherit">
+
+                                                                </LinearGaugeAxisLabelFont>
+                                                            </LinearGaugeAxisLabelStyle>
+                                                        </LinearGaugeAxis>
+                                                    </LinearGaugeAxes>
+                                                    <LinearGaugeAnnotations>
+                                                        <LinearGaugeAnnotation AxisValue="50" ZIndex="1" AxisIndex="0" X="0" Y="0">
+                                                            <ContentTemplate>
+                                                                <div style="font-size:13px;margin-left:10px;margin-top: -50px; color: black"> ^C </div>
+                                                            </ContentTemplate>
+                                                        </LinearGaugeAnnotation>
+                                                    </LinearGaugeAnnotations>
+                                                </LinearGaugeContainer>
+                                            </SfLinearGauge>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            else if (node.ID == "CoolantValue")
+                            {
+                                <div>
+                                    <SfNumericTextBox ID="CoolantValue" Width="110px" TValue="decimal" @bind-Value="@CoolantValue" Min="-50" Max="75" Step="2" Format="###.#">
+                                        <NumericTextBoxEvents TValue="decimal" ValueChange="@ValueChangeHandler"></NumericTextBoxEvents>
+                                    </SfNumericTextBox>
+                                </div>
+                            }
+                            else if (node.ID == "ProductTankQuantity")
+                            {
+                                <div class="product-container">
+                                    <div class="product @ProductCssClass" id="productStorage"></div>
+                                </div>
+                            }
+                            else if (node.ID!.StartsWith("controlvalveBox"))
+                            {
+                                var id = node.ID.Replace("controlvalveBox", "");
+                                var color = GetValveColor(id);
+                                object reference = node.ID;
+                                string containerID = "showFlowContainer" + id.ToString();
+                                <div style="height:100%;width:100%">
+                                    <div id="@containerID" style="background:@color;height:100%;width:100%;border-radius: 3px;border:1px solid;">
+                                    </div>
+                                    <div class="switch-container">
+                                        @if (node.ID == "controlvalveBox1")
+                                        {
+                                            <SfSwitch @ref="@ControlValveBox1" @bind-Checked="@ControlValveBox1IsChecked" ValueChange="@ControlValveBox1Change" TChecked="bool?"></SfSwitch>
+                                        }
+                                        else if (node.ID == "controlvalveBox2")
+                                        {
+                                            <SfSwitch @ref="@ControlValveBox2" @bind-Checked="@ControlValveBox2IsChecked" ValueChange="@ControlValveBox2Change" TChecked="bool?"></SfSwitch>
+                                        }
+                                        else
+                                        {
+                                            <SfSwitch @ref="@ControlValveBox3" @bind-Checked="@ControlValveBox3IsChecked" ValueChange="@ControlValveBox3Change" TChecked="bool?"></SfSwitch>
+                                        }
+                                    </div>
+                                </div>
+                            }
+                        }
+                    }
+                </NodeTemplate>
+            </DiagramTemplates>
+        </SfDiagramComponent>
+    </div>
+</div>
+
+@code {
+    public SfDiagramComponent? Diagram { get; set; }
+    public DiagramObjectCollection<NodeGroup> NodeGroups { get; set; } = new DiagramObjectCollection<NodeGroup>();
+    public DiagramObjectCollection<Node> Nodes { get; set; } = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Connector> Connectors { get; set; } = new DiagramObjectCollection<Connector>();
+    public DiagramConstraints Constraints { get; set; } = DiagramConstraints.Default & ~DiagramConstraints.UndoRedo;
+
+    public DotNetObjectReference<PipeLineDiagram>? ObjRef { get; set; }
+    public SfLinearGauge? Gauge { get; set; }
+    public SfSwitch<bool?>? PumpRotatorSwitch { get; set; }
+    public SfSwitch<bool?>? ControlValveBox1 { get; set; }
+    public SfSwitch<bool?>? ControlValveBox2 { get; set; }
+    public SfSwitch<bool?>? ControlValveBox3 { get; set; }
+    public bool? ControlValveBox1IsChecked { get; set; } = true;
+    public bool? ControlValveBox2IsChecked { get; set; } = true;
+    public bool? ControlValveBox3IsChecked { get; set; } = true;
+    public bool? PumpRotatorSwitchIsChecked { get; set; } = true;
+    public double PointerValue { get; set; } = 40;
+    public string ProductCssClass { get; set; } = "fill-animation";
+    public string PumpCssClass { get; set; } = "rotate-animation";
+
+    public string GaugePointerColor { get; set; } = "#2674a5ff";
+
+    // State properties
+    public bool TankFlow1 { get; set; } = true;
+    public bool TankFlow2 { get; set; } = true;
+    public bool TankFlow3 { get; set; } = true;
+    public bool PumpFlow { get; set; } = true;
+    public bool AutoStopped { get; set; } = false;
+    public decimal CoolantValue { get; set; } = 12;
+    public bool IsDiagramCreated { get; set; } = false;
+    public bool IsDiagramStarted { get; set; } = false;
+
+    protected override void OnInitialized()
+    {
+        InitializeNodes();
+        InitializeConnectors();
+    }
+
+    public string GetValveColor(string id)
+    {
+        switch (id)
+        {
+            case "1": return "#ffb734";
+            case "2": return "#7C099C";
+            case "3": return "red";
+            default: return "#65B091";
+        }
+    }
+
+    public void OnCreated()
+    {
+        IsDiagramCreated = true;
+        FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram?.FitToPage(options);
+    }
+
+    public async Task ControlValveBox1Change(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        if (args.Checked == true)
+        {
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector1_path", true, "#ffb734", true, "showFlowContainer1");
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector3_path", true, "#ffb734", true, "showFlowContainer1");
+            if (PumpRotatorSwitchIsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector11_path", true, "#8DC276");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector12_path", true, "#8DC276");
+                PumpCssClass = "rotate-animation";
+                PumpRotatorSwitchIsChecked = true;
+                await JsRuntime.InvokeVoidAsync("updatePressureAnimation", false);
+            }
+            if (ControlValveBox3IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector9_path", true, "red", true, "showFlowContainer3");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector10_path", true, "red", true, "showFlowContainer3");
+                ProductCssClass = "fill-animation";
+                ControlValveBox3IsChecked = true;
+            }
+        }
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector1_path", false, "#ffb734", true, "showFlowContainer1");
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector3_path", false, "#A7A2A2", true, "showFlowContainer1");
+
+            if (ControlValveBox2IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector2_path", false, "#7C099C", true, "showFlowContainer2");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector4_path", false, "#A7A2A2", true, "showFlowContainer2");
+                ControlValveBox2IsChecked = false;
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector11_path", false, "#A7A2A2", true);
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector12_path", false, "#A7A2A2", true);
+                PumpRotatorSwitchIsChecked = false;
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector9_path", false, "red", true, "showFlowContainer3");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector10_path", false, "#A7A2A2", true, "showFlowContainer3");
+                ProductCssClass = "fill-animation paused";
+                PumpCssClass = "";
+
+                ControlValveBox3IsChecked = false;
+            }
+            await JsRuntime.InvokeVoidAsync("updatePressureAnimation", true);
+        }
+    }
+
+    public async Task ControlValveBox2Change(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        if (args.Checked == true)
+        {
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector2_path", true, "#7C099C", true, "showFlowContainer2");
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector4_path", true, "#7C099C", true, "showFlowContainer2");
+            if (PumpRotatorSwitchIsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector11_path", true, "#8DC276");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector12_path", true, "#8DC276");
+                PumpCssClass = "rotate-animation";
+                PumpRotatorSwitchIsChecked = true;
+                await JsRuntime.InvokeVoidAsync("updatePressureAnimation", false);
+            }
+            if (ControlValveBox3IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector9_path", true, "red", true, "showFlowContainer3");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector10_path", true, "red", true, "showFlowContainer3");
+                ProductCssClass = "fill-animation";
+                ControlValveBox3IsChecked = true;
+            }
+        }
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector2_path", false, "#7C099C", true, "showFlowContainer2");
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector4_path", false, "#A7A2A2", true, "showFlowContainer2");
+            if (ControlValveBox1IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector1_path", false, "#ffb734", true, "showFlowContainer1");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector3_path", false, "#A7A2A2", true, "showFlowContainer1");
+                ControlValveBox2IsChecked = false;
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector11_path", false, "#A7A2A2", true);
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector12_path", false, "#A7A2A2", true);
+                PumpRotatorSwitchIsChecked = false;
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector9_path", false, "red", true, "showFlowContainer3");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector10_path", false, "#A7A2A2", true, "showFlowContainer3");
+                ProductCssClass = "fill-animation paused";
+                PumpCssClass = "";
+                ControlValveBox3IsChecked = false;
+            }
+            await JsRuntime.InvokeVoidAsync("updatePressureAnimation", true);
+        }
+    }
+
+    public async Task ControlValveBox3Change(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        if (args.Checked == true)
+        {
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector9_path", true, "red", true, "showFlowContainer3");
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector10_path", true, "red", true, "showFlowContainer3");
+            ProductCssClass = "fill-animation";
+            if (ControlValveBox1IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector2_path", true, "#7C099C", true, "showFlowContainer2");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector4_path", true, "#7C099C", true, "showFlowContainer2");
+                ControlValveBox1IsChecked = true;
+            }
+            if (ControlValveBox2IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector1_path", true, "#ffb734", true, "showFlowContainer1");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector3_path", true, "#ffb734", true, "showFlowContainer1");
+                ControlValveBox2IsChecked = true;
+            }
+            if (PumpRotatorSwitchIsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector11_path", true, "#8DC276");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector12_path", true, "#8DC276");
+                PumpCssClass = "rotate-animation";
+                PumpRotatorSwitchIsChecked = true;
+                await JsRuntime.InvokeVoidAsync("updatePressureAnimation", false);
+            }
+            await JsRuntime.InvokeVoidAsync("updatePressureAnimation", false);
+        }
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector9_path", false, "red", true, "showFlowContainer3");
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector10_path", false, "#A7A2A2", true, "showFlowContainer3");
+            ProductCssClass = "fill-animation paused";
+            if (ControlValveBox1IsChecked == true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector2_path", false, "#7C099C", true, "showFlowContainer2");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector4_path", false, "#A7A2A2", true, "showFlowContainer2");
+                ControlValveBox1IsChecked = false;
+            }
+            if (ControlValveBox2IsChecked == true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector1_path", false, "#ffb734", true, "showFlowContainer1");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector3_path", false, "#A7A2A2", true, "showFlowContainer1");
+                ControlValveBox2IsChecked = false;
+            }
+            if (PumpRotatorSwitchIsChecked == true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector11_path", false, "#A7A2A2", true);
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector12_path", false, "#A7A2A2", true);
+                PumpCssClass = "";
+                PumpRotatorSwitchIsChecked = false;
+            }
+            await JsRuntime.InvokeVoidAsync("updatePressureAnimation", true);
+        }
+    }
+
+    public async Task PumpCheckBoxContainerChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        if (args.Checked == true)
+        {
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector11_path", true, "#8DC276");
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector12_path", true, "#8DC276");
+            PumpCssClass = "rotate-animation";
+            if (ControlValveBox1IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector2_path", true, "#7C099C", true, "showFlowContainer2");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector4_path", true, "#7C099C", true, "showFlowContainer2");
+                ControlValveBox1IsChecked = true;
+            }
+            if (ControlValveBox2IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector1_path", true, "#ffb734", true, "showFlowContainer1");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector3_path", true, "#ffb734", true, "showFlowContainer1");
+                ControlValveBox2IsChecked = true;
+            }
+            await JsRuntime.InvokeVoidAsync("updatePressureAnimation", false);
+            if (ControlValveBox3IsChecked != true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector9_path", true, "red", true, "showFlowContainer3");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector10_path", true, "red", true, "showFlowContainer3");
+                ProductCssClass = "fill-animation";
+                ControlValveBox3IsChecked = true;
+            }
+        }
+        else
+        {
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector11_path", false, "#A7A2A2", true);
+            await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector12_path", false, "#A7A2A2", true);
+            PumpCssClass = "";
+            if (ControlValveBox1IsChecked == true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector2_path", false, "#7C099C", true, "showFlowContainer2");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector4_path", false, "#A7A2A2", true, "showFlowContainer2");
+                ControlValveBox1IsChecked = false;
+            }
+            if (ControlValveBox2IsChecked == true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector1_path", false, "#ffb734", true, "showFlowContainer1");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector3_path", false, "#A7A2A2", true, "showFlowContainer1");
+                ControlValveBox2IsChecked = false;
+            }
+            if (ControlValveBox3IsChecked == true)
+            {
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector9_path", false, "red", true, "showFlowContainer3");
+                await JsRuntime.InvokeVoidAsync("animatePathFlow", "Connector10_path", false, "#A7A2A2", true, "showFlowContainer3");
+                ProductCssClass = "fill-animation paused";
+                ControlValveBox3IsChecked = false;
+            }
+            await JsRuntime.InvokeVoidAsync("updatePressureAnimation", true);
+        }
+    }
+
+    public void ValueChangeHandler(Syncfusion.Blazor.Inputs.ChangeEventArgs<decimal> args)
+    {
+        decimal temperatureValue = 28 + args.Value;
+
+        // Update the SfLinearGauge directly in Blazor
+        if (Gauge != null)
+        {
+            PointerValue = (double)temperatureValue;
+        }
+
+        UpdateThermometerStyle(PointerValue);
+    }
+
+    // Add this method to your PipeLinediagram.razor @code section
+    public void UpdateThermometerStyle(double temperature)
+    {
+        // Calculate the percentage - ensure it's between 0 and 100
+        double percentage = Math.Max(0, Math.Min(100, temperature));
+        if (temperature < 30)
+        {
+            GaugePointerColor = "cyan";
+        }
+        else if (temperature < 60)
+        {
+            GaugePointerColor = "blue";
+        }
+        else if (temperature < 80)
+        {
+            GaugePointerColor = "orange";
+        }
+        else
+        {
+            GaugePointerColor = "red";
+        }
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            ObjRef = DotNetObjectReference.Create(this);
+            await JsRuntime.InvokeVoidAsync("initialize", ObjRef);
+        }
+
+        if (IsDiagramCreated && !IsDiagramStarted)
+        {
+            await JsRuntime.InvokeVoidAsync("appendHTMLElements");
+            await JsRuntime.InvokeVoidAsync("runAnimation");
+            ProductCssClass = "fill-animation";
+            IsDiagramStarted = true;
+        }
+    }
+
+    public void InitializeNodes()
+    {
+        // Create gradient styles for tanks
+        RadialGradientBrush tank1RadialGradient = new RadialGradientBrush()
+        {
+            CX = 50,
+            CY = 50,
+            FX = 25,
+            FY = 25,
+            R = 50,
+            GradientStops = new DiagramObjectCollection<GradientStop>()
+        {
+                new GradientStop(){ Color = "white", Offset = 0 },
+                new GradientStop(){ Color = "#e88a25", Offset = 100 }
+            }
+        };
+
+        RadialGradientBrush tank2RadialGradient = new RadialGradientBrush()
+        {
+            CX = 50,
+            CY = 50,
+            FX = 25,
+            FY = 25,
+            R = 50,
+            GradientStops = new DiagramObjectCollection<GradientStop>()
+        {
+                new GradientStop(){ Color = "white", Offset = 0 },
+                new GradientStop(){ Color = "purple", Offset = 100 }
+            }
+        };
+
+        RadialGradientBrush tankGradientColor = new RadialGradientBrush()
+        {
+            CX = 50,
+            CY = 50,
+            FX = 25,
+            FY = 25,
+            R = 50,
+            GradientStops = new DiagramObjectCollection<GradientStop>()
+        {
+                new GradientStop(){ Color = "white", Offset = 0 },
+                new GradientStop(){ Color = "#76b5c5", Offset = 100 }
+            }
+        };
+
+        RadialGradientBrush storageTankGradientColor = new RadialGradientBrush()
+        {
+            CX = 50,
+            CY = 50,
+            FX = 50,
+            FY = 50,
+            R = 80,
+            GradientStops = new DiagramObjectCollection<GradientStop>()
+        {
+                new GradientStop(){ Color = "white", Offset = 0 },
+                new GradientStop(){ Color = "#CECECE", Offset = 100 }
+            }
+        };
+
+        // Title node
+        Node chemicalNode = new Node
+        {
+            ID = "Chemical",
+            OffsetX = 720,
+            OffsetY = 20,
+            Shape = new TextShape { Type = NodeShapes.Text },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+        {
+                new ShapeAnnotation
+                {
+                    Content = "Chemical Reactor System P&ID",
+                    Style = new TextStyle { FontSize = 18, Bold = true }
+                }
+            },
+            Constraints = NodeConstraints.Default & ~NodeConstraints.Select
+        };
+        Nodes.Add(chemicalNode);
+
+        // Tank 1 components
+        Node tank1Top = new Node
+        {
+            ID = "tank1Top",
+            OffsetX = 200,
+            OffsetY = 225,
+            Width = 100,
+            Height = 50,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle { Gradient = tank1RadialGradient },
+            Constraints = NodeConstraints.Default & ~NodeConstraints.Select
+        };
+        Nodes.Add(tank1Top);
+
+        Node tank1Bottom = new Node
+        {
+            ID = "tank1Bottom",
+            OffsetX = 200,
+            OffsetY = 375,
+            Width = 100,
+            Height = 50,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle { Gradient = tank1RadialGradient }
+        };
+        Nodes.Add(tank1Bottom);
+
+        Node tank1Container = new Node
+        {
+            ID = "tank1container",
+            OffsetX = 200,
+            OffsetY = 300,
+            Width = 100,
+            Height = 150,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle },
+            Style = new ShapeStyle { Gradient = tank1RadialGradient },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+        {
+                new ShapeAnnotation
+                {
+                    Content = "Tank1",
+                    Style = new TextStyle { Color = "black" }
+                }
+            },
+            Ports = GetPorts("tank1container")
+        };
+        Nodes.Add(tank1Container);
+
+        // Tank 1 Group
+        NodeGroup tank1Group = new NodeGroup
+        {
+            ID = "Tank1Group",
+            Children = new string[] { "tank1Top", "tank1Bottom", "tank1container" }
+        };
+        NodeGroups.Add(tank1Group);
+        Nodes.Add(tank1Group as Node);
+
+        // Tank 2 components
+        Node tank2Top = new Node
+        {
+            ID = "tank2Top",
+            OffsetX = 370,
+            OffsetY = 225,
+            Width = 100,
+            Height = 50,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle { Gradient = tank2RadialGradient }
+        };
+        Nodes.Add(tank2Top);
+
+        Node tank2Bottom = new Node
+        {
+            ID = "tank2Bottom",
+            OffsetX = 370,
+            OffsetY = 375,
+            Width = 100,
+            Height = 50,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle { Gradient = tank2RadialGradient }
+        };
+        Nodes.Add(tank2Bottom);
+
+        Node tank2Container = new Node
+        {
+            ID = "tank2container",
+            OffsetX = 370,
+            OffsetY = 300,
+            Width = 100,
+            Height = 150,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle },
+            Style = new ShapeStyle { Gradient = tank2RadialGradient },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+{
+                new ShapeAnnotation
+                {
+                    Content = "Tank2",
+                    Style = new TextStyle { Color = "black" }
+                }
+            },
+            Ports = GetPorts("tank2container")
+        };
+        Nodes.Add(tank2Container);
+
+        // Tank 2 Group
+        NodeGroup tank2Group = new NodeGroup
+        {
+            ID = "Tank2Group",
+            Children = new string[] { "tank2Top", "tank2Bottom", "tank2container" }
+        };
+        NodeGroups.Add(tank2Group);
+        Nodes.Add(tank2Group as Node);
+
+        // Tank 3 components
+        Node tank3Top = new Node
+        {
+            ID = "tank3Top",
+            OffsetX = 750,
+            OffsetY = 325,
+            Width = 170,
+            Height = 70,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle { Gradient = tankGradientColor }
+        };
+        Nodes.Add(tank3Top);
+
+        Node tank3Bottom = new Node
+        {
+            ID = "tank3Bottom",
+            OffsetX = 750,
+            OffsetY = 575,
+            Width = 170,
+            Height = 70,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle { Gradient = tankGradientColor }
+        };
+        Nodes.Add(tank3Bottom);
+
+        Node reacterInletThread1 = new Node
+        {
+            ID = "reacterInletThread1",
+            OffsetX = 810,
+            OffsetY = 290,
+            Width = 35,
+            Height = 25,
+            Shape = new FlowShape { Shape = NodeFlowShapes.Data },
+            RotationAngle = 10,
+            Style = new ShapeStyle { Fill = "#469A22" }
+        };
+        Nodes.Add(reacterInletThread1);
+
+        Node reacterInletThread2 = new Node
+        {
+            ID = "reacterInletThread2",
+            OffsetX = 750,
+            OffsetY = 278,
+            Width = 15,
+            Height = 25,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle },
+            Style = new ShapeStyle { Fill = "#656764" }
+        };
+        Nodes.Add(reacterInletThread2);
+
+        Node reacterInletThread3 = new Node
+        {
+            ID = "reacterInletThread3",
+            OffsetX = 750,
+            OffsetY = 268,
+            Width = 25,
+            Height = 10,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle },
+            Style = new ShapeStyle { Fill = "#656764" }
+        };
+        Nodes.Add(reacterInletThread3);
+
+        // Pressure Gauge Node using HTML Template
+        Node pressureGaugeNode = new Node
+        {
+            ID = "pressureGuageNode",
+            OffsetX = 600,
+            OffsetY = 130,
+            Width = 70,
+            Height = 70,
+            Shape = new BasicShape { Type = NodeShapes.HTML },
+            Style = new ShapeStyle { Fill = "green" },
+            Ports = GetPorts("pressureGuageNode")
+        };
+        Nodes.Add(pressureGaugeNode);
+
+        // Pump components
+        Node pumpBase = new Node
+        {
+            ID = "pumpBase",
+            OffsetX = 750,
+            OffsetY = 110,
+            Width = 100,
+            Height = 100,
+            Shape = new FlowShape { Shape = NodeFlowShapes.SequentialAccessStorage },
+            RotationAngle = 90,
+            Flip = FlipDirection.Vertical,
+            Style = new ShapeStyle { Fill = "#E2EAF4" },
+            Ports = GetPorts("pumpBase")
+        };
+        Nodes.Add(pumpBase);
+
+        Node pumpBody = new Node
+        {
+            ID = "pumpBody",
+            OffsetX = 750,
+            OffsetY = 110,
+            Width = 90,
+            Height = 90,
+            Shape = new FlowShape { Shape = NodeFlowShapes.SequentialAccessStorage },
+            RotationAngle = 90,
+            Style = new ShapeStyle { Fill = "#E2EAF4" },
+        };
+        Nodes.Add(pumpBody);
+
+        Node pumpRotator = new Node
+        {
+            ID = "pumpRotator",
+            OffsetX = 750,
+            OffsetY = 110,
+            Width = 50,
+            Height = 50,
+            Shape = new BasicShape { Type = NodeShapes.HTML }
+        };
+        Nodes.Add(pumpRotator);
+
+        // Pump Group
+        NodeGroup pumpGroup = new NodeGroup
+        {
+            ID = "pumpGroup",
+            Children = new string[] { "pumpBase", "pumpBody", "pumpRotator" }
+        };
+        NodeGroups.Add(pumpGroup);
+        Nodes.Add(pumpGroup as Node);
+
+        // Tank 3 container
+        Node tank3Container = new Node
+        {
+            ID = "tank3container",
+            OffsetX = 750,
+            OffsetY = 450,
+            Width = 170,
+            Height = 250,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle },
+            Style = new ShapeStyle { Gradient = tankGradientColor },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+{
+                new ShapeAnnotation
+                {
+                    Content = "STIRRED TANK \nREACTOR (STR)",
+                    Style = new TextStyle { Color = "black", FontSize = 20, Bold = true, Italic = true }
+                }
+            },
+            Ports = GetPorts("tank3container")
+        };
+        Nodes.Add(tank3Container);
+
+        // Tank 3 Cooler
+        Node tank3Cooler = new Node
+        {
+            ID = "tank3cooler",
+            OffsetX = 750,
+            OffsetY = 490,
+            Width = 185,
+            Height = 250,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle, CornerRadius = 50 },
+            Style = new ShapeStyle { Fill = "#3D58B0" },
+            Ports = GetPorts("tank3cooler")
+        };
+        Nodes.Add(tank3Cooler);
+        // Reactor outlet thread components
+        Node reacterOutletThread1 = new Node
+        {
+            ID = "reacterOutletThread1",
+            OffsetX = 855,
+            OffsetY = 407.5,
+            Width = 15,
+            Height = 25,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle },
+            Style = new ShapeStyle { Fill = "#C9B100" },
+            ZIndex = 100,
+        };
+        Nodes.Add(reacterOutletThread1);
+
+        Node reacterOutletThread2 = new Node
+        {
+            ID = "reacterOutletThread2",
+            OffsetX = 845,
+            OffsetY = 407.5,
+            Width = 25,
+            Height = 35,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle },
+            Style = new ShapeStyle { Fill = "#C9B100" },
+            ZIndex = 101,
+        };
+        Nodes.Add(reacterOutletThread2);
+        // Level Transmitter
+        Node levelTransmitter = new Node
+        {
+            ID = "leveltransmitter",
+            OffsetX = 800,
+            OffsetY = 350,
+            Width = 50,
+            Height = 30,
+            Shape = new FlowShape { Shape = NodeFlowShapes.Process },
+            Style = new ShapeStyle { Fill = "#79247D" },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+{
+                new ShapeAnnotation
+                {
+                    Content = "54 L",
+                    Style = new TextStyle { Color = "gold", Bold = true }
+                }
+            },
+            ZIndex = 103,
+        };
+        Nodes.Add(levelTransmitter);
+        // Tank 3 Group
+        NodeGroup tank3Group = new NodeGroup
+        {
+            ID = "Tank3Group",
+            Children = new string[] { "tank3cooler", "tank3Top", "tank3Bottom", "tank3container" },
+            Ports = GetPorts("Tank3Group"),
+            ZIndex = 98
+        };
+        NodeGroups.Add(tank3Group);
+        Nodes.Add(tank3Group as Node);
+
+        // Coolant controller
+        Node coolantController = new Node
+        {
+            ID = "coolantcontroller",
+            OffsetX = 500,
+            OffsetY = 650,
+            Width = 150,
+            Height = 70,
+            Shape = new FlowShape { Shape = NodeFlowShapes.Card },
+            Style = new ShapeStyle { Fill = "#656874" },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+{
+                new ShapeAnnotation
+                {
+                    Content = "Coolant Controller",
+                    Style = new TextStyle { Color = "Orange", FontSize = 15, Italic = true, Bold = true },
+                    Offset = new DiagramPoint { X = 0.5, Y = 0.8 }
+                }
+            },
+            Ports = GetPorts("coolantcontroller")
+        };
+        Nodes.Add(coolantController);
+
+        // Coolant Value
+        Node coolantValue = new Node
+        {
+            ID = "CoolantValue",
+            OffsetX = 500,
+            OffsetY = 650,
+            Width = 100,
+            Height = 60,
+            Shape = new BasicShape { Type = NodeShapes.HTML },
+            Style = new ShapeStyle { Fill = "#656874" }
+        };
+        Nodes.Add(coolantValue);
+
+        // Thermometer Node
+        Node thermometerNode = new Node
+        {
+            ID = "thermometerNode",
+            OffsetX = 920,
+            OffsetY = 600,
+            Width = 100,
+            Height = 100,
+            Shape = new BasicShape { Type = NodeShapes.HTML },
+            Style = new ShapeStyle { Fill = "#656874" },
+            Ports = GetPorts("thermometerNode")
+        };
+        Nodes.Add(thermometerNode);
+
+        // Mixer
+        Node mixer1 = new Node
+        {
+            ID = "mixer1",
+            OffsetX = 550,
+            OffsetY = 230,
+            Width = 70,
+            Height = 70,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Octagon },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+{
+                new ShapeAnnotation
+                {
+                    Content = "Mixer"
+                }
+            },
+            Style = new ShapeStyle
+            {
+                Gradient = new RadialGradientBrush
+                {
+                    CX = 50,
+                    CY = 50,
+                    FX = 25,
+                    FY = 25,
+                    R = 50,
+                    GradientStops = new DiagramObjectCollection<GradientStop>()
+{
+                        new GradientStop(){ Color = "white", Offset = 0 },
+                        new GradientStop(){ Color = "#415086", Offset = 100 }
+                    }
+                }
+            },
+            Ports = GetPorts("mixer1")
+        };
+        Nodes.Add(mixer1);
+
+        // Temperature Alarm
+        Node temperatureAlarm = new Node
+        {
+            ID = "temperatureAlarm",
+            OffsetX = 680,
+            OffsetY = 292,
+            Width = 30,
+            Height = 30,
+            Shape = new FlowShape { Shape = NodeFlowShapes.DirectData },
+            RotationAngle = 245,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+{
+                new ShapeAnnotation
+                {
+                    Content = "TA",
+                    Style = new TextStyle { Bold = true },
+                    RotationReference = AnnotationRotationReference.Page
+                }
+            },
+            Style = new ShapeStyle
+            {
+                Gradient = new RadialGradientBrush
+                {
+                    CX = 50,
+                    CY = 50,
+                    FX = 25,
+                    FY = 25,
+                    R = 50,
+                    GradientStops = new DiagramObjectCollection<GradientStop>()
+{
+                        new GradientStop(){ Color = "white", Offset = 0 },
+                        new GradientStop(){ Color = "#EA8257", Offset = 100 }
+                    }
+                }
+            }
+        };
+        Nodes.Add(temperatureAlarm);
+
+
+
+        // Product Inlet Thread
+        Node productInletThread1 = new Node
+        {
+            ID = "productInletThread1",
+            OffsetX = 1200,
+            OffsetY = 500,
+            Width = 30,
+            Height = 10,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Rectangle },
+            Style = new ShapeStyle { Fill = "#D47A39" }
+        };
+        Nodes.Add(productInletThread1);
+
+        // Product Tank
+        Node productTank = new Node
+        {
+            ID = "ProductTank",
+            OffsetX = 1200,
+            OffsetY = 600,
+            Width = 200,
+            Height = 200,
+            Shape = new FlowShape { Shape = NodeFlowShapes.PreDefinedProcess },
+            Style = new ShapeStyle { Gradient = storageTankGradientColor },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>
+{
+                new ShapeAnnotation
+                {
+                    Content = "Storage",
+                    Offset = new DiagramPoint { X = 0.5, Y = 0.1 }
+                },
+                new ShapeAnnotation
+                {
+                    Content = "Tank",
+                    Offset = new DiagramPoint { X = 0.5, Y = 0.9 }
+                }
+            },
+            Ports = GetPorts("ProductTank")
+        };
+        Nodes.Add(productTank);
+
+        // Product Tank Quantity
+        Node productTankQuantity = new Node
+        {
+            ID = "ProductTankQuantity",
+            OffsetX = 1200,
+            OffsetY = 600,
+            Width = 100,
+            Height = 130,
+            Shape = new BasicShape { Type = NodeShapes.HTML }
+        };
+        Nodes.Add(productTankQuantity);
+
+        // Pressure Gauge
+        Node pressureGauge = new Node
+        {
+            ID = "pressureguage",
+            OffsetX = 1000,
+            OffsetY = 115,
+            Width = 10,
+            Height = 10,
+            Shape = new BasicShape { Type = NodeShapes.HTML },
+            Style = new ShapeStyle { Fill = "#65B091" }
+        };
+        Nodes.Add(pressureGauge);
+
+        // Add control valve groups
+        AddControlValveGroup("1", 270, 500, "#ffb734");
+        AddControlValveGroup("2", 450, 130, "#7C099C");
+        AddControlValveGroup("3", 970, 400, "red");
+
+    }
+
+    public void AddControlValveGroup(string id, double offsetX, double offsetY, string color)
+    {
+        // Control Valve components
+        Node controlValve1 = new Node
+        {
+            ID = $"controlvalve{(int.Parse(id) - 1) * 5 + 1}",
+            OffsetX = 450,
+            OffsetY = 100,
+            Width = 10,
+            Height = 20,
+            Shape = new FlowShape { Shape = NodeFlowShapes.Process },
+            Style = new ShapeStyle { Fill = "#65B091" },
+            Ports = GetPorts($"controlvalve{(int.Parse(id) - 1) * 5 + 1}")
+        };
+        Nodes.Add(controlValve1);
+
+        Node controlValve2 = new Node
+        {
+            ID = $"controlvalve{(int.Parse(id) - 1) * 5 + 2}",
+            OffsetX = 420,
+            OffsetY = 115,
+            Width = 10,
+            Height = 25,
+            Shape = new FlowShape { Shape = NodeFlowShapes.Process },
+            Style = new ShapeStyle { Fill = "#65B091" },
+            Ports = GetPorts($"controlvalve{(int.Parse(id) - 1) * 5 + 2}")
+        };
+        Nodes.Add(controlValve2);
+
+        Node controlValve3 = new Node
+        {
+            ID = $"controlvalve{(int.Parse(id) - 1) * 5 + 3}",
+            OffsetX = 450,
+            OffsetY = 115,
+            Width = 50,
+            Height = 20,
+            Shape = new FlowShape { Shape = NodeFlowShapes.Process },
+            Style = new ShapeStyle { Fill = "#65B091" },
+            Ports = GetPorts($"controlvalve{(int.Parse(id) - 1) * 5 + 3}")
+        };
+        Nodes.Add(controlValve3);
+
+        Node controlValve4 = new Node
+        {
+            ID = $"controlvalve{(int.Parse(id) - 1) * 5 + 4}",
+            OffsetX = 480,
+            OffsetY = 115,
+            Width = 10,
+            Height = 25,
+            Shape = new FlowShape { Shape = NodeFlowShapes.Process },
+            Style = new ShapeStyle { Fill = "#65B091" },
+            Ports = GetPorts($"controlvalve{(int.Parse(id) - 1) * 5 + 4}")
+        };
+        Nodes.Add(controlValve4);
+
+        Node controlValve5 = new Node
+        {
+            ID = $"controlvalve{(int.Parse(id) - 1) * 5 + 5}",
+            OffsetX = 450,
+            OffsetY = 90,
+            Width = 35,
+            Height = 5,
+            Shape = new BasicShape { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle { Fill = "#65B091" },
+            Ports = GetPorts($"controlvalve{(int.Parse(id) - 1) * 5 + 5}")
+        };
+        Nodes.Add(controlValve5);
+
+        // Control Valve Box with HTML Template
+        Node controlValveBox = new Node
+        {
+            ID = $"controlvalveBox{id}",
+            OffsetX = 450,
+            OffsetY = 115,
+            Width = 35,
+            Height = 15,
+            Shape = new BasicShape { Type = NodeShapes.HTML },
+            Style = new ShapeStyle { Fill = "#65B091" },
+            Ports = GetPorts($"controlvalveBox{id}")
+        };
+        Nodes.Add(controlValveBox);
+
+        // Create group for control valve
+        string[] children = new string[]
+        {
+            $"controlvalve{(int.Parse(id) - 1) * 5 + 1}",
+            $"controlvalve{(int.Parse(id) - 1) * 5 + 2}",
+            $"controlvalve{(int.Parse(id) - 1) * 5 + 3}",
+            $"controlvalve{(int.Parse(id) - 1) * 5 + 4}",
+            $"controlvalve{(int.Parse(id) - 1) * 5 + 5}",
+            $"controlvalveBox{id}"
+                                };
+
+        NodeGroup controlValveGroup = new NodeGroup
+        {
+            ID = $"controlValveGroup{id}",
+            Children = children,
+            OffsetX = offsetX,
+            OffsetY = offsetY,
+            Ports = GetPorts($"controlValveGroup{id}")
+        };
+        NodeGroups.Add(controlValveGroup);
+        Nodes.Add(controlValveGroup as Node);
+    }
+
+    public void InitializeConnectors()
+    {
+        // Connector 1: Tank1 to Control Valve
+        Connector connector1 = new Connector
+        {
+            ID = "Connector1",
+            SourceID = "Tank1Group",
+            TargetID = "controlvalve2",
+            SourcePortID = "bottomPort",
+            TargetPortID = "inletLeftPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "orange",
+                StrokeDashArray = "5,5",
+                StrokeWidth = 10
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None },
+            AdditionalInfo = new Dictionary<string, object> { { "animate", true } }
+        };
+        Connectors.Add(connector1);
+
+        // Connector 2: Tank2 to Control Valve
+        Connector connector2 = new Connector
+        {
+            ID = "Connector2",
+            SourceID = "Tank2Group",
+            TargetID = "controlvalve7",
+            SourcePortID = "topPort",
+            TargetPortID = "inletLeftPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "#7C099C",
+                StrokeWidth = 10
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None },
+            AdditionalInfo = new Dictionary<string, object> { { "animate", true } }
+        };
+        Connectors.Add(connector2);
+
+        // Connector 3: Control Valve to Mixer
+        Connector connector3 = new Connector
+        {
+            ID = "Connector3",
+            SourceID = "controlvalve4",
+            TargetID = "mixer1",
+            SourcePortID = "outletRightPort",
+            TargetPortID = "bottomPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "orange",
+                StrokeWidth = 10
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None },
+            AdditionalInfo = new Dictionary<string, object> { { "animate", true } }
+        };
+        Connectors.Add(connector3);
+
+        // Connector 4: Control Valve to Mixer
+        Connector connector4 = new Connector
+        {
+            ID = "Connector4",
+            SourceID = "controlvalve9",
+            TargetID = "mixer1",
+            SourcePortID = "outletRightPort",
+            TargetPortID = "topPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "#7C099C",
+                StrokeWidth = 10
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None },
+            AdditionalInfo = new Dictionary<string, object> { { "animate", true } }
+        };
+        Connectors.Add(connector4);
+
+        // Connector 5: Coolant Controller to Tank3 Cooler
+        Connector connector5 = new Connector
+        {
+            ID = "Connector5",
+            SourceID = "coolantcontroller",
+            TargetID = "tank3cooler",
+            SourcePortID = "outletRightPort",
+            TargetPortID = "inletLeftPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "blue",
+                StrokeWidth = 5,
+                StrokeDashArray = "10,1"
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None }
+        };
+        Connectors.Add(connector5);
+
+        // Connector 6: Coolant Controller to Tank3 Cooler
+        Connector connector6 = new Connector
+        {
+            ID = "Connector6",
+            SourceID = "coolantcontroller",
+            TargetID = "tank3cooler",
+            SourcePortID = "inletLeftPort",
+            TargetPortID = "bottomPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "#d6185bff",
+                StrokeWidth = 5,
+                StrokeDashArray = "10,1"
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None }
+        };
+        Connectors.Add(connector6);
+
+        // Connector 9: Reactor Outlet to Control Valve
+        Connector connector9 = new Connector
+        {
+            ID = "Connector9",
+            SourceID = "reacterOutletThread1",
+            TargetID = "controlvalve12",
+            SourcePortID = "outletRightPort",
+            TargetPortID = "inletLeftPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "red",
+                StrokeWidth = 10
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None },
+            AdditionalInfo = new Dictionary<string, object> { { "animate", true } }
+        };
+        Connectors.Add(connector9);
+
+        // Connector 10: Control Valve to Product Inlet
+        Connector connector10 = new Connector
+        {
+            ID = "Connector10",
+            SourceID = "controlvalve14",
+            TargetID = "productInletThread1",
+            SourcePortID = "outletRightPort",
+            TargetPortID = "topPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "red",
+                StrokeWidth = 10
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None },
+            AdditionalInfo = new Dictionary<string, object> { { "animate", true } }
+        };
+        Connectors.Add(connector10);
+
+        // Connector 11: Mixer to Pump
+        Connector connector11 = new Connector
+        {
+            ID = "Connector11",
+            SourceID = "mixer1",
+            TargetID = "pumpBase",
+            SourcePortID = "outletRightPort",
+            TargetPortID = "pumpPort1",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "#8DC276",
+                StrokeWidth = 10
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None },
+            AdditionalInfo = new Dictionary<string, object> { { "animate", true } }
+        };
+        Connectors.Add(connector11);
+
+        // Connector 12: Pump to Reactor Inlet
+        Connector connector12 = new Connector
+        {
+            ID = "Connector12",
+            SourceID = "pumpBase",
+            TargetID = "reacterInletThread1",
+            SourcePortID = "pumpPort2",
+            TargetPortID = "topPort",
+            Type = ConnectorSegmentType.Orthogonal,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "#8DC276",
+                StrokeWidth = 10
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None },
+            AdditionalInfo = new Dictionary<string, object> { { "animate", true } }
+        };
+        Connectors.Add(connector12);
+
+        // Connector 13: Mixer to Pressure Gauge
+        Connector connector13 = new Connector
+        {
+            ID = "Connector13",
+            SourceID = "mixer1",
+            TargetID = "pressureGuageNode",
+            SourcePortID = "mixertopressureport",
+            TargetPortID = "pressuretomixerport",
+            Type = ConnectorSegmentType.Straight,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "black",
+                StrokeWidth = 2,
+                StrokeDashArray = "10,1"
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None }
+        };
+        Connectors.Add(connector13);
+
+        // Connector 14: Tank3 to Thermometer
+        Connector connector14 = new Connector
+        {
+            ID = "Connector14",
+            SourceID = "Tank3Group",
+            TargetID = "thermometerNode",
+            SourcePortID = "tankport10",
+            TargetPortID = "thermoPort",
+            Type = ConnectorSegmentType.Straight,
+            Style = new ShapeStyle
+            {
+                StrokeColor = "black",
+                StrokeWidth = 2,
+                StrokeDashArray = "10,1"
+            },
+            TargetDecorator = new DecoratorSettings { Shape = DecoratorShape.None }
+        };
+        Connectors.Add(connector14);
+    }
+
+    public DiagramObjectCollection<PointPort> GetPorts(string nodeId)
+    {
+        DiagramObjectCollection<PointPort> ports = new DiagramObjectCollection<PointPort>();
+
+        // Define standard ports common to many shapes
+        if (nodeId != "controlvalveBox1" && nodeId != "controlvalveBox2" && nodeId != "controlvalveBox3")
+        {
+            ports.Add(new PointPort
+            {
+                ID = "inletLeftPort",
+                Offset = new DiagramPoint { X = 0, Y = 0.5 },
+                Visibility = PortVisibility.Hidden
+            });
+
+            ports.Add(new PointPort
+            {
+                ID = "outletRightPort",
+                Offset = new DiagramPoint { X = 1, Y = 0.5 },
+                Visibility = PortVisibility.Hidden
+            });
+
+            ports.Add(new PointPort
+            {
+                ID = "topPort",
+                Offset = new DiagramPoint { X = 0.5, Y = 0 },
+                Visibility = PortVisibility.Hidden
+            });
+
+            ports.Add(new PointPort
+            {
+                ID = "bottomPort",
+                Offset = new DiagramPoint { X = 0.5, Y = 1 },
+                Visibility = PortVisibility.Hidden
+            });
+        }
+
+        // Add specific ports for specific Nodes
+        if (nodeId == "tank1")
+        {
+            ports.Add(new PointPort
+            {
+                ID = "tankPort1",
+                Offset = new DiagramPoint { X = 1, Y = 0.2 },
+                Visibility = PortVisibility.Visible
+            });
+
+            ports.Add(new PointPort
+            {
+                ID = "tankPort2",
+                Offset = new DiagramPoint { X = 1, Y = 0.8 },
+                Visibility = PortVisibility.Visible
+            });
+        }
+        else if (nodeId == "mixer1")
+        {
+            ports.Add(new PointPort
+            {
+                ID = "mixertopressureport",
+                Offset = new DiagramPoint { X = 0.94, Y = 0.1 },
+                Visibility = PortVisibility.Hidden
+            });
+        }
+        else if (nodeId == "pressureGuageNode")
+        {
+            ports.Add(new PointPort
+            {
+                ID = "pressuretomixerport",
+                Offset = new DiagramPoint { X = 0.7, Y = 0.5 },
+                Visibility = PortVisibility.Hidden
+            });
+        }
+        else if (nodeId == "thermometerNode")
+        {
+            ports.Add(new PointPort
+            {
+                ID = "thermoPort",
+                Offset = new DiagramPoint { X = 0.2, Y = 0.3 },
+                Visibility = PortVisibility.Hidden
+            });
+        }
+        else if (nodeId == "Tank3Group")
+        {
+            ports.Add(new PointPort
+            {
+                ID = "tankport10",
+                Offset = new DiagramPoint { X = 0.97, Y = 0.8 },
+                Visibility = PortVisibility.Hidden
+            });
+        }
+        else if (nodeId == "pumpBase")
+        {
+            ports.Add(new PointPort
+            {
+                ID = "pumpPort1",
+                Offset = new DiagramPoint { X = 0.94, Y = 0.1 },
+                Visibility = PortVisibility.Hidden
+            });
+
+            ports.Add(new PointPort
+            {
+                ID = "pumpPort2",
+                Offset = new DiagramPoint { X = 0.97, Y = 0.95 },
+                Visibility = PortVisibility.Hidden
+            });
+        }
+
+        return ports;
+    }
+
+    // Methods for JavaScript interop
+    [JSInvokable]
+    public void UpdateValveState(int valveId, bool isOpen)
+    {
+        switch (valveId)
+        {
+            case 1: TankFlow1 = isOpen; break;
+            case 2: TankFlow2 = isOpen; break;
+            case 3: TankFlow3 = isOpen; break;
+        }
+        StateHasChanged();
+    }
+    public void ConnectorCreating(IDiagramObject obj)
+    {
+        Connector connector = (obj as Connector)!;
+        connector!.CornerRadius = 5;
+    }
+    public void NodeCreating(IDiagramObject obj)
+    {
+        Node node = (obj as Node)!;
+        node!.Constraints = (NodeConstraints.Default | NodeConstraints.ReadOnly) & ~NodeConstraints.Select;
+    }
+
+    public void Dispose()
+    {
+        // Cleanup JavaScript resources
+        Task.Run(async () =>
+        {
+            await JsRuntime.InvokeVoidAsync("cleanupAllIntervals");
+            ObjRef?.Dispose();
+        });
+    }
+}
