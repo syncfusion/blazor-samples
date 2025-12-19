@@ -17,13 +17,11 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 
 * [System requirements](https://blazor.syncfusion.com/documentation/system-requirements/)
 
-* [NET 8 WebAssembly Workload / NET 9 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-8.0#net-webassembly-build-tools)
-
-* Nodejs Version : [10.24.* or above](https://nodejs.org/download/release/v8.1.0/)
+* [NET 8 WebAssembly Workload / NET 9 WebAssembly Workload / NET 10 WebAssembly Workload](https://learn.microsoft.com/en-us/aspnet/core/blazor/webassembly-build-tools-and-aot?view=aspnetcore-10.0&preserve-view=true#net-webassembly-build-tools)
 
 ## How to run the demo
 
-Clone the repository. This repository contains Blazor Web App Server demos, Blazor Web App WASM demos and solution files for .NET 8 and .NET 9. This repository has Common, Blazor Web App Server Demos and Blazor Web App WASM Demos folders.
+Clone the repository. This repository contains Blazor Web App Server demos, Blazor Web App WASM demos and solution files for .NET 8, .NET 9 and .NET 10. This repository has Common, Blazor Web App Server Demos and Blazor Web App WASM Demos folders.
 * `Blazor-Server-Demos` folder has solution and project files to run Blazor server demos.
 * `Blazor-WASM-Demos` folder has solution and project files to run Blazor WebAssembly demos.
 * The Common folder contains all the common files (i.e., samples, static web assets, resources) which are applicable for Blazor Web App Server demos and Blazor Web App WASM demos.
@@ -39,11 +37,17 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
    To run .NET 9 Blazor Web App Server Demos project
    > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET9.csproj`
 
+   To run .NET 10 Blazor Web App Server Demos project
+   > `dotnet run --project Blazor-Server-Demos/Blazor_Server_Demos_NET10.csproj`
+   
    To run .NET 8 Blazor Web App WASM Demos project
    > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos/Blazor_WASM_Demos_NET8.csproj`
 
    To run .NET 9 Blazor Web App WASM Demos project
    > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos/Blazor_WASM_Demos_NET9.csproj`
+
+   To run .NET 10 Blazor Web App WASM Demos project
+   > `dotnet run --project Blazor-WASM-Demos/Blazor_WASM_Demos/Blazor_WASM_Demos_NET10.csproj`
 
 ### Run the demo using Visual Studio
 
@@ -79,7 +83,7 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <p>&nbsp;</p>
             <div><p class="controlcategory">INTERACTIVE CHAT</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/ai-assistview/getting-started-webapp">AI AssistView</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/chat-ui/getting-started">Chat UI - Preview</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/chat-ui/getting-started">Chat UI</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">DATA MANAGEMENT</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/datagrid/getting-started">DataGrid</a></div>
@@ -92,7 +96,8 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <div><p class="controlcategory">FILE VIEWERS & EDITORS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rich-text-editor/getting-started">Rich Text Editor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/image-editor/getting-started">Image Editor</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/dialog/getting-started">Dialog</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/markdown-editor/getting-started">Markdown Editor</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/block-editor/getting-started-web-app">Block Editor - Preview</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">LAYOUT</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/card/getting-started">Card</a></div>
