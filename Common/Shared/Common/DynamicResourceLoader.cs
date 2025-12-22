@@ -258,10 +258,10 @@ namespace BlazorDemos.Shared
 #endif
 #if !STAGING && RELEASE
             // Use CDN links for Release builds
-            var scriptPath = "https://cdn.syncfusion.com/blazor/31.1.17/";
-            var stylePath = "https://cdn.syncfusion.com/blazor/sb/styles/31.1.17/";
-            var overallStylePath = "https://cdn.syncfusion.com/blazor/31.1.17/styles/";
-            var sbSamplesJsPath = "https://cdn.syncfusion.com/blazor/sb/scripts/31.1.17/";
+            var scriptPath = "https://cdn.syncfusion.com/blazor/32.1.19/";
+            var stylePath = "https://cdn.syncfusion.com/blazor/sb/styles/32.1.19/";
+            var overallStylePath = "https://cdn.syncfusion.com/blazor/32.1.19/styles/";
+            var sbSamplesJsPath = "https://cdn.syncfusion.com/blazor/sb/scripts/32.1.19/";
             var sbCommonCssPath = stylePath;
             var sbDiagramCssPath = $"{stylePath}common/";
 #else
