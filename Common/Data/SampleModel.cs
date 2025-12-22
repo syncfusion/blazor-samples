@@ -101,8 +101,8 @@ namespace BlazorDemos
     #endif
 #endif
 #else
-            "https://cdn.syncfusion.com/blazor/sb/styles/30.1.37/common/fonts/open-sans-700.woff2",            
-            "https://cdn.syncfusion.com/blazor/sb/styles/30.1.37/common/fonts/open-sans-regular.woff2"
+            "https://cdn.syncfusion.com/blazor/sb/styles/32.1.19/common/fonts/open-sans-700.woff2",            
+            "https://cdn.syncfusion.com/blazor/sb/styles/32.1.19/common/fonts/open-sans-regular.woff2"
 #endif
         };
     }
