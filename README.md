@@ -249,4 +249,6 @@ The Syncfusion® license that contains the terms and conditions can be found at
 * [Blazor Live Demos - Server](https://blazor.syncfusion.com/demos/)
 * [Blazor Live Demos - WebAssembly](https://blazor.syncfusion.com/wasm/demos/)
 * [Blazor Playground](https://blazorplayground.syncfusion.com/)
-* [Blazor Smart/AI Samples](https://github.com/syncfusion/smart-ai-samples)  
+* [Blazor Smart/AI Samples](https://github.com/syncfusion/smart-ai-samples)
+
+<p>Copyright © 2001-2026 Syncfusion®, Inc. All rights reserved.</p>
