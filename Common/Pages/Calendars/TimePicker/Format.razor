@@ -1,0 +1,124 @@
+@page "/TimePicker/Time-Format"
+
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+<p>
+    This sample demonstrates the display and input formats of the TimePicker using the <code>Format</code> and <code>InputFormats</code> properties. The TimePicker has been customized with <strong>24-hour format</strong> with <strong>60 minutes interval</strong>.
+  </p>
+  <p>
+    The TimePicker provides an option to customize the display format in the component using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Calendars_SfTimePicker_1_Format" target="_blank" rel="noopener" aria-label="Class reference of Format property in TimePicker">Format</a> property.
+  </p>
+  <p>
+    Additionally, it demonstrates support for input formats. When users type an input value, it is converted to the display format using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Calendars_SfTimePicker_1_Format" target="_blank" rel="noopener" aria-label="Class reference of InputFormats property in TimePicker">InputFormats</a> property.
+  </p>
+  <p>
+    It accepts <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/standard-date-and-time-format-strings" target="_blank" rel="noopener" aria-label="Standard Date and Time Format String documentation">standard</a> and <a href="https://docs.microsoft.com/en-us/dotnet/standard/base-types/custom-date-and-time-format-strings" target="_blank" rel="noopener" aria-label="Custom Date and Time Format Strings documentation">custom date and time format strings</a> as specified in MSDN.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12">
+    <div class="col-lg-8 control-section sb-property-border">
+        <div class="control-wrapper">
+            <label class="example-label">Select a Time</label>
+            <SfTimePicker TValue="DateTime?" @bind-Value="@TimeValue" InputFormats="@InputFormats" Step="60" Format="@SelectedFormat" ShowClearButton="true" FullScreen="true" Placeholder="Select a time"></SfTimePicker>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class='property-panel-section'>
+            <div class="property-panel-header">Properties</div>
+            <div class="property-panel-content">
+                <label class="example-label">Choose a display format</label>
+                <SfDropDownList TItem="TimeFormat" TValue="string" PopupHeight="230px" @bind-Index="@SelectedFormatIndex" DataSource="@DisplayFormats">
+                    <DropDownListEvents TValue="string" TItem="TimeFormat" ValueChange="OnDisplayFormatChange"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+            <div class="property-panel-content">
+                <label class="example-label">Choose input formats</label>
+                <SfMultiSelect TValue="string[]" TItem="InputFormatOption" Placeholder="e.g. HH mm" @bind-Value="@SelectedInputFormats" Mode="@VisualMode.CheckBox" DataSource="@InputFormatOptions" ShowSelectAll="true" PopupHeight="350px">
+                    <MultiSelectEvents TItem="InputFormatOption" TValue="string[]" ValueChange="OnInputFormatChange"></MultiSelectEvents>
+                    <MultiSelectFieldSettings Value="InputFormat"></MultiSelectFieldSettings>
+                </SfMultiSelect>
+           </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-section {
+        min-height: 370px;
+    }
+
+    .control-wrapper {
+        max-width: 200px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .property-panel-content {
+        padding: 0px 0px 15px 0px;
+    }
+
+    .property-panel-content:last-child {
+        padding: 0px 0px 40px 0px;
+    }
+</style>
+
+@code {
+    private int? SelectedFormatIndex { get; set; } = 0;
+    public DateTime? TimeValue { get; set; } = DateTime.Now;
+    public string[]? InputFormats { get; set; }
+    public string[]? SelectedInputFormats { get; set; }
+    public string? SelectedFormat { get; set; } = "HH:mm";
+
+    public class TimeFormat
+    {
+        public string? Id { get; set; }
+        public string? Text { get; set; }
+    }
+
+    private List<TimeFormat> DisplayFormats = new List<TimeFormat>()
+    {
+        new TimeFormat() { Id = "format1", Text = "HH:mm" },
+        new TimeFormat() { Id = "format2", Text = "hh:mm tt" },
+        new TimeFormat() { Id = "format3", Text = "hh:mm:ss tt" }
+    };
+
+    public void OnDisplayFormatChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, TimeFormat> args)
+    {
+        this.SelectedFormat = args.ItemData?.Text;
+    }
+
+    public class InputFormatOption
+    {
+        public string? InputFormat { get; set; }
+    }
+
+    private List<InputFormatOption> InputFormatOptions = new List<InputFormatOption>
+    {
+        new InputFormatOption() { InputFormat="HH mm" },
+        new InputFormatOption() { InputFormat="hhmmtt" },
+        new InputFormatOption() { InputFormat="hhmmss tt" },
+        new InputFormatOption() { InputFormat="HH.mm" },
+        new InputFormatOption() { InputFormat="hh-mm tt" },
+        new InputFormatOption() { InputFormat="hh:mm:ss tt" },
+        new InputFormatOption() { InputFormat="HH:mm:ss" },
+        new InputFormatOption() { InputFormat="hh-mm-ss tt" }
+    };
+
+    private void OnInputFormatChange(MultiSelectChangeEventArgs<string[]> args)
+    {
+        this.InputFormats = args.Value;
+    }
+}

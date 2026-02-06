@@ -1,0 +1,144 @@
+@page "/tree-grid/conditional-formatting"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using TaskData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates conditional cell styling to highlight values and emphasize important statuses or priorities.
+  </p>
+  <p>
+    Apply conditional styles by handling <a target="_blank" rel="noopener" aria-label="Navigate to the QueryCellInfo event reference for the Tree Grid component" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridEvents-1.html#Syncfusion_Blazor_TreeGrid_TreeGridEvents_1_QueryCellInfo">QueryCellInfo</a>. Use <a target="_blank" rel="noopener" aria-label="Navigate to the QueryCellInfoEventArgs class reference" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.QueryCellInfoEventArgs-1.html">QueryCellInfoEventArgs</a> to access the cell data and apply classes or styles.
+  </p>
+  <p>
+    In this demo, <strong>Status</strong> and <strong>Priority</strong> columns are styled for values such as Open, In Progress, Validated, Closed, Low, Normal, High, and Critical. Parent task names are emphasized to show hierarchy.
+  </p>
+  <p>
+    See the cell customization <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/treegrid/cell/#customize-cell-styles">documentation</a> for more.
+  </p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfTreeGrid DataSource="Data" IdMapping="TaskID" ParentIdMapping="ParentID" Height="350" EnableHover="false" TreeColumnIndex="1">
+            <TreeGridColumns>
+                <TreeGridColumn Field="TaskID" HeaderText="Task ID" IsPrimaryKey="true" Width="80" ValidationRules="@(new ValidationRules() { Required = true, Number = true })" TextAlign="TextAlign.Right"></TreeGridColumn>
+                <TreeGridColumn Field="TaskName" HeaderText="Task Name" ClipMode="ClipMode.EllipsisWithTooltip" ValidationRules="@(new ValidationRules() { Required = true })" Width="165"></TreeGridColumn>
+                <TreeGridColumn Field="AssignedTo" HeaderText="Assigned" Width="145"></TreeGridColumn>
+                <TreeGridColumn Field="Priority" HeaderText="Priority" Width="110" EditType="Syncfusion.Blazor.Grids.EditType.DropDownEdit"></TreeGridColumn>
+                <TreeGridColumn Field="Progress" HeaderText="Status" Width="110" EditType="Syncfusion.Blazor.Grids.EditType.DropDownEdit"></TreeGridColumn>
+                <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="dd/MM/yyyy" Type=ColumnType.Date Width="120" TextAlign="TextAlign.Right" EditType=EditType.DatePickerEdit></TreeGridColumn>
+                <TreeGridColumn Field="EndDate" HeaderText="End Date" Format="dd/MM/yyyy" Type=ColumnType.Date Width="140" TextAlign="TextAlign.Right" EditType=EditType.DatePickerEdit></TreeGridColumn>              
+            </TreeGridColumns>
+            <TreeGridEvents TValue="TaskData" QueryCellInfo="OnQueryCellInfo"></TreeGridEvents>
+        </SfTreeGrid>
+    </div>
+</div>
+
+<style>
+    .e-progress-open, td.e-progress-open.e-active {
+        background-color: #fff7cc; /* soft yellow */
+        color: #7a6a00 !important;
+        font-weight: 600;
+    }
+    .e-progress-inprogress, td.e-progress-inprogress.e-active {
+        background-color: #e6f0ff; /* light blue */
+        color: #0b66d6 !important;
+        font-weight: 600;
+    }
+    .e-progress-validated, td.e-progress-validated.e-active {
+        background-color: #f1f3f4; /* light grey */
+        color: #5f6368 !important;
+        font-weight: 600;
+    }
+    .e-progress-closed, td.e-progress-closed.e-active {
+        background-color: #e9fbef; 
+        color: #c62828 !important;
+        font-weight: 600;
+    }
+    .e-priority-low, td.e-priority-low.e-active {
+        background-color: #f1fbf4;
+        color: #2e7d32 !important;
+        font-weight: 600;
+    }
+    .e-priority-normal, td.e-priority-normal.e-active {
+        background-color: #eef6ff;
+        color: #1e88e5 !important;
+        font-weight: 600;
+    }
+    .e-priority-high, td.e-priority-high.e-active {
+        background-color: #fff5e6;
+        color: #ef6c00 !important;
+        font-weight: 600;
+    }
+    .e-priority-critical, td.e-priority-critical.e-active {
+        background-color: #ffe8e8;
+        color: #c62828 !important;
+        font-weight: 600;
+    }
+    .e-parent, td.e-parent.e-active {
+        font-weight: 600;
+    }
+</style>
+
+@code {
+    private List<TaskData> Data = new();
+
+    protected override void OnInitialized()
+    {
+        Data = TaskData.GetTree().Take(34).ToList();
+    }
+
+    private void OnQueryCellInfo(QueryCellInfoEventArgs<TaskData> args)
+    {
+        static string Norm(string? s) => (s ?? string.Empty).Trim().ToLowerInvariant().Replace(" ", "");
+
+        if (args.Column.Field == nameof(TaskData.Progress))
+        {
+            var p = Norm(args.Data.Progress);
+            switch (p)
+            {
+                case "open":
+                    args.Cell.AddClass(new[] { "e-progress-open" });
+                    break;
+                case "inprogress": // matches both "InProgress" and "In Progress"
+                    args.Cell.AddClass(new[] { "e-progress-inprogress" });
+                    break;
+                case "validated":
+                    args.Cell.AddClass(new[] { "e-progress-validated" });
+                    break;
+                case "closed":
+                    args.Cell.AddClass(new[] { "e-progress-closed" });
+                    break;
+            }
+        }
+        else if (args.Column.Field == nameof(TaskData.Priority))
+        {
+            var pr = Norm(args.Data.Priority);
+            switch (pr)
+            {
+                case "low":
+                    args.Cell.AddClass(new[] { "e-priority-low" });
+                    break;
+                case "normal":
+                    args.Cell.AddClass(new[] { "e-priority-normal" });
+                    break;
+                case "high":
+                    args.Cell.AddClass(new[] { "e-priority-high" });
+                    break;
+                case "critical":
+                    args.Cell.AddClass(new[] { "e-priority-critical" });
+                    break;
+            }
+        }
+        else if (args.Column.Field == nameof(TaskData.TaskName) && (args.Data.IsParent ?? false))
+        {
+            args.Cell.AddClass(new[] { "e-parent" });
+        }
+    }
+}

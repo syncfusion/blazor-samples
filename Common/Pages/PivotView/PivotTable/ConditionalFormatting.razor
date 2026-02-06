@@ -1,0 +1,140 @@
+@page "/pivot-table/conditional-formatting"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates conditional formatting functionality for customizing pivot table cell appearance based on user-defined conditions.</p>
+    
+    <p>The <b>conditional formatting</b> dialog enables adding conditions and styles dynamically. Formatting can be added, removed, and reset at runtime.</p>
+    
+    <p>Conditional formatting features:</p>
+    
+    <ul>
+        <li>Apply to cells with values only</li>
+        <li>Customize background color, font color, font family, and font size</li>
+        <li>Configure through UI dialog or code-behind</li>
+        <li>Enable via <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_AllowConditionalFormatting" aria-label="Class reference of AllowConditionalFormatting property in PivotView">AllowConditionalFormatting</a> property</li>
+        <li>Access UI via <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_ShowConditionalFormattingDialogAsync" aria-label="Class reference of ShowConditionalFormattingDialogAsync property in PivotView">ShowConditionalFormattingDialogAsync</a> method</li>
+    </ul>
+    
+    <p>Configuration properties in <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewConditionalFormatSetting.html" aria-label="Class reference of PivotViewConditionalFormatSetting">PivotViewConditionalFormatSetting</a>:</p>
+    
+    <ul>
+        <li><b>Measure</b> - Value field name for style application</li>
+        <li><b>Condition</b> - Operator type (equals, greater than, less than, etc.)</li>
+        <li><b>Value1</b> - Start value for filtering</li>
+        <li><b>Value2</b> - End value (for range conditions)</li>
+        <li><b>Style</b> - Cell appearance customization</li>
+        <li><b>ApplyGrandTotals</b> - Apply to row/column grand totals</li>
+    </ul>
+    
+    <p>The <b>Reset All</b> option clears all applied conditional formatting.</p>
+    
+    <p>For comprehensive documentation, refer to the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/conditional-formatting/" aria-label="Blazor PivotTable Conditional Formatting documentation">documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="@Pivot" Width="100%" Height="340" ShowFieldList="true" AllowConditionalFormatting=true EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                    <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C" UseGrouping=true></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewConditionalFormatSettings>
+                    <PivotViewConditionalFormatSetting Measure="In_Stock" Conditions="Condition.Between" Value1=350 Value2="385">
+                        <PivotViewStyle BackgroundColor="#219122" Color="white" FontFamily="Tahoma" FontSize="12px">
+                        </PivotViewStyle>
+                    </PivotViewConditionalFormatSetting>
+                    <PivotViewConditionalFormatSetting Measure="Sold" Conditions="Condition.Between" Value1=16000 Value2=25000>
+                        <PivotViewStyle BackgroundColor="#FF2222" Color="white" FontFamily="Tahoma" FontSize="12px">
+                        </PivotViewStyle>
+                    </PivotViewConditionalFormatSetting>
+                </PivotViewConditionalFormatSettings>
+                <PivotViewDrilledMembers>
+                    <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France","Germany" })"></PivotViewDrilledMember>
+                </PivotViewDrilledMembers>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;<br>
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:20px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td align="center">
+                            <SfButton CssClass="apply-button" IsPrimary="true" OnClick="@OnClick">Apply Format</SfButton>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td align="center">
+                            <SfButton CssClass="reset-button" IsPrimary="true" OnClick="@OnResetClick">Reset All</SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+    .apply-button, .reset-button {
+        width: 80%;
+    }
+    html, body {
+        height: 100%;
+    }
+</style>
+
+@code{
+    public SfPivotView<PivotProductDetails>? Pivot;
+    public List<PivotProductDetails>? Data { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        this.Data = PivotProductDetails.GetProductData();
+    }
+    public async Task OnClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        if(Pivot != null)
+        {
+            await this.Pivot.ShowConditionalFormattingDialogAsync();
+        }
+    }
+
+    public void OnResetClick(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        if(Pivot != null)
+        {
+            this.Pivot.DataSourceSettings.ConditionalFormatSettings = new List<PivotViewConditionalFormatSetting>();
+        }
+    }
+}

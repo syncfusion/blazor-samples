@@ -1,0 +1,1701 @@
+@page "/diagram/ticket-booking"
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@*Hidden:Lines*@
+@inject IJSRuntime JSRuntime
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample implements functional movie ticket booking interface using Syncfusion® Blazor Diagram with real-time availability and price updates.</p>
+
+<p>Booking features:</p>
+<ul>
+  <li>Dynamic seating layout based on showtime</li>
+  <li>Real-time seat availability</li>
+  <li>Select up to 10 seats per tier</li>
+  <li>Instant booking summary updates</li>
+  <li>Price and fee calculations</li>
+  <li>Seat detail tooltips</li>
+  <li>Confirmation screen with booking ID</li>
+</ul>
+</ActionDescription>
+
+
+@*Hidden:Lines*@
+<style>
+    /* Your existing styles remain the same */
+    body {
+        font-family: Arial, sans-serif; 
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+    }
+
+    .header {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        padding: 20px 24px;
+        padding-top: 0px;
+        border-bottom: 1px solid #e0e0e0;
+    }
+
+        .header h2 {
+            margin: 0;
+            font-weight: normal;
+        }
+
+    .movie-title-section {
+        display: flex;
+        flex-direction: column;
+        align-content: center;
+        margin-bottom: 8px;
+    }
+
+    .movie-name-lnk {
+        text-decoration: none;
+        font-size: 20px;
+        font-weight: 500;
+        transition: color 0.2s ease;
+        margin-top: 20px;
+        color: #337ab7;
+        font-family: Segoe UI, sans-serif;
+    }
+
+    .theater-name, .movie-timing {
+        font-size: 14px !important;
+    }
+
+    .separator {
+        margin: 0 8px;
+    }
+
+    .show-timing-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        align-content: space-around;
+        border-bottom: 1px solid #E5E7EB;
+    }
+
+    .date-row {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 20px;
+        width: 100%;
+    }
+
+    .date-label {
+        display: block;
+        font-size: 14px;
+        font-weight: 500;
+        color: #666666;
+        text-align: center;
+        line-height: 1.3;
+        min-width: 60px;
+        padding-right: 2.5rem;
+        border-right: 1px solid #9CA3AF;
+    }
+
+    .timing-list {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .timing-item {
+        padding: 12px 16px;
+        border-radius: 8px;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-align: center;
+        min-width: 120px;
+        border: 1px solid transparent;
+    }
+
+        .timing-item .time {
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .timing-item .screen-type {
+            font-size: 10px;
+            font-weight: 500;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Available timings */
+        .timing-item.available {
+            background-color: #FFFFFF;
+            border-radius: 8px;
+            border: 1px solid #9CA3AF;
+            color: #15803D;
+        }
+
+            .timing-item.available:hover {
+                background-color: #f3f4f6;
+                border-radius: 8px;
+                border-color: #9ca3af;
+            }
+
+        /* Filling fast timings */
+        .timing-item.filling-fast {
+            background-color: #fef3c7;
+            border-radius: 8px;
+            border: 1px solid #f59e0b;
+            color: #92400e;
+        }
+
+            .timing-item.filling-fast:hover {
+                background-color: #fde68a;
+                border-radius: 8px;
+                border-color: #d97706;
+            }
+        /* Selected timing */
+        .timing-item.selected {
+            background-color: #4F46E5;
+            border: 1px solid #4F46E5;
+            border-radius: 8px;
+            color: white;
+        }
+        /* Sold out timings */
+        .timing-item.sold-out {
+            border-radius: 8px;
+            background-color: #FFFFFF;
+            border: 1px solid #D1D5DB;
+            color: #9CA3AF;
+            cursor: not-allowed;
+            opacity: 0.6;
+        }
+
+    .main-container {
+        min-height: calc(100vh - 100px);
+        gap: 0;
+    }
+
+    .ticket-selection-section {
+        background-color: #f8f9fa;
+        margin-top: 2px;
+        height: 800px;
+    }
+
+    .sb-mobile-diagram {
+        width: 100%;
+        height: 100%;
+    }
+
+    .booking-summary-container {
+        box-sizing: border-box;
+        width: 100%;
+        height: 154px;
+        left: 0px;
+        top: 1357px;
+        border-top: 1px solid #E5E7EB;
+        margin-top: 20px
+    }
+
+    .booking-summary-section {
+        position: relative;
+        background: #fff;
+        background-color: #ffffff;
+        background-repeat: no-repeat;
+        border: none;
+        border-radius: 10px;
+        font-family: Arial, sans-serif;
+        margin-top: 2px;
+        padding: 0px;
+        height: 500px;
+    }
+
+        .booking-summary-section .header {
+            position: relative;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            font-size: 25px;
+            color: #d9534f;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 0;
+            background: none;
+            padding: 12px 16px;
+            display: block;
+            text-align: left;
+            flex-shrink: 0;
+        }
+
+    .booking-content {
+        padding: 30px 30px;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+
+    /* Add these helper classes for better control */
+    .left {
+        flex: 1;
+        text-align: left;
+    }
+
+    .right {
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    .subtext {
+        font-size: 16px;
+        color: #777;
+        margin-left: 10px;
+    }
+
+    .bold {
+        font-weight: bold;
+    }
+
+    .divider {
+        border-top: 1px solid #eee;
+        margin: 8px 0;
+    }
+
+    .footer {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        height: 75px;
+        background: #fff3cd;
+        border-radius: 0 0 10px 10px;
+        padding: 12px 16px;
+        font-weight: bold;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-shrink: 0
+    }
+
+    .__circle-left,
+    .__circle-right {
+        position: absolute;
+        width: 20px;
+        height: 20px;
+        background: #f2f2f2;
+        border-radius: 50%;
+        top: 50%;
+        transform: translateY(-50%);
+        z-index: 1;
+    }
+
+    .__circle-left {
+        left: -10px;
+        border: 1px solid #f2f2f2;
+        clip-path: polygon(50% 0%, 100% 0%, 100% 100%, 50% 100%);
+    }
+
+    .__circle-right {
+        right: -10px;
+        border: 1px solid #f2f2f2;
+        border-right: none;
+    }
+
+    .action-buttons {
+        display: flex;
+        gap: 12px;
+        margin-top: 20px;
+        padding: 0 10px;
+        height: auto;
+    }
+
+    .btn {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 6px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        height: 50px;
+        transition: all 0.3s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+
+    .btn-proceed {
+        background-color: rgb(103, 85, 238);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-right: 30%;
+        transition: background-color 0.3s;
+        color: white;
+    }
+
+    btn-proceed:hover {
+        background-color: #5a4fcf;
+        transform: translateY(-1px);
+    }
+
+
+    .btn-clear {
+        background-color: #f8f9fa;
+        color: #666;
+        border: 1px solid #e9ecef;
+    }
+
+        .btn-clear:hover {
+            background-color: #e9ecef;
+            color: #333;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+    .btn:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+        transform: none !important;
+        box-shadow: none !important;
+    }
+
+    .seat-legend {
+        padding: 20px;
+    }
+
+    .legend-items {
+        display: flex;
+        justify-content: center;
+        gap: 30px;
+        flex-wrap: wrap;
+    }
+
+    .legend-item {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .legend-seat {
+        width: 30px;
+        height: 30px;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 12px;
+        position: relative;
+    }
+
+        .legend-seat.available {
+            background-color: transparent;
+            border: 2px solid #9CA3AF;
+            color: #9CA3AF;
+        }
+
+
+        .legend-seat.selected {
+            background-color: #15803D;
+            border: 2px solid #15803D;
+            color: #15803D;
+        }
+
+
+        .legend-seat.booked {
+            background-color: #E5E7EB;
+            border: 2px solid #E5E7EB;
+            color: #E5E7EB;
+        }
+
+
+    .legend-text {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    /* Success Modal Styles */
+    .success-modal {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        z-index: 2000;
+    }
+
+    .success-icon {
+        font-size: 60px;
+        color: #28a745;
+        margin-bottom: 20px;
+    }
+
+    .success-title {
+        font-size: 24px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
+
+    .success-message {
+        margin-bottom: 20px;
+        line-height: 1.5;
+        text-wrap-mode: wrap;
+    }
+
+    .booking-details {
+        padding: 15px;
+        border-radius: 5px;
+        text-align: left;
+    }
+
+        .booking-details h4 {
+            margin-bottom: 10px;
+        }
+
+        .booking-details p {
+            margin: 5px 0;
+            font-size: 14px;
+        }
+
+    /* Auto-hide notification */
+    .notification {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        background: #d9534f;
+        color: white;
+        padding: 10px 15px;
+        border-radius: 5px;
+        z-index: 1000;
+        animation: slideIn 0.3s ease-out;
+    }
+
+    @@keyframes slideIn {
+        from {
+            transform: translateX(100%);
+            opacity: 0;
+        }
+
+        to {
+            transform: translateX(0);
+            opacity: 1;
+        }
+    }
+
+    .timing-list {
+        display: flex;
+        flex-wrap: wrap; /* Optional: allows wrapping to the next line if needed */
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+        .timing-list li {
+            margin: 10px; /* Adjust spacing between items */
+            padding: 10px;
+            border-radius: 3px;
+        }
+
+            .timing-list li.selected {
+                background-color: #4F46E5;
+                color: white;
+            }
+
+            .timing-list li.available {
+                border: 1px solid #9CA3AF;
+                color: #15803D;
+                background-color: transparent;
+            }
+
+                .timing-list li.available:hover {
+                    background-color: #DCFCE7;
+                    border: 1px solid #15803D;
+                    color: #15803D;
+                }
+
+            .timing-list li.filling-fast {
+                border: 1px solid #9CA3AF;
+                color: #C2410C;
+                background-color: transparent;
+            }
+
+                .timing-list li.filling-fast:hover {
+                    background-color: #FFEDD5;
+                    border: 1px solid #C2410C;
+                    color: #C2410C;
+                }
+
+            .timing-list li.sold-out {
+                border: 1px solid #D1D5DB;
+                color: #9CA3AF;
+                background-color: #FFFFFF;
+                cursor: not-allowed;
+                opacity: 0.7;
+            }
+
+                .timing-list li.sold-out:hover {
+                    border: 1px solid #D1D5DB;
+                    color: #9CA3AF;
+                    background-color: #FFFFFF;
+                    color: #6c757d;
+                }
+
+            .timing-list li.selected {
+                background-color: #4F46E5;
+                color: white;
+                border: 1px solid #4F46E5;
+            }
+
+    .booking-section {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+    }
+
+    .price-info {
+        display: flex;
+        flex-direction: column;
+        margin-left: 30%;
+    }
+
+    .price {
+        font-size: 24px;
+        font-weight: bold;
+    }
+
+    .ticket-count {
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+
+    .btn-proceed {
+        background-color: rgb(103, 85, 238);
+        color: white;
+        border: none;
+        padding: 12px 24px;
+        border-radius: 6px;
+        font-size: 16px;
+        font-weight: bold;
+        cursor: pointer;
+        margin-right: 30%;
+        transition: background-color 0.3s;
+        color: white;
+    }
+
+        .btn-proceed:hover {
+            background-color: #5a4fcf;
+            color: white;
+            transform: translateY(-1px);
+        }
+
+
+    .btn2 {
+        flex: 1;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 8px;
+        font-size: 14px;
+        font-weight: 600;
+        cursor: pointer;
+        transition: all 0.2s ease;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+    }
+
+    .price-hint-inline {
+        font-size: 12px;
+        margin: 4px 0 0 0;
+        display: flex;
+        gap: 12px;
+    }
+
+    .timing-list {
+        display: flex;
+        justify-content: center;
+        gap: 12px;
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+
+    .btn-proceed[disabled] {
+        background-color: #e3e3e3 !important;
+        color: gray;
+    }
+
+    @@media (max-width: 550px) {
+
+        .main-container {
+            min-height: 0px;
+        }
+
+        .ticket-selection-section {
+            height: 500px;
+        }
+
+        .show-timing-section {
+            padding: 0 16px; /* 16px padding on left and right */
+            box-sizing: border-box;
+        }
+
+        .timing-list {
+            display: flex;
+            flex-wrap: nowrap;
+            overflow-x: auto;
+            padding-left: 350px;
+            list-style: none;
+            padding-left: 350px;
+            margin: 0;
+            /* Hides the scrollbar for a cleaner mobile look */
+            -webkit-overflow-scrolling: touch;
+            scrollbar-width: none; /* Firefox */
+            -ms-overflow-style: none; /* IE and Edge */
+        }
+            /* Hides scrollbar for Chrome, Safari, and Opera */
+            .timing-list::-webkit-scrollbar {
+                display: none;
+            }
+
+        .booking-section {
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+        }
+
+        .btn-proceed {
+            margin: 0px;
+        }
+
+        .price-info {
+            display: flex;
+            flex-direction: column;
+            margin: 0px;
+        }
+
+        .sb-mobile-diagram {
+            width: 100%;
+            height: 100%;
+            float: left;
+            left: 0px;
+            border: 1px solid #D7D7D7;
+        }
+    }
+</style>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<header class="header">
+    <h2>
+        <div>
+            <span class="movie-name">
+                <p class="movie-name-lnk">@MovieDetail.Title</p>
+            </span>
+        </div>
+        <div>
+            <span class="movie-timing" id="movie-timing"> @MovieDetail.ShowTime.ToString("dddd, dd MMM, hh:mm tt")</span>
+            <span class="theater-name"> | </span>
+            <span class="theater-name">@MovieDetail.TheaterName</span>
+        </div>
+    </h2>
+</header>
+<div class="show-timing-section">
+    <div class="date-row">
+
+        <ul class="timing-list">
+            <li style="pointer-events: none">
+                <span class="date-label">
+                    @DateTime.Now.ToString("ddd")<br>
+                    @DateTime.Now.ToString("dd MMM")
+                </span>
+            </li>
+            @foreach (var showTiming in GetSortedShowTimings())
+            {
+                string availabilityClass = GetTimingAvailabilityClass(showTiming);
+                bool isSoldOut = availabilityClass == "sold-out";
+
+                <li class="timing-item @availabilityClass"
+                    @onclick="() => SelectTiming(showTiming)"
+                    style="@(isSoldOut ? "pointer-events: none;" : "")">
+                    <div class="time">@showTiming.Time</div>
+                    <div class="screen-type">@showTiming.Type</div>
+                </li>
+            }
+        </ul>
+    </div>
+</div>
+@*End:Hidden*@
+
+<div id="main-content" class="main-container">
+    <div class="ticket-selection-section">
+        <div id="diagram-space" class="sb-mobile-diagram">
+            <SfDiagramComponent @ref="@Diagram" Nodes="@Nodes" Height="100%" Width="100%" InteractionController="@DiagramInteractions" Click="@SeatSelected" Created="OnCreated" Constraints="@Constraints">
+                <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+                <DiagramTemplates>
+                    <NodeTemplate>
+                        @{
+                            Node node = context as Node;
+                            if (node.AdditionalInfo != null && node.AdditionalInfo.ContainsKey("Column"))
+                            {
+                                string column = node.AdditionalInfo["Column"].ToString()!;
+
+                                if (CurrentSelection.Contains(node))
+                                {
+                                    <div style="width: 100%; height: 100%; background-color: #15803D; border: 2px solid #15803D; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: white; font-weight: 500; font-size: 14px">@column</div>
+                                }
+                                else if (BookedSeats.Contains(node))
+                                {
+                                    <div style="width: 100%; height: 100%; background-color: #E5E7EB; border: 2px solid #E5E7EB; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #9CA3AF; font-weight: 500; font-size: 14px ">@column</div>
+                                }
+                                else
+                                {
+                                    <div style="width: 100%; height: 100%; background-color: transparent; border: 2px solid #9CA3AF; border-radius: 4px; display: flex; align-items: center; justify-content: center; color: #374151; font-weight: 500; font-size: 14px ">@column</div>
+                                }
+
+                            }
+                            if (node.ID!.Contains("screen"))
+                            {
+                                <svg width="394" height="56" viewBox="0 0 394 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M27.0321 1.62598L2 37.6661C124.157 52.0822 312.899 43.6728 392 37.6661L364.965 1.62598C276.852 11.8374 148.187 11.8374 27.0321 1.62598Z" stroke="#818CF8" stroke-width="2" stroke-linejoin="round" />
+                                    <path d="M2 45.666C124.157 60.0821 312.899 51.6727 392 45.666" stroke="#818CF8" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" />
+                                    <path d="M27.0321 1.62598L2 37.6661C124.157 52.0822 312.899 43.6728 392 37.6661L364.965 1.62598C276.852 11.8374 148.187 11.8374 27.0321 1.62598Z" fill="#E0E7FF" />
+                                </svg>
+                            }
+                        }
+                    </NodeTemplate>
+                    <TooltipTemplate>
+                        @{
+                            if (context is Node node && node.AdditionalInfo != null && node.AdditionalInfo.ContainsKey("SeatNumber"))
+                            {
+                                string seatNumber = node.AdditionalInfo["SeatNumber"].ToString()!;
+                                string row = node.AdditionalInfo["Row"].ToString()!;
+                                string tierCategory = node.AdditionalInfo["TierCategory"].ToString()!;
+                                bool isSelected = CurrentSelection.Any(n => n.ID == node.ID);
+                                bool isBooked = BookedSeats.Any(n => n.ID == node.ID);
+                                string status = isSelected ? "Selected" : isBooked ? "Booked" : "Available";
+                                string price = node.AdditionalInfo["Price"].ToString()!;
+
+                                <div style="margin: 0; padding: 10px; font-family: Arial, sans-serif; min-width: 150px;">
+                                    <div style="font-weight: bold; margin-bottom: 5px; font-size: 14px;">
+                                        Seat @seatNumber
+                                    </div>
+                                    <div style="font-size: 12px; margin-bottom: 3px;">
+                                        <strong>Row:</strong> @row
+                                    </div>
+                                    <div style="font-size: 12px; margin-bottom: 3px;">
+                                        <strong>Category:</strong> @tierCategory
+                                    </div>
+                                    <div style="font-size: 12px; margin-bottom: 3px;">
+                                        <strong>Price:</strong> $ @price
+                                    </div>
+                                    <div style="font-size: 12px; margin-top: 5px;">
+                                        <span style="padding: 2px 6px; border-radius: 3px; font-weight: bold; background-color: @(status == "Selected" ? "#28a745" : status == "Booked" ? "#6c757d" : "#17a2b8"); color: white; font-size: 11px;">
+                                            @status
+                                        </span>
+                                    </div>
+                                </div>
+                            }
+                            else
+                            {
+                                <div style="background: white; border: 1px solid #ccc; border-radius: 6px; padding: 8px; font-family: Arial, sans-serif;">
+                                    <div style="font-size: 12px;">Seat Information</div>
+                                </div>
+                            }
+                        }
+                    </TooltipTemplate>
+                </DiagramTemplates>
+            </SfDiagramComponent>
+            @*Hidden:Lines*@
+
+            @if (CanShowNotification)
+            {
+                <div class="notification">
+                    @NotificationMessage
+                </div>
+            }
+            @*End:Hidden*@
+
+        </div>
+    </div>
+    <div class="booking-summary-container">
+        <div class="seat-legend">
+            <div class="legend-items">
+                <div class="legend-item">
+                    <div class="legend-seat available"></div>
+                    <span class="legend-text">Available</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-seat selected"></div>
+                    <span class="legend-text">Selected</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-seat booked"></div>
+                    <span class="legend-text">Booked</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="booking-section">
+            <div class="price-info">
+                <div class="price">$@TotalAmountPayable.ToString("F0")</div>
+                <div class="ticket-count">@Selection.TicketCount Ticket@(Selection.TicketCount != 1 ? "s" : "") Selected</div>
+            </div>
+            @if (Selection.TicketCount > 0)
+            {
+                <div class="price-hint-inline">
+                    <span>Tickets: $@Selection.Amount.ToString("F0")</span>
+                    @if (ConvenienceFees > 0)
+                    {
+                        <span>+ Fees: $@ConvenienceFees.ToString("F0")</span>
+                    }
+                </div>
+            }
+            <SfButton class="btn-proceed" @onclick="ProceedToBooking" disabled="@(CurrentSelection.Count == 0)">Proceed</SfButton>
+        </div>
+    </div>
+
+    @*Hidden:Lines*@
+
+    @if (ShowSuccessModal)
+    {
+        <div class="success-modal">
+            <SfDialog Height="50%" Width="435px" Target="#main-content" CssClass="dialog-content" @bind-Visible="ShowSuccessModal">
+                <DialogTemplates>
+                    <Header>
+                        <div class="notification-header">
+                            <div class="success-icon">✓</div>
+                            <div class="success-title">Booking Confirmed!</div>
+                            <div class="success-message">
+                                Your tickets have been successfully booked.
+                            </div>
+                        </div>
+                    </Header>
+                    <Content>
+                        <div class="booking-details">
+                            <h4>Booking Details:</h4>
+                            <p><strong>Movie:</strong> @MovieDetail.Title</p>
+                            <p><strong>Theater:</strong> @MovieDetail.TheaterName</p>
+                            <p><strong>Show Time:</strong> @SelectedTiming?.Time</p>
+                            <p><strong>Seats:</strong> @string.Join(", ", LastBookedSeats)</p>
+                            <p><strong>Total Amount:</strong> $@LastBookedAmount.ToString("F2")</p>
+                            <p><strong>Booking ID:</strong> @BookingId</p>
+                        </div>
+                    </Content>
+                    <FooterTemplate>
+                        <SfButton class="btn2 btn2-proceed" @onclick="CloseSuccessModal" IsPrimary="true">Close</SfButton>
+                    </FooterTemplate>
+                </DialogTemplates>
+            </SfDialog>
+        </div>
+    }
+    @*End:Hidden*@
+</div>
+@code {
+    @*Hidden:Lines*@
+
+    // Movie details
+    public MovieDetails MovieDetail = new MovieDetails
+    {
+        Title = "F1: The Movie",
+        TheaterName = "Velvet Aurora Cinematheque",
+        ShowTime = DateTime.Now.AddHours(2)
+    };
+
+    // Show timings and screens
+    public List<ScreenTiming> ScreenTimings = new List<ScreenTiming>
+{
+        new ScreenTiming
+        {
+            ScreenName = "Screen 1",
+            ShowTimings = new List<ShowTiming>
+    {
+                new ShowTiming { Id = 1, Time = "11:50 AM", Type = "4K DOLBY ATMOS", ScreenName = "Screen 1" },
+                new ShowTiming { Id = 2, Time = "02:15 PM", Type = "4K DOLBY ATMOS", ScreenName = "Screen 1" },
+                new ShowTiming { Id = 3, Time = "06:20 PM", Type = "4K DOLBY ATMOS", ScreenName = "Screen 1" },
+                new ShowTiming { Id = 4, Time = "09:15 PM", Type = "4K DOLBY ATMOS", ScreenName = "Screen 1" },
+            }
+        },
+    };
+
+    public ShowTiming? SelectedTiming;
+
+    public Dictionary<int, List<string>> TimingSpecificBookedSeats = new Dictionary<int, List<string>>()
+{
+        // 11:50 AM (Morning show - 45% booked = 117 seats booked, 143 available)
+        { 1, new List<string>() {
+            // Executive tier - Only best center seats (35 seats booked)
+            "seatD9", "seatD10", "seatE9", "seatE10", "seatF8", "seatF9", "seatF10", "seatF11",
+            "seatG7", "seatG8", "seatG9", "seatG10", "seatH6", "seatH7", "seatH8",
+            "seatC9", "seatC10", "seatB9", "seatB10", "seatA9", "seatA10",
+            "seatD8", "seatD11", "seatE8", "seatE11", "seatF7", "seatF12",
+            "seatC8", "seatC11", "seatB8", "seatB11", "seatA8", "seatA11",
+            "seatG6", "seatG11", "seatH5", "seatH9",
+
+            // Corporate tier - Center seats only (25 seats booked)
+            "seatI8", "seatI9", "seatJ8", "seatJ9", "seatK7", "seatK8", "seatK9", "seatK10",
+            "seatL6", "seatL7", "seatL8", "seatL9", "seatM5", "seatM6", "seatM7", "seatM8",
+            "seatI7", "seatI10", "seatJ7", "seatJ10", "seatK6", "seatK11",
+            "seatL5", "seatL10", "seatM4",
+
+            // Budget tier - Few center seats (15 seats booked)
+            "seatN8", "seatN9", "seatO8", "seatO9", "seatP8", "seatP9",
+            "seatN7", "seatN10", "seatO7", "seatO10", "seatP7", "seatP10",
+            "seatN6", "seatO6", "seatP6"
+        } },
+
+        // 02:15 PM (Afternoon show - 100% booked = 260 seats booked, 0 available)
+        { 2, new List<string>() {
+            // Executive tier - All seats booked (138 seats)
+            "seatA1", "seatA2", "seatA3", "seatA4", "seatA5", "seatA6", "seatA7", "seatA8", "seatA9", "seatA10", "seatA11", "seatA12", "seatA13", "seatA14", "seatA15", "seatA16", "seatA17", "seatA18",
+            "seatB1", "seatB2", "seatB3", "seatB4", "seatB5", "seatB6", "seatB7", "seatB8", "seatB9", "seatB10", "seatB11", "seatB12", "seatB13", "seatB14", "seatB15", "seatB16", "seatB17", "seatB18",
+            "seatC1", "seatC2", "seatC3", "seatC4", "seatC5", "seatC6", "seatC7", "seatC8", "seatC9", "seatC10", "seatC11", "seatC12", "seatC13", "seatC14", "seatC15", "seatC16", "seatC17", "seatC18",
+            "seatD1", "seatD2", "seatD3", "seatD4", "seatD5", "seatD6", "seatD7", "seatD8", "seatD9", "seatD10", "seatD11", "seatD12", "seatD13", "seatD14", "seatD15", "seatD16", "seatD17", "seatD18",
+            "seatE1", "seatE2", "seatE3", "seatE4", "seatE5", "seatE6", "seatE7", "seatE8", "seatE9", "seatE10", "seatE11", "seatE12", "seatE13", "seatE14", "seatE15", "seatE16", "seatE17", "seatE18",
+            "seatF1", "seatF2", "seatF3", "seatF4", "seatF5", "seatF6", "seatF7", "seatF8", "seatF9", "seatF10", "seatF11", "seatF12", "seatF13", "seatF14", "seatF15", "seatF16", "seatF17", "seatF18",
+            "seatG1", "seatG2", "seatG3", "seatG4", "seatG5", "seatG6", "seatG7", "seatG8", "seatG9", "seatG10", "seatG11", "seatG12", "seatG13", "seatG14", "seatG15", "seatG16",
+            "seatH1", "seatH2", "seatH3", "seatH4", "seatH5", "seatH6", "seatH7", "seatH8", "seatH9", "seatH10", "seatH11", "seatH12", "seatH13", "seatH14",
+
+            // Corporate tier - All seats booked (74 seats)
+            "seatI1", "seatI2", "seatI3", "seatI4", "seatI5", "seatI6", "seatI7", "seatI8", "seatI9", "seatI10", "seatI11", "seatI12", "seatI13", "seatI14", "seatI15", "seatI16",
+            "seatJ1", "seatJ2", "seatJ3", "seatJ4", "seatJ5", "seatJ6", "seatJ7", "seatJ8", "seatJ9", "seatJ10", "seatJ11", "seatJ12", "seatJ13", "seatJ14", "seatJ15", "seatJ16",
+            "seatK1", "seatK2", "seatK3", "seatK4", "seatK5", "seatK6", "seatK7", "seatK8", "seatK9", "seatK10", "seatK11", "seatK12", "seatK13", "seatK14", "seatK15", "seatK16",
+            "seatL1", "seatL2", "seatL3", "seatL4", "seatL5", "seatL6", "seatL7", "seatL8", "seatL9", "seatL10", "seatL11", "seatL12", "seatL13", "seatL14",
+            "seatM1", "seatM2", "seatM3", "seatM4", "seatM5", "seatM6", "seatM7", "seatM8", "seatM9", "seatM10", "seatM11", "seatM12",
+
+            // Budget tier - All seats booked (48 seats)
+            "seatN1", "seatN2", "seatN3", "seatN4", "seatN5", "seatN6", "seatN7", "seatN8", "seatN9", "seatN10", "seatN11", "seatN12", "seatN13", "seatN14", "seatN15", "seatN16",
+            "seatO1", "seatO2", "seatO3", "seatO4", "seatO5", "seatO6", "seatO7", "seatO8", "seatO9", "seatO10", "seatO11", "seatO12", "seatO13", "seatO14", "seatO15", "seatO16",
+            "seatP1", "seatP2", "seatP3", "seatP4", "seatP5", "seatP6", "seatP7", "seatP8", "seatP9", "seatP10", "seatP11", "seatP12", "seatP13", "seatP14", "seatP15", "seatP16"
+        } },
+
+        // 06:20 PM (Prime time - 85% booked = 221 seats booked, 39 available)
+        { 3, new List<string>() {
+            // Executive tier - Heavy booking (117 seats booked, 21 available)
+            "seatA1", "seatA2", "seatA3", "seatA4", "seatA5", "seatA6", "seatA7", "seatA8", "seatA9", "seatA10", "seatA11", "seatA12", "seatA13", "seatA14", "seatA15", "seatA16", "seatA17", "seatA18",
+            "seatB1", "seatB2", "seatB3", "seatB4", "seatB5", "seatB6", "seatB7", "seatB8", "seatB9", "seatB10", "seatB11", "seatB12", "seatB13", "seatB14", "seatB15", "seatB16", "seatB17", "seatB18",
+            "seatC1", "seatC2", "seatC3", "seatC4", "seatC5", "seatC6", "seatC7", "seatC8", "seatC9", "seatC10", "seatC11", "seatC12", "seatC13", "seatC14", "seatC15", "seatC16", "seatC17", "seatC18",
+            "seatD1", "seatD2", "seatD3", "seatD4", "seatD5", "seatD6", "seatD7", "seatD8", "seatD9", "seatD10", "seatD11", "seatD12", "seatD13", "seatD14", "seatD15", "seatD16", "seatD17", "seatD18",
+            "seatE1", "seatE2", "seatE3", "seatE4", "seatE5", "seatE6", "seatE7", "seatE8", "seatE9", "seatE10", "seatE11", "seatE12", "seatE13", "seatE14", "seatE15", "seatE16", "seatE17", "seatE18",
+            "seatF1", "seatF2", "seatF3", "seatF4", "seatF5", "seatF6", "seatF7", "seatF8", "seatF9", "seatF10", "seatF11", "seatF12", "seatF13", "seatF14", "seatF15", "seatF16", "seatF17", "seatF18",
+            "seatG1", "seatG2", "seatG3", "seatG4", "seatG5", "seatG6", "seatG7", "seatG8", "seatG9", "seatG10", "seatG11", "seatG12", "seatG13", "seatG14", "seatG15", "seatG16",
+            "seatH1", "seatH2", "seatH3", "seatH4", "seatH5", "seatH6", "seatH7", "seatH8", "seatH9", "seatH10", "seatH11", "seatH12", "seatH13",
+
+            // Corporate tier - Almost fully booked (66 seats booked, 8 available)
+            "seatI1", "seatI2", "seatI3", "seatI4", "seatI5", "seatI6", "seatI7", "seatI8", "seatI9", "seatI10", "seatI11", "seatI12", "seatI13", "seatI14", "seatI15", "seatI16",
+            "seatJ1", "seatJ2", "seatJ3", "seatJ4", "seatJ5", "seatJ6", "seatJ7", "seatJ8", "seatJ9", "seatJ10", "seatJ11", "seatJ12", "seatJ13", "seatJ14", "seatJ15", "seatJ16",
+            "seatK1", "seatK2", "seatK3", "seatK4", "seatK5", "seatK6", "seatK7", "seatK8", "seatK9", "seatK10", "seatK11", "seatK12", "seatK13", "seatK14", "seatK15", "seatK16",
+            "seatL1", "seatL2", "seatL3", "seatL4", "seatL5", "seatL6", "seatL7", "seatL8", "seatL9", "seatL10", "seatL11", "seatL12", "seatL13", "seatL14",
+            "seatM1", "seatM2", "seatM3", "seatM4", "seatM5", "seatM6", "seatM7", "seatM8", "seatM9", "seatM10", "seatM11", "seatM12",
+
+            // Budget tier - Heavy booking (38 seats booked, 10 available)
+            "seatN1", "seatN2", "seatN3", "seatN4", "seatN5", "seatN6", "seatN7", "seatN8", "seatN9", "seatN10", "seatN11", "seatN12", "seatN13", "seatN14", "seatN15", "seatN16",
+            "seatO1", "seatO2", "seatO3", "seatO4", "seatO5", "seatO6", "seatO7", "seatO8", "seatO9", "seatO10", "seatO11", "seatO12", "seatO13", "seatO14", "seatO15", "seatO16",
+            "seatP1", "seatP2", "seatP3", "seatP4", "seatP5", "seatP6"
+        } },
+
+        // 09:15 PM (Night show - 78% booked = 203 seats booked, 57 available)
+        { 4, new List<string>() {
+            // Executive tier - Good booking (108 seats booked, 30 available)
+            "seatA1", "seatA2", "seatA3", "seatA4", "seatA5", "seatA6", "seatA7", "seatA8", "seatA9", "seatA10", "seatA11", "seatA12", "seatA13", "seatA14", "seatA15", "seatA16", "seatA17", "seatA18",
+            "seatB1", "seatB2", "seatB3", "seatB4", "seatB5", "seatB6", "seatB7", "seatB8", "seatB9", "seatB10", "seatB11", "seatB12", "seatB13", "seatB14", "seatB15", "seatB16", "seatB17", "seatB18",
+            "seatC1", "seatC2", "seatC3", "seatC4", "seatC5", "seatC6", "seatC7", "seatC8", "seatC9", "seatC10", "seatC11", "seatC12", "seatC13", "seatC14", "seatC15", "seatC16", "seatC17", "seatC18",
+            "seatD1", "seatD2", "seatD3", "seatD4", "seatD5", "seatD6", "seatD7", "seatD8", "seatD9", "seatD10", "seatD11", "seatD12", "seatD13", "seatD14", "seatD15", "seatD16", "seatD17", "seatD18",
+            "seatE1", "seatE2", "seatE3", "seatE4", "seatE5", "seatE6", "seatE7", "seatE8", "seatE9", "seatE10", "seatE11", "seatE12", "seatE13", "seatE14", "seatE15", "seatE16", "seatE17", "seatE18",
+            "seatF1", "seatF2", "seatF3", "seatF4", "seatF5", "seatF6", "seatF7", "seatF8", "seatF9", "seatF10", "seatF11", "seatF12", "seatF13", "seatF14", "seatF15", "seatF16", "seatF17", "seatF18",
+
+            // Corporate tier - Moderate booking (58 seats booked, 16 available)
+            "seatI1", "seatI2", "seatI3", "seatI4", "seatI5", "seatI6", "seatI7", "seatI8", "seatI9", "seatI10", "seatI11", "seatI12", "seatI13", "seatI14", "seatI15", "seatI16",
+            "seatJ1", "seatJ2", "seatJ3", "seatJ4", "seatJ5", "seatJ6", "seatJ7", "seatJ8", "seatJ9", "seatJ10", "seatJ11", "seatJ12", "seatJ13", "seatJ14", "seatJ15", "seatJ16",
+            "seatK1", "seatK2", "seatK3", "seatK4", "seatK5", "seatK6", "seatK7", "seatK8", "seatK9", "seatK10", "seatK11", "seatK12", "seatK13", "seatK14", "seatK15", "seatK16",
+            "seatL1", "seatL2", "seatL3", "seatL4", "seatL5", "seatL6", "seatL7", "seatL8", "seatL9", "seatL10",
+
+            // Budget tier - Light booking (37 seats booked, 11 available)
+            "seatN1", "seatN2", "seatN3", "seatN4", "seatN5", "seatN6", "seatN7", "seatN8", "seatN9", "seatN10", "seatN11", "seatN12", "seatN13", "seatN14", "seatN15", "seatN16",
+            "seatO1", "seatO2", "seatO3", "seatO4", "seatO5", "seatO6", "seatO7", "seatO8", "seatO9", "seatO10", "seatO11", "seatO12", "seatO13", "seatO14", "seatO15", "seatO16",
+            "seatP1", "seatP2", "seatP3", "seatP4", "seatP5"
+        } }
+    };
+
+    public IEnumerable<ShowTiming> GetSortedShowTimings()
+    {
+        return ScreenTimings
+            .SelectMany(st => st.ShowTimings)
+            .OrderBy(st =>
+            {
+                if (DateTime.TryParse(st.Time, out DateTime time))
+                    return time;
+                return DateTime.MinValue; // fallback for invalid times
+            })
+            .ToList();
+    }
+    @*End:Hidden*@
+
+
+    // Seat Selection
+    public SeatSelection Selection = new SeatSelection();
+    @*Hidden:Lines*@
+
+    public int ScreenNumber = 4;
+    public decimal ConvenienceFees => CurrentSelection.Count > 0 ? 6.00m : 0.00m;
+    public decimal SubTotal => Selection.Amount + ConvenienceFees;
+    public decimal TotalAmountPayable => CurrentSelection.Count > 0 ? SubTotal : 0.00m;
+
+    // Success modal
+    public bool ShowSuccessModal = false;
+    public List<string> LastBookedSeats = new List<string>();
+    public decimal LastBookedAmount = 0;
+    public string BookingId = "";
+
+    // Notification system
+    public string NotificationMessage = "";
+    public bool CanShowNotification = false;
+    @*End:Hidden*@
+
+    public class ScreenTiming
+    {
+        public string ScreenName { get; set; } = "";
+        public List<ShowTiming> ShowTimings { get; set; } = new List<ShowTiming>();
+    }
+
+    public class ShowTiming
+    {
+        public int Id { get; set; }
+        public string Time { get; set; } = "";
+        public string Type { get; set; } = "";
+        public string ScreenName { get; set; } = "";
+    }
+    public class MovieDetails
+    {
+        public string Title { get; set; } = "";
+        public string TheaterName { get; set; } = "";
+        public DateTime ShowTime { get; set; }
+    }
+
+    public class SeatSelection
+    {
+        public string Category { get; set; } = "";
+        public List<string> SeatNumbers { get; set; } = new List<string>();
+        public int TicketCount { get; set; } = 0;
+        public decimal Amount { get; set; } = 0.00m;
+    }
+
+    public SfDiagramComponent? Diagram;
+    public DiagramInteractions DiagramInteractions = DiagramInteractions.ZoomPan | DiagramInteractions.SingleSelect;
+    public DiagramConstraints Constraints = DiagramConstraints.Default & ~DiagramConstraints.UndoRedo;
+    @*Hidden:Lines*@
+
+    // Tier configurations
+    public Dictionary<string, List<string>> TierRows = new Dictionary<string, List<string>>()
+{
+        { "Executive", new List<string>() { "A", "B" } },
+        { "Corporate", new List<string>() { "C", "D", "E", "F" } },
+        { "Budget", new List<string>() { "G", "H", "I" } },
+    };
+    public double ExecutiveRowNo = 8;
+    public double ExecutiveColumnsNo = 18;
+    public double ExecutiveSeatsNo = 138;
+    public double CorporateRowNo = 5;
+    public double CorporateColumnsNo = 16;
+    public double CorporateSeatsNo = 74;
+    public double BudgetRowNo = 3;
+    public double BudgetColumnsNo = 16;
+    public double BudgetSeatsNo = 48;
+    public double Column = 16;
+    public double TierSpacing = 100;
+    public double CenterOffset = 50;
+
+    @*End:Hidden*@
+
+    public DiagramObjectCollection<Node>? Nodes = new DiagramObjectCollection<Node>();
+    @*Hidden:Lines*@
+
+    public DiagramObjectCollection<Node> AvailableSeats = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node> BookedSeats = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Node> CurrentSelection = new DiagramObjectCollection<Node>();
+
+    @*End:Hidden*@
+    public void OnCreated()
+    {
+        FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram!.FitToPage(options);
+    }
+
+    protected override void OnInitialized()
+    {
+        InitializeSeatNodes();
+    }
+
+    public void InitializeSeatNodes()
+    {
+        SelectedTiming = ScreenTimings.First().ShowTimings.First();
+        Nodes!.Clear();
+        AvailableSeats.Clear();
+        BookedSeats.Clear();
+        CurrentSelection.Clear();
+
+        double currentY = 50; // Starting Y position
+
+        // Executive Tier
+        currentY = CreateTierSeats("Executive", 25, currentY, new List<(string row, int seats)>
+{
+            ("A", 18), ("B", 18), ("C", 18), ("D", 18), ("E", 18), ("F", 18), ("G", 16), ("H", 14)
+        });
+
+        // Corporate Tier - Fixed seat counts for L and M rows
+        currentY += 92; // Tier spacing
+        currentY = CreateTierSeats("Corporate", 16, currentY, new List<(string row, int seats)>
+{
+            ("I", 16), ("J", 16), ("K", 16), ("L", 14), ("M", 12) // Fixed: L=14, M=12
+        });
+
+        // Budget Tier
+        currentY += 92; // Tier spacing
+        currentY = CreateTierSeats("Budget", 8, currentY, new List<(string row, int seats)>
+{
+            ("N", 16), ("O", 16), ("P", 16)
+        });
+
+        // Create screen
+        currentY += 92; // Space before screen
+        CreateScreen(currentY);
+    }
+
+    public double CreateTierSeats(string tierName, decimal tierPrice, double startY, List<(string row, int seats)> rowConfig)
+    {
+        double currentY = startY;
+
+        // Create tier label - centered properly
+        CreateTierLabel(tierName, tierPrice, currentY - 50);
+
+        foreach (var (row, seatCount) in rowConfig)
+        {
+            // Create row label - positioned further left to avoid overlap
+            CreateRowLabel(row, currentY);
+
+            // Check if this is a row with reduced seats that needs center alignment
+            bool isCenterAligned = (tierName == "Executive" && (row == "G" || row == "H")) ||
+                                 (tierName == "Corporate" && (row == "L" || row == "M"));
+
+            if (isCenterAligned)
+            {
+                // Center-aligned seating for rows with fewer seats - with proper aisle gap
+                CreateCenterAlignedSeatsWithAisle(row, seatCount, tierPrice, tierName, currentY);
+            }
+            else
+            {
+                // Normal left-right split seating
+                CreateSplitSeats(row, seatCount, tierPrice, tierName, currentY);
+            }
+
+            currentY += 48; // 32px height + 16px vertical spacing
+        }
+
+        return currentY;
+    }
+
+    public void CreateSplitSeats(string row, int seatCount, decimal tierPrice, string tierName, double currentY)
+    {
+        // Calculate seats per side (split by center aisle)
+        int leftSeats = seatCount / 2;
+        int rightSeats = seatCount - leftSeats;
+
+        // Calculate the theater center point - updated to 600
+        double theaterCenter = 600;
+        double seatWidth = 32;
+        double seatSpacing = 10;
+        double aisleWidth = 82;
+
+        // Calculate left side starting position
+        double leftSideWidth = leftSeats * seatWidth + (leftSeats - 1) * seatSpacing;
+        double leftStartX = theaterCenter - (aisleWidth / 2) - leftSideWidth;
+
+        // Create left side seats
+        for (int j = 1; j <= leftSeats; j++)
+        {
+            string seatNumber = $"{row}{j}";
+            string seatId = $"seat{row}{j}";
+            double x = leftStartX + (j - 1) * (seatWidth + seatSpacing);
+
+            CreateSeatNode(seatId, seatNumber, row, j, tierPrice, tierName, x, currentY);
+        }
+
+        // Calculate right side starting position
+        double rightStartX = theaterCenter + (aisleWidth / 2);
+
+        // Create right side seats
+        for (int j = leftSeats + 1; j <= seatCount; j++)
+        {
+            string seatNumber = $"{row}{j}";
+            string seatId = $"seat{row}{j}";
+            double x = rightStartX + (j - leftSeats - 1) * (seatWidth + seatSpacing);
+
+            CreateSeatNode(seatId, seatNumber, row, j, tierPrice, tierName, x, currentY);
+        }
+    }
+
+    public void CreateCenterAlignedSeatsWithAisle(string row, int seatCount, decimal tierPrice, string tierName, double currentY)
+    {
+        // For center-aligned rows, still maintain the aisle gap
+        double seatWidth = 32;
+        double seatSpacing = 10;
+        double aisleWidth = 82;
+        double theaterCenter = 600;
+
+        // Calculate seats per side for center-aligned rows
+        int leftSeats = seatCount / 2;
+        int rightSeats = seatCount - leftSeats;
+
+        // Left side seats - positioned to end at the aisle
+        double leftSideWidth = leftSeats * seatWidth + (leftSeats - 1) * seatSpacing;
+        double leftStartX = theaterCenter - (aisleWidth / 2) - leftSideWidth;
+
+        for (int j = 1; j <= leftSeats; j++)
+        {
+            string seatNumber = $"{row}{j}";
+            string seatId = $"seat{row}{j}";
+            double x = leftStartX + (j - 1) * (seatWidth + seatSpacing);
+
+            CreateSeatNode(seatId, seatNumber, row, j, tierPrice, tierName, x, currentY);
+        }
+
+        // Right side seats - positioned to start at the aisle
+        double rightStartX = theaterCenter + (aisleWidth / 2);
+
+        for (int j = leftSeats + 1; j <= seatCount; j++)
+        {
+            string seatNumber = $"{row}{j}";
+            string seatId = $"seat{row}{j}";
+            double x = rightStartX + (j - leftSeats - 1) * (seatWidth + seatSpacing);
+
+            CreateSeatNode(seatId, seatNumber, row, j, tierPrice, tierName, x, currentY);
+        }
+    }
+
+    public void CreateSeatNode(string seatId, string seatNumber, string row, int column, decimal tierPrice, string tierName, double x, double y)
+    {
+        Position tooltipPosition = "ABCD".Contains(row.ToUpper()) ? Position.BottomLeft : Position.TopLeft;
+        Node node = new Node()
+        {
+            ID = seatId,
+            Height = 32,
+            Width = 32,
+            OffsetX = x,
+            OffsetY = y,
+            Shape = new Shape() { Type = NodeShapes.HTML },
+            AdditionalInfo = new Dictionary<string, object>()
+{
+                    { "SeatNumber", seatNumber },
+                    { "Row", row },
+                    { "Column", column },
+                    { "Price", tierPrice },
+                    { "TierCategory", tierName },
+                    { "SeatId", seatId }
+                },
+            Tooltip = new DiagramTooltip()
+            {
+                Position = tooltipPosition,
+                AnimationSettings = new AnimationModel()
+                {
+                    Open = new TooltipAnimationSettings() { Effect = Effect.FadeZoomIn, Duration = 100 },
+                    Close = new TooltipAnimationSettings() { Effect = Effect.FadeZoomOut, Duration = 50 }
+                }
+            },
+            Constraints = NodeConstraints.Default & ~(NodeConstraints.Select | NodeConstraints.Drag | NodeConstraints.Delete | NodeConstraints.Resize) | NodeConstraints.ReadOnly | NodeConstraints.Tooltip,
+        };
+
+        if (SelectedTiming != null && TimingSpecificBookedSeats.ContainsKey(SelectedTiming.Id) &&
+            TimingSpecificBookedSeats[SelectedTiming.Id].Contains(node.ID))
+        {
+            BookedSeats.Add(node);
+        }
+        else
+        {
+            AvailableSeats.Add(node);
+        }
+        Nodes!.Add(node);
+    }
+
+    public void CreateTierLabel(string tierName, decimal price, double y)
+    {
+        string labelId = $"tierlabel{tierName}";
+        Node labelNode = new Node()
+        {
+            ID = labelId,
+            Height = 25,
+            Width = 200,
+            OffsetX = 585,
+            OffsetY = y,
+            Shape = new TextShape() { Type = NodeShapes.Text, Content = $"{tierName} - ${price}" },
+            Style = new TextStyle()
+            {
+                FontSize = 16,
+                Bold = true
+            },
+            Constraints = NodeConstraints.ReadOnly
+        };
+        Nodes!.Add(labelNode);
+    }
+
+    public void CreateRowLabel(string rowName, double y)
+    {
+        string labelId = $"rowlabel{rowName}";
+        Node labelNode = new Node()
+        {
+            ID = labelId,
+            Height = 32,
+            Width = 30,
+            OffsetX = 80,
+            OffsetY = y,
+            Shape = new TextShape() { Type = NodeShapes.Text, Content = rowName },
+            Style = new TextStyle()
+            {
+                FontSize = 14,
+                Bold = true
+            },
+            Constraints = NodeConstraints.ReadOnly
+        };
+        Nodes!.Add(labelNode);
+    }
+
+    public void CreateScreen(double y)
+    {
+        Node screenNode = new Node()
+        {
+            ID = "screen",
+            Height = 80,
+            Width = 600,
+            OffsetX = 580,
+            OffsetY = y,
+            Constraints = NodeConstraints.ReadOnly,
+            Shape = new BasicShape() { Type = NodeShapes.SVG },
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+{
+                new ShapeAnnotation()
+                {
+                    Content = "Screen This Way",
+                    Offset = new DiagramPoint(){X = 0.5, Y = 1.5},
+                    Constraints = AnnotationConstraints.ReadOnly,
+                    Style = new TextStyle()
+                    {
+                        FontSize = 14,
+                        Color = "#818CF8",
+                    }
+                }
+            }
+        };
+        Nodes!.Add(screenNode);
+    }
+
+    @*Hidden:Lines*@
+    public int GetTierPrice(string tierName)
+    {
+        return tierName.ToLower() switch
+        {
+            "diamond" => 190,
+            "platinum" => 170,
+            "gold" => 150,
+            "silver" => 100,
+            _ => 100
+        };
+    }
+
+    public string GetTierColor(string tierName)
+    {
+        return tierName switch
+        {
+            "Diamond" => "#B9F2FF",
+            "Platinum" => "#E5E4E2",
+            "Gold" => "#FFD700",
+            "Silver" => "#C0C0C0",
+            _ => "white"
+        };
+    }
+
+    public double CalculateTotalHeight()
+    {
+        double totalHeight = 80; // Starting position
+        foreach (var tier in TierRows)
+        {
+            totalHeight += (tier.Value.Count * 55) + TierSpacing;
+        }
+        return totalHeight;
+    }
+
+    public async void SeatSelected(ClickEventArgs args)
+    {
+        if (args.Element != null && args.Element is Node node)
+        {
+            // Only process seat Nodes (not labels, tiers, or screen)
+            if (node.AdditionalInfo != null && node.AdditionalInfo.ContainsKey("SeatNumber"))
+            {
+                if (!BookedSeats.Contains(node))
+                {
+                    if (CurrentSelection.Contains(node))
+                    {
+                        // Remove seat from selection
+                        CurrentSelection.Remove(node);
+                        AvailableSeats.Add(node);
+                        HideNotification();
+                    }
+                    else if (AvailableSeats.Contains(node))
+                    {
+                        // Get the tier of the clicked seat
+                        string clickedSeatTier = node.AdditionalInfo["TierCategory"].ToString()!;
+
+                        // Check if we have existing selections from a different tier
+                        if (CurrentSelection.Count > 0)
+                        {
+                            string existingTier = CurrentSelection.First().AdditionalInfo!["TierCategory"].ToString()!;
+
+                            if (clickedSeatTier != existingTier)
+                            {
+                                // Clear all existing selections as they're from a different tier
+                                foreach (var selectedSeat in CurrentSelection.ToList())
+                                {
+                                    CurrentSelection.Remove(selectedSeat);
+                                    AvailableSeats.Add(selectedSeat);
+                                }
+                            }
+                        }
+
+                        // Check ticket limit before adding
+                        if (CurrentSelection.Count >= 10)
+                        {
+                            ShowNotification("Maximum 10 tickets can be selected");
+                            return;
+                        }
+
+                        // Add the new seat
+                        CurrentSelection.Add(node);
+                        AvailableSeats.Remove(node);
+                        HideNotification();
+                    }
+
+                    // Update booking summary
+                    UpdateBookingSummary();
+                    await Diagram!.RefreshDataSourceAsync();
+                    StateHasChanged();
+                }
+            }
+        }
+    }
+
+    public void ShowNotification(string message)
+    {
+        NotificationMessage = message;
+        CanShowNotification = true;
+        StateHasChanged();
+    }
+
+    public void HideNotification()
+    {
+        CanShowNotification = false;
+        StateHasChanged();
+    }
+
+    public void UpdateBookingSummary()
+    {
+        if (CurrentSelection.Count > 0)
+        {
+            // Get seat details from selected seats
+            var selectedSeats = CurrentSelection.Select(seat => new
+            {
+                SeatNumber = seat.AdditionalInfo!["SeatNumber"].ToString(),
+                Row = seat.AdditionalInfo["Row"].ToString(),
+                Price = Convert.ToDecimal(seat.AdditionalInfo["Price"]),
+                Tier = seat.AdditionalInfo["TierCategory"].ToString()
+            }).ToList();
+
+            // Update seat selection details
+            Selection.SeatNumbers = selectedSeats.Select(s => s.SeatNumber).ToList()!;
+            Selection.TicketCount = selectedSeats.Count;
+            Selection.Amount = selectedSeats.Sum(s => s.Price);
+
+            // Determine category (should be consistent now due to tier restriction)
+            Selection.Category = selectedSeats.First().Tier!.ToUpper();
+        }
+        else
+        {
+            // Clear selection
+            Selection.SeatNumbers.Clear();
+            Selection.TicketCount = 0;
+            Selection.Amount = 0.00m;
+            Selection.Category = "";
+        }
+    }
+
+    public void ClearSelection()
+    {
+        // Move all selected seats back to available
+        foreach (var seat in CurrentSelection.ToList())
+        {
+            CurrentSelection.Remove(seat);
+            AvailableSeats.Add(seat);
+        }
+        // Update booking summary
+        UpdateBookingSummary();
+        HideNotification();
+        Diagram!.RefreshDataSourceAsync();
+    }
+
+    public void ProceedToBooking()
+    {
+        if (CurrentSelection.Count > 0)
+        {
+            // Store booking details for success modal
+            LastBookedSeats = Selection.SeatNumbers.ToList();
+            LastBookedAmount = TotalAmountPayable;
+            BookingId = "PVR" + DateTime.Now.ToString("yyyyMMddHHmmss") + new Random().Next(100, 999);
+
+            // Get seat IDs from current selection
+            List<string> bookedSeatIds = CurrentSelection.Select(seat => seat.ID).ToList()!;
+
+            // Also add to the main TimingSpecificBookedSeats for persistence
+            if (!TimingSpecificBookedSeats.ContainsKey(SelectedTiming!.Id))
+            {
+                TimingSpecificBookedSeats[SelectedTiming.Id] = new List<string>();
+            }
+            TimingSpecificBookedSeats[SelectedTiming.Id].AddRange(bookedSeatIds);
+            // Move selected seats to booked seats
+            foreach (Node node in CurrentSelection.ToList())
+            {
+                BookedSeats.Add(node);
+                CurrentSelection.Remove(node);
+            }
+
+            // Clear booking summary
+            UpdateBookingSummary();
+
+            // Show success modal
+            ShowSuccessModal = true;
+            HideNotification();
+
+            Diagram!.RefreshDataSourceAsync();
+            StateHasChanged();
+        }
+    }
+
+    public void CloseSuccessModal()
+    {
+        ShowSuccessModal = false;
+        StateHasChanged();
+    }
+
+    public void SelectTiming(ShowTiming timing)
+    {
+        SelectedTiming = timing;
+        string availabilityClass = GetTimingAvailabilityClass(timing);
+        if (availabilityClass == "sold-out")
+        {
+            ShowNotification("This show is completely sold out!");
+            return;
+        }
+
+        ScreenNumber = timing.ScreenName == "Screen 1" ? 1 : 2;
+
+        MovieDetail.ShowTime = DateTime.Today.Add(TimeSpan.Parse(timing.Time.Replace(" AM", "").Replace(" PM", "")));
+        if (timing.Time.Contains("PM") && !timing.Time.StartsWith("12"))
+        {
+            MovieDetail.ShowTime = MovieDetail.ShowTime.AddHours(12);
+        }
+
+        RefreshSeatingLayout();
+        Diagram!.RefreshDataSourceAsync();
+
+    }
+
+    public void RefreshSeatingLayout()
+    {
+        BookedSeats.Clear();
+        AvailableSeats.Clear();
+        CurrentSelection.Clear();
+
+        // Get booked seats for selected timing
+        List<string> currentBookedSeats = new List<string>();
+        if (SelectedTiming != null && TimingSpecificBookedSeats.ContainsKey(SelectedTiming.Id))
+        {
+            currentBookedSeats = TimingSpecificBookedSeats[SelectedTiming.Id];
+        }
+
+        // Update seat status based on current timing
+        foreach (Node node in Nodes!)
+        {
+            if (node.AdditionalInfo != null && node.AdditionalInfo.ContainsKey("SeatNumber"))
+            {
+                if (currentBookedSeats.Contains(node.ID!))
+                {
+                    BookedSeats.Add(node);
+                }
+                else
+                {
+                    AvailableSeats.Add(node);
+                }
+            }
+        }
+
+        // Update booking summary
+        UpdateBookingSummary();
+    }
+
+    public string GetTimingAvailabilityClass(ShowTiming timing)
+    {
+        if (SelectedTiming?.Id == timing.Id)
+            return "selected";
+
+        // Calculate total seats based on actual theater layout:
+        // Executive tier (A-H): 18+18+18+18+18+18+16+14 = 138 seats
+        // Corporate tier (I-M): 16+16+16+14+12 = 74 seats
+        // Budget tier (N-P): 16+16+16 = 48 seats
+        // Total: 260 seats
+        int totalSeats = 260;
+
+        // Get booked seats for this timing
+        List<string> bookedSeats = new List<string>();
+        if (TimingSpecificBookedSeats.ContainsKey(timing.Id))
+        {
+            bookedSeats = TimingSpecificBookedSeats[timing.Id];
+        }
+
+        double occupancyPercentage = (double)bookedSeats.Count / totalSeats * 100;
+
+        if (occupancyPercentage >= 100)
+            return "sold-out";
+        else if (occupancyPercentage >= 75)
+            return "filling-fast";
+        else
+            return "available";
+    }
+    @*End:Hidden*@
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (Nodes != null)
+        {
+            Nodes.Clear();
+            Nodes = null;
+        }
+    }
+    @*End:Hidden*@
+
+}

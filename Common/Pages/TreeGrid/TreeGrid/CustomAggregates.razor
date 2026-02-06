@@ -1,0 +1,130 @@
+@page "/tree-grid/custom-aggregate"
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using System.Linq
+@*Hidden:Lines*@
+@using TreeShipmentdata
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+<p>
+    This sample demonstrates using custom aggregates to display user-defined summaries in the footer instead of built-in aggregate options.
+  </p>
+  <p>
+    Configure custom aggregates with <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridAggregateColumn.html">TreeGridAggregateColumn</a> inside the <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridAggregates.html">TreeGridAggregates</a> collection.
+  </p>
+  <p>
+    In this demo, a custom aggregate computes <strong>Total Price</strong> for a selected <strong>Category</strong>. A DropDown in the footer (via <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridAggregateColumn.html#Syncfusion_Blazor_TreeGrid_TreeGridAggregateColumn_FooterTemplate">FooterTemplate</a>) lets users choose a category. The total updates dynamically based on selection.
+  </p>
+  <p>
+    See the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/treegrid/aggregate">aggregates documentation</a> for more information.
+  </p>
+</ActionDescription>
+
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid @ref="TreeGrid"
+                        DataSource="@TreeGridData"
+                        IdMapping="ID"
+                        ParentIdMapping="ParentID"
+                        Height="400"
+                        TreeColumnIndex="1">
+                <TreeGridAggregates>
+                    <TreeGridAggregate ShowChildSummary="false">
+                        <TreeGridAggregateColumns>
+                            <!-- Use FooterTemplate pattern like the Syncfusion sample -->
+                            <TreeGridAggregateColumn Field="TotalPrice"
+                                                     Type="Syncfusion.Blazor.Grids.AggregateType.Sum">
+                                <FooterTemplate>
+                                    @{
+                                        var _ = (context as Syncfusion.Blazor.Grids.AggregateTemplateContext);
+                                        <span>
+                                            @SumForSelectedCategory().ToString("C2")
+                                        </span>
+                                    }
+                                </FooterTemplate>
+                            </TreeGridAggregateColumn>
+                            <TreeGridAggregateColumn Field="ShipmentCategory"
+                                                     Type="Syncfusion.Blazor.Grids.AggregateType.Sum">
+                                <FooterTemplate>
+                                    @{
+                                        var _ = (context as Syncfusion.Blazor.Grids.AggregateTemplateContext);
+                                        <div class="treeDropDown">
+                                            <span style="margin-right: 5px;">Category: </span>
+                                            <span>
+                                                <SfDropDownList TValue="string" TItem="string"
+                                                                DataSource="@Categories"
+                                                                @bind-Value="SelectedCategory" />
+                                            </span>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </TreeGridAggregateColumn>
+                        </TreeGridAggregateColumns>
+                    </TreeGridAggregate>
+                </TreeGridAggregates>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="ShipID" HeaderText="Ship ID" Width="80" Visible="false" IsPrimaryKey="true" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Name" HeaderText="Orders" Width="120" ClipMode="ClipMode.EllipsisWithTooltip"></TreeGridColumn>
+                    <TreeGridColumn Field="ShipmentCategory" HeaderText="Category" Width="130"></TreeGridColumn>
+                    <TreeGridColumn Field="OrderDate" HeaderText="Ordered Date" Format="d" Type="ColumnType.Date" Width="130" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="ShippedDate" HeaderText="Shipped Date" Format="d" Type="ColumnType.Date" Width="130" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Units" HeaderText="Units" Width="80" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="UnitPrice" ClipMode="ClipMode.EllipsisWithTooltip" HeaderText="Unit Price" Format="c2" Width="90" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TotalPrice" HeaderText="Total Price" Format="C" Width="100" TextAlign="TextAlign.Right"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+@*Hidden:Lines*@
+<style>
+    .treeDropDown {
+        display: flex;
+        align-items: baseline;
+    }
+</style>
+@*Hidden:Lines*@
+@code {
+    private SfTreeGrid<ShipmentData>? TreeGrid;
+    private string SelectedCategory = "Seafood";
+    private readonly List<string> Categories = new()
+    {
+        "Seafood",
+        "Dairy",
+        "Crystals",
+        "Edible"
+    };
+    public List<ShipmentData> TreeGridData { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        TreeGridData = ShipmentData.GetShipmentData().ToList();
+    }
+
+    private async Task OnCategoryChanged(string value)
+    {
+        SelectedCategory = value;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // Sum only the visible (current view) rows that match the selected category.
+    private decimal SumForSelectedCategory()
+    {
+        IEnumerable<ShipmentData> view;
+        if (TreeGrid != null)
+        {
+            var records = TreeGrid.GetCurrentViewRecords();
+            view = records.OfType<ShipmentData>();
+        }
+        else
+        {
+            view = TreeGridData;
+        }
+        return view.Where(x => x.ShipmentCategory == SelectedCategory).Sum(x => (decimal)(x.Price ?? 0));
+    }
+}

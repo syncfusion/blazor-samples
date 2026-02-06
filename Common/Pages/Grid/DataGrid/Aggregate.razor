@@ -1,0 +1,94 @@
+@page "/datagrid/aggregate"
+
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_ordersdetails
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the DataGrid's built-in aggregate functionality by displaying footer aggregate values in the Freight column.</p>
+  
+  <p>Aggregates in the Blazor DataGrid are displayed in the footer, group footer, and group caption sections. The <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor.Grids.GridAggregates.html" aria-label="Navigate to the class reference for GridAggregates">GridAggregates</a> component provides configuration options for defining aggregate behavior.</p>
+  
+  <p>The built-in aggregate types supported are:</p>
+  <ul>
+    <li><strong>Sum</strong> - Calculates the total sum of values</li>
+    <li><strong>Average</strong> - Calculates the average value</li>
+    <li><strong>Min</strong> - Identifies the minimum value</li>
+    <li><strong>Max</strong> - Identifies the maximum value</li>
+    <li><strong>Count</strong> - Counts total records</li>
+    <li><strong>TrueCount</strong> - Counts boolean true values</li>
+    <li><strong>FalseCount</strong> - Counts boolean false values</li>
+  </ul>
+  
+  <p>In this demo, the <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridAggregateColumn.html#Syncfusion_Blazor_Grids_GridAggregateColumn_FooterTemplate" aria-label="Navigate to the FooterTemplate field reference for DataGrid aggregate column">FooterTemplate</a> displays multiple aggregates in the DataGrid footer:</p>
+  
+  <ul>
+    <li>
+      <p>The <strong>Sum</strong> aggregate is displayed in the Freight column's first aggregate row. Configure this by setting the <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridAggregateColumn.html#Syncfusion_Blazor_Grids_GridAggregateColumn_Type" aria-label="Navigate to the Type property reference for DataGrid aggregate column">Type</a> and <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridAggregateColumn.html#Syncfusion_Blazor_Grids_GridAggregateColumn_Field" aria-label="Navigate to the Field property reference for DataGrid aggregate column">Field</a> properties to <strong>Freight</strong>. Within the <code>FooterTemplate</code>, access the sum value via <strong>SumValue.Sum</strong>, where <strong>SumValue</strong> is the implicit <strong>Context</strong> parameter. The value is formatted using the <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridAggregateColumn.html#Syncfusion_Blazor_Grids_GridAggregateColumn_Format" aria-label="Navigate to the Format property reference for DataGrid component">Format</a> property (<strong>C2</strong>).</p>
+    </li>
+    <li>
+      <p>The <strong>Average</strong> aggregate is displayed in the Freight column's second aggregate row. Set the <code>Type</code> and <code>Field</code> properties to <strong>Freight</strong>. Access the aggregate value via <strong>AverageValue.Average</strong>, where <strong>AverageValue</strong> is the implicit <strong>Context</strong> parameter. The value is formatted according to the <code>Format</code> property value (<strong>C2</strong>).</p>
+    </li>
+  </ul>
+  
+  <p>For more detailed information about aggregates, refer to the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/datagrid/aggregates" aria-label="Navigate to the documentation for aggregates in DataGrid component">aggregates documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData">
+                <GridAggregates>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+                            <GridAggregateColumn Field="@nameof(OrdersDetails.Freight)" Type="AggregateType.Sum" Format="C2">
+                                <FooterTemplate>
+                                    @{ var SumValue = (context as AggregateTemplateContext);
+                                    <div>
+                                        Sum: @SumValue?.Sum
+                                    </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+                            <GridAggregateColumn Field="@nameof(OrdersDetails.Freight)" Type="AggregateType.Average" Format="C2">
+                                <FooterTemplate>
+                                    @{ var AverageValue = (context as AggregateTemplateContext);
+                                    <div>
+                                        Average: @AverageValue?.Average
+                                    </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                </GridAggregates>
+                <GridColumns>
+                    <GridColumn Field="@nameof(OrdersDetails.CustomerID)" HeaderText="Customer ID" Width="150"> </GridColumn>
+                    <GridColumn Field="@nameof(OrdersDetails.Freight)" Format="C2" TextAlign="TextAlign.Right" Width="160"></GridColumn>
+                    <GridColumn Field="@nameof(OrdersDetails.OrderDate)" HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field="@nameof(OrdersDetails.ShipCountry)" HeaderText="Ship Country" Width="140"> </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<OrdersDetails>? GridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = OrdersDetails.GetAllRecords().Take(12).ToList();
+    }
+}

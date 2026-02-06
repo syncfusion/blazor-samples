@@ -1,0 +1,134 @@
+@page "/gantt-chart/editing"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+        This sample demonstrates the phases involved in building a residential house, from soil testing through handover of the completed property. It also demonstrates add, delete, update operations in the <a class="e-gantt-editing-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                                                                                                                                                                  href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                                                                                                                                                                  target="_blank" rel="noopener">Blazor Gantt Chart</a> to help you manage tasks throughout the project.
+    </p>
+
+    <p>
+        Editing is configurable through 
+        <a class="e-gantt-editing-reference-link" aria-label="Navigate to the class reference for Gantt Edit Settings"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEditSettings.html"
+           target="_blank" rel="noopener">GanttEditSettings</a>
+        and
+        <a class="e-gantt-editing-reference-link" aria-label="Navigate to the AllowTaskbarEditing property reference gantt edit settings"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEditSettings.html#Syncfusion_Blazor_Gantt_GanttEditSettings_AllowTaskbarEditing"
+           target="_blank" rel="noopener">AllowTaskbarEditing</a>.
+        The component supports two editing <a class="e-gantt-editing-reference-link" aria-label="Navigate to the Mode property reference in gantt edit settings"
+                                              href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttEditSettings.html#Syncfusion_Blazor_Gantt_GanttEditSettings_Mode"
+                                              target="_blank" rel="noopener">Mode</a> options: <code>Auto</code> and <code>Dialog</code>.
+    </p>
+
+    <p>
+        Common toolbar actions include:
+    </p>
+    <ul>
+        <li><code>Add</code> - Click the Add toolbar button to create a new task.</li>
+        <li><code>Edit</code> - Double click a row, double click a taskbar, or click the Edit toolbar button after selecting a row.</li>
+        <li><code>Indent</code> - Click the Indent toolbar button after selecting a row.</li>
+        <li><code>Outdent</code> - Click the Outdent toolbar button after selecting a row.</li>
+        <li><code>Delete</code> - Click the Delete toolbar button after selecting a row.</li>
+        <li><code>Update</code> and <code>Cancel</code> - Save or discard changes using the Update and Cancel toolbar buttons.</li>
+    </ul>
+
+    <p>
+        In this demo, <code>Auto</code> mode is enabled as default.
+    </p>
+    <ul>
+        <li><strong>Cell Edit</strong> – Double-click a grid cell to edit its value.</li>
+        <li><strong>Toolbar Edit</strong> – Click the toolbar button to open the edit dialog and modify the selected record.</li>
+        <li><strong>Chart Row Edit</strong> – Double-click a chart row to open the edit dialog for that record.</li>
+        <li><strong>Taskbar Editing</strong> – Drag or resize the taskbar to update task duration. Resize the progress indicator to modify the progress value.</li>
+        <li>
+            <strong>Dependency Management</strong> – Click and drag from a task’s start or end point to create a <a aria-label="Navigate to the documentation for task dependencies in gantt chart component"
+                                                                                                                    href="https://blazor.syncfusion.com/documentation/gantt-chart/task-dependencies"
+                                                                                                                    target="_blank" rel="noopener">dependency</a> and set its predecessor. Edit existing connector lines by dragging the connector points on parent taskbars, child taskbars, or milestones.
+        </li>
+    </ul>
+
+    <p>
+        When a taskbar or connector point is dragged, the Gantt Chart automatically detects proximity to the viewport edges and initiates horizontal or vertical scrolling. This ensures smooth interaction and seamless navigation across the chart area. For further details, refer to the
+        <a class="e-gantt-editing-reference-link" aria-label="Navigate to the documentation for managing tasks in gantt chart component"
+           href="https://blazor.syncfusion.com/documentation/gantt-chart/managing-tasks"
+           target="_blank" rel="noopener">documentation</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-editing-sample">
+    <SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Height="550px" Width="100%" HighlightWeekends="true"
+			 Toolbar="@(new List<string>() { "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll", "Indent", "Outdent" })"
+			 AllowSelection="true" GridLines="GridLine.Both" TreeColumnIndex="1"
+			 ProjectStartDate="@(new DateTime(2025, 3, 25))" ProjectEndDate="@(new DateTime(2025, 9, 01))" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+						 Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+		<GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true"></GanttEditSettings>
+
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Job Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+		</GanttColumns>
+		<GanttLabelSettings LeftLabel="TaskName" TaskLabel="Progress" TValue="GanttData.TaskData"></GanttLabelSettings>
+		@* <GanttSplitterSettings ColumnIndex="2"></GanttSplitterSettings> *@
+	</SfGantt>
+</div>
+
+@code {
+    public SfGantt<GanttData.TaskData>? GanttInstance { get; set; }
+	public List<GanttData.TaskData> TaskCollection { get; set; } = new List<GanttData.TaskData>();
+
+	/// <summary>
+	/// Initializes the Gantt chart with Editing task data.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = GanttData.EditingData().ToList();
+        @*Hidden:Lines*@
+        SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+        @*End:Hidden*@
+	}
+    @*Hidden:Lines*@
+    private async void OnTouchMousePreferenceChanged()
+    {
+        await GanttInstance.RefreshAsync();
+        await GanttInstance.CallStateHasChangedAsync();
+    }
+
+    public void Dispose()
+    {
+        SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+    }
+    @*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-editing-sample {
+		padding: 20px;
+	}
+
+    .e-gantt-editing-reference-link {
+        text-decoration: none !important;
+    }
+
+    .e-gantt-editing-reference-link:hover,
+    .e-gantt-editing-reference-link:focus {
+        text-decoration: underline !important;
+    }
+</style>

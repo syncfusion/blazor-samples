@@ -1,0 +1,301 @@
+@page "/datagrid/flexible-data"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@using BlazorDemos
+@using System.ComponentModel.DataAnnotations
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates flexible data binding in the Blazor DataGrid using various remote services.</p>
+  
+  <p>The Blazor DataGrid supports flexible data binding through the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html" target="_blank" rel="noopener">SfDataManager</a> component, which acts as an interface between remote data services and the DataGrid.</p>
+  
+  <p>The <code>SfDataManager</code> requires the following configuration to interact with service endpoints:</p>
+  <ul>
+    <li><code>SfDataManager->Url</code> - Specifies the service endpoint for retrieving data</li>
+    <li><code>SfDataManager->Adaptor</code> - Defines the adaptor type to process requests and responses</li>
+  </ul>
+  
+  <p>The <a href="https://blazor.syncfusion.com/documentation/data/adaptors" target="_blank" rel="noopener">adaptor</a> processes communication between the service endpoint and DataGrid. The <code>Syncfusion.Blazor.Data</code> package provides predefined adaptors:</p>
+  <ul>
+    <li><strong>UrlAdaptor</strong> - Interacts with any remote service (base adaptor for all remote adaptors)</li>
+    <li><strong>ODataV4Adaptor</strong> - Interacts with OData V4 endpoints</li>
+    <li><strong>WebApiAdaptor</strong> - Interacts with Web APIs following OData standards</li>
+  </ul>
+  
+  <p>This demo uses <code>ODataV4Adaptor</code> for connecting to OData services. You can dynamically change the DataGrid's datasource by:</p>
+  <ul>
+    <li>Selecting a different URL from the Service dropdown to update the data source</li>
+    <li>Enabling or disabling paging using the Paging checkbox (when paging is disabled, virtualization is enabled for smooth rendering)</li>
+    <li>Viewing the connected service and corresponding adaptor information in the Payload Information section</li>
+  </ul>
+  
+  <p>For more information about data binding, refer to the <a href="https://blazor.syncfusion.com/documentation/data/data-binding" target="_blank" rel="noopener">data binding documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <div class="col-lg-8 control-section sb-property-border">
+        <div class="e-switch-control">
+                <div>
+                    <SfCheckBox @bind-Checked="isChecked" LabelPosition="Syncfusion.Blazor.Buttons.LabelPosition.Before" Label="Enable Paging" @onchange="onChange"></SfCheckBox>
+                </div>
+            </div>
+        <div class="grid">
+            @if (isGridVisible)
+            {
+                <SfGrid TValue="OrderData" ID="Grid" @ref="Grid" Height="410px" AllowPaging="@AllowPaging" EnableVirtualization="@EnableVirtualization" EnableVirtualMaskRow="@EnableVirtualMaskRow" Query="@AdditionalParams">
+                    <GridPageSettings PageCount="2" PageSize="@PageSize"></GridPageSettings>
+                    <SfDataManager Url="@serviceUrl" Adaptor="@adaptorType" CrossDomain="true" Headers="@HeaderData"></SfDataManager>
+                    <GridColumns>
+                        @foreach (var column in DynamicColumns)
+                        {
+                            <GridColumn Field="@column.Field" HeaderText="@column.HeaderText" Width="@column.Width" TextAlign="@column.TextAlign" Format="@column.Format"></GridColumn>
+                        }
+                    </GridColumns>
+                </SfGrid>
+            }
+        </div>
+    </div>
+
+    <div class="col-lg-4 property-section">
+        <div class="property-panel-section">
+            <div class="property-panel-header"><b>Properties</b></div>
+            <div class="property-panel-content">
+                <table id="property" style="width: 100%;">
+                    <tr style="height: 50px">
+
+                        <td colspan="2">
+                            <div style="display: flex; align-items: center;  width: 100%; gap: 4px">
+                                <div class="prop-name" style="width: 20%;"><b>Service</b></div>
+                                <div class="prop-name" style="width: 5%;"><b>:</b></div>
+                                <div class="prop-value" style="width: 75%;">
+                                    <SfDropDownList TValue="string" TItem="string" Placeholder="Select service"
+                                                    DataSource="@serviceData" @bind-Value="selectedServiceUrl"
+                                                    PopupWidth="550px" Width="100%">
+                                        <DropDownListEvents TValue="string" TItem="string" ValueChange="ServiceDropdownHandler"></DropDownListEvents>
+                                    </SfDropDownList>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <div class="payload-detail">
+                    <p><b><u>Payload Information</u></b></p>
+                    <p><b>Service URL :</b> @selectedServiceUrl</p>
+                    <p><b>Adaptor Type :</b> @selectedAdaptorName</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .payload-detail {
+        word-wrap: break-word;
+        margin-bottom: 10px;
+        margin-top: 20px;
+        border: 2px solid rgb(215, 215, 215);
+        padding: 10px;
+        height:12em;
+    }
+
+    .param-cell {
+        padding-right: 5px;
+    }
+
+    .hide_elem {
+        display: none;
+    }
+
+    .fluent2-highcontrast .e-switch-control,
+    .fluent2-dark .e-switch-control,
+    .fluent2 .e-switch-control {
+        margin-left: -9px;
+        margin-top: -20px;
+        margin-bottom: 10px;
+    }
+    
+    .highcontrast .e-switch-control,
+    .material3 .e-switch-control,
+    .material3-dark .e-switch-control,
+    .bootstrap5\.3 .e-switch-control,
+    .bootstrap5\.3-dark .e-switch-control,
+    .tailwind3 .e-switch-control,
+    .tailwind3-dark .e-switch-control,
+    .material .e-switch-control,
+    .material-dark .e-switch-control,
+    .bootstrap4 .e-switch-control,
+    .bootstrap5 .e-switch-control,
+    .bootstrap5-dark .e-switch-control,
+    .tailwind .e-switch-control,
+    .tailwind-dark .e-switch-control,
+    .fabric .e-switch-control,
+    .fabric-dark .e-switch-control {
+        margin-top: -20px;
+        margin-bottom: 10px;
+    }
+
+    .fluent .e-switch-control,
+    .fluent-dark .e-switch-control {
+        margin-left: -4px;
+        margin-top: -20px;
+        margin-bottom: 10px;
+    }
+
+    .e-checkbox-wrapper .e-checkbox + .e-label {
+        font-weight: bold;
+    }
+
+    .
+</style>
+
+@code {
+    // Syncfusion Grid component reference
+    SfGrid<OrderData>? Grid;
+    private bool isGridVisible = true;
+    public string Height { get; set; } = "";
+
+    // Paging and Virtualization Settings
+    private bool isChecked = true;
+    public string option { get; set; } = "true";
+    private bool AllowPaging { get; set; } = true;
+    private int PageSize { get; set; } = 12;
+    private bool EnableVirtualization { get; set; } = false;
+    private bool EnableVirtualMaskRow { get; set; } = false;
+
+    // Toggle Paging and Virtualization
+    private void onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if(args.Value != null)
+        AllowPaging = (bool)args.Value;
+        if (!AllowPaging) // If paging is disabled
+        {
+            EnableVirtualization = true;
+            EnableVirtualMaskRow = true;
+            PageSize = 30;
+        }
+        else
+        {
+            EnableVirtualization = false;
+            EnableVirtualMaskRow = false;
+            PageSize = 12;
+        }
+    }
+
+    //Data Adaptor Settings
+    public Adaptors adaptorType { get; set; } = Adaptors.ODataV4Adaptor;
+    public string adaptorName { get; set; } = "ODataV4Adaptor";
+    public string serviceUrl { get; set; } = "https://blazor.syncfusion.com/services/production/odata/gridodatav4service";
+
+    // Dynamic Columns Definition
+    private List<GridColumn> DynamicColumns = new List<GridColumn>
+    {
+            new GridColumn { Field = "OrderID", HeaderText = "Order ID", Width = "120", TextAlign = TextAlign.Right },
+            new GridColumn { Field = "CustomerID", HeaderText = "Customer ID", Width = "140" },
+            new GridColumn { Field = "Freight", HeaderText = "Freight", Format="C2", Width = "120",TextAlign = TextAlign.Right },
+            new GridColumn { Field = "ShipCity", HeaderText = "Ship City", Width = "140" }
+    };
+
+    // Dropdown Options for Data Services
+    List<string> serviceData = new List<string>()
+    {
+        "https://blazor.syncfusion.com/services/production/odata/gridodatav4service",
+        "https://blazor.syncfusion.com/services/production/api/gridurldata",
+        "https://blazor.syncfusion.com/services/production/api/gridwebapiservice"
+    };
+
+    private string selectedServiceUrl { get; set; } = "https://blazor.syncfusion.com/services/production/odata/gridodatav4service";
+    private string selectedAdaptorName { get; set; } = "ODataV4Adaptor";
+    private Adaptors selectedAdaptorType { get; set; } = Adaptors.ODataV4Adaptor;
+
+    // HTTP Header Management
+    private IDictionary<string, string> HeaderData = new Dictionary<string, string>();
+    private string headerKey { get; set; } = string.Empty;
+    private string headerValue { get; set; } = string.Empty;
+    private string httpheader { get; set; } = string.Empty;
+    private MarkupString header { get; set; }
+
+    // Query Parameters Management
+    public Query AdditionalParams = new Query();
+    private string paramKey { get; set; } = string.Empty;
+    private string paramValue { get; set; } = string.Empty;
+    private MarkupString addParams { get; set; }
+    private string additionalParamsText { get; set; } = string.Empty;
+
+
+    public async void ServiceDropdownHandler()
+    {
+        if (selectedServiceUrl == "https://blazor.syncfusion.com/services/production/api/gridurldata")
+        {
+            DynamicColumns = new List<GridColumn>
+        {
+            new GridColumn { Field = "EmployeeID", HeaderText = "Employee ID", Width = "120" , TextAlign = TextAlign.Right},
+            new GridColumn { Field = "EmployeeName", HeaderText = "Name", Width = "130" },
+            new GridColumn { Field = "Designation", HeaderText = "Designation", Width = "160" },
+            new GridColumn { Field = "CurrentSalary", HeaderText = "Current Salary", Width = "140", Format="C2", TextAlign = TextAlign.Right }
+        };
+            selectedAdaptorName = "UrlAdaptor";
+            selectedAdaptorType = Adaptors.UrlAdaptor;
+        }
+        else if (selectedServiceUrl == "https://blazor.syncfusion.com/services/production/odata/gridodatav4service")
+        {
+            DynamicColumns = new List<GridColumn>
+        {
+            new GridColumn { Field = "OrderID", HeaderText = "Order ID", Width = "120", TextAlign = TextAlign.Right },
+            new GridColumn { Field = "CustomerID", HeaderText = "Customer ID", Width = "140" },
+            new GridColumn { Field = "Freight", HeaderText = "Freight", Format="C2", Width = "120", TextAlign = TextAlign.Right },
+            new GridColumn { Field = "ShipCity", HeaderText = "Ship City", Width = "140" }
+        };
+            selectedAdaptorName = "ODataV4Adaptor";
+            selectedAdaptorType = Adaptors.ODataV4Adaptor;
+        }
+        else if (selectedServiceUrl == "https://blazor.syncfusion.com/services/production/api/gridwebapiservice")
+        {
+            DynamicColumns = new List<GridColumn>
+        {
+            new GridColumn { Field = "OrderID", HeaderText = "Order ID", Width = "120", TextAlign = TextAlign.Right },
+            new GridColumn { Field = "CustomerID", HeaderText = "Customer ID", Width = "140" ,TextAlign = TextAlign.Right},
+            new GridColumn { Field = "Freight", HeaderText = "Freight", Format="C2", Width = "120", TextAlign = TextAlign.Right },
+            new GridColumn { Field = "ShipCity", HeaderText = "Ship City", Width = "140" }
+            
+        };
+            selectedAdaptorName = "WebApiAdaptor";
+            selectedAdaptorType = Adaptors.WebApiAdaptor;
+        }
+        else
+        {
+            selectedAdaptorName = "Invalid URL";
+        }
+
+        isGridVisible = false;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(5);
+        isGridVisible = true;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    // Order Data Model
+    public class OrderData
+    {
+        [Key]
+        public int OrderID { get; set; }
+        public string? CustomerID { get; set; }
+        public double Freight { get; set; }
+        public DateOnly OrderDate { get; set; }
+        public string? ShipCity { get; set; }
+        public int EmployeeID { get; set; }
+        public string? EmployeeName { get; set; }
+        public string? Designation { get; set; }
+        public double CurrentSalary { get; set; }
+    }
+}

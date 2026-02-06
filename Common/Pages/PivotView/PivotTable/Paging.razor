@@ -1,0 +1,259 @@
+@page "/pivot-table/paging"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Data
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates using pagination to break large datasets into manageable chunks and display them page by page with built-in navigation controls.</p>
+    
+    <p>Pagination enables optimized rendering of rows and columns without displaying entire pivot data. Enable paging via <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_EnablePaging" aria-label="Class reference of EnablePaging property in PivotView">EnablePaging</a> property set to <b>true</b>.</p>
+    
+    <p>Configure page information for row and column using <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewPageSettings.html" aria-label="Class reference of PivotViewPageSettings">PivotViewPageSettings</a> with properties:</p>
+    
+    <ul>
+        <li><b>CurrentRowPage</b> - Current row page number (adjustable at runtime)</li>
+        <li><b>CurrentColumnPage</b> - Current column page number (adjustable at runtime)</li>
+        <li><b>RowPageSize</b> - Records per row page (configurable at runtime)</li>
+        <li><b>ColumnPageSize</b> - Records per column page (configurable at runtime)</li>
+    </ul>
+    
+    <p>Customize paging UI appearance using <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewPagerSettings.html">PivotViewPagerSettings</a> properties for position, visibility, page sizes, and template customization.</p>
+    
+    <p>For comprehensive paging documentation, refer to the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/paging" aria-label="Blazor PivotTable Paging documentation">paging documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="Parent" Width="100%" Height="600" EnablePaging="true">
+            <PivotViewPageSettings CurrentColumnPage="@currentColumnPage" ColumnPageSize="@columnPageSize" CurrentRowPage="@currentRowPage" RowPageSize="@rowPageSize"></PivotViewPageSettings>
+            <PivotViewPagerSettings Position=@PagerPosition EnableCompactView=@EnableCompactView ShowColumnPager=@ShowColumnPager ShowRowPager=@ShowRowPager IsInversed=@IsInverse ShowColumnPageSize=@ShowColumnPageSize ShowRowPageSize=@ShowRowPageSize></PivotViewPagerSettings>
+            <PivotViewDataSourceSettings TValue="PivotProductDetails" ExpandAll=true EnableSorting=true>
+                <SfDataManager Url="https://blazor.syncfusion.com/services/production/api/order" Adaptor="Syncfusion.Blazor.Adaptors.WebApiAdaptor" CrossDomain="true"></SfDataManager>
+                <PivotViewColumns>
+                    <PivotViewColumn Name="ProductName" Caption="Product Name"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="ShipCountry" Caption="Ship Country"></PivotViewRow>
+                    <PivotViewRow Name="ShipCity" Caption="Ship City"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="Quantity"></PivotViewValue>
+                    <PivotViewValue Name="UnitPrice" Caption="Unit Price"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="UnitPrice" Format="C0"></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            <PivotViewEvents TValue="PivotProductDetails" OnActionComplete="ActionComplete"></PivotViewEvents>
+        </SfPivotView>
+    </div>
+</div>
+<div class="col-lg-3 property-section pivottable-property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:0px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width:100%;height:100%;" class="property-panel-table">
+                <tbody>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div style="white-space: nowrap;">Pager Position: </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="PagerPosition" TItem="PositionDropDownData" DataSource="@PositionDropDown" @bind-Value="@PagerPosition">
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div style="white-space: nowrap;">Show Pager: </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@PagerViewDropDown" @bind-Value=@PagerViewData>
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                 <DropDownListEvents TValue="String" TItem="DropDownData" ValueChange="PagerViewDropDownChange"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div style="white-space: nowrap;">Show Page Size: </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" TItem="DropDownData" DataSource="@PageSizeDropDown" @bind-Value=@PageSizeData>
+                                    <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="String" TItem="DropDownData" ValueChange="PageSizeDropDownChange"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="vertical-align: middle; padding-right: 10px;">
+                            <div style="white-space: nowrap;">Compact View: </div>
+                        </td>
+                        <td style="vertical-align:middle;">
+                            <SfCheckBox ValueChange="@CheckedCompactView" @bind-Checked="@CompactViewIsChecked" TChecked="bool"></SfCheckBox>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="vertical-align: middle; padding-right: 10px;">
+                            <div style="white-space: nowrap;">Inverse Pager: </div>
+                        </td>
+                        <td style="vertical-align:middle;">
+                            <SfCheckBox ValueChange="@CheckedInversePager" @bind-Checked="@InverseIsChecked" TChecked="bool"></SfCheckBox>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    html, body {
+        height: 100%;
+    }
+
+    .property-panel-table td {
+        width: auto;
+    }
+
+    .property-panel-table div {
+        padding-left: unset;
+    }
+</style>
+@code {
+    public SfPivotView<PivotProductDetails>? Parent;
+    public PagerPosition PagerPosition = PagerPosition.Bottom;
+    public bool ShowRowPager = true;
+    public bool ShowColumnPager = true;
+    public bool ShowColumnPageSize = true;
+    public bool ShowRowPageSize = true;
+    public bool CompactViewIsChecked = false;
+    public bool InverseIsChecked = false;
+    public bool EnableCompactView = false;
+    public bool IsInverse = false;
+    public string PagerViewData = "Both";
+    public string PageSizeData = "Both";
+    public int currentColumnPage = 1;
+    public int currentRowPage = 1;
+    public int rowPageSize = 10;
+    public int columnPageSize = 5;
+    public List<PositionDropDownData> PositionDropDown = new List<PositionDropDownData>()
+    {
+        new PositionDropDownData() { Name = "Top", Value = PagerPosition.Top },
+        new PositionDropDownData() { Name = "Bottom", Value = PagerPosition.Bottom }
+    };
+    public List<DropDownData> PagerViewDropDown = new List<DropDownData>()
+    {
+        new DropDownData() { Name = "Row", Value = "Row" },
+        new DropDownData() { Name = "Column", Value = "Column" },
+        new DropDownData() { Name = "Both", Value = "Both" }
+    };
+    public List<DropDownData> PageSizeDropDown = new List<DropDownData>()
+    {
+        new DropDownData() { Name = "Row", Value = "Row" },
+        new DropDownData() { Name = "Column", Value = "Column" },
+        new DropDownData() { Name = "Both", Value = "Both" },
+        new DropDownData() { Name = "None", Value = "None" },
+    };
+    public void PagerViewDropDownChange(ChangeEventArgs<string, DropDownData> args)
+    {
+        if(args.Value == "Row") 
+        {
+            ShowRowPager = true;
+            ShowColumnPager = false;
+        } 
+        else if (args.Value == "Column")
+        {
+            ShowRowPager = false;
+            ShowColumnPager = true;
+        }
+        else
+        {
+            ShowRowPager = ShowColumnPager = true;
+        }
+    }
+    public void PageSizeDropDownChange(ChangeEventArgs<string, DropDownData> args)
+    {
+        if (args.Value == "Row")
+        {
+            ShowRowPageSize = true;
+            ShowColumnPageSize = false;
+        }
+        else if (args.Value == "Column")
+        {
+            ShowRowPageSize = false;
+            ShowColumnPageSize = true;
+        }
+        else if (args.Value == "Both")
+        {
+            ShowRowPageSize = ShowColumnPageSize = true;
+        }
+        else
+        {
+            ShowRowPageSize = ShowColumnPageSize = false;
+        }
+    }
+    private void CheckedCompactView(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        EnableCompactView = args.Checked;
+    }
+    private void CheckedInversePager(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        IsInverse = args.Checked;
+    }
+    public void ActionComplete(PivotActionCompleteEventArgs<PivotProductDetails> args)
+    {
+        if (args.ActionName == "Row page navigated" && Parent != null)
+        {
+            currentRowPage = Parent.PageSettings.CurrentRowPage;
+        }
+        if (args.ActionName == "Row page size changed" && Parent != null)
+        {
+            rowPageSize = Parent.PageSettings.RowPageSize;
+        }
+        if (args.ActionName == "Column page navigated" && Parent != null)
+        {
+            currentColumnPage = Parent.PageSettings.CurrentColumnPage;
+        }
+        if (args.ActionName == "Column page size changed" && Parent != null)
+        {
+            columnPageSize = Parent.PageSettings.ColumnPageSize;
+        }
+    }
+    public class DropDownData
+    {
+        public string Name { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
+    }
+    public class PositionDropDownData
+    {
+        public string Name { get; set; } = string.Empty;
+        public PagerPosition Value { get; set; }
+    }
+    public class PivotProductDetails
+    {
+        public int Quantity { get; set; }
+        public double UnitPrice { get; set; }
+        public string ProductName { get; set; } = string.Empty;
+        public string ShipCountry { get; set; } = string.Empty;
+        public string ShipCity { get; set; } = string.Empty;
+    }
+}

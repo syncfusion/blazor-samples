@@ -1,0 +1,57 @@
+@page "/DateTime-Picker/Disabled-Dates"
+
+@using Syncfusion.Blazor.Calendars
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+<p>
+    This sample demonstrates disabled dates functionality in the DateTimePicker component. All weekends (Saturday and Sunday) of a month are disabled and restricted from selection.
+  </p>
+  <p>
+    The Disabled Dates example shows how to disable specific dates in the DateTimePicker using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.DateTimePickerEvents-1.html#Syncfusion_Blazor_Calendars_DateTimePickerEvents_1_OnRenderDayCell" target="_blank" rel="noopener" aria-label="Class reference of OnRenderDayCell event in DateTimePicker">OnRenderDayCell</a> event. This event triggers on each day cell element creation, allowing customization or disabling of specific dates.
+  </p>
+  <p>
+    In this example, weekend dates are disabled using the <strong>OnRenderDayCell</strong> event by adding appropriate CSS classes to restrict selection.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        <label class="example-label">Select Date and Time</label>
+        <SfDateTimePicker TValue="DateTime?" @ref="@DateTimePickerObj" ShowClearButton="true" FullScreen="true" Placeholder="Select a date" aria-label="Date and time selector with weekends disabled">
+            <DateTimePickerEvents TValue="DateTime?" OnRenderDayCell="@DisableDate"></DateTimePickerEvents>
+        </SfDateTimePicker>
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+    max-width: 275px;
+    margin: 0 auto;
+    padding: 50px 0px 0px;
+    }
+
+    .example-label {
+    font-size: 14px;
+    margin-bottom: 6px;
+    }
+</style>
+
+@code {
+    private SfDateTimePicker<DateTime?>? DateTimePickerObj { get; set; }
+
+    private void DisableDate(RenderDayCellEventArgs args)
+    {
+        if (DateTimePickerObj != null)
+        {
+            var view = DateTimePickerObj.CurrentView();
+            if (view == "Month" && ((int)args.Date.DayOfWeek == 0 || (int)args.Date.DayOfWeek == 6))
+            {
+                args.IsDisabled = true;
+            }           
+        }
+    }
+}

@@ -1,0 +1,160 @@
+@page "/datagrid/keyboard-navigation"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_ordersdetails
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the comprehensive keyboard navigation support in the DataGrid component.</p>
+  
+  <p>The Blazor DataGrid supports extensive keyboard shortcuts for efficient navigation and interaction. The following keyboard shortcuts are available:</p>
+  
+  <p><strong>FOCUS ELEMENTS</strong></p>
+  <ul>
+    <li><kbd>Alt</kbd> + <kbd>J</kbd> - Move focus to the DataGrid</li>
+    <li><kbd>Home</kbd> - Move to the first cell of the focused row</li>
+    <li><kbd>End</kbd> - Move to the last cell of the focused row</li>
+    <li><kbd>Ctrl</kbd> + <kbd>Home</kbd> - Move to the first cell of the first row</li>
+    <li><kbd>Ctrl</kbd> + <kbd>End</kbd> - Move to the last cell of the last row</li>
+    <li><kbd>↓</kbd>, <kbd>↑</kbd>, <kbd>←</kbd>, <kbd>→</kbd> - Navigate between cells</li>
+    <li><kbd>Alt</kbd> + <kbd>W</kbd> - Move focus to the first cell of grid content</li>
+  </ul>
+  
+  <p><strong>PAGING</strong></p>
+  <ul>
+    <li><kbd>Page Down</kbd> - Navigate to the next page</li>
+    <li><kbd>Page Up</kbd> - Navigate to the previous page</li>
+    <li><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Page Down</kbd> - Navigate to the last page</li>
+    <li><kbd>Ctrl</kbd> + <kbd>Alt</kbd> + <kbd>Page Up</kbd> - Navigate to the first page</li>
+  </ul>
+  
+  <p><strong>SELECTION</strong></p>
+  <ul>
+    <li><kbd>Shift</kbd> + Arrow Keys - Extend selection upward or downward</li>
+    <li><kbd>Ctrl</kbd> + <kbd>A</kbd> - Select all rows/cells on current page</li>
+    <li><kbd>Tab</kbd>/<kbd>Shift</kbd> + <kbd>Tab</kbd> - Move cell selection right/left</li>
+    <li><kbd>Esc</kbd> - Deselect all rows/cells</li>
+  </ul>
+  
+  <p><strong>EDITING</strong></p>
+  <ul>
+    <li><kbd>F2</kbd> - Start editing</li>
+    <li><kbd>Esc</kbd> - Cancel editing</li>
+    <li><kbd>Del</kbd> - Delete selected record</li>
+    <li><kbd>Insert</kbd> - Create new record</li>
+    <li><kbd>Tab</kbd>/<kbd>Shift</kbd> + <kbd>Tab</kbd> - Navigate between editable cells</li>
+    <li><kbd>Enter</kbd>/<kbd>Shift</kbd> + <kbd>Enter</kbd> - Save and navigate</li>
+  </ul>
+  
+  <p><strong>FILTERING, SORTING, GROUPING</strong></p>
+  <ul>
+    <li><kbd>Alt</kbd> + <kbd>↓</kbd> - Open filter menu when header is focused</li>
+    <li><kbd>Ctrl</kbd> + <kbd>Enter</kbd> - Multi-sort on focused column header</li>
+    <li><kbd>Shift</kbd> + <kbd>Enter</kbd> - Clear sorting</li>
+    <li><kbd>Enter</kbd> - Sort (ascending/descending)</li>
+    <li><kbd>Alt</kbd> + <kbd>↓</kbd> - Expand selected group</li>
+    <li><kbd>Ctrl</kbd> + <kbd>↓</kbd> - Expand all visible groups</li>
+  </ul>
+  
+  <p><strong>CLIPBOARD & PRINT</strong></p>
+  <ul>
+    <li><kbd>Ctrl</kbd> + <kbd>C</kbd> - Copy selected rows/cells</li>
+    <li><kbd>Ctrl</kbd> + <kbd>Shift</kbd> + <kbd>H</kbd> - Copy with headers</li>
+    <li><kbd>Ctrl</kbd> + <kbd>P</kbd> - Print DataGrid</li>
+  </ul>
+</ActionDescription>
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+
+            <SfGrid DataSource="@GridData" Height="400" AllowFiltering="true" AllowGrouping="true"
+                Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })" AllowPaging="true" AllowSorting="true">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
+                <GridSelectionSettings Type="SelectionType.Multiple" Mode="Syncfusion.Blazor.Grids.SelectionMode.Cell">
+                </GridSelectionSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" IsPrimaryKey="true"
+                        ValidationRules="@(new ValidationRules{ Required=true, Number=true})"
+                        TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID"
+                        ValidationRules="@(new ValidationRules{ Required=true})" Width="150">
+                        <EditTemplate>
+                            <SfAutoComplete TItem="Customer" TValue="string" ID="CustomerID" 
+                                @bind-Value="@((context as OrdersDetails)!.CustomerID)" DataSource="@CustomerData">
+                                <AutoCompleteFieldSettings Value="CustomerID"></AutoCompleteFieldSettings>
+                            </SfAutoComplete>
+                        </EditTemplate>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) ValidationRules="@(new ValidationRules{ Required=true, Range = new object[]{1, 1000}})" AllowGrouping="false"
+                        EditType="EditType.NumericEdit" Format="C2" TextAlign="TextAlign.Right" Width="140">
+                    </GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date"
+                        EditType="EditType.DatePickerEdit" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right"
+                        Width="160"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCountry) HeaderText="Ship Country"
+                                EditType="EditType.DropDownEdit" EditorSettings="@ShipCountryEditParams" Width="150"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+
+        </div>
+    </div>
+</div>
+
+@code {
+
+    public List<OrdersDetails>? GridData { get; set; }
+    public IEditorSettings ShipCountryEditParams = new DropDownEditCellParams
+        {
+            Params = new DropDownListModel<object, object>()
+            {
+                DataSource = new List<OrdersDetails>()
+                {
+                    new OrdersDetails() { ShipCountry = "Denmark" },
+                    new OrdersDetails() { ShipCountry = "Brazil" },
+                    new OrdersDetails() { ShipCountry = "Germany" },
+                    new OrdersDetails() { ShipCountry = "Austria" },
+                    new OrdersDetails() { ShipCountry = "Switzerland" }
+                },
+                PopupWidth = "100%"
+            }
+        };
+
+
+    protected override void OnInitialized()
+    {
+        
+        GridData = OrdersDetails.GetAllRecords();
+    }
+    public class Customer
+    {
+        public string? CustomerID { get; set; }
+    }
+    List<Customer> CustomerData = new List<Customer>
+    {
+        new Customer() { CustomerID= "ALFKI" },
+        new Customer() { CustomerID= "ANATR"},
+        new Customer() { CustomerID= "ANTON"},
+        new Customer() { CustomerID= "BLONP" },
+        new Customer() { CustomerID= "BOLID"},
+    };
+}
+
+@*Hidden:Lines*@
+<style>
+    .key-class {
+        display: inline-block;
+        width: 190px;
+    }
+</style>
+@*End:Hidden*@

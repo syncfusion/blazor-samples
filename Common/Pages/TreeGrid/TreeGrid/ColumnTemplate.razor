@@ -1,0 +1,115 @@
+@page "/tree-grid/column-template"
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.ProgressBar
+@*Hidden:Lines*@
+@using Templatedata
+@inject NavigationManager UriHelper
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+<p>
+    This sample demonstrates column templates to enhance employee data with images, icons, and hyperlinks.
+  </p>
+  <p>
+    Customize cells using the column <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html#Syncfusion_Blazor_TreeGrid_TreeGridColumn_Template">Template</a> property. Access row data via the implicit <code>context</code> parameter. This demo includes an <strong>Employee Image</strong>, <strong>Designation</strong> icons, <strong>Location</strong> with icon, <strong>Availability</strong> badges, and a <strong>Contact</strong> hyperlink.
+  </p>
+  <p>
+    See the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/treegrid/columns/column-template">column template documentation</a> for details.
+  </p>
+</ActionDescription>
+
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid Height="410" DataSource="@TreeData" IdMapping="EmployeeID" ParentIdMapping="ParentId" TreeColumnIndex="1" AllowSorting="true" AllowFiltering="true">
+                <TreeGridFilterSettings Type="Syncfusion.Blazor.TreeGrid.FilterType.Excel"></TreeGridFilterSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="EmpID" HeaderText="Employee ID" Width="140" ClipMode="ClipMode.EllipsisWithTooltip"></TreeGridColumn>
+                    <TreeGridColumn Field="Name" HeaderText="Name" Width="170"></TreeGridColumn>
+                    <TreeGridColumn HeaderText="Employee Image" Width="140" TextAlign=" Syncfusion.Blazor.Grids.TextAlign.Center" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as Employee);
+                                <div class="image">
+                                    <img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/tree-grid/{employee?.FullName?.ToLower()}.png")" alt="@employee?.EmployeeID" />
+                                </div>
+                            }
+                        </Template>
+                    </TreeGridColumn>
+                    <TreeGridColumn Field="Designation" HeaderText="Designation" Width="190">
+                        <Template>
+                            @{
+                                var employee = (context as Employee);
+                                <span>
+                                    <i class="e-icons e-user"></i> @employee.Designation
+                                </span>
+                            }
+                        </Template>
+                    </TreeGridColumn>
+
+                    <TreeGridColumn Field="DOB" HeaderText="DOB" Width="120" TextAlign=" Syncfusion.Blazor.Grids.TextAlign.Right" Type=ColumnType.Date Format="d"></TreeGridColumn>
+                    <TreeGridColumn Field="Country" HeaderText="Location" Width="140" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as Employee);
+                                <div class="location-template">
+                                    <i class="e-icons e-location" style="margin-right: 2px;"></i>
+                                    @employee.Country
+                                </div>
+                            }
+                        </Template>
+                    </TreeGridColumn>
+                    <TreeGridColumn Field="IsAvailable" HeaderText="Availability" Width="140" ClipMode="ClipMode.EllipsisWithTooltip">
+                        <Template>
+                            @{
+                                var employee = (context as Employee);
+                                var badgeClass = employee.IsAvailable ? "e-badge e-badge-success" : "e-badge e-badge-danger";
+                                <span class="@badgeClass">
+                                    <i class="e-icons @(employee.IsAvailable ? "e-check" : "e-close")"></i> @(employee.IsAvailable ? "Available" : "Not Available")
+                                </span>
+                            }
+                        </Template>
+                    </TreeGridColumn>
+                    <TreeGridColumn Field="Contact" HeaderText="Contact" Width="120" TextAlign=" Syncfusion.Blazor.Grids.TextAlign.Right">
+                        <Template>
+                            @{
+                                var employee = (context as Employee);
+                                <a href="tel:@employee.Contact" class="e-link" onclick="event.preventDefault();">
+                                    <i class="e-icons e-phone"></i> @employee.Contact
+                                </a>
+                            }
+                        </Template>
+                    </TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+<style>
+    .e-rating-container.custom-font .e-rating-item-list:hover .e-rating-item-container .e-rating-icon,
+    .e-rating-container.custom-font .e-rating-item-container .e-rating-icon {
+        /* To change rated symbol fill color and un-rated symbol fill color */
+        background: linear-gradient(to right, #ffe814 var(--rating-value), #d8d7d4 var(--rating-value));
+        background-clip: text;
+        -webkit-background-clip: text;
+        font-size: 14px;
+    }
+
+    .image {
+        margin-left: 3px;
+    }
+
+</style>
+@code {
+    private IEnumerable<Employee> TreeData { get; set; } = new List<Employee>();
+    protected override void OnInitialized()
+    {
+        TreeData = Employee.GetTemplateData();
+    }
+}

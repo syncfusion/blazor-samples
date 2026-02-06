@@ -1,0 +1,520 @@
+@page "/diagram/funnel-diagram"
+@using Syncfusion.Blazor.Diagram
+@using Position = Syncfusion.Blazor.Popups.Position
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@implements IDisposable
+@*End:Hidden*@
+@*Hidden:Lines*@
+<ActionDescription>
+<p>This funnel diagram built with Syncfusion® Blazor Diagram visually represents user conversion flow through marketing campaign stages with decreasing user counts from top to bottom.</p>
+
+<p>Funnel features:</p>
+<ul>
+  <li>Vertically stacked funnel structure narrowing downward</li>
+  <li>Customizable node shapes reflecting stage width and value</li>
+  <li>Distinct colors enhancing visual clarity</li>
+  <li>Interactive tooltips displaying conversion and cumulative rates</li>
+  <li>Labels indicating stage purpose</li>
+  <li>Performance assessment and improvement identification</li>
+</ul>
+</ActionDescription>
+
+@*End:Hidden*@
+
+<style>
+    @@font-face {
+        font-family: 'Funnel Diagram Icon';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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bCBEaWFncmFtIEljb25SZWd1bGFyRnVubmVsIERpYWdyYW0gSWNvbkZ1bm5lbCBEaWFncmFtIEljb25WZXJzaW9uIDEuMEZ1bm5lbCBEaWFncmFtIEljb25Gb250IGdlbmVyYXRlZCB1c2luZyBTeW5jZnVzaW9uIE1ldHJvIFN0dWRpb3d3dy5zeW5jZnVzaW9uLmNvbQAgAEYAdQBuAG4AZQBsACAARABpAGEAZwByAGEAbQAgAEkAYwBvAG4AUgBlAGcAdQBsAGEAcgBGAHUAbgBuAGUAbAAgAEQAaQBhAGcAcgBhAG0AIABJAGMAbwBuAEYAdQBuAG4AZQBsACAARABpAGEAZwByAGEAbQAgAEkAYwBvAG4AVgBlAHIAcwBpAG8AbgAgADEALgAwAEYAdQBuAG4AZQBsACAARABpAGEAZwByAGEAbQAgAEkAYwBvAG4ARgBvAG4AdAAgAGcAZQBuAGUAcgBhAHQAZQBkACAAdQBzAGkAbgBnACAAUwB5AG4AYwBmAHUAcwBpAG8AbgAgAE0AZQB0AHIAbwAgAFMAdAB1AGQAaQBvAHcAdwB3AC4AcwB5AG4AYwBmAHUAcwBpAG8AbgAuAGMAbwBtAAAAAAIAAAAAAAAACgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABwECAQMBBAEFAQYBBwEIAAxhZHMtZXhwb3N1cmULcGFnZS12aXNpdHMHc2lnbi11cAxkZW1vLXJlcXVlc3QGb3JkZXJzCmVuZ2FnZW1lbnQAAAA=) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    [class^="sf-icon-"], [class*=" sf-icon-"] {
+        font-family: 'Funnel Diagram Icon' !important;
+        speak: none;
+        font-size: 24px;
+        font-style: normal;
+        font-weight: normal;
+        font-variant: normal;
+        text-transform: none;
+        line-height: 1;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .sf-icon-ads-exposure:before {
+        content: "\e700";
+    }
+
+    .sf-icon-page-visits:before {
+        content: "\e701";
+    }
+
+    .sf-icon-sign-up:before {
+        content: "\e702";
+    }
+
+    .sf-icon-demo-request:before {
+        content: "\e703";
+    }
+
+    .sf-icon-orders:before {
+        content: "\e704";
+    }
+
+    .sf-icon-engagement:before {
+        content: "\e705";
+    }
+
+    hr {
+        margin: 3px;
+        border-top: 1px solid #9CA3AF;
+    }
+</style>
+
+<div class="funnel">
+    <SfDiagramComponent ID="Diagram" @ref="Diagram" Height="675px"
+                        Nodes="@Nodes"
+                        Connectors="@Connectors"
+                        Created="OnCreated">
+        <SnapSettings Constraints="SnapConstraints.None"></SnapSettings>
+        <DiagramTemplates>
+            <AnnotationTemplate>
+                @{
+                    if (context is Annotation annotation)
+                    {
+                        <div class="@annotation.Content" style="width: 60px; height: 60px;display: flex; align-items: center;justify-content: center; font-size: 34px; color: #FFFFFF !important;"></div>
+                        ;
+                    }
+                }
+
+            </AnnotationTemplate>
+            <TooltipTemplate>
+                @{
+                    if (context is Node node && node.AdditionalInfo is Dictionary<string, object> info)
+                    {
+                        <div style="border-radius: 8px; max-width: 240px; min-width: 180px; padding: 12px; font-family: 'Segoe UI', Arial, sans-serif; font-size: 14px;">
+                            <!-- Container for icon and description -->
+                            <div style="display: flex; align-items: center; padding: 5px 0px;">
+                                <div class="@info["iconClass"] annotation-icon" style="display: flex; align-items: center; justify-content: center; width: 34px; height: 34px; background: @info["iconFill"]; color: #FFFFFF; border-radius: 50%; margin-right: 10px;"></div>
+                                <div style="font-weight: 600; font-size: 16px;">
+                                    @info["description"]
+                                </div>
+                            </div>
+                            <hr>
+                            <div style="display: grid; row-gap: 8px;">
+                                @if (info["conversionRate"] != null)
+                                {
+                                    <div style="display: flex; justify-content: space-between; align-items: center;">
+                                        <span style="font-weight: 500; opacity:0.7;">Conversion</span>
+                                        <span style="font-weight: 600;">@info["conversionRate"]%</span>
+                                    </div>
+                                }
+                                <div style="display: flex; justify-content: space-between; align-items: center;">
+                                    <span style="font-weight: 500; opacity:0.7;">Cumulative</span>
+                                    <span style="font-weight: 600;"> @info["cumulativeRate"]%</span>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                }
+            </TooltipTemplate>
+        </DiagramTemplates>
+    </SfDiagramComponent>
+</div>
+
+@code {
+    public SfDiagramComponent? Diagram;
+    public DiagramObjectCollection<Node>? Nodes = new DiagramObjectCollection<Node>();
+    public DiagramObjectCollection<Connector>? Connectors = new DiagramObjectCollection<Connector>();
+
+    public static class LevelColors
+    {
+        public const string Level1 = "#C2272D";
+        public const string Level2 = "#F16C0D";
+        public const string Level3 = "#FFC107";
+        public const string Level4 = "#4CB443";
+        public const string Level5 = "#008AE0";
+        public const string Level6 = "#8715BC";
+    }
+
+    public void OnCreated()
+    {
+        FitOptions options = new FitOptions() { Mode = FitMode.Both, Region = DiagramRegion.Content };
+        Diagram!.FitToPage(options);
+    }
+
+    protected override void OnInitialized()
+    {
+        InitializeDiagram();
+    }
+
+
+    public void InitializeDiagram()
+    {
+        // Title Node
+        Node title = new Node()
+        {
+            ID = "title",
+            OffsetX = 150,
+            OffsetY = -40,
+            Width = 250,
+            Height = 50,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>()
+            {
+                new ShapeAnnotation() {
+                    Content = "Marketing Funnel",
+                    Offset = new DiagramPoint() { X = 0.5, Y = 0.2 },
+                    Style = new TextStyle() { Color = "#111827", FontSize = 24, FontFamily = "Segoe UI" }
+                },
+                new ShapeAnnotation() {
+                    Content = "Measuring Campaign Effectiveness",
+                    Offset = new DiagramPoint() { X = 0.5, Y = 0.7 },
+                    Style = new TextStyle() { Color = "#6B7280", FontSize = 16, FontFamily = "Segoe UI" }
+                }
+            },
+            Constraints = NodeConstraints.None,
+            Style = new ShapeStyle() { StrokeColor = "transparent" }
+        };
+        Nodes!.Add(title);
+
+        // Awareness (Level 1)
+        Node awareness = new Node()
+        {
+            ID = "awareness",
+            OffsetX = 150,
+            OffsetY = 100,
+            Width = 560,
+            Height = 80,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() {
+            new ShapeAnnotation() { Content = "10,000", Style = new TextStyle() { Color = "#FFFFFF", FontSize = 18, FontFamily = "Segoe UI", Bold = true } }
+        },
+            Shape = new PathShape() { Data = "M560 0H0L56.7194 80H503.281L560 0Z" },
+            Style = new ShapeStyle() { Fill = LevelColors.Level1, StrokeColor = "transparent" },
+            Constraints = NodeConstraints.PointerEvents | NodeConstraints.Tooltip | NodeConstraints.ReadOnly,
+            Tooltip = new DiagramTooltip() { Position = Position.TopCenter },
+            AdditionalInfo = new Dictionary<string, object>() { { "iconClass", "sf-icon-ads-exposure" }, { "iconFill", LevelColors.Level1 }, { "description", "Ad Exposure" }, { "cumulativeRate", 100 }, { "conversionRate", null! }, },
+            Ports = new DiagramObjectCollection<PointPort>() { new PointPort() { ID = "port", Offset = new DiagramPoint() { X = 0.9, Y = 0.8 } } }
+        };
+        Nodes.Add(awareness);
+
+        // Interest (Level 2)
+        Node interest = new Node()
+        {
+            ID = "interest",
+            OffsetX = 150,
+            OffsetY = 180,
+            Width = 446,
+            Height = 80,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() {
+            new ShapeAnnotation() { Content = "6,500", Style = new TextStyle() { Color = "#FFFFFF", FontSize = 18, FontFamily = "Segoe UI", Bold = true } }
+        },
+            Shape = new PathShape() { Data = "M503 80H57L113.648 160H446.352L503 80Z" },
+            Style = new ShapeStyle() { Fill = LevelColors.Level2, StrokeColor = "transparent" },
+            Constraints = NodeConstraints.PointerEvents | NodeConstraints.Tooltip | NodeConstraints.ReadOnly,
+            Tooltip = new DiagramTooltip() { Position = Position.TopCenter },
+            AdditionalInfo = new Dictionary<string, object>() { { "iconClass", "sf-icon-page-visits" }, { "iconFill", LevelColors.Level2 }, { "description", "Page Visits" }, { "cumulativeRate", 65 }, { "conversionRate", 65.00 } },
+            Ports = new DiagramObjectCollection<PointPort>() { new PointPort() { ID = "port", Offset = new DiagramPoint() { X = 0.89, Y = 0.8 } } }
+        };
+        Nodes.Add(interest);
+
+        // Consideration (Level 3)
+        Node consideration = new Node()
+        {
+            ID = "consideration",
+            OffsetX = 150,
+            OffsetY = 260,
+            Width = 334,
+            Height = 80,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() {
+            new ShapeAnnotation() { Content = "3,800", Style = new TextStyle() { Color = "#FFFFFF", FontSize = 18, FontFamily = "Segoe UI", Bold = true } }
+        },
+            Shape = new PathShape() { Data = "M447 160H113L169.869 240H390.131L447 160Z" },
+            Style = new ShapeStyle() { Fill = LevelColors.Level3, StrokeColor = "transparent" },
+            Constraints = NodeConstraints.PointerEvents | NodeConstraints.Tooltip | NodeConstraints.ReadOnly,
+            Tooltip = new DiagramTooltip() { Position = Position.TopCenter },
+            AdditionalInfo = new Dictionary<string, object>() { { "iconClass", "sf-icon-sign-up" }, { "iconFill", LevelColors.Level3 }, { "description", "Sign Ups" }, { "cumulativeRate", 38 }, { "conversionRate", 58.46 } },
+            Ports = new DiagramObjectCollection<PointPort>() { new PointPort() { ID = "port", Offset = new DiagramPoint() { X = 0.85, Y = 0.8 } } }
+        };
+        Nodes.Add(consideration);
+
+        // Intent (Level 4)
+        Node intent = new Node()
+        {
+            ID = "intent",
+            OffsetX = 150,
+            OffsetY = 340,
+            Width = 220,
+            Height = 80,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() {
+            new ShapeAnnotation() { Content = "2,000", Style = new TextStyle() { Color = "#FFFFFF", FontSize = 18, FontFamily = "Segoe UI", Bold = true } }
+        },
+            Shape = new PathShape() { Data = "M170 240L226.801 320H333.199L390 240H170Z" },
+            Style = new ShapeStyle() { Fill = LevelColors.Level4, StrokeColor = "transparent" },
+            Constraints = NodeConstraints.PointerEvents | NodeConstraints.Tooltip | NodeConstraints.ReadOnly,
+            Tooltip = new DiagramTooltip() { Position = Position.TopCenter },
+            AdditionalInfo = new Dictionary<string, object>() { { "iconClass", "sf-icon-demo-request" }, { "iconFill", LevelColors.Level4 }, { "description", "Demo Requests" }, { "cumulativeRate", 20 }, { "conversionRate", 52.63 }, },
+            Ports = new DiagramObjectCollection<PointPort>() { new PointPort() { ID = "port", Offset = new DiagramPoint() { X = 0.8, Y = 0.8 } } }
+        };
+        Nodes.Add(intent);
+
+        // Purchase (Level 5)
+        Node purchase = new Node()
+        {
+            ID = "purchase",
+            OffsetX = 150,
+            OffsetY = 420,
+            Width = 106,
+            Height = 80,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() {
+            new ShapeAnnotation() { Content = "1,200", Style = new TextStyle() { Color = "#FFFFFF", FontSize = 18, FontFamily = "Segoe UI", Bold = true } }
+        },
+            Shape = new PathShape() { Data = "M333 320H227V400H333V320Z" },
+            Style = new ShapeStyle() { Fill = LevelColors.Level5, StrokeColor = "transparent" },
+            Constraints = NodeConstraints.PointerEvents | NodeConstraints.Tooltip | NodeConstraints.ReadOnly,
+            Tooltip = new DiagramTooltip() { Position = Position.TopCenter },
+            AdditionalInfo = new Dictionary<string, object>() { { "iconClass", "sf-icon-orders" }, { "iconFill", LevelColors.Level5 }, { "description", "Orders" }, { "cumulativeRate", 12 }, { "conversionRate", 60.00 }, },
+            Ports = new DiagramObjectCollection<PointPort>() { new PointPort() { ID = "port", Offset = new DiagramPoint() { X = 0.9, Y = 0.8 } } }
+        };
+        Nodes.Add(purchase);
+
+        // Retention (Level 6)
+        Node retention = new Node()
+        {
+            ID = "retention",
+            OffsetX = 150,
+            OffsetY = 500,
+            Width = 106,
+            Height = 80,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() {
+            new ShapeAnnotation() { Content = "800", Style = new TextStyle() { Color = "#FFFFFF", FontSize = 18, FontFamily = "Segoe UI", Bold = true } }
+        },
+            Shape = new PathShape() { Data = "M227 480H333V400H227V480Z" },
+            Style = new ShapeStyle() { Fill = LevelColors.Level6, StrokeColor = "transparent" },
+            Constraints = NodeConstraints.PointerEvents | NodeConstraints.Tooltip | NodeConstraints.ReadOnly,
+            Tooltip = new DiagramTooltip() { Position = Position.TopCenter },
+            AdditionalInfo = new Dictionary<string, object>() { { "iconClass", "sf-icon-engagement" }, { "iconFill", LevelColors.Level6 }, { "description", "Subscribed Users" }, { "cumulativeRate", 8 }, { "conversionRate", 66.67 }, },
+            Ports = new DiagramObjectCollection<PointPort>() { new PointPort() { ID = "port", Offset = new DiagramPoint() { X = 0.9, Y = 0.8 } } }
+        };
+        Nodes.Add(retention);
+
+        // --- Label Nodes ---
+
+        Node awareness_label = new Node()
+        {
+            ID = "awarenesslabel",
+            OffsetX = 620,
+            OffsetY = 100,
+            Width = 60,
+            Height = 60,
+            Constraints = NodeConstraints.InConnect,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { new ShapeAnnotation() { Width = 60, Height = 60, UseTemplate = true, Content = "sf-icon-ads-exposure" }, GetStageLabel("Ad Exposure") },
+            Shape = new BasicShape() { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle() { Fill = LevelColors.Level1, StrokeColor = LevelColors.Level1 }
+        };
+        Nodes.Add(awareness_label);
+
+        Node interest_label = new Node()
+        {
+            ID = "interestlabel",
+            OffsetX = 620,
+            OffsetY = 180,
+            Width = 60,
+            Height = 60,
+            Constraints = NodeConstraints.InConnect,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { new ShapeAnnotation() { Width = 60, Height = 60, UseTemplate = true, Content = "sf-icon-page-visits" }, GetStageLabel("Page Visits") },
+            Shape = new BasicShape() { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle() { Fill = LevelColors.Level2, StrokeColor = LevelColors.Level2 }
+        };
+        Nodes.Add(interest_label);
+
+        Node consideration_label = new Node()
+        {
+            ID = "considerationlabel",
+            OffsetX = 620,
+            OffsetY = 260,
+            Width = 60,
+            Height = 60,
+            Constraints = NodeConstraints.InConnect,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { new ShapeAnnotation() { Width = 60, Height = 60, UseTemplate = true, Content = "sf-icon-sign-up" }, GetStageLabel("Sign Ups") },
+            Shape = new BasicShape() { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle() { Fill = LevelColors.Level3, StrokeColor = LevelColors.Level3 }
+        };
+        Nodes.Add(consideration_label);
+
+        Node intent_label = new Node()
+        {
+            ID = "intentlabel",
+            OffsetX = 620,
+            OffsetY = 340,
+            Width = 60,
+            Height = 60,
+            Constraints = NodeConstraints.InConnect,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { new ShapeAnnotation() { Width = 60, Height = 60, UseTemplate = true, Content = "sf-icon-demo-request" }, GetStageLabel("Demo Requests") },
+            Shape = new BasicShape() { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle() { Fill = LevelColors.Level4, StrokeColor = LevelColors.Level4 }
+        };
+        Nodes.Add(intent_label);
+
+        Node purchase_label = new Node()
+        {
+            ID = "purchaselabel",
+            OffsetX = 620,
+            OffsetY = 420,
+            Width = 60,
+            Height = 60,
+            Constraints = NodeConstraints.InConnect,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { new ShapeAnnotation() { Width = 60, Height = 60, UseTemplate = true, Content = "sf-icon-orders" }, GetStageLabel("Orders") },
+            Shape = new BasicShape() { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle() { Fill = LevelColors.Level5, StrokeColor = LevelColors.Level5 }
+        };
+        Nodes.Add(purchase_label);
+
+        Node retention_label = new Node()
+        {
+            ID = "retentionlabel",
+            OffsetX = 620,
+            OffsetY = 500,
+            Width = 60,
+            Height = 60,
+            Constraints = NodeConstraints.InConnect,
+            Annotations = new DiagramObjectCollection<ShapeAnnotation>() { new ShapeAnnotation() { Width = 60, Height = 60, UseTemplate = true, Content = "sf-icon-engagement" }, GetStageLabel("Subscribed Users") },
+            Shape = new BasicShape() { Shape = NodeBasicShapes.Ellipse },
+            Style = new ShapeStyle() { Fill = LevelColors.Level6, StrokeColor = LevelColors.Level6 }
+        };
+        Nodes.Add(retention_label);
+
+        // Connector for Awareness
+        Connector awarenessConnector = new Connector()
+        {
+            SourceID = "awareness",
+            SourcePortID = "port",
+            TargetID = "awarenesslabel",
+            TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None },
+            Style = new ShapeStyle() { StrokeColor = LevelColors.Level1 },
+            Constraints = ConnectorConstraints.None,
+            Segments = new DiagramObjectCollection<ConnectorSegment>()
+            {
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 430, Y = 124 } },
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 455, Y = 98 } }
+            }
+        };
+        Connectors!.Add(awarenessConnector);
+
+        // Connector for Interest
+        Connector interestConnector = new Connector()
+        {
+            SourceID = "interest",
+            SourcePortID = "port",
+            TargetID = "interestlabel",
+            TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None },
+            Style = new ShapeStyle() { StrokeColor = LevelColors.Level2 },
+            Constraints = ConnectorConstraints.None,
+            Segments = new DiagramObjectCollection<ConnectorSegment>()
+            {
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 430, Y = 204 } },
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 455, Y = 178 } }
+            }
+        };
+        Connectors.Add(interestConnector);
+
+        // Connector for Consideration
+        Connector considerationConnector = new Connector()
+        {
+            SourceID = "consideration",
+            SourcePortID = "port",
+            TargetID = "considerationlabel",
+            TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None },
+            Style = new ShapeStyle() { StrokeColor = LevelColors.Level3 },
+            Constraints = ConnectorConstraints.None,
+            Segments = new DiagramObjectCollection<ConnectorSegment>()
+            {
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 430, Y = 284 } },
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 455, Y = 258 } }
+            }
+        };
+        Connectors.Add(considerationConnector);
+
+        // Connector for Intent
+        Connector intentConnector = new Connector()
+        {
+            SourceID = "intent",
+            SourcePortID = "port",
+            TargetID = "intentlabel",
+            TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None },
+            Style = new ShapeStyle() { StrokeColor = LevelColors.Level4 },
+            Constraints = ConnectorConstraints.None,
+            Segments = new DiagramObjectCollection<ConnectorSegment>()
+            {
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 430, Y = 364 } },
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 455, Y = 338 } }
+            }
+        };
+        Connectors.Add(intentConnector);
+
+        // Connector for Purchase
+        Connector purchaseConnector = new Connector()
+        {
+            SourceID = "purchase",
+            SourcePortID = "port",
+            TargetID = "purchaselabel",
+            TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None },
+            Style = new ShapeStyle() { StrokeColor = LevelColors.Level5 },
+            Constraints = ConnectorConstraints.None,
+            Segments = new DiagramObjectCollection<ConnectorSegment>()
+            {
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 430, Y = 444 } },
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 455, Y = 418 } }
+            }
+        };
+        Connectors.Add(purchaseConnector);
+
+        // Connector for Retention
+        Connector retentionConnector = new Connector()
+        {
+            SourceID = "retention",
+            SourcePortID = "port",
+            TargetID = "retentionlabel",
+            TargetDecorator = new DecoratorSettings() { Shape = DecoratorShape.None },
+            Style = new ShapeStyle() { StrokeColor = LevelColors.Level6 },
+            Constraints = ConnectorConstraints.None,
+            Segments = new DiagramObjectCollection<ConnectorSegment>()
+            {
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 430, Y = 524 } },
+                new StraightSegment() { Type = ConnectorSegmentType.Straight, Point = new DiagramPoint() { X = 455, Y = 498 } }
+            }
+        };
+        Connectors.Add(retentionConnector);
+    }
+
+    // Helper method to create a stage label annotation.
+    public ShapeAnnotation GetStageLabel(string content)
+    {
+        return new ShapeAnnotation()
+        {
+            Content = content,
+            Style = new TextStyle() { FontSize = 16, TextWrapping = TextWrap.NoWrap, FontFamily = "Segoe UI" },
+            Offset = new DiagramPoint() { X = -0.1, Y = 0.5 },
+            HorizontalAlignment = HorizontalAlignment.Right,
+            VerticalAlignment = VerticalAlignment.Bottom
+        };
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (Nodes != null)
+        {
+            Nodes.Clear();
+            Nodes = null;
+        }
+        if (Connectors != null)
+        {
+            Connectors.Clear();
+            Connectors = null;
+        }
+    }
+    @*End:Hidden*@
+}

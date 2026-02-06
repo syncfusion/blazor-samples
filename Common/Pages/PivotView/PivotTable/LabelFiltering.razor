@@ -1,0 +1,255 @@
+@page "/pivot-table/label-filtering"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates filtering row and column headers based on their text values with various conditional operators.</p>
+    
+    <p>Label filtering implementation:</p>
+    
+    <ul>
+        <li>Select any field from <b>Fields</b> dropdown</li>
+        <li>Choose filtering condition from <b>Conditions</b> dropdown (equals, begins with, ends with, contains)</li>
+        <li>Enter values in <b>Value1</b> and <b>Value2</b> text boxes</li>
+        <li>Apply filter to view field headers matching criteria</li>
+    </ul>
+    
+    <p>Label filtering configuration in code-behind:</p>
+    
+    <ul>
+        <li>Set <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotViewDataSourceSettings_1_AllowLabelFilter" aria-label="Class reference of AllowLabelFilter property in PivotView">AllowLabelFilter</a> to <b>true</b></li>
+        <li>Use <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewFilterSetting.html" aria-label="Class reference of PivotViewFilterSetting">PivotViewFilterSetting</a> with Name, Type (Label), Condition, Value1, and Value2 properties</li>
+    </ul>
+    
+    <p>For UI-based filtering, refer to Field List sample. For comprehensive documentation, see the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/filtering/#label-filtering" aria-label="Blazor PivotTable Filtering documentation">label filtering documentation</a>.</p>
+</ActionDescription>
+
+
+ <div class="col-lg-8 control-section sb-property-border">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="_pivotRef" Height="400" Width="100%" ShowGroupingBar=false EnableValueSorting=true ShowTooltip=false>
+            <PivotViewDataSourceSettings DataSource="@PivotViewDataSource" ExpandAll=false EnableSorting=true AllowLabelFilter=true AllowMemberFilter=false >
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Country"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="Product_Categories" Caption="Product Categories"></PivotViewFilter>
+                </PivotViewFilters>               
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>            
+        </SfPivotView>
+    </div>
+</div>
+  <div class="col-lg-4 property-section pivottable-property-section">
+        <div class="property-panel-section">
+        <div class="property-panel-header" style="padding-bottom:0px; font-size:16px">Properties</div>
+        <div class="property-panel-content">
+            <table id="property" style="width: 100%;height:100%;" class="property-panel-table">
+                <tbody>                    
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Fields:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                                <SfDropDownList TValue="string" Placeholder="Country" TItem="string" @bind-Value="_selectedField" DataSource="@_dropDownData" >
+                                    <DropDownListEvents TValue="string" TItem="string" ValueChange="ChangeField"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                      <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Condition:
+                            </div>
+                        </td>
+                        <td>
+                            <div>
+                              <SfDropDownList TValue="Operators" Placeholder="Equals" TItem="OperatorData" @bind-Value="_selectedCondition" DataSource="@ConditionalData" >
+                                    <DropDownListFieldSettings Value="Name" Text="Id"></DropDownListFieldSettings>
+                                    <DropDownListEvents TValue="Operators" TItem="OperatorData" ValueChange="ChangeCondition"></DropDownListEvents>
+                                </SfDropDownList>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Value 1:
+                            </div>
+                        </td>
+                        <td>                        
+                           <div class="textcls">
+                                <SfTextBox @bind-Value="@_value1" Input="@InputHandler1"  Placeholder="Example: France">                                   
+                                </SfTextBox>                                
+                           </div>
+                        </td>
+                    </tr>
+                    @if(_showCondition)
+                    {
+                         <tr style="height: 50px">
+                        <td style="padding-right: 10px;">
+                            <div>
+                                Value 2:
+                            </div>
+                        </td>
+                        <td>                        
+                               <div class="textcls">
+                                    <SfTextBox  @bind-Value="@_value2" Input="@InputHandler2"  Placeholder="Example: United States"></SfTextBox>                                
+                            </div>
+                        </td>
+                    </tr>
+                    }
+                    <tr style="height: 50px">
+                        <td></td>
+                        <td>
+                            <div style="float:right">
+                                <SfButton IsPrimary="true" Disabled="@_disableButton"  OnClick="OnApply">Apply</SfButton>
+                                <SfButton IsPrimary="false"  OnClick="@OnClear" >Clear</SfButton>
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            </div>
+        </div>
+    </div>
+
+    <style>
+        .e-pivotview {
+            min-height: 200px;
+        }
+
+        .e-pivottable .e-static {
+            width: 80% !important;
+        }
+
+        .property-panel-table td {
+            width: auto;
+        }
+
+        .property-panel-table div {
+            padding-left: unset;
+        }
+    </style>
+
+@code{
+    private SfPivotView<PivotProductDetails>? _pivotRef;  
+    private List<PivotProductDetails>? PivotViewDataSource { get; set; }
+    private int _selectedIndex = 0;
+    private string _selectedField = "Country";
+    private Operators _selectedCondition = Operators.DoesNotEquals;   
+    private bool _showCondition = false;   
+    private bool _disableButton = true;
+    private string _value1 = string.Empty;
+    private string _value2 = string.Empty;    
+    @*Hidden:Lines*@
+#pragma warning disable BL0005
+    @*End:Hidden*@
+    private string[] _dropDownData = { "Country", "Products", "Year" };
+
+    private List<OperatorData> ConditionalData = new List<OperatorData>()
+    {
+        new OperatorData() { Id = "Equals", Name = Operators.Equals },
+        new OperatorData() { Id = "Not Equals", Name = Operators.DoesNotEquals },
+        new OperatorData() { Id = "Greater Than", Name = Operators.GreaterThan },
+        new OperatorData() { Id = "Greater Than Or Equal To", Name = Operators.GreaterThanOrEqualTo },
+        new OperatorData() { Id = "Less Than", Name = Operators.LessThan },
+        new OperatorData() { Id = "Less Than Or Equal To", Name = Operators.LessThanOrEqualTo },
+        new OperatorData() { Id = "Between", Name = Operators.Between },
+        new OperatorData() { Id = "Not Between", Name = Operators.NotBetween },
+        new OperatorData() { Id = "Contains", Name = Operators.Contains },
+        new OperatorData() { Id = "Does not Contain", Name = Operators.DoesNotContains },
+        new OperatorData() { Id = "Begin With", Name = Operators.BeginWith },
+        new OperatorData() { Id = "Does Not Begin With", Name = Operators.DoesNotBeginWith },
+        new OperatorData() { Id = "Ends With", Name = Operators.EndsWith },
+        new OperatorData() { Id = "Does Not Ends With", Name = Operators.DoesNotEndsWith }
+    };
+    public List<PivotViewFilterSetting> FilterSettings = new List<PivotViewFilterSetting>()
+    {
+        new PivotViewFilterSetting(){Name = "Country",Type = Syncfusion.Blazor.PivotView.FilterType.Label ,Condition = Operators.DoesNotEquals, Value1 = string.Empty , Value2 = string.Empty },
+        new PivotViewFilterSetting(){Name = "Products" , Type = Syncfusion.Blazor.PivotView.FilterType.Label, Condition = Operators.DoesNotEquals, Value1 = string.Empty , Value2 = string.Empty},
+        new PivotViewFilterSetting (){Name = "Year" ,Type = Syncfusion.Blazor.PivotView.FilterType.Label, Condition = Operators.DoesNotEquals, Value1 = string.Empty , Value2 = string.Empty }
+    };
+    protected override void OnInitialized()
+    {
+        PivotViewDataSource = PivotProductDetails.GetProductData();
+    }
+    private void ChangeField(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {        
+        _selectedIndex = args.Value == "Products" ? 1 : args.Value == "Year" ? 2 : 0;
+        FilterSettings[_selectedIndex].Condition = _selectedCondition;
+        _value1 = FilterSettings[_selectedIndex].Value1;
+        _value2 = FilterSettings[_selectedIndex].Value2;       
+    }
+    private void ChangeCondition(Syncfusion.Blazor.DropDowns.ChangeEventArgs<Operators, OperatorData> args)
+    {
+        _showCondition = args.Value == Operators.Between || args.Value == Operators.NotBetween ? true : false;
+        FilterSettings[_selectedIndex].Condition = _selectedCondition;
+    }
+    private void InputHandler1(InputEventArgs args)
+    {
+        _disableButton = string.IsNullOrEmpty(args.Value) ? true : _showCondition ? string.IsNullOrEmpty(_value2) : false;
+        FilterSettings[_selectedIndex].Value1 = args.Value;
+    }
+    private void InputHandler2(InputEventArgs args)
+    {        
+        _disableButton = string.IsNullOrEmpty(args.Value) ? true : string.IsNullOrEmpty(_value1);
+        FilterSettings[_selectedIndex].Value2 = args.Value;
+    }
+    private void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {   
+        if(_pivotRef != null)
+        {
+            _pivotRef.DataSourceSettings.FilterSettings = FilterSettings;        
+        }
+    }
+    private void OnClear(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {        
+        foreach(PivotViewFilterSetting Filter in FilterSettings)
+        {            
+            Filter.Value1 =  Filter.Value2 = string.Empty;           
+        }
+        _value1 = _value2 = string.Empty;
+        if(_pivotRef != null)
+        {
+            _pivotRef.DataSourceSettings.FilterSettings = new List<PivotViewFilterSetting>();
+        }
+    }
+@*Hidden:Lines*@
+#pragma warning restore BL0005
+
+    public class DataID
+    {
+        public string ID { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+    }
+@*End:Hidden*@
+    public class OperatorData
+    {
+        public string Id { get; set; } = string.Empty;
+        public Operators Name { get; set; }
+    }
+}

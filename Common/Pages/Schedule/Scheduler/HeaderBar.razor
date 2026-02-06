@@ -1,0 +1,259 @@
+@page "/scheduler/header-bar"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@using System.Globalization
+@inject NavigationManager UriHelper
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This demo shows how to add a custom toolbar item to the Scheduler header bar. Here, an employee image is added to the header bar. Clicking on it opens a popup showing the employee's short profile information.
+  </p>
+  <p>
+    The Scheduler toolbar supports both built-in and custom items by placing the appropriate tags inside the <code>ScheduleToolBar</code> component. In this demo, a custom toolbar item is added using the <code>ScheduleToolBarCustom</code> tag to display an employee image. A popup has been designed separately with employee profile info and is initially hidden. It is displayed dynamically when the employee image is clicked.
+  </p>
+  <p>
+    <strong>The following toolbar items can be added inside the <code>ScheduleToolBar</code> component:</strong>
+  </p>
+  <ul>
+    <li><span class="key-class"><kbd>ScheduleToolBarPrevious</kbd></span> - Navigates to the previous date range.</li>
+    <li><span class="key-class"><kbd>ScheduleToolBarNext</kbd></span> - Navigates to the next date range.</li>
+    <li><span class="key-class"><kbd>ScheduleToolBarDateRange</kbd></span> - Shows the current visible date range.</li>
+    <li><span class="key-class"><kbd>ScheduleToolBarToday</kbd></span> - Navigates to today's date.</li>
+    <li><span class="key-class"><kbd>ScheduleToolBarViews</kbd></span> - Renders buttons for each configured Scheduler view.</li>
+    <li>
+            <span class="key-class"><kbd>ScheduleToolBarCustom</kbd></span>
+            <span> - Adds a toolbar item with template content. It supports the following types through the <code>Type</code> property:</span>
+            <ul>
+                <li>
+                    <code>ItemType.Button</code> - The item is treated as a button element (this is the default when the type is not specified).
+                </li>
+                <li>
+                    <code>ItemType.Input</code> - The item is treated as an input element.
+                </li>
+                <li>
+                    <code>ItemType.Separator</code> - Renders a separator line between toolbar items.
+                </li>
+                <li>
+                    <code>ItemType.Spacer</code> - Creates flexible space between toolbar items.
+                </li>
+            </ul>
+        </li>
+  </ul>
+  <p>
+    The Scheduler header bar is made dynamically visible/hidden by setting <code>true</code>/<code>false</code> to the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Schedule.SfSchedule-1.html#Syncfusion_Blazor_Schedule_SfSchedule_1_ShowHeaderBar">ShowHeaderBar</a> property.
+  </p>
+</ActionDescription>
+
+
+
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        <SfSchedule TValue="ScheduleData.AppointmentData" Height="650px" ShowHeaderBar="@ShowHeader" @bind-SelectedDate="@CurrentDate">
+            <ScheduleToolBar>
+                <ScheduleToolBarPrevious />
+                <ScheduleToolBarNext />
+                <ScheduleToolBarDateRange />
+                <ScheduleToolBarCustom Type="ItemType.Spacer" />
+                <ScheduleToolBarToday />
+                <ScheduleToolBarCustom>
+                    <div class="image" @onclick="@ImageClick"><img src="@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/nancy.png")" alt="nancy" /></div>
+                </ScheduleToolBarCustom>
+            </ScheduleToolBar>
+            <ScheduleViews>
+                <ScheduleView Option="View.Month"></ScheduleView>
+            </ScheduleViews>
+            <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="@EventRendered"></ScheduleEvents>
+            <ScheduleEventSettings DataSource="@EventDataSource"></ScheduleEventSettings>
+        </SfSchedule>
+
+        <SfDialog Width="185px" Height="80px" Target=".e-schedule-toolbar" CssClass="profile-popup" Visible="@ShowProfilePopup">
+            <DialogPositionData X="right" Y="bottom"></DialogPositionData>
+            <DialogTemplates>
+                <Content>
+                    <div class="profile-wrapper">
+                        <div class="profile-container">
+                            <span class="profile-image"></span>
+                            <div class="content-wrap">
+                                <div class="name">Nancy</div>
+                                <div class="destination">Product Manager</div>
+                                <div class="status"><span class="status-icon"></span>Online</div>
+                            </div>
+                        </div>
+                    </div>
+                </Content>
+            </DialogTemplates>
+        </SfDialog>
+        
+    </div>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-header">Properties</div>
+    <div class="property-panel-content">
+        <table id='property' class='property-panel-table' style="width: 100%;">
+            <tbody>
+                <tr style="height: 50%">
+                    <td style="width: 100%">
+                        <SfCheckBox TChecked="bool" @bind-Checked="@IsChecked" @onchange="@ShowToolbar" Label="Show/Hide Header bar"></SfCheckBox>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+@code {
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 16);
+    private bool ShowHeader { get; set; } = true;
+    private bool IsChecked { get; set; } = true;
+    private bool ShowProfilePopup { get; set; } = false;
+    private List<ScheduleData.AppointmentData> EventDataSource = new ScheduleData().GetEmployeeEventData();
+
+    public void ShowToolbar()
+    {
+        ShowHeader = IsChecked;
+        ShowProfilePopup = false;
+    }
+    public void EventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        if (args.Data.CategoryColor != null)
+        {
+            args.Attributes = new Dictionary<string, object>() { { "style", $"background-color:{args.Data.CategoryColor}" } };
+        }
+    }
+    public void ImageClick()
+    {
+        ShowProfilePopup = !ShowProfilePopup;
+    }
+}
+<style>
+    .image img {
+        width: 25px;
+    }
+
+    .profile-wrapper {
+        width: 185px;
+        height: 80px;
+        background-color: #fafafa;
+        box-shadow: inset 0 0 5px rgba(0, 0, 0, 0.2);
+        overflow: hidden;
+        position: absolute;
+        z-index: 100;
+        top: 0px;
+        right: 0px;
+    }
+
+        .profile-wrapper .profile-container {
+            display: flex;
+            padding: 10px;
+        }
+
+        .profile-wrapper .profile-image {
+            background-image: url('@UriHelper.ToAbsoluteUri($"{SampleService.WebAssetsPath}images/scheduler/nancy.png")');
+            background-position: center center;
+            background-repeat: no-repeat;
+            background-size: cover;
+            border-radius: 50%;
+            box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0, 0, 0, 0.2);
+            width: 60px;
+            height: 60px;
+        }
+
+        .profile-wrapper .content-wrap {
+            padding-left: 10px;
+        }
+
+        .profile-wrapper .name {
+            font-size: 14px;
+            line-height: 20px;
+            font-weight: 500;
+            margin-top: 2px;
+        }
+
+        .profile-wrapper .destination {
+            font-size: 12px;
+        }
+
+    .tailwind .profile-wrapper .destination,
+    .tailwind3 .profile-wrapper .destination,
+    .tailwind-dark .profile-wrapper .destination,
+    .tailwind3-dark .profile-wrapper .destination {
+        font-size: 11px;
+    }
+
+    .profile-popup.e-dialog {
+        min-width: 175px;
+        min-height: 80px;
+        z-index: 1000 !important;
+    }
+
+    .profile-wrapper .status-icon {
+        height: 6px;
+        width: 6px;
+        background: green;
+        border-radius: 100%;
+        float: left;
+        margin-right: 4px;
+        margin-top: 4px;
+    }
+
+    .profile-wrapper .status {
+        font-size: 11px;
+    }
+
+    .key-class {
+        display: inline-block;
+        width: 240px;
+    }
+
+    .highcontrast .profile-wrapper {
+        border: 1px solid #969696
+    }
+
+        .highcontrast .profile-wrapper .profile-container {
+            background-color: #000;
+        }
+
+    .tailwind-dark .profile-wrapper,
+    .tailwind3-dark .profile-wrapper {
+        background-color: #374151;
+        border: 0.5px solid #4b5563;
+    }
+
+    .bootstrap5-dark .profile-wrapper,
+    .bootstrap5\.3-dark .profile-wrapper {
+        background-color: rgb(40, 45, 49);
+        border: 0.5px solid #4b5563;
+    }
+
+    .bootstrap-dark .profile-wrapper {
+        background-color: #1a1a1a;
+    }
+
+    .fluent-dark .profile-wrapper {
+        background-color: #201f1e;
+    }
+
+    .fabric-dark .profile-wrapper {
+        background-color: #333232;
+    }
+
+    .material3-dark .profile-wrapper {
+        border: 0.5px solid #444746;
+        background-color: #302c38;
+    }
+
+    .fluent2-dark .profile-wrapper {
+        border: 0.5px solid #525252;
+        background-color: #1F1F1F;
+    }
+
+    .fluent2-highcontrast .profile-wrapper {
+        border: 0.5px solid #FFFFFF;
+        background-color: #000000;
+    }
+</style>

@@ -1,0 +1,83 @@
+@page "/TimePicker/MaskSupport"
+
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.DropDowns
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+<p>
+    This sample demonstrates the time masking functionality in the TimePicker component. It allows users to enter valid values for each mask pattern of the time masking.
+  </p>
+  <p>
+    The TimePicker has an <strong>EnableMask</strong> property that enables time masking support. The mask pattern is defined based on the provided time format to the component. If the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.DatePickerModel.html#Syncfusion_Blazor_Calendars_DatePickerModel_Format" target="_blank" rel="noopener" aria-label="Class reference of Format property in TimePicker">Format</a> is not specified, the mask pattern is formed based on the default format of the current culture.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12">
+    <div class="col-lg-8 control-section sb-property-border">
+        <div class="control-wrapper">
+            <label class="example-label">Select a Time</label>
+            <SfTimePicker TValue="DateTime?" @bind-Value="@DateValue" EnableMask=true Format="@FormatString" StrictMode=true ShowClearButton="true" FullScreen="true">
+                <TimePickerMaskPlaceholder Hour="hour" Minute="minute" Second="second"></TimePickerMaskPlaceholder>
+            </SfTimePicker>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class='property-panel-section'>
+            <div class="property-panel-header">Properties</div>
+            <div class="property-panel-content">
+                <label class="example-label">Choose a format</label>
+                <SfDropDownList TItem="DateFormat" TValue="string" PopupHeight="230px" @bind-Index="@Index" DataSource="@Formats">
+                    <DropDownListEvents TItem="DateFormat" TValue="string" ValueChange="OnChange"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Text" Value="Id"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+    
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .property-panel-content {
+        padding: 0px 0px 15px 0px;
+    }
+
+    .property-panel-content:last-child {
+        padding: 0px 0px 40px 0px;
+    }
+</style>
+
+@code {
+    private int? Index { get; set; } = 0;
+    public DateTime? DateValue { get; set; } = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 10);
+    
+    public class DateFormat
+    {
+        public string? Id { get; set; }
+        public string? Text { get; set; }
+    }
+    public string? FormatString { get; set; } = "T";
+
+    private List<DateFormat> Formats = new List<DateFormat>()
+    {
+        new DateFormat() { Id = "T", Text = "Long Time" },
+        new DateFormat() { Id = "t", Text = "Short Time" }
+    };
+    public void OnChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DateFormat> args)
+    {
+        this.FormatString = args.ItemData?.Id;
+    }
+}

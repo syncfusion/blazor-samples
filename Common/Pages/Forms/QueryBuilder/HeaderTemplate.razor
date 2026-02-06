@@ -1,0 +1,139 @@
+@page "/query-builder/header-template"
+
+@using Syncfusion.Blazor.QueryBuilder
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the Header Template functionality in the QueryBuilder component using DropDownList and Button components. In this sample, users can change the condition using the DropDownList component and add rules, groups, or delete groups using the Button component.</p>
+    
+    <p>This sample illustrates how to integrate the <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.QueryBuilder.QueryBuilderTemplates.html#Syncfusion_Blazor_QueryBuilder_QueryBuilderTemplates_HeaderTemplate" aria-label="HeaderTemplate">HeaderTemplate</a> in the QueryBuilder. This feature is used to create a custom user interface for the header with custom components and update the rule collection using the component's events. You can specify it using the HeaderTemplate directive. Inside the template, data can be accessed using the implicit named parameter <b>Context</b>.</p>
+    
+    <p>More information about the Blazor QueryBuilder Header Template can be found in this <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/query-builder/templates/#header-template" aria-label="documentation section">documentation</a> section.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfQueryBuilder TValue="Employee" @ref="QueryBuilderComponent">
+        <QueryBuilderRule Condition="and" Rules="@rules"></QueryBuilderRule>
+        <QueryBuilderTemplates>
+            <HeaderTemplate>
+                @{
+                    string condition = (string)context.Condition;
+                }
+                <SfDropDownList ID="@context.ID" @bind-Value="condition" TValue="string" TItem="Condition" CssClass="e-outline" Width="100px" DataSource="@ConditionsList">
+                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                    <DropDownListEvents TValue="string" TItem="Condition" ValueChange="e => OnConditionChange(e, context)"></DropDownListEvents>
+                </SfDropDownList>
+                <div class="e-header">
+                    <div class="e-qb-hdr-content">
+                        <SfButton Content="Add Group" CssClass="e-custom-button" @onclick="e => AddGroup(e, context)"></SfButton>
+                    </div>
+                    <div class="e-qb-hdr-content">
+                        <SfButton Content="Add Condition" CssClass="e-custom-button" @onclick="e => AddCondition(e, context)"></SfButton>
+                    </div>
+                    @if (context.ID.Split("_")[1].IndexOf("0") < 0)
+                    {
+                        <div class="e-qb-hdr-content">
+                            <SfButton Content="Delete Group" CssClass="e-custom-button e-danger" @onclick="e => DeleteGroup(e, context)"></SfButton>
+                        </div>
+                    }
+                </div>
+            </HeaderTemplate>
+        </QueryBuilderTemplates>
+        <QueryBuilderColumns>
+            <QueryBuilderColumn Field="EmployeeId" Label="Employee ID" Type="ColumnType.Number"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="FirstName" Label="First Name" Type="ColumnType.String"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="LastName" Label="Last Name" Type="ColumnType.String"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="HireDate" Label="Hire Date" Type="ColumnType.Date"></QueryBuilderColumn>
+            <QueryBuilderColumn Field="Country" Label="Country" Type="ColumnType.String"></QueryBuilderColumn>
+        </QueryBuilderColumns>
+    </SfQueryBuilder>
+</div>
+
+@code
+{
+    SfQueryBuilder<Employee> QueryBuilderComponent { get; set; }
+    private string groupID;
+    const string AndCondition = "and";
+    const string OrCondition = "or";
+
+    public class Employee
+    {
+        public int EmployeeId { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
+        public DateTime HireDate { get; set; }
+        public string Country { get; set; }
+    }
+    public class Condition
+    {
+        public string Text { get; set; }
+        public string Value { get; set; }
+    }
+
+    private List<RuleModel> rules = new List<RuleModel>()
+    {
+        new RuleModel { Label="First Name", Field="FirstName", Type="String", Operator="equal", Value="Nancy" },
+        new RuleModel { Label="Country", Field="Country", Type="String", Operator="equal", Value="USA" }
+    };
+
+    public List<Condition> ConditionsList = new List<Condition>() {
+        new Condition(){ Text = "AND", Value = AndCondition },
+        new Condition(){ Text = "OR", Value = OrCondition }
+    };
+
+    public void OnConditionChange(ChangeEventArgs<string, Condition> args, HeaderTemplateModel model)
+    {
+        if (args.IsInteracted)
+        {
+            model.Condition = args.Value.ToLower();
+        }
+    }
+    private void AddGroup(MouseEventArgs args, HeaderTemplateModel model)
+    {
+        groupID = model.ID.Split("_")[1];
+        QueryBuilderComponent.AddGroup(new RuleModel { Condition = "or", Rules = new List<RuleModel>() { new RuleModel() } }, groupID);
+    }
+    private void AddCondition(MouseEventArgs args, HeaderTemplateModel model)
+    {
+        groupID = model.ID.Split("_")[1];
+        QueryBuilderComponent.AddRule(new RuleModel(), groupID);
+    }
+    private void DeleteGroup(MouseEventArgs args, HeaderTemplateModel model)
+    {
+        groupID = model.ID.Split("_")[1];
+        QueryBuilderComponent.DeleteGroup(groupID);
+    }
+}
+
+<style>
+    .e-custom-button {
+        font-size: 13px;
+    }
+
+    .e-header {
+        display: inline-block;
+        float: right;
+    }
+
+    .e-qb-hdr-content {
+        display: inline-block;
+        padding: 0 0 0 12px;
+    }
+
+    @@media only screen and (max-width: 700px) {
+        .e-query-builder .e-header {
+            float: none;
+        }
+        .e-query-builder .e-qb-hdr-content {
+            padding-left: 0px !important;
+            padding-right: 10px !important;
+            padding-top: 10px !important;
+        }
+    }
+</style>

@@ -1,0 +1,223 @@
+@page "/datagrid/tooltip"
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_ordersdetails
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the DataGrid tooltip feature for displaying contextual information on cell hover.</p>
+  
+  <p>The Blazor DataGrid supports tooltips for both header and content cells through the <code>ShowTooltip</code> property. When enabled, tooltips appear on hover, providing additional context and improving user experience with relevant information.</p>
+  
+  <p>Customize tooltip content using the <code>TooltipTemplate</code> wrapped within the <code>GridTemplates</code> component. This allows you to create rich, visually enhanced tooltips with custom layouts including images, icons, and additional information.</p>
+  
+  <p>The <code>TooltipTemplateContext</code> provides access to the following properties for building dynamic tooltips:</p>
+  <ul>
+    <li><strong>Value</strong> - The content of the hovered cell (column name for headers, cell value for content)</li>
+    <li><strong>RowIndex</strong> - The row number of the hovered cell (returns -1 for header cells)</li>
+    <li><strong>ColumnIndex</strong> - The column number of the hovered cell</li>
+    <li><strong>Data</strong> - The complete row data object (not available for header cells)</li>
+    <li><strong>Column</strong> - Column details including field name, header text, and formatting information</li>
+  </ul>
+  
+  <p>In this demo, the tooltip template displays employee information with photographs, icons, and contextual details, demonstrating how to create professional and informative tooltips.</p>
+  
+  <p>Hover over grid cells to see the custom tooltip content in action.</p>
+</ActionDescription>
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData" Height="400" ShowTooltip="true">
+                <GridTemplates>
+                    <TooltipTemplate>
+                        @{
+                            var tooltip = context as TooltipTemplateContext;
+                            var order = tooltip?.Data as OrdersDetails;
+                            if (tooltip?.RowIndex == -1)
+                            {
+                                if (tooltip.Value == "Order ID")
+                                {
+                                    <span><strong>@tooltip.Value: </strong>Unique number used to identify each customer order.</span>
+                                }
+                                else if (tooltip.Value == "Customer ID")
+                                {
+                                    <div>
+                                        <span class="e-userlogin e-employee" aria-label="User Login Icon"><strong>@tooltip.Value: </strong>Displays the name of the customer who placed the order.</span>
+                                    </div>
+                                }
+                                else if (tooltip.Value == "Freight")
+                                {
+                                    <span><strong>@tooltip.Value: </strong>Shipping cost for the order. It represents the amount charged for delivering the goods to the specified location.</span>
+                                }
+                                else if (tooltip.Value == "Ship Name")
+                                {
+                                    <span><strong>@tooltip.Value: </strong>Indicates the name of the vessel or shipping service used for delivering the order.</span>
+                                }
+                                else
+                                {
+                                    <span><strong>@tooltip.Value: </strong>Name of the city where the order is delivered.</span>
+                                }
+                            }
+
+                            else
+                            {
+                                var fieldName = tooltip?.Column?.Field;
+                                <div style="font-family: Arial; line-height: 1.6;">
+                                    @switch (fieldName)
+                                    {
+                                        case nameof(order.OrderID):
+                                            <p style="margin: 4px 0;">
+                                                <strong>Status: </strong>
+                                                @order.Status
+                                            </p>
+                                            <p style="margin: 2px 0;">@((MarkupString)GetStatusMessage(order.Status, order.OrderDate))</p>
+                                            break;
+
+                                        case nameof(OrdersDetails.CustomerID):
+                                            <div>
+                                                <img class="photo" src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/{order.EmployeeID}.png")" alt="@order?.EmployeeID" />
+                                                <strong>Email: </strong> @order.Email
+                                            </div>
+                                            break;
+
+                                        case nameof(OrdersDetails.Freight):
+                                            <p style="margin: 4px 0;">
+                                                <strong>Delivery Type: </strong>
+                                                @GetDeliveryType(order.Freight)
+                                            </p>
+                                            <p style="margin: 4px 0;">
+                                                <strong>Expected Delivery: </strong>@order.DeliveryDays
+                                            </p>
+                                            break;
+
+                                        case nameof(OrdersDetails.ShipCity):
+                                            <strong>Country: </strong> @order.ShipCountry
+                                            break;
+
+                                        case nameof(OrdersDetails.ShipName):
+                                            <strong>Shipment Type: </strong> @order.ShipmentType
+                                            break;
+
+                                        default:
+                                            <strong>@tooltip?.Column?.Field: </strong> @tooltip.Value
+                                            break;
+                                    }
+                                </div>
+                            }
+                        }
+                    </TooltipTemplate>
+                </GridTemplates>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" Width="120" TextAlign="TextAlign.Right" EditType="EditType.NumericEdit"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipName) HeaderText="Ship Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.ShipCity) HeaderText="Ship City" Width="150"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    public List<OrdersDetails> GridData { get; set; }
+
+    protected override void OnInitialized()
+    {
+        GridData = new List<OrdersDetails>
+        {
+            new OrdersDetails { OrderID = 1001, CustomerID = "Nancy",EmployeeID=1, Freight = 80, ProductName = "Laptop", OrderDate = DateTime.Now.AddDays(-1), ShipCity = "Reims", ShipCountry = "France", Status = "Delivered", Location = "France", ShipName = "Toms Spezialitäten", ShipmentType = "Sea Freight Shipping", Email = "nancy@example.com", DeliveryDays = "5-7 days" },
+            new OrdersDetails { OrderID = 1002, CustomerID = "Andrew",EmployeeID=2, Freight = 120, ProductName = "Smartphone", OrderDate = DateTime.Now.AddDays(3), ShipCity = "Munster", ShipCountry = "Germany", Status = "Pending", Location = "Germany", ShipName = "Hanari Carnes", ShipmentType = "Air Cargo Shipping", Email = "andrew@example.com" , DeliveryDays = "3-4 days"},
+            new OrdersDetails { OrderID = 1003, CustomerID = "Janet",EmployeeID=3, Freight = 180, ProductName = "Tablet", OrderDate = DateTime.Now.AddDays(-3), ShipCity = "Charleroi", ShipCountry = "Belgium", Status = "Cancelled", Location = "Belgium", ShipName = "Suprêmes délices", ShipmentType = "Cold Chain Shipping", Email = "janet@example.com" , DeliveryDays = "1-2 days"},
+            new OrdersDetails { OrderID = 1004, CustomerID = "Margaret",EmployeeID=4, Freight = 60, ProductName = "Monitor", OrderDate = DateTime.Now.AddDays(-4), ShipCity = "Lyon", ShipCountry = "France", Status = "Delivered", Location = "France", ShipName = "Toms Spezialitäten", ShipmentType = "Rail Frieght Shipping", Email = "margaret@example.com" , DeliveryDays = "5-7 days"},
+            new OrdersDetails { OrderID = 1005, CustomerID = "Steven",EmployeeID=5, Freight = 130, ProductName = "Keyboard", OrderDate = DateTime.Now.AddDays(4), ShipCity = "Delhi", ShipCountry = "India", Status = "Pending", Location = "India", ShipName = "Hanari Carnes", ShipmentType = "Air Cargo Shipping", Email = "steven@example.com" , DeliveryDays = "3-4 days"},
+            new OrdersDetails { OrderID = 1006, CustomerID = "Michael",EmployeeID=6, Freight = 220, ProductName = "Mouse", OrderDate = DateTime.Now.AddDays(-6), ShipCity = "Tokyo", ShipCountry = "Japan", Status = "Delivered", Location = "Japan", ShipName = "MV Vishva Malhar", ShipmentType = "Cold Chain Shipping", Email = "michael@example.com" , DeliveryDays = "1-2 days" },
+            new OrdersDetails { OrderID = 1007, CustomerID = "Robert",EmployeeID=7, Freight = 90, ProductName = "Printer", OrderDate = DateTime.Now.AddDays(-7), ShipCity = "Toronto", ShipCountry = "Canada", Status = "Cancelled", Location = "Canada", ShipName = "Toms Spezialitäten", ShipmentType = "Sea Freight Shipping", Email = "robert@example.com" , DeliveryDays = "5-7 days"},
+            new OrdersDetails { OrderID = 1008, CustomerID = "Laura",EmployeeID=8, Freight = 160, ProductName = "Camera", OrderDate = DateTime.Now.AddDays(1), ShipCity = "Sydney", ShipCountry = "Australia", Status = "Pending", Location = "Australia", ShipName = "Suprêmes délices", ShipmentType = "Cold Chain Shipping", Email = "laura@example.com", DeliveryDays = "1-2 days" },
+            new OrdersDetails { OrderID = 1009, CustomerID = "Anne",EmployeeID=9, Freight = 90, ProductName = "Laptop", OrderDate = DateTime.Now.AddDays(-9), ShipCity = "Reims", ShipCountry = "France", Status = "Delivered", Location = "France", ShipName = "CS Celeste", ShipmentType = "Rail Freight Shipping", Email = "anne@example.com" ,DeliveryDays = "5-7 days" },
+            };
+    }
+    private string GetStatusMessage(string status, DateTime? orderDate)
+    {
+        return status switch
+        {
+            "Cancelled" => "This item has been cancelled and will not be delivered.",
+            "Pending" => $"<strong>Expected Delivery Date: </strong> {orderDate?.ToShortDateString()}",
+            "Delivered" => $"<strong>Delivered Date: </strong> {orderDate?.ToShortDateString()}",
+            _ => "<strong>Status Unknown</strong>"
+        };
+    }
+    private string GetDeliveryType(double freight)
+    {
+        if (freight <= 100.00)
+            return "Standard Delivery";
+        else if (freight <= 150.00)
+            return "Express Delivery";
+        else
+            return "Premium Delivery";
+    }
+    public class OrdersDetails
+    {
+        public int? OrderID { get; set; }
+        public string? CustomerID { get; set; }
+        public int? EmployeeID { get; set; }
+        public DateTime? OrderDate { get; set; }
+        public double Freight { get; set; }
+        public string? ShipCity { get; set; }
+        public string? ShipCountry { get; set; }
+        public string? Status { get; set; }
+        public string? ShipName { get; set; }
+        public string? Location { get; set; }
+        public string? ProductName { get; set; }
+        public string? Email { get; set; }
+        public string? DeliveryType { get; set; }
+        public string? ShipmentType { get; set; }
+        public string? DeliveryDays { get; set; }
+    }
+}
+
+@*Hidden:Lines*@
+<style>
+    .photo {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+        box-shadow: 0 2px 6px rgba(0, 0, 0, 0.15);
+        border: 2px solid #f0f0f0;
+        margin-right: 8px;
+        vertical-align: middle;
+    }
+
+    @@font-face {
+        font-family: 'ej2-headertemplate';
+        src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+        font-weight: normal;
+        font-style: normal;
+    }
+
+    .e-userlogin::before {
+        font-family: 'ej2-headertemplate';
+        width: 15px !important;
+    }
+
+    .e-userlogin::before {
+        content: '\e702';
+        margin: 3px;
+    }
+
+    .material3 .e-bigger .e-grid .e-gridheader thead .e-icons:not(.e-check):not(.e-stop),
+    .material3-dark .e-bigger .e-grid .e-gridheader thead .e-icons:not(.e-check):not(.e-stop),
+    .material3 .e-grid .e-gridheader thead .e-icons:not(.e-check):not(.e-stop),
+    .material3-dark .e-grid .e-gridheader thead .e-icons:not(.e-check):not(.e-stop) {
+        font-size: 12px;
+    }
+</style>
+@*End:Hidden*@
