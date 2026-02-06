@@ -1,0 +1,147 @@
+@page "/ai-datagrid/semantic-filtering"
+@page "/datagrid/semantic-filtering"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Grids
+@using System.Collections
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Grids.Internal
+@using SmartComponents.LocalEmbeddings
+
+@inject LocalEmbedder embedder
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+<ActionDescription>
+<p>
+    This sample demonstrates how the Syncfusion DataGrid, integrated with AI, supports Semantic Search.
+  </p>
+  <p>
+    Explore our <strong>Smart AI demos</strong> with limited AI token usage directly in your browser. To dive deeper and experiment with these features locally using your own API key, check out our <a href="https://github.com/syncfusion/smart-ai-samples/tree/master/blazor" target="_blank" rel="noopener" aria-label="Navigate to the Syncfusion Smart AI Samples GitHub repository"><strong>Syncfusion Smart AI Samples</strong></a> on GitHub.
+  </p>
+  <p>
+    In this example, the DataGrid displays diagnostic information from medical reports. With Semantic Search, you don't need to enter the exact word to find related information. For instance, if the DataGrid lists "Abdominal pain," it can still show relevant reports even if you search for "stomach" instead of the exact term. The grid dynamically displays related search results using AI.
+  </p>
+</ActionDescription>
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <SfGrid @ref=gridObj TValue="MedicalRecord" Query="_query" DataSource="@MedicalRecords" EnableAltRow=true AllowTextWrap=true>
+            <div>
+                <SfToolbar>
+                    <ToolbarItems>
+                        <ToolbarItem Type="@ItemType.Input">
+                            <Template>
+                                <SfTextBox Placeholder="Search here" @bind-Value="@SearchTerm"></SfTextBox>
+                                <SfButton Content="Smart Search" @onclick="SearchClicked"> </SfButton>
+                            </Template>
+                        </ToolbarItem>
+                    </ToolbarItems>
+                </SfToolbar>
+            </div>
+            <GridColumns>
+                <GridColumn Field=@nameof(MedicalRecord.RecordID) TextAlign="TextAlign.Right" HeaderText="Record ID" Width="90"></GridColumn>
+                <GridColumn Field=@nameof(MedicalRecord.PatientID) TextAlign="TextAlign.Right" HeaderText="Patient ID" Width="90"></GridColumn>
+                <GridColumn Field=@nameof(MedicalRecord.Symptoms) HeaderText="Symptoms" Width="140"></GridColumn>
+                <GridColumn Field=@nameof(MedicalRecord.Diagnosis) HeaderText="Diagnosis" Width="100"></GridColumn>
+                <GridColumn Field=@nameof(MedicalRecord.DoctorDetails) HeaderText="Doctor Information" Width="140"></GridColumn>
+            </GridColumns>
+        </SfGrid>
+    </div>
+</div>
+
+<br />
+
+<style>
+    .search-textbox {
+        width: 30%;
+        display: flex;
+        align-items: center;
+    }
+
+    .e-control-wrapper {
+        margin-right: 7px;
+    }
+
+    .e-toolbar-items {
+        margin-top: 4px;
+    }
+
+</style>
+@code
+{
+    public static SfGrid<MedicalRecord> gridObj;
+    public List<MedicalRecord> MedicalRecords { get; set; }
+    public static double similarityValue = 0.6;
+    private string SearchTerm { get; set; }
+    public Query _query = new Query();
+    public static Dictionary<int, EmbeddingF32> ProductEmbeddings { get; set; } = new Dictionary<int, EmbeddingF32>();
+
+    protected override void OnInitialized()
+    {
+        MedicalRecords = new List<MedicalRecord>
+        {
+            new MedicalRecord { RecordID = 1, PatientID = 615001, Symptoms = "Fever, cough, and shortness of breath.", Diagnosis = "Pneumonia", DoctorDetails = "Dr. John Smith - Specialized in Pulmonology" },
+            new MedicalRecord { RecordID = 2, PatientID = 615002, Symptoms = "Severe headache, nausea, and sensitivity to light.", Diagnosis = "Migraine", DoctorDetails = "Dr. Alice Brown - Specialized in Neurology" },
+            new MedicalRecord { RecordID = 3, PatientID = 615003, Symptoms = "Fatigue, weight gain, and hair loss.", Diagnosis = "Hypothyroidism", DoctorDetails = "Dr. Robert Johnson - Specialized in Endocrinology" },
+            new MedicalRecord { RecordID = 4, PatientID = 615004, Symptoms = "Chest pain, shortness of breath, and sweating.", Diagnosis = "Heart Attack", DoctorDetails = "Dr. Michael Williams - Specialized in Cardiology" },
+            new MedicalRecord { RecordID = 5, PatientID = 615005, Symptoms = "Joint pain, stiffness, and swelling.", Diagnosis = "Arthritis", DoctorDetails = "Dr. Mary Jones - Specialized in Rheumatology" },
+            new MedicalRecord { RecordID = 6, PatientID = 615006, Symptoms = "Abdominal pain, bloating, and irregular bowel movements.", Diagnosis = "Irritable Bowel Syndrome (IBS)", DoctorDetails = "Dr. Patricia Garcia - Specialized in Gastroenterology" },
+            new MedicalRecord { RecordID = 7, PatientID = 615007, Symptoms = "Frequent urination, excessive thirst, and unexplained weight loss.", Diagnosis = "Diabetes", DoctorDetails = "Dr. Robert Johnson - Specialized in Endocrinology" },
+            new MedicalRecord { RecordID = 8, PatientID = 615008, Symptoms = "Persistent sadness, loss of interest, and fatigue.", Diagnosis = "Depression", DoctorDetails = "Dr. Linda Martinez - Specialized in Psychiatry" },
+            new MedicalRecord { RecordID = 9, PatientID = 615009, Symptoms = "Shortness of breath, wheezing, and chronic cough.", Diagnosis = "Asthma", DoctorDetails = "Dr. John Smith - Specialized in Pulmonology" },
+            new MedicalRecord { RecordID = 10, PatientID = 615010, Symptoms = "High blood pressure, headaches, and blurred vision.", Diagnosis = "Hypertension", DoctorDetails = "Dr. Michael Williams - Specialized in Cardiology" }
+        };
+        foreach (var data in MedicalRecords)
+        {
+            ProductEmbeddings.TryAdd(data.RecordID, embedder.Embed($"{data.DoctorDetails} {data.PatientID} {data.Symptoms} {data.Diagnosis}"));
+        }
+    }
+
+    private async Task SearchClicked()
+    {
+        var filteredColumn = await gridObj.GetColumnByFieldAsync("Symptoms");
+        if (!string.IsNullOrEmpty(SearchTerm))
+        {
+            var queryVector = embedder.Embed(SearchTerm);
+            var filteredRecords = MedicalRecords.Where(p => LocalEmbedder.Similarity(ProductEmbeddings[p.RecordID], queryVector) > similarityValue).ToList();
+
+            var filteredQuery = await RenderQueryForFilteredData(filteredRecords, filteredColumn);
+            _query = filteredQuery;
+        }
+        else
+        {
+            _query = new Query();
+        }
+    }
+
+    public async Task<Query> RenderQueryForFilteredData(IEnumerable<object> filteredData, GridColumn column)
+    {
+        Query query;
+        List<WhereFilter> inputFilters = new List<WhereFilter>();
+        foreach (var data in filteredData)
+        {
+            var filterValue = data.GetType().GetProperty(column.Field).GetValue(data);
+            inputFilters.Add(new WhereFilter() { Field = column.Field, Operator = "contains", value = filterValue, IgnoreCase = true, Condition = "or" });
+
+        }
+        return query = new Query().Where(WhereFilter.Or(inputFilters));
+    }
+
+    public class MedicalRecord
+    {
+        public int RecordID { get; set; }
+        public int PatientID { get; set; }
+        public string DoctorDetails { get; set; }
+        public string Symptoms { get; set; }
+        public string Diagnosis { get; set; }
+    }
+}

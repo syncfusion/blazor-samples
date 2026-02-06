@@ -1,0 +1,180 @@
+@page "/block-editor/pastecleanup"
+@using Syncfusion.Blazor.BlockEditor
+@using Syncfusion.Blazor.BlockEditorDemo
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the <code>Block Editor</code> paste cleanup feature, which allows you to control how content is handled when pasted into the editor.</p>
+<p>Use the following <code>pasteCleanup</code> settings to refine the pasted content:</p>
+<ul>
+    <li><strong>Plain Text</strong>: Pastes content as plain text.</li>
+    <li><strong>Keep Format</strong>: Retains the original formatting of the copied content.</li>
+    <li>
+        <strong>Denied tags</strong>: Specify tags to ignore when pasting HTML content.
+        <ul>
+            <li><code>['a[!href]']</code> – Filters out anchor tags that do not include the <code>href</code> attribute.</li>
+            <li><code>['a[href, target]']</code> – Allows only anchor tags with the <code>href</code> and <code>target</code> attributes.</li>
+        </ul>
+    </li>
+    <li>
+        <strong>AllowedStyles</strong>:Restrict pasted content to specific CSS style attributes.
+        <ul>
+            <li><code>['color', 'margin']</code> – Allows only the <code>color</code> and <code>margin</code> styles on each pasted element.</li>
+        </ul>
+    </li>
+</ul>
+</ActionDescription>
+
+<div class="col-lg-8 control-section">
+    <div class="paste-blockeditor">
+        <SfBlockEditor @ref="PasteBlockEditor"
+                       ID="block-editor"
+                       Height="600px"
+                       Blocks="BlockDataPaste">
+            <BlockEditorPasteCleanup  DeniedTags="DeniedTagsArray"
+                                    PlainText="IsPlainText"
+                                    KeepFormat="KeepFormat"
+                                    AllowedStyles="AllowedStylesArray" />
+        </SfBlockEditor>
+    </div>
+</div>
+<PropertyPanel ControlSecClass="col-lg-8">
+    <div title="Properties">
+        <table id="property" title="Properties" class="props-block">
+            <tbody>
+                <tr>
+                    <td>
+                        <div>Format Option</div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList @ref="DropObj" TItem="PasteOptions" TValue="string" PopupHeight="200px" @bind-Value="PasteDefaultValue" DataSource="@Options">
+                                <DropDownListFieldSettings Text="Text" Value="Id" />
+                                <DropDownListEvents TValue="string" TItem="PasteOptions" ValueChange="ValueChange" />
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>Denied Tags </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" @bind="@DeniedTagsText" class="e-input" @onblur="DeniedTagsblur" placeholder="'img[!href]', 'h1'" aria-label="Denied Tags" />
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>Allowed Style Properties </div>
+                    </td>
+                    <td>
+                        <div>
+                            <input type="text" @bind="@AllowedStylePropertiesText" class="e-input" @onblur="AllowedStylePropertiesblur" placeholder="'href', 'style'" aria-label="Style Properties" />
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</PropertyPanel>
+<style>
+    .paste-blockeditor{
+        width: 100%;
+        margin: 0 auto;
+    }
+    .property-section table td {
+        width: 50%;
+    }
+    .property-section table div {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+    .paste-blockeditor .e-mention.e-editable-element {
+        border: unset;
+    }
+    .props-block td
+    {
+        padding: 7px;
+    }
+</style>
+@code {
+    private SfBlockEditor? PasteBlockEditor;
+    private SfDropDownList<string, PasteOptions> DropObj;
+    // Format options
+    private string PasteDefaultValue { get; set; } = "keepFormat";
+    private bool IsPlainText = false;
+    private bool KeepFormat = true;
+    // Text input values
+    private string DeniedTagsText { get; set; } = "";
+    private string AllowedStylePropertiesText { get; set; } = "";
+    // Paste settings arrays (from Angular sample)
+    private string[] DeniedTagsArray { get; set; } = new string[] { "script", "iframe" };
+    private string[] AllowedStylesArray { get; set; } = new string[] { }; // Empty by default, as in Angular sample
+    // Data binding
+    private List<BlockModel> BlockDataPaste = new();
+    // Dropdown options
+    private class PasteOptions
+    {
+        public string? Id { get; set; }
+        public string? Text { get; set; }
+    }
+    private List<PasteOptions> Options = new List<PasteOptions>()
+    {
+        new PasteOptions(){ Id= "plainText", Text= "Plain Text" },
+        new PasteOptions(){ Id= "keepFormat", Text= "Keep Format" }
+    };
+    protected override void OnInitialized()
+    {
+        // Initialize block data
+        var dataProvider = new EditorBlockData();
+        BlockDataPaste = dataProvider.GetBlockDataPaste();
+    }
+    private void ValueChange(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, PasteOptions> args)
+    {
+        if (args.Value == "plainText")
+        {
+            IsPlainText = true;
+            KeepFormat = false;
+        }
+        else
+        {
+            IsPlainText = false;
+            KeepFormat = true;
+        }
+    }
+    private void DeniedTagsblur(Microsoft.AspNetCore.Components.Web.FocusEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(DeniedTagsText))
+        {
+            DeniedTagsArray = DeniedTagsText.Split(',')
+                                           .Select(tag => tag.Trim().Trim('\'', '"'))
+                                           .Where(tag => !string.IsNullOrEmpty(tag))
+                                           .ToArray();
+        }
+        else
+        {
+            DeniedTagsArray = new string[] { "script", "iframe" }; // Default from Angular sample
+        }
+    }
+    private void AllowedStylePropertiesblur(Microsoft.AspNetCore.Components.Web.FocusEventArgs e)
+    {
+        if (!string.IsNullOrEmpty(AllowedStylePropertiesText))
+        {
+            AllowedStylesArray = AllowedStylePropertiesText.Split(',')
+                                                         .Select(style => style.Trim().Trim('\'', '"'))
+                                                         .Where(style => !string.IsNullOrEmpty(style))
+                                                         .ToArray();
+        }
+        else
+        {
+            AllowedStylesArray = new string[] { }; // Empty by default, as in Angular sample
+        }
+    }
+}

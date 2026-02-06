@@ -1,0 +1,117 @@
+@page "/heatmap-chart/opposed-axis"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.HeatMap
+@using Syncfusion.Blazor.Buttons;
+@inject NavigationManager NavigationManager
+@using sf_blazor_heatmapdata
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample illustrates the monthly flight arrivals at JFK international airport in New York. The data label is disabled, with the tooltip displaying detailed arrival data point values for each month.</p>
+    
+    <p><strong>Axis Position Configuration</strong> - This example demonstrates how to change the display position of heatmap axes. You can alter the visual layout by repositioning axes for alternative data perspectives:</p>
+    
+    <p><strong>Opposed Position Setting</strong> - Use the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.HeatMap.HeatMapXAxis.html#Syncfusion_Blazor_HeatMap_HeatMapXAxis_OpposedPosition' aria-label="Class reference of OpposedPosition property in HeatMap Chart">OpposedPosition</a> property for each axis to display axes on opposite sides of the heatmap.</p>
+    
+    <p><strong>Use Cases</strong> - Opposed axis positioning is beneficial for:</p>
+    <ul>
+        <li>Creating alternative data visualization perspectives</li>
+        <li>Accommodating specific design and layout requirements</li>
+        <li>Improving readability in multi-heatmap comparisons</li>
+        <li>Aligning with business intelligence dashboard conventions</li>
+    </ul>
+    
+    <p><strong>Interactive Features</strong> - The tooltip is enabled in this example. Hover the mouse over a data point or tap on touch-enabled devices to view airport arrival statistics for each month with the repositioned axes configuration.</p>
+</ActionDescription>
+
+<div class="col-lg-8 control-section">
+    <div class="row">
+        <SfHeatMap @ref='Map' DataSource="@DataSource" Theme="@_theme">
+            <HeatMapTitleSettings Text="Monthly Flight Traffic at JFK Airport">
+                <HeatMapTitleTextStyle Size="15px" FontWeight="500" FontFamily="inherit" FontStyle="Normal" TextOverflow="TextOverflow.Trim"></HeatMapTitleTextStyle>
+            </HeatMapTitleSettings>
+            <HeatMapXAxis Labels="@XLabels"
+                          LabelRotation="45"
+                          LabelIntersectAction="@LabelIntersectAction.None"
+                          OpposedPosition="@XOpposedPosition">
+                <HeatMapXAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapXAxisTextStyle>
+            </HeatMapXAxis>
+            <HeatMapYAxis Labels="@YLabels" OpposedPosition="@YOpposedPosition">
+                <HeatMapYAxisTextStyle Color="@AxisLabelColor" FontFamily="inherit"></HeatMapYAxisTextStyle>
+            </HeatMapYAxis>
+            <HeatMapCellSettings ShowLabel="false" Format="{value} flights">
+                <HeatMapCellBorder Width="0"></HeatMapCellBorder>
+            </HeatMapCellSettings>
+            <HeatMapLegendSettings Visible="false"></HeatMapLegendSettings>
+            <HeatMapTooltipSettings>
+                <HeatMapFont FontFamily="inherit"></HeatMapFont>
+            </HeatMapTooltipSettings>
+        </SfHeatMap>
+    </div>
+</div>
+<PropertyPanel ControlSecClass="col-lg-8" CollapseChanged="HandlePanelCollapseChangedAsync" InitialRefresh="HandlePanelCollapseChangedAsync">
+    <table id="property" title="Properties" style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td style="width: 40%;">
+                    <div>
+                        <SfCheckBox Label="Change X-Axis Position" Checked="@XOpposedPosition" ValueChange="ValueXChange" TChecked="bool"></SfCheckBox>
+                    </div>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 40%;">
+                    <div>
+                        <SfCheckBox Label="Change Y-Axis Position" Checked="@YOpposedPosition" ValueChange="ValueYChange" TChecked="bool"></SfCheckBox>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</PropertyPanel>
+
+@code{
+    public SfHeatMap<int[,]>? Map { get; set; }
+    public bool YOpposedPosition = true;
+    public bool XOpposedPosition = true;
+    private Theme _theme { get; set; }
+    public string AxisLabelColor = "Black";
+    public string[] XLabels = new string[] { "2007", "2008", "2009", "2010", "2011", "2012", "2013", "2014", "2015", "2016", "2017" };
+    public string[] YLabels = new string[] { "Jan", "Feb", "Mar", "Apr", "May", "Jun", "July", "Aug", "Sept", "Oct", "Nov", "Dec" };
+    public int[,] DataSource = HeatMapData.GetOpposedData();
+    public void ValueXChange(ChangeEventArgs<bool> args)
+    {
+        XOpposedPosition = args.Checked;
+    }
+    public void ValueYChange(ChangeEventArgs<bool> args)
+    {
+        YOpposedPosition = args.Checked;
+    }
+    protected override void OnInitialized()
+    {
+        _theme = HeatmapThemeHelper.GetCurrentHeatmapTheme(NavigationManager.Uri);
+        AxisLabelColor = (_theme.ToString().IndexOf("Dark") > -1 || _theme.ToString().IndexOf("HighContrast") > -1) ? "#FFFFFF" : "#000000";
+    }
+    /// <summary>
+    /// EventCallback handler - invoked when PropertyPanel is expanded/collapsed
+    /// This is triggered by CollapseChanged EventCallback from PropertyPanel
+    /// </summary>
+    public async Task HandlePanelCollapseChangedAsync()
+    {
+
+        if (Map != null)
+        {
+            await Map.RefreshBoundAsync();
+        }
+    }
+}
+
+<style>
+
+    .fluent2 #opposed-axis #property .e-checkbox-wrapper .e-icons, .fluent2-dark #opposed-axis #property .e-checkbox-wrapper .e-icons, .fluent2-highcontrast #opposed-axis #property .e-checkbox-wrapper .e-icons {
+        margin-left: 0px
+    }
+</style>

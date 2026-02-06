@@ -1,0 +1,280 @@
+@page "/in-place-editor/overview"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.InPlaceEditor
+@using Syncfusion.Blazor.Inputs
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the default functionalities of the <a href="https://www.syncfusion.com/blazor-components/blazor-in-place-editor" aria-label="Feature Tour of Blazor In-place Editor">Blazor In-place Editor</a> component. Click on the dotted input element to switch to the editable state. Save your changes by clicking the action buttons or pressing Enter, or cancel the edit by pressing the Esc key.</p>
+    
+    <p>The In-place Editor component enables you to edit values inline and update them to the server seamlessly. The component supports multiple configuration options to customize the editing experience.</p>
+    
+    <p><strong>Editor Positions</strong> - The In-place Editor can be displayed in different positions:</p>
+    <ul>
+        <li><strong>Inline</strong> - The editor appears directly in the original position</li>
+        <li><strong>Pop-up</strong> - The editor appears in a floating dialog box</li>
+    </ul>
+    
+    <p><strong>Edit On Modes</strong> - The component supports multiple activation modes for editing:</p>
+    <ul>
+        <li><code>Click</code> - Opens the edit input by single-clicking on the textbox</li>
+        <li><code>DblClick</code> - Opens the edit input by double-clicking on the textbox</li>
+        <li><code>EditIconClick</code> - Opens the edit input only by clicking the edit icon, which appears on hover</li>
+    </ul>
+    
+    <p><strong>Action Buttons</strong> - The Save and Cancel buttons can be shown or hidden using the <code>Show Buttons</code> option. When buttons are disabled, you can save data by clicking outside the target element or pressing Enter, and cancel by pressing the <kbd>Esc</kbd> key.</p>
+    
+    <p><b>See also</b></p>
+    <ul>
+        <li><a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/in-place-editor/getting-started/" aria-label="Blazor In-place Editor Getting Started documentation">In-place Editor Getting Started</a></li>
+    </ul>
+</ActionDescription>
+
+
+<div class="row">
+    <div class="col-lg-8 control-section inplace-control-section default_layout">
+        <div class="control_wrapper">
+            <table>
+                <tr>
+                    <td>
+                        <label class="control-label" style="text-align: left;font-size: 14px;font-weight: 400">
+                            TextBox
+                        </label>
+                    </td>
+                    <td>
+                        <SfInPlaceEditor @bind-Value="@TextValue" TValue="string" Mode="@Mode" EditableOn="@EditableOn" Type="Syncfusion.Blazor.InPlaceEditor.InputType.Text" ShowButtons="@ShowButtons" Disabled="@Disabled"  SubmitOnEnter="true">
+                            <EditorComponent>
+                                <SfTextBox @bind-Value="@TextValue" Placeholder="Enter employee name"></SfTextBox>
+                            </EditorComponent>
+                            <InPlaceEditorPopupSettings Title="Enter Employee Name"></InPlaceEditorPopupSettings>
+                        </SfInPlaceEditor>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="control-label" style="text-align: left;font-size: 14px;font-weight: 400">
+                            NumericTextBox
+                        </label>
+                    </td>
+                    <td>
+                        <SfInPlaceEditor  Mode="@Mode" EditableOn="@EditableOn" Type="Syncfusion.Blazor.InPlaceEditor.InputType.Numeric" @bind-Value=@NumericValue ShowButtons="@ShowButtons" Disabled="@Disabled" TValue="double">
+                            <EditorComponent>
+                                <SfNumericTextBox TValue="double" @bind-Value=@NumericValue Format="c2" Placeholder="Currency format"></SfNumericTextBox>
+                            </EditorComponent>
+                        </SfInPlaceEditor>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <label class="control-label" style="text-align: left;font-size: 14px;font-weight: 400">
+                            MaskedTextBox
+                        </label>
+                    </td>
+                    <td>
+                        <SfInPlaceEditor Type="Syncfusion.Blazor.InPlaceEditor.InputType.Mask" @bind-Value="@MaskValue" ShowButtons="@ShowButtons" Disabled="@Disabled" Mode="@Mode" EditableOn="@EditableOn" TValue="string">
+                            <EditorComponent>
+                                <SfMaskedTextBox Mask="000-000-0000" @bind-Value="@MaskValue"></SfMaskedTextBox>
+                            </EditorComponent>
+                        </SfInPlaceEditor>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
+    <div class="col-lg-4 property-section">
+        <div class="property-panel-section">
+            <div class="property-panel-header">Properties</div>
+            <div class="property-panel-content">
+                <table class="property-panel-table">
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div> Mode</div>
+                            </td>
+                            <td>
+                                <div>
+                                    <SfDropDownList Width="90%" TValue="string" TItem="InplaceModes" DataSource="@ModeData" @bind-Value="@DropMode">
+                                        <DropDownListEvents TValue="string" TItem="InplaceModes" ValueChange="@ChangeEditMode"></DropDownListEvents>
+                                        <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Editable On</div>
+                            </td>
+                            <td>
+                                <div>
+                                    <SfDropDownList Width="90%" TValue="string" TItem="InplaceEditableModes" DataSource="@EditableData" @bind-Value="@DropEdit">
+                                        <DropDownListEvents TValue="string" TItem="InplaceEditableModes" ValueChange="@ChangeEditableOn"></DropDownListEvents>
+                                        <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                                    </SfDropDownList>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Show Buttons</div>
+                            </td>
+                            <td>
+                                <div>
+                                    <SfCheckBox Checked="@ShowButtons" LabelPosition="Syncfusion.Blazor.Buttons.LabelPosition.Before" ValueChange="@OnChange" TChecked="bool"></SfCheckBox>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div>Disable</div>
+                            </td>
+                            <td>
+                                <div>
+                                    <SfCheckBox LabelPosition="Syncfusion.Blazor.Buttons.LabelPosition.Before" ValueChange="@OnChangeEnable" TChecked="bool"></SfCheckBox>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    private Syncfusion.Blazor.InPlaceEditor.RenderMode Mode = Syncfusion.Blazor.InPlaceEditor.RenderMode.Inline;
+    private EditableType EditableOn = EditableType.Click;
+    private bool Disabled { get; set; } = false;
+    private bool ShowButtons { get; set; } = true;
+    private string TextValue = "Andrew";
+    private string MaskValue = "012-345-6789";
+    private double NumericValue = 100;
+    private string DropMode { get; set; } = "Inline";
+    private string DropEdit { get; set; } = "Click";
+    
+    public class InplaceModes
+    {
+        public string? Value { get; set; }
+        public string? Text { get; set; }
+    }
+    public class InplaceEditableModes
+    {
+        public string? Value { get; set; }
+        public string? Text { get; set; }
+    }
+
+    private List<InplaceModes> ModeData = new List<InplaceModes>()
+    {
+        new InplaceModes() { Value = "Inline", Text = "Inline" },
+        new InplaceModes() { Value = "Popup", Text = "Popup" }
+    };
+
+    private List<InplaceEditableModes> EditableData = new List<InplaceEditableModes>()
+    {
+        new InplaceEditableModes() { Value = "Click", Text = "Click" },
+        new InplaceEditableModes() { Value = "Double Click", Text = "Double Click" },
+        new InplaceEditableModes() { Value = "Edit Icon Click", Text = "Edit Icon Click" }
+    };
+    private void ChangeEditMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, InplaceModes> args)
+    {
+        this.Mode = (args.Value != null && args.Value.ToString() == "Popup" ? Syncfusion.Blazor.InPlaceEditor.RenderMode.Popup : Syncfusion.Blazor.InPlaceEditor.RenderMode.Inline);
+        this.StateHasChanged();
+    }
+    private void ChangeEditableOn(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, InplaceEditableModes> args)
+    {
+        if (args.Value != null)
+        {
+            if (args.Value.ToString() == "Click")
+            {
+                this.EditableOn = EditableType.Click;
+            }
+            else if (args.Value.ToString() == "Double Click")
+            {
+                this.EditableOn = EditableType.DoubleClick;
+            }
+            else
+            {
+                this.EditableOn = EditableType.EditIconClick;
+            }
+            this.StateHasChanged();
+        }
+    }
+
+    private void OnChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
+        arg)
+    {
+        this.ShowButtons = arg.Checked;
+        this.StateHasChanged();
+    }
+
+    private void OnChangeEnable(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool>
+        args)
+    {
+        this.Disabled = args.Checked;
+        this.StateHasChanged();
+    }
+}
+<style>
+    .inplace-control-section.default_layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide,
+    .e-inplaceeditor-tip .e-editable-component .e-input-group .e-clear-icon.e-clear-icon-hide {
+        display: block;
+        visibility: hidden;
+    }
+
+    .inplace-control-section.default_layout .e-inplaceeditor .e-editable-component .e-clear-icon-hide,
+    .e-inplaceeditor-tip .e-editable-component .e-input-group .e-clear-icon.e-clear-icon-hide {
+        display: block;
+        visibility: hidden;
+    }
+    /* custom code start */
+    .inplace-control-section.default_layout .control_wrapper {
+        width: 100%;
+        max-width: 400px;
+        margin: auto;
+    }
+
+        .inplace-control-section.default_layout .control_wrapper table td {
+            width: 200px;
+            height: 100px;
+        }
+        /* custom code end */
+        .inplace-control-section.default_layout .control_wrapper .control-center {
+            text-align: center;
+        }
+
+        .inplace-control-section.default_layout .control_wrapper table td .control-label {
+            margin-bottom: 0px;
+        }
+
+    .inplace-control-section.default_layout .e-inplaceeditor {
+        height: auto;
+    }
+
+    .property-section table td {
+        width: 50%;
+    }
+
+    .property-section table div {
+        padding-left: 10px;
+        padding-top: 10px;
+    }
+
+    @@media (max-width: 1200px) {
+        .inplace-control-section.default_layout {
+            width: 100%;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .inplace-control-section .control_wrapper table tr td:nth-child(1) {
+            width: 130px;
+        }
+
+        .inplace-control-section .control_wrapper table tr td:nth-child(2) {
+            width: 200px;
+        }
+    }
+</style>

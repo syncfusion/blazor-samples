@@ -1,0 +1,173 @@
+@page "/kanban/wip-validation"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates how to limit the minimum and maximum number of cards per column in the Kanban board. Use the property panel to choose the constraint type and configure related attributes.
+  </p>
+  <p>
+    Validate the number of cards at the column or swimlane level using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.SfKanban-1.html#Syncfusion_Blazor_Kanban_SfKanban_1_ConstraintType" aria-label="Class reference of ConstraintType property in Kanban">ConstraintType</a> property:
+  </p>
+  <ul>
+    <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.ConstraintType.html#Syncfusion_Blazor_Kanban_ConstraintType_Column" aria-label="Class reference of Column property in Kanban">Column</a> – Validates based on the total cards in a column (default).</li>
+    <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.ConstraintType.html#Syncfusion_Blazor_Kanban_ConstraintType_Swimlane" aria-label="Class reference of Swimlane property in Kanban">Swimlane</a> – Validates based on cards within a specific column and swimlane.
+    </li>
+  </ul>
+  <p>
+    Property panel options:
+  </p>
+  <ul>
+    <li><code>Columns</code> – Select a column and set minimum/maximum limits.</li>
+    <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_MinCount" aria-label="Class reference of MinCount property in Kanban">MinCount</a> – Minimum required cards per column. If not met, the column shows a validation state.</li>
+    <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_MaxCount" aria-label="Class reference of MaxCount property in Kanban">MaxCount</a> – Maximum allowed cards per column. Exceeding shows a validation state.</li>
+  </ul>
+</ActionDescription>
+
+
+<div class="col-lg-9 control-section">
+    <SfKanban KeyField="Status" DataSource="@_cardData" ConstraintType="@(IsSwimlaneEnable ? ConstraintType.Swimlane : ConstraintType.Column)">
+        <KanbanColumns>
+            @foreach (ColumnModel item in _columnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="true" ShowItemCount="true" 
+                            MinCount="@item.MinCount" MaxCount="@item.MaxCount"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Summary"/>
+        <KanbanSwimlaneSettings KeyField="Assignee" ShowItemCount="true" AllowDragAndDrop="true"/>
+    </SfKanban>
+</div>
+<div class="col-lg-3 property-section">
+    <div class="property-panel-section">
+        <div class="property-panel-header">Constraint</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Constraint">
+                <tbody>
+                    <tr>
+                        <td style="width: 35%">Type</td>
+                        <td style="width: 65%">
+                            <SfDropDownList TItem="string" TValue="string" DataSource="@ColumnConstraints" @bind-Value="@ColumnConstraintValue">
+                                <DropDownListEvents TItem="string" TValue="string" ValueChange="@((args) => IsSwimlaneEnable = args.Value == "Swimlane")"/>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="property-panel-header">Validate Constraints</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Validate Constraints">
+                <tbody>
+                    <tr>
+                        <td style="width: 35%">Columns</td>
+                        <td style="width: 65%">
+                            <SfDropDownList TItem="string" TValue="string" DataSource="@KanbanColumns" Placeholder="Header Text" ShowClearButton="true" 
+                                            @bind-Value="@ColumnKeyValue">
+                                <DropDownListFieldSettings Text="HeaderText" Value="KeyField"/>
+                                <DropDownListEvents TItem="string" TValue="string" ValueChange="ColumnValueUpdate"/>
+                            </SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%">MinCount</td>
+                        <td style="width: 65%">
+                            <SfNumericTextBox ID="minIndex" TValue="int?" Placeholder="Minimum Count" Min="0" Max="20" @bind-Value=@ColumnMinCount/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="width: 35%">MaxCount</td>
+                        <td style="width: 65%">
+                            <SfNumericTextBox ID="maxIndex" TValue="int?" Placeholder="Maximum Count" Min="0" Max="20" @bind-Value=@ColumnMaxCount/>
+                        </td>
+                    </tr>
+                </tbody>
+                <tfoot>
+                    <tr>
+                        <td colspan="2">
+                            <SfButton ID="validate" Content="Validate" OnClick="OnColumnValidationUpdate"/>
+                        </td>
+                    </tr>
+                </tfoot>
+            </table>
+        </div>
+    </div>
+</div>
+
+<style>
+    .property-panel-section table {
+        width: 100%;
+    }
+
+        .property-panel-section table tr {
+            height: 50px;
+        }
+
+        .property-panel-section table td {
+            padding-left: 10px;
+            width: 50%;
+        }
+
+        .property-panel-section table tfoot td {
+            padding: 10px 0;
+            text-align: center;
+        }
+</style>
+
+@code{
+    private int? ColumnMinCount;
+    private int? ColumnMaxCount;
+    private string? ColumnKeyValue;
+    private string? ColumnDataValue;
+    private bool IsSwimlaneEnable = false;
+    private string ColumnConstraintValue = "Column";
+    private List<string> ColumnConstraints = new List<string>() { "Column", "Swimlane" };
+    private List<string> KanbanColumns = new List<string>() { "To Do", "In Progress", "Testing", "Done" };
+    private List<KanbanDataModel> _cardData = new KanbanDataModel().GetTasks();
+    private List<ColumnModel> _columnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "To Do", KeyField = new List<string>() { "Open" }, MinCount = 6, MaxCount = 8 },
+        new ColumnModel() { HeaderText = "In Progress", KeyField = new List<string>() { "In Progress" }, MinCount = 2, MaxCount = 0 },
+        new ColumnModel() { HeaderText = "Testing", KeyField = new List<string>() { "Testing" }, MinCount = 2, MaxCount = 5 },
+        new ColumnModel() { HeaderText = "Done", KeyField = new List<string>() { "Close" }, MinCount = 0, MaxCount = 4 }
+    };
+
+    private void ColumnValueUpdate(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        if (string.IsNullOrEmpty(args.Value))
+        {
+            this.ColumnKeyValue = null;
+            this.ColumnMinCount = null;
+            this.ColumnMaxCount = null;
+        }
+        else
+        {
+            this.ColumnDataValue = args.Value;
+            ColumnModel? ColumnData = _columnData.Where(e => e.HeaderText == this.ColumnDataValue).FirstOrDefault();
+            this.ColumnMinCount = ColumnData?.MinCount;
+            this.ColumnMaxCount = ColumnData?.MaxCount;
+        }
+    }
+
+    private void OnColumnValidationUpdate()
+    {
+        if (this.ColumnDataValue != null)
+        {
+            ColumnModel? ColumnData = _columnData.Where(e => e.HeaderText == this.ColumnDataValue).FirstOrDefault();
+            if (ColumnData != null)
+            {
+                ColumnData.MinCount = this.ColumnMinCount ?? 0;
+                ColumnData.MaxCount = this.ColumnMaxCount ?? 0;
+            }
+            this.ColumnKeyValue = null;
+            this.ColumnDataValue = null;
+        }
+    }
+}

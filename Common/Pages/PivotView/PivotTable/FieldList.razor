@@ -1,0 +1,162 @@
+@page "/pivot-table/field-list"
+
+@using Syncfusion.Blazor.PivotView
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates Excel-like field list feature for dynamic report creation and modification.</p>
+    
+    <p>Field list capabilities:</p>
+    
+    <ul>
+        <li>Automatically populated pivot fields from bound data source</li>
+        <li>Drag-and-drop fields to alter report at runtime</li>
+        <li>Rearrange fields between column, row, value, and filter axes</li>
+        <li>Apply filter and sort options dynamically</li>
+    </ul>
+    
+    <p>To render field list separately, create <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotFieldList-1.html" aria-label="Class reference of PivotFieldList">SfPivotFieldList</a> component and assign data source to <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFieldListDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotFieldListDataSourceSettings_1_DataSource" aria-label="Class reference of PivotFieldListDataSourceSettings">PivotFieldListDataSourceSettings->DataSource</a>. Pass pivot table instance to <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotFieldList-1.html#Syncfusion_Blazor_PivotView_SfPivotFieldList_1_UpdateViewAsync_Syncfusion_Blazor_PivotView_SfPivotView__0__" aria-label="Class reference of UpdateViewAsync method in PivotView">UpdateViewAsync</a> method inside <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFieldListEvents-1.html#Syncfusion_Blazor_PivotView_PivotFieldListEvents_1_EnginePopulated" aria-label="Class reference of EnginePopulated event in PivotView">EnginePopulated</a> event.</p>
+    
+    <p>Additional features enabled:</p>
+    
+    <ul>
+        <li>Calculated field UI via <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotFieldList-1.html#Syncfusion_Blazor_PivotView_SfPivotFieldList_1_AllowCalculatedField" aria-label="Class reference of AllowCalculatedField property in PivotView">AllowCalculatedField</a></li>
+        <li>Label filter UI via <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFieldListDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotFieldListDataSourceSettings_1_AllowLabelFilter" aria-label="Class reference of AllowLabelFilter property in PivotView">AllowLabelFilter</a></li>
+        <li>Value filter UI via <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotFieldListDataSourceSettings-1.html#Syncfusion_Blazor_PivotView_PivotFieldListDataSourceSettings_1_AllowValueFilter" aria-label="Class reference of AllowValueFilter property in PivotView">AllowValueFilter</a></li>
+    </ul>
+    
+    <p>For comprehensive documentation, refer to the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/field-list/" aria-label="Blazor PivotTable FieldList documentation">field list documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="@PivotView" Height="530" ShowFieldList="@_mobileFieldList" AllowCalculatedField=true ShowTooltip=false ShowFieldSearch="true">
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            @if (@_mobileFieldList)
+            {
+                <PivotViewDataSourceSettings DataSource="@Data" ExpandAll=false EnableSorting=true>
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="Year"></PivotViewColumn>
+                        <PivotViewColumn Name="Order_Source" Caption="Order Source"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="Country"></PivotViewRow>
+                        <PivotViewRow Name="Products"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="In_Stock" Caption="In Stock"></PivotViewValue>
+                        <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                        <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                </PivotViewDataSourceSettings>
+            }
+            else
+            {
+                <PivotViewEvents TValue="PivotProductDetails" EnginePopulated="@PivotEnginePopulated" Drill="@UpdateDrillInfo"></PivotViewEvents>
+            }
+        </SfPivotView>
+        @if (!_mobileFieldList)
+        {
+            <SfPivotFieldList TValue="PivotProductDetails" @ref="@PivotFieldList" AllowCalculatedField="true" RenderMode="Mode.Fixed" ShowFieldSearch="true">
+                <PivotFieldListDataSourceSettings DataSource="@Data" EnableSorting=true AllowLabelFilter="true" AllowValueFilter="true">
+                    <PivotFieldListColumns>
+                        <PivotFieldListColumn Name="Year"></PivotFieldListColumn>
+                        <PivotFieldListColumn Name="Order_Source" Caption="Order Source"></PivotFieldListColumn>
+                    </PivotFieldListColumns>
+                    <PivotFieldListRows>
+                        <PivotFieldListRow Name="Country"></PivotFieldListRow>
+                        <PivotFieldListRow Name="Products"></PivotFieldListRow>
+                    </PivotFieldListRows>
+                    <PivotFieldListValues>
+                        <PivotFieldListValue Name="In_Stock" Caption="In Stock"></PivotFieldListValue>
+                        <PivotFieldListValue Name="Sold" Caption="Unit Sold"></PivotFieldListValue>
+                        <PivotFieldListValue Name="Amount" Caption="Sold Amount"></PivotFieldListValue>
+                    </PivotFieldListValues>
+                    <PivotFieldListFilters>
+                        <PivotFieldListFilter Name="Product_Categories" Caption="Product Categories"></PivotFieldListFilter>
+                    </PivotFieldListFilters>
+                    <PivotFieldListFormatSettings>
+                        <PivotFieldListFormatSetting Name="Amount" Format="C0" UseGrouping=true></PivotFieldListFormatSetting>
+                    </PivotFieldListFormatSettings>
+                </PivotFieldListDataSourceSettings>
+                <PivotFieldListEvents TValue="PivotProductDetails" EnginePopulated="@EnginePopulated"></PivotFieldListEvents>
+            </SfPivotFieldList>
+        }
+    </div>
+</div>
+
+<style>
+
+    .e-pivotview {
+        float: left;
+        min-height: 200px;
+        width: 62% !important;
+    }
+
+    .e-pivotview.e-device {
+        width: 100% !important;
+     }
+
+    .e-pivotfieldlist.e-device {
+        width: 100% !important;
+    }
+
+    .e-pivotfieldlist {
+        float: right;
+        width: 37% !important;
+    }
+
+    .e-pivotfieldlist .e-static {
+         width: 100% !important;
+    }
+
+    html, body {
+        height: 100%;
+    }
+</style>
+
+@code {
+    public SfPivotFieldList<PivotProductDetails>? PivotFieldList;
+    public SfPivotView<PivotProductDetails>? PivotView;
+    private bool _mobileFieldList = false;
+    public List<PivotProductDetails>? Data { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        Data = PivotProductDetails.GetProductData();
+        @*Hidden:Lines*@
+        if (SampleService.IsDevice)
+        {
+            _mobileFieldList = true;
+        }
+        @*End:Hidden*@
+    }
+    private async Task PivotEnginePopulated(EnginePopulatedEventArgs args)
+    {
+        if(PivotFieldList != null && PivotView != null)
+        {
+            await PivotFieldList.UpdateAsync(PivotView);        
+        }
+    }
+    private async Task UpdateDrillInfo(DrillArgs<PivotProductDetails> args)
+    {
+        if(PivotFieldList != null && PivotView != null)
+        {
+            await PivotFieldList.UpdateAsync(PivotView);
+        }
+    }
+    private async Task EnginePopulated(EnginePopulatedEventArgs args)
+    {
+        if(PivotFieldList != null && PivotView != null)
+        {
+            await PivotFieldList.UpdateViewAsync(PivotView);
+        }
+    }
+}

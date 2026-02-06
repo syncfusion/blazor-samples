@@ -1,0 +1,172 @@
+@page "/chart/spline"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+
+<ActionDescription>
+<p>This Blazor Spline Chart example visualizes average monthly high and low temperatures across the contiguous United States for 2024.</p>
+
+<p>In this example, you can see how to render and configure a spline chart. The spline chart uses a smooth, curved line to connect points in a data series. Key features include:</p>
+<ul>
+  <li><code>ChartMarker</code> represents individual data points and their values</li>
+  <li><code>ChartCrosshairSettings</code> displays exact values when hovering over the chart, tracking the nearest data point</li>
+  <li>The <code>HighlightCategory</code> property in the crosshair highlights the entire category range on hover</li>
+</ul>
+
+<p><code>Tooltip</code> is enabled in this example. To see tooltip details, hover over or tap on the chart.</p>
+
+<p>More information about the spline series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/spline' aria-label="Navigate to the documentation for spline in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+
+<style>
+    @@keyframes opac {
+        0% {
+            stroke-opacity: 1;
+            stroke-width: 0px;
+        }
+
+        100% {
+            stroke-opacity: 0.4;
+            stroke-width: 10px;
+        }
+    }
+</style>
+
+<div class="control-section" align='center'>
+    <SfChart ID="chart" Title="2024 US Temperature Trends with Hottest Coldest and Average Records" SubTitle="Source: ncei.noaa.gov" Width="@Width"
+        Theme="@Theme" Height="500px">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartEvents Loaded="ChartLoaded" OnLegendClick="OnChartLegendClick"></ChartEvents>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1"
+            LabelIntersectAction="LabelIntersectAction.Rotate90">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis LabelFormat="{value}°F" Minimum="0" Interval="20" Maximum="120" Title="Monthly Temperature Trends (°F)">
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+        </ChartPrimaryYAxis>
+        <ChartCrosshairSettings Enable="true" LineType="LineType.Vertical" HighlightCategory="true">
+        </ChartCrosshairSettings>
+        <ChartTooltipSettings Enable="true" Shared="true" ShowNearestTooltip="true"></ChartTooltipSettings>
+        <ChartLegendSettings EnableHighlight="true"></ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@SplineData" Name="Max Temp" XName="Days" Width="2" Opacity="1" YName="MaxTemp"
+                Type="ChartSeriesType.Spline">
+                <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@SplineData" Name="Avg Temp" XName="Days" Width="2" Opacity="1" YName="AvgTemp"
+                Type="ChartSeriesType.Spline">
+                <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
+            <ChartSeries DataSource="@SplineData" Name="Min Temp" XName="Days" Width="2" Opacity="1" YName="MinTemp"
+                Type="ChartSeriesType.Spline">
+                <ChartMarker Visible="true" Width="7" Height="7" IsFilled="true">
+                </ChartMarker>
+            </ChartSeries>
+        </ChartSeriesCollection>
+        <ChartAnnotations>
+            @foreach (AnnotationData annotationData in SplineAnnotations)
+            {
+                @if (@annotationData.Visible)
+                {
+                    <ChartAnnotation X=@annotationData.X Y=@annotationData.Y CoordinateUnits="Units.Point">
+                        <ContentTemplate>
+                            <div><img src="@(SampleService?.WebAssetsPath + @annotationData.Url)" style="width: 41px; height: 41px" alt="Weather Picture" /></div>
+                        </ContentTemplate>
+                    </ChartAnnotation>
+                }
+            }
+        </ChartAnnotations>
+    </SfChart>
+</div>
+
+@code {
+
+
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<SplineChartData> SplineData = new List<SplineChartData>
+    {
+        new SplineChartData { Days = "Jan", MaxTemp = 41.02, AvgTemp = 31.89, MinTemp = 22.75 },
+        new SplineChartData { Days = "Feb", MaxTemp = 51.93, AvgTemp = 40.82, MinTemp = 29.71 },
+        new SplineChartData { Days = "Mar", MaxTemp = 56.39, AvgTemp = 44.96, MinTemp = 33.53 },
+        new SplineChartData { Days = "Apr", MaxTemp = 66.06, AvgTemp = 53.64, MinTemp = 41.22 },
+        new SplineChartData { Days = "May", MaxTemp = 74.64, AvgTemp = 62.28, MinTemp = 49.87 },
+        new SplineChartData { Days = "Jun", MaxTemp = 84.58, AvgTemp = 71.80, MinTemp = 59.02 },
+        new SplineChartData { Days = "Jul", MaxTemp = 88.43, AvgTemp = 75.69, MinTemp = 62.94 },
+        new SplineChartData { Days = "Aug", MaxTemp = 86.72, AvgTemp = 73.99, MinTemp = 61.27 },
+        new SplineChartData { Days = "Sep", MaxTemp = 81.86, AvgTemp = 68.61, MinTemp = 55.36 },
+        new SplineChartData { Days = "Oct", MaxTemp = 73.13, AvgTemp = 58.95, MinTemp = 44.76 },
+        new SplineChartData { Days = "Nov", MaxTemp = 55.54, AvgTemp = 45.18, MinTemp = 34.79 },
+        new SplineChartData { Days = "Dec", MaxTemp = 48.36, AvgTemp = 38.21, MinTemp = 28.04 }
+    };
+
+    public List<AnnotationData> SplineAnnotations = new List<AnnotationData> {
+        new AnnotationData() { Visible = false, Url = "images/chart/cloud.png", X = "Jan", Y = "22.75" },
+        new AnnotationData() { Visible = false, Url = "images/chart/sunny.png", X = "Jul", Y = "88.43" },
+    };
+    public async void ChartLoaded(LoadedEventArgs args)
+    {
+        SplineAnnotations.ForEach(item => item.Visible = true);
+        await Task.Delay(1500);
+        StateHasChanged();
+    }
+
+    public void OnChartLegendClick(LegendClickEventArgs args)
+    {
+        if (args.LegendText == "Max Temp")
+        {
+            SplineAnnotations[1].Visible = !SplineAnnotations[1].Visible;
+        }
+        else if (args.LegendText == "Min Temp")
+        {
+            SplineAnnotations[0].Visible = !SplineAnnotations[0].Visible;
+        }
+    }
+
+    protected override void OnInitialized()
+    {
+
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+        @*End:Hidden*@
+    }
+
+    public class SplineChartData
+    {
+        public string? Days { get; set; }
+        public double MaxTemp { get; set; }
+        public double AvgTemp { get; set; }
+        public double MinTemp { get; set; }
+    }
+
+    public class AnnotationData
+    {
+        public string? X { get; set; }
+        public string? Y { get; set; }
+        public string? Url { get; set; }
+        public bool Visible { get; set; }
+    }
+}

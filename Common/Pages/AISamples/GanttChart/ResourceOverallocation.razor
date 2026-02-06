@@ -1,0 +1,216 @@
+@page "/ai-ganttchart/resource-manager"
+@page "/gantt-chart/ai-resource-manager"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+
+@using BlazorDemos.Model
+@using BlazorDemos.Service
+
+@inject AzureAIService OpenAIService
+@inject IJSRuntime JsInterop
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<AINotification></AINotification>
+@*End:Hidden*@
+
+@*Hidden:Lines*@
+<AIToastNotification></AIToastNotification>
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates how to efficiently manage resource overallocation by reallocating available resources to tasks. It visually updates the Gantt Chart by changing the color of the taskbars to reflect the reallocated tasks, allowing for better tracking and management of resource usage. The process helps ensure that no single resource is overburdened, maintaining an optimized workflow.
+  </p>
+  <p>
+    To explore this and more Syncfusion Blazor Smart AI integrations locally, check out our <a href="https://github.com/syncfusion/smart-ai-samples/tree/master/blazor" target="_blank" rel="noopener" aria-label="Navigate to the Syncfusion Smart AI Samples GitHub repository"><strong>GitHub repository</strong></a>.
+  </p>
+  <p>
+    The sample reallocates tasks to prevent resource overallocation. The reallocation process involves interacting with the <strong>TaskCollection, ResourceCollection,</strong> and <strong>AssignmentCollection</strong> to generate a new assignment collection. This new collection resolves any overallocated tasks by redistributing them within the same resource, ensuring balanced resource utilization. Taskbar colors are updated accordingly to indicate the changes in allocation, providing clear visual feedback on the resource adjustments.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section" id="gantt-control-section">
+    @if (showMessage)
+    {
+        <div>
+            <SfButton CssClass="e-flat" IsPrimary="true" IconCss="e-icons e-refresh" IconPosition=@IconPosition.Right OnClick="Reload">Something went wrong.</SfButton>
+        </div>
+    }
+    <div style="position: relative">
+        <SfGantt @ref="Gantt" ViewType="ViewType.ResourceView" ShowOverallocation="true" DataSource="@TaskCollection" Width="100%" TreeColumnIndex="1" WorkUnit="WorkUnit.Hour" AllowUnscheduledTasks="true">
+            <GanttTaskFields Id="Id" Name="Name" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+            ParentID="ParentId" Work="Work" TaskType="TaskType">
+            </GanttTaskFields>
+            <GanttResource DataSource="ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit" TValue="GanttDataModel.TaskInfoModel" TResources="GanttDataModel.ResourceInfoModel"></GanttResource>
+            <GanttAssignmentFields DataSource="AssignmentCollection" PrimaryKey="PrimaryId" TaskID="TaskId" ResourceID="ResourceId" Units="Unit" TValue="GanttDataModel.TaskInfoModel" TAssignment="GanttDataModel.AssignmentModel"></GanttAssignmentFields>
+            <GanttLabelSettings RightLabel="Resources" TValue="GanttDataModel.TaskInfoModel"></GanttLabelSettings>
+            <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true"
+            ShowDeleteConfirmDialog="true"></GanttEditSettings>
+            <GanttColumns>
+                <GanttColumn Field="Id" HeaderText="ID" Visible="false"></GanttColumn>
+                <GanttColumn Field="Name" HeaderText="Event Name" Width="250px"></GanttColumn>
+                <GanttResourceColumn HeaderText="Event Resources"></GanttResourceColumn>
+                <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+                <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+                <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+            </GanttColumns>
+            <GanttTemplates TValue="GanttDataModel.TaskInfoModel">
+                <TaskbarTemplate>
+                    @{
+                        var task = (context as GanttDataModel.TaskInfoModel);
+                        if (task == null)
+                        {
+                            return;
+                        }
+                        var taskModel = Gantt.GetRowTaskModel(task);
+                        string taskbarClassName = string.Empty;
+                        string progressClassName = string.Empty;
+                        if (TaskIds.Count > 0 && TaskIds.Any(s => s == task.Id))
+                        {
+                            taskbarClassName = "e-custom-taskbar";
+                            progressClassName = "e-custom-progress";
+                        }
+                        <div class="e-gantt-child-taskbar e-gantt-child-taskbar-inner-div @taskbarClassName" style="height:22px;" tabindex=-1>
+                            <div class="e-gantt-child-progressbar-inner-div e-gantt-child-progressbar @progressClassName" style="height:22px;width:@(taskModel.ProgressWidth + "px");text-align: right;border-radius: 0px;">
+                            </div>
+                        </div>
+                    }
+                </TaskbarTemplate>
+            </GanttTemplates>
+            <GanttSplitterSettings Position="50%"> </GanttSplitterSettings>
+            <SfToolbar ID="Gantt_Toolbar">
+                <ToolbarItems>
+                    <ToolbarItem>
+                        <Template>
+                            <SfButton IsPrimary ID="openAI" @onclick="OpenAIHandler">Optimize resource allocation</SfButton>
+                        </Template>
+                    </ToolbarItem>
+                </ToolbarItems>
+            </SfToolbar>
+        </SfGantt>
+    </div>
+</div>
+
+<style>
+    #Gantt_Toolbar {
+    border: 1px solid lightgray !important;
+    padding: 4px !important;
+    }
+
+    .e-icons.e-refresh::before {
+    content: '\e706';
+    }
+
+    .e-custom-taskbar {
+    background-color: lightgreen !important;
+    }
+
+    .e-custom-progress {
+    background-color: green !important;
+    }
+</style>
+@code {
+
+    public SfGantt<GanttDataModel.TaskInfoModel> Gantt;
+    public List<GanttDataModel.TaskInfoModel> TaskCollection { get; set; }
+    public List<GanttDataModel.ResourceInfoModel> ResourceCollection { get; set; }
+    public static List<GanttDataModel.AssignmentModel> AssignmentCollection { get; set; }
+    private string AIPrompt = string.Empty;
+    private bool showMessage;
+    List<int> TaskIds = new();
+    protected override void OnInitialized()
+    {
+        TaskCollection = GanttDataModel.GetTaskCollection().Take(6).ToList();
+        ResourceCollection = GanttDataModel.GetResources;
+        AssignmentCollection = GanttDataModel.GetAssignmentCollection();
+    }
+    
+    private string GeneratePrompt(List<GanttDataModel.TaskInfoModel> TaskCollection, List<GanttDataModel.ResourceInfoModel> ResourceCollection, List<GanttDataModel.AssignmentModel> AssignmentCollection)
+    {
+        return @"Here's a revised prompt to ensure the AI provides the results in JSON format:
+
+    Function as an AI assistant responsible for optimizing resource assignments in a project management system. Your goal is to prevent overlapping task assignments for each resource, ensuring no resource is double-booked.
+
+    1. **Check Task Assignments:** Review the start and end dates of tasks assigned to each resource to identify overlaps.
+
+    2. **Resolve Conflicts:** Reassign conflicting tasks to other available resources without scheduling conflicts, ensuring each task is assigned to a resource.
+
+    3. **Provide Updated Assignments:** Return the updated assignments.
+
+    Please return a JSON object with the following:
+
+    - **AssignmentCollection:** Updated resource assignments.
+    - **TaskIds:** List of task IDs where resource assignments have changed.
+
+    The response must be in JSON format only, with no additional explanations or content.
+
+    Here is the dataset:
+    - Task Collection Data: " + JsonSerializer.Serialize(TaskCollection) + @"
+    - Resource Collection Data: " + JsonSerializer.Serialize(ResourceCollection) + @"
+    - Assignment Collection Data: " + JsonSerializer.Serialize(AssignmentCollection) + @"
+
+    Note: Ensure the response is a JSON string and does not include any extra information.";
+    }
+    private async Task Reload()
+    {
+        await JsInterop.InvokeVoidAsync("window.location.reload");
+    }
+   
+    private async Task OpenAIHandler()
+    {
+        await Gantt.ShowSpinnerAsync();
+        TaskIds = new();
+        showMessage = false;
+        List<GanttDataModel.AssignmentModel> sortedCollection = new List<GanttDataModel.AssignmentModel>();
+        var AIPrompt = GeneratePrompt(TaskCollection, ResourceCollection, AssignmentCollection);
+        string result = await OpenAIService.GetCompletionAsync(AIPrompt);
+        try
+        {
+            if (result.StartsWith("```json"))
+            {
+                result = result.Replace("```json", "").Replace("```", "").Trim();
+            }
+            else if (result.StartsWith("```"))
+            {
+                result = result.Replace("```", "").Replace("```", "").Trim();
+            }
+            string response = JsonDocument.Parse(result).RootElement.GetProperty("AssignmentCollection").ToString();
+            string taskIdCollection = JsonDocument.Parse(result).RootElement.GetProperty("TaskIds").ToString();
+            if (response is not null)
+            {
+                var collection = JsonSerializer.Deserialize<List<GanttDataModel.AssignmentModel>>(response);
+                if (collection is not null)
+                {
+                    sortedCollection = collection;
+                }
+            }
+            if (taskIdCollection is not null)
+            {
+                var collection = JsonSerializer.Deserialize<List<int>>(taskIdCollection);
+                if (collection is not null)
+                {
+                    TaskIds = collection;
+                }
+            }
+            if (sortedCollection is not null && sortedCollection.Count > 0)
+            {
+                AssignmentCollection = sortedCollection.Cast<GanttDataModel.AssignmentModel>().ToList();
+            }
+        }
+        catch (Exception e)
+        {
+            showMessage = true;
+            await Gantt.HideSpinnerAsync();
+            return;
+        }
+        await Gantt.HideSpinnerAsync();
+        await Task.CompletedTask;
+    }
+}

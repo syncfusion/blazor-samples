@@ -1,0 +1,112 @@
+@page "/datagrid/data-annotation"
+@using Syncfusion.Blazor.Grids;
+@using System.ComponentModel.DataAnnotations;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the DataGrid component with data annotation features.</p>
+  
+  <p>The Blazor DataGrid supports strong data binding through data annotations, allowing you to define column behavior, validation rules, and display formatting directly in your model classes. Import the <strong>System.ComponentModel.DataAnnotations</strong> namespace to use data annotations.</p>
+  
+  <p>Data annotations enable you to:</p>
+  <ul>
+    <li>Modify column display format and header text</li>
+    <li>Validate field input with predefined and custom rules</li>
+    <li>Display custom messages to end-users</li>
+    <li>Convert empty strings to null values</li>
+    <li>Display custom text for null values</li>
+    <li>Control automatic column generation</li>
+    <li>Define primary keys and editable fields</li>
+  </ul>
+  
+  <p>In this demo, the following data annotation features are implemented:</p>
+  <ul>
+    <li>The <a target='_blank' href='https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.displayattribute?view=net-8.0' aria-label="Navigate to the Microsoft documentation for DisplayAttribute">DisplayAttribute</a> modifies column header text.</li>
+    <li>The <a target='_blank' href='https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.displayformatattribute?view=net-8.0' aria-label="Navigate to the Microsoft documentation for DisplayFormatAttribute">DisplayFormatAttribute</a> formats the Freight column display.</li>
+    <li>The <a target='_blank' href='https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.editableattribute?view=net-8.0' aria-label="Navigate to the Microsoft documentation for EditableAttribute">EditableAttribute</a> disables editing for the ShipCity property.</li>
+    <li>The <a target='_blank' href='https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.keyattribute?view=net-8.0' aria-label="Navigate to the Microsoft documentation for KeyAttribute">KeyAttribute</a> defines the OrderID as the primary key.</li>
+    <li>The <a target='_blank' href='https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.requiredattribute?view=net-8.0' aria-label="Navigate to the Microsoft documentation for RequiredAttribute">RequiredAttribute</a> validates the CustomerID field.</li>
+    <li>The <a target='_blank' href='https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.rangeattribute?view=net-8.0' aria-label="Navigate to the Microsoft documentation for RangeAttribute">RangeAttribute</a> validates the Freight property range.</li>
+    <li>The <a target='_blank' href='https://learn.microsoft.com/en-us/dotnet/api/system.componentmodel.dataannotations.stringlengthattribute?view=net-8.0' aria-label="Navigate to the Microsoft documentation for StringLengthAttribute">StringLengthAttribute</a> validates the CustomerID string length.</li>
+  </ul>
+  
+  <p>For more detailed information about data annotations, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-annotation' aria-label="Navigate to the documentation for data annotation in DataGrid component">data annotation documentation</a>.</p>
+</ActionDescription>
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid TValue="OrderDetails" DataSource="@Orders" AllowPaging="true" AllowFiltering="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Update", "Cancel" })">
+
+                <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true"></GridEditSettings>
+
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code
+{
+
+    public List<OrderDetails>? Orders { get; set; }
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        Orders = GetAllRecords();
+    }
+    public List<OrderDetails> GetAllRecords()
+    {
+        List<OrderDetails> data = new List<OrderDetails>();
+        int count = 10240;
+        int id = 0;
+        for (int i = 0; i < 20; i++)
+        {
+            data.Add(new OrderDetails() { OrderID = count + 1, CustomerName = "ALFKI", EmployeeID = id + 1, Freight = 32.28f, ShipCity = "Reims", ShipCountry = "France" });
+            data.Add(new OrderDetails() { OrderID = count + 2, CustomerName = "ANANTR", EmployeeID = id + 2, Freight = 22.90f, ShipCity = "Munster", ShipCountry = "Germany" });
+            data.Add(new OrderDetails() { OrderID = count + 3, CustomerName = "BLONP", EmployeeID = id + 3, Freight = 30.91f, ShipCity = "Rio de Janeir", ShipCountry = "Brazil" });
+            data.Add(new OrderDetails() { OrderID = count + 4, CustomerName = "ANTON", EmployeeID = id + 4, Freight = 50.52f, ShipCity = null!, ShipCountry = "USA" });
+            data.Add(new OrderDetails() { OrderID = count + 5, CustomerName = "BOLID", EmployeeID = id + 5, Freight = 59.72f, ShipCity = string.Empty, ShipCountry = "UK" });
+            count += 5;
+            id += 5;
+        }
+        return data;
+    }
+    public class OrderDetails
+    {
+
+        [Key]
+        [Display(Name = "Order ID")]
+        [Required(ErrorMessage = "Order ID is required")]
+        public int? OrderID { get; set; }
+
+        [Display(Name = "Customer Identification", Description = "List of Customers")]
+        [Required(ErrorMessage = "Customer ID is required")]
+        [StringLength(8, MinimumLength = 3, ErrorMessage = "Customer ID length should between 3 and 8")]
+        public string? CustomerName { get; set; }
+
+        [Display(Name = "Employee ID")]
+        [Range(1, 100, ErrorMessage = "Employee ID should be between 1 and 100")]
+        public int EmployeeID { get; set; }
+
+        [DisplayFormat(DataFormatString = "c2")]
+        [Range(2, float.MaxValue, ErrorMessage = "Freight value should be greater than 1")]
+        public float Freight { get; set; }
+
+        [Display(Name = "Ship City", AutoGenerateFilter = false)]
+        [DisplayFormat(NullDisplayText = "Empty", ConvertEmptyStringToNull = true)]
+        [Editable(false)]
+        public string? ShipCity { get; set; }
+
+        [Display(AutoGenerateField = false)]
+        public string? ShipCountry { get; set; }
+
+    }
+}

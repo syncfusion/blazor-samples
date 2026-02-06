@@ -1,0 +1,104 @@
+@page "/gantt-chart/observable-collection"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Buttons
+@using System.Collections.ObjectModel;
+@using System.ComponentModel;
+@using Syncfusion.Blazor.Grids
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+		This sample demonstrates observable data binding in the <a class="e-gantt-observablebinding-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                   href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                   target="_blank" rel="noopener">Blazor Gantt Chart</a>. The chart consumes an <code>ObservableCollection</code>, ensuring that structural changes in the data source are reflected immediately on the timeline.
+    </p>
+
+    <p>
+        An <code>ObservableCollection</code> allows dynamic updates to the UI by automatically notifying changes such as additions, removals, or modifications to its items. When an object is added to or removed from the collection, the Gantt Chart UI updates automatically.
+    </p>
+
+    <p>
+        To ensure the UI reflects changes to individual properties within an object, the property setter must be properly configured to raise change notifications. This enables the Gantt Chart to refresh the affected task without requiring a full data reload.
+    </p>
+
+    <p>
+        The toolbar also enhances this functionality by providing built-in options for add, update, and delete operations, allowing direct task management within the chart interface.
+    </p>
+
+    <p>
+        For further details, refer to the
+		<a class="e-gantt-observablebinding-reference-link" aria-label="Navigate to the documentation for ObservableCollection binding in the Gantt chart component"
+           href="https://blazor.syncfusion.com/documentation/gantt-chart/data-binding#observable-collection"
+           target="_blank" rel="noopener">documentation</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-observable-collection-sample">
+	<div style="padding-bottom: 10px;">
+		<SfButton ID="add" @onclick="AddRecord">Add Data</SfButton>
+		<SfButton ID="del" @onclick="DeleteRecord">Delete Data</SfButton>
+		<SfButton ID="update" @onclick="UpdateRecord">Update Data</SfButton>
+	</div>
+	<SfGantt @ref="GanttInstance" DataSource="@ObservableData" Toolbar="@(new List<string>() { "Add", "Cancel", "Delete", "Edit", "Update" })" Height="450px" Width="100%" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Task Name" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+		</GanttColumns>
+		<GanttEditSettings AllowEditing="true" AllowAdding="true" AllowDeleting="true" AllowTaskbarEditing="true"></GanttEditSettings>
+		<GanttEvents TValue="ObservableBindingData.TaskData" RowUpdated="RowUpdated"></GanttEvents>
+	</SfGantt>
+</div>
+@code{
+	/// <summary>
+	/// Initializes the sample by loading observable Gantt data.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		ObservableData = ObservableBindingData.ProjectNewData();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-observable-collection-sample {
+		padding: 20px;
+	}
+
+	.e-gantt-observablebinding-reference-link {
+		text-decoration: none !important;
+	}
+
+	.e-gantt-observablebinding-reference-link:hover,
+	.e-gantt-observablebinding-reference-link:focus {
+		text-decoration: underline !important;
+	}
+</style>

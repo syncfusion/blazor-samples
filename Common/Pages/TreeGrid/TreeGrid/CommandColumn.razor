@@ -1,0 +1,66 @@
+@page "/tree-grid/command-column"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids;
+
+@*Hidden:Lines*@
+@using TaskData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates command column editing. Perform CRUD operations using action buttons rendered in a command column.
+  </p>
+  <p>
+    Configure command column editing with <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridCommandColumn.html">TreeGridCommandColumn</a> inside a <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridColumn.html">TreeGridColumn</a>. Supported button types (via <code>Type</code>): <code>Edit</code>, <code>Delete</code>, <code>Cancel</code>, <code>Save</code>.
+  </p>
+  <p>
+    Learn more in the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/treegrid/editing/command-column-editing">command column editing documentation</a>.
+  </p>
+</ActionDescription>
+
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid DataSource="@TreeData" IdMapping="TaskID" ParentIdMapping="ParentID" TreeColumnIndex="1" AllowPaging="true" Height="400">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="Syncfusion.Blazor.TreeGrid.EditMode.Row"></TreeGridEditSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TaskID" HeaderText="Task ID" Width="80" ValidationRules="@(new ValidationRules() { Required=true, Number=true })" IsPrimaryKey="true" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="TaskName" ClipMode="ClipMode.EllipsisWithTooltip" HeaderText="Task Name" ValidationRules="@(new ValidationRules() { Required=true })" Width="165"></TreeGridColumn>
+                    <TreeGridColumn Field="AssignedTo" HeaderText="Assigned" Width="145" EditorSettings="DurationParams"></TreeGridColumn>
+                    <TreeGridColumn Field="Progress" HeaderText="Status" Width="100" EditType="Syncfusion.Blazor.Grids.EditType.DropDownEdit"></TreeGridColumn>
+                    <TreeGridColumn Field="StartDate" HeaderText="Start Date" Format="dd/MM/yyyy" Type=ColumnType.Date Width="110" TextAlign="TextAlign.Right" EditType=EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn Field="EndDate" HeaderText="End Date" Format="dd/MM/yyyy" Type=ColumnType.Date Width="110" TextAlign="TextAlign.Right" EditType=EditType.DatePickerEdit></TreeGridColumn>
+                    <TreeGridColumn HeaderText="Manage Records" Width="140">
+                        <TreeGridCommandColumns>
+                            <TreeGridCommandColumn Type="CommandButtonType.Edit" ButtonOption="@(new CommandButtonOptions() {IconCss="e-icons e-edit", CssClass="e-flat" })"></TreeGridCommandColumn>
+                            <TreeGridCommandColumn Type="CommandButtonType.Delete" ButtonOption="@(new CommandButtonOptions() {IconCss="e-icons e-delete", CssClass="e-flat" })"></TreeGridCommandColumn>
+                            <TreeGridCommandColumn Type="CommandButtonType.Save" ButtonOption="@(new CommandButtonOptions() {IconCss="e-icons e-save", CssClass="e-flat" })"></TreeGridCommandColumn>
+                            <TreeGridCommandColumn Type="CommandButtonType.Cancel" ButtonOption="@(new CommandButtonOptions() {IconCss="e-icons e-cancel-icon", CssClass="e-flat" })"></TreeGridCommandColumn>
+                        </TreeGridCommandColumns>
+                    </TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    private List<TaskData> TreeData { get; set; } = new List<TaskData>();
+    
+    private Syncfusion.Blazor.Grids.NumericEditCellParams DurationParams = new Syncfusion.Blazor.Grids.NumericEditCellParams()
+    {
+        Params = new Syncfusion.Blazor.Inputs.NumericTextBoxModel<object>() { Format = "N2", ShowSpinButton = true }
+    };
+
+    protected override void OnInitialized()
+    {
+        TreeData = TaskData.GetTree().ToList();
+    }
+}

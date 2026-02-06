@@ -1,0 +1,143 @@
+@page "/stock-chart/stock-chart-area"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using System.Net.Http.Json
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample uses an Area series to visualize stock price movements over time with an interactive crosshair displaying values and period information.</p>
+
+<p>Configuration:</p>
+<ul>
+  <li>To render an area series in the Stock Chart, set the series <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.StockChartSeries.html#Syncfusion_Blazor_Charts_StockChartSeries_Type" aria-label="Navigate to Type property"><strong>Type</strong></a> to <strong>Area</strong></li>
+  <li>Area series are well-suited for emphasizing the magnitude of change over time</li>
+  <li>The filled region provides visual aid for comparison</li>
+</ul>
+
+<p>Interaction:</p>
+<ul>
+  <li>Crosshair is enabled for precise value inspection</li>
+  <li>Hover over the chart or tap on touch-enabled devices to view the crosshair and axis-aligned value tooltips</li>
+  <li>Get immediate feedback on selected period and values</li>
+</ul>
+
+<p>More details on supported series types: <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/stock-chart/series-types" aria-label="Navigate to the documentation section">documentation section</a>.</p>
+</ActionDescription>
+
+
+@if (StockData == null)
+{
+    <div class="stockchartloader"></div>
+}
+else
+{
+    <div class="@LoaderClass"></div>
+    <div class="@ChartContainerClass">
+        <SfStockChart Title="AAPL Stock Price" IndicatorType="@SelectedIndicators" TrendlineType="@SelectedTrendlines" Theme="@CurrentTheme">
+            <StockChartEvents OnLoaded="@OnChartLoaded"></StockChartEvents>
+            <StockChartPrimaryXAxis>
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis>
+                <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryYAxis>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@StockData" XName="x" YName="high" Type="ChartSeriesType.Area" Opacity="0.5" Name="AAPL">
+                </StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+        </SfStockChart>
+    </div>
+    
+    <style>
+        .stockchartloader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stock-chart-container {
+            visibility: hidden;
+        }
+
+        div[id*="_stockChart_rangeSelector_leftTooltip"], div[id*="_stockChart_rangeSelector_rightTooltip"] {
+            top: 10px !important;
+        }
+
+        div[id*="_selector_Secondary_Element"] {
+            transform: translate(0px, @TranslateY) !important;
+        }
+
+        .e-tbar-btn {
+            border-color: transparent !important;
+        }
+    </style>
+}
+
+@code {
+
+    private List<TechnicalIndicators> SelectedIndicators { get; set; } = new List<TechnicalIndicators>();
+    private List<TrendlineTypes> SelectedTrendlines { get; set; } = new List<TrendlineTypes>();
+    private ChartData[]? StockData { get; set; }
+    private string LoaderClass { get; set; } = "stockchartloader";
+    private string ChartContainerClass { get; set; } = "stock-chart-container";
+    private string TranslateY { get; set; } = "-5px";
+    private Theme CurrentTheme { get; set; } = Theme.Bootstrap4;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetThemeSpecificProperties();
+        StockData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/stock-chart/aapl.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+    }
+
+    private void OnChartLoaded(StockChartEventArgs args)
+    {
+        LoaderClass = string.Empty;
+        ChartContainerClass = string.Empty;
+        StateHasChanged();
+    }
+
+    private void SetThemeSpecificProperties()
+    {
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+
+        if (CurrentTheme == Theme.Material3 || CurrentTheme == Theme.Material3Dark || 
+            CurrentTheme == Theme.Bootstrap4 || CurrentTheme == Theme.Material || 
+            CurrentTheme == Theme.MaterialDark)
+        {
+            TranslateY = "-7px";
+        }
+    }
+}

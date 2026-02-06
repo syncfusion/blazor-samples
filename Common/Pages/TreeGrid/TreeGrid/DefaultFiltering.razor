@@ -1,0 +1,71 @@
+@page "/tree-grid/default-filtering"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+
+@*Hidden:Lines*@
+@using EmployeeData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates a filter bar that lets users type values to filter individual columns.
+  </p>
+  <p>
+    Enable filtering by setting <a target="_blank" rel="noopener" aria-label="Navigate to the allow filtering property reference to tree grid data in column" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_AllowFiltering">AllowFiltering</a> to <strong>true</strong>. A filter bar appears below the header for entering filter values. Configure behavior via <a target="_blank" rel="noopener" aria-label="Navigate to the class reference for tree grid filter settings" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridFilterSettings.html">TreeGridFilterSettings</a>.
+  </p>
+  <p>
+    Hierarchical filtering modes (<a target="_blank" rel="noopener" aria-label="Navigate to the HierarchyMode property reference for tree grid filter settings" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridFilterSettings.html#Syncfusion_Blazor_TreeGrid_TreeGridFilterSettings_HierarchyMode">HierarchyMode</a>):
+  </p>
+  <ul>
+    <li><code>Parent</code> (default) – Show filtered records with parents</li>
+    <li><code>Child</code> – Show filtered records with children</li>
+    <li><code>Both</code> – Show filtered records with parents and children</li>
+    <li><code>None</code> – Show only filtered records</li>
+  </ul>
+  <p>
+    In this demo, <code>Parent</code> mode is enabled by default.
+  </p>
+  <p>
+    Learn more in the <a target="_blank" rel="noopener" aria-label="Navigate to the documentation for filtering in the tree grid component" href="https://blazor.syncfusion.com/documentation/treegrid/filtering/">filtering documentation</a>.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid AllowFiltering="true" DataSource="TreeData" IdMapping="EmployeeID" ParentIdMapping="ParentId" Height="312" TreeColumnIndex="1">
+                <TreeGridPageSettings PageSize="2"></TreeGridPageSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="EmpID" HeaderText="Employee ID" TextAlign="TextAlign.Right" Width="90"></TreeGridColumn>
+                    <TreeGridColumn Field="Name" HeaderText="Name" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="Designation" ClipMode="ClipMode.EllipsisWithTooltip" HeaderText="Designation" Width="110"></TreeGridColumn>
+                    <TreeGridColumn Field="JoinedDate" HeaderText="Joined Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="90"></TreeGridColumn>
+                    <TreeGridColumn Field="Address" ClipMode="ClipMode.EllipsisWithTooltip" HeaderText="Address" Width="110"></TreeGridColumn>
+                    <TreeGridColumn Field="Contact" HeaderText="Contact" Width="120" TextAlign="TextAlign.Right">
+                        <Template>
+                            @{
+                                var employee = (context as EmployeeData);
+                                <a href="tel:@employee.Contact" class="e-link" onclick="event.preventDefault();">
+                                    <i class="e-icons e-phone"></i> @employee.Contact
+                                </a>
+                            }
+                        </Template>
+                    </TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    private List<EmployeeData> TreeData { get; set; } = new List<EmployeeData>();
+    
+    protected override void OnInitialized()
+    {
+        TreeData = EmployeeData.GetTemplateData().Take(70).ToList();
+    }
+}

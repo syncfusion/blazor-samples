@@ -1,0 +1,197 @@
+@page "/gantt-chart/taskbar-template"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+        This sample demonstrates the complete event schedule of the 90th Academy Awards, showcasing how taskbars and timeline headers can be customized for enhanced readability and presentation.
+    </p>
+
+    <p>
+		The <a class="e-gantt-gantttaskbartemplate-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+               href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+               target="_blank" rel="noopener">Blazor Gantt Chart</a> component supports taskbar customization through template features. By using the
+        <a class="e-gantt-gantttaskbartemplate-reference-link" aria-label="Navigate to the TaskbarTemplate property reference for gantt templates" target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_TaskbarTemplate">TaskbarTemplate</a> 
+        property within <a class="e-gantt-gantttaskbartemplate-reference-link" aria-label="Navigate to the class reference for gantt templates" target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html">GanttTemplates</a>, 
+        custom content can be added to taskbars. Additionally, summary
+        tasks and milestone items can be styled individually using the <a class="e-gantt-gantttaskbartemplate-reference-link" aria-label="Navigate to the ParentTaskbarTemplate property reference for gantt templates" target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_ParentTaskbarTemplate">ParentTaskbarTemplate</a>
+        and <a class="e-gantt-gantttaskbartemplate-reference-link" aria-label="Navigate to the MilestoneTemplate property reference for gantt templates" target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTemplates-1.html#Syncfusion_Blazor_Gantt_GanttTemplates_1_MilestoneTemplate">MilestoneTemplate</a> properties.
+    </p>
+
+    <p>
+        These customization options allow for a more tailored and visually engaging representation of project data.
+    </p>
+
+    <p>
+		For further details, refer to the <a class="e-gantt-gantttaskbartemplate-reference-link" aria-label="Navigate to the documentation for the taskbar template in the Gantt chart component"
+                                          href="https://blazor.syncfusion.com/documentation/gantt-chart/taskbar#taskbar-template"
+                                          target="_blank" rel="noopener">documentation</a>.
+    </p>
+
+</ActionDescription>
+
+<div class="control-section e-gantt-taskbar-template-sample">
+	<SfGantt @ref="GanttInstance" RowHeight="75" TaskbarHeight="50" DataSource="@TaskCollection" Height="450px" Width="100%"
+			 ProjectStartDate="@(new DateTime(2021, 3, 5, 17, 58, 0))" ProjectEndDate="@(new DateTime(2021, 3, 5, 21, 40, 0))" DurationUnit="DurationUnit.Minute"
+			 DateFormat="hh:mm tt" ScrollToTaskbarOnClick="true">
+		<Syncfusion.Blazor.Gantt.GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Dependency="Predecessor" ParentID="ParentId"></Syncfusion.Blazor.Gantt.GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" HeaderText="Event Id"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Event Name" Width="150" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Time"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Time"></GanttColumn>
+			<GanttColumn Field="Winner" HeaderText="Winner"></GanttColumn>
+			<GanttColumn Field="Movie" HeaderText="Movie"></GanttColumn>
+			<GanttColumn Field="Performance" HeaderText="Performance" Width="200"></GanttColumn>
+		</GanttColumns>
+		<GanttEventMarkers>
+			@foreach (var eventDay in EventDays)
+			{
+				<GanttEventMarker Day="@eventDay.Date" Label="@eventDay.Label"></GanttEventMarker>
+			}
+		</GanttEventMarkers>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="TaskbarTemplateData.TaskbarData">
+		</GanttLabelSettings>
+		<GanttSplitterSettings Position="28%"> </GanttSplitterSettings>
+		<GanttTemplates TValue="TaskbarTemplateData.TaskbarData">
+			<TaskbarTemplate>
+				@if ((context as TaskbarTemplateData.TaskbarData).TaskName == "Oscar moments")
+				{
+					<div class="e-gantt-child-taskbar e-custom-moments"
+						 style="height:50px; border-radius:5px; padding:4px; display:flex; align-items:center; width:100%; box-sizing:border-box;"
+						 tabindex="-1">
+						@if (Convert.ToDouble((context as TaskbarTemplateData.TaskbarData).Duration) < 4)
+						{
+							<img class="moments" height="32" width="44" role="presentation" />
+						}
+						else
+						{
+							<img class="moments" height="32" width="44" role="presentation" />
+							<div style="flex: 1; overflow: hidden; white-space: normal; word-break: break-word; display: flex; flex-direction: column;">
+								<span class="e-task-label" style="font-size:12px; color:black;">@((context as TaskbarTemplateData.TaskbarData).Performance)</span>
+							</div>
+						}
+					</div>
+				}
+				else if ((context as TaskbarTemplateData.TaskbarData).TaskName == "Oscar performance")
+				{
+					<div class="e-gantt-child-taskbar e-custom-performance"
+						 style="height:50px; border-radius:5px; padding: 4px; display: flex; align-items: center; width: 100%; box-sizing: border-box;"
+						 tabindex="-1">
+						@if (Convert.ToDouble((context as TaskbarTemplateData.TaskbarData).Duration) <= 5)
+						{
+							<img class="face-mask" height="32" width="32" role="presentation" />
+						}
+						else
+						{
+							<img class="face-mask" height="32" width="32" role="presentation" />
+							<div style="flex: 1; overflow: hidden; white-space: normal; word-break: break-word; display: flex; flex-direction: column;">
+								<span class="e-task-label" style="font-size:12px;">@((context as TaskbarTemplateData.TaskbarData).Performance)</span>
+							</div>
+						}
+					</div>
+				}
+				else
+				{
+					<div class="e-gantt-parent-taskbar e-custom-parent"
+						 style="height:50px; border-radius:5px; text-overflow:ellipsis; display:flex; align-items:center; padding:4px; width:100%; box-sizing:border-box;"
+						 tabindex="-1">
+						@if (Convert.ToDouble((context as TaskbarTemplateData.TaskbarData).Duration) < 4)
+						{
+							<img class="oscar" height="32" width="32" role="presentation" />
+						}
+						else
+						{
+							var taskData = context as TaskbarTemplateData.TaskbarData;
+							if (!string.IsNullOrEmpty(taskData.Winner) && !string.IsNullOrEmpty(taskData.Movie))
+							{
+								<img class="oscar" height="32" width="32" role="presentation" />
+								<div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
+									<span class="e-task-label" style="font-size:14px;">@taskData.Winner</span>
+									<span class="e-task-label" style="font-size:10px;">@taskData.Movie</span>
+								</div>
+							}
+							else if (!string.IsNullOrEmpty(taskData.Movie))
+							{
+								<img class="oscar" height="32" width="32" role="presentation" />
+								<div style="flex: 1; overflow: hidden; display: flex; flex-direction: column; justify-content: center;">
+									<span class="e-task-label" style="font-size:12px;">@taskData.Movie</span>
+								</div>
+							}
+							else
+							{
+								<span class="e-task-label"></span>
+							}
+						}
+					</div>
+				}
+			</TaskbarTemplate>
+			<MilestoneTemplate>
+				<div style="margin-top:-7px;">
+					<div style="position:absolute;left: 3px;">
+						<img class="moments e-custom-milestone" height="24" width="48" style="z-index:1;top:8px;" role="presentation" />
+						<div class="e-gantt-milestone" style="width:41px;height:41px;transform: rotate(45deg);background-color: #7ab748 !important;border:0px"></div>
+					</div>
+				</div>
+			</MilestoneTemplate>
+		</GanttTemplates>
+		<GanttTimelineSettings TimelineUnitSize="75">
+			<GanttTopTierSettings Unit="TimelineViewMode.Hour" Format="MMM dd, yyyy"></GanttTopTierSettings>
+			<GanttBottomTierSettings Unit="TimelineViewMode.Minutes" Count="2" Format="h:mm tt"></GanttBottomTierSettings>
+		</GanttTimelineSettings>
+		<GanttDayWorkingTimeCollection>
+			<GanttDayWorkingTime From="0" To="24"></GanttDayWorkingTime>
+		</GanttDayWorkingTimeCollection>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<TaskbarTemplateData.TaskbarData>? GanttInstance { get; set; }
+	public List<TaskbarTemplateData.TaskbarData> TaskCollection { get; set; } = new List<TaskbarTemplateData.TaskbarData>();
+
+	// Define EventDays as a collection for easier management
+	private List<(DateTime Date, string Label)> EventDays { get; } = new List<(DateTime, string)>
+	{
+		(new DateTime(2021, 3, 5, 19, 9, 0), "Performance"),
+		(new DateTime(2021, 3, 5, 19, 46, 0), "Moments"),
+		(new DateTime(2021, 3, 5, 19, 59, 0), "Performance"),
+		(new DateTime(2021, 3, 5, 20, 8, 0), "Moments"),
+		(new DateTime(2021, 3, 5, 20, 24, 0), "Moments"),
+		(new DateTime(2021, 3, 5, 20, 31, 0), "Performance"),
+		(new DateTime(2021, 3, 5, 20, 47, 0), "Moments")
+	};
+
+	/// <summary>
+	/// Initializes the sample by loading task data for the Gantt chart.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = TaskbarTemplateData.TaskTemplateData();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+</style>

@@ -1,0 +1,85 @@
+@page "/pivot-table/virtual-scrolling"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
+@using System.Diagnostics
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates the virtual scrolling feature, which optimizes the rendering of large datasets by loading records only within the visible viewport both vertically and horizontally.
+  </p>
+  <p>
+    Virtual scrolling provides an optimized approach to render only the rows and columns visible within the viewport, eliminating the need to calculate values for the entire pivot. This significantly improves performance and responsiveness when working with large datasets. To enable virtual scrolling, set the <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html#Syncfusion_Blazor_PivotView_SfPivotView_1_EnableVirtualization" aria-label="Class reference of EnableVirtualization property in PivotView">EnableVirtualization</a> property in <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.SfPivotView-1.html" aria-label="Class reference of PivotView">SfPivotView</a> to <strong>true</strong>.
+  </p>
+  <p>
+    For comprehensive information about the virtual scrolling feature and best practices, refer to the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/virtual-scrolling" aria-label="Blazor PivotTable Virtualization documentation">virtual scrolling documentation</a>.
+  </p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfButton id="load" IsPrimary="true" Disabled="@_disableButton" OnClick="@OnApply"> Load 100K Rows </SfButton>
+        <div id="performanceTime" style="float:right">
+            Time taken = @timeElapsed
+        </div>
+        <div id="Pivot" style="margin-top:10px">
+            <SfPivotView TValue="PivotVirtualData" Width="100%" Height="500" EnableVirtualization="true" EnableValueSorting=true ShowTooltip=false>
+                <PivotViewDataSourceSettings DataSource="@PivotViewDataSource" EnableSorting="false" AlwaysShowValueHeader="true">
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="Year"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="ProductID"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="Price" Caption="Unit Price"></PivotViewValue>
+                        <PivotViewValue Name="Sold" Caption="Unit Sold"></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Price" Format="C0"></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                </PivotViewDataSourceSettings>
+                <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+                <PivotViewEvents TValue="PivotVirtualData" DataBound="@DataBound"></PivotViewEvents>
+            </SfPivotView>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+</style>
+
+@code {
+    private List<PivotVirtualData>? PivotViewDataSource { get; set; }
+    private bool _disableButton = false;
+    private Stopwatch _stopWatch = new Stopwatch();
+    private string timeElapsed = "0 sec";
+    protected override void OnInitialized()
+    {
+        PivotViewDataSource = new List<PivotVirtualData>();
+    }
+    private void OnApply(Microsoft.AspNetCore.Components.Web.MouseEventArgs args)
+    {
+        PivotViewDataSource = PivotVirtualData.GetVirtualData();
+        _stopWatch.Start();
+        _disableButton = true;
+    }
+    private void DataBound()
+    {
+        if (_disableButton)
+        {
+            _stopWatch.Stop();
+            TimeSpan TimeTaken = _stopWatch.Elapsed;
+            timeElapsed = String.Format("{0:00}:{1:00} seconds", TimeTaken.Seconds, TimeTaken.Milliseconds / 100);
+        }
+    }
+}

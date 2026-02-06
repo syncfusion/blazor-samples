@@ -1,0 +1,163 @@
+@page "/datagrid/custom-validation"
+
+@using Syncfusion.Blazor.Grids;
+@using System.ComponentModel.DataAnnotations;
+@using System.Text.RegularExpressions;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@inject SampleService Service
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates how to implement custom validation in the DataGrid using data annotations.</p>
+  
+  <p>The Blazor DataGrid supports custom validation through <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-annotation' aria-label="Navigate to the documentation for data annotation in DataGrid component">data annotations</a>. To use custom validation, import the <strong>System.ComponentModel.DataAnnotations</strong> namespace and create a custom validation class that extends <strong>ValidationAttribute</strong>. Override the <strong>IsValid</strong> method to implement your validation logic.</p>
+  
+  <p>In this demo, the following custom validations are implemented:</p>
+  <ul>
+    <li>A <strong>CustomValidationFreight</strong> class validates that the Freight value is between 1 and 1000.</li>
+    <li>A <strong>CustomValidationEmployeeID</strong> class validates that the EmployeeID value is greater than 0.</li>
+  </ul>
+  
+  <p>When users enter invalid data, error messages are displayed automatically. Try adding a new record with empty or invalid values to see the validation messages.</p>
+  
+  <p>For more detailed information about custom validation, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/column-validation#custom-validation' aria-label="Navigate to the documentation for Custom validation in DataGrid component">custom validation documentation</a>.</p>
+</ActionDescription>
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="EmployeeList" AllowPaging="true" Toolbar="toolbar">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"></GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field="@nameof(EmployeeDetails.OrderID)" HeaderText="Order ID" TextAlign="TextAlign.Right" IsPrimaryKey="true" Width="@DefaultWidth"> </GridColumn>
+                    <GridColumn Field="@nameof(EmployeeDetails.CustomerName)" HeaderText="Customer ID" Width="@DefaultWidth"> </GridColumn>
+                    <GridColumn Field="@nameof(EmployeeDetails.EmployeeID)" HeaderText="Employee ID" TextAlign="TextAlign.Right" Width="@EmployeeIDWidth"> </GridColumn>
+                    <GridColumn Field="@nameof(EmployeeDetails.Freight)" TextAlign="TextAlign.Right" Format="C2" Width="@FreightWidth"> </GridColumn>
+                    <GridColumn Field="@nameof(EmployeeDetails.ShipCity)" HeaderText="Ship City" Width="@DefaultWidth"> </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code
+{
+
+    List<EmployeeDetails>? EmployeeList;
+    string[] toolbar = new string[] { "Add", "Edit", "Delete", "Update", "Cancel" };
+    private string? DefaultWidth;
+    private string? EmployeeIDWidth;
+    private string? FreightWidth; 
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        EmployeeList = GetAllRecords();
+        @*Hidden:Lines*@
+        if (this.SampleService != null && this.SampleService.IsDevice)
+        {
+            DefaultWidth = "120px";
+            EmployeeIDWidth = "125px";
+            FreightWidth = "130px";
+        }
+        @*End:Hidden*@
+    }
+
+
+    public static List<EmployeeDetails> GetAllRecords()
+    {
+        List<EmployeeDetails> customers = new List<EmployeeDetails>();
+        string[] CustomerName ={"VINET", "TOMSP", "HANAR", "VICTE"};
+        string[] ShipCity = { "Reims", "Munster", "Rio de Janeir", "Lyon" };
+        float[] Freight = { 30.99f, 50.52f, 32.28f, 22.90f };
+        int OrderID = 10241;
+        int i = 0; int k = 0; int l = 0;
+        for (int x = 0; x < 20; x++)
+        {
+            i = i >= CustomerName.Length ? 0 : i;
+            l = l >= ShipCity.Length ? 0 : l;
+            k = k >= Freight.Length ? 0 : k;
+            customers.Add(new EmployeeDetails()
+            {
+                OrderID = OrderID + x,
+                CustomerName = CustomerName[i],
+                EmployeeID = x + 1,
+                Freight = Freight[k],
+                ShipCity = ShipCity[l]
+            });
+            i++; k++; l++;
+        }
+        return customers;
+    }
+
+
+    public class EmployeeDetails
+    {
+        [Required(ErrorMessage = "Order ID field is required")]
+        public int? OrderID { get; set; }
+
+        public string? CustomerName { get; set; }
+
+        [CustomValidationEmployeeID]
+        public int EmployeeID { get; set; }
+
+        [CustomValidationFreight]
+        public float Freight { get; set; }
+
+        public string? ShipCity { get; set; }
+
+    }
+
+    public class CustomValidationEmployeeID : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+        {
+            if (value != null)
+            {
+                int employeeID = Convert.ToInt16(value);
+
+                if (employeeID >= 1)
+                {
+                    return ValidationResult.Success!;
+                }
+                else
+                {
+                    return new ValidationResult("Employee ID should be greater than zero");
+                }
+            }
+            else
+            {
+                return new ValidationResult("Employee ID field is required");
+            }
+        }
+    }
+
+    public class CustomValidationFreight : ValidationAttribute
+    {
+        protected override ValidationResult IsValid(object? value, ValidationContext validationContext)
+        {
+            if (value != null)
+            {
+                float freight = (float)value;
+
+                if (freight >= 1 && freight <= 1000 )
+                {
+                    return ValidationResult.Success!;
+                }
+                else
+                {
+                    return new ValidationResult("Freight should be between 1 and 1000");
+                }
+            }
+            else
+            {
+                return new ValidationResult("Freight value is required");
+            }
+        }
+    }
+}

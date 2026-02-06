@@ -1,0 +1,121 @@
+@page "/datagrid/show-or-hide-column"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@using blazor_ordersdetails
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the DataGrid dynamic column visibility feature.</p>
+  
+  <p>The Blazor DataGrid supports dynamic column visibility management through dedicated methods. Toggle column visibility by using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_ShowColumnAsync_System_String_System_String_' aria-label="Navigate to the ShowColumnAsync method reference for DataGrid component">ShowColumnAsync</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_HideColumnAsync_System_String_System_String_' aria-label="Navigate to the HideColumnAsync method reference for DataGrid component">HideColumnAsync</a> methods.</p>
+  
+  <p>In this demo:</p>
+  <ul>
+    <li>Click switch buttons to toggle column visibility dynamically</li>
+    <li>Columns are shown or hidden based on their <strong>HeaderText</strong> value</li>
+    <li>The visibility state changes immediately in the grid</li>
+  </ul>
+  
+  <p>To hide a column during initial DataGrid rendering, set the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_Visible' aria-label="Navigate to the Visible property reference for Grid column">Visible</a> property to <strong>false</strong> in the column definition.</p>
+  
+  <p>This feature is useful for providing users with customizable grid views, allowing them to focus on the columns most relevant to their tasks.</p>
+  
+  <p>For more detailed information about showing and hiding columns, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/columns#show-or-hide-columns' aria-label="Navigate to the documentation for Show or hide columns in DataGrid component">show or hide columns documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-mastertext">Click the switch to toggle visibility</div>
+            <div class="e-switch-control">
+                <div>
+                    <label class="showhide" style="padding: 10px 5px 10px 0"> Order ID </label>
+                    <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { change("Order ID", args); })" @bind-Checked="@Check" TChecked="bool"></SfSwitch>
+                </div>
+                <div>
+                    <label class="showhide" style="padding: 10px 5px 10px 10px"> Customer ID </label>
+                    <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { change("Customer ID", args); })" @bind-Checked="@Check1" TChecked="bool"></SfSwitch>
+                </div>
+                <div>
+                    <label class="showhide" style="padding: 10px 5px 10px 10px"> Freight </label>
+                    <SfSwitch ValueChange="@((Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args) => { change("Freight", args); })" @bind-Checked="@Check2" TChecked="bool"></SfSwitch>
+                </div>
+            </div>
+
+            <SfGrid DataSource="@GridData" @ref="Grid" AllowPaging="true">
+                <GridPageSettings PageCount="5"></GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" Visible="true" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText="Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                    <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" Visible="true" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+
+        </div>
+    </div>
+</div>
+
+@*Hidden:Lines*@
+<style>
+    .showhide {
+        font-size: 15px;
+        font-weight: 200;
+    }
+
+    .e-mastertext {
+        font-size: 15px;
+        font-family: Roboto;
+        opacity: 0.87;
+        padding: 1em;
+    }
+
+    .e-switch-control div {
+        display: flex;
+        align-items: center;
+    }
+
+    .e-switch-control  {
+        width: auto;
+        display: flex;
+    }
+
+</style>
+@*End:Hidden*@
+
+@code {
+    SfGrid<OrdersDetails>? Grid;
+
+    Boolean Check = true, Check1 = true, Check2 = true;
+
+    public List<OrdersDetails>? GridData { get; set; }
+
+
+    protected override void OnInitialized()
+    {
+
+        GridData = OrdersDetails.GetAllRecords();
+    }
+
+    public void change(string name, Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        if (this.Grid != null)
+        {
+            if (args.Checked)
+            {
+                this.Grid.ShowColumnAsync(name);
+            }
+            else
+            {
+                this.Grid.HideColumnAsync(name);
+            }
+        }
+    }
+}

@@ -1,0 +1,231 @@
+@page "/tree-grid/selection"
+
+@using Syncfusion.Blazor.TreeGrid
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@using System.Threading.Tasks
+@using TicketData
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample illustrates interactive selection in the Tree Grid, enabling row and cell selection via mouse, keyboard, and touch gestures.</p>
+    
+    <p>Selection is enabled by setting <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.SfTreeGrid-1.html#Syncfusion_Blazor_TreeGrid_SfTreeGrid_1_AllowSelection">AllowSelection</a> to <b>true</b> and configured through <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.TreeGrid.TreeGridSelectionSettings.html">TreeGridSelectionSettings</a> to control selection type, selection mode, and cell selection behavior.</p>
+    
+    <p>Use the following options to control selection:</p>
+    <ul>
+        <li><code>TreeGridSelectionSettings.Type</code>: Choose <b>SelectionType.Single</b> to allow one row or cell at a time or <b>SelectionType.Multiple</b> to allow multiple rows or cells.</li>
+        <li><code>TreeGridSelectionSettings.Mode</code>: Set to <b>Row</b>, <b>Cell</b>, or <b>Both</b> to define how selection is applied.</li>
+        <li><code>TreeGridSelectionSettings.CellSelectionMode</code>: Use <b>Flow</b> for a continuous range or <b>Box</b> for a rectangular range between start and end columns across rows.</li>
+        <li>Keyboard and touch: Hold <b>CTRL</b> to select multiple items, hold <b>SHIFT</b> to select a range, and on touch devices use the multi-selection popup to enable multiple selection.</li>
+    </ul>
+    
+    <p>This demo wires dropdowns to update <code>TreeGridSelectionSettings</code> at runtime, allowing you to switch the selection type, selection mode, and cell selection mode programmatically and observe how each configuration affects interaction.</p>
+    
+    <p>More information about selection can be found in this <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/treegrid/selection">documentation</a> section.</p>
+</ActionDescription>
+
+
+
+<div class="col-lg-9 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfTreeGrid DataSource="@TreeGridData" @ref="Tree" IdMapping="TicketID" ParentIdMapping="ParentTicketID" TreeColumnIndex="1" Height="312" AllowSelection="true">
+                <TreeGridSelectionSettings Type="@GridSelectType" Mode="@GridSelectMode" CellSelectionMode="@GridCellMode"></TreeGridSelectionSettings>
+                <TreeGridColumns>
+                    <TreeGridColumn Field="TicketID" HeaderText="Ticket ID" Width="160" TextAlign="TextAlign.Right"></TreeGridColumn>
+                    <TreeGridColumn Field="Title" ClipMode="ClipMode.EllipsisWithTooltip" HeaderText="Title" Width="240"></TreeGridColumn>
+                   
+                    <TreeGridColumn Field="AssignedAgent" HeaderText="Assigned To" ClipMode="ClipMode.EllipsisWithTooltip" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="Category" HeaderText="Category" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="Status" HeaderText="Status" Width="100"></TreeGridColumn>
+                    <TreeGridColumn Field="CreatedDate" HeaderText="Created Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130" ClipMode="ClipMode.EllipsisWithTooltip"></TreeGridColumn>
+                    <TreeGridColumn Field="DueDate" HeaderText="Due Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130" ClipMode="ClipMode.EllipsisWithTooltip"></TreeGridColumn>
+                </TreeGridColumns>
+            </SfTreeGrid>
+        </div>
+    </div>
+</div>
+
+
+<PropertyPanel ControlSecClass="col-lg-9" CollapseChanged="RefreshTreeGrid">
+    <table id="property" title="Properties" style="margin-top: 35px;border-collapse:separate;border-spacing: 5px 25px">
+        <tr>
+            <td style="width: 35%">
+                <div style="padding-top: 7px;font-weight:600">Selection Type</div>
+            </td>
+            <td style="width: 65%;padding-right: 10px">
+                <div>
+                    <SfDropDownList Width="100%" TValue="string" TItem="DropDownData" @ref="@DropdownType" DataSource="@SelectionTypes" @bind-Value="@SelectType">
+                        <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="TypeChange"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 35%">
+                <div style="font-weight:600">
+                    Selection Mode
+                </div>
+            </td>
+            <td style="width: 65%">
+                <div style="padding-right: 10px;padding-bottom: 10px">
+                    <div>
+                        <SfDropDownList Width="100%" @ref="@DropdownMode" TValue="string" TItem="DropDownData" DataSource="@SelectionModes" @bind-Value="@Mode">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ModeChange"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+            </td>
+        </tr>
+        <tr id='cellselection' class="@ShowRow">
+            <td style="width: 35%;">
+                <div style="font-weight:600">
+                    Cell Selection Mode
+                </div>
+            </td>
+            <td style="width: 65%;">
+                <div style="padding-right: 10px;padding-bottom: 10px">
+                    <div>
+                        <SfDropDownList Width="100%" @ref="@DropdownCellMode" TValue="string" TItem="DropDownData" DataSource="@CellSelectionModes" @bind-Value="@CellMode">
+                            <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="CellModeChange"></DropDownListEvents>
+                            <DropDownListFieldSettings Text="Mode" Value="ID"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </table>
+</PropertyPanel>
+
+<style>
+
+    .hidecellmode {
+        display: none;
+
+    }
+
+    .showcellmode {
+        display: table-row;
+    }
+
+</style>
+
+@code{
+    private SfDropDownList<string, DropDownData> DropdownType { get; set; } = new SfDropDownList<string, DropDownData>();
+
+    private SfDropDownList<string, DropDownData> DropdownMode { get; set; } = new SfDropDownList<string, DropDownData>();
+
+    private SfDropDownList<string, DropDownData> DropdownCellMode { get; set; } = new SfDropDownList<string, DropDownData>();
+
+    private List<SupportTicketData> TreeGridData { get; set; } = new List<SupportTicketData>();
+
+    private List<DropDownData> SelectionTypes { get; set; } = new List<DropDownData>();
+
+    private List<DropDownData> SelectionModes { get; set; } = new List<DropDownData>();
+
+    private List<DropDownData> CellSelectionModes { get; set; } = new List<DropDownData>();
+
+    private string SelectType { get; set; } = "Single";
+
+    private string Mode { get; set; } = "Row";
+
+    private string CellMode { get; set; } = "Box";
+
+    private string ShowRow { get; set; } = "hide";
+
+    private SelectionType GridSelectType { get; set; } = SelectionType.Single;
+
+    private Syncfusion.Blazor.Grids.SelectionMode GridSelectMode { get; set; } = Syncfusion.Blazor.Grids.SelectionMode.Row;
+
+    private CellSelectionMode GridCellMode { get; set; } = CellSelectionMode.Box;
+    SfTreeGrid<SupportTicketData> Tree { get; set; }
+
+    async void RefreshTreeGrid()
+    {
+        await Tree.RefreshAsync();
+    }
+
+    public class DropDownData
+    {
+        public string? ID { get; set; }
+        public string? Mode { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+
+        TreeGridData = SupportTicketData.GetSupportTickets().ToList();
+
+        SelectionTypes.Add(new DropDownData() { ID = "Single", Mode = "Single" });
+        SelectionTypes.Add(new DropDownData() { ID = "Multiple", Mode = "Multiple" });
+
+        SelectionModes.Add(new DropDownData() { ID = "Row", Mode = "Row" });
+        SelectionModes.Add(new DropDownData() { ID = "Cell", Mode = "Cell" });
+
+        CellSelectionModes.Add(new DropDownData() { ID = "Box", Mode = "Box" });
+        CellSelectionModes.Add(new DropDownData() { ID = "Flow", Mode = "Flow" });
+
+    }
+
+    public void TypeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+
+        if(args.Value == "Multiple")
+        {
+            GridSelectType = SelectionType.Multiple;
+        }
+        else if(args.Value == "Single")
+        {
+            GridSelectType = SelectionType.Single;
+        }
+        if(args.Value == "Multiple" && DropdownMode.Value == "Cell")
+        {
+            ShowRow = "showcellmode";
+        }
+        else
+        {
+            ShowRow = "hidecellmode";
+        }
+    }
+
+    public async Task ModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        if(args.Value == "Cell")
+        {
+            GridSelectMode = Syncfusion.Blazor.Grids.SelectionMode.Cell;
+            await Tree.RefreshAsync();
+        }
+        if (args.Value == "Row")
+        {
+            GridSelectMode = Syncfusion.Blazor.Grids.SelectionMode.Row;
+            await Tree.RefreshAsync();
+        }
+        if (args.Value == "Cell" && DropdownType.Value == "Multiple")
+        {
+            ShowRow = "showcellmode";
+        }
+        else
+        {
+            ShowRow = "hidecellmode";
+        }
+    }
+
+    public async Task CellModeChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        if (args.Value == "Flow")
+        {
+            GridCellMode = CellSelectionMode.Flow;
+            await Tree.RefreshAsync();
+        }
+        if (args.Value == "Box")
+        {
+            GridCellMode = CellSelectionMode.Box;
+            await Tree.RefreshAsync();
+        }
+    }
+}

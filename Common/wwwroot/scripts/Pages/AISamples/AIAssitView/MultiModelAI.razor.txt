@@ -1,0 +1,722 @@
+﻿@page "/ai-assist-view/ai-models"
+@page "/ai-assistview/ai-models"
+
+@using BlazorDemos.Service
+@inject AzureAIService OpenAIService
+@using AIAssistview.Service;
+@using BlazorDemos.Pages.InteractiveChat
+@using Markdig
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Lists
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Notifications
+@inject IJSRuntime JSRuntime
+@inject AIService AIService
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+<AINotification></AINotification>
+
+<AIToastNotification></AIToastNotification>
+@*End:Hidden*@
+<SampleDescription>
+    <p>
+        This example demonstrates the <strong>AI AssistView</strong> designed to integrate multiple AI models:
+        <code>Azure OpenAI</code>, <code>Gemini</code> and <code>DeepSeek</code>.
+    </p>
+</SampleDescription>
+<ActionDescription>
+    <p>
+        In this example, the <strong>AI AssistView</strong> with a responsive sidebar, AI models dropdown and Markdown streaming to deliver an AI-powered chat interface.
+    </p>
+    <ul>
+        <li>Switch between providers (Azure OpenAI, Gemini and DeepSeek) via a dropdown menu, with toast notifications confirming selection.</li>
+        <li>Enter your API key(s) to enable live, dynamic responses from the selected provider.</li>
+        <li>Stream AI responses with auto-scroll and rich Markdown rendering using <code>marked</code>.</li>
+        <li>Create, select, and delete conversations with conversations stored in the localStorage.</li>
+    </ul>
+</ActionDescription>
+<div class="control-section">
+    <div class="ai-model">
+        <SfSidebar Created="OnCreated" ID="assistantSidebar" EnableGestures="false" Width="250px" Target=".ai-model" Position="SidebarPosition.Left" @ref="SidebarObj">
+            <ChildContent>
+                <div class="sidebar-header">
+                    <div class="assistant-sidebar-header">
+                        <div class="header-left">
+                            <span id="icon-assist" class="header-icon e-icons e-assistview-icon"></span>
+                            <span class="header-title">AI Assist</span>
+                        </div>
+                        <SfButton ID="closebtn" CssClass="e-flat" IconCss="e-icons e-close" @onclick="ToggleSidebar"></SfButton>
+                    </div>
+                    <SfButton ID="newthreadbtn" CssClass="new-thread-btn" IconCss="e-icons e-plus" Content="New Thread" OnClick="LoadNewAIAssist"></SfButton>
+                </div>
+                <SfListView ID="conversation-list"
+                            @ref="ConversationList"
+                            DataSource="@ListData"
+                            TValue="ConversationItem">
+                    <ListViewFieldSettings TValue="ConversationItem" Text="Text" Id="Id"></ListViewFieldSettings>
+                    <ListViewTemplates TValue="ConversationItem">
+                        <Template>
+                            <div class="e-text-content" @onclick="() => HandleConversationSelection(context)">
+                                <span class="e-list-text">@context.Text</span>
+                                <span class="delete-icon e-icons e-trash"
+                                      title="Delete Conversation"
+                                      data-id="@context.Id"
+                                      @onclick:stopPropagation="true"
+                                      @onclick="() => DeleteConversation(context.Id)">
+                                </span>
+                            </div>
+                        </Template>
+                    </ListViewTemplates>
+                </SfListView>
+            </ChildContent>
+        </SfSidebar>
+        <div class="main-content">
+            <div class="assist-header">
+                <SfButton ID="togglebtn" IconCss="e-icons e-menu" OnClick="ToggleSidebar"></SfButton>
+                <SfDropDownList ID="ai-model-dropdown" @ref="ModelDropdown" TValue="string" TItem="ModelItem" DataSource="@Models" Value="@SelectedModel" PopupHeight="200px" Width="200px">
+                    <DropDownListFieldSettings Text="Name" Value="Id"></DropDownListFieldSettings>
+                    <DropDownListEvents TValue="string" TItem="ModelItem" ValueChange="OnModelChange"></DropDownListEvents>
+                </SfDropDownList>
+            </div>
+            <div id="toastpos">
+                <SfAIAssistView ID="aiAssistView" @ref="AIAssistViewObj" AttachmentSettings="attachmentSettings" PromptSuggestions="@Suggestions" ShowHeader="false" PromptRequested="OnPromptRequest" ResponseStopped="@HandleStopResponse" Width="auto" Height="450px">
+                    <AssistViews>
+                        <AssistView>
+                            <BannerTemplate>
+                                <div class="banner-content">
+                                    <div class="e-icons e-assistview-icon"></div>
+                                    <h3>AI Assistance</h3>
+                                    <div>Your everyday AI companion.</div>
+                                </div>
+                            </BannerTemplate>
+                        </AssistView>
+                    </AssistViews>
+                    <AssistViewFooterToolbar ToolbarPosition="ToolbarPosition.Bottom"></AssistViewFooterToolbar>
+                </SfAIAssistView>
+            </div>
+        </div>
+    </div>
+    <SfToast ID="toast" @ref="ToastObj" Target="#toastpos" TimeOut="1500" ShowCloseButton="true">
+        <ToastPosition X="Right" Y="Top"></ToastPosition>
+    </SfToast>
+</div>
+@code {
+    private SfSidebar? SidebarObj;
+    private SfListView<ConversationItem>? ConversationList;
+    private SfDropDownList<string, ModelItem>? ModelDropdown;
+    private SfAIAssistView? AIAssistViewObj;
+    private SfToast? ToastObj;
+    private string GeminiApiKey = ""; // Set via input or config
+    private string GeminiModel = "";
+    private string DeepseekApiKey = "";
+    private List<string> Suggestions = new List<string>
+    {
+        "What are the best tools for organizing tasks?",
+        "How can I maintain work-life balance?"
+    };
+    private AssistViewAttachmentSettings attachmentSettings = new AssistViewAttachmentSettings()
+    {
+        Enable = true,
+        SaveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Save",
+        RemoveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"
+    };
+
+    private string SelectedConvId = "";
+    private List<ConversationItem>? ListData;
+    private bool StopStreaming = false;
+    private DotNetObjectReference<MultiModelAI> dotNetRef = null;
+    private bool IsMobile = false;
+    private List<ModelItem> Models = new List<ModelItem>
+    {
+        new ModelItem { Id = "gemini", Name = "Gemini 2.5 Flash" },
+        new ModelItem { Id = "deepseek", Name = "DeepSeek-R1" },
+        new ModelItem { Id = "openai", Name = "GPT-4o-mini(Azure)" }
+    };
+    private string SelectedModel = "openai";
+    public class ModelItem
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
+    public class ConversationItem
+    {
+        public string Id { get; set; }
+        public string Text { get; set; }
+    }
+    public class ConversationData
+    {
+        public string Name { get; set; }
+        public List<PromptResponse> Prompts { get; set; } = new List<PromptResponse>();
+        public List<string> PromptSuggestions { get; set; } = new List<string>();
+    }
+    public class PromptResponse
+    {
+        public string Prompt { get; set; }
+        public string Response { get; set; }
+    }
+    private bool IsBannerVisible = true;
+    /// Performs component initialization, including local storage setup and toast notifications.
+    private async Task OnCreated()
+    {
+        await InitializingApp();
+        StateHasChanged();
+    }
+    /// Handles post-render logic, registering resize listeners on the first render.
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            dotNetRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("AddResizeListener", dotNetRef);
+            await UpdateOnResize();
+        }
+    }
+    /// Updates layout configuration when the browser window size changes.
+    [JSInvokable]
+    public async Task UpdateOnResize()
+    {
+        var width = await JSRuntime.InvokeAsync<int>("getInnerWidth", false);
+        IsMobile = width <= 680;
+        SetSidebarConfig();
+        StateHasChanged();
+    }
+    /// Initializes application data and selects the initial conversation.
+    private async Task InitializingApp()
+    {
+        await CheckInitialLocalStorage();
+        ListData = await GetLeftPaneData();
+        if (ListData.Count == 0)
+        {
+            LoadNewAIAssist();
+        }
+        else
+        {
+            await HandleConversationSelection(ListData[0]);
+        }
+    }
+    /// Ensures local storage is properly initialized, optionally clearing existing data.
+    private async Task CheckInitialLocalStorage(bool isClear = false)
+    {
+        var data = await GetLocalStorage("aiassist-model");
+        if (string.IsNullOrEmpty(data) || isClear)
+        {
+            await SetLocalStorage("aiassist-model", "{}");
+        }
+    }
+    /// Handles prompt submissions by routing them to the selected AI provider.
+    private async Task OnPromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        if (string.IsNullOrEmpty(args.Prompt?.Trim()))
+        {
+            return;
+        }
+        if (string.IsNullOrEmpty(SelectedConvId))
+        {
+            SelectedConvId = await CreateNewConversation();
+        }
+        await UpdateBannerStyle();
+        await UpdateConversationName(args.Prompt);
+        if (SelectedModel == "gemini")
+        {
+            await HandleGeminiRequest(args);
+        }
+        else if (SelectedModel == "deepseek")
+        {
+            await HandleDeepseekRequest(args);
+        }
+        else
+        {
+            await HandleOpenAIRequest(args);
+        }
+    }
+    // Toggles sidebar visibility
+    private void ToggleSidebar()
+    {
+        SidebarObj.IsOpen = !SidebarObj.IsOpen;
+        SidebarObj.Type = SidebarType.Over;
+    }
+    /// Applies sidebar configuration values based on the current layout mode.
+    private void SetSidebarConfig()
+    {
+        if (IsMobile)
+        {
+            SidebarObj.EnableDock = false;
+            SidebarObj.Type = SidebarType.Over;
+            SidebarObj.ShowBackdrop = true;
+            SidebarObj.CloseOnDocumentClick = true;
+            SidebarObj.IsOpen = false;
+        }
+        else
+        {
+            SidebarObj.EnableDock = false;
+            SidebarObj.Type = SidebarType.Auto;
+            SidebarObj.ShowBackdrop = false;
+            SidebarObj.CloseOnDocumentClick = false;
+            SidebarObj.IsOpen = true;
+        }
+        StateHasChanged();
+    }
+    /// Deletes a conversation and updates the UI accordingly.
+    private async Task DeleteConversation(string convId)
+    {
+        var appData = JsonSerializer.Deserialize<Dictionary<string, ConversationData>>(await GetLocalStorage("aiassist-model") ?? "{}");
+        appData.Remove(convId);
+        await SetLocalStorage("aiassist-model", JsonSerializer.Serialize(appData));
+        await RefreshConversationList();
+        if (SelectedConvId == convId)
+        {
+            if (ListData.Count > 0)
+            {
+                await HandleConversationSelection(ListData[0]);
+            }
+            else
+            {
+                LoadNewAIAssist();
+            }
+        }
+    }
+    /// Calculates the next available conversation identifier.
+    private async Task<string> GetNextConvId()
+    {
+        var appData = JsonSerializer.Deserialize<Dictionary<string, ConversationData>>(await GetLocalStorage("aiassist-model") ?? "{}");
+        var ids = appData.Keys.Select(k => int.TryParse(k, out var id) ? id : 0).ToList();
+        var maxId = ids.Any() ? ids.Max() : 0;
+        return (maxId + 1).ToString();
+    }
+    /// Persists the current conversation's prompts to local storage.
+    private async Task CheckAndUpdateLocalStorage()
+    {
+        var appData = JsonSerializer.Deserialize<Dictionary<string, ConversationData>>(await GetLocalStorage("aiassist-model") ?? "{}");
+        if (!string.IsNullOrEmpty(SelectedConvId) && appData.ContainsKey(SelectedConvId))
+        {
+            appData[SelectedConvId].Prompts = AIAssistViewObj.Prompts.Select(p => new PromptResponse
+            {
+                Prompt = p.Prompt ?? "",
+                Response = p.Response ?? ""
+            }).ToList();
+            await SetLocalStorage("aiassist-model", JsonSerializer.Serialize(appData));
+        }
+    }
+    /// Retrieves conversation metadata stored in local storage for the sidebar.
+    private async Task<List<ConversationItem>> GetLeftPaneData()
+    {
+        var appData = JsonSerializer.Deserialize<Dictionary<string, ConversationData>>(await GetLocalStorage("aiassist-model") ?? "{}");
+        return appData.Keys
+            .Where(k => int.TryParse(k, out _))
+            .OrderByDescending(k => int.Parse(k))
+            .Select(k =>
+            {
+                var convData = appData[k];
+                var name = !string.IsNullOrEmpty(convData?.Name) ? convData.Name.Split('\n')[0] : "Untitled Conversation";
+                return new ConversationItem { Id = k, Text = name };
+            }).ToList();
+    }
+    /// Updates banner visibility based on whether prompts exist.
+    private Task UpdateBannerStyle()
+    {
+        IsBannerVisible = (AIAssistViewObj.Prompts?.Count ?? 0) == 0;
+        StateHasChanged();
+        return Task.CompletedTask;
+    }
+    /// Updates the conversation name based on the first prompt entered.
+    private async Task UpdateConversationName(string prompt)
+    {
+        var appData = JsonSerializer.Deserialize<Dictionary<string, ConversationData>>(await GetLocalStorage("aiassist-model") ?? "{}");
+        if (appData.TryGetValue(SelectedConvId, out var convData) && convData.Name == "New Conversation")
+        {
+            convData.Name = prompt.Substring(0, Math.Min(40, prompt.Length)).Trim() ?? "Untitled Conversation";
+            await SetLocalStorage("aiassist-model", JsonSerializer.Serialize(appData));
+            await RefreshConversationList();
+        }
+    }
+    /// Refreshes the conversation list data and updates the UI.
+    private async Task RefreshConversationList()
+    {
+        ListData = await GetLeftPaneData();
+        StateHasChanged();
+    }
+    /// Loads prompts and suggestions for the specified conversation into the AssistView.
+    private async Task UpdateAIAssistViewData(string id)
+    {
+        AIAssistViewObj.Prompts = new List<AssistViewPrompt>();
+        AIAssistViewObj.PromptSuggestions = Suggestions;
+        var appData = JsonSerializer.Deserialize<Dictionary<string, ConversationData>>(await GetLocalStorage("aiassist-model") ?? "{}");
+        if (appData.TryGetValue(id, out var convData))
+        {
+            AIAssistViewObj.Prompts = convData.Prompts.Select(pr => new AssistViewPrompt { Prompt = pr.Prompt, Response = pr.Response }).ToList();
+            AIAssistViewObj.PromptSuggestions = convData.PromptSuggestions ?? Suggestions;
+        }
+        StateHasChanged();
+    }
+    /// Creates a new conversation session and resets the AssistView state.
+    private void LoadNewAIAssist()
+    {
+        SelectedConvId = "";
+        AIAssistViewObj.Prompts = new List<AssistViewPrompt>();
+        AIAssistViewObj.PromptSuggestions = Suggestions;
+        _ = UpdateBannerStyle();
+        if (IsMobile && SidebarObj.IsOpen)
+        {
+            SidebarObj.IsOpen = false;
+        }
+    }
+    /// Creates and saves a new conversation entry in local storage.
+    private async Task<string> CreateNewConversation()
+    {
+        var newId = await GetNextConvId();
+        var appData = JsonSerializer.Deserialize<Dictionary<string, ConversationData>>(await GetLocalStorage("aiassist-model") ?? "{}");
+        appData[newId] = new ConversationData
+        {
+            Name = "New Conversation",
+            Prompts = new List<PromptResponse>(),
+            PromptSuggestions = Suggestions.ToList()
+        };
+        await SetLocalStorage("aiassist-model", JsonSerializer.Serialize(appData));
+        await RefreshConversationList();
+        return newId;
+    }
+    /// Signals the streaming logic to halt the ongoing AI response.
+    private void HandleStopResponse()
+    {
+        StopStreaming = true;
+    }
+    /// Handles user selection of a conversation from the sidebar.
+    private async Task HandleConversationSelection(ConversationItem item)
+    {
+        if (item == null) return;
+        SelectedConvId = item.Id;
+        await UpdateAIAssistViewData(item.Id);
+        await UpdateBannerStyle();
+        if (IsMobile && SidebarObj.IsOpen)
+        {
+            SidebarObj.IsOpen = false;
+        }
+    }
+    /// Streams the AI response incrementally into the AssistView.
+    private async Task<string> StreamAIResponse(string fullResponse)
+    {
+        string streamedResponseText = "";
+        if (!string.IsNullOrEmpty(fullResponse))
+        {
+            await Task.Delay(300);
+            for (int i = 0; i < fullResponse.Length && !StopStreaming; i++)
+            {
+                streamedResponseText += fullResponse[i];
+                await AIAssistViewObj.UpdateResponseAsync(Markdig.Markdown.ToHtml(streamedResponseText));
+                await Task.Delay(10);
+                StateHasChanged();
+            }
+        }
+        return streamedResponseText;
+    }
+    /// Handles prompt execution when the Gemini provider is selected.
+    private async Task HandleGeminiRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        StopStreaming = false;
+        try
+        {
+            var fullResponse = await AIService.GetGeminiAIAssist(GeminiApiKey, GeminiModel, args.Prompt);
+            var streamedText = await StreamAIResponse(fullResponse);
+            if (!StopStreaming)
+            {
+                await CheckAndUpdateLocalStorage();
+            }
+        }
+        catch (Exception)
+        {
+            var errorMessage = "⚠️ Something went wrong while connecting to the Gemini service. Please check your API key.";
+            await AIAssistViewObj.UpdateResponseAsync(Markdig.Markdown.ToHtml(errorMessage));
+            StateHasChanged();
+            await CheckAndUpdateLocalStorage();
+        }
+    }
+    /// Reacts to changes in the selected AI model and displays a toast notification.
+    private async Task HandleDeepseekRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        StopStreaming = false;
+        try
+        {
+
+            var fullResponse = await AIService.GetDeepSeekAIAssist(DeepseekApiKey, args.Prompt);
+            var streamedText = await StreamAIResponse(fullResponse);
+            if (!StopStreaming)
+            {
+                await CheckAndUpdateLocalStorage();
+            }
+        }
+        catch (Exception)
+        {
+            var errorMessage = "⚠️ Something went wrong while connecting to the DeepSeek service. Please check your API key.";
+            await AIAssistViewObj.UpdateResponseAsync(Markdig.Markdown.ToHtml(errorMessage));
+            StateHasChanged();
+            await CheckAndUpdateLocalStorage();
+        }
+    }
+
+    private async Task HandleOpenAIRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        StopStreaming = false;
+        try
+        {
+            var fullResponse = await OpenAIService.GetCompletionAsync(args.Prompt,false);
+            var streamedText = await StreamAIResponse(fullResponse);
+            if (!StopStreaming)
+            {
+                await CheckAndUpdateLocalStorage();
+            }
+        }
+        catch (Exception)
+        {
+            var errorMessage = "⚠️ Something went wrong while connecting to the OpenAI service. Please check your API key.";
+            await AIAssistViewObj.UpdateResponseAsync(Markdig.Markdown.ToHtml(errorMessage));
+            StateHasChanged();
+            await CheckAndUpdateLocalStorage();
+        }
+    }
+
+    /// Reacts to changes in the selected AI model and displays a toast notification.
+    private async Task OnModelChange(ChangeEventArgs<string, ModelItem> args)
+    {
+        SelectedModel = args.Value;
+        var modelName = Models.FirstOrDefault(m => m.Id == SelectedModel)?.Name ?? "the selected model";
+        await ToastObj.ShowAsync(new ToastModel
+        {
+            Content = $"<div class=\"toast-content\"><span class=\"e-icons e-magic-wand\"> </span> <span>You are using <b>{modelName}</b> with standard access</span></div>"
+        });
+    }
+    /// Retrieves a value from browser local storage.
+    private async Task<string> GetLocalStorage(string key)
+    {
+        return await JSRuntime.InvokeAsync<string>("localStorage.getItem", key);
+    }
+    /// Sets a value in browser local storage.
+    private async Task SetLocalStorage(string key, string value)
+    {
+        await JSRuntime.InvokeVoidAsync("localStorage.setItem", key, value);
+    }
+    /// Cleans up registered JavaScript callbacks when the component is disposed.
+    public async ValueTask DisposeAsync()
+    {
+        await JSRuntime.InvokeVoidAsync("RemoveResizeListener");
+        dotNetRef?.Dispose();
+    }
+}
+<style>
+    .ai-model {
+        height: 500px;
+        width: 96%;
+        margin: 12px auto;
+        overflow: hidden;
+    }
+
+        .ai-model #aiAssistView {
+            border: 1px solid #dee2e6;
+        }
+
+        .ai-model .banner-content {
+            text-align: center;
+        }
+
+            .ai-model .banner-content.e-no-content {
+                height: 25vh;
+            }
+
+            .ai-model .banner-content .e-assistview-icon:before {
+                font-size: 25px;
+            }
+
+    #ai-model-dropdown {
+        width: 200px;
+    }
+
+    #assistantSidebar {
+        border: 1px solid #dee2e6;
+        height: 499px;
+    }
+
+    .assistant-sidebar-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        height: 50px;
+        padding-left: 17px;
+        border-bottom: 1px solid #dee2e6;
+    }
+
+    .e-aiassistview .e-view-content {
+        margin-top: 40px;
+    }
+
+    span.e-ddl.e-lib.e-input-group.e-control-container.e-control-wrapper.e-valid-input {
+        width: 200px;
+    }
+
+    .header-icon {
+        font-size: 20px;
+        margin-right: 10px;
+    }
+
+    .header-title {
+        font-size: 16px;
+        font-weight: 500;
+    }
+
+    .new-thread-btn {
+        border: none;
+        text-align: start;
+        margin-top: 2px;
+        width: 100%;
+    }
+
+        .new-thread-btn .e-icons {
+            padding-left: 8px;
+            padding-bottom: 3px;
+            margin-right: 8px;
+            font-weight: bold;
+        }
+
+    #conversation-list {
+        border: none;
+        padding-top: 5px;
+    }
+
+    .e-views {
+        height: 382px;
+    }
+
+    .e-view-content {
+        height: 90% !important;
+    }
+
+    #assistantSidebar .e-toolbar .e-toolbar-item:not(.e-separator):not(.e-spacer) {
+        padding: 8px 0;
+        margin: 0;
+    }
+
+    #assistantSidebar.e-close .assistant-sidebar-content .new-thread-btn,
+    #assistantSidebar.e-close .e-toolbar-left .e-toolbar-item {
+        display: none;
+    }
+
+    #assistantSidebar.e-close .e-toolbar-items .e-toolbar-right {
+        left: 16px;
+    }
+
+    .e-listview .e-list-item {
+        border: none;
+    }
+
+    #assistantSidebar .e-toolbar-item .e-tbar-btn:hover .e-icons {
+        color: #6c757d;
+    }
+
+    .banner-content .e-assistview-icon:before {
+        font-size: 25px;
+    }
+
+    .header-left {
+        display: flex;
+        cursor: default;
+    }
+
+    .toast-content {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+    }
+
+    .assistant-sidebar-content {
+        padding: 5px;
+    }
+
+    .assist-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 9px;
+        height: 50px;
+        border: 1px solid #dee2e6;
+    }
+
+    #assistantSidebar #conversation-list .e-text-content {
+        display: flex;
+        align-items: center;
+    }
+
+        #assistantSidebar #conversation-list .e-text-content .delete-icon {
+            padding: 3px 5px 0 5px;
+        }
+
+    .e-dark-mode .ai-model #aiAssistView,
+    .e-dark-mode #assistantSidebar {
+        border: 1px solid #666;
+    }
+
+        .e-dark-mode #assistantSidebar .assistant-sidebar-header,
+        .e-dark-mode .ai-model .ai-assist-header {
+            border-bottom: 1px solid #666;
+        }
+    /* Hide menu and close buttons by default */
+    #togglebtn {
+        display: none;
+    }
+
+    #closebtn {
+        display: none;
+    }
+    /* Rules for mobile view */
+    @@media screen and (max-width: 680px) {
+        .ai-model
+
+    {
+        width: 100%;
+        margin: 0;
+    }
+
+    #ai-model-dropdown {
+        margin-left: 50px;
+    }
+
+    .e-sidebar-container .e-main-content.e-content-animation {
+        margin-left: 0 !important;
+    }
+    /* Show the close button inside the sidebar on mobile */
+    #closebtn {
+        display: block;
+    }
+    /* Show the menu (hamburger) icon in the header on mobile */
+    #togglebtn {
+        display: block;
+    }
+
+    }
+</style>
+<script>
+    window.AddResizeListener = function (dotNetRef) {
+      // Remove any existing handler before adding a new one
+      if (window.resizeHandler) {
+        window.removeEventListener('resize', window.resizeHandler);
+      }
+      window.resizeHandler = function () {
+        try {
+          dotNetRef.invokeMethodAsync('UpdateOnResize');
+        } catch (e) {
+          // Ignore errors when circuit is not connected or instance is disposed
+        }
+      };
+      window.addEventListener('resize', window.resizeHandler);
+    }
+
+    window.RemoveResizeListener = function () {
+      if (window.resizeHandler) {
+        window.removeEventListener('resize', window.resizeHandler);
+        window.resizeHandler = null;
+      }
+    }
+
+    window.getInnerWidth = function () {
+      return window.innerWidth;
+    }
+</script>

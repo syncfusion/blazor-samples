@@ -1,0 +1,112 @@
+﻿@page "/gantt-chart/row-height"
+
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+		This sample demonstrates how to customize the row height in the <a class="e-gantt-rowheight-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                           href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                           target="_blank" rel="noopener">Blazor Gantt Chart</a>. Adjusting the row height allows for better control over the visual spacing of tasks, enhancing readability and layout flexibility.
+    </p>
+
+    <p>
+		The row height can be modified by setting the desired pixel value using the <a class ="e-gantt-rowheight-reference-link" aria-label="Navigate to the row height property reference for gantt chart component" target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_RowHeight">RowHeight</a> property. In this example, the row height is configured during the initial load to showcase how tasks appear with increased spacing.
+    </p>
+
+    <p>
+		For further details, refer to the <a class="e-gantt-rowheight-reference-link" aria-label="Navigate to the documentation for row height in gantt chart component" target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/gantt-chart/rows/#row-height">documentation</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-row-height-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" RowHeight="@CurrentRowHeight" Toolbar="ToolbarItems" Height="450px" TreeColumnIndex="1" Width="100%"
+			 HighlightWeekends="true" ProjectStartDate="@(new DateTime(2021, 3, 24))" ProjectEndDate="@(new DateTime(2021, 7, 16))" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100"></GanttColumn>
+			<GanttColumn Field="TaskName" Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date" MinWidth="120"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date" MinWidth="120"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration" MinWidth="120"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress" MinWidth="120"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency" MinWidth="200"></GanttColumn>
+		</GanttColumns>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="DefaultData.TaskData">
+		</GanttLabelSettings>
+		<GanttSplitterSettings Position="28%"></GanttSplitterSettings>
+		<GanttEvents OnToolbarClick="OnToolbarClick" TValue="DefaultData.TaskData"></GanttEvents>
+	</SfGantt>
+</div>
+@code{
+	/// <summary>
+	/// Initializes the RowHeight sample with default task data and toolbar items.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = DefaultData.ProjectNewData();
+		InitializeToolbarItems();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	@@font-face {
+		font-family: 'e-grid-rowheight';
+		src: url(data:application/x-font-ttf;charset=utf-8;base64,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) format('truetype');
+		font-weight: normal;
+		font-style: normal;
+	}
+
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-row-height-sample {
+		padding: 20px;
+	}
+
+		.e-gantt-row-height-sample .e-gantt .e-small-icon::before {
+			font-family: 'e-grid-rowheight';
+			content: '\e707';
+		}
+
+		.e-gantt-row-height-sample .e-gantt .e-medium-icon::before {
+			font-family: 'e-grid-rowheight';
+			content: '\e701';
+		}
+
+		.e-gantt-row-height-sample .e-gantt .e-big-icon::before {
+			font-family: 'e-grid-rowheight';
+			content: '\e702';
+		}
+
+		.e-gantt-rowheight-reference-link {
+			text-decoration: none !important;
+		}
+
+		.e-gantt-rowheight-reference-link:hover,
+		.e-gantt-rowheight-reference-link:focus {
+			text-decoration: underline !important;
+		}
+</style>

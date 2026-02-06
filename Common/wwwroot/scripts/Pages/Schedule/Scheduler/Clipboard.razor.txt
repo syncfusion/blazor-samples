@@ -1,0 +1,132 @@
+@page "/scheduler/clipboard"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Navigations
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This example demonstrates how to integrate clipboard functionality (cut, copy, paste) and a custom context menu into the Scheduler component.
+  </p>
+  <p>
+    In this example, the <code>AllowClipboard</code> property is set to <code>true</code> to enable clipboard functionality. This property allows the following keyboard shortcuts:
+  </p>
+  <ul>
+    <li><strong>Ctrl + X:</strong> To cut the selected appointment from the scheduler.</li>
+    <li><strong>Ctrl + C:</strong> To copy the selected appointment.</li>
+    <li><strong>Ctrl + V:</strong> To paste the cut/copied appointment.</li>
+  </ul>
+  <p>
+    Additionally, we have integrated the ContextMenu component separately from the application end and set its target to the Scheduler component. Also, we have used the following Scheduler's public methods in the context menu handlers:
+  </p>
+  <ul>
+    <li><strong>CutAsync()</strong> method to remove the selected appointment.</li>
+    <li><strong>CopyAsync()</strong> method to duplicate the selected appointment.</li>
+    <li><strong>PasteAsync()</strong> method to insert the appointment into the target time slot.</li>
+  </ul>
+  <p>
+    On mobile devices, the context menu opens when you tap and hold on the cells or events.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="ScheduleData.ContextEventsData" @ref="ScheduleRef" Height="650px" @bind-SelectedDate="@SelectedDate" AllowClipboard="true" ShowQuickInfo="false">
+    <ScheduleEventSettings DataSource="@EventDataSource"></ScheduleEventSettings>
+    <ScheduleViews>
+        <ScheduleView Option="View.Week"></ScheduleView>
+        <ScheduleView Option="View.Day"></ScheduleView>
+        <ScheduleView Option="View.Month"></ScheduleView>
+        <ScheduleView Option="View.TimelineDay"></ScheduleView>
+        <ScheduleView Option="View.TimelineMonth"></ScheduleView>
+    </ScheduleViews>
+</SfSchedule>
+<SfContextMenu TValue="MenuItem" Target=".e-schedule">
+    <MenuItems>
+        <MenuItem Text="Copy" Id="Copy" Hidden="@(!isEvent)" IconCss="e-icons e-copy"></MenuItem>
+        <MenuItem Text="Cut" Id="Cut" Hidden="@(!isEvent)" IconCss="e-icons e-cut"></MenuItem>
+        <MenuItem Text="Paste" Id="Paste" Hidden="@(!isCell)" IconCss="e-icons e-paste"></MenuItem>
+    </MenuItems>
+    <MenuEvents TValue="MenuItem" OnOpen="OnOpen" ItemSelected="OnItemSelected"></MenuEvents>
+</SfContextMenu>
+</div>
+
+@code {
+    private DateTime SelectedDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 8);
+    private bool isCell;
+    private bool isEvent;
+    SfSchedule<ScheduleData.ContextEventsData> ScheduleRef;
+    private ScheduleData.ContextEventsData EventData { get; set; }
+    private CellClickEventArgs CellData { get; set; }
+    private ElementInfo<ScheduleData.ContextEventsData> ElementData { get; set; }
+    private List<ScheduleData.ContextEventsData> EventDataSource = new ScheduleData().GetContextEventData();
+
+    public async Task OnOpen(BeforeOpenCloseMenuEventArgs<MenuItem> args)
+    {
+        ElementData = await ScheduleRef.GetElementInfoAsync((int)args.Left, (int)args.Top);
+        if (args.ParentItem == null && ElementData != null)
+        {
+            if (ElementData.ElementType == ElementType.Event)
+            {
+                EventData = ElementData.EventData;
+                isCell = false;
+                isEvent = true;
+            }
+            else if (ElementData.ElementType == ElementType.WorkCells || ElementData.ElementType == ElementType.DateHeader || 
+            ElementData.ElementType == ElementType.AllDayCells)
+            {
+                isCell = true;
+                isEvent = false;
+                CellData = new CellClickEventArgs
+                    {
+                        StartTime = ElementData.StartTime,
+                        EndTime = ElementData.EndTime,
+                        IsAllDay = ElementData.IsAllDay,
+                    };
+            }
+            else
+            {
+                args.Cancel = true;
+            }
+        }
+    }
+
+    public async Task OnItemSelected(MenuEventArgs<MenuItem> args)
+    {
+        var SelectedMenuItem = args.Item.Id;
+        switch (SelectedMenuItem)
+        {
+            case "Copy":
+                await CopyEvent(EventData);
+                break;
+            case "Cut":
+                await CutEvent(EventData);
+                break;
+            case "Paste":
+                if (isCell)
+                {
+                    await PasteEvent(CellData);
+                }
+                break;
+        }
+    }
+
+    private async Task PasteEvent(CellClickEventArgs cellData)
+    {
+        await ScheduleRef.PasteAsync(cellData);
+    }
+
+    private async Task CopyEvent(ScheduleData.ContextEventsData eventData)
+    {
+        await ScheduleRef.CopyAsync(eventData);
+    }
+
+    private async Task CutEvent(ScheduleData.ContextEventsData eventData)
+    {
+        await ScheduleRef.CutAsync(eventData);
+    }
+
+}
+

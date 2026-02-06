@@ -1,0 +1,261 @@
+@page "/ai-assistview/dialog"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.InteractiveChatDemo
+@inject IJSRuntime JSRuntime
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This example showcases the integration of <code>AI AssistView</code> within the Syncfusion dialog component, allowing you to display generated responses in the notes view.</p>
+    
+    <p>The <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.InteractiveChat.SfAIAssistView.html#Syncfusion_Blazor_InteractiveChat_SfAIAssistView_PromptSuggestions">PromptSuggestions</a> is displayed based on user configuration and a custom toolbar item as a close icon to close the dialog. The <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.InteractiveChat.SfAIAssistView.html#Syncfusion_Blazor_InteractiveChat_SfAIAssistView_PromptRequested">PromptRequested</a> event finds matching prompts and displays the responses.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="dialog-aiassistview">
+        <SfSplitter ID="splitter" Height="600px">
+            <SplitterPanes>
+                <SplitterPane Size="22%" Resizable="false" CssClass="left-content">
+                    <ContentTemplate>
+                        <div class="header">Quick Notes</div>
+                        <hr />
+                        <div class="content e-card">
+                            <div class="note-title">
+                                <div class="heading">Planning and Requirements</div>
+                                <div class="sub-heading">Outline the process of gathering input from stakeholders</div>
+                            </div>
+                            <div class="note-title e-skeleton e-skeleton-text">
+                                <div class="heading">Meeting with Stakeholders</div>
+                                <div class="sub-heading">Discuss strategies for conducting productive meetings with stakeholders</div>
+                            </div>
+                            <div class="note-title">
+                                <div class="heading">Risk Management and Problem-Solving</div>
+                                <div class="sub-heading">Offer tips on how to proactively manage challenges, including regular</div>
+                            </div>
+                            <div class="note-title">
+                                <div class="heading e-skeleton e-skeleton-text"></div>
+                                <div class="sub-heading e-skeleton e-skeleton-text"></div>
+                            </div>
+                            <div class="note-title">
+                                <div class="heading e-skeleton e-skeleton-text"></div>
+                            </div>
+                        </div>
+                    </ContentTemplate>
+                </SplitterPane>
+                <SplitterPane Size="78%" Resizable="false" CssClass="right-content">
+                    <ContentTemplate>
+                        <div class="heading">Meeting with Stakeholders</div>
+                        <hr />
+                        <div class="date-info">Tuesday, August 27, 2024</div>
+                        <div class="content e-card" contenteditable="true">
+                            <i><mark>(Open AI Assist, generate a response, and click 'Copy' from the toolbar item to get it updated here.)</mark></i>
+                            Discuss strategies for conducting productive meetings with stakeholders. <br />
+                            Highlight the significance of setting clear agendas, defining outcomes, and maintaining open communication. <br />
+                            @((MarkupString)content)
+                        </div>
+                    </ContentTemplate>
+                </SplitterPane>
+            </SplitterPanes>                    
+        </SfSplitter>
+    </div>
+    <SfDialog ID="dialogElem" Height="100%" Width="440px" Target=".dialog-aiassistview" Visible="@visibility" CssClass="custom-dialog">
+        <DialogTemplates>
+            <Content>
+                <SfAIAssistView @ref="AIAssistView" ID="aiAssistView" PromptSuggestions="@suggestions" CssClass="custom-aiassistview" PromptRequested="@PromptRequest">
+                    <AssistViews>
+                        <AssistView>
+                            <BannerTemplate>
+                                <div class="banner-content">
+                                    <div class="e-icons e-assistview-icon"></div>
+                                    <h3>AI Assistance</h3>
+                                    <i>To get started, provide input or choose a suggestion.</i>
+                                </div>
+                            </BannerTemplate>
+                            <ChildContent>
+                                <ResponseToolbar ItemClicked="ToolbarItemClicked"></ResponseToolbar>
+                            </ChildContent>
+                        </AssistView>
+                    </AssistViews>
+                    <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                        <AssistViewToolbarItem Type="Syncfusion.Blazor.Navigations.ItemType.Spacer"></AssistViewToolbarItem>
+                        <AssistViewToolbarItem Type="Syncfusion.Blazor.Navigations.ItemType.Button" IconCss="e-icons e-close"></AssistViewToolbarItem>
+                    </AssistViewToolbar>
+                </SfAIAssistView>
+            </Content>
+        </DialogTemplates>
+    </SfDialog>
+    <SfFab id="fabElem" Target=".dialog-aiassistview" Content="AI Assist" IconCss="e-icons e-assistview-icon" OnClick="dialogOpenClose"></SfFab>
+</div>
+
+@code {
+    private SfAIAssistView AIAssistView = new SfAIAssistView();
+    private string content { get; set; } = string.Empty;
+    private bool visibility = false;
+    private List<string> suggestions = new PromptResponseData().GetAllSuggestionData();
+
+    private List<PromptResponseData> prompts = new PromptResponseData().GetAllPromptResponseData();
+
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        await Task.Delay(3000);
+        var promptData = prompts.FirstOrDefault(prompt => prompt.Prompt == args.Prompt);
+        var defaultResponse = "For real-time prompt processing, connect the AI AssistView control to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.";
+        args.Response = promptData?.Response ?? defaultResponse;
+        args.PromptSuggestions = promptData?.SuggestionData.Count > 0 ? promptData.SuggestionData : suggestions;
+    }
+
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-close")
+        {
+            dialogOpenClose();
+        }
+        if (args.Item.IconCss == "e-icons e-assist-copy")
+        {
+            dialogOpenClose();
+            var clipboardContent = AIAssistView.Prompts[args.DataIndex].Response;
+            content += $"\n{clipboardContent}";
+        }
+    }
+
+    private void dialogOpenClose()
+    {
+        visibility = !visibility;
+    }
+}
+<style>
+    .dialog-aiassistview {
+        width: 50vw;
+        height: 600px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        position: relative;
+    }
+
+    .dialog-aiassistview .banner-content .e-assistview-icon:before {
+        font-size: 35px;
+    }
+
+    .dialog-aiassistview .banner-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 300px;
+        text-align: center;
+    }
+
+    .dialog-aiassistview .left-content .header {
+        font-size: 18px;
+        font-weight: 500;
+        padding: 10px 15px 5px;
+    }
+
+    .dialog-aiassistview .e-card:hover {
+        background: none;
+    }
+
+    .dialog-aiassistview .left-content .content,
+    .dialog-aiassistview .right-content .content {
+        justify-content: flex-start;
+        border: none;
+        box-shadow: none;
+        background: inherit;
+    }
+
+    .dialog-aiassistview .left-content .content {
+        height: 80%;
+        padding-left: 3px; 
+    }
+
+    .dialog-aiassistview .right-content .content {
+        height: 100%;
+        margin-top: 20px;
+        font-size: 12px;
+        overflow: auto;
+        line-height: 25px;
+    }
+
+    .dialog-aiassistview .note-title {
+        display: flex;
+        flex-direction: column;
+        white-space: nowrap;
+        padding: 5px 10px;
+    }
+
+    .dialog-aiassistview .note-title .heading,
+    .dialog-aiassistview .note-title .sub-heading {
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+        line-height: 25px;
+    }
+
+    .dialog-aiassistview .note-title .heading {
+        font-weight: 400;
+    }
+
+    .dialog-aiassistview .note-title .sub-heading {
+        font-size: 10px;
+        line-height: 15px;
+    }
+
+    .dialog-aiassistview .note-title .heading.e-skeleton {
+        height: 13px;
+        width: 100%;
+        margin-bottom: 7px;
+    }
+
+    .dialog-aiassistview .note-title .sub-heading.e-skeleton {
+        height: 12px;
+        width: 80%;
+    }
+
+    .dialog-aiassistview hr {
+        margin: 0 0 0 2px;
+    }
+
+    .dialog-aiassistview .right-content {
+        display: flex;
+        flex-direction: column;
+        padding: 15px 0 15px 20px;
+        gap: 5px;
+    }
+
+    .dialog-aiassistview .right-content .heading {
+        font-size: 20px;
+    }
+
+    .dialog-aiassistview .right-content .date-info {
+        font-size: 10px;
+    }
+
+    .dialog-aiassistview #fabElem {
+        z-index: 9999;
+    }
+
+    .dialog-aiassistview .custom-dialog .e-dlg-content {
+        padding: 0;
+    }
+
+    .dialog-aiassistview .custom-aiassistview {
+        border: none;
+    }
+
+    body[class*="fluent2-highcontrast"] .dialog-aiassistview .e-card {
+        color: #8c8c8c;
+    }
+
+    @@media only screen and (max-width: 850px) {
+        .dialog-aiassistview {
+            width: 100%;
+        }
+    }
+</style>

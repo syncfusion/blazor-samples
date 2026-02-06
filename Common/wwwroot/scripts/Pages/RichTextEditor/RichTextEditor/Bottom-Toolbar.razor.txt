@@ -1,0 +1,229 @@
+@page "/rich-text-editor/bottom-toolbar"
+
+@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.Layouts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Notifications
+@using Syncfusion.Blazor.InteractiveChat
+@using System.Text.RegularExpressions;
+ 
+@*Hidden:Lines*@
+ 
+@inherits SampleBaseComponent
+ 
+@*End:Hidden*@
+<ActionDescription>
+<p>
+    This demo demonstrates the Bottom Toolbar feature of the Rich Text Editor. The toolbar is positioned at the bottom of the editor, providing convenient access to formatting options while maintaining a clean layout at the top.
+  </p>
+  <p>
+    In this example, the toolbar is positioned at the bottom of the editor. The toolbar's position can be customized using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html#Syncfusion_Blazor_RichTextEditor_RichTextEditorToolbarSettings_Position" aria-label="Class reference of Position property in Rich Text Editor">Position</a> property of <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.RichTextEditor.RichTextEditorToolbarSettings.html" aria-label="Class reference of RichTextEditorToolbarSettings">RichTextEditorToolbarSettings</a>.
+  </p>
+  <p>
+    Additionally, this sample features a <strong>Chat UI</strong> that enables users to compose messages using a rich text editor with bottom toolbar positioning.
+  </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="sample-container">
+        <div class="chat-section">
+            <div id="chatContainer" style="height: 100%; width: 100%; border: 1px solid #ccc;">
+                <SfChatUI @ref="Chat" HeaderText="Michale Suyama" HeaderIconCss="chat_user2_avatar" User="CurrentUserModel" Messages="ChatUserMessages" ShowTimeBreak="true" LoadOnDemand="true">
+                    <ChildContent>
+                        <MessageToolbar>
+                               <MessageToolbarItem IconCss="e-icons e-chat-copy" Tooltip="Copy"></MessageToolbarItem>
+                                <MessageToolbarItem IconCss="e-icons e-chat-trash" Tooltip="Delete"></MessageToolbarItem>
+                        </MessageToolbar>
+                    </ChildContent>
+                    <FooterTemplate>
+                        <div class="custom-footer">
+                            <SfRichTextEditor @ref="Editor" Placeholder="@PlaceHolderText" @bind-Value="@MessageText">
+                                <RichTextEditorToolbarSettings Items="@Tools" Position="Syncfusion.Blazor.RichTextEditor.ToolbarPosition.Bottom"></RichTextEditorToolbarSettings>
+                                <RichTextEditorEvents Created="Created"></RichTextEditorEvents>
+                            </SfRichTextEditor>
+                            <SfButton id="sendMessage" aria-label="Send Message" class="e-btn e-primary e-icon-btn e-small" IconCss="e-icons e-send  e-send-1" style="float: right; margin: 4px;" @onclick="SendMessage"></SfButton>
+                            <SfButton id="cancelMessage" aria-label="Cancel Message" class=" e-btn e-secondary e-icon-btn e-small" IconCss="e-icons e-trash e-delete-3" style="float: right; margin: 4px;" @onclick="CancelMessage"></SfButton>
+                        </div>
+                    </FooterTemplate>
+                </SfChatUI>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    .chat-container.e-chat-ui .e-footer {
+        margin: unset;
+        align-self: auto;
+        padding: 10px;
+    }
+
+    .custom-footer .e-richtexteditor .e-rte-content .e-content, .e-richtexteditor .e-source-content .e-content {
+        position: relative;
+        overflow-y: auto;
+        max-height: 300px;
+    }
+
+    #editor {
+        position: relative;
+    }
+
+    #sendMessage,
+    #cancelMessage {
+        position: absolute !important;
+        bottom: 40px;
+        z-index: 100;
+    }
+
+    .tailwind3 .custom-footer > #sendMessage,
+    .tailwind3 .custom-footer > #cancelMessage {
+        bottom: 50px;
+    }
+ 
+    .material3 .custom-footer > #sendMessage,
+    .material3 .custom-footer > #cancelMessage {
+        bottom: 50px;
+    }
+ 
+    #sendMessage {
+        right: 20px;
+    }
+
+    #cancelMessage {
+        right: 50px;
+    }
+
+    .chat_user2_avatar {
+        background-image: url('https://cdn.syncfusion.com/blazor/images/demos/chat-ui/andrew.webp');
+        background-color: unset;
+    }
+
+
+    .e-chat-ui .e-text p {
+        margin-bottom: 4px;
+    }
+
+    .e-bigger .custom-footer > #sendMessage {
+        bottom: 46px;
+        right: 20px;
+    }
+
+    .e-bigger .custom-footer > #cancelMessage {
+        bottom: 46px;
+        right: 65px;
+    }
+
+    .tailwind3.e-bigger .custom-footer > #sendMessage,
+    .material3.e-bigger .custom-footer > #sendMessage {
+        bottom: 57px;
+        right: 20px;
+    }
+
+    .tailwind3.e-bigger .custom-footer > #cancelMessage {
+        bottom: 57px;
+        right: 68px;
+    }
+
+    .material3.e-bigger .custom-footer > #cancelMessage {
+        bottom: 57px;
+        right: 60px;
+    }
+    
+    .chat-section {
+        height: 600px;
+   }
+
+</style>
+
+@code {
+    private SfChatUI? Chat;
+    private SfRichTextEditor? Editor;
+    private string MessageText { get; set; } = string.Empty;
+    private string PlaceHolderText = "Type something...";
+    private static UserModel CurrentUserModel = new UserModel() { ID = "User1", User = "Albert" };
+    private static UserModel MichaleUserModel = new UserModel() { ID = "User2", User = "Michale Suyama", AvatarUrl = "https://cdn.syncfusion.com/blazor/images/demos/chat-ui/andrew.webp" };
+    private List<ChatMessage> ChatUserMessages = new List<ChatMessage>()
+    {
+        new ChatMessage() { Author = CurrentUserModel, Text = "Hi Michale, are we on track for the deadline?" },
+        new ChatMessage() { Author = MichaleUserModel, Text = "Yes, the design phase is complete." },
+        new ChatMessage() { Author = CurrentUserModel, Text = "I will review it and send feedback by today." },
+        new ChatMessage() { Author = MichaleUserModel, Text = "Okay." },
+    };
+    private List<ToolbarItemModel> Tools = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.InlineCode },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.FontColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.BackgroundColor },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.Blockquote },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.OrderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.Image },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+    };
+
+    protected async Task Created()
+    {
+        if (Editor != null)
+        {
+            await Editor.FocusAsync();
+        }
+    }
+
+    private async Task SendMessage() 
+    {
+        var text = MessageText;
+        if (!string.IsNullOrEmpty(text) && IsValidContent(text))
+        {
+            ChatUserMessages.Add(new ChatMessage() 
+            {
+                Author = CurrentUserModel,
+                Text = text
+            });
+            MessageText = string.Empty;
+            StateHasChanged();
+            if (Editor != null)
+            {
+                await Editor.ClearUndoRedoAsync();
+                await Editor.FocusAsync();
+            }
+        }
+    }
+
+    private async Task CancelMessage()
+    {
+        MessageText = string.Empty;
+        StateHasChanged();
+        if (Editor != null)
+        {
+            await Editor.ClearUndoRedoAsync();
+            await Editor.FocusAsync();
+        }
+    }
+
+    private bool IsValidContent(string html)
+    {
+        if (string.IsNullOrWhiteSpace(html))
+            return false;
+        html = Regex.Replace(html, @"<br\s*/?>", "", RegexOptions.IgnoreCase);
+        html = html.Replace("&nbsp;", "", StringComparison.OrdinalIgnoreCase);
+        string cleanedText = Regex.Replace(html, "<[^>]*>", string.Empty).Trim();
+        if (!string.IsNullOrEmpty(cleanedText))
+            return true;
+        // Check for presence of any media tags
+        string[] mediaTags = { "img", "table", "audio", "video" , "iframe" };
+        foreach (var tag in mediaTags)
+        {
+            if (Regex.IsMatch(html, $@"<\s*{tag}[^>]*>", RegexOptions.IgnoreCase))
+                return true;
+        }
+        return false;
+    }
+}
