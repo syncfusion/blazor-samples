@@ -1,6 +1,6 @@
 [![.NET](https://github.com/syncfusion/blazor-samples/actions/workflows/dotnet.yml/badge.svg)](https://github.com/syncfusion/blazor-samples/actions/workflows/dotnet.yml)
 
-# Syncfusion® Blazor Component Examples              
+# Syncfusion® Blazor Component Examples            
 
 This repository contains the demos of [Syncfusion Blazor Components](https://www.syncfusion.com/blazor-components). This is the best place to check the controls to get more insight into the usage of APIs.
 
@@ -13,7 +13,7 @@ The following topics can help you to use the Syncfusion Blazor Components and ru
 * [License](#license)
 * [Support and feedback](#support-and-feedback)
 
-## Requirements to run the demo
+## Requirements to run the demo 
 
 * [System requirements](https://blazor.syncfusion.com/documentation/system-requirements/)
 
