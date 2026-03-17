@@ -251,4 +251,4 @@ The Syncfusion® license that contains the terms and conditions can be found at
 * [Blazor Playground](https://blazorplayground.syncfusion.com/)
 * [Blazor Smart/AI Samples](https://github.com/syncfusion/smart-ai-samples)
 
-<p>Copyright © 2001-2026 Syncfusion®, Inc. All rights reserved.</p>
+<p>Copyright © 2001-2026 Syncfusion®, Inc. All rights reserved.</p> 
