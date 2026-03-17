@@ -80,6 +80,7 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <div><p class="controlcategory">SMART COMPONENTS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/demos/ai-smartpaste/annotations">Smart Paste Button</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/demos/ai-smarttextarea/default">Smart TextArea</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/demos/ai-smart-rich-text-editor/overview">Smart Rich Text Editor - Preview</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">INTERACTIVE CHAT</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/ai-assistview/getting-started-webapp">AI AssistView</a></div>
@@ -123,6 +124,7 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/linear-gauge/getting-started">Linear Gauge</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/range-selector/getting-started">Range Selector</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/smith-chart/getting-started">Smith Chart</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/chart-wizard/getting-started ">Chart Wizard - Preview</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/sparkline/getting-started">Sparkline Charts</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/stock-chart/getting-started">Stock Chart</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/stock-chart/getting-started">Sankey</a></div>
