@@ -1,0 +1,408 @@
+@page "/diagram/serpentine-diagram"
+@using Syncfusion.Blazor.Diagram
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@using System.Text.Json;
+@using System.Text.Json.Serialization;
+@inject IJSRuntime jsRuntime
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@implements IDisposable
+@*End:Hidden*@
+@*Hidden:Lines*@
+<ActionDescription>
+<p>This sample visualizes medical research breakthroughs using serpentine layout with winding node arrangement from 1796 to 1996.</p>
+
+<p>Serpentine features:</p>
+<ul>
+  <li>Dynamic serpentine flow arrangement</li>
+  <li>Wrapping based on container width</li>
+  <li>Direction reversal between rows</li>
+  <li>Interactive nodes with detailed tooltips</li>
+  <li>Straight connectors within rows, bezier curves between rows</li>
+  <li>Zoom functionality at specific levels</li>
+</ul>
+</ActionDescription>
+
+@*End:Hidden*@
+
+
+<style>
+    .serpentine-diagram-container {
+        padding: 20px;
+        background-color: #f8f9fa;
+        min-height: 600px;
+    }
+
+    .e-diagram {
+        border: 1px solid #dee2e6;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    }
+
+    .diagram-header h3 {
+        color: #495057;
+        font-weight: 600;
+        margin-top: 0px;
+    }
+
+    @@media (max-width: 768px) {
+        .serpentine-diagram-container {
+            padding: 10px;
+        }
+
+        .e-diagram {
+            min-height: 600px;
+        }
+    }
+</style>
+
+
+<div class="serpentine-diagram-container">
+    <div class="sample-section">
+        <div class="content-wrapper">
+            <div class="diagram-header">
+                <h3 class="text-center mb-3">Medical Research Breakthroughs</h3>
+                <p class="text-muted text-center mb-4">
+                    A serpentine journey through 20 pivotal medical discoveries that changed healthcare forever
+                </p>
+            </div>
+            <div class="zoom-controls-container" style="padding: 0 0 15px 0; text-align: center;">
+                <SfButton Content="0.65x" IsPrimary="@zoom1btn" OnClick="@OnZoom1"></SfButton>
+                <SfButton Content="0.75x" IsPrimary="@zoom2btn" OnClick="@OnZoom2"></SfButton>
+                <SfButton Content="0.85x" IsPrimary="@zoom3btn" OnClick="@OnZoom3"></SfButton>
+                <SfButton Content="1" IsPrimary="@zoom4btn" OnClick="@OnZoom4"></SfButton>
+            </div>
+            <div>
+                <SfDiagramComponent @ref="Diagram" Width="100%" Height="600px" InteractionController="@InteractionController" Created="OnDiagramCreated">
+                    <SnapSettings Constraints=" SnapConstraints.None"></SnapSettings>
+                    <ScrollSettings @bind-VerticalOffset="@VerticalScrollOffset" @bind-HorizontalOffset="@HorizontalScrollOffset" ScrollableArea="@ScrollableArea"/>
+                    <PageSettings Width="300" Height="300" MultiplePage=true> </PageSettings>
+                    <DiagramTemplates>
+                        <TooltipTemplate>
+                            @{
+                                if (context is Node node)
+                                {
+                                    <p style="font-size: small; width :200px"><b>@node!.AdditionalInfo!["Title"] (@node!.AdditionalInfo!["Year"])</b><br /><br />@node!.AdditionalInfo!["Description"]</p>
+                                }
+                            }
+
+                        </TooltipTemplate>
+                    </DiagramTemplates>
+                </SfDiagramComponent>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    public SfDiagramComponent? Diagram;
+    public DiagramObjectCollection<NodeBase>? Nodes = new DiagramObjectCollection<NodeBase>();
+    public DiagramObjectCollection<NodeBase>? Connectors = new DiagramObjectCollection<NodeBase>();
+    public double VerticalScrollOffset;
+    public double HorizontalScrollOffset;
+    public ScrollLimitMode ScrollLimit = ScrollLimitMode.Diagram;
+    public DiagramRect ScrollableArea = new DiagramRect(0, 100, 1500, 1500);
+    public DiagramInteractions InteractionController = DiagramInteractions.ZoomPan;
+    private bool zoom1btn = true;
+    private bool zoom2btn;
+    private bool zoom3btn;
+    private bool zoom4btn;
+    public List<MedicalBreakthrough>? MedicalBreakthroughs { get; set; }
+
+
+    public DotNetObjectReference<SerpentineDiagram>? dotNetReference;
+
+    private async Task OnDiagramCreated(object args)
+    {
+        dotNetReference = DotNetObjectReference.Create(this);
+        await jsRuntime.InvokeVoidAsync("registerResizeCallback", dotNetReference);
+        OnZoomButtonClick(0.65);
+        zoom1btn = true;
+    }
+    private async void OnZoom1(MouseEventArgs args)
+    {
+        zoom1btn = true;
+        zoom2btn = false;
+        zoom3btn = false;
+        zoom4btn = false;
+        OnZoomButtonClick(0.65);
+    }
+
+    private async void OnZoom2(MouseEventArgs args)
+    {
+        zoom1btn = false;
+        zoom2btn = true;
+        zoom3btn = false;
+        zoom4btn = false;
+        OnZoomButtonClick(0.75);
+    }
+
+    private async void OnZoom3(MouseEventArgs args)
+    {
+        zoom1btn = false;
+        zoom2btn = false;
+        zoom3btn = true;
+        zoom4btn = false;
+        OnZoomButtonClick(0.85);
+    }
+
+    private async void OnZoom4(MouseEventArgs args)
+    {
+        zoom1btn = false;
+        zoom2btn = false;
+        zoom3btn = false;
+        zoom4btn = true;
+        OnZoomButtonClick(1);
+    }
+    [JSInvokable]
+    public async Task OnWindowResized()
+    {
+        await RenderSerpentineLayout();
+        StateHasChanged();
+    }
+
+    private async void OnZoomButtonClick(double zoomLevel)
+    {
+        double currentZoom = Diagram!.ScrollSettings!.CurrentZoom;
+        double targetZoom = zoomLevel;
+        double zoomFactor = targetZoom / currentZoom;
+        DiagramRect diagramBounds = Diagram.GetPageBounds();
+        DiagramSize? bounds = await GetDiagramSize();
+        DiagramPoint focusPoint = new DiagramPoint { X = (bounds!.Width ?? 0) / 2, Y = (bounds!.Height ?? 0) / 2 };
+        Diagram.BeginUpdate();
+        Diagram.Zoom(zoomFactor, focusPoint);
+        await RenderSerpentineLayout();
+        VerticalScrollOffset = -1;
+        HorizontalScrollOffset = -1;
+        await Diagram.EndUpdateAsync();
+
+    }
+
+    public async Task<DiagramSize?> GetDiagramSize()
+    {
+        var boundsElement = await jsRuntime.InvokeAsync<System.Text.Json.JsonElement?>("getViewportBounds");
+
+        if (!boundsElement.HasValue)
+        {
+            return null;
+        }
+
+        var width = boundsElement.Value.GetProperty("width").GetDouble();
+        var height = boundsElement.Value.GetProperty("height").GetDouble();
+        return new DiagramSize { Width = width, Height = height };
+    }
+
+    private async Task RenderSerpentineLayout()
+    {
+        if (Diagram == null || MedicalBreakthroughs == null || MedicalBreakthroughs.Count == 0) return;
+        Diagram.Clear();
+        Nodes!.Clear();
+        Connectors!.Clear();
+
+        var palette = new[] { "#2E86C1", "#2A6F1C", "#C25107", "#8E44AD", "#C0392B", "#40566d", "#8E7302" };
+
+        const double nodeSize = 110;
+        const double hGap = 60;
+        const double vGap = 150;
+        const double baseMargin = 50;
+        const double curveRadius = hGap * 1.5;
+        const double curveBowOffset = 70;
+        const double curvePadding = curveRadius + (2 * curveBowOffset);
+        const double totalMargin = baseMargin + curvePadding;
+
+        double zoom = Diagram!.ScrollSettings!.CurrentZoom;
+        // Retrieve the viewport bounds of the diagram area using JavaScript interop.
+        var diagramBounds = Diagram.GetPageBounds();
+        var bounds = await GetDiagramSize(); ;
+
+        // In Blazor, we can get client width directly instead of from the element
+        var effectiveWidth = (bounds!.Width ?? 0) / zoom;
+
+        double currentX = totalMargin + (nodeSize / 2);
+        double currentY = 80;
+        int direction = 1;
+
+        foreach (var (breakthrough, index) in MedicalBreakthroughs.Select((value, i) => (value, i)))
+        {
+            if (direction == 1 && (currentX + (nodeSize / 2) > effectiveWidth - totalMargin))
+            {
+                currentY += vGap;
+                direction = -1;
+                currentX = effectiveWidth - totalMargin - (nodeSize / 2);
+            }
+            else if (direction == -1 && (currentX - (nodeSize / 2) < totalMargin))
+            {
+                currentY += vGap;
+                direction = 1;
+                currentX = totalMargin + (nodeSize / 2);
+            }
+
+            string color = palette[index % palette.Length];
+            Node node = new Node
+            {
+                ID = $"breakthrough_{breakthrough!.Id}",
+                OffsetX = currentX,
+                OffsetY = currentY,
+                Width = nodeSize,
+                Height = nodeSize,
+                Shape = new BasicShape { Shape = NodeBasicShapes.Ellipse },
+
+                Style = new ShapeStyle { Fill = color, StrokeColor = "White", StrokeWidth = 4 },
+                Constraints = NodeConstraints.Default | NodeConstraints.Tooltip,
+                AdditionalInfo = new Dictionary<string, object>
+    {
+                    { "Title", breakthrough!.Title! },
+                    { "Year", breakthrough!.Year! },
+                    { "Description", breakthrough!.Description! }
+                },
+                Tooltip = new DiagramTooltip
+                {
+                    Position = Syncfusion.Blazor.Popups.Position.BottomCenter
+                },
+                Annotations = new DiagramObjectCollection<ShapeAnnotation>
+    {
+                    new ShapeAnnotation { Content = breakthrough.Year, Offset = new DiagramPoint { X = 0.5, Y= 0.3}, Style = new TextStyle { Color = "white", FontSize = 16, Bold = true } },
+                    new ShapeAnnotation { Content = breakthrough.Title, Width=80, Offset = new DiagramPoint { X = 0.5, Y= 0.65},  Style = new TextStyle { Color = "white", FontSize = 12, TextOverflow = TextOverflow.Wrap, TextWrapping = Syncfusion.Blazor.Diagram.TextWrap.WrapWithOverflow } }
+                },
+                Ports = new DiagramObjectCollection<PointPort>
+    {
+                    new PointPort { ID = "port_left", Offset = new DiagramPoint { X = 0, Y = 0.5 }, Visibility = PortVisibility.Hidden },
+                    new PointPort { ID = "port_right", Offset = new DiagramPoint { X = 1, Y = 0.5 }, Visibility = PortVisibility.Hidden }
+                }
+            };
+            Nodes.Add(node);
+            currentX += direction * (nodeSize + hGap);
+        }
+
+        for (int i = 0; i < Nodes.Count - 1; i++)
+        {
+            Node? sourceNode = Nodes![i] as Node;
+            Node? targetNode = Nodes![i + 1] as Node;
+
+            bool isRowChange = sourceNode!.OffsetY != targetNode!.OffsetY;
+            string sourcePortId, targetPortId;
+
+            if (isRowChange)
+            {
+                sourcePortId = sourceNode.OffsetX > targetNode.OffsetX ? "port_left" : "port_right";
+                targetPortId = sourcePortId;
+            }
+            else
+            {
+                sourcePortId = sourceNode.OffsetX < targetNode.OffsetX ? "port_right" : "port_left";
+                targetPortId = sourceNode.OffsetX < targetNode.OffsetX ? "port_left" : "port_right";
+            }
+
+            string pathData = "M 16 16 c -8 1 -7 1 -11 3 C 7 16 7 13 5 10 c 4 2 3 2 11 3 z";
+            DecoratorSettings decorator = new DecoratorSettings
+            {
+                Shape = DecoratorShape.Custom,
+                Width = 20,
+                Height = 30,
+                Pivot = new DiagramPoint { X = 0.25, Y = 0.5 },
+                PathData = pathData,
+                Style = new ShapeStyle { Fill = sourceNode!.Style!.Fill, StrokeColor = sourceNode.Style.Fill }
+            };
+
+            Connector connector = new Connector
+            {
+                ID = $"connector_{i + 1}",
+                SourceID = sourceNode.ID,
+                TargetID = targetNode.ID,
+                SourcePortID = sourcePortId,
+                TargetPortID = targetPortId,
+                Style = new ShapeStyle { StrokeColor = sourceNode.Style.Fill, StrokeWidth = 12 },
+                TargetDecorator = decorator,
+                SourceDecorator = decorator
+            };
+
+            if (isRowChange)
+            {
+                connector.Type = ConnectorSegmentType.Bezier;
+                decorator.Pivot = new DiagramPoint { X = -0.15, Y = 0.5 };
+                double controlX = (sourcePortId == "port_right")
+                    ? sourceNode.OffsetX + (nodeSize / 2) + curveRadius + (2 * curveBowOffset)
+                    : sourceNode.OffsetX - (nodeSize / 2) - curveRadius - (2 * curveBowOffset);
+
+                connector.Segments = new DiagramObjectCollection<ConnectorSegment>
+    {
+                    new BezierSegment
+                    {
+                        Point1 = new DiagramPoint { X = controlX, Y = sourceNode.OffsetY + 5 },
+                        Point2 = new DiagramPoint { X = controlX, Y = targetNode.OffsetY - 5 },
+                    }
+                };
+            }
+            else
+            {
+                connector.Type = ConnectorSegmentType.Straight;
+            }
+            Connectors.Add(connector);
+        }
+
+        await Diagram.AddDiagramElementsAsync(Nodes);
+        await Diagram.AddDiagramElementsAsync(Connectors);
+
+    }
+
+    protected override void OnInitialized()
+    {
+        // Populate the list of medical breakthroughs
+        MedicalBreakthroughs = new List<MedicalBreakthrough>
+        {
+            new MedicalBreakthrough { Id = "1", Year = "1796", Title = "Smallpox Vaccine", Description = "Edward Jenner develops the first successful vaccine using cowpox, marking a historic milestone in immunology." },
+            new MedicalBreakthrough { Id = "2", Year = "1846", Title = "First Use of Anesthesia", Description = "William T. G. Morton demonstrates ether anesthesia publicly, revolutionizing surgical procedures by enabling pain-free operations." },
+            new MedicalBreakthrough { Id = "3", Year = "1865", Title = "Germ Theory of Disease", Description = "Louis Pasteur proves microorganisms cause disease, establishing the foundation of modern microbiology." },
+            new MedicalBreakthrough { Id = "4", Year = "1882", Title = "Discovery of Tuberculosis Bacterium", Description = "Robert Koch identifies Mycobacterium tuberculosis, paving the way for accurate TB diagnosis and effective treatment." },
+            new MedicalBreakthrough { Id = "5", Year = "1895", Title = "Discovery of X-rays", Description = "Wilhelm Röntgen discovers X-rays, transforming medical imaging and diagnostic practices worldwide." },
+            new MedicalBreakthrough { Id = "6", Year = "1901", Title = "Classification of Blood Types", Description = "Karl Landsteiner classifies major blood groups (A, B, O), enabling safe and reliable blood transfusions." },
+            new MedicalBreakthrough { Id = "7", Year = "1921", Title = "Discovery of Insulin", Description = "Frederick Banting and Charles Best isolate insulin, turning diabetes into a manageable chronic condition." },
+            new MedicalBreakthrough { Id = "8", Year = "1923", Title = "Diphtheria Vaccine Developed", Description = "Widespread use of the diphtheria toxoid vaccine begins, drastically reducing deaths from the disease." },
+            new MedicalBreakthrough { Id = "9", Year = "1928", Title = "Discovery of Penicillin", Description = "Alexander Fleming discovers the first true antibiotic, heralding the antibiotic era." },
+            new MedicalBreakthrough { Id = "10", Year = "1935", Title = "Sulfonamides Introduced", Description = "Sulfonamides, the first synthetic antibiotics, are introduced to effectively treat diverse bacterial infections." },
+            new MedicalBreakthrough { Id = "11", Year = "1953", Title = "DNA Structure Identified", Description = "James Watson and Francis Crick reveal the double-helix structure of DNA, laying the groundwork for modern genetics.   " },
+            new MedicalBreakthrough { Id = "12", Year = "1955", Title = "Polio Vaccine Approved", Description = "Jonas Salk’s IPV is approved as safe and effective, drastically reducing global polio cases." },
+            new MedicalBreakthrough { Id = "13", Year = "1960", Title = "Introduction of Oral Contraceptives", Description = "The FDA approves the first oral contraceptive pill, revolutionizing reproductive health and social norms." },
+            new MedicalBreakthrough { Id = "14", Year = "1967", Title = "First Human Heart Transplant", Description = "Dr. Christiaan Barnard performs the first successful human heart transplant, redefining cardiac surgery." },
+            new MedicalBreakthrough { Id = "15", Year = "1971", Title = "CT Scan Invented", Description = "Godfrey Hounsfield and Allan Cormack invent CT scanning, dramatically improving internal medical imaging." },
+            new MedicalBreakthrough { Id = "16", Year = "1978", Title = "Birth of First IVF Baby", Description = "Louise Brown becomes the first baby born through IVF, marking a breakthrough in reproductive medicine." },
+            new MedicalBreakthrough { Id = "17", Year = "1980", Title = "Smallpox Eradicated", Description = "WHO declares smallpox eradicated, a historic triumph of global vaccination efforts." },
+            new MedicalBreakthrough { Id = "18", Year = "1983", Title = "HIV Identified", Description = "Luc Montagnier and Robert Gallo identify HIV as the virus responsible for AIDS." },
+            new MedicalBreakthrough { Id = "19", Year = "1990", Title = "Launch of Human Genome Project", Description = "The Human Genome Project launches, aiming to map all human genes and revolutionize personalized medicine." },
+            new MedicalBreakthrough { Id = "20", Year = "1996", Title = "Introduction of HAART for HIV", Description = "HAART becomes the standard HIV treatment, transforming it into a manageable chronic condition." }
+
+        };
+    }
+
+    // A model class to represent a single data point in the timeline
+    public class MedicalBreakthrough
+    {
+        public string? Id { get; set; }
+        public string? Year { get; set; }
+        public string? Title { get; set; }
+        public string? Description { get; set; }
+    }
+
+    @*Hidden:Lines*@
+    public void Dispose()
+    {
+        if (dotNetReference != null)
+        {
+            jsRuntime.InvokeVoidAsync("unregisterResizeCallback");
+            dotNetReference.Dispose();
+        }
+        if (Nodes != null)
+        {
+            Nodes.Clear();
+            Nodes = null;
+        }
+        if (Connectors != null)
+        {
+            Connectors.Clear();
+            Connectors = null;
+        }
+    }
+    @*End:Hidden*@
+}

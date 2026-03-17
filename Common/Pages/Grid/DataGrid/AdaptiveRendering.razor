@@ -1,0 +1,399 @@
+@page "/datagrid/adaptive-rendering"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@using System.Globalization
+@using blazor_shipmentrecord
+@using BlazorDemos
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates the adaptive rendering capabilities of the Syncfusion<sup style="font-size:70%">&reg;</sup> Blazor DataGrid, including row rendering modes and adaptive dialog functionality for actions such as filtering, sorting, searching, editing, and column selection.</p>
+    <p>The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_EnableAdaptiveUI' aria-label="Navigate to the EnableAdaptiveUI property reference for DataGrid component">EnableAdaptiveUI</a> property enables optimized, responsive rendering of grid dialogs across various screen sizes and devices.</p>
+    <p>The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_RowRenderingMode' aria-label="Navigate to the RowRenderingMode property reference for DataGrid component">RowRenderingMode</a> property defines how row elements are displayed:</p>
+    <ul>
+        <li><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.RowDirection.html#Syncfusion_Blazor_Grids_RowDirection_Horizontal' aria-label="Navigate to the fields reference for Horizontal in DataGrid row direction">Horizontal</a> - Displays rows in a traditional horizontal layout.</li>
+        <li><a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.RowDirection.html#Syncfusion_Blazor_Grids_RowDirection_Vertical' aria-label="Navigate to the fields reference for Vertical in DataGrid row direction">Vertical</a> - Displays rows in a vertical layout, ideal for mobile and responsive designs.</li>
+    </ul>
+    <p>The pager dropdown is customized by configuring the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridPageSettings.html#Syncfusion_Blazor_Grids_GridPageSettings_PageSizes' aria-label="Navigate to the PageSizes property reference for DataGrid component">PageSizes</a> property in the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridPageSettings.html' aria-label="Navigate to the class reference for GridPageSettings">GridPageSettings</a> class to define a specific set of page size options displayed in the pager dropdown.</p>
+    <p>Column-level aggregates are configured via <a target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridAggregates.html" aria-label="Navigate to the GridAggregates property reference for DataGrid component">GridAggregates</a>; the sample displays the <strong>Charges</strong> column total in a <code>FooterTemplate</code>.</p>
+    <p>For more detailed information about implementing adaptive UI features in the DataGrid component, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/adaptive-layout' aria-label="Navigate to the documentation for Adaptive UI Layout in DataGrid component">Adaptive Layout documentation</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="content-wrapper e-bigger e-adaptive-demo">
+                <div class="e-mobile-layout">
+                    <div class="e-mobile-content">
+                        <SfGrid DataSource="@GridData" AllowSorting="true" AllowFiltering="true" EnableAdaptiveUI="true" Toolbar="@(new List<string>() { "Add", "Edit", "Delete", "Cancel", "Update", "Search", "ColumnChooser" })" ShowColumnChooser="true" RowRenderingMode="RowDirection.Vertical" Height="100%" Width="100%" AllowPaging="true">
+                            <GridPageSettings PageSizes="true"></GridPageSettings>
+                            <GridFilterSettings Type="@Syncfusion.Blazor.Grids.FilterType.Excel"></GridFilterSettings>
+                            <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Dialog"></GridEditSettings>
+                            <GridAggregates>
+                                <GridAggregate>
+                                    <GridAggregateColumns>
+                                        <GridAggregateColumn Field=@nameof(ShipmentRecord.Charges) Type="AggregateType.Sum" Format="C2">
+                                            <FooterTemplate>
+                                                @{
+                                                    var aggregate = (context as AggregateTemplateContext);
+                                                    <div>
+                                                        <p>Total: @aggregate?.Sum</p>
+                                                    </div>
+                                                }
+                                            </FooterTemplate>
+                                        </GridAggregateColumn>
+                                    </GridAggregateColumns>
+                                </GridAggregate>
+                            </GridAggregates>
+                            <GridColumns>
+                                <GridColumn Field=@nameof(ShipmentRecord.TrackingID) HeaderText="Tracking ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules { Required = true, MinLength = 10, MaxLength = 10 })" Width="180" />
+                                <GridColumn Field=@nameof(ShipmentRecord.RecipientName) HeaderText="Recipient" ValidationRules="@(new ValidationRules { Required = true })" Width="180" />
+                                <GridColumn Field=@nameof(ShipmentRecord.DeliveryStatus) HeaderText="Status" Width="200" DisplayAsCheckBox="false">
+                                    <EditTemplate>
+                                        @{
+                                            var editRecord = (context as ShipmentRecord)!;
+                                        }
+                                        <SfDropDownList TValue="DeliveryStatus" TItem="DeliveryStatus"
+                                                        DataSource="@DeliveryStatusValues"
+                                                        Value="@editRecord.DeliveryStatus"
+                                                        ValueChanged="@((DeliveryStatus value) => { editRecord.DeliveryStatus = value; })" FloatLabelType="Syncfusion.Blazor.Inputs.FloatLabelType.Always" Placeholder="Status">
+                                        </SfDropDownList>
+                                    </EditTemplate>
+                                    <Template>
+                                        @{
+                                            var rec = (context as ShipmentRecord)!;
+                                            var vm = GetStatusView(rec.DeliveryStatus, rec.DeliveryDate);
+                                            __statusKey++;
+                                            <SfTooltip @key="__statusKey"
+                                                       Position="Position.BottomCenter"
+                                                       ShowTipPointer="true"
+                                                       Width="160px">
+                                                <ContentTemplate>
+                                                    <div class="status-tooltip">
+                                                        @if (!string.IsNullOrEmpty(vm.TooltipBody))
+                                                        {
+                                                            <div class="status-tooltip__body">@vm.TooltipBody</div>
+                                                        }
+                                                        else
+                                                        {
+                                                            <div class="status-tooltip__line">
+                                                                <strong>@vm.DateLabel:</strong> @vm.DateText
+                                                            </div>
+                                                        }
+                                                    </div>
+                                                </ContentTemplate>
+                                                <ChildContent>
+                                                    <span class="chip @vm.ChipClass">@vm.ChipText</span>
+                                                </ChildContent>
+                                            </SfTooltip>
+                                        }
+                                    </Template>
+                                </GridColumn>
+                                <GridColumn Field=@nameof(ShipmentRecord.Weight) HeaderText="Weight (kg)" Type="ColumnType.Double" ValidationRules="@(new ValidationRules { Required = true })" Width="140" />
+                                <GridColumn Field=@nameof(ShipmentRecord.Charges) HeaderText="Charges" Format="C2" ValidationRules="@(new ValidationRules { Required = true, Min = 0 })" Width="140" />
+                                <GridColumn Field=@nameof(ShipmentRecord.OriginLocation) HeaderText="Origin" ValidationRules="@(new ValidationRules { Required = true, MinLength = 2, MaxLength = 30 })" Width="140" />
+                                <GridColumn Field=@nameof(ShipmentRecord.DestinationRegion) HeaderText="Region" ValidationRules="@(new ValidationRules { Required = true, MinLength = 2, MaxLength = 30 })" Width="160" />
+                            </GridColumns>
+                        </SfGrid>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@code {
+    private int __statusKey = 0; // Ensures unique tooltip instance per row
+    public List<ShipmentRecord> GridData { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        GridData = ShipmentData.GetAllRecords();
+    }
+    private static readonly List<DeliveryStatus> DeliveryStatusValues = Enum.GetValues<DeliveryStatus>().ToList();
+
+    /// <summary>
+    /// View values for the status cell.
+    /// </summary>
+    private sealed record StatusView(
+        string ChipText,
+        string ChipClass,
+        string DateLabel,
+        string DateText,
+        string? TooltipBody // message for special cases (e.g., Cancelled)
+    );
+
+    /// <summary>
+    /// Returns view values for the status cell based on delivery state and date.
+    /// </summary>
+    private static StatusView GetStatusView(DeliveryStatus state, DateTime? date)
+    {
+        string chipText = state switch
+        {
+            DeliveryStatus.Pending => "Pending",
+            DeliveryStatus.InTransit => "In Transit",
+            DeliveryStatus.OutForDelivery => "Out for Delivery",
+            DeliveryStatus.Delivered => "Delivered",
+            DeliveryStatus.DeliveryFailed => "Delivery Failed",
+            DeliveryStatus.Returned => "Returned",
+            DeliveryStatus.Delayed => "Delayed",
+            DeliveryStatus.Cancelled => "Cancelled",
+            _ => "Unknown"
+        };
+
+        string chipClass = state switch
+        {
+            DeliveryStatus.Delivered => "chip--delivered",
+            DeliveryStatus.OutForDelivery => "chip--outfordelivery",
+            DeliveryStatus.InTransit => "chip--intransit",
+            DeliveryStatus.Pending => "chip--pending",
+            DeliveryStatus.DeliveryFailed => "chip--failed",
+            DeliveryStatus.Returned => "chip--returned",
+            DeliveryStatus.Delayed => "chip--delayed",
+            DeliveryStatus.Cancelled => "chip--cancelled",
+            _ => "chip--neutral"
+        };
+
+        string dateLabel = state switch
+        {
+            DeliveryStatus.Delivered => "Delivered Date",
+            DeliveryStatus.DeliveryFailed => "Attempt Date",
+            DeliveryStatus.Returned => "Return Date",
+            _ => "Expected Delivery Date"
+        };
+
+        string dateText = date?.ToString("M/d/yyyy") ?? "—";
+
+        // Only for Cancelled, provide a message. No title, no status line.
+        string? tipBody = state == DeliveryStatus.Cancelled
+            ? "This item has been cancelled and will not be delivered."
+            : null;
+
+        return new StatusView(chipText, chipClass, dateLabel, dateText, tipBody);
+    }
+
+}
+
+@*Hidden:Lines*@
+<style>
+
+    /* The device with borders */
+    .e-mobile-layout {
+        position: relative;
+        width: 370px;
+        height: 640px;
+        margin: auto;
+        border: 16px #f4f4f4 solid;
+        border-top-width: 60px;
+        border-bottom-width: 60px;
+        border-radius: 36px;
+        box-shadow: 0 0px 2px rgb(144 144 144), 0 0px 10px rgb(0 0 0 / 16%);
+    }
+
+    .e-grid {
+        position: absolute;
+    }
+
+    .e-mobile-layout:before, .e-mobile-layout:after {
+        content: '';
+        display: block;
+        position: absolute;
+        transform: translate(-50%, -50%);
+        left: 50%;
+    }
+    /* The horizontal line on the top of the device */
+    .e-mobile-layout:before {
+        width: 60px;
+        height: 5px;
+        top: -30px;
+        background: #ebebeb;
+        border-radius: 10px;
+    }
+    /* The circle at the bottom of the device */
+    .e-mobile-layout:after {
+        width: 35px;
+        height: 35px;
+        bottom: -65px;
+        background: #e8e8e8;
+        border-radius: 50%;
+    }
+    /* The screen (or content) of the device */
+    .e-mobile-layout .e-mobile-content {
+        overflow-x: hidden;
+        width: 338px;
+        height: 521px;
+        background: white;
+        border: 0px solid #dddddd;
+    }
+
+    .highcontrast .e-mobile-layout {
+        border: 16px #000000 solid;
+        border-top-width: 60px;
+        border-bottom-width: 60px;
+        box-shadow: -1px 2px white, -2px -2px white, 2px -2px white, 2px 1px white;
+    }
+
+    .e-responsive-dialog {
+        box-shadow: none;
+        border: 1px solid #dddddd;
+    }
+
+    .material .e-responsive-dialog,
+    .material3-dark .e-responsive-dialog,
+    .material3 .e-responsive-dialog {
+        top: 1px !important;
+    }
+
+    .highcontrast .e-popup.e-popup-open.e-dialog {
+        left: 0px !important;
+        border: 1px solid #dddddd !important;
+    }
+
+    #adaptivebrowser:not(.e-grid.e-row-responsive) > .e-gridcontent {
+        height: calc(100% - 224px) !important;
+    }
+
+    .fluent2-highcontrast .e-xlflmenu .e-xlfl-maindiv .e-xlfl-radiodiv,
+    .fluent2 .e-xlflmenu .e-xlfl-maindiv .e-xlfl-radiodiv,
+    .fluent2-dark .e-xlflmenu .e-xlfl-maindiv .e-xlfl-radiodiv {
+        width: auto !important;
+    }
+    /* Render the mobile pager by default */
+    @@media (max-width: 3840px) {
+        .e-adaptive-demo .e-pager .e-pager-default:hover {
+            background: transparent;
+        }
+
+        .e-adaptive-demo .e-pager div.e-parentmsgbar {
+            box-sizing: border-box;
+            display: inline-block;
+            float: initial;
+            padding-bottom: 0;
+            padding-right: 0;
+            padding-top: 0;
+            text-align: center;
+            vertical-align: top;
+            width: calc(50% - 48px);
+        }
+
+        .e-adaptive-demo .e-pager .e-pagercontainer, .e-adaptive-demo .e-pager .e-parentmsgbar .e-pagecountmsg {
+            display: none;
+        }
+
+        .e-adaptive-demo .e-pager .e-icons {
+            font-size: 11px;
+        }
+
+        .e-adaptive-demo .e-pager .e-mfirst, .e-adaptive-demo .e-pager .e-mprev, .e-adaptive-demo .e-pager .e-mnext, .e-adaptive-demo .e-pager .e-mlast {
+            border: 0;
+            box-sizing: border-box;
+            display: inline-block;
+        }
+
+        .e-adaptive-demo .e-pager .e-mfirst {
+            margin-right: 4px;
+            text-align: right;
+            width: calc(5% + 11px);
+        }
+
+        .e-adaptive-demo .e-pager .e-mprev {
+            margin: 0 4px;
+            text-align: right;
+            width: 5%;
+        }
+
+        .e-adaptive-demo .e-pager .e-mnext {
+            margin: 0 4px;
+            text-align: left;
+            width: 5%;
+        }
+
+        .e-adaptive-demo .e-pager .e-mlast {
+            margin-left: 4px;
+            text-align: left;
+            width: calc(5% + 11px);
+        }
+
+        .e-adaptive-demo .e-bigger .e-pager, .e-adaptive-demo .e-pager.e-bigger {
+            padding: 6px 0;
+        }
+
+            .e-adaptive-demo .e-bigger .e-pager.e-rtl div.e-parentmsgbar, .e-adaptive-demo .e-pager.e-bigger.e-rtl div.e-parentmsgbar {
+                margin-right: 0;
+            }
+
+            .e-adaptive-demo .e-bigger .e-pager div.e-parentmsgbar, .e-adaptive-demo .e-pager.e-bigger div.e-parentmsgbar {
+                padding: 0;
+            }
+
+        .e-adaptive-demo .e-pager .e-input-group:not(.e-disabled) .e-ddl-icon:hover,
+        .e-adaptive-demo .e-input-group .e-clear-icon:hover {
+            background: transparent;
+        }
+        /* Apply styles for Safari on macOS desktop and other Apple devices */
+        @@supports (font: -apple-system-body) {
+            .e-mobile-layout {
+                width: 390px;
+            }
+        }
+    }
+    /* Base chip (bold) */
+    .chip {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        line-height: 18px;
+        font-weight: 700;
+        color: #ffffff;
+        white-space: nowrap;
+        border: 0;
+    }
+
+    /* High-contrast status colors (no light fills) */
+    .chip--delivered {
+        background-color: #0e7a2f;
+    }
+    /* deep green */
+    .chip--outfordelivery {
+        background-color: #0b5ed7;
+    }
+    /* royal blue */
+    .chip--intransit {
+        background-color: #4338ca;
+    }
+    /* indigo */
+    .chip--pending {
+        background-color: #eab308;
+    }
+    /* brown */
+    .chip--failed {
+        background-color: #b91c1c;
+    }
+    /* red */
+    .chip--returned {
+        background-color: #374151;
+    }
+    /* slate */
+    .chip--delayed {
+        background-color: #c2410c;
+    }
+    /* orange */
+    .chip--cancelled {
+        background-color: #111827;
+    }
+    /* near black */
+    .chip--neutral {
+        background-color: #475569;
+    }
+    /* fallback */
+</style>
+@*End:Hidden*@

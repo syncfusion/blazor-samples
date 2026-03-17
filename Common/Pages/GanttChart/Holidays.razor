@@ -1,0 +1,136 @@
+@page "/gantt-chart/holidays"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+		This sample demonstrates how the <a class="e-gantt-holiday-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                            href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                            target="_blank" rel="noopener">Blazor Gantt Chart</a>
+        highlights holidays within a project schedule. Vertical markers identify nonworking periods so timelines remain accurate and milestones stay visible even when work pauses.
+    </p>
+
+    <p>
+        Holidays are declared through the
+		<a class="e-gantt-holiday-reference-link" aria-label="Navigate to the class reference for Gantt holiday"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttHoliday.html"
+           target="_blank" rel="noopener">GanttHoliday</a>
+        collection. Use the
+		<a class="e-gantt-holiday-reference-link" aria-label="Navigate to the label property reference for Gantt holiday"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttHoliday.html#Syncfusion_Blazor_Gantt_GanttHoliday_Label"
+           target="_blank" rel="noopener">Label</a>
+        property to display descriptive text beside each marker and specify
+		<a class="e-gantt-holiday-reference-link" aria-label="Navigate to the From property reference for Gantt holiday"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttHoliday.html#Syncfusion_Blazor_Gantt_GanttHoliday_From"
+           target="_blank" rel="noopener">From</a>
+        and
+		<a class="e-gantt-holiday-reference-link" aria-label="Navigate to the To property reference for Gantt holiday"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttHoliday.html#Syncfusion_Blazor_Gantt_GanttHoliday_To"
+           target="_blank" rel="noopener">To</a>
+        dates to describe continuous breaks such as long weekends or seasonal shutdowns. Any number of entries can be supplied to match the organizational calendar.
+    </p>
+
+    <p>
+        Styling is customizable via the
+		<a class="e-gantt-holiday-reference-link" aria-label="Navigate to the CssClass property reference for Gantt holiday"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttHoliday.html#Syncfusion_Blazor_Gantt_GanttHoliday_CssClass"
+           target="_blank" rel="noopener">CssClass</a>
+        property, allowing unique colors or decorations for each holiday so critical events stand out. 
+    </p>
+    <p>
+        For further details, refer to the
+		<a class="e-gantt-holiday-reference-link" aria-label="Navigate to the documentation for holidays in the Gantt chart component"
+           href="https://blazor.syncfusion.com/documentation/gantt-chart/holidays/"
+           target="_blank" rel="noopener">documentation</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-holidays-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Height="450px" Width="100%" TreeColumnIndex="1"
+			 ProjectStartDate="@(new DateTime(2021, 3, 28))" ProjectEndDate="@(new DateTime(2021, 7, 20))"
+			 GridLines="GridLine.Vertical" HighlightWeekends="true" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate"
+						 EndDate="EndDate" Duration="Duration"
+						 Progress="Progress" ParentID="ParentId"
+						 Dependency="Predecessor">
+		</GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Task Name"
+						 Width="250" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip">
+			</GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+		</GanttColumns>
+		<GanttHolidays>
+			@foreach (DefaultData.HolidayModel holiday in HolidayCollection)
+			{
+				<GanttHoliday From="@holiday.HolidayDate" To="@holiday.HolidayDate" Label="@holiday.HolidayName"></GanttHoliday>
+			}
+		</GanttHolidays>
+		<GanttLabelSettings RightLabel="TaskName" TValue="DefaultData.TaskData"> </GanttLabelSettings>
+		<GanttSplitterSettings Position="28%"></GanttSplitterSettings>
+	</SfGantt>
+</div>
+
+@code {
+	public SfGantt<DefaultData.TaskData>? GanttInstance { get; set; }
+	public List<DefaultData.TaskData> TaskCollection { get; set; } = new List<DefaultData.TaskData>();
+	public List<DefaultData.HolidayModel> HolidayCollection = new List<DefaultData.HolidayModel>()
+	{
+		new DefaultData.HolidayModel() { HolidayDate = new DateTime(2021, 4, 02), HolidayName = "Good Friday" },
+		new DefaultData.HolidayModel() { HolidayDate = new DateTime(2021, 4, 04), HolidayName = "Easter Sunday" },
+		new DefaultData.HolidayModel() { HolidayDate = new DateTime(2021, 5, 31), HolidayName = "Memorial Day" },
+		new DefaultData.HolidayModel() { HolidayDate = new DateTime(2021, 7, 04), HolidayName = "Independence Day" }
+	};
+
+	/// <summary>
+	/// Initializes the sample by loading task data for the Gantt chart.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		TaskCollection = DefaultData.ProjectNewData();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-holidays-sample {
+		padding: 20px;
+	}
+
+	.e-gantt-holiday-reference-link {
+		text-decoration: none !important;
+	}
+
+	.e-gantt-holiday-reference-link:hover,
+	.e-gantt-holiday-reference-link:focus {
+		text-decoration: underline !important;
+	}
+</style>

@@ -1,0 +1,167 @@
+@page "/gantt-chart/ganttresponsive"
+
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+        This sample demonstrates the responsive behavior of the <a class="e-gantt-responsive-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                   href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                   target="_blank" rel="noopener">Blazor Gantt Chart</a>. The chart dynamically adjusts its size based on predefined layout options small, medium, large, or none allowing flexible adaptation to various screen sizes and container widths.
+    </p>
+
+    <p>
+        These options enable responsive customization of the Gantt Chart�s width, ensuring optimal visibility and usability across different devices and viewports.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-responsive-sample">
+    <div class="responsive-div">
+        <div style="width:@Width">
+            <SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Toolbar="@ToolbarItems" Height="450px" Width="100%" AllowResizing="true" TreeColumnIndex="1" ProjectStartDate="@(new DateTime(2021, 3, 28))" ProjectEndDate="@(new DateTime(2021, 7, 10))" HighlightWeekends="true" ScrollToTaskbarOnClick="true">
+                <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" ParentID="ParentId" Dependency="Predecessor"></GanttTaskFields>
+                <GanttColumns>
+                    <GanttColumn Field="TaskId" Width="100"></GanttColumn>
+                    <GanttColumn Field="TaskName" Width="275" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+                    <GanttColumn Field="StartDate" HeaderText="Start Date" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="EndDate" HeaderText="End Date" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Duration" HeaderText="Duration" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Progress" HeaderText="Progress" MinWidth="120"></GanttColumn>
+                    <GanttColumn Field="Predecessor" HeaderText="Dependency" MinWidth="200"></GanttColumn>
+                </GanttColumns>
+                <GanttHolidays>
+                    <GanttHoliday From="new DateTime(2021, 04, 03)" To="new DateTime(2021, 04, 05)" Label="Public holiday"></GanttHoliday>
+                </GanttHolidays>
+                <GanttDayWorkingTimeCollection>
+                    <GanttDayWorkingTime From="9" To="18"></GanttDayWorkingTime>
+                </GanttDayWorkingTimeCollection>
+                <GanttSplitterSettings Position="28%"></GanttSplitterSettings>
+                <GanttLabelSettings RightLabel="TaskName" TValue="WorkData.TaskData"></GanttLabelSettings>
+            </SfGantt>
+        </div>
+    </div>
+</div>
+@code{
+    /// <summary>
+    /// Initializes the Gantt Responsive sample with task data and toolbar configuration.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        TaskCollection = WorkData.GetTaskCollection();
+        ToolbarItems = new List<Object>
+        {
+            new ItemModel
+            {
+                Id = "Responsive",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "responsive-label");
+                    builder.AddContent(2, "Responsive");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "Responsive",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfDropDownList<string, DropDownValueModel>>(0);
+                    builder.AddAttribute(1, "Width", "118px");
+                    builder.AddAttribute(2, "PopupHeight", "230px");
+                    builder.AddAttribute(3, "DataSource", DropDownNames);
+                    builder.AddAttribute(4, "Value", selectedDropDownValue);
+                    builder.AddAttribute(5, "ValueChanged", EventCallback.Factory.Create<string>(this, v => selectedDropDownValue = v));
+                    builder.AddAttribute(6, "ChildContent", (RenderFragment)(childBuilder =>
+                    {
+                        childBuilder.OpenComponent<DropDownListEvents<string, DropDownValueModel>>(0);
+                        childBuilder.AddAttribute(1, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<string, DropDownValueModel>>(this, OnDropDownValueChange));
+                        childBuilder.CloseComponent();
+
+                        childBuilder.OpenComponent<DropDownListFieldSettings>(2);
+                        childBuilder.AddAttribute(3, "Text", "Name");
+                        childBuilder.AddAttribute(4, "Value", "Name");
+                        childBuilder.CloseComponent();
+                    }));
+                    builder.CloseComponent();
+                })
+            }
+        };
+        @*Hidden:Lines*@
+        SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+        @*End:Hidden*@
+    }
+    @*Hidden:Lines*@
+    private async void OnTouchMousePreferenceChanged()
+    {
+        await GanttInstance.RefreshAsync();
+        await GanttInstance.CallStateHasChangedAsync();
+    }
+
+    public void Dispose()
+    {
+        SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+    }
+    @*End:Hidden*@
+}
+<style>
+    .container-fluid {
+        padding: 0px !important;
+    }
+
+    .e-gantt-responsive-sample {
+        padding: 20px;
+    }
+
+        .e-gantt-responsive-sample .responsive-label {
+            padding: 10px 15px 10px 10px;
+            font-size: 14px;
+        }
+
+        .e-gantt-responsive-sample .e-switch-control {
+            display: flex;
+            align-items: center;
+        }
+
+        .e-gantt-responsive-sample .responsive-div {
+            display: flex;
+            justify-content: center;
+            background: #e2dfdf70;
+            flex-wrap: wrap;
+        }
+
+    .e-bigger .e-gantt-responsive-sample .responsive-div {
+        background: #e2dfdf70;
+    }
+
+    .e-bigger .e-gantt-responsive-sample .responsive-label {
+        padding: 10px 15px 10px 10px;
+        font-size: 16px;
+    }
+
+    @@media only screen and (max-width: 425px) {
+        .e-gantt-responsive-sample .responsive-div {
+            background: none !important;
+        }
+
+        .e-gantt-responsive-sample .e-switch-control {
+            overflow: scroll !important;
+        }
+    }
+
+    .e-gantt-responsive-reference-link {
+        text-decoration: none !important;
+    }
+
+        .e-gantt-responsive-reference-link:hover,
+        .e-gantt-responsive-reference-link:focus {
+            text-decoration: underline !important;
+        }
+</style>

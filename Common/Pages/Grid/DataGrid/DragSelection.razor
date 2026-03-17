@@ -1,0 +1,177 @@
+@page "/datagrid/drag-selection"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_ordersdetails
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the Blazor DataGrid with draggable row and cell selection functionality.</p>
+  
+  <p>The Blazor DataGrid allows you to select multiple rows or cells by dragging your mouse or using touch interactions. To enable this feature, set the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridSelectionSettings.html#Syncfusion_Blazor_Grids_GridSelectionSettings_AllowDragSelection' aria-label="Navigate to the AllowDragSelection property reference for GridSelectionSettings">AllowDragSelection</a> property to <strong>true</strong> in the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor.Grids.GridSelectionSettings.html' aria-label="Navigate to the class reference for GridSelectionSettings">GridSelectionSettings</a> component.</p>
+  
+  <p>Drag selection supports two cell selection modes, configurable using the <code>GridSelectionSettings</code> component's <strong>CellSelectionMode</strong> property:</p>
+  <ul>
+    <li><strong>Flow</strong> - A range of cells is selected between the start and end indexes, including all cells in between rows.</li>
+    <li><strong>Box</strong> - A range of cells is selected from the start and end column indexes, including cells within rows in the specified range.</li>
+  </ul>
+  
+  <p>In this demo, the DataGrid is configured in row selection mode. You can change the selection <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridSelectionSettings.html#Syncfusion_Blazor_Grids_GridSelectionSettings_Mode' aria-label="Navigate to the Mode property reference for GridSelectionSettings">Mode</a> and <strong>CellSelectionMode</strong> using the provided options.</p>
+  
+  <p>To enable multi-selection by dragging, set the selection <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridSelectionSettings.html#Syncfusion_Blazor_Grids_GridSelectionSettings_Type' aria-label="Navigate to the Type property reference for GridSelectionSettings">Type</a> property to <strong>Multiple</strong>.</p>
+  
+  <p>For more detailed information about drag selection, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/selection/#checkbox-selection' aria-label="Navigate to the documentation for Checkbox selection in DataGrid component">selection documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-9 control-section sb-property-border">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-contentborder">
+                <SfGrid @ref="Grid" DataSource="@GridData" AllowSelection="true" EnableHover="false" AllowPaging="true">
+                    <GridSelectionSettings AllowDragSelection="true" Type="SelectionType.Multiple" Mode="@Mode" CellSelectionMode="@CellMode"></GridSelectionSettings>
+                    <GridColumns>
+                        <GridColumn Field=@nameof(OrdersDetails.OrderID) HeaderText="Order ID" TextAlign="TextAlign.Right" IsPrimaryKey="true" Width="120"></GridColumn>
+                        <GridColumn Field=@nameof(OrdersDetails.CustomerID) HeaderText="Customer ID" Width="150"></GridColumn>
+                        <GridColumn Field=@nameof(OrdersDetails.OrderDate) HeaderText=" Order Date" Format="d" Type="ColumnType.Date" TextAlign="TextAlign.Right" Width="130"></GridColumn>
+                        <GridColumn Field=@nameof(OrdersDetails.Freight) Format="C2" TextAlign="TextAlign.Right" Width="150"></GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="col-lg-3 control-section">
+    <h5 class="left-side">Properties</h5>
+    <table id="property" style="width: 100%; height: 150px;">
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Selection Mode</td>
+            <td>
+                <SfDropDownList TItem="Data" TValue="string" PopupHeight="230px" Width="100px" @bind-Value="@Value" DataSource="@RowData">
+                    <DropDownListEvents TItem="Data" TValue="string" ValueChange="Changedata"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </td>
+        </tr>
+        <tr>
+            <td class="left-side" style="padding-right:15px;">Cell Selection Mode</td>
+            <td>
+                <SfDropDownList Enabled="this.isCellMode" TItem="Data" TValue="string" PopupHeight="230px" Width="100px" @bind-Value="@CellValue" DataSource="@CellData">
+                    <DropDownListEvents TItem="Data" TValue="string" ValueChange="CellChangedata"></DropDownListEvents>
+                    <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                </SfDropDownList>
+            </td>
+        </tr>
+    </table>
+</div>
+
+@code{
+    SfGrid<OrdersDetails>? Grid;
+
+
+    public List<OrdersDetails>? GridData { get; set; }
+    public Syncfusion.Blazor.Grids.SelectionMode Mode { get; set; } = Syncfusion.Blazor.Grids.SelectionMode.Row;
+    public CellSelectionMode CellMode { get; set; } = CellSelectionMode.Box;
+    public bool isCellMode { get; set; } = false;
+    public string Value = "Row";
+    public string CellValue = "Box";
+
+    protected override void OnInitialized()
+    {
+
+        GridData = OrdersDetails.GetAllRecords();
+    }
+
+    public class Data
+    {
+        public string? Text { get; set; } 
+        public string? Value { get; set; }
+    }
+
+    public void Changedata(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Data> args)
+    {
+        if (args.Value == "Cell")
+        {
+            Mode = Syncfusion.Blazor.Grids.SelectionMode.Cell;
+            isCellMode = true;
+        }
+        else
+        {
+            Mode = Syncfusion.Blazor.Grids.SelectionMode.Row;
+            isCellMode = false;
+        }
+        if(Grid != null)
+        Grid.Refresh();
+        StateHasChanged();
+    }
+
+    public void CellChangedata(@Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, Data> args)
+    {
+        if (args.Value == "Flow")
+        {
+            CellMode = CellSelectionMode.Flow;
+
+        }
+        else
+        {
+            CellMode = CellSelectionMode.Box;
+        }
+        if(Grid != null)
+        Grid.Refresh();
+        StateHasChanged();
+    }
+
+    public List<Data> CellData = new List<Data>() {
+        new Data(){ Text= "Box", Value= "Box" },
+        new Data(){ Text= "Flow", Value= "Flow" },
+    };
+
+    public List<Data> RowData = new List<Data>() {
+        new Data(){ Text= "Row", Value= "Row" },
+        new Data(){ Text= "Cell", Value= "Cell" },
+    };
+}
+@*Hidden:Lines*@
+<style>
+    .e-contentborder {
+        padding-right: 10px;
+    }
+
+    .control-section h5 {
+        font-weight: 700;
+    }
+
+    .material .left-side,
+    .fabric .left-side,
+    .fabric-dark .left-side,
+    .highcontrast .left-side {
+        font-size: 13px;
+    }
+
+    .bootstrap4 .left-side,
+    .bootstrap5 .left-side,
+    .bootstrap5-dark .left-side,
+    .tailwind .left-side,
+    .tailwind-dark .left-side,
+    .highcontrast.e-bigger .left-side,
+    .fabric.e-bigger .left-side,
+    .fabric-dark.e-bigger .left-side {
+        font-size: 14px;
+    }
+
+    .bootstrap4.e-bigger .left-side,
+    .tailwind-dark.e-bigger .left-side,
+    .tailwind.e-bigger .left-side,
+    .bootstrap5.e-bigger .left-side,
+    .bootstrap5-dark.e-bigger .left-side {
+        font-size: 16px;
+    }
+</style>
+@*End:Hidden*@

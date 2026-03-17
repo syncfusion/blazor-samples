@@ -1,0 +1,88 @@
+@page "/gantt-chart/expando-data"
+
+@using Syncfusion.Blazor.Gantt
+@using System.Dynamic
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+		This sample demonstrates dynamic data binding in the <a class="e-gantt-expandodata-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                target="_blank" rel="noopener">Blazor Gantt Chart</a> by connecting an <code>ExpandoObject</code> based data source. This approach is useful when the model type is unknown at compile time, allowing the component to remain flexible while still supporting core features like add, update, delete, expand/collapse, and column sorting. It showcases how the Gantt Chart can effectively manage tasks even with dynamic schemas.
+    </p>
+
+    <p>
+		A dynamic list of <code>ExpandoObject</code> instances is assigned to the Gantt <a class="e-gantt-expandodata-reference-link" aria-label="Navigate to the Datasource of Blazor Gantt Chart component"
+                                                                                           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_DataSource"
+                                                                                           target="_blank" rel="noopener">DataSource</a>, allowing fields to be resolved at runtime during rendering and editing.
+    </p>
+    <p>
+        For further details, refer to the
+		<a class="e-gantt-expandodata-reference-link" aria-label="Navigate to the documentation for ExpandoObject Binding in the Gantt chart component"
+           href="https://blazor.syncfusion.com/documentation/gantt-chart/data-binding/#expandoobject-binding"
+           target="_blank" rel="noopener">documentation</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-expando-data-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@GanttExpandoData" Height="450px" Width="100%" TreeColumnIndex="1" HighlightWeekends="true" ProjectStartDate="@(new DateTime(2021, 01, 04))" AllowSorting="true"
+			 Toolbar="@(new List<string>() { "Add", "Edit", "Update", "Delete", "Cancel", "ExpandAll", "CollapseAll" })" ProjectEndDate="@(new DateTime(2021, 03, 07))">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Progress="Progress" Duration="Duration" ParentID="ParentId"></GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" HeaderText="Task ID"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Task Name"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+		</GanttColumns>
+		<GanttEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true"></GanttEditSettings>
+		<GanttLabelSettings LeftLabel="TaskName" TValue="ExpandoObject"></GanttLabelSettings>
+		<GanttSplitterSettings Position="40%"></GanttSplitterSettings>
+	</SfGantt>
+</div>
+@code {
+	/// <summary>
+	/// Initializes the sample by generating ExpandoObject-based Gantt data.
+	/// </summary>
+	protected override void OnInitialized()
+	{
+		GanttExpandoData = GetData().ToList();
+		@*Hidden:Lines*@
+		SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		@*End:Hidden*@
+	}
+	@*Hidden:Lines*@
+	private async void OnTouchMousePreferenceChanged()
+	{
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+
+	public void Dispose()
+	{
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+	@*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-expando-data-sample {
+		padding: 20px;	}
+
+	.e-gantt-expandodata-reference-link {
+		text-decoration: none !important;
+	}
+
+	.e-gantt-expandodata-reference-link:hover,
+	.e-gantt-expandodata-reference-link:focus {
+		text-decoration: underline !important;
+	}
+
+</style>

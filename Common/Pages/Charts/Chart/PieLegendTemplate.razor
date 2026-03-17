@@ -1,0 +1,140 @@
+@page "/chart/pie-legend-template"
+
+@using Syncfusion.Blazor
+
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample illustrates how to use the <code>LegendItemTemplate</code> feature in Blazor Accumulation Charts to create visually rich and informative legends. Each legend item is customized with visual elements and descriptions, providing clear context for the corresponding chart segment.</p>
+
+<p>The Blazor Accumulation Chart supports customizing legend items using the <code>LegendItemTemplate</code> property in <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/chart-types/pie-doughnut' aria-label="Navigate to the documentation for accumulation chart legends in the chart component">AccumulationChartSeries</a>. In this example, each legend item includes:</p>
+<ul>
+  <li>A color-coded icon matching the chart series color</li>
+  <li>The category name displayed prominently for quick identification</li>
+  <li>A descriptive explanation of each budget segment</li>
+</ul>
+
+<p>This approach significantly improves data interpretation by providing additional context beyond simple labels, making the chart more informative and user-friendly.</p>
+
+<p>More information on legend item templates can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/legend' aria-label="Navigate to the documentation for the legend template in the accumulation chart component">documentation section</a>.</p>
+</ActionDescription>
+
+
+
+<div class="control-section">
+    <SfAccumulationChart Title="Budget Allocation Overview for Strategic Initiatives" Theme="@Theme">
+        <AccumulationChartTitleStyle Position="@TitlePosition" X="230" Y="-5"></AccumulationChartTitleStyle>
+
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@BudgetData" XName="Description" YName="Percentage" PointColorMapping="Color">
+                <LegendItemTemplate>
+                    @{
+                        var data = context as AccumulationChartLegendInfo;
+                        var description = data.Data["Description"];
+                        var width = "40";
+                        var height = "40";
+                        var CategoryFontSize = "14px";
+                        var DescriptionFontSize = "12px";
+                        @*Hidden:Lines*@
+                        if (SampleService != null && SampleService.IsDevice)
+                        {
+                            description = GetLegendText(data.Text);
+                            width = height = "30";
+                            CategoryFontSize = "12px";
+                            DescriptionFontSize = "10px";
+                        }
+                        @*End:Hidden*@
+                        var imagePath = GetLegendIcon(data.Text);
+                        var textColor = IsDarkMode() ? "white" : "black";
+                        <div style="display: flex; align-items: center; margin:5px;">
+                            <img src="@(SampleService?.WebAssetsPath + imagePath)" alt="Legend Icon" width="@width" height="@height" style="padding-right: 4px;" />
+                            <div style="display: flex; flex-direction: column;">
+                                <div style="font-weight: bold; color: @data.Data["Color"]; font-size: @CategoryFontSize;">@data.Data["Category"]</div>
+                                <div style="font-size: @DescriptionFontSize; color: @textColor;">@description</div>
+                            </div>
+                        </div>
+                    }
+                </LegendItemTemplate>
+                <ChildContent>
+                    <AccumulationDataLabelSettings Visible="true" Name="PercentageLabel" Position="AccumulationLabelPosition.Inside">
+                        <AccumulationChartDataLabelFont Size="18px" Color="white"></AccumulationChartDataLabelFont>
+                    </AccumulationDataLabelSettings>
+                </ChildContent>
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+        <AccumulationChartLegendSettings Visible="true" Position="LegendPosition.Right"></AccumulationChartLegendSettings>
+    </SfAccumulationChart>
+</div>
+
+@code{
+
+    private Theme Theme { get; set; }
+    public ChartTitlePosition TitlePosition { get; set; } = ChartTitlePosition.Custom;
+
+    protected override void OnInitialized()
+    {     
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            TitlePosition = ChartTitlePosition.Top;
+        }
+        @*End:Hidden*@
+    }
+
+    private bool IsDarkMode()
+    {
+        var uri = NavigationManager.Uri.ToLower();
+        return uri.Contains("dark") || uri.Contains("highcontrast");
+    }
+
+    private string GetLegendText(string legendText)
+    {
+        return legendText switch
+        {
+            "Plan resources effectively to meet short- and long-term goals." => "BP",
+            "Explore new markets and strengthen brand presence." => "ME",
+            "Automate tasks and reduce costs to boost performance." => "OE",
+            "Create innovative products aligned with customer needs." => "PD",
+            _ => ""
+        };
+    }
+
+    private string GetLegendIcon(string legendText)
+    {
+        return legendText switch
+        {
+            "Plan resources effectively to meet short- and long-term goals." => "images/chart/budget-planning.png",
+            "Explore new markets and strengthen brand presence." => "images/chart/market-expansion.png",
+            "Automate tasks and reduce costs to boost performance." => "images/chart/operational-efficiency.png",
+            "Create innovative products aligned with customer needs." => "images/chart/product-development.png",
+            _ => "🏳️"
+        };
+    }
+
+    public class BudgetBreakdown
+    {
+        public string? Category { get; set; }
+        public double Percentage { get; set; }
+        public string? PercentageLabel { get; set; }
+        public string? Color { get; set; }
+        public string? Description { get; set; }
+    }
+
+    public List<BudgetBreakdown> BudgetData = new()
+    {
+        new() { Category = "Budget Planning", Percentage = 25, PercentageLabel = "25%", Color = "#f55a65", Description = "Plan resources effectively to meet short- and long-term goals." },
+        new() { Category = "Market Expansion", Percentage = 25, PercentageLabel = "25%", Color = "#fcce2c", Description = "Explore new markets and strengthen brand presence." },
+        new() { Category = "Operational Efficiency", Percentage = 30, PercentageLabel = "30%", Color = "#78d6e2", Description = "Automate tasks and reduce costs to boost performance." },
+        new() { Category = "Product Development", Percentage = 20, PercentageLabel = "20%", Color = "#bbd848", Description = "Create innovative products aligned with customer needs." }
+    };
+}

@@ -1,0 +1,146 @@
+@page "/listbox/api"
+
+@using Syncfusion.Blazor.DropDowns
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This example demonstrates the API functionalities of the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.SfListBox-2.html" target="_blank" rel="noopener" aria-label="Navigate to ListBox class reference">ListBox</a> component through property pane interaction.</p>
+
+<p>API features demonstrated:</p>
+<ul>
+  <li>Select property combinations from property pane to achieve desired functionalities</li>
+  <li>ListBox rendered with grouping enabled by default</li>
+  <li>Switch between <b>Single</b> or <b>Multiple</b> selection <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.SelectionMode.html" target="_blank" rel="noopener" aria-label="Navigate to SelectionMode reference">mode</a></li>
+  <li>Switch between <b>None</b>, <b>Ascending</b>, or <b>Descending</b> sort orders</li>
+  <li>Grouping enabled with vegetable data grouped by category</li>
+</ul>
+
+<p><b>See also</b></p>
+<ul>
+  <li><a href="https://help.syncfusion.com/cr/blazor/syncfusion.blazor.dropdowns.sflistbox-2.html" target="_blank" rel="noopener" aria-label="Navigate to ListBox API documentation">Blazor ListBox API Documentation</a></li>
+</ul>
+</ActionDescription>
+
+
+<div class="col-lg-8 control-section">
+    <div id="listbox-control1">
+        @{
+        sortOrder = orderValue switch
+        {
+        "Descending" => SortOrder.Descending,
+        "Ascending" => SortOrder.Ascending,
+        _ => SortOrder.None
+        };
+        }
+        <SfListBox DataSource="@VegetableList" TValue="string[]" TItem="VegetableItem" SortOrder="@sortOrder">
+            <ListBoxFieldSettings Text="VegetableName" Value="Id" GroupBy="Category"></ListBoxFieldSettings>
+            <ListBoxSelectionSettings Mode="@selectionMode"></ListBoxSelectionSettings>
+        </SfListBox>
+    </div>
+</div>
+<div class="col-lg-4 property-section">
+    <table id="property" title="Properties" style="width: 100%">
+        <tbody>
+        <tr>
+            <td style="width: 50%;padding-top:10px">
+                <div>Sort Order</div>
+            </td>
+            <td style="width: 50%;padding-top:10px">
+                <div style="max-width: 200px">
+                    <SfDropDownList PopupHeight="200px" DataSource="@SortOptions" @bind-Value="@orderValue" TValue="string" TItem="SortOption">
+                        <DropDownListEvents TItem="SortOption" ValueChange="OnOrderChange" TValue="string"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Text"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td style="width: 50%;padding-top:10px">
+                <div>Selection Mode</div>
+            </td>
+            <td style="width: 50%;padding-top:10px">
+                <div style="max-width: 200px">
+                    <SfDropDownList PopupHeight="200px" DataSource="@SelectionModes" @bind-Value="@selectionValue" TValue="string" TItem="SortOption">
+                        <DropDownListEvents ValueChange="OnSelectionModeChange" TItem="SortOption" TValue="string"></DropDownListEvents>
+                        <DropDownListFieldSettings Text="Text"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+@code {
+    private SelectionMode selectionMode = SelectionMode.Single;
+    private string? orderValue = "None";
+    private SortOrder sortOrder = SortOrder.None;
+    private string selectionValue = "Single";
+
+    private List<SortOption> SortOptions = new List<SortOption>()
+    {
+        new SortOption { Text = "None" },
+        new SortOption { Text = "Ascending" },
+        new SortOption { Text = "Descending" }
+    };
+
+    private List<SortOption> SelectionModes = new List<SortOption>()
+    {
+        new SortOption { Text = "Single" },
+        new SortOption { Text = "Multiple" }
+    };
+
+    private List<VegetableItem> VegetableList = new List<VegetableItem>()
+    {
+        new VegetableItem { VegetableName = "Cabbage", Category = "Leafy and Salad", Id = "item1" },
+        new VegetableItem { VegetableName = "Chickpea", Category = "Beans", Id = "item2" },
+        new VegetableItem { VegetableName = "Garlic", Category = "Bulb and Stem", Id = "item3" },
+        new VegetableItem { VegetableName = "Green bean", Category = "Beans", Id = "item4" },
+        new VegetableItem { VegetableName = "Horse gram", Category = "Beans", Id = "item5" },
+        new VegetableItem { VegetableName = "Nopal", Category = "Bulb and Stem", Id = "item6" },
+        new VegetableItem { VegetableName = "Onion", Category = "Bulb and Stem", Id = "item7" },
+        new VegetableItem { VegetableName = "Pumpkins", Category = "Leafy and Salad", Id = "item8" },
+        new VegetableItem { VegetableName = "Spinach", Category = "Leafy and Salad", Id = "item9" },
+        new VegetableItem { VegetableName = "Wheat grass", Category = "Leafy and Salad", Id = "item10" },
+        new VegetableItem { VegetableName = "Yarrow", Category = "Leafy and Salad", Id = "item11" }
+    };
+
+    public class VegetableItem
+    {
+        public string? VegetableName { get; set; }
+        public string? Category { get; set; }
+        public string? Id { get; set; }
+    }
+
+    public class SortOption
+    {
+        public string? Text { get; set; }
+    }
+
+    private void OnOrderChange(ChangeEventArgs<string, SortOption> args)
+    {
+        orderValue = args.Value;
+    }
+
+    private void OnSelectionModeChange(ChangeEventArgs<string, SortOption> args)
+    {
+        selectionMode = args.Value == "Single" ? SelectionMode.Single : SelectionMode.Multiple;
+    }
+
+}
+
+<style>
+    #listbox-control {
+        width: 350px;
+        margin: auto;
+        margin-bottom: 15px;
+    }
+    @@media screen and (max-width: 590px) {
+        #listbox-control {
+            width: 100%;
+        }
+    }
+</style>

@@ -1,0 +1,296 @@
+@page "/chart/percent-stacked-column"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This Blazor 100% stacked column chart example visualizes global cotton production trends, depicting the proportionate contributions of various countries over multiple years. Each stacked column represents countries' production as a percentage of total production for that year, with totals summing to 100% per year. The legend provides series information.</p>
+
+<p>In this example, you can see how to render and configure a 100% stacked column chart. This chart displays multiple data series as stacked columns where the cumulative proportion of each stacked element always totals 100%, ideal for:</p>
+<ul>
+  <li>Viewing relative contributions and market share</li>
+  <li>Comparing proportional compositions across time periods</li>
+  <li>Analyzing category distribution trends</li>
+</ul>
+
+<p><code>Tooltip</code> is enabled in this example. To see tooltip information, hover over or tap on a data point on touch-enabled devices.</p>
+
+<p>More information about the 100% stacked column series can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/chart/chart-types/stack-column' aria-label="Navigate to the documentation for stack-column in chart component">documentation section</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section" align='center'>
+    <SfChart Title="Global Cotton Production by Country (2018–2023)" SubTitle="Source: fas.usda.gov" Width="@Width" Theme="@Theme">
+        <ChartTitleStyle TextOverflow="TextOverflow.Wrap"></ChartTitleStyle>
+        <ChartSubTitleStyle TextOverflow="TextOverflow.Wrap"></ChartSubTitleStyle>
+        <ChartArea><ChartAreaBorder Width="0"></ChartAreaBorder></ChartArea>
+        <ChartMargin Bottom="12"></ChartMargin>
+        <ChartEvents OnLegendClick="OnLegendClick"></ChartEvents>
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.Category" Interval="1" LabelIntersectAction="LabelIntersectAction.Rotate45">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+            <ChartAxisMinorGridLines Width="0"></ChartAxisMinorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryXAxis>
+        <ChartPrimaryYAxis Title="Production (60KG Bags)" Interval="20">           
+            <ChartAxisMinorGridLines Width="1"></ChartAxisMinorGridLines>
+            <ChartAxisMajorTickLines Width="0"></ChartAxisMajorTickLines>
+            <ChartAxisMinorTickLines Width="0"></ChartAxisMinorTickLines>
+            <ChartAxisLineStyle Width="0"></ChartAxisLineStyle>
+        </ChartPrimaryYAxis>
+        <ChartSeriesCollection>            
+            <ChartSeries @ref="FirstSeries" ColumnWidth="0.4" DataSource="@Data1" XName="X" YName="Y" Width="2" Name="India" Type="ChartSeriesType.StackingColumn100" LegendShape="LegendShape.Rectangle">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+                <ChartCornerRadius TopLeft="@TopLeft1" TopRight="@TopRight1"></ChartCornerRadius>
+            </ChartSeries>
+            <ChartSeries @ref="SecondSeries" ColumnWidth="0.4" DataSource="@Data2" XName="X" YName="Y" Width="2" Name="China" Type="ChartSeriesType.StackingColumn100" LegendShape="LegendShape.Rectangle">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+                <ChartCornerRadius TopLeft="@TopLeft2" TopRight="@TopRight2"></ChartCornerRadius>
+            </ChartSeries>
+            <ChartSeries @ref="ThirdSeries" ColumnWidth="0.4" DataSource="@Data3" XName="X" YName="Y" Width="2" Name="United States" Type="ChartSeriesType.StackingColumn100" LegendShape="LegendShape.Rectangle">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+                <ChartCornerRadius TopLeft="@TopLeft3" TopRight="@TopRight3"></ChartCornerRadius>
+            </ChartSeries>
+            <ChartSeries @ref="FourthSeries" ColumnWidth="0.4" DataSource="@Data4" XName="X" YName="Y" Width="2" Name="Brazil" Type="ChartSeriesType.StackingColumn100" LegendShape="LegendShape.Rectangle">
+                <ChartSeriesBorder Width="1" Color="#ffffff"></ChartSeriesBorder>
+                <ChartCornerRadius TopLeft="@TopLeft4" TopRight="@TopRight4"></ChartCornerRadius>
+            </ChartSeries>           
+        </ChartSeriesCollection>
+        <ChartTooltipSettings Enable="true" Header="<b>${point.x}</b>" EnableHighlight="true" 
+                            Format="${series.name}: <b>${point.y}M</b>">
+        </ChartTooltipSettings>
+        <ChartLegendSettings Visible="true" ShapeHeight="8" ShapeWidth="8" EnableHighlight="true"></ChartLegendSettings>
+    </SfChart>
+</div>
+
+@code {
+
+
+    private ChartSeries? FirstSeries;
+    private ChartSeries? SecondSeries;
+    private ChartSeries? ThirdSeries;
+    private ChartSeries? FourthSeries;
+    private int TopLeft1 { get; set; } = 0;
+    private int TopRight1 { get; set; } = 0;
+    private int TopLeft2 { get; set; } = 0;
+    private int TopRight2 { get; set; } = 0;
+    private int TopLeft3 { get; set; } = 0;
+    private int TopRight3 { get; set; } = 0;
+    private int TopLeft4 { get; set; } = 4;
+    private int TopRight4 { get; set; } = 4;
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public List<DataPoint> Data1 = new List<DataPoint>
+    {
+        new DataPoint { X = "2018", Y = 26 },
+        new DataPoint { X = "2019", Y = 28.5 },
+        new DataPoint { X = "2020", Y = 27.5 },
+        new DataPoint { X = "2021", Y = 24.3 },
+        new DataPoint { X = "2022", Y = 26.3 },
+        new DataPoint { X = "2023", Y = 25.4 }
+    };
+
+    public List<DataPoint> Data2 = new List<DataPoint>
+    {
+        new DataPoint { X = "2018", Y = 27.3 },
+        new DataPoint { X = "2019", Y = 26.9 },
+        new DataPoint { X = "2020", Y = 29.3 },
+        new DataPoint { X = "2021", Y = 26.7 },
+        new DataPoint { X = "2022", Y = 30.8 },
+        new DataPoint { X = "2023", Y = 27.4 }
+    };
+
+    public List<DataPoint> Data3 = new List<DataPoint>
+    {
+        new DataPoint { X = "2018", Y = 18.4 },
+        new DataPoint { X = "2019", Y = 19.9 },
+        new DataPoint { X = "2020", Y = 14.6 },
+        new DataPoint { X = "2021", Y = 17.5 },
+        new DataPoint { X = "2022", Y = 14.5 },
+        new DataPoint { X = "2023", Y = 12.1 }
+    };
+
+    public List<DataPoint> Data4 = new List<DataPoint>
+    {
+        new DataPoint { X = "2018", Y = 9.2 },
+        new DataPoint { X = "2019", Y = 13 },
+        new DataPoint { X = "2020", Y = 13.8 },
+        new DataPoint { X = "2021", Y = 10.8 },
+        new DataPoint { X = "2022", Y = 11.7 },
+        new DataPoint { X = "2023", Y = 14.6 }
+    };
+
+    public class DataPoint
+    {
+        public string? X { get; set; }
+        public double Y { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+        }
+        @*End:Hidden*@
+    }
+
+    public void TooltipRender(TooltipRenderEventArgs args)
+    {
+        double pointYValue = Convert.ToDouble(args.Data.PointY);
+        string value = pointYValue.ToString("N0", System.Globalization.CultureInfo.InvariantCulture);
+        if (args.Point is Syncfusion.Blazor.Charts.Point pointData && pointData?.Percentage != null)
+        {
+            args.Text = $"{args.Data.SeriesName}: <b>{value}M ({pointData.Percentage:F2}%)</b>";
+        }
+    }
+
+    public void OnLegendClick(LegendClickEventArgs args)
+    {
+        if (args.Series.Name == "India")
+        {
+            if (FourthSeries != null && FourthSeries.Visible)
+            {
+                TopLeft4 = 4;
+                TopRight4 = 4;
+                TopLeft1 = 0;
+                TopRight1 = 0;
+            }
+            else if (ThirdSeries != null && ThirdSeries.Visible)
+            {
+                TopLeft3 = 4;
+                TopRight3 = 4;
+                TopLeft1 = 0;
+                TopRight1 = 0;
+            }
+            else if (SecondSeries != null && SecondSeries.Visible)
+            {
+                TopLeft2 = 4;
+                TopRight2 = 4;
+                TopLeft1 = 0;
+                TopRight1 = 0;
+            }
+            else
+            {
+                TopLeft1 = 4;
+                TopRight1 = 4;
+            }
+        }
+            
+        if (args.Series.Name == "China")
+        {
+            if (FourthSeries != null && FourthSeries.Visible)
+            {
+                TopLeft4 = 4;
+                TopRight4 = 4;
+                TopLeft2 = 0;
+                TopRight2 = 0;
+            }
+            else if (ThirdSeries != null && ThirdSeries.Visible)
+            {
+                TopLeft3 = 4;
+                TopRight3 = 4;
+                TopLeft2 = 0;
+                TopRight2 = 0;
+            }
+            else if (args.Series.Visible && FirstSeries != null && FirstSeries.Visible)
+            {
+                TopLeft1 = 4;
+                TopRight1 = 4;
+                TopLeft2 = 0;
+                TopRight2 = 0;
+            }
+            else
+            {
+                TopLeft2 = 4;
+                TopRight2 = 4;
+                TopLeft1 = 0;
+                TopRight1 = 0;
+            }
+        }
+            
+        if (args.Series.Name == "United States")
+        {
+            if (FourthSeries != null && FourthSeries.Visible)
+            {
+                TopLeft4 = 4;
+                TopRight4 = 4;
+                TopLeft3 = 0;
+                TopRight3 = 0;
+            }
+            else if (!args.Series.Visible)
+            {
+                TopLeft3 = 4;
+                TopRight3 = 4;
+                TopLeft2 = 0;
+                TopRight2 = 0;
+                TopLeft1 = 0;
+                TopRight1 = 0;
+            }
+            else if (SecondSeries != null && SecondSeries.Visible)
+            {
+                TopLeft2 = 4;
+                TopRight2 = 4;
+                TopLeft3 = 0;
+                TopRight3 = 0;
+            }
+            else if (args.Series.Visible && FirstSeries != null && FirstSeries.Visible)
+            {
+                TopLeft1 = 4;
+                TopRight1 = 4;
+                TopLeft3 = 0;
+                TopRight3 = 0;
+            }
+        }
+            
+        if (args.Series.Name == "Brazil")
+        {
+            if (!args.Series.Visible)
+            {
+                TopLeft4 = 4;
+                TopRight4 = 4;
+                TopLeft3 = 0;
+                TopRight3 = 0;
+                TopLeft2 = 0;
+                TopRight2 = 0;
+                TopLeft1 = 0;
+                TopRight1 = 0;
+            }
+            else if (ThirdSeries != null && ThirdSeries.Visible)
+            {
+                TopLeft3 = 4;
+                TopRight3 = 4;
+                TopLeft4 = 0;
+                TopRight4 = 0;
+            }
+            else if (SecondSeries != null && SecondSeries.Visible)
+            {
+                TopLeft2 = 4;
+                TopRight2 = 4;
+                TopLeft4 = 0;
+                TopRight4 = 0;
+            }
+            else if (args.Series.Visible && FirstSeries != null && FirstSeries.Visible)
+            {
+                TopLeft1 = 4;
+                TopRight1 = 4;
+                TopLeft4 = 0;
+                TopRight4 = 0;
+            }
+        }
+    }
+}

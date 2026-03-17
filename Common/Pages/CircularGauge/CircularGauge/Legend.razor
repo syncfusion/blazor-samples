@@ -1,0 +1,252 @@
+@page "/circular-gauge/legend"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.CircularGauge
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample visualizes wind type categorization based on speed using the circular gauge legend component for data interpretation.</p>
+
+<p>Legend features:</p>
+<ul>
+  <li>Customizable visibility, shape, alignment, and position</li>
+  <li>Color-coded representation of different wind speed categories</li>
+  <li>Use <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.CircularGauge.CircularGaugeLegendSettings.html" aria-label="Navigate to the class reference of CircularGaugeLegendSettings">CircularGaugeLegendSettings</a> for comprehensive customization</li>
+  <li>Various identifiers and shapes for data differentiation</li>
+</ul>
+
+<p>More information on the legend can be found in this <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/circular-gauge/legend" aria-label="Navigate to the Blazor Circular Gauge Legend documentation">documentation section</a>.</p>
+</ActionDescription>
+
+<style>
+    tr {
+        height: 50px;
+    }
+
+    td {
+        width: 40%;
+    }
+
+    .fluent2 #cg-legend .property-panel-content .e-checkbox-wrapper .e-icons, .fluent2-dark #cg-legend .property-panel-content .e-checkbox-wrapper .e-icons, .fluent2-highcontrast #cg-legend .property-panel-content .e-checkbox-wrapper .e-icons {
+        margin-left: 0px
+    }
+</style>
+
+<div class="col-lg-8 control-section">
+    <SfCircularGauge @ref='SfCircularGauge' Title="Measure of wind speed in km/h" Theme="@Theme" Background="transparent">
+        <CircularGaugeTitleStyle FontFamily="inherit"></CircularGaugeTitleStyle>
+        <CircularGaugeLegendSettings Shape="@LegendShapeValue" Alignment="@LegendAlignValue" ToggleVisibility="@ToggleLegend" Visible="@EnableLegend" Position="@LegendValue">
+            <CircularGaugeLegendTextStyle FontFamily="inherit" Size="12px"></CircularGaugeLegendTextStyle>
+        </CircularGaugeLegendSettings>
+        <CircularGaugeAxes>
+            <CircularGaugeAxis StartAngle="210" EndAngle="150" Minimum="0" Maximum="120" Radius="80%">
+                <CircularGaugeAxisLineStyle Width="2" />
+                <CircularGaugeAxisLabelStyle Position="Position.Inside" UseRangeColor="false">
+                    <CircularGaugeAxisLabelFont FontFamily="inherit"></CircularGaugeAxisLabelFont>
+                </CircularGaugeAxisLabelStyle>
+                <CircularGaugeAxisMajorTicks Height="16" Color="#9E9E9E" Interval="20" />
+                <CircularGaugeAxisMinorTicks Height="8" Interval="10" />
+                <CircularGaugeRanges>
+                    <CircularGaugeRange Start="0" End="5" Color="#ccffff" Radius="110%" LegendText="Light Air" />
+                    <CircularGaugeRange Start="5" End="11" Color="#99ffff" Radius="110%" LegendText="Light Breeze" />
+                    <CircularGaugeRange Start="11" End="19" Color="#99ff99" Radius="110%" LegendText="Gentle Breeze" />
+                    <CircularGaugeRange Start="19" End="28" Color="#79ff4d" Radius="110%" LegendText="Moderate Breeze" />
+                    <CircularGaugeRange Start="28" End="49" Color="#c6ff1a" Radius="110%" LegendText="Strong Breeze" />
+                    <CircularGaugeRange Start="49" End="74" Color="#e6ac00" Radius="110%" LegendText="Gale" />
+                    <CircularGaugeRange Start="74" End="102" Color="#ff6600" Radius="110%" LegendText="Storm" />
+                    <CircularGaugeRange Start="102" End="120" Color="#ff0000" Radius="110%" LegendText="Hurricane Force" />
+                </CircularGaugeRanges>
+                <CircularGaugePointers>
+                    <CircularGaugePointer Value="70" PointerWidth="8" Radius="60%">
+                        <CircularGaugePointerAnimation Enable="true" />
+                        <CircularGaugeCap Radius="7" />
+                        <CircularGaugeNeedleTail Length="18%" />
+                    </CircularGaugePointer>
+                </CircularGaugePointers>
+            </CircularGaugeAxis>
+        </CircularGaugeAxes>
+    </SfCircularGauge>
+</div>
+<PropertyPanel ControlSecClass="col-lg-8" CollapseChanged="HandlePanelCollapseChangedAsync" InitialRefresh="HandlePanelCollapseChangedAsync">
+            <table style="width: 100%">
+                <tr>
+                    <td>
+                        <div>Show Legend</div>
+                    </td>
+                    <td>
+                        <SfCheckBox ValueChange="@LegendChange" Checked="@LegendChecked" TChecked="bool" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div style="width:80%"> Show range when the legend item is toggled</div>
+                    </td>
+                    <td>
+                        <SfCheckBox ValueChange="@ToggleLegendChange" Checked="@ToggleLegendChecked" TChecked="bool" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>Position</div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList DataSource="@LegendPositions" @bind-Value="@PositionValue">
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LegendPositionList" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>Alignment</div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList DataSource="@LegendAlignment" @bind-Value="@AlignmentValue">
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="LegendAlignmentList" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        <div>Shape</div>
+                    </td>
+                    <td>
+                        <div>
+                            <SfDropDownList DataSource="@LegendShape" @bind-Value="@ShapeValue">
+                                <DropDownListEvents TItem="DropdownList" TValue="string" ValueChange="ShapeList" />
+                                <DropDownListFieldSettings Text="Name" Value="Value" />
+                            </SfDropDownList>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+</PropertyPanel>
+
+@code{
+    public SfCircularGauge? SfCircularGauge { get; set; }
+    public Theme Theme { get; set; }
+    public string PositionValue = "Bottom";
+    public LegendPosition LegendValue = LegendPosition.Bottom;
+    public string AlignmentValue = "Center";
+    public Alignment LegendAlignValue = Alignment.Center;
+    public string ShapeValue = "Circle";
+    public GaugeShape LegendShapeValue = GaugeShape.Circle;
+    public bool LegendChecked = true;
+    public bool EnableLegend = true;
+    public bool ToggleLegendChecked = true;
+    public bool ToggleLegend = true;
+
+    public List<DropdownList> LegendPositions = new List<DropdownList>
+    {
+        new DropdownList { Value = "Bottom", Name = "Bottom" },
+        new DropdownList { Value = "Top", Name = "Top" },
+        new DropdownList { Value = "Left", Name = "Left" },
+        new DropdownList { Value = "Right", Name = "Right" },
+        new DropdownList { Value = "Auto", Name = "Auto" }
+    };
+
+    public List<DropdownList> LegendAlignment = new List<DropdownList>
+    {
+        new DropdownList { Value = "Center", Name = "Center" },
+        new DropdownList { Value = "Far", Name = "Far" },
+        new DropdownList { Value = "Near", Name = "Near" },
+    };
+
+    public List<DropdownList> LegendShape = new List<DropdownList>
+    {
+        new DropdownList { Value = "Circle", Name = "Circle" },
+        new DropdownList { Value = "Rectangle", Name = "Rectangle" },
+        new DropdownList { Value = "Triangle", Name = "Triangle" },
+        new DropdownList { Value = "Diamond", Name = "Diamond" },
+        new DropdownList { Value = "Inverted Triangle", Name = "Inverted Triangle" }
+    };
+
+    private void LegendChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        LegendChecked = args.Checked;
+        EnableLegend = LegendChecked;
+    }
+
+    private void ToggleLegendChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        ToggleLegendChecked = args.Checked;
+        ToggleLegend = ToggleLegendChecked;
+    }
+
+    private void LegendPositionList(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args)
+    {
+        PositionValue = (args?.Value)?.ToString() ?? PositionValue;
+        if (PositionValue == "Bottom")
+            LegendValue = LegendPosition.Bottom;
+        else if (PositionValue == "Top")
+            LegendValue = LegendPosition.Top;
+        else if (PositionValue == "Left")
+            LegendValue = LegendPosition.Left;
+        else if (PositionValue == "Right")
+            LegendValue = LegendPosition.Right;
+        else if (PositionValue == "Auto")
+            LegendValue = LegendPosition.Auto;
+    }
+
+    private void LegendAlignmentList(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args)
+    {
+        AlignmentValue = (args?.Value)?.ToString() ?? AlignmentValue;
+        if (AlignmentValue == "Center")
+            LegendAlignValue = Alignment.Center;
+        else if (AlignmentValue == "Far")
+            LegendAlignValue = Alignment.Far;
+        else if (AlignmentValue == "Near")
+            LegendAlignValue = Alignment.Near;
+    }
+
+    private void ShapeList(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropdownList> args)
+    {
+        ShapeValue = (args?.Value)?.ToString() ?? ShapeValue;
+        if (ShapeValue == "Circle")
+            LegendShapeValue = GaugeShape.Circle;
+        else if (ShapeValue == "Rectangle")
+            LegendShapeValue = GaugeShape.Rectangle;
+        else if (ShapeValue == "Triangle")
+            LegendShapeValue = GaugeShape.Triangle;
+        else if (ShapeValue == "Diamond")
+            LegendShapeValue = GaugeShape.Diamond;
+        else if (ShapeValue == "Inverted Triangle")
+            LegendShapeValue = GaugeShape.InvertedTriangle;
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public class DropdownList
+    {
+        public string? Value { get; set; }
+        public string? Name { get; set; }
+    };
+
+    /// <summary>
+    /// EventCallback handler - invoked when PropertyPanel is expanded/collapsed
+    /// This is triggered by CollapseChanged EventCallback from PropertyPanel
+    /// </summary>
+    public async Task HandlePanelCollapseChangedAsync()
+    {
+        if (SfCircularGauge != null)
+        {
+           await SfCircularGauge.RefreshAsync();
+        }
+    }
+}

@@ -1,0 +1,248 @@
+@page "/datagrid/column-template"
+
+@using Syncfusion.Blazor.Grids
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_employeedatasource
+
+@inherits SampleBaseComponent;
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates the Syncfusion<sup style="font-size:70%">&reg;</sup> Blazor DataGrid column template feature for creating custom column content.</p>
+    <p>The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_Template' aria-label="Navigate to the Template property reference for Grid column">Template</a> property of the <a target='_blank' href='https://help.syncfusion.com/cr/aspnetcore-blazor/Syncfusion.Blazor.Grids.GridColumn.html' aria-label="Navigate to the class reference for GridColumn">GridColumn</a> component enables the creation of custom layouts and the display of custom element values for each cell. The implicit <strong>Context</strong> parameter provides access to the row data within the template.</p>
+    <p>This sample demonstrates several column template use cases: an <strong>Employee Image</strong> column with employee photographs, an <strong>Employee ID</strong> column with clickable hyperlinks to employee profile pages, and an <strong>Employee Name</strong> column combining name and email in a custom layout. Additionally, <strong>Team</strong> and <strong>Shift</strong> columns display color-coded badges representing different team assignments (Frontend, Backend, DevOps, QA, Analytics, Design, Product) and shift types (Regular Shift, Night Shift, Rotational Shift).</p>
+    <p>For more detailed information about column templates, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/column-template' aria-label="Navigate to the documentation for column template in DataGrid component">column template documentation</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData" Height="359">
+                <GridColumns>
+                    <GridColumn HeaderText="Image" Width="150">
+                        <Template>
+                            @{
+                                var item = (context as EmployeeRecord)!;
+                            }
+                            <div class="image">
+                                <img class="emp-avatar" src="@item.EmployeeImage" />
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(EmployeeRecord.EmployeeID) HeaderText="Employee ID" Width="120" TextAlign="TextAlign.Center">
+                        <Template>
+                            @{
+                                var item = (context as EmployeeRecord)!;
+                            }
+                            <a href="https://blazor.syncfusion.com/demos/" class="emp-id-link">@item.EmployeeID</a>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(EmployeeRecord.EmployeeName) HeaderText="Employee Name" Width="270">
+                        <Template>
+                            @{
+                                var item = (context as EmployeeRecord)!;
+                            }
+                            <div class="emp-nameblock">
+                                <span class="emp-name">@item.EmployeeName</span>
+                                <span class="emp-email">@item.Email</span>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(EmployeeRecord.Department) HeaderText="Department" Width="180" />
+                    <GridColumn Field=@nameof(EmployeeRecord.Role) HeaderText="Role" Width="220" />
+                    <GridColumn Field=@nameof(EmployeeRecord.Team) HeaderText="Team" Width="180">
+                        <Template>
+                            @{
+                                // Extract employee record from grid context
+                                var record = context as EmployeeRecord;
+                                // Select CSS class based on team value
+                                var teamClass = record?.Team switch
+                                {
+                                            "Frontend" => "team-frontend",
+                                            "Backend" => "team-backend",
+                                            "DevOps" => "team-devops",
+                                            "QA" => "team-qa",
+                                            "Analytics" => "team-analytics",
+                                            "Design" => "team-design",
+                                            "Product" => "team-product",
+                                    _ => "team-default"
+                                };
+                            }
+                            <!-- Display team as styled badge -->
+                            <span class="team-badge @teamClass">@record?.Team</span>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(EmployeeRecord.LastLoginAt) HeaderText="Last Login" Width="180" Format="dd-MMM-yyyy HH:mm" Type="ColumnType.DateTime" TextAlign="TextAlign.Right" />
+                    <GridColumn Field=@nameof(EmployeeRecord.Shift) HeaderText="Shift" Width="160">
+                        <Template>
+                            @{
+                                // Extract employee record from grid context
+                                var record = context as EmployeeRecord;
+                                // Select CSS class based on shift value
+                                var shiftClass = record?.Shift switch
+                                {
+                                            "Regular Shift" => "shift-regular",
+                                            "Night Shift" => "shift-night",
+                                            "Rotational Shift" => "shift-rotational",
+                                    _ => "shift-default"
+                                };
+                            }
+                            <!-- Display shift as styled badge -->
+                            <span class="shift-badge @shiftClass">@record?.Shift</span>
+                        </Template>
+                    </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    public List<EmployeeRecord> GridData { get; private set; } = new();
+
+    protected override void OnInitialized()
+    {
+        GridData = EmployeeData.GetAllRecords();
+    }
+
+}
+@*Hidden:Lines*@
+<style>
+    .image img {
+        height: 55px;
+        width: 55px;
+        border-radius: 50px;
+        box-shadow: inset 0 0 1px #e0e0e0, inset 0 0 14px rgba(0,0,0,0.2);
+    }
+
+    .emp-nameblock {
+        display: flex;
+        flex-direction: column;
+        line-height: 1.2;
+    }
+
+    .emp-name {
+        font-weight: 600;
+    }
+
+    .emp-email {
+        opacity: 0.8;
+    }
+
+    .emp-id-link {
+        color: #0078d4;
+        text-decoration: none;
+        font-weight: 600;
+        transition: all 0.3s ease;
+    }
+
+    .emp-id-link:hover {
+        color: #005a9e;
+        text-decoration: underline;
+    }
+
+    /* Team Badge Styles */
+    .team-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .team-frontend {
+        background-color: #e3f2fd;
+        color: #1565c0;
+        border: 1px solid #90caf9;
+    }
+
+    .team-backend {
+        background-color: #f3e5f5;
+        color: #6a1b9a;
+        border: 1px solid #ce93d8;
+    }
+
+    .team-devops {
+        background-color: #fff3e0;
+        color: #e65100;
+        border: 1px solid #ffe0b2;
+    }
+
+    .team-qa {
+        background-color: #fce4ec;
+        color: #c2185b;
+        border: 1px solid #f8bbd0;
+    }
+
+    .team-analytics {
+        background-color: #e0f2f1;
+        color: #00695c;
+        border: 1px solid #80cbc4;
+    }
+
+    .team-design {
+        background-color: #f1f8e9;
+        color: #558b2f;
+        border: 1px solid #c5e1a5;
+    }
+
+    .team-product {
+        background-color: #ede7f6;
+        color: #512da8;
+        border: 1px solid #d1c4e9;
+    }
+
+    .team-default {
+        background-color: #f5f5f5;
+        color: #424242;
+        border: 1px solid #e0e0e0;
+    }
+
+    /* Shift Badge Styles */
+    .shift-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .shift-regular {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #a5d6a7;
+    }
+
+    .shift-night {
+        background-color: #eceff1;
+        color: #1a237e;
+        border: 1px solid #90caf9;
+    }
+
+    .shift-rotational {
+        background-color: #fff8e1;
+        color: #f57f17;
+        border: 1px solid #fff59d;
+    }
+
+    .shift-default {
+        background-color: #f5f5f5;
+        color: #424242;
+        border: 1px solid #e0e0e0;
+    }
+
+</style>
+
+@*End:Hidden*@

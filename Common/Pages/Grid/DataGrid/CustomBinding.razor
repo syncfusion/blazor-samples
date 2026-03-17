@@ -1,0 +1,379 @@
+@page "/datagrid/custom-binding"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Data
+@using System.Collections
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_bookdatasource
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates how to use custom data binding in the DataGrid component.</p>
+
+    <p>The Blazor DataGrid supports custom data binding by creating a custom adaptor class that extends the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataAdaptor-1.html' aria-label="Navigate to the class reference for DataAdaptor">DataAdaptor</a> abstract class. Override the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataAdaptor-1.html#Syncfusion_Blazor_DataAdaptor_1_Read_Syncfusion_Blazor_DataManagerRequest_System_String_' aria-label="Navigate to the Read method reference for Data Adaptor">Read</a> or <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataAdaptor-1.html#Syncfusion_Blazor_DataAdaptor_1_ReadAsync_Syncfusion_Blazor_DataManagerRequest_System_String_' aria-label="Navigate to the ReadAsync method reference for Data Adaptor">ReadAsync</a> method to implement your custom data retrieval logic.</p>
+
+    <p>Implement CRUD operations by overriding the following DataAdaptor methods:</p>
+    <ul>
+        <li><strong>Insert/InsertAsync</strong> - Handles record insertion.</li>
+        <li><strong>Remove/RemoveAsync</strong> - Handles record deletion.</li>
+        <li><strong>Update/UpdateAsync</strong> - Handles record updates.</li>
+    </ul>
+
+    <p>In this demo, CRUD operations are implemented using the DataAdaptor methods.</p>
+
+    <p>For more detailed information about custom data binding, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/custom-binding' aria-label="Navigate to the documentation for Custom Binding in DataGrid component">custom binding documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid TValue="Book" AllowPaging="true" AllowSorting="true" AllowGrouping="true" Toolbar="@ToolbarItems">
+
+                <SfDataManager AdaptorInstance="@typeof(CustomAdaptor)" Adaptor="Adaptors.CustomAdaptor"></SfDataManager>
+
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.Menu"></GridFilterSettings>
+                <GridEditSettings AllowAdding="true" AllowEditing="true" AllowDeleting="true" Mode="EditMode.Normal"></GridEditSettings>
+
+                <GridAggregates>
+                    <GridAggregate>
+                        <GridAggregateColumns>
+                            <GridAggregateColumn Field=@nameof(Book.AvailableCopies) Type="AggregateType.Sum">
+                                <FooterTemplate>
+                                    @{
+                                        var aggregate = (context as AggregateTemplateContext);
+                                        <div>
+                                            <p>Sum: @aggregate?.Sum</p>
+                                        </div>
+                                    }
+                                </FooterTemplate>
+                            </GridAggregateColumn>
+                        </GridAggregateColumns>
+                    </GridAggregate>
+                </GridAggregates>
+
+                <GridColumns>
+                    <GridColumn Field=@nameof(Book.BookId) HeaderText="Book ID" IsPrimaryKey="true" IsIdentity="true" Width="110"></GridColumn>
+                    <GridColumn Field=@nameof(Book.Title) HeaderText="Title" Width="220" ValidationRules="@(new ValidationRules { Required = true })"></GridColumn>
+                    <GridColumn Field=@nameof(Book.Author) HeaderText="Author" Width="180"></GridColumn>
+                    <GridColumn Field=@nameof(Book.Category) HeaderText="Category" Width="120" EditType="EditType.DropDownEdit" EditorSettings="@CategoryDropDownParams">
+                        <Template>
+                            @{
+                                var book = context as Book;
+                                var categoryClass = GetCategoryBadgeClass(book?.Category);
+                            }
+                            <span class="category-badge @categoryClass">@book?.Category</span>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(Book.PublishDate) HeaderText="Publish Date" Type="ColumnType.DateTime" Format="MM/dd/yyyy" Width="140"></GridColumn>
+                    <GridColumn Field=@nameof(Book.AvailableCopies) HeaderText="Available" Type="ColumnType.Integer" Width="120" TextAlign="TextAlign.Center"></GridColumn>
+                    <GridColumn Field=@nameof(Book.Location) HeaderText="Location" Width="190" TextAlign="TextAlign.Left"></GridColumn>
+                    <GridColumn Field=@nameof(Book.Status) HeaderText="Status" EditType="EditType.DropDownEdit" EditorSettings="@StatusDropDownParams" Width="120">
+                        <Template>
+                            @{
+                                var book = context as Book;
+                                var statusClass = GetStatusBadgeClass(book?.Status);
+                            }
+                            <span class="status-badge @statusClass">@book?.Status</span>
+                        </Template>
+                    </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    public string[] ToolbarItems = new string[] { "Add", "Edit", "Delete", "Update", "Cancel" };
+
+    //The custom adaptor class has to be added as service using AddScoped/AddSingleton method in the Startup.cs.
+    //You can inject your own services or DB context into custom adaptor class using Inject attribute on the particular property.
+    public class CustomAdaptor : DataAdaptor
+    {
+        private const string BookIdPrefix = "BOOK";
+        private const int BookIdStartNumber = 1;
+
+        public List<Book> Books { get; set; } = BookData.GetAllRecords();
+
+        public override async Task<Object> ReadAsync(DataManagerRequest dataManagerRequest, string? key = null)
+        {
+            IEnumerable GridData = Books;
+            IEnumerable DataSource = Books;
+
+            if (dataManagerRequest.Sorted?.Count > 0) // perform Sorting
+            {
+                GridData = DataOperations.PerformSorting(GridData, dataManagerRequest.Sorted);
+            }
+            if (dataManagerRequest.Skip != 0)
+            {
+                GridData = DataOperations.PerformSkip(GridData, dataManagerRequest.Skip); //Paging
+            }
+            if (dataManagerRequest.Take != 0)
+            {
+                GridData = DataOperations.PerformTake(GridData, dataManagerRequest.Take);
+            }
+            IDictionary<string, object> aggregates = new Dictionary<string, object>();
+            if (dataManagerRequest.Aggregates != null) // Aggregation
+            {
+                aggregates = DataUtil.PerformAggregation(DataSource, dataManagerRequest.Aggregates);
+            }
+            if (dataManagerRequest.Group != null && dataManagerRequest.Group.Any()) //Grouping
+            {
+                foreach (var group in dataManagerRequest.Group)
+                {
+                    GridData = DataUtil.Group<Book>(GridData, group, dataManagerRequest.Aggregates, 0, dataManagerRequest.GroupByFormatter);
+                }
+            }
+            return dataManagerRequest.RequiresCounts ? new DataResult() { Result = GridData, Count = Books.Count(), Aggregates = aggregates } : (object)GridData;
+        }
+
+        public override async Task<Object> InsertAsync(DataManager dataManager, object value, string key)
+        {
+            var book = value as Book;
+            if (book != null)
+            {
+                book.BookId = await GenerateBookIdAsync();
+                Books.Insert(0, book);
+            }
+            return value;
+        }
+
+        public override async Task<object> RemoveAsync(DataManager dataManager, object value, string keyField, string key)
+        {
+            var bookId = value?.ToString();
+            var book = Books.FirstOrDefault(b => b.BookId == bookId);
+            if (book != null)
+            {
+                Books.Remove(book);
+            }
+            return value;
+        }
+
+        public override async Task<object> UpdateAsync(DataManager dataManager, object value, string keyField, string key)
+        {
+            var val = (value as Book);
+            var data = Books.FirstOrDefault(b => b.BookId == val?.BookId);
+            if (data != null && val != null)
+            {
+                data.Title = val.Title;
+                data.Author = val.Author;
+                data.Category = val.Category;
+                data.PublishDate = val.PublishDate;
+                data.AvailableCopies = val.AvailableCopies;
+                data.Location = val.Location;
+                data.Status = val.Status;
+            }
+            return value;
+        }
+
+        private async Task<string> GenerateBookIdAsync()
+        {
+            try
+            {
+                int maxNumber = Books
+                    .Where(book => !string.IsNullOrEmpty(book.BookId) && book.BookId.StartsWith(BookIdPrefix))
+                    .Select(book =>
+                    {
+                        string numberPart = book.BookId.Substring(BookIdPrefix.Length);
+                        if (int.TryParse(numberPart, out int number))
+                            return number;
+                        return 0;
+                    })
+                    .DefaultIfEmpty(BookIdStartNumber - 1)
+                    .Max();
+
+                int nextNumber = maxNumber + 1;
+                string newBookId = $"{BookIdPrefix}{nextNumber:D3}";
+                return newBookId;
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error generating BookId: {ex.Message}");
+            }
+        }
+    }
+
+    private static List<Book> CustomCategories = new List<Book> {
+        new Book() { Category = "Fiction" },
+        new Book() { Category = "Non-Fiction" },
+        new Book() { Category = "Science" },
+        new Book() { Category = "Technology" },
+        new Book() { Category = "History" },
+        new Book() { Category = "Biography" },
+        new Book() { Category = "Romance" },
+        new Book() { Category = "Mystery" },
+        new Book() { Category = "Education" },
+    };
+
+    private static List<Book> CustomStatus = new List<Book> {
+        new Book() { Status = "Available" },
+        new Book() { Status = "Borrowed" },
+        new Book() { Status = "Reserved" },
+        new Book() { Status = "Damaged" },
+    };
+
+    private IEditorSettings CategoryDropDownParams = new DropDownEditCellParams
+    {
+        Params = new DropDownListModel<object, object>() { DataSource = CustomCategories, Query = new Syncfusion.Blazor.Data.Query() },
+    };
+
+    private IEditorSettings StatusDropDownParams = new DropDownEditCellParams
+    {
+        Params = new DropDownListModel<object, object>() { DataSource = CustomStatus, Query = new Syncfusion.Blazor.Data.Query() },
+    };
+
+    private string GetCategoryBadgeClass(string? category)
+    {
+        return category switch
+        {
+            "Fiction" => "category-fiction",
+            "Non-Fiction" => "category-nonfiction",
+            "Science" => "category-science",
+            "Technology" => "category-technology",
+            "History" => "category-history",
+            "Biography" => "category-biography",
+            "Romance" => "category-romance",
+            "Mystery" => "category-mystery",
+            "Education" => "category-education",
+            _ => "category-default"
+        };
+    }
+
+    private string GetStatusBadgeClass(string? status)
+    {
+        return status switch
+        {
+            "Available" => "status-available",
+            "Borrowed" => "status-borrowed",
+            "Reserved" => "status-reserved",
+            "Damaged" => "status-damaged",
+            _ => "status-default"
+        };
+    }
+}
+@*Hidden:Lines*@
+<style>
+    /* Category Badge Styles */
+    .category-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .category-fiction {
+        background-color: #e3f2fd;
+        color: #1565c0;
+        border: 1px solid #90caf9;
+    }
+
+    .category-nonfiction {
+        background-color: #f3e5f5;
+        color: #6a1b9a;
+        border: 1px solid #ce93d8;
+    }
+
+    .category-science {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #81c784;
+    }
+
+    .category-technology {
+        background-color: #fff3e0;
+        color: #e65100;
+        border: 1px solid #ffe0b2;
+    }
+
+    .category-history {
+        background-color: #fce4ec;
+        color: #c2185b;
+        border: 1px solid #f48fb1;
+    }
+
+    .category-biography {
+        background-color: #f1f8e9;
+        color: #558b2f;
+        border: 1px solid #dcedc8;
+    }
+
+    .category-romance {
+        background-color: #ffe0e0;
+        color: #d32f2f;
+        border: 1px solid #ffb3b3;
+    }
+
+    .category-mystery {
+        background-color: #efebe9;
+        color: #3e2723;
+        border: 1px solid #d7ccc8;
+    }
+
+    .category-education {
+        background-color: #e0f2f1;
+        color: #00695c;
+        border: 1px solid #80deea;
+    }
+
+    .category-default {
+        background-color: #f5f5f5;
+        color: #424242;
+        border: 1px solid #e0e0e0;
+    }
+
+    /* Status Badge Styles */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 600;
+        white-space: nowrap;
+    }
+
+    .status-available {
+        background-color: #e8f5e9;
+        color: #2e7d32;
+        border: 1px solid #81c784;
+    }
+
+    .status-borrowed {
+        background-color: #e3f2fd;
+        color: #1565c0;
+        border: 1px solid #90caf9;
+    }
+
+    .status-reserved {
+        background-color: #fff3e0;
+        color: #e65100;
+        border: 1px solid #ffe0b2;
+    }
+
+    .status-damaged {
+        background-color: #ffe0b2;
+        color: #e65100;
+        border: 1px solid #ffb74d;
+    }
+
+    .status-default {
+        background-color: #f5f5f5;
+        color: #424242;
+        border: 1px solid #e0e0e0;
+    }
+</style>
+
+@*End:Hidden*@

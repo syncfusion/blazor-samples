@@ -1,0 +1,178 @@
+@page "/gantt-chart/frozen-column"
+
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+		This sample demonstrates the frozen columns feature in the <a class="e-gantt-frozencolumns-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                                      href="https://www.syncfusion.com/blazor-components/blazor-gantt-chart"
+                                                                      target="_blank" rel="noopener">Blazor Gantt Chart</a>. Frozen columns remain fixed while horizontally scrolling through the grid, allowing key information to stay visible as additional content is viewed.
+    </p>
+    <p>
+        Columns can be frozen dynamically by dragging the freeze line separator to the desired column or by programmatically setting the freeze direction. The freezing behavior supports locking columns to either the left or right side of the grid, while the remaining columns remain scrollable.
+    </p>
+    <p>
+		To enable this feature, configure the <a class="e-gantt-frozencolumns-reference-link" aria-label="Navigate to the freeze property reference for gantt column" target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html#Syncfusion_Blazor_Gantt_GanttColumn_Freeze">Freeze</a> property in the Gantt Column.
+    </p>
+    <p>
+        For further details, refer to the
+		<a class="e-gantt-frozencolumns-reference-link" aria-label="Navigate to the documentation for the Frozen column in gantt chart component" target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/gantt-chart/frozen-columns">
+            documentation</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-frozen-column-sample">
+	<SfGantt @ref="Gantt" DataSource="@TaskCollection" Height="450px" Width="100%" HighlightWeekends="true" Toolbar="@ToolbarItems"
+			 AllowSelection="true" GridLines="Syncfusion.Blazor.Gantt.GridLine.Both"
+			 TreeColumnIndex="1" ProjectStartDate="@(new DateTime(2025, 3, 25))" ProjectEndDate="@(new DateTime(2025, 9, 01))"
+			 FrozenColumns="@FrozenColumnCount" ScrollToTaskbarOnClick="true">
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration"
+						 Progress="Progress" Dependency="Predecessor" ParentID="ParentId"></GanttTaskFields>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" HeaderText="Task ID" Width="100" Visible="false"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Job Name" MinWidth="250"
+						 ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip" IsFrozen="@IsTaskNameFrozen" Freeze="@TaskNameFreezeDirection"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date" Width="180" IsFrozen="@IsStartDateFrozen" Freeze="@StartDateFreezeDirection"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date" Width="180"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration" Width="180" IsFrozen="@IsDurationFrozen" Freeze="@DurationFreezeDirection"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress" Width="150" IsFrozen="@IsProgressFrozen" Freeze="@ProgressFreezeDirection"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency" Width="150" IsFrozen="@IsDependencyFrozen" Freeze="@DependencyFreezeDirection"></GanttColumn>
+		</GanttColumns>
+		<GanttLabelSettings LeftLabel="TaskName" TaskLabel="Progress" TValue="GanttData.TaskData"></GanttLabelSettings>
+		<GanttSplitterSettings Position="90%"></GanttSplitterSettings>
+	</SfGantt>
+</div>
+@code{
+    /// <summary>
+    /// Initializes the sample by loading task data and configuring toolbar items for frozen column selection.
+    /// </summary>
+    protected override void OnInitialized()
+    {
+        TaskCollection = GanttData.EditingData().ToList();
+        ToolbarItems = new List<Object>
+        {
+            new ItemModel
+            {
+                Id = "LeftFrozenLabel",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "frozen-toolbar-label");
+                    builder.AddContent(2, "Left Frozen Column");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "LeftFrozenDropdown",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfDropDownList<string, string>>(0);
+                    builder.AddAttribute(1, "Width", "125px");
+                    builder.AddAttribute(2, "DataSource", leftFrozenColumns);
+                    builder.AddAttribute(3, "Value", selectedLeftColumn);
+                    builder.AddAttribute(4, "ValueChanged", EventCallback.Factory.Create<string>(this, v => selectedLeftColumn = v));
+                    builder.AddAttribute(5, "ChildContent", (RenderFragment)(childBuilder =>
+                    {
+                        childBuilder.OpenComponent<DropDownListEvents<string, string>>(0);
+                        childBuilder.AddAttribute(1, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<string, string>>(this, OnLeftFreezeChange));
+                        childBuilder.CloseComponent();
+                    }));
+                    builder.CloseComponent();
+                })
+            },
+            new ItemModel
+            {
+                Id = "RightFrozenLabel",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenElement(0, "label");
+                    builder.AddAttribute(1, "class", "frozen-toolbar-label");
+                    builder.AddContent(2, "Right Frozen Column");
+                    builder.CloseElement();
+                })
+            },
+            new ItemModel
+            {
+                Id = "RightFrozenDropdown",
+                Template = (RenderFragment)(builder =>
+                {
+                    builder.OpenComponent<SfDropDownList<string, string>>(0);
+                    builder.AddAttribute(1, "Width", "142px");
+                    builder.AddAttribute(2, "DataSource", rightFrozenColumns);
+                    builder.AddAttribute(3, "Value", selectedRightColumn);
+                    builder.AddAttribute(4, "ValueChanged", EventCallback.Factory.Create<string>(this, v => selectedRightColumn = v));
+                    builder.AddAttribute(5, "ChildContent", (RenderFragment)(childBuilder =>
+                    {
+                        childBuilder.OpenComponent<DropDownListEvents<string, string>>(0);
+                        childBuilder.AddAttribute(1, "ValueChange", EventCallback.Factory.Create<ChangeEventArgs<string, string>>(this, OnRightFreezeChange));
+                        childBuilder.CloseComponent();
+                    }));
+                    builder.CloseComponent();
+                })
+            }
+        };
+        @*Hidden:Lines*@
+        SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+        @*End:Hidden*@
+    }
+    @*Hidden:Lines*@
+    private async void OnTouchMousePreferenceChanged()
+    {
+        await Gantt.RefreshAsync();
+        await Gantt.CallStateHasChangedAsync();
+    }
+
+    public void Dispose()
+    {
+        SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+    }
+    @*End:Hidden*@
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-gantt-frozen-column-sample {
+		padding: 20px;
+	}
+
+		.e-gantt-frozen-column-sample .frozen-toolbar-label {
+			font-size: 14px;
+			font-weight: 400;
+			padding: 10px 15px 10px 10px;
+			margin-bottom: 0px;
+		}
+
+		.e-gantt-frozen-column-sample .e-mastertext {
+			font-size: 15px;
+			font-family: Roboto;
+			font-weight: bolder;
+			opacity: 0.87;
+			padding: 0.7em;
+		}
+
+	.e-bigger .e-gantt-frozen-column-sample .frozen-toolbar-label {
+		font-size: 16px;
+		padding: 10px 15px 10px 10px
+	}
+
+	.e-gantt-frozencolumns-reference-link {
+		text-decoration: none !important;
+	}
+
+	.e-gantt-frozencolumns-reference-link:hover,
+	.e-gantt-frozencolumns-reference-link:focus {
+		text-decoration: underline !important;
+	}
+</style>

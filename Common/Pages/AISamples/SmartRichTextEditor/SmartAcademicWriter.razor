@@ -1,0 +1,496 @@
+@page "/ai-smart-rich-text-editor/smart-academic-writer"
+
+@using Syncfusion.Blazor.SmartRichTextEditor
+@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.SplitButtons
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+        This sample demonstrates the <strong>Smart Academic Writer</strong>, a comprehensive AI-powered tool designed to help you write, edit, and improve academic papers. Using the Smart Rich Text Editor with AI Assistant integration, you can enhance your academic writing quality, maintain proper citation standards, and ensure professional presentation.
+    </p>
+    <p>
+        <strong>How to use:</strong> Start by selecting your document type (Research Paper, Essay, Thesis, Dissertation, etc.), citation style (APA, MLA, Chicago, Harvard, IEEE, Vancouver), and academic level (High School, Undergraduate, Graduate, Doctoral, Post-Doctoral). Then use the three custom toolbar buttons to enhance your writing:
+    </p>
+    <ul>
+        <li><strong>Quick Actions:</strong> Generate abstracts, add citations, check plagiarism risk, and enhance clarity in seconds.</li>
+        <li><strong>Tone Adjustments:</strong> Transform your writing to be formal & scholarly, technical & precise, concise & direct, or detailed & comprehensive.</li>
+        <li><strong>Document Sections:</strong> Get AI assistance with strengthening introductions, developing methodology, writing conclusions, and organizing references.</li>
+        <li><strong>AI Assistant:</strong> Open the AI popup with <code>Alt + Enter</code> or use the AI Commands button for custom prompts and detailed writing guidance.</li>
+    </ul>
+    <p>
+        This assistant supports multiple academic disciplines and citation formats, making it ideal for students, researchers, and academics at all levels.
+    </p>
+    <p>
+        <strong>Docs &amp; samples:</strong> See the <a href="https://blazor.syncfusion.com/documentation/smart-richtexteditor/getting-started-webapp" target="_blank" aria-label="Navigate to the Syncfusion Smart RichTextEditor Getting Started UG"><strong>Getting Started guide</strong></a> and the <strong>Smart AI demos</strong> available in your browser for hands-on testing. For developers who want to run these features locally with their own API key, the complete <a href="https://github.com/syncfusion/smart-ai-samples/tree/master/blazor" target="_blank" aria-label="Navigate to the Syncfusion Smart AI Samples GitHub repository"><strong>Syncfusion Smart AI Samples</strong></a> are available on GitHub.
+    </p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section" id="academic-writing-assistant">
+    <!-- Document Settings Panel -->
+    <div class="document-settings-panel">
+        <div class="setting-group">
+            <label>Load different types of academic content in Smart Rich Text Editor:</label>
+            <SfDropDownList TValue="string" TItem="DocumentOption" PopupHeight="250px" Placeholder="Select an option" DataSource="@_groupedDocumentOptions" Value="academicLevel">
+                <DropDownListFieldSettings GroupBy="Category" Text="Name" Value="Value" />
+                <DropDownListEvents TValue="string" TItem="DocumentOption" ValueChange="OnDocumentSettingChange" />
+            </SfDropDownList>
+        </div>
+    </div>
+    <SfSmartRichTextEditor Placeholder="Start writing your academic paper..." @bind-Value="_smartRteValue">
+        <!-- AI Command Settings -->
+        <AssistViewSettings @ref="AssistSettingsRef" Placeholder="Ask AI to improve academic tone, add citations, or enhance clarity..." PopupWidth="500px">
+        </AssistViewSettings>
+        <!-- Toolbar Configuration -->
+        <RichTextEditorToolbarSettings Items="@ToolbarItems">
+            <RichTextEditorCustomToolbarItems>
+                <RichTextEditorCustomToolbarItem Name="Quick Actions">
+                    <Template>
+                        <SfDropDownButton CssClass="e-rte-dropdown-menu" Content="@SelectedQuickAction">
+                            <DropDownButtonEvents ItemSelected="@OnQuickActionItemSelected"></DropDownButtonEvents>
+                            <DropDownMenuItems>
+                                <DropDownMenuItem Text="Generate Abstract" />
+                                <DropDownMenuItem Text="Add Academic Citations" />
+                                <DropDownMenuItem Text="Check Plagiarism Risk" />
+                                <DropDownMenuItem Text="Enhance Clarity" />
+                            </DropDownMenuItems>
+                        </SfDropDownButton>
+                    </Template>
+                </RichTextEditorCustomToolbarItem>
+                <RichTextEditorCustomToolbarItem Name="Tone Adjustments">
+                    <Template>
+                        <SfDropDownButton CssClass="e-rte-dropdown-menu" Content="@SelectedToneAdjustment">
+                            <DropDownButtonEvents ItemSelected="@OnToneItemSelected"></DropDownButtonEvents>
+                            <DropDownMenuItems>
+                                <DropDownMenuItem Text="Formal & Scholarly" />
+                                <DropDownMenuItem Text="Technical & Precise" />
+                                <DropDownMenuItem Text="Concise & Direct" />
+                                <DropDownMenuItem Text="Detailed & Comprehensive" />
+                            </DropDownMenuItems>
+                        </SfDropDownButton>
+                    </Template>
+                </RichTextEditorCustomToolbarItem>
+                <RichTextEditorCustomToolbarItem Name="Document Sections">
+                    <Template>
+                        <SfDropDownButton CssClass="e-rte-dropdown-menu" Content="@SelectedDocumentSection">
+                            <DropDownButtonEvents ItemSelected="@OnSectionItemSelected"></DropDownButtonEvents>
+                            <DropDownMenuItems>
+                                <DropDownMenuItem Text="Strengthen Introduction" />
+                                <DropDownMenuItem Text="Develop Methodology" />
+                                <DropDownMenuItem Text="Write Conclusion" />
+                                <DropDownMenuItem Text="Organize References" />
+                            </DropDownMenuItems>
+                        </SfDropDownButton>
+                    </Template>
+                </RichTextEditorCustomToolbarItem>
+            </RichTextEditorCustomToolbarItems>
+        </RichTextEditorToolbarSettings>
+    </SfSmartRichTextEditor>
+</div>
+
+@code {
+    private AssistViewSettings? AssistSettingsRef;
+    private string academicLevel = "Graduate";
+    private List<DocumentOption> _groupedDocumentOptions = new List<DocumentOption>
+    {
+        // Academic Levels
+        new DocumentOption() { Name = "High School", Value = "High School", Category = "Academic Level" },
+        new DocumentOption() { Name = "Undergraduate", Value = "Undergraduate", Category = "Academic Level" },
+        new DocumentOption() { Name = "Graduate", Value = "Graduate", Category = "Academic Level" },
+        new DocumentOption() { Name = "Doctoral", Value = "Doctoral", Category = "Academic Level" },
+        new DocumentOption() { Name = "Post-Doctoral", Value = "Post-Doctoral", Category = "Academic Level" },
+        // Document Types
+        new DocumentOption() { Name = "Research Paper", Value = "Research Paper", Category = "Document Type" },
+        new DocumentOption() { Name = "Essay", Value = "Essay", Category = "Document Type" },
+        new DocumentOption() { Name = "Thesis", Value = "Thesis", Category = "Document Type" },
+        new DocumentOption() { Name = "Dissertation", Value = "Dissertation", Category = "Document Type" },
+        new DocumentOption() { Name = "Literature Review", Value = "Literature Review", Category = "Document Type" },
+        new DocumentOption() { Name = "Case Study", Value = "Case Study", Category = "Document Type" },
+        // Citation Styles
+        new DocumentOption() { Name = "APA 7th", Value = "APA 7th", Category = "Citation Style" },
+        new DocumentOption() { Name = "MLA 9th", Value = "MLA 9th", Category = "Citation Style" },
+        new DocumentOption() { Name = "Chicago", Value = "Chicago", Category = "Citation Style" },
+        new DocumentOption() { Name = "Harvard", Value = "Harvard", Category = "Citation Style" },
+        new DocumentOption() { Name = "IEEE", Value = "IEEE", Category = "Citation Style" },
+        new DocumentOption() { Name = "Vancouver", Value = "Vancouver", Category = "Citation Style" }
+    };
+    public class DocumentOption
+    {
+        public string Name { get; set; }
+        public string Value { get; set; }
+        public string Category { get; set; }
+    }
+    private List<ToolbarItemModel> ToolbarItems = new List<ToolbarItemModel>()
+    {
+        new ToolbarItemModel() { Name = "Quick Actions", TooltipText = "Quick Actions" },
+        new ToolbarItemModel() { Name = "Tone Adjustments", TooltipText = "Tone Adjustments" },
+        new ToolbarItemModel() { Name = "Document Sections", TooltipText = "Document Sections" },
+        new ToolbarItemModel() { Name = "AI Commands", TooltipText = "AI Commands" },
+        new ToolbarItemModel() { Name = "AI Query", TooltipText = "AI Query" },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Bold },
+        new ToolbarItemModel() { Command = ToolbarCommand.Italic },
+        new ToolbarItemModel() { Command = ToolbarCommand.Underline },
+        new ToolbarItemModel() { Command = ToolbarCommand.Formats },
+        new ToolbarItemModel() { Command = ToolbarCommand.Alignments },
+        new ToolbarItemModel() { Command = ToolbarCommand.UnorderedList },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateLink },
+        new ToolbarItemModel() { Command = ToolbarCommand.CreateTable },
+        new ToolbarItemModel() { Command = ToolbarCommand.Separator },
+        new ToolbarItemModel() { Command = ToolbarCommand.Undo },
+        new ToolbarItemModel() { Command = ToolbarCommand.Redo }
+    };
+    private string _smartRteValue = @"
+        <h5>Graduate</h5>
+        <p>Tone: Analytical and literate. Engage with literature and provide methodological detail.</p>
+        <p>Structure: Clear methods, analysis, critique, and connection to theory; paragraphs can be longer (4–6 sentences).</p>
+        <p>Sample Opening: This study investigates the impact of adaptive AI tutoring systems on student engagement, drawing on mixed-methods analysis.</p>
+        <ul>
+            <li>Tone Tip: Reference theory and prior studies to situate your argument</li>
+            <li>Method Tip: Summarize design choices and justify them briefly</li>
+            <li>Example: State research question, method, and expected contribution</li>
+        </ul>";
+    private Task OnDocumentSettingChange(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DocumentOption> args)
+    {
+        if (args.Value != null && args.ItemData != null)
+        {
+            string category = args.ItemData.Category ?? string.Empty;
+            string value = args.ItemData.Value ?? string.Empty;
+            if (category == "Citation Style")
+            {
+                if (CitationStyleTemplates.TryGetValue(value, out var citContent))
+                {
+                    _smartRteValue = citContent;
+                }
+            }
+            else if (category == "Document Type")
+            {
+                if (DocumentTypeTemplates.TryGetValue(value, out var docContent))
+                {
+                    _smartRteValue = docContent;
+                }
+            }
+            else if (category == "Academic Level")
+            {
+                if (AcademicLevelTemplates.TryGetValue(value, out var lvlContent))
+                {
+                    _smartRteValue = lvlContent;
+                }
+            }
+        }
+        return Task.CompletedTask;
+    }
+    // Dropdown button state variables
+    private string SelectedQuickAction = "Quick Actions";
+    private string SelectedToneAdjustment = "Tone Adjustments";
+    private string SelectedDocumentSection = "Content Enhancement";
+    // Event handlers for toolbar dropdown buttons
+    private void OnQuickActionItemSelected(MenuEventArgs args)
+    {
+        string action = args.Item.Text;
+        OnQuickActionSelect(action);
+    }
+    private async void OnQuickActionSelect(string action)
+    {
+        SelectedQuickAction = action;
+        // Prompt templates keyed by dropdown label
+        var promptTemplates = new Dictionary<string, string>
+        {
+            { "Generate Abstract", "Write a 150–200 word academic abstract summarizing purpose, methods, results, and conclusion." },
+            { "Add Academic Citations", "Insert inline citation placeholders into the content and produce a corresponding reference list according to the selected citation style." },
+            { "Check Plagiarism Risk", "Analyze the content for potential similarity issues and suggest paraphrasing and citation corrections where needed." },
+            { "Enhance Clarity", "Improve the readability and clarity of the content by simplifying complex sentences while preserving technical accuracy." }
+        };
+        string prompt = null;
+        if (!string.IsNullOrEmpty(action) && promptTemplates.TryGetValue(action, out var template))
+        {
+            prompt = template;
+        }
+        if (!string.IsNullOrEmpty(prompt) && AssistSettingsRef != null)
+        {
+            await AssistSettingsRef.ShowAIPopupAsync();
+            await AssistSettingsRef.ExecuteAIPromptAsync(prompt);
+        }
+    }
+    private void OnToneItemSelected(MenuEventArgs args)
+    {
+        string tone = args.Item.Text;
+        OnToneSelect(tone);
+    }
+    private async void OnToneSelect(string tone)
+    {
+        SelectedToneAdjustment = tone;
+        // Tone adjustment prompts
+        var tonePrompts = new Dictionary<string, string>
+        {
+            { "Formal & Scholarly", "Adjust the tone of the content to be formal and scholarly, using appropriate academic vocabulary and register." },
+            { "Technical & Precise", "Adjust the content to increase technical precision and include domain-specific terminology where appropriate." },
+            { "Concise & Direct", "Streamline the content to be concise and direct by removing redundancy and emphasizing key points." },
+            { "Detailed & Comprehensive", "Expand the content with more detailed explanations, examples, and supporting evidence where relevant." }
+        };
+        string prompt = null;
+        if (!string.IsNullOrEmpty(tone) && tonePrompts.TryGetValue(tone, out var tonePrompt))
+        {
+            prompt = tonePrompt;
+        }
+        if (!string.IsNullOrEmpty(prompt) && AssistSettingsRef != null)
+        {
+            await AssistSettingsRef.ShowAIPopupAsync();
+            await AssistSettingsRef.ExecuteAIPromptAsync(prompt);
+        }
+    }
+    private void OnSectionItemSelected(MenuEventArgs args)
+    {
+        string section = args.Item.Text;
+        OnSectionSelect(section);
+    }
+    private async void OnSectionSelect(string section)
+    {
+        SelectedDocumentSection = section;
+        // Section-specific prompts for document improvement
+        var sectionPrompts = new Dictionary<string, string>
+        {
+            { "Strengthen Introduction", "Improve the introduction to more clearly state the research problem, gap, and thesis." },
+            { "Develop Methodology", "Expand the methodology section with clear descriptions of design, data collection, and analysis procedures." },
+            { "Write Conclusion", "Compose a conclusion that synthesizes key findings and outlines implications and future directions." },
+            { "Organize References", "Organize citations and references into a consistent academic format according to the chosen style." }
+        };
+        string prompt = null;
+        if (!string.IsNullOrEmpty(section) && sectionPrompts.TryGetValue(section, out var sectionPrompt))
+        {
+            prompt = sectionPrompt;
+        }
+        if (!string.IsNullOrEmpty(prompt) && AssistSettingsRef != null)
+        {
+            await AssistSettingsRef.ShowAIPopupAsync();
+            await AssistSettingsRef.ExecuteAIPromptAsync(prompt);
+        }
+    }
+    private Dictionary<string, string> DocumentTypeTemplates = new Dictionary<string, string>
+    {
+        { "Research Paper", @"
+            <h5>Research Paper</h5>
+            <p class='lead'>Suggested structure: Abstract (150–200 words), Introduction, Methods, Results, Conclusion</p>
+            <p>Abstract: 150–200 words summarizing aims, methods, and main findings.</p>
+            <p>Introduction: One concise paragraph stating problem and objective.</p>
+            <p>Methods: Brief description of design and data.</p>
+            <p>Results: 2 concise paragraphs highlighting main outcomes.</p>
+            <p>Conclusion: 2 sentences on implications.</p>
+            <ul>
+                <li>Tip: Focus each paragraph on one point.</li>
+                <li>Use citations sparingly and label sources clearly.</li>
+                <li>Keep methods succinct—report key parameters only.</li>
+            </ul>
+        " },
+        { "Essay", @"
+            <h5>Essay</h5>
+            <p class='lead'>Reflective or argumentative essay: claim, evidence, commentary, conclusion.</p>
+            <section><h5>Opening</h5><p>State thesis and roadmap in one short paragraph.</p></section>
+            <section><h5>Body</h5><p>2–4 paragraphs with claims, evidence, and brief analysis.</p></section>
+            <section><h5>Conclusion</h5><p>Summarize argument and suggest implications or questions.</p></section>
+            <ul>
+                <li>Tip: Use transitions between paragraphs and keep examples concrete.</li>
+                <li>Example: Claim → evidence → brief analysis pattern.</li>
+            </ul>
+        " },
+        { "Thesis", @"
+            <h5>Thesis</h5>
+            <p class='lead'>High-level chapter scaffold: Intro, Lit Review, Methods, Results, Discussion.</p>
+            <section><h5>Abstract</h5><p>Short summary of research contribution and methods.</p></section>
+            <section><h5>Chapters</h5><p>List key chapter topics and one-sentence purpose for each.</p></section>
+            <ul>
+                <li>Tip: Include a brief methodological justification in the intro.</li>
+                <li>Example: Map chapters to research questions.</li>
+            </ul>
+        " },
+        { "Dissertation", @"
+            <h5>Dissertation</h5>
+            <p class='lead'>Chapter-level scaffold with scope and milestones.</p>
+            <section><h5>Chapters</h5><p>Introduction, Literature, Methods, Results, Discussion, Conclusion.</p></section>
+            <ul>
+                <li>Tip: Use the scaffold to plan chapter length and key deliverables.</li>
+                <li>Example: Assign core readings and expected analyses per chapter.</li>
+            </ul>
+        " },
+        { "Literature Review", @"
+            <h5>Literature Review</h5>
+            <p class='lead'>Organize by themes, summarize key studies, and identify gaps.</p>
+            <section><h5>Themes</h5><p>List major themes and one-line summaries for key works.</p></section>
+            <section><h5>Gaps</h5><p>Short list of open questions to motivate research.</p></section>
+            <ul>
+                <li>Tip: Synthesize across sources rather than list studies.</li>
+                <li>Example: Group evidence by theme and note contradictions.</li>
+            </ul>
+        " },
+        { "Case Study", @"
+            <h5>Case Study</h5>
+            <p class='lead'>Context, approach, outcomes, and lessons learned.</p>
+            <section><h5>Background</h5><p>Context and stakeholders in one paragraph.</p></section>
+            <section><h5>Implementation</h5><p>Steps taken and timeline (concise).</p></section>
+            <section><h5>Outcomes</h5><p>Concrete results and recommendations.</p></section>
+            <ul>
+                <li>Tip: Include measurable outcomes where possible.</li>
+                <li>Example: Before/after metrics or quotations from stakeholders.</li>
+            </ul>
+        " }
+    };
+    private Dictionary<string, string> CitationStyleTemplates = new Dictionary<string, string>
+    {
+        { "APA 7th", @"
+            <h5>APA 7th Example</h5>
+            <p>In-text: (Smith, 2023). Use author-date in parentheses; include DOIs when present.</p>
+            <h4>Reference format</h4>
+            <p>Author, A. A. (Year). Title of article. Journal Title, volume(issue), pages. https://doi.org/xx.xxxx/xxxxx</p>
+            <p>Tip: Use a hanging indent in the reference list and list entries alphabetically by author.</p>
+            <ul>
+                <li>In-text Example: (Smith, 2023)</li>
+                <li>Reference Example: Smith, J. (2023). Title. Journal, 12(3), 45-60.</li>
+                <li>Common Pitfall: Missing DOI or incorrect author order</li>
+            </ul>
+        " },
+        { "MLA 9th", @"
+            <h5>MLA 9th Example</h5>
+            <p>In-text: (Smith 23). Use author-page format and include a Works Cited list.</p>
+            <h4>Works Cited format</h4>
+            <p>Author Last, First. Title of Article. Journal Title, vol. X, no. Y, Year, pp. zz–zz.</p>
+            <p>Tip: Use the author's full name as shown in the source and include page ranges for articles.</p>
+            <ul>
+                <li>In-text Example: (Smith 23)</li>
+                <li>Works Cited Example: Smith, John. Title of Article. Journal Title, vol. 12, no. 3, 2023, pp. 45–60.</li>
+                <li>Common Pitfall: Inconsistent author name formatting</li>
+            </ul>
+        " },
+        { "Chicago", @"
+            <h5>Chicago Notes & Bibliography Example</h5>
+            <p>In-text: Numbered footnotes. Sample footnote: 1. John Smith, Title of Article, Journal Title 12 (2023): 45.</p>
+            <h4>Bibliography format</h4>
+            <p>Author Last, First. Title of Article. Journal Title volume (Year): pages.</p>
+            <p>Tip: Use full bibliographic details in the bibliography and concise notes in footnotes.</p>
+            <ul>
+                <li>Footnote Example: 1. John Smith, Title of Article, Journal 12 (2023): 45.</li>
+                <li>Bibliography Example: Smith, John. Title of Article. Journal 12 (2023): 45–60.</li>
+                <li>Common Pitfall: Mixing note and bibliography formats</li>
+            </ul>
+        " },
+        { "Harvard", @"
+            <h5>Harvard Example</h5>
+            <p>In-text: (Smith 2023). Author-date style similar to APA; check institutional nuances.</p>
+            <h4>Reference format</h4>
+            <p>Author, A., Year. Title of article. Journal Title, volume(issue), pages.</p>
+            <p>Tip: Order references alphabetically by author and follow punctuation conventions required by your institution.</p>
+            <ul>
+                <li>In-text Example: (Smith 2023)</li>
+                <li>Reference Example: Smith, J., 2023. Title. Journal, 12(3), pp.45-60.</li>
+                <li>Common Pitfall: Inconsistent punctuation in references</li>
+            </ul>
+        " },
+        { "IEEE", @"
+            <h5>IEEE Example</h5>
+            <p>In-text: Numeric citations like [1]. References listed in order of appearance.</p>
+            <h4>Reference format</h4>
+            <p>[1] A. Author, Title of Article, Journal Title, vol. X, no. Y, pp. zz-zz, Year.</p>
+            <p>Tip: Use consistent abbreviation rules for journal titles and include page ranges.</p>
+            <ul>
+                <li>In-text Example: [1]</li>
+                <li>Reference Example: [1] A. Author, Title, Journal, vol. X, no. Y, pp. zz-zz, Year.</li>
+                <li>Common Pitfall: Incorrect numbering order</li>
+            </ul>
+        " },
+        { "Vancouver", @"
+            <h5>Vancouver Example</h5>
+            <p>In-text: Numeric citations (e.g., [1]) with a numbered reference list at the end.</p>
+            <h4>Reference format</h4>
+            <p>1. Author AB. Title of article. Journal Title. Year;volume(issue):pages.</p>
+            <p>Tip: Use the journal's recommended abbreviations and follow numeric ordering.</p>
+            <ul>
+                <li>In-text Example: [1]</li>
+                <li>Reference Example: 1. Smith J. Title. Journal. 2023;12(3):45-60.</li>
+                <li>Common Pitfall: Forgetting to renumber references after edits</li>
+            </ul>
+        " }
+    };
+    private Dictionary<string, string> AcademicLevelTemplates = new Dictionary<string, string>
+    {
+        { "High School", @"
+            <h5>High School</h5>
+            <p>Tone: Clear and plain. Use concrete examples and short paragraphs (2–4 sentences).</p>
+            <p>Length: Aim for brief explanations and one-sentence topic statements per paragraph.</p>
+            <p>Sample Opening: This essay explains how artificial intelligence is used in classrooms to support student learning and personalized feedback.</p>
+            <ul>
+                <li>Tone Tip: Use simple vocabulary and concrete examples</li>
+                <li>Structure Tip: Keep paragraphs short and focused</li>
+                <li>Example: One-sentence topic statement followed by two supporting sentences</li>
+            </ul>
+        " },
+        { "Undergraduate", @"
+            <h5>Undergraduate</h5>
+            <p>Tone: Academic but accessible. Use citations, evidence, and some critical reflection.</p>
+            <p>Structure: Introduction, 2–4 evidence paragraphs, brief synthesis, and references.</p>
+            <p>Sample Opening: Recent developments in AI have enabled adaptive learning systems that tailor instruction to student needs (Smith, 2023).</p>
+            <ul>
+                <li>Tone Tip: Be precise but avoid excessive jargon</li>
+                <li>Evidence Tip: Provide 1-2 citations per key claim</li>
+                <li>Example: Introduce claim, provide evidence, offer brief commentary</li>
+            </ul>
+        " },
+        { "Graduate", @"
+            <h5>Graduate</h5>
+            <p>Tone: Analytical and literate. Engage with literature and provide methodological detail.</p>
+            <p>Structure: Clear methods, analysis, critique, and connection to theory; paragraphs can be longer (4–6 sentences).</p>
+            <p>Sample Opening: This study investigates the impact of adaptive AI tutoring systems on student engagement, drawing on mixed-methods analysis.</p>
+            <ul>
+                <li>Tone Tip: Reference theory and prior studies to situate your argument</li>
+                <li>Method Tip: Summarize design choices and justify them briefly</li>
+                <li>Example: State research question, method, and expected contribution</li>
+            </ul>
+        " },
+        { "Doctoral", @"
+            <h5>Doctoral</h5>
+            <p>Tone: Highly technical and comprehensive. Expect deep literature synthesis and rigorous methodology.</p>
+            <p>Structure: Chapter-level depth, extended literature review, and methodological transparency.</p>
+            <p>Sample Opening: Building on gaps in the adaptive learning literature, this dissertation develops a novel framework for evaluating algorithmic feedback mechanisms.</p>
+            <ul>
+                <li>Tone Tip: Foreground contribution and positionality within literature</li>
+                <li>Depth Tip: Include methodological detail sufficient for reproducibility</li>
+                <li>Example: Outline research gap, theoretical framing, and methods</li>
+            </ul>
+        " },
+        { "Post-Doctoral", @"
+            <h5>Post-Doctoral</h5>
+            <p>Tone: Concise, expert-level. Focus on novel findings and implications for policy or practice.</p>
+            <p>Structure: Short, focused reports or articles emphasizing contribution and dissemination.</p>
+            <p>Sample Opening: We report new evidence on model interpretability that has implications for educational deployment and policy.</p>
+            <ul>
+                <li>Tone Tip: Keep language dense but clear for expert readers</li>
+                <li>Dissemination Tip: Highlight implications and next steps</li>
+                <li>Example: Summarize key finding and potential impact in two sentences</li>
+            </ul>
+        " }
+    };
+}
+
+<style>
+    .document-settings-panel {
+        display: flex;
+        padding: 12px;
+        border-radius: 6px;
+        margin-bottom: 20px;
+        border: 1px solid #e9ecef;
+    }
+
+    .setting-group {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .setting-group label {
+        font-weight: 600;
+        white-space: nowrap;
+    }
+</style>
