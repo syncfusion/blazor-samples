@@ -83,7 +83,7 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/demos/ai-smart-rich-text-editor/overview">Smart Rich Text Editor - Preview</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">INTERACTIVE CHAT</p></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/ai-assistview/getting-started-webapp">AI AssistView</a></div>        
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/ai-assistview/getting-started-webapp">AI AssistView</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/chat-ui/getting-started">Chat UI</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">DATA MANAGEMENT</p></div>
@@ -184,7 +184,7 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <div><p class="controlcategory">KANBAN</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/kanban/getting-started">Kanban</a></div>
             <p>&nbsp;</p>
-        </td>   
+        </td>
         <td>
             <p></p>
             <div><p class="controlcategory">DROPDOWNS</p></div>
