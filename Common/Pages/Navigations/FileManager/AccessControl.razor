@@ -1,0 +1,75 @@
+@page "/file-manager/access-control"
+
+@using Syncfusion.Blazor.FileManager;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+<ActionDescription>
+<p>This sample demonstrates the access control feature of the File Manager, providing comprehensive control over folder and file permissions based on user roles.</p>
+    
+    <p>The access control feature restricts permissions for specific resources:</p>
+    
+    <ul>
+        <li><strong>Documents folder</strong> - Read-only access; write operations disabled
+            <br/><code>permission: {copy: false, download: false, write: false, writeContents: false, read: true, upload: false}</code>
+        </li>
+        <li><strong>Music folder</strong> - Directory upload restricted; individual file uploads allowed
+            <br/><code>permission: {copy: false, download: false, write: false, writeContents: false, read: true, upload: true, UploadContentFilter: filesonly}</code>
+        </li>
+        <li><strong>Bird image in pictures/nature folder</strong> - Restricted access</li>
+    </ul>
+    
+    <p>Access permissions are defined using access rule properties based on user roles. For detailed implementation information, refer to the <a target="_blank" rel="noopener" href="https://github.com/SyncfusionExamples/ej2-aspcore-file-[REDACTED].cs#L139" aria-label="GitHub Sample link of FileManagerAccessControl">GitHub repository</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section" aria-label="File Manager Access Control">
+    @* Initialization of default File Manager component *@
+    <SfFileManager TValue="FileManagerDirectoryContent" AllowDragAndDrop="true" AllowMultiSelection="true" ShowFileExtension="false">
+        <FileManagerAjaxSettings Url="https://ej2-aspcore-service.azurewebsites.net/api/FileManagerAccess/FileOperations"
+                                 UploadUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManagerAccess/Upload"
+                                 DownloadUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManagerAccess/Download"
+                                 GetImageUrl="https://ej2-aspcore-service.azurewebsites.net/api/FileManagerAccess/GetImage">
+        </FileManagerAjaxSettings>
+        <FileManagerUploadSettings DirectoryUpload="@IsDirectoryUpload"></FileManagerUploadSettings>
+        <FileManagerToolbarSettings ToolbarItems="@Items"></FileManagerToolbarSettings>
+        <FileManagerDetailsViewSettings>
+            <FileManagerColumns>
+                <FileManagerColumn Field="Name" HeaderText="Name"></FileManagerColumn>
+                <FileManagerColumn Field="DateModified" Format="MM/dd/yyyy h:mm tt" HeaderText="Modified"></FileManagerColumn>
+                <FileManagerColumn Field="Size" HeaderText="Size"></FileManagerColumn>
+            </FileManagerColumns>
+        </FileManagerDetailsViewSettings>
+    </SfFileManager>
+</div>
+
+@code {
+    public bool IsDirectoryUpload = true;
+    public List<ToolBarItemModel> Items = new List<ToolBarItemModel>()
+    {
+        new ToolBarItemModel() { Name = "NewFolder" },
+        new ToolBarItemModel() { Name = "Upload" },
+        new ToolBarItemModel() { Name = "Cut" },
+        new ToolBarItemModel() { Name = "Copy" },
+        new ToolBarItemModel() { Name = "Paste" },
+        new ToolBarItemModel() { Name = "Delete" },
+        new ToolBarItemModel() { Name = "Download" },
+        new ToolBarItemModel() { Name = "Rename" },
+        new ToolBarItemModel() { Name = "SortBy" },
+        new ToolBarItemModel() { Name = "Refresh" },
+        new ToolBarItemModel() { Name = "Selection" },
+        new ToolBarItemModel() { Name = "View" },
+        new ToolBarItemModel() { Name = "Details" },
+    };
+    public string[] LayoutItems = new string[] { "SortBy", "View", "Refresh", "|", "Paste", "|", "NewFolder", "|", "Details", "|", "SelectAll" };
+    public string[] FileItems = new string[] { "Cut", "Copy", "|", "Delete", "Download", "Rename", "|", "Details" };
+
+}
+
+<style>
+    .bootstrap5 .e-filemanager .e-large-icons .e-list-img, .bootstrap5-dark .e-filemanager .e-large-icons .e-list-img,
+    .bootstrap4 .e-filemanager .e-large-icons .e-list-img {
+        border: none !important;
+    }
+</style>

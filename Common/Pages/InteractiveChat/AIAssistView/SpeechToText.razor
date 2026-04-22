@@ -1,0 +1,261 @@
+@page "/ai-assistview/ai-speechtotext"
+
+@using Syncfusion.Blazor.InteractiveChat
+@using AIAssistView_AzureAI.Components.Services
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+@inject AzureOpenAIService OpenAIService
+@inject IJSRuntime JSRuntime
+
+<ActionDescription>
+<p>This sample demonstrates integrating <code>Speech-to-Text</code> functionality with the <code>AI AssistView</code> component, allowing users to convert spoken input captured via the device microphone and the browser’s <code>SpeechRecognition</code> API into text that is passed to the AssistView for AI-generated responses.</p>
+    
+    <p><b>Key Features:</b></p>
+    <ul>
+        <li>The <code>SpeechToText</code> component captures voice input and transcribes it into text, which is then passed to the AI AssistView for generating contextual responses.</li>
+        <li>The <code>footerTemplate</code> includes a content-editable area and a microphone button for initiating voice input.</li>
+        <li>The <code>toolbarSettings</code> adds a right-aligned <code>Refresh</code> button to clear previous prompts.</li>
+        <li>Responses are streamed dynamically using the <code>addPromptResponse</code> method for a real-time experience.</li>
+        <li>Markdown content in the response is rendered using the <code>Marked</code> plugin for rich formatting.</li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+<div class="integration-speechtotext-section">
+    <SfAIAssistView @ref="assistView" PromptRequested="@PromptRequest">
+        <AssistViews>
+            <AssistView>
+                <FooterTemplate>
+                    <div class="e-footer-wrapper">
+                        <div id="assistview-footer" class="content-editor" contenteditable="true" placeholder="Click to speak or start typing..." @oninput="@UpdateContent" @onkeydown="@OnKeyDown" @ref="@EditableDiv">@AssistViewFooterValue</div>
+                        <div class="option-container">
+                            <SfSpeechToText ID="speechToText" TranscriptChanging="@OnTranscriptChange" SpeechRecognitionStopped="@HandleStopRecognition"
+                                            CssClass="@($"e-flat {SpeechToTextCssClass}")"></SfSpeechToText>
+                            <SfButton ID="assistview-sendButton" IconCss="e-assist-send e-icons" CssClass="@ButtonCssClass" @onclick="SendButtonClicked"></SfButton>
+                        </div>
+                    </div>
+                </FooterTemplate>
+                <BannerTemplate>
+                    <div class="banner-content">
+                        <div class="e-icons e-listen-icon"></div>
+                        <h3>Speech To Text</h3>
+                        <i>Click the below mic-button to convert your voice to text.</i>
+                    </div>
+                </BannerTemplate>
+            </AssistView>
+        </AssistViews>
+        <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+            <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+            <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+        </AssistViewToolbar>
+        <PromptToolbar ItemClicked="PromptToolbarItemClicked"></PromptToolbar>
+    </SfAIAssistView>
+</div>
+</div>
+
+@code {
+    private SfAIAssistView assistView;
+    private string finalResponse { get; set; }
+    private string AssistViewFooterValue = String.Empty;
+    private ElementReference EditableDiv;
+    private string FooterContent = String.Empty;
+    private string SpeechToTextCssClass = "visible";
+    private string ButtonCssClass = String.Empty;
+
+    private async void OnTranscriptChange(TranscriptChangeEventArgs args)
+    {
+        AssistViewFooterValue = args.Transcript;
+        await JSRuntime.InvokeVoidAsync("updateContentEditableDiv", EditableDiv, AssistViewFooterValue);
+        await InvokeAsync(StateHasChanged);
+    }
+    private async Task UpdateContent()
+    {
+        FooterContent = await JSRuntime.InvokeAsync<String>("isFooterContainsValue", EditableDiv);
+        ToggleVisibility();
+    }
+    private async Task HandleStopRecognition()
+    {
+        FooterContent = AssistViewFooterValue;
+        ToggleVisibility();
+        await InvokeAsync(StateHasChanged);
+    }
+    private void ToggleVisibility()
+    {
+        ButtonCssClass = string.IsNullOrWhiteSpace(FooterContent) ? "" : "visible";
+        SpeechToTextCssClass = string.IsNullOrWhiteSpace(FooterContent) ? "visible" : "";
+    }
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        AssistViewFooterValue = String.Empty;
+        await JSRuntime.InvokeVoidAsync("emptyFooterValue", EditableDiv);
+        await UpdateContent();
+        var lastIdx = assistView.Prompts.Count - 1;
+        assistView.Prompts[lastIdx].Response = string.Empty;
+        finalResponse = string.Empty;
+        try
+        {
+            await foreach (var chunk in OpenAIService.GetChatResponseStreamAsync(args.Prompt))
+            {
+                await UpdateResponse(args, chunk);
+            }
+
+            args.Response = finalResponse;
+        }
+        catch (Exception ex)
+        {
+            args.Response = "⚠️ Something went wrong while connecting to the OpenAI service. Please check your API key or try again later.";
+        }
+        ToggleVisibility();
+    }
+
+    private async Task UpdateResponse(AssistViewPromptRequestedEventArgs args, string response)
+    {
+        var lastIdx = assistView.Prompts.Count - 1;
+        await Task.Delay(30); // Small delay for UI updates
+        assistView.Prompts[lastIdx].Response += response.Replace("\n", "<br>");
+        finalResponse = assistView.Prompts[lastIdx].Response;
+        StateHasChanged();
+    }
+
+    private async Task SendButtonClicked()
+    {
+        await assistView.ExecutePromptAsync(FooterContent);
+    }
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-refresh")
+        {
+            assistView.Prompts.Clear();
+        }
+    }
+    private async Task OnKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" && !e.ShiftKey)
+        {
+            await SendButtonClicked();
+        }
+    }
+    private async void PromptToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-assist-edit")
+        {
+            AssistViewFooterValue = assistView.Prompts[args.DataIndex].Prompt;
+            await JSRuntime.InvokeVoidAsync("updateContentEditableDiv", EditableDiv, AssistViewFooterValue);
+            await UpdateContent();
+        }
+    }
+}
+
+<style>
+    .integration-speechtotext-section {
+        height: 550px;
+        width: 550px;
+        margin: 0 auto;
+    }
+
+        .integration-speechtotext-section .banner-content .e-listen-icon:before {
+            font-size: 35px;
+        }
+
+        .integration-speechtotext-section .e-view-container {
+            margin: auto;
+        }
+
+        .integration-speechtotext-section .banner-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 330px;
+            text-align: center;
+        }
+
+        .integration-speechtotext-section #assistview-sendButton {
+            box-shadow: none;
+            color: inherit;
+        }
+
+        .integration-speechtotext-section #assistview-sendButton:not(.e-assist-stop) {
+            width: 40px;
+            height: 40px;
+            font-size: 20px;
+            border: none;
+            background: none;
+            cursor: pointer;
+        }
+
+        .e-bigger .integration-speechtotext-section #assistview-sendButton:not(.e-assist-stop) {
+            width: 52px;
+            height: 52px;
+            font-size: 24px;
+        }
+
+        .integration-speechtotext-section #assistview-sendButton .e-assist-stop {
+            width: 32px;
+            height: 32px;
+            margin: -4px;
+            border: none;
+            cursor: pointer;
+        }
+
+        .e-bigger .integration-speechtotext-section #assistview-sendButton .e-assist-stop {
+            width: 40px;
+            height: 40px;
+            justify-self: center;
+        }
+
+            .integration-speechtotext-section #speechToText.visible,
+            .integration-speechtotext-section #assistview-sendButton.visible {
+                display: inline-block;
+            }
+
+        .integration-speechtotext-section #speechToText,
+        .integration-speechtotext-section #assistview-sendButton {
+            display: none;
+        }
+
+        .integration-speechtotext-section #speechToText {
+            box-shadow: unset;
+            background: unset;
+            border: none;
+            color: #555555;
+        }
+
+    body[class*="dark"] .integration-speechtotext-section #speechToText,
+    body[class*="high"] .integration-speechtotext-section #speechToText {
+        color: #fff;
+    }
+
+    @@media only screen and (max-width: 750px) {
+        .integration-speechtotext-section
+
+    {
+        width: 100%;
+    }
+    } 
+
+    .integration-speechtotext-section .e-footer-wrapper {
+        display: flex;
+        border: 1px solid #c1c1c1;
+        margin: 5px 5px 0 5px;
+        border-radius: 10px;
+    }
+
+    .integration-speechtotext-section .content-editor {
+        width: 100%;
+        overflow-y: auto;
+        font-size: 14px;
+        min-height: 25px;
+        max-height: 200px;
+        padding: 10px;
+    }
+
+        .integration-speechtotext-section .content-editor[contentEditable=true]:empty:before {
+            content: attr(placeholder);
+            font-weight: 200;
+        }
+
+    .integration-speechtotext-section .option-container {
+        align-self: flex-end;
+    }
+</style>

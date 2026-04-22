@@ -1,0 +1,91 @@
+@page "/scheduler/keyboard-interaction"
+
+@using Syncfusion.Blazor.Schedule
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This demo showcases the keyboard shortcuts applicable on Scheduler and lists how those applicable shortcuts interact with Scheduler actions.
+  </p>
+  <p>
+    <strong>Below key combinations can be used in Scheduler to initiate various actions:</strong>
+  </p>
+  <ul>
+    <li>
+      <strong>FOCUS</strong>
+      <ul>
+        <li><span class="key-class"><kbd>Alt + J</kbd></span> - Focuses the Scheduler component.</li>
+        <li><span class="key-class"><kbd>Home</kbd></span> - Moves the selection to the first cell of Schedule.</li>
+        <li><span class="key-class"><kbd>Arrow keys</kbd></span> - Moves onto the next available cells in the needed directions (left, right, up, and down).</li>
+        <li><span class="key-class"><kbd>Up arrow</kbd> and <kbd>Down arrow</kbd></span> - Scrolls through the work cells area.</li>
+        <li><span class="key-class"><kbd>Left arrow</kbd> and <kbd>Right arrow</kbd></span> - When focus is on the Scheduler header bar, moves focus to the previous or next items in the header bar.</li>
+        <li><span class="key-class"><kbd>Space</kbd> or <kbd>Enter</kbd></span> - Activates any focused items.</li>
+        <li><span class="key-class"><kbd>Tab</kbd></span> - Focuses the first or active item on the Scheduler header bar and then moves focus to the next available event elements. If no events are present, focus moves out of the component.</li>
+        <li><span class="key-class"><kbd>Shift</kbd> + <kbd>Tab</kbd></span> - Reverse focuses the Tab functionality. Inverse focus of event elements from the last one and then moves to the first or active item on Scheduler header bar, then moves out of the component.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>SELECTION</strong>
+      <ul>
+        <li><span class="key-class"><kbd>Shift</kbd> + <kbd>Down arrow</kbd></span> - Extends row/cell selection downwards from the selected row/cell.</li>
+        <li><span class="key-class"><kbd>Shift</kbd> + <kbd>Up arrow</kbd></span> - Extends row/cell selection upwards from the selected row/cell.</li>
+        <li><span class="key-class"><kbd>Shift</kbd> + <kbd>Left arrow</kbd></span> - Extends cell selection to the left side from the selected cell.</li>
+        <li><span class="key-class"><kbd>Shift</kbd> + <kbd>Right arrow</kbd></span> - Extends cell selection to the right side from the selected cell.</li>
+        <li><span class="key-class"><kbd>Ctrl</kbd> + <kbd>Click</kbd></span> - Selects multiple events.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>NAVIGATIONS</strong>
+      <ul>
+        <li><span class="key-class"><kbd>Alt</kbd> + <kbd>Number</kbd> (1 to 6)</span> - Switches between the views on Schedule.</li>
+        <li><span class="key-class"><kbd>Ctrl</kbd> + <kbd>Left arrow</kbd></span> - Navigates to the previous date period.</li>
+        <li><span class="key-class"><kbd>Ctrl</kbd> + <kbd>Right arrow</kbd></span> - Navigates to the next date period.</li>
+        <li><span class="key-class"><kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>Y</kbd></span> - Navigates to today's date.</li>
+      </ul>
+    </li>
+    <li>
+      <strong>EDITING</strong>
+      <ul>
+        <li><span class="key-class"><kbd>Enter</kbd></span> - Opens the quick popup on the selected cells or events.</li>
+        <li><span class="key-class"><kbd>Shift</kbd> + <kbd>Alt</kbd> + <kbd>N</kbd></span> - Opens a new editor window.</li>
+        <li><span class="key-class"><kbd>Esc</kbd></span> - Closes any popup that is in open state.</li>
+        <li><span class="key-class"><kbd>Del</kbd></span> - Deletes one or more selected events.</li>
+      </ul>
+    </li>
+  </ul>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Height="650px" @bind-SelectedDate="@CurrentDate" @bind-CurrentView="@CurrentView">
+        <ScheduleEvents TValue="ScheduleData.AppointmentData" EventRendered="OnEventRendered"></ScheduleEvents>
+        <ScheduleEventSettings DataSource="@EventDataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day"></ScheduleView>
+            <ScheduleView Option="View.Week"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek"></ScheduleView>
+            <ScheduleView Option="View.Month"></ScheduleView>
+            <ScheduleView Option="View.Agenda"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+@code{
+    public View CurrentView { get; set; } = View.Week;
+    private DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 1, 16);
+    private List<ScheduleData.AppointmentData> EventDataSource = new ScheduleData().GetZooEventData();
+    
+    public void OnEventRendered(EventRenderedArgs<ScheduleData.AppointmentData> args)
+    {
+        args.Attributes = ScheduleData.ApplyCategoryColor(args.Data.CategoryColor, args.Attributes, CurrentView);
+    }
+}
+
+<style>
+    .key-class {
+        display: inline-block;
+        width: 240px;
+    }
+</style>

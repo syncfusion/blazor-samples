@@ -1,0 +1,120 @@
+@page "/DropDown-List/Forms-Validation"
+
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This example demonstrates DropDownList integration within <code>EditForm</code> with Data Annotations validation.</p>
+
+<p>Validation features:</p>
+<ul>
+  <li>Use DropDownList inside EditForm component</li>
+  <li>Validate using DataAnnotationsValidator</li>
+  <li>Choose valid values from dropdown</li>
+  <li>Error messages display for invalid inputs</li>
+</ul>
+
+<p>Validation rules applied:</p>
+<ul>
+  <li><b>Required</b> - Field must have valid value</li>
+</ul>
+
+<p>Click <b>Submit</b> button to validate the form.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+            <EditForm Model="@_model" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator/>
+                <div>
+                    <label class="example-label">Select an employee</label>
+                    <SfDropDownList Placeholder="e.g. Andrew Fuller" PopupHeight="200px" @bind-Value="@_model.FirstName" DataSource="@Data">
+                        <DropDownListFieldSettings Value="FirstName" Text="FirstName"/>
+                    </SfDropDownList>
+                    <ValidationMessage For="()=>_model.FirstName"/>
+                </div>            
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 260px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px 0px;
+    }
+
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+</style>
+
+@code {
+    private string Message = string.Empty;
+    
+    private async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        _model.FirstName = null;
+        StateHasChanged();
+    }
+
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+
+    private EmployeeData _model = new EmployeeData();
+    public class EmployeeData
+    {
+        [Required(ErrorMessage = "The Employee field is required.")]
+        public string? FirstName { get; set; }
+        public string? Designation { get; set; }
+        public string? Eimg { get; set; }
+    }
+
+    private List<EmployeeData> Data = new List<EmployeeData> 
+    {
+        new EmployeeData() { FirstName = "Andrew Fuller",  Designation = "Team Lead", Eimg= "7" },
+        new EmployeeData() { FirstName = "Anne Dodsworth", Designation = "Developer", Eimg= "1" },
+        new EmployeeData() { FirstName = "Janet Leverling", Designation = "HR", Eimg= "3" },
+        new EmployeeData() { FirstName = "Laura Callahan", Designation = "Product Manager", Eimg= "2" },
+        new EmployeeData() { FirstName = "Margaret Peacock", Designation = "Developer", Eimg= "6" },
+        new EmployeeData() { FirstName = "Michael Suyama", Designation = "Team Lead", Eimg= "9" },
+        new EmployeeData() { FirstName = "Nancy Davolio", Designation = "Product Manager", Eimg= "4" },
+        new EmployeeData() { FirstName = "Robert King", Designation = "Developer", Eimg= "8" },
+        new EmployeeData() { FirstName = "Steven Buchanan", Designation = "CEO", Eimg= "10" }
+    };
+}

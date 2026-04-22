@@ -1,0 +1,56 @@
+@page "/DatePicker/Disabled-Dates"
+
+@using Syncfusion.Blazor.Calendars
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+<p>
+    This sample demonstrates disabled dates functionality in the DatePicker component. All weekends (Saturday and Sunday) of a month are disabled and restricted from selection.
+  </p>
+  <p>
+    The Disabled Dates example shows how to disable specific dates in the DatePicker using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.DatePickerEvents-1.html#Syncfusion_Blazor_Calendars_DatePickerEvents_1_OnRenderDayCell" target="_blank" rel="noopener" aria-label="Class reference of OnRenderDayCell event in DatePicker">OnRenderDayCell</a> event. This event triggers on each day cell element creation, allowing you to customize or disable specific dates.
+  </p>
+  <p>
+    In this example, weekend dates are disabled using the <strong>OnRenderDayCell</strong> event by adding appropriate CSS classes to restrict selection.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        <label class="example-label">Date of journey</label>
+        <SfDatePicker TValue="DateTime?" @ref="@DatePickerObj" Placeholder="Choose a Date" ShowClearButton="true" FullScreen="true" aria-label="Select date of journey">
+            <DatePickerEvents TValue="DateTime?"  OnRenderDayCell="@DisableDate"></DatePickerEvents>
+        </SfDatePicker>
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>
+@code {
+    private SfDatePicker<DateTime?>? DatePickerObj { get; set; }
+    
+    private void DisableDate(RenderDayCellEventArgs args)
+    {
+        if (DatePickerObj != null)
+        {
+            var view = DatePickerObj.CurrentView();
+            if (view == "Month" && ((int)args.Date.DayOfWeek == 0 || (int)args.Date.DayOfWeek == 6))
+            {
+                args.IsDisabled = true;
+            }
+        }
+    }
+}

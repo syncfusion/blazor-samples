@@ -1,0 +1,174 @@
+﻿@page "/chart-wizard/serialization"
+@using System.Text.Json
+@using Microsoft.JSInterop
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.ChartWizard
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Inputs
+@using BlazorDemos.Pages
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+
+@inject NavigationManager NavigationManager
+@inject ISyncfusionStringLocalizer LocaleProvider
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+        This sample demonstrates the serialization feature in the Blazor Chart Wizard component, enabling you to save and restore chart configurations. Preserve user-defined settings including chart types, styles, themes, and data bindings for reusability across sessions.
+    </p>
+
+    <p>
+        Use the wizard interface to configure chart elements, export your configurations as serialized data, and import them later to maintain consistent charting experiences across application instances. This feature is particularly useful for scenarios where users need to replicate chart settings or share configurations across different sessions.
+        Refer to the <a target="_blank" href="https://blazor.syncfusion.com/documentation/chart-wizard" aria-label="Navigate to the documentation for Chart Wizard" rel="noopener">Chart Wizard documentation</a> for detailed API reference and implementation guidelines.
+    </p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="toolbar-container">
+        <SfToolbar Width="100%">
+            <ToolbarItems>
+                <ToolbarItem Text="Save" ToolTipText="Save" PrefixIcon="e-icons e-save" OnClick="SaveChartAsync"></ToolbarItem>
+                <ToolbarItem Type="@ItemType.Separator" />
+                <ToolbarItem Text="Open" ToolTipText="Open" PrefixIcon="e-icons e-folder-open" OnClick="OpenChartAsync"></ToolbarItem>
+                <ToolbarItem Type="@ItemType.Separator" />
+            </ToolbarItems>
+        </SfToolbar>
+    </div>
+
+    <div class="content-wrapper">
+        <SfChartWizard @ref="ChartWizard" Width="@FULL_WIDTH" Theme="@Theme"> <ChartSettings DataSource="@Top10CarModels2025" CategoryFields="@categories" SeriesFields="@chartSeries" SeriesType="@chartWizardSeriesType"> </ChartSettings> </SfChartWizard>
+    </div>
+    <SfUploader @ref="uploadFiles" 
+                ID="UploadFiles" 
+                ShowFileList="false" 
+                AllowedExtensions="@JSON_EXTENSION">
+        <UploaderEvents OnUploadStart="OnUploadFileSelected"></UploaderEvents>
+        <UploaderAsyncSettings SaveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Save"
+                               RemoveUrl="https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"></UploaderAsyncSettings>
+    </SfUploader>
+</div>
+
+<style>
+    .toolbar-container {
+        width: 100%;
+        height: 10%;
+        padding-top: 20px;
+    }
+
+    .e-file-select-wrap, .e-upload {
+        display: none;
+    }
+
+    .control-section {
+        padding-top: 0;
+        padding-right: 0;
+    }
+</style>
+
+@code {
+    private const string DEFAULT_FILE_NAME = "chart";
+    private const string JSON_EXTENSION = ".json";
+    private const string FULL_WIDTH = "100%";
+
+    private SfChartWizard? ChartWizard;
+    private SfUploader? uploadFiles;
+    private readonly List<string> chartSeries = new() { "Sales" };
+    private readonly List<string> categories = new() { "CarModel", "ModelCode" };
+    private ChartWizardSeriesType chartWizardSeriesType = ChartWizardSeriesType.Bar;
+    private Theme Theme { get; set; }
+
+    public class GlobalCarSalesChartItem
+    {
+        public string? CarModel { get; set; }
+        public string? ModelCode { get; set; }
+        public double? Sales { get; set; }
+    }
+
+    private readonly List<GlobalCarSalesChartItem> Top10CarModels2025 = new()
+    {
+        new() { CarModel = "Toyota RAV4",        ModelCode = "RAV4",      Sales = 14.0 },
+        new() { CarModel = "Tesla Model Y",      ModelCode = "ModelY",    Sales = 12.5 },
+        new() { CarModel = "Toyota Corolla",     ModelCode = "Corolla",   Sales = 11.5 },
+        new() { CarModel = "Ford F-Series",      ModelCode = "FSeries",   Sales = 10.5 },
+        new() { CarModel = "Honda CR-V",         ModelCode = "CRV",       Sales = 9.5 },
+        new() { CarModel = "Chevrolet Silverado",ModelCode = "Silverado", Sales = 9.0 },
+        new() { CarModel = "Hyundai Tucson",     ModelCode = "Tucson",    Sales = 8.5 },
+        new() { CarModel = "Toyota Camry",       ModelCode = "Camry",     Sales = 8.0 },
+        new() { CarModel = "Toyota Hilux",       ModelCode = "Hilux",     Sales = 8.0 },
+        new() { CarModel = "Volkswagen Tiguan",  ModelCode = "Tiguan",    Sales = 8.5 }
+    };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+    
+    [Inject] private IJSRuntime? JsRuntime { get; set; }
+
+    private async Task SaveChartAsync()
+    {
+        if (ChartWizard == null || JsRuntime == null)
+            return;
+
+        try
+        {
+            string serialized = ChartWizard.SaveChart();
+            if (string.IsNullOrWhiteSpace(serialized))
+                return;
+
+            using var doc = JsonDocument.Parse(serialized);
+            var options = new JsonSerializerOptions { WriteIndented = true };
+            string jsonText = JsonSerializer.Serialize(doc.RootElement, options);
+
+            await ChartWizardFileUtil.SaveAsAsync(JsRuntime, jsonText, DEFAULT_FILE_NAME);
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
+    private async Task OpenChartAsync()
+    {
+        if (uploadFiles == null || JsRuntime == null)
+            return;
+
+        try
+        {
+            await ChartWizardFileUtil.OpenFilePickerAsync(JsRuntime);
+        }
+        catch
+        {
+            throw;
+        }
+    }
+
+    private async Task OnUploadFileSelected(UploadingEventArgs args)
+    {
+        if (args.FileData?.Type != "json" || JsRuntime == null || ChartWizard == null)
+            return;
+
+        try
+        {
+            string json = await ChartWizardFileUtil.LoadFileAsync(JsRuntime, args.FileData);
+
+            if (string.IsNullOrWhiteSpace(json))
+                return;
+
+            await ChartWizard.LoadChartAsync(json);
+        }
+        catch
+        {
+            throw;
+        }
+        finally
+        {
+            if (uploadFiles != null)
+                await uploadFiles.ClearAllAsync();
+        }
+    }
+}

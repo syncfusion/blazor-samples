@@ -1,0 +1,87 @@
+@page "/pivot-table/classic-layout"
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Buttons
+
+<ActionDescription>
+    <p>
+        The Pivot Table's classic layout displays each field in the row axis side by side in separate columns. By default, grand totals are displayed at the end of all rows, 
+        while subtotals are placed in a separate row beneath each group. All other features of the pivot table, such as filtering, sorting, drag-and-drop, expand/collapse functionality, 
+        and more, remain the same as in the Compact (Excel-like) layout, which serves as the default layout for the Syncfusion® Pivot Table.
+    </p>
+    <p>This layout can be enabled by setting the <code>Layout</code> property to <b>PivotLayout.Tabular</b> within the <a target="_blank" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.PivotViewGridSettings.html" aria-label="Class reference of PivotViewGridSettings" rel="noopener">PivotViewGridSettings</a>. Using the <b>Classic Layout</b> toggle switch, the pivot table layout can be dynamically switched between Compact and Classic layouts at runtime.</p>
+    <p><b>Note:</b> For pivot table reports containing multi-level hierarchies with extensive sublevels, the default layout (i.e., compact view) is recommended, as it effectively displays data in a simple and compact manner.</p>
+    <p>More information on the Blazor Pivot Table can be found in this <a target="_blank" href="https://blazor.syncfusion.com/documentation/pivot-table/getting-started/" aria-label="Blazor PivotTable Getting Started documentation"  rel="noopener">documentation section</a>.</p>
+</ActionDescription>
+<div class="control-section">
+    <div class="tabular-layout-switch">
+        <label class="layout-label">Classic Layout</label>
+        <SfSwitch @bind-Checked="isChecked" ValueChange="Change" TChecked="bool?" />
+    </div>
+    
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="pivot" Height="450" Width="100%" ShowFieldList=true>
+            <PivotViewDataSourceSettings DataSource="@Data">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="Year"></PivotViewColumn>
+                    <PivotViewColumn Name="Quarter"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="Product_Categories"></PivotViewRow>
+                    <PivotViewRow Name="Products"></PivotViewRow>
+                    <PivotViewRow Name="Order_Source"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="Sold" Caption="Units Sold"></PivotViewValue>
+                    <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue> 
+                </PivotViewValues>
+                <PivotViewFormatSettings>
+                    <PivotViewFormatSetting Name="Amount" Format="C0"></PivotViewFormatSetting>
+                    <PivotViewFormatSetting Name="Sold" Format="N0"></PivotViewFormatSetting>
+                </PivotViewFormatSettings>
+                <PivotViewDrilledMembers>
+                    <PivotViewDrilledMember Name="Product_Categories" Items="@(new string[] { "Accessories", "Bikes" })"></PivotViewDrilledMember>
+                    <PivotViewDrilledMember Name="Products" Delimiter="##" Items="@(new string[] {"Accessories##Helmets"})" ></PivotViewDrilledMember>
+                </PivotViewDrilledMembers>
+                <PivotViewFilterSettings>
+                    <PivotViewFilterSetting Name="Products" Type="FilterType.Exclude" Items="@(new string[] { "Cleaners" , "Fenders"})"></PivotViewFilterSetting>
+                </PivotViewFilterSettings>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120" Layout=layout></PivotViewGridSettings>
+        </SfPivotView>
+    </div>
+</div>
+
+<style>
+    .tabular-layout-switch {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+    }
+
+    .layout-label {
+        font-size: 20px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+    }
+</style>
+
+@code{
+    public SfPivotView<PivotProductDetails>? pivot;
+    public List<PivotProductDetails>? Data { get; set; }
+
+    public PivotLayout layout  = PivotLayout.Tabular;
+    private bool? isChecked = true;
+    protected override void OnInitialized()
+    {
+        this.Data = PivotProductDetails.GetProductData();
+    }
+    private void Change(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        layout = (isChecked == true) ? PivotLayout.Tabular : PivotLayout.Compact;
+
+        if (pivot is not null)
+            pivot?.RefreshAsync(true);
+    }
+}

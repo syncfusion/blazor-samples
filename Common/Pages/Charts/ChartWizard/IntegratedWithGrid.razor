@@ -1,0 +1,342 @@
+@page "/chart-wizard/integrated-with-grid"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.ChartWizard
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Popups
+@using System.Net.Http.Json
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+
+@inject HttpClient Http
+@inject NavigationManager NavigationManager
+@inject ISyncfusionStringLocalizer LocaleProvider
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the Blazor Chart Wizard integrated with a Grid context menu for streamlined chart creation from tabular data.</p>
+
+<p>Workflow:</p>
+<ul>
+  <li>Right-click any row in the Grid</li>
+  <li>Select a chart type from the context menu</li>
+  <li>The Chart Wizard launches automatically to visualize the selected data</li>
+</ul>
+
+<p>This integration allows you to explore data through visualization without leaving the grid interface, significantly improving productivity and enabling rapid data discovery across datasets.</p>
+</ActionDescription>
+
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div id="GridChart" class="row">
+            <SfDialog Width="@(SampleService?.IsDevice == true ? "95%" : "85%")" Height="90%" Target="#GridChart" IsModal="true" Header="Chart Preview" ShowCloseIcon="true" @bind-Visible="isDialogVisible">
+                <DialogEvents Opened="OnDialogOpening" OnClose="OnClosing"></DialogEvents>
+                <DialogTemplates>
+                    <Content>
+                        @if (isWizardVisible)
+                        {
+                            <div style="width: 100%; height: 100%">
+                                <SfChartWizard PropertyPanelExpanded="true" Theme="@theme">
+                                    <ChartSettings Datasource="@selectedGridData" CategoryFields="@categories" SeriesFields="@series" SeriesType="@selectedSeriesType">
+                                    </ChartSettings>
+                                </SfChartWizard>
+                            </div>
+                        }
+                    </Content>
+                </DialogTemplates>
+            </SfDialog>
+
+            <SfGrid @ref="GridRef" DataSource="@salesDataCollection"
+                    Height="500"
+                    AllowFiltering="true"
+                    AllowSorting="true"
+                    AllowMultiSorting="true"
+                    AllowSelection="true"
+                    GridLines="GridLine.Both"
+                    ContextMenuItems="@CustomContextMenuItems"
+                    SelectionSettings="@SelectionSettings"
+                    FilterSettings="@FilterSettings">
+                <GridEvents ContextMenuItemClicked="OnContextMenuItemClicked"
+                            QueryCellInfo="OnQueryCellInfo"
+                            TValue="SalesData" />
+                <GridColumns>
+                    <GridColumn Type="ColumnType.CheckBox" Width="50" TextAlign="TextAlign.Center" Freeze="FreezeDirection.Left"
+                                IsFrozen="true" CustomAttributes="@(new Dictionary<string, object> { { "class", "grid-chart-checkbox-css" } })" />
+                    <GridColumn Field="Product" HeaderText="Products" Width="200" Freeze="FreezeDirection.Left" IsFrozen="true">
+                        <Template>
+                            @{
+                                var data = (SalesData)context;
+                                var imagePath = !string.IsNullOrEmpty(data.Image) && SampleService?.WebAssetsPath != null
+                                    ? $"{SampleService.WebAssetsPath}images/chart-wizard/product/{data.Image}.png"
+                                    : string.Empty;
+                            }
+                            <div class="e-product-info">
+                                @if (!string.IsNullOrEmpty(imagePath))
+                                {
+                                    <img src="@imagePath" alt="@(data.Product ?? "Product")" />
+                                }
+                                <span>@(data.Product ?? "N/A")</span>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="Category" HeaderText="Categories" Width="160">
+                        <Template>
+                            @{
+                                var data = (SalesData)context;
+                            }
+                            <div class="e-category-info" style="--category-fill-color:@categoryFillColor;">
+                                @if (!string.IsNullOrEmpty(data.CategoryIcon))
+                                {
+                                    <div>@((MarkupString)data.CategoryIcon)</div>
+                                }
+                                <span>@(data.Category ?? "N/A")</span>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="Year" HeaderText="Year" Width="140" TextAlign="TextAlign.Right" />
+                    <GridColumn Field="Online" HeaderText="Online" Width="160" Format="C2" TextAlign="TextAlign.Right" />
+                    <GridColumn Field="Retail" HeaderText="Retail" Width="160" Format="C2" TextAlign="TextAlign.Right" />
+                    <GridColumn Field="ProfitLoss" HeaderText="Profit/Loss" Width="200" Format="C2" TextAlign="TextAlign.Right" />
+                    <GridColumn Field="UnitsSold" HeaderText="Units Sold" Width="160" TextAlign="TextAlign.Right" />
+                    <GridColumn Field="Revenue" HeaderText="Revenue" Width="160" Format="C2" TextAlign="TextAlign.Right" Freeze="FreezeDirection.Right" IsFrozen="true" />
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+<style>
+    #GridChart .e-gridcontent .e-product-info,
+    #GridChart .e-gridcontent .e-category-info {
+        display: flex;
+        align-items: center;
+    }
+
+        #GridChart .e-gridcontent .e-product-info img {
+            width: 40px;
+            height: 40px;
+            border-radius: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1), 0 1px 3px rgba(0, 0, 0, 0.08);
+        }
+
+        #GridChart .e-gridcontent .e-product-info span,
+        #GridChart .e-gridcontent .e-category-info span {
+            margin: 0px 10px;
+        }
+
+    #GridChart .e-gridcontent .e-gridchart-sales-loss {
+        color: red;
+    }
+
+    #GridChart .e-gridcontent .e-gridchart-sales-profit {
+        color: green;
+    }
+
+    #GridChart .grid-chart-checkbox-css {
+        padding-left: 8px;
+        padding-right: 8px;
+    }
+
+    .e-bigger #GridChart .grid-chart-checkbox-css {
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+
+    #GridChart .grid-chart-checkbox-css .e-headerchkcelldiv {
+        padding-left: 0px;
+        padding-right: 0px;
+        margin-left: 0px;
+        margin-right: 0px;
+        text-align: center;
+    }
+
+    #GridChart .grid-chart-checkbox-css .e-checkbox-wrapper .e-label {
+        margin: 0px;
+    }
+
+    #GridChart .e-gridcontent .e-category-info svg path {
+        fill: var(--category-fill-color, currentColor);
+    }
+</style>
+
+@code {
+    private const string CHART_WIZARD_PREFIX = "chartWizard_";
+    private const string CHART_SUFFIX = "_chart";
+    private const string DATA_FILE_PATH = "data/chart-wizard/sales-data.json";
+
+    private SfGrid<SalesData>? GridRef;
+    private bool isDialogVisible;
+    private bool isWizardVisible;
+    private string? categoryFillColor;
+    private List<SalesData> salesDataCollection = new();
+    private List<string> categories = new() { "Product", "Year" };
+    private List<string> series = new() { "Online", "Retail", "Revenue" };
+    private ChartWizardSeriesType selectedSeriesType;
+    private List<SalesData> selectedGridData = new();
+    private Theme theme;
+    private List<ContextMenuItemModel> CustomContextMenuItems = new();
+
+    private GridSelectionSettings SelectionSettings { get; } = new()
+    {
+        Type = SelectionType.Multiple
+    };
+
+    private GridFilterSettings FilterSettings { get; } = new()
+    {
+        Type = FilterType.Menu
+    };
+
+    protected override void OnInitialized()
+    {
+        theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        categoryFillColor = theme.ToString().Contains("Dark", StringComparison.OrdinalIgnoreCase) ||
+            theme == Theme.Fluent2HighContrast || theme == Theme.HighContrast || theme == Theme.HighContrastLight ? "#FFFFFF" : "#000000";
+        CustomContextMenuItems = new List<ContextMenuItemModel>
+        {
+            new ContextMenuItemModel
+            {
+                Text = GetLocalizedText("Chart"),
+                Target = ".e-content",
+                IconCss = "e-menu-icon e-icons e-grid-chart-icon",
+                Items = new List<MenuItem>
+                {
+                    new MenuItem
+                    {
+                        Text = GetLocalizedText("LineChart"),
+                        IconCss = "e-menu-icon e-icons e-grid-line-chart-icon",
+                        Items = new List<MenuItem>
+                        {
+                            new MenuItem { Text = GetLocalizedText("Line"), Id = $"{ChartWizardSeriesType.Line}", IconCss = "e-menu-icon e-icons e-grid-line-icon" },
+                            new MenuItem { Text = GetLocalizedText("Stacked_Line"), Id = $"{ChartWizardSeriesType.StackingLine}", IconCss = "e-menu-icon e-icons e-grid-stacking-line-icon" },
+                            new MenuItem { Text = GetLocalizedText("100%_Stacked_Line"), Id = $"{ChartWizardSeriesType.StackingLine100}", IconCss = "e-menu-icon e-icons e-grid-stacking-line-100-icon" },
+                        }
+                    },
+                    new MenuItem
+                    {
+                        Text = GetLocalizedText("AreaChart"),
+                        IconCss = "e-menu-icon e-icons e-grid-area-chart-icon",
+                        Items = new List<MenuItem>
+                        {
+                            new MenuItem { Text = GetLocalizedText("Area"), Id = $"{ChartWizardSeriesType.Area}", IconCss = "e-menu-icon e-icons e-grid-area-icon" },
+                            new MenuItem { Text = GetLocalizedText("Stacked_Area"), Id = $"{ChartWizardSeriesType.StackingArea}", IconCss = "e-menu-icon e-icons e-grid-stacking-area-icon" },
+                            new MenuItem { Text = GetLocalizedText("100%_Stacked_Area"), Id = $"{ChartWizardSeriesType.StackingArea100}", IconCss = "e-menu-icon e-icons e-grid-stacking-area-100-icon" },
+                        }
+                    },
+                    new MenuItem
+                    {
+                        Text = GetLocalizedText("ColumnChart"),
+                        IconCss = "e-menu-icon e-icons e-grid-column-chart-icon",
+                        Items = new List<MenuItem>
+                        {
+                            new MenuItem { Text = GetLocalizedText("Column"), Id = $"{ChartWizardSeriesType.Column}", IconCss = "e-menu-icon e-icons e-grid-column-icon" },
+                            new MenuItem { Text = GetLocalizedText("Stacked_Column"), Id = $"{ChartWizardSeriesType.StackingColumn}", IconCss = "e-menu-icon e-icons e-grid-stacking-column-icon" },
+                            new MenuItem { Text = GetLocalizedText("100%_Stacked_Column"), Id = $"{ChartWizardSeriesType.StackingColumn100}", IconCss = "e-menu-icon e-icons e-grid-stacking-column-100-icon" },
+                        }
+                    },
+                    new MenuItem
+                    {
+                        Text = GetLocalizedText("BarChart"),
+                        IconCss = "e-menu-icon e-icons e-grid-bar-chart-icon",
+                        Items = new List<MenuItem>
+                        {
+                            new MenuItem { Text = GetLocalizedText("Bar"), Id = $"{ChartWizardSeriesType.Bar}", IconCss = "e-menu-icon e-icons e-grid-bar-icon" },
+                            new MenuItem { Text = GetLocalizedText("Stacked_Bar"), Id = $"{ChartWizardSeriesType.StackingBar}", IconCss = "e-menu-icon e-icons e-grid-stacking-bar-icon" },
+                            new MenuItem { Text = GetLocalizedText("100%_Stacked_Bar"), Id = $"{ChartWizardSeriesType.StackingBar100}", IconCss = "e-menu-icon e-icons e-grid-stacking-bar-100-icon" },
+                        }
+                    },
+                    new MenuItem { Text = GetLocalizedText("ScatterChart"), Id = $"{ChartWizardSeriesType.Scatter}", IconCss = "e-menu-icon e-icons e-grid-scatter-icon" },
+                    new MenuItem { Text = GetLocalizedText("PieChart"), Id = $"{ChartWizardSeriesType.Pie}", IconCss = "e-menu-icon e-icons e-grid-pie-icon" }
+                }
+            }
+        };
+    }
+
+    private string GetLocalizedText(string text)
+    {
+        return LocaleProvider.GetText("ChartWizard_" + text);
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        try
+        {
+            if (SampleService?.WebAssetsPath == null)
+            {
+                salesDataCollection = new List<SalesData>();
+                return;
+            }
+
+            var url = $"{NavigationManager.BaseUri}{SampleService.WebAssetsPath}{DATA_FILE_PATH}";
+            var json = await Http.GetFromJsonAsync<List<SalesData>>(url);
+            salesDataCollection = json ?? new List<SalesData>();
+        }
+        catch
+        {
+            salesDataCollection = new List<SalesData>();
+        }
+    }
+
+    private void OnQueryCellInfo(QueryCellInfoEventArgs<SalesData> args)
+    {
+        if (args.Column.Field == "ProfitLoss")
+        {
+            string cssClass = args.Data.ProfitLoss < 0 ? "e-gridchart-sales-loss" : "e-gridchart-sales-profit";
+            args.Cell.AddClass(new string[] { cssClass });
+        }
+    }
+
+    private async Task OnContextMenuItemClicked(ContextMenuClickEventArgs<SalesData> args)
+    {
+        if (GridRef == null) return;
+
+        isDialogVisible = false;
+        string seriesTypeString = args.Item.Id
+            .Replace(CHART_WIZARD_PREFIX, string.Empty, StringComparison.OrdinalIgnoreCase)
+            .Replace(CHART_SUFFIX, string.Empty, StringComparison.OrdinalIgnoreCase);
+        
+        if (string.IsNullOrEmpty(seriesTypeString)) return;
+        
+        if (!Enum.TryParse<ChartWizardSeriesType>(seriesTypeString, out var parsedSeriesType))
+            return;
+
+        List<SalesData> selectedRecords = await GridRef.GetSelectedRecordsAsync();
+        if (selectedRecords == null || selectedRecords.Count == 0) return;
+
+        isDialogVisible = true;
+        selectedGridData = selectedRecords;
+        selectedSeriesType = parsedSeriesType;
+        categories = new() { "Product", "Year" };
+        series = new() { "Online", "Retail", "Revenue" };
+    }
+
+
+    private void OnDialogOpening(OpenEventArgs args)
+    {
+        isWizardVisible = true;
+    }
+
+
+    private void OnClosing(BeforeCloseEventArgs args)
+    {
+        isWizardVisible = false;
+    }
+
+    public class SalesData
+    {
+        public string? Product { get; set; }
+        public string? Category { get; set; }
+        public string? CategoryIcon { get; set; }
+        public string? Image { get; set; }
+        public int Year { get; set; }
+        public decimal Online { get; set; }
+        public decimal Retail { get; set; }
+        public decimal ProfitLoss { get; set; }
+        public int UnitsSold { get; set; }
+        public decimal Revenue { get; set; }
+    }
+}

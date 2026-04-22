@@ -1,0 +1,60 @@
+@namespace BlazorDemos.Shared
+
+@if (Visible)
+{
+    <div class='action-description sb-rightpane-padding'>
+        @ChildContent
+    </div>
+}
+
+@code {
+    [CascadingParameter]
+    protected MainLayout? Layout { get; set; }
+
+    /// <summary>
+    /// Child content of ActionDescription component.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Specifies the visibility of the component.
+    /// This can be set true only in RightPane layout page.
+    /// </summary>
+    [Parameter]
+    public bool Visible { get; set; }
+
+    /// <summary>
+    /// Determines the visibility of the component.while the visibility change, it trigger automatically
+    /// </summary>
+    private RenderFragment? lastForwardedContent;
+
+    /// <summary>
+    /// Re-rendering the component with description.
+    /// </summary>
+    public void Refresh()
+    {
+        StateHasChanged();
+    }
+
+    protected override void OnParametersSet()
+    {
+        base.OnParametersSet();
+        // Set sample's action description to RightPanel action description for rendering in the layout.
+        // Forward only when not visible and when the content changed since last forward to avoid duplicate renderings.
+        if (!Visible && ChildContent != null)
+        {
+            if (!object.ReferenceEquals(lastForwardedContent, ChildContent))
+            {
+                Layout?.RightPaneRef?.RefreshActionDescription(ChildContent);
+                lastForwardedContent = ChildContent;
+            }
+        }
+        else if (Visible)
+        {
+            // If this instance becomes visible (the right-pane instance), clear the cached forwarded content
+            // so future sample navigations can forward new descriptions again.
+            lastForwardedContent = null;
+        }
+    }
+}

@@ -1,0 +1,244 @@
+﻿@page "/datagrid/local-data"
+
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using BlazorDemos
+@using blazor_inventorydata
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates how to bind list objects to the DataGrid component for local data binding. The Blazor DataGrid supports local collections through the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_DataSource%27' aria-label="Navigate to the DataSource property reference for DataGrid component" rel="noopener">DataSource</a> property, which accepts a list of objects.</p>
+    <p>In this demo, a list of objects is assigned directly as the data source. Supported data source types include:</p>
+    <ul>
+        <li><strong>IEnumerable</strong> - Standard enumerable collections.</li>
+        <li><strong>IQueryable</strong> - LINQ queryable collections.</li>
+        <li><strong>ObservableCollection</strong> - Collections with automatic change notification.</li>
+    </ul>
+    <p>This sample also demonstrates pagination for efficient navigation through large datasets and custom column templates for enhanced data visualization, including avatar initials, status badges, progress bars, and action indicators.</p>
+    <p>For more detailed information about local data binding, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/data-binding/local-data#list-binding' aria-label="Navigate to the documentation for list binding in DataGrid component" rel="noopener">list binding documentation</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@GridData" AllowPaging="true">
+                <GridPageSettings PageCount="5"></GridPageSettings>
+                <GridColumns>
+                    <GridColumn Field="ProductCode" HeaderText="Product Code" Type="ColumnType.String" Width="150" TextAlign="TextAlign.Left"></GridColumn>
+                    <GridColumn HeaderText="Product" Type="ColumnType.String" Width="200">
+                        <Template>
+                            @{
+                                var itm = (context as InventoryItem)!;
+                                var initials = GetInitials(itm.ProductName);
+                            }
+                            <span class="avatar">@initials</span>
+                            <span>@itm.ProductName</span>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="Category" HeaderText="Category" Type="ColumnType.String" Width="220"></GridColumn>
+                    <GridColumn Field="SupplierName" HeaderText="Supplier" Type="ColumnType.String" Width="180"></GridColumn>
+                    <GridColumn Field="StockOnHand" HeaderText="Stock On Hand" Type="ColumnType.String" Width="150" TextAlign="TextAlign.Right"></GridColumn>
+                    <GridColumn Field="ReorderLevel" HeaderText="Reorder Point" Width="180" Type="ColumnType.Integer" TextAlign="TextAlign.Right"></GridColumn>
+                    <GridColumn HeaderText="Status" Width="140">
+                        <Template>
+                            @{
+                                var itm = (context as InventoryItem)!;
+                                var (chipCss, text) = GetChip(itm.StockStatus);
+                            }
+                            <span class="@chipCss">@text</span>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn HeaderText="Stock Level" Width="170">
+                        <Template>
+                            @{
+                                var itm = (context as InventoryItem)!;
+                                var barCss = GetBar(itm.StockStatus);
+                                var pct = itm.PercentOfReorder;
+                            }
+                            <div class="meter meter-overlay">
+                                <div class="@barCss" style="@($"width:{pct}%")"></div>
+                                <div class="meter-label">@pct%</div>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn HeaderText="Restock Needed" Width="150">
+                        <Template>
+                            @{
+                                var itm = (context as InventoryItem)!;
+                                var (ico, txt, css) = GetAction(itm.StockStatus);
+                            }
+                            <span class="@css">@ico @txt</span>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="LastRestockedDate" HeaderText="Last Updated" Width="140" Type="ColumnType.Date" Format="yyyy-MM-dd"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    public List<InventoryItem> GridData { get; set; } = new();
+    protected override void OnInitialized()
+    {
+        GridData = InventoryData.GetAllRecords();
+    }
+
+    /// <summary>
+    /// Returns initials derived from a name.
+    /// </summary>
+    private static string GetInitials(string? name)
+    {
+        if (string.IsNullOrWhiteSpace(name)) return "•";
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        return parts.Length == 1
+        ? parts[0].Substring(0, Math.Min(2, parts[0].Length)).ToUpperInvariant()
+        : (parts[0][0].ToString() + parts[^1][0]).ToUpperInvariant();
+    }
+
+    /// <summary>
+    /// Returns the badge CSS class and label for a stock status.
+    /// </summary>
+    private static (string css, string text) GetChip(StockStatus status) =>
+    status switch
+    {
+        StockStatus.OutOfStock => ("chip-red", "Out of Stock"),
+        StockStatus.Critical => ("chip-red", "Critical"),
+        StockStatus.Low => ("chip-yellow", "Low"),
+        _ => ("chip-green", "In Stock")
+    };
+
+    /// <summary>
+    /// Returns the bar CSS class for a stock status.
+    /// </summary>
+    private static string GetBar(StockStatus status) =>
+    status switch
+    {
+        StockStatus.OutOfStock => "bar-red",
+        StockStatus.Critical => "bar-red",
+        StockStatus.Low => "bar-orange",
+        _ => "bar-green"
+    };
+
+    /// <summary>
+    /// Returns the action icon, label, and CSS class for a stock status.
+    /// </summary>
+    private static (string icon, string text, string css) GetAction(StockStatus status)
+    {
+        return status switch
+        {
+            StockStatus.OutOfStock => ("⚠️", "Restock", "action-red"),
+            StockStatus.Critical => ("⚠️", "Restock", "action-red"),
+            StockStatus.Low => ("⚡", "Low", "action-yellow"),
+            _ => ("✅", "OK", "action-green")
+        };
+    }
+}
+@*Hidden:Lines*@
+<style>
+    /* Avatar */
+    .avatar {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: #eef2ff;
+        color: #3730a3;
+        font-weight: 700;
+        margin-right: 6px;
+    }
+
+    /* Chips */
+    .chip-green,
+    .chip-yellow,
+    .chip-red {
+        padding: 2px 8px;
+        border-radius: 12px;
+    }
+
+    .chip-green {
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        color: #065f46;
+    }
+
+    .chip-yellow {
+        background: #fffbeb;
+        border: 1px solid #fde68a;
+        color: #92400e;
+    }
+
+    .chip-red {
+        background: #fef2f2;
+        border: 1px solid #fecaca;
+        color: #7f1d1d;
+    }
+    /* Meter container: ensure relative positioning for overlay elements */
+    .meter.meter-overlay {
+        position: relative;
+        height: 20px; /* explicit height for consistent visuals */
+        background: #f3f4f6; /* light background behind the bar */
+        border-radius: 6px;
+        overflow: hidden;
+    }
+
+        .meter.meter-overlay .bar-green,
+        .meter.meter-overlay .bar-orange,
+        .meter.meter-overlay .bar-red {
+            height: 100%;
+            border-radius: 6px;
+            position: absolute;
+            left: 0;
+            top: 0;
+            z-index: 1;
+        }
+
+    .meter-label {
+        position: absolute;
+        inset: 0; /* top/right/bottom/left: 0 */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 11px;
+        font-weight: 700;
+        text-shadow: 0 1px 0 rgba(0,0,0,0.25);
+        z-index: 2;
+        pointer-events: none;
+    }
+
+    /* Colors */
+    .bar-green {
+        background: #86efac;
+    }
+
+    .bar-orange {
+        background: #fdba74;
+    }
+
+    .bar-red {
+        background: #fca5a5;
+    }
+
+    /* Restock text */
+    .action-red {
+        color: #b91c1c;
+        font-weight: 600;
+    }
+
+    .action-yellow {
+        color: #92400e;
+        font-weight: 600;
+    }
+
+    .action-green {
+        color: #047857;
+        font-weight: 600;
+    }
+</style>
+@*End:Hidden*@

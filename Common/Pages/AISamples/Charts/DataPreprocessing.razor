@@ -1,0 +1,205 @@
+@page "/ai-charts/data-preprocessing"
+@page "/chart/ai-data-preprocessing"
+
+@inject AzureAIService OpenAIService
+@inject NavigationManager NavigationManager
+
+@using System.Text;
+@using System.Text.Json;
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Spinner
+@using System.Collections.ObjectModel
+@*Hidden:Lines*@
+@using ThemeHelper
+@using BlazorDemos.Service
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates how AI can be used to preprocess data and visualize it using Syncfusion Blazor Charts.
+  </p>
+  <p>
+    <strong>Data preprocessing</strong> involves cleaning, transforming, and organizing raw data for visualization. This step ensures that the charts accurately represent the underlying information and are easy to interpret.
+  </p>
+  <p>
+    Explore our <strong>Smart AI demos</strong> with limited AI token usage directly in your browser. To dive deeper and experiment with these features locally using your own API key, check out our <a href="https://github.com/syncfusion/smart-ai-samples/tree/master/blazor" target="_blank" rel="noopener" aria-label="Navigate to the Syncfusion Smart AI Samples GitHub repository"><strong>Syncfusion Smart AI Samples</strong></a> on GitHub.
+  </p>
+  <p>
+    In this sample, a dataset containing missing values is visualized using the Blazor Charts component. An AI Assist button is provided to preprocess the data and assign the cleaned dataset to the chart. After preprocessing, the chart is rendered without any missing values, offering a complete and accurate visualization.
+  </p>
+</ActionDescription>
+
+
+@*Hidden:Lines*@
+<AINotification></AINotification>
+
+<AIToastNotification></AIToastNotification>
+@*End:Hidden*@
+
+<div class="chart-wrapper">
+    <SfChart Title="E-Commerce Website Traffic Data"
+             SubTitle="AI-powered data cleaning and preprocessing for tracking hourly website visitors" Theme="@Theme">
+        <ChartPrimaryXAxis ValueType="Syncfusion.Blazor.Charts.ValueType.DateTime"
+                           Minimum="new DateTime(2024, 7, 1, 0, 0, 0)"
+                           Maximum="new DateTime(2024, 7, 1, 23, 0, 0)"
+                           LabelFormat="h tt" EdgeLabelPlacement="EdgeLabelPlacement.Shift">
+            <ChartAxisMajorGridLines Width="0"></ChartAxisMajorGridLines>
+        </ChartPrimaryXAxis>
+        <ChartArea>
+            <ChartAreaBorder Width="0"></ChartAreaBorder>
+        </ChartArea>
+        <ChartPrimaryYAxis Minimum="140" Maximum="320" Interval="30"></ChartPrimaryYAxis>
+        <ChartLegendSettings Visible="true" Position="LegendPosition.Top"></ChartLegendSettings>
+        <ChartSeriesCollection>
+            <ChartSeries DataSource="@ChartDataCollection" XName="Time" YName="Visitors" Name="Visitors"
+                         PointColorMapping="Color" Type="ChartSeriesType.MultiColoredLine">
+            </ChartSeries>
+        </ChartSeriesCollection>
+    </SfChart>
+    <SfSpinner @bind-Visible="@VisibleProperty" CssClass="chart-spinner-overlay"></SfSpinner>
+    <SfButton CssClass="chart-action-button" OnClick="ProcessChartData" IsPrimary="true" IconCss="e-icons e-ai-chat">
+    </SfButton>
+</div>
+
+<style>
+    .chart-wrapper {
+        position: relative;
+    }
+
+    .chart-action-button {
+        position: absolute;
+        top: 10px;
+        right: 10px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+        .chart-action-button .e-icons {
+            color: white;
+            margin-top: 3%;
+            margin-bottom: 3%;
+        }
+
+    .chart-spinner-overlay {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        z-index: 20;
+    }
+</style>
+
+@code {
+    private bool VisibleProperty { get; set; } = false;
+    private Theme Theme { get; set; }
+    public ObservableCollection<ChartData> ChartDataCollection { get; set; } = new();
+
+    public class ChartData
+    {
+        public DateTime Time { get; set; }
+        public double? Visitors { get; set; }
+        public string? Color { get; set; }
+    }
+
+    private List<ChartData> originalList = new List<ChartData>
+    {
+        new ChartData { Time = new DateTime(2024, 7, 1, 0, 0, 0), Visitors = 150 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 1, 0, 0), Visitors = 160 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 2, 0, 0), Visitors = 155 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 3, 0, 0), Visitors = null },
+        new ChartData { Time = new DateTime(2024, 7, 1, 4, 0, 0), Visitors = 170 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 5, 0, 0), Visitors = 175 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 6, 0, 0), Visitors = 145 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 7, 0, 0), Visitors = 180 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 8, 0, 0), Visitors = null },
+        new ChartData { Time = new DateTime(2024, 7, 1, 9, 0, 0), Visitors = 185 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 10, 0, 0), Visitors = 200 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 11, 0, 0), Visitors = null },
+        new ChartData { Time = new DateTime(2024, 7, 1, 12, 0, 0), Visitors = 220 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 13, 0, 0), Visitors = 230 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 14, 0, 0), Visitors = null },
+        new ChartData { Time = new DateTime(2024, 7, 1, 15, 0, 0), Visitors = 250 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 16, 0, 0), Visitors = 260 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 17, 0, 0), Visitors = 270 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 18, 0, 0), Visitors = null },
+        new ChartData { Time = new DateTime(2024, 7, 1, 19, 0, 0), Visitors = 280 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 20, 0, 0), Visitors = 250 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 21, 0, 0), Visitors = 290 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 22, 0, 0), Visitors = 300 },
+        new ChartData { Time = new DateTime(2024, 7, 1, 23, 0, 0), Visitors = null },
+    };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        LoadOriginalData();
+    }
+
+    private void LoadOriginalData()
+    {
+        ChartDataCollection.Clear();
+        foreach (ChartData? item in originalList)
+        {
+            ChartDataCollection.Add(item);
+        }
+    }
+
+    private async Task ProcessChartData()
+    {
+        VisibleProperty = true;
+        string prompt = GeneratePrompt(originalList);
+        string response = await OpenAIService.GetCompletionAsync(prompt, false);
+        List<ChartData> processedData = ConvertAIResponseToChartData(response, originalList);
+        if (processedData.Count != 0)
+        {
+            ChartDataCollection.Clear();
+            foreach (ChartData item in processedData)
+            {
+                ChartDataCollection.Add(item);
+            }
+        }
+        VisibleProperty = false;
+    }
+
+    private string GeneratePrompt(List<ChartData> data)
+    {
+        StringBuilder? prompt = new StringBuilder("Clean the following e-commerce website traffic data, resolve outliers and fill missing values:\n");
+        foreach (ChartData d in data)
+        {
+            prompt.AppendLine($"{d.Time:yyyy-MM-dd-HH-m-ss}: {d.Visitors}");
+        }
+        prompt.AppendLine("and the output cleaned data should be in the yyyy-MM-dd-HH-m-ss:Value format, no other explanation required");
+        return prompt.ToString();
+    }
+
+    private List<ChartData> ConvertAIResponseToChartData(string response, List<ChartData> original)
+    {
+        string[]? lines = response.Split('\n', StringSplitOptions.RemoveEmptyEntries);
+        List<ChartData>? result = new List<ChartData>();
+        int count = 0;
+        foreach (string? line in lines)
+        {
+            string[]? parts = line.Split(':');
+            if (parts.Length == 2 &&
+                DateTime.TryParseExact(parts[0].Trim(), "yyyy-MM-dd-HH-m-ss", null, System.Globalization.DateTimeStyles.None, out var date) &&
+                double.TryParse(parts[1].Trim(), out var visitors))
+            {
+                bool isCurrNull = original.ElementAtOrDefault(count)?.Visitors == null;
+                bool isNextNull = original.ElementAtOrDefault(count + 1)?.Visitors == null;
+                string? color = (isCurrNull || isNextNull) ? "#D84227" : null;
+                result.Add(new ChartData
+                    {
+                        Time = date,
+                        Visitors = visitors,
+                        Color = color
+                    });
+                count++;
+            }
+        }
+        return result;
+    }
+}
