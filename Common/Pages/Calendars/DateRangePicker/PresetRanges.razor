@@ -1,0 +1,107 @@
+@page "/DateRangePicker/Preset-Ranges"
+
+@using Syncfusion.Blazor.Calendars
+@using System.Globalization
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+  <p>This sample demonstrates the preset ranges functionality of the DateRangePicker component. Click the DateRangePicker popup icon to open a list of custom preset ranges. The "Custom range" entry at the end of the list opens the date-range picker calendar so users may select arbitrary start and end dates.</p>
+
+  <p>Presets provide one-click access to commonly used intervals (for example, Today, Last 7 days, This month). When a preset is selected, the component updates its value to the corresponding start and end dates and closes the popup to confirm the selection.</p>
+
+  <p>The DateRangePicker exposes a presets collection that you can configure with labels and date calculations; include a "Custom range" item to preserve the standard calendar-based selection workflow. Presets are rendered inside the popup and support keyboard and mouse interaction consistent with the component’s native behavior.</p>
+
+  <p>Implementation notes: bind the component value to your view model to capture selections and ensure preset calculations respect the current culture and timezone. When defining preset labels, prefer concise, accessible text and include aria-label attributes where appropriate so assistive technologies convey intent clearly.</p>
+
+  <p>Accessibility and UX: ensure the popup is reachable by keyboard, that the active preset receives focus, and that the "Custom range" option announces it opens the calendar. Confirm assistive technologies receive updated value notifications after selection so screen readers reflect the new range.</p>
+
+  <p>When integrating presets in applications, provide a representative default set and document their semantic meaning (for example, whether ranges are inclusive or exclusive). Test across locales, verify timezone handling for ranges spanning daylight‑saving transitions, and ensure programmatic value updates raise change events consumed by the host application.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        <label class="example-label">Account statement</label>
+        <SfDateRangePicker TValue="DateTime?" Placeholder="Choose a period" ShowClearButton="true" FullScreen="true" aria-label="Select date range from presets">
+            <DateRangePickerPresets>
+                <DateRangePickerPreset Label="@LabelThisWeek" Start="@WeekStart" End="@WeekEnd"></DateRangePickerPreset>
+                <DateRangePickerPreset Label="@LabelThisMonth" Start="@MonthStart" End="@MonthEnd"></DateRangePickerPreset>
+                <DateRangePickerPreset Label="@LabelLastMonth" Start="@LastMonthStart" End="@LastMonthEnd"></DateRangePickerPreset>
+                <DateRangePickerPreset Label="@LabelLastYear" Start="@LastYearStart" End="@LastYearEnd"></DateRangePickerPreset>
+            </DateRangePickerPresets>
+        </SfDateRangePicker>
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 300px;
+        margin: 0 auto;
+        padding: 40px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>
+
+@code {
+    private string? LabelThisWeek { get; set; } 
+    private string? LabelThisMonth { get; set; } 
+    private string? LabelLastMonth { get; set; } 
+    private string? LabelLastYear { get; set; } 
+
+    private DateTime LastMonth { get; set; }
+    private DateTime WeekStart { get; set; }
+    private DateTime WeekEnd { get; set; }
+    private DateTime MonthStart { get; set; }
+    private DateTime MonthEnd { get; set; }
+    private DateTime LastMonthStart { get; set; }
+    private DateTime LastMonthEnd { get; set; }
+    private DateTime LastYearStart { get; set; }
+    private DateTime LastYearEnd { get; set; }
+    private int Days { get; set; }
+    
+    protected override void OnInitialized()
+    {
+        Days = (int)DateTime.Now.DayOfWeek;
+        LastMonth = DateTime.Now.AddMonths(-1);
+        WeekStart = DateTime.Now.AddDays(-Days);
+        WeekEnd = WeekStart.AddDays(6);
+        MonthStart = new DateTime(DateTime.Now.Year, DateTime.Now.Month, 1);
+        MonthEnd = MonthStart.AddMonths(1).AddDays(-1);
+        LastMonthStart = new DateTime(LastMonth.Year, LastMonth.Month, 1);
+        LastMonthEnd = LastMonthStart.AddMonths(1).AddDays(-1);
+        LastYearStart = new DateTime(DateTime.Now.Year - 1, 1, 1);
+        LastYearEnd = new DateTime(DateTime.Now.Year - 1, 12, 31);
+
+        var CurrentCulture = CultureInfo.CurrentCulture;
+        UpdateLabels(CurrentCulture);
+    }
+
+    private void UpdateLabels(CultureInfo culture)
+    {
+        var labels = GetLocalizedLabels(culture);
+        LabelThisWeek = labels["ThisWeek"];
+        LabelThisMonth = labels["ThisMonth"];
+        LabelLastMonth = labels["LastMonth"];
+        LabelLastYear = labels["LastYear"];
+    }
+
+    private Dictionary<string, string> GetLocalizedLabels(CultureInfo culture)
+    {
+        var localizedLabels = new Dictionary<string, Dictionary<string, string>>
+            {
+                ["en"] = new Dictionary<string, string> { { "ThisWeek", "This Week" }, { "ThisMonth", "This Month" }, { "LastMonth", "Last Month" }, { "LastYear", "Last Year" } },
+                ["fr-CH"] = new Dictionary<string, string> { { "ThisWeek", "Cette semaine" }, { "ThisMonth", "Ce mois-ci" }, { "LastMonth", "Le mois dernier" }, { "LastYear", "L'année dernière" } },
+                ["de-DE"] = new Dictionary<string, string> { { "ThisWeek", "Diese Woche" }, { "ThisMonth", "Diesen Monat" }, { "LastMonth", "Letzter Monat" }, { "LastYear", "Letztes Jahr" } },
+                ["zh-CN"] = new Dictionary<string, string> { { "ThisWeek", "本周" }, { "ThisMonth", "本月" }, { "LastMonth", "上个月" }, { "LastYear", "去年" } }
+    
+            };
+    
+        return localizedLabels.TryGetValue(culture.Name, out var labels) ? labels : localizedLabels["en"];
+    }
+}

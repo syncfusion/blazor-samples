@@ -1,0 +1,360 @@
+using Microsoft.AspNetCore.Components;
+using Microsoft.JSInterop;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+
+namespace BlazorDemos.Shared
+{
+    /// <summary>
+    /// The injectable service class used to handle common functionalities all over the application.
+    /// </summary>
+    public class SampleService
+    {
+        /// <summary>
+        /// Specifies the app is rendering in device or not.
+        /// </summary>
+        public bool IsDevice { get; set; }
+        /// <summary>
+        /// Specifies spinner component reference.
+        /// </summary>
+        public SpinnerComponent? Spinner { get; set; }
+        /// <summary>
+        /// Specifies the current component name.
+        /// </summary>
+        public string? ComponentName { get; set; }
+        /// <summary>
+        /// Specifies the current sample details.
+        /// </summary>
+        public Sample? SampleInfo { get; set; }
+        /// <summary>
+        /// Specifies the DynamicResourceLoader component reference.
+        /// </summary>
+        public DynamicResourceLoader? DynamicResourceLoader { get; set; }
+        /// <summary>
+        /// Specifies the sample name of the selected component for the DynamicResourceLoader.
+        /// </summary>
+		public string? SampleName { get; set; }
+        /// <summary>
+        /// Indicates whether the theme has changed due to browser navigation.
+        /// Returns true if the theme was updated during navigation; otherwise, false.
+        /// </summary>
+        public bool IsThemeChangeOnBrowserNav { get; set; }
+        /// <summary>
+        /// Stores the theme applied during browser navigation.
+        /// This value represents the theme name.
+        /// </summary>
+        public string? BrowserNavTheme { get; set; }
+        /// <summary>
+        /// Indicates whether dynamic resource loading has started. 
+        /// Returns true when loading begins and false once the resources are fully loaded.
+        /// </summary>
+        public bool IsResourcesLoadedOnInternalNav { get; set; }
+        /// <summary>
+        /// Indicates whether component samples-specific resources should be loaded during browser forward/backward navigation.
+        /// </summary>
+        public bool IsBrowserNav { get; set; }
+        /// <summary>
+        /// Specifies whether to hide the spinner once the component samples-specific styles have been loaded. 
+        /// </summary>
+        public bool HideSpinnerOnStylesLoad { get; set; }
+        /// <summary>
+        /// Specifies whether to hide the spinner once the component samples-specific scripts have been loaded.
+        /// </summary>
+        public bool HideSpinnerOnScriptsLoad { get; set; }
+        /// <summary>
+        /// Specifies the meta data component reference.
+        /// </summary>
+        public SampleMetaData? MetaData { get; set; }
+        /// <summary>
+        /// Specifies the very first sample url.
+        /// </summary>
+        public string? FirstSamplePath { get; set; }
+        /// <summary>
+        /// Specifies the last sample url.
+        /// </summary>
+        public string? LastSamplePath { get; set; }
+        /// <summary>
+        /// Specifies the current sample url.
+        /// </summary>
+        public string? CurrentSamplePath { get; set; }
+
+        /// <summary>
+        /// Specifies the documentation link.
+        /// </summary>
+        public string? DocumentLink { get; set; }
+
+        /// <summary>
+        /// Specifies the image url starts path.
+        /// </summary>
+        public string? ImagePath { get; set; }
+        /// <summary>
+        /// Specifies the showcase image url starts path.
+        /// </summary>
+        public string ShowCaseImagePath { get; set; }
+        /// <summary>
+        /// Specifies the home page loaded or not.
+        /// </summary>
+        public bool IsHomeLoaded { get; set; }
+        /// <summary>
+        /// Specifies the demo page loaded or not.
+        /// </summary>
+        public bool IsDemoLoaded { get; set; }
+        /// <summary>
+        /// Specifies the demo page js loaded or not.
+        /// </summary>
+        public bool SampleJSLoaded { get; set; }
+        /// <summary>
+        /// Specifies the Demos Type whether its WASM or Server.
+        /// </summary>
+        public string DemoType { get; set; }
+        /// <summary>
+        /// Specifies the diagram interop script loaded or not.
+        /// </summary>
+        public bool IsDiagramScriptLoaded { get; set; }
+        /// <summary>
+        /// Specifies the Blazor Samples Common Static Web Assets location based on the project.
+        /// </summary>
+        public string WebAssetsPath { get; set; }
+
+        /// <summary>
+		/// Occurs when the input mode preference (touch vs. mouse) changes.
+		/// </summary>
+        public event Action? TouchMousePreferenceChanged;
+
+        /// <summary>
+        /// Raises <see cref="TouchMousePreferenceChanged"/> to notify subscribers of a
+        /// touch/mouse preference change. If there are no subscribers, this is a no-op.
+        /// </summary>
+
+        public void NotifyTouchMousePreferenceChanged()
+            => TouchMousePreferenceChanged?.Invoke();
+
+        public bool IsBuild { get; set; }
+
+        public static string AssetsPath
+        {
+            get
+            {
+#if WASM
+    #if NET8_0
+          return "_content/Blazor_WASM_Common_NET8/";
+    #elif NET9_0
+           return "_content/Blazor_WASM_Common_NET9/";
+#else
+           return "_content/Blazor_WASM_Common_NET10/";
+#endif
+#else
+#if NET8_0
+            return"_content/Blazor_Server_Common_NET8/";
+#elif NET9_0
+           return "_content/Blazor_Server_Common_NET9/";
+#else
+            return "_content/Blazor_Server_Common_NET10/";
+#endif
+#endif
+            }
+        }
+        public SampleService()
+        {
+#if WASM
+            DemoType = "Blazor WASM Demos";
+#else
+            DemoType = "Blazor Server Demos";
+#endif
+            WebAssetsPath = AssetsPath;
+#if DEBUG || STAGING
+            ImagePath = WebAssetsPath + "images/common/";
+            ShowCaseImagePath = WebAssetsPath + "images/showcase/";
+#else
+            ImagePath = "https://cdn.syncfusion.com/blazor/images/demos/";
+            ShowCaseImagePath = "https://cdn.syncfusion.com/blazor/images/showcase/";
+#endif
+#if BUILD_ENV
+            IsBuild = true;
+#endif
+        }
+
+        public async void SwicthToDemo(string id, NavigationManager UriHelper, bool isAISample, IJSRuntime JsRuntime)
+        {
+            var Navigation_Url = SampleUtils.IsHomePage(UriHelper) ?  UriHelper?.BaseUri + "datagrid/overview/" : UriHelper?.Uri;
+            if (isAISample)
+            {
+                var controllerName = this.SampleInfo?.Directory?.Replace("AISamples/", "",StringComparison.Ordinal);
+                var controlDict = new Dictionary<string, string>
+                {
+                    { "Charts", "Chart" },
+                    { "Schedule", "Scheduler" }
+                };
+                controllerName = !string.IsNullOrEmpty(controllerName) && controlDict.ContainsKey(controllerName) ? controlDict.GetValueOrDefault(controllerName) : controllerName;
+                var controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => (string.Equals(control.ControllerName,controllerName, StringComparison.Ordinal)));
+                var samplesURL = string.Equals(controllerName,"AI", StringComparison.Ordinal) || string.Equals(controllerName,"SmartTextArea", StringComparison.Ordinal) || string.Equals(controllerName,"SmartPaste", StringComparison.Ordinal) ? "datagrid/overview" : controlInfo?.Samples[0].Url;
+                Navigation_Url = UriHelper?.BaseUri + samplesURL;
+            }
+#if DEBUG || STAGING
+    #if NET8_0
+        #if SERVER
+            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url?.Replace("net8/demos", "wasm/net8/demos",StringComparison.Ordinal);
+        #endif
+        #if WASM
+            Navigation_Url =  id == "wasm" ? Navigation_Url : Navigation_Url?.Replace("wasm/net8/demos", "net8/demos",StringComparison.Ordinal);
+        #endif
+     #elif NET9_0
+        #if SERVER
+            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url?.Replace("net9/demos", "wasm/net9/demos",StringComparison.Ordinal);
+        #endif
+        #if WASM
+            Navigation_Url =  id == "wasm" ? Navigation_Url : Navigation_Url?.Replace("wasm/net9/demos", "net9/demos",StringComparison.Ordinal);
+        #endif
+    #else
+        #if SERVER
+            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url?.Replace("net10/demos", "wasm/net10/demos", StringComparison.Ordinal);
+        #endif
+        #if WASM
+            Navigation_Url =  id == "wasm" ? Navigation_Url : Navigation_Url?.Replace("wasm/net10/demos", "net10/demos", StringComparison.Ordinal);
+        #endif
+    #endif
+#else
+    #if SERVER
+            Navigation_Url = id == "server" ? Navigation_Url : Navigation_Url?.Replace("demos", "wasm/demos",StringComparison.Ordinal);
+    #endif
+    #if WASM
+            Navigation_Url =  id == "wasm" ? Navigation_Url : Navigation_Url?.Replace("wasm/demos", "demos",StringComparison.Ordinal);
+    #endif
+#endif
+            await JsRuntime.InvokeVoidAsync("open", Navigation_Url, "_blank").ConfigureAwait(false);
+        }
+
+        // Updates the SampleInfo and ComponentName based on current loaded uri.
+        internal void Update(NavigationManager urlHelper)
+        {
+            if (urlHelper.Uri.Contains("?theme", StringComparison.Ordinal))
+            {
+                var themeName = urlHelper?.Uri != null ? System.Web.HttpUtility.ParseQueryString(new Uri(urlHelper.Uri).Query).Get("theme"):string.Empty;
+                if (themeName != null && urlHelper != null && urlHelper.Uri != null)
+                {
+                    var queryString = urlHelper.Uri.Substring(urlHelper.Uri.IndexOf(themeName, StringComparison.OrdinalIgnoreCase) + themeName.Length);
+                    if (!string.IsNullOrEmpty(queryString))
+                    {
+                        string[] themeurl = urlHelper.Uri.Split("?");
+                        var url = themeurl[0] + "?theme=" + themeName;
+                        urlHelper.NavigateTo(url);
+                    }
+                }
+            }
+            if (urlHelper != null) {string updatedUrl = urlHelper.ToBaseRelativePath(urlHelper.Uri ?? "");
+            if (updatedUrl.Contains('?', StringComparison.Ordinal))
+            {
+                updatedUrl = updatedUrl.Substring(0, updatedUrl.IndexOf('?', StringComparison.Ordinal));
+            }
+                if (!string.IsNullOrEmpty(updatedUrl))
+                {
+                    if (updatedUrl.LastIndexOf('/') == updatedUrl.Length - 1)
+                    {
+                        updatedUrl = updatedUrl.Substring(0, updatedUrl.LastIndexOf('/'));
+                    }
+                    updatedUrl = updatedUrl.Replace("//", "/", StringComparison.Ordinal);
+                    string[] splittedUrl = updatedUrl.Split("/");
+                    if (splittedUrl.Length >= 2)
+                    {
+                        try
+                        {
+                            string categoryName = splittedUrl[splittedUrl.Length - 2];
+                            categoryName = categoryName.Replace("-", string.Empty, StringComparison.Ordinal);
+                            SampleList controlInfo;
+                            var sampleName = splittedUrl[splittedUrl.Length - 1];
+                            if (categoryName == "buttons" && sampleName != "default-functionalities" && sampleName != "keyboard-navigation")
+                            {
+                                controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => !string.IsNullOrEmpty(control.DemoPath) && !string.IsNullOrEmpty(sampleName) && control.DemoPath.Contains(sampleName, StringComparison.OrdinalIgnoreCase)) ?? new SampleList();
+                            }
+                            else
+                            {
+                                if (categoryName.Contains("assistview", StringComparison.Ordinal))
+                                {
+                                    controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName != null && control.ControllerName.Equals(categoryName, StringComparison.OrdinalIgnoreCase)) ?? new SampleList();
+                                }
+                                else
+                                {
+                                    controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName != null && control.ControllerName.Equals(categoryName, StringComparison.OrdinalIgnoreCase)) ?? SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => categoryName != null && control.ControllerName != null && categoryName.StartsWith(control.ControllerName, StringComparison.OrdinalIgnoreCase)) ?? new SampleList();
+                                }
+                            }
+                            this.ComponentName = controlInfo.Name;
+                            var sampleInfo = controlInfo.Samples.Where(control => string.Equals(control.Url, updatedUrl, StringComparison.OrdinalIgnoreCase)).ToList();
+                            if (sampleInfo.Count > 0)
+                            {
+                                this.SampleInfo = sampleInfo.First();
+                            }
+                            else
+                            {
+                                sampleName = sampleName.Replace("-", string.Empty, StringComparison.Ordinal);
+                                this.SampleInfo = controlInfo.Samples.Where(control => string.Equals(control.FileName, (sampleName + ".razor"), StringComparison.OrdinalIgnoreCase)).First();
+                            }
+                            this.CurrentSamplePath = this.SampleInfo.Url;
+                        }
+                        catch(Exception)
+                        {
+                            throw;
+                        }
+                    }
+                    // Navigate a Sample using Component Name
+                    else if (splittedUrl.Length < 2 && splittedUrl.Length > 0)
+                    {
+                        string categoryName = splittedUrl[splittedUrl.Length - 1];
+                        categoryName = categoryName.Replace("-", string.Empty, StringComparison.Ordinal);
+                        var controlInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName != null && string.Equals(control.ControllerName,categoryName,StringComparison.OrdinalIgnoreCase)) ?? new SampleList();
+                            if (controlInfo.Samples.Count > 0)
+                            {
+                                this.SampleInfo = controlInfo.Samples.First();
+                            }
+                            this.ComponentName = controlInfo.Name;
+                            this.CurrentSamplePath = this.SampleInfo?.Url;
+                            var newUri = urlHelper.GetUriWithQueryParameters(SampleInfo?.Url?? string.Empty, new Dictionary<string, object?>
+                            {
+                                ["theme"] = "fluent2"
+                            });
+                            urlHelper.NavigateTo(newUri);
+                    }
+                }
+            }
+        }
+
+        // Updates the documentation link based on current loaded uri.
+        internal void UpdateFooter(string? currentUrl)
+        {
+            
+            currentUrl = currentUrl != null ? Uri.UnescapeDataString(currentUrl) : "";
+            var queryString = System.Web.HttpUtility.ParseQueryString(new Uri(currentUrl).Query);
+            // Handled condition to avoid a Culture switching navigation problem.
+            if (queryString.Get("redirectUri") != null)
+            {
+                currentUrl = queryString.Get("redirectUri");
+                currentUrl = currentUrl?.Split('?')[currentUrl.Split('?').Length - 2];
+            }
+            else
+            {
+                currentUrl = queryString.Count != 0 ? currentUrl.Replace(queryString.ToString() ?? "", "", StringComparison.Ordinal) : currentUrl;
+            }
+            currentUrl = ((currentUrl?.LastIndexOf('/') != -1)  || (currentUrl.LastIndexOf('?') != -1) || (currentUrl.LastIndexOf('&') != -1)) ? currentUrl?.Remove(currentUrl.Length - 1) : currentUrl;
+            currentUrl = currentUrl != null ? currentUrl.EndsWith('/') ? currentUrl.TrimEnd('/') : currentUrl : "";
+            var splittedUrl = currentUrl.Split("/");
+            var ComponentName = splittedUrl[splittedUrl.Length - 2];
+            var ComponentInfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.ControllerName != null && string.Equals(control.ControllerName, ComponentName?.Replace("-", "", StringComparison.Ordinal), StringComparison.OrdinalIgnoreCase)) ?? new SampleList(); 
+            if (ComponentInfo.Category != null && string.Equals(ComponentInfo.Category,"File Formats", StringComparison.Ordinal))
+            {
+                this.DocumentLink = "https://help.syncfusion.com/" + ComponentInfo.Category.Replace(" ", "-", StringComparison.OrdinalIgnoreCase) + "/" + ComponentName + "/overview";
+            }
+            else
+            {
+                var DocLink = string.IsNullOrEmpty(ComponentInfo.CustomDocLink) ? ComponentName + "/getting-started" : ComponentInfo.CustomDocLink;
+                this.DocumentLink = "https://blazor.syncfusion.com/documentation/" + DocLink;
+            }
+        }
+
+        public static bool IsOldTheme(string theme)
+        {
+            var oldThemes = new List<string> { "material", "material-dark", "fluent", "fluent-dark", "bootstrap4", "bootstrap5", "bootstrap5-dark", "tailwind", "tailwind-dark", "fabric", "fabric-dark", "highcontrast" };
+            return oldThemes.Contains(theme);
+        }
+
+    }
+}

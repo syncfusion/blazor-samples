@@ -1,0 +1,255 @@
+@page "/speech-to-text/use-case"
+
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.InteractiveChat
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates live transcription that converts spoken words into text in real time.</p>
+
+<p>Click the microphone button to start speaking; the <code>SpeechToText</code> component captures audio and dynamically updates the transcript in the <code>ChatUI</code> component which allows real-time updates, displaying each spoken segment as an individual, timestamped message for a structured conversation view.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <div class="usecase-speechToText-section e-message">
+        <div class="stt-container">
+            <!-- Microphone button for Speech-to-Text -->
+            <SfSpeechToText @ref="speechToText" Transcript="@Transcript" TranscriptChanging="@OnTranscriptChange" SpeechRecognitionStarted="@OnListeningStart" SpeechRecognitionStopped="@OnListeningStop"
+            SpeechRecognitionError="@OnError" Disabled="@DisabledState" ButtonSettings="@ButtonSettings" CssClass="@($"usecase-stt-btn {SttStateClass}")"></SfSpeechToText>
+            <span class="speech-recognition-status">@SpeechRecognitionStatus</span>
+        </div>
+        <div class="transcript-container">
+            <!-- Transcription output -->
+            <SfChatUI @ref="ChatUI" TypingUsers="@TypingUsers" ID="transcript-content" ShowFooter="false" ShowHeader="false" User="UserAlbert" TimeStampFormat="MMM d h:mm tt" AutoScrollToBottom="true" Messages="Messages">
+                <EmptyChatTemplate>
+                    <div class="empty-chat">
+                        <span class="e-icons e-multiple-comment"></span>
+                        No transcript available. Start speaking to generate a transcript.
+                    </div>
+                </EmptyChatTemplate>
+                <TypingUsersTemplate>
+                    <div class="e-typing-indicator ">
+                        <span class="e-user-text">Transcripting</span>
+                        <div class="e-indicator-wrapper">
+                            <span class="e-indicator"></span>
+                            <span class="e-indicator">
+                            </span><span class="e-indicator">
+                            </span>
+                        </div>
+                    </div>
+                </TypingUsersTemplate>
+            </SfChatUI>
+        </div>
+    </div>
+</div>
+
+@code {
+    private SfSpeechToText speechToText = new SfSpeechToText();
+    private SfChatUI ChatUI = new SfChatUI();
+    private int MsgIdx = -1;
+    private bool IsIndicatorVisible = false;
+    private bool DisabledState = false;
+    private string SpeechRecognitionStatus = "Click the mic button to start speaking...";
+    private List<ChatMessage> Messages = new List<ChatMessage>();
+    private UserModel UserAlbert = new UserModel() { ID = "User1", User = "Albert" };
+    private UserModel CurrentUserModel = new UserModel() { ID = "testing-user", User = "Testing User" };
+    private string SttStateClass = String.Empty;
+    private string Transcript = String.Empty;
+    private List<UserModel> TypingUsers = new List<UserModel>();
+    private SpeechToTextButtonSettings ButtonSettings = new SpeechToTextButtonSettings
+    {
+        StopIconCss = "e-icons e-listen-icon"
+    };
+
+    private async Task OnTranscriptChange(TranscriptChangeEventArgs args)
+    {
+        if (MsgIdx >= 0 && Messages.Count > MsgIdx)
+        {
+            ChatMessage newMessage = new ChatMessage()
+            {
+                ID = Messages[MsgIdx].ID,
+                Text = args.Transcript,
+                Author = Messages[MsgIdx].Author,
+                Timestamp = Messages[MsgIdx].Timestamp
+            };
+            await ChatUI.UpdateMessageAsync(newMessage, Messages[MsgIdx].ID);
+        }
+        else
+        {
+            var newMsg = new ChatMessage()
+            {
+                ID = "msg-" + (MsgIdx + 1),
+                Text = args.Transcript,
+                Author = CurrentUserModel,
+                Timestamp = DateTime.Now
+            };
+            Messages.Add(newMsg);
+        }
+
+        if (!IsIndicatorVisible)
+        {
+            TypingUsers = new List<UserModel> { CurrentUserModel };
+            IsIndicatorVisible = true;
+        }
+
+        if (!args.IsInterimResult)
+        {
+            MsgIdx++;
+            Transcript = "";
+            TypingUsers.Clear();
+            IsIndicatorVisible = false;
+        }
+        await Task.Delay(100);
+    }
+
+    private void OnListeningStart()
+    {
+        MsgIdx = Messages.Count;
+        SttStateClass = "stt-listening-state";
+        UpdateSpeechStatus("Listening... Speak now...");
+    }
+
+    private void OnListeningStop(SpeechRecognitionStoppedEventArgs args)
+    {
+        TypingUsers.Clear();
+        SttStateClass = String.Empty;
+        UpdateSpeechStatus("Click the mic button to start speaking...");
+    }
+
+    private void OnError(SpeechRecognitionErrorEventArgs args)
+    {
+        UpdateSpeechStatus(args.ErrorMessage);
+        if (args.Error == "unsupported-browser")
+        {
+            DisabledState = true;
+        }
+    }
+
+    private void UpdateSpeechStatus(string status)
+    {
+        SpeechRecognitionStatus = status;
+        InvokeAsync(StateHasChanged);
+    }
+}
+
+<style>
+    .usecase-speechToText-section,
+    .e-bigger .usecase-speechToText-section {
+        width: 90%;
+        height: 55vh;
+        margin: 0 auto;
+        padding: 0;
+        display: flex;
+    }
+
+    .usecase-speechToText-section #transcript-content {
+        border: none;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+    }
+
+    .usecase-speechToText-section .stt-container {
+        width: 70%;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 40px;
+    }
+
+    .usecase-speechToText-section .e-speech-to-text.usecase-stt-btn,
+    .e-bigger .usecase-speechToText-section .e-speech-to-text.usecase-stt-btn {
+        width: 100px;
+        height: 100px;
+        position: relative;
+    }
+
+    .usecase-speechToText-section .usecase-stt-btn .e-btn-icon,
+    .e-bigger .usecase-speechToText-section .usecase-stt-btn .e-btn-icon {
+        font-size: 50px;
+    }
+
+    .usecase-speechToText-section .transcript-container {
+        width: 30%;
+        height: 100%;
+    }
+
+    .usecase-stt-btn::before,
+    .usecase-stt-btn::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        background: #9b9b9b;
+        transform: translate(-50%, -50%) scale(1);
+        opacity: 0;
+        pointer-events: none;
+    }
+
+    .usecase-speechToText-section .stt-listening-state::before {
+        animation: stt-wave-ring 1.5s infinite ease-out;
+    }
+
+    .usecase-speechToText-section .stt-listening-state::after {
+        animation: stt-wave-ring 1.5s 0.75s infinite ease-out;
+    }
+
+    @@keyframes stt-wave-ring {
+        0% {
+            transform: translate(-50%, -50%) scale(1);
+            opacity: 0.8;
+        }
+
+        100% {
+            transform: translate(-50%, -50%) scale(2);
+            opacity: 0;
+        }
+    }
+
+    .usecase-speechToText-section .empty-chat {
+        width: 90%;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-size: 15px;
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+        margin: auto;
+    }
+
+    .usecase-speechToText-section .empty-chat .e-multiple-comment {
+        font-size: 50px;
+    }
+
+    .usecase-speechToText-section #transcript-content.e-chat-ui .e-message-group {
+        max-width: 95%;
+    }
+
+    @@media only screen and (max-width: 850px) {
+        .usecase-speechToText-section, .e-bigger .usecase-speechToText-section
+        {
+            flex-direction: column;
+            height: 70vh;
+        }
+        .usecase-speechToText-section .transcript-container {
+            width: 100%;
+            height: 70vh;
+            overflow: scroll;
+        }
+        .usecase-speechToText-section .stt-container {
+            width: 100%;
+            height: 55%;
+        }
+    }
+</style>

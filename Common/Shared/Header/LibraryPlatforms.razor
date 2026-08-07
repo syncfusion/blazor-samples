@@ -1,0 +1,90 @@
+﻿@namespace BlazorDemos.Shared.Header
+
+<style>
+    .sdk-dropdown-panel {
+        position: absolute;
+        top: calc(100% + 8px);
+        left: 50%;
+        transform: translateX(-50%);
+        width: 495px;
+        background: #fff;
+        border: 1px solid #e2e8f0;
+        border-radius: 10px;
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.13);
+        z-index: 1000;
+        overflow: hidden;
+    }
+
+    .sdk-dropdown-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 14px 24px 0 27px;
+    }
+
+    .sdk-dropdown-title {
+        font-size: 16px;
+        font-weight: 600;
+        color: #1e293b;
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .sdk-dropdown-close {
+        background: none;
+        border: none;
+        font-size: 16px;
+        color: #64748b;
+        cursor: pointer;
+        padding: 0 2px;
+        line-height: 1;
+    }
+
+    .sdk-dropdown-close:hover {
+        color: #0f172a;
+    }
+</style>
+
+@if (Visible)
+{
+    <div class="sdk-dropdown-panel">
+        <div class="sdk-dropdown-header">
+            <span class="sdk-dropdown-title">
+                <a href="https://www.syncfusion.com/document-sdk" class="platforms-external-link-icon" rel="noopener" target="_blank">
+                    @Title
+                </a>
+            </span>
+            <button class="sdk-dropdown-close" @onclick="Close">&#x2715;</button>
+        </div>
+        <div class="library-platforms-container">
+            <p class="sdk-description">
+                @Description
+            </p>
+            <div class="sdk-platform-grid">
+                @foreach (var item in Items)
+                {
+                    <a class="sdk-platform-item" href="@item.Url" target="_blank">
+                        <div class="sdk-platform-icon @item.IconCss"></div>
+                        <span>@item.Name</span>
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+}
+
+
+@code {
+    [Parameter] public bool Visible { get; set; } = false;
+    [Parameter] public EventCallback<bool> VisibleChanged { get; set; }
+    [Parameter, EditorRequired] public string Title { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public string Description { get; set; } = string.Empty;
+    [Parameter, EditorRequired] public List<ProductHeader.SdkPlatformItem> Items { get; set; } = new();
+
+    private async Task Close()
+    {
+        Visible = false;
+        await VisibleChanged.InvokeAsync(false);
+    }
+}

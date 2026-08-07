@@ -1,0 +1,91 @@
+@page "/treeview/remote-data"
+
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Spinner
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates remote data binding in the <a href="https://www.syncfusion.com/blazor-components/blazor-treeview" aria-label="Feature Tour of Blazor TreeView">Blazor TreeView</a>. Click nodes to select, and expand/collapse parent nodes. Spinner displays during child node loading.</p>
+    
+    <p>Remote data binding configuration:</p>
+    
+    <ul>
+        <li>Load data via <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Navigations.TreeViewFieldOptions-1.html#Syncfusion_Blazor_Navigations_TreeViewFieldOptions_1_DataSource">DataSource</a> property</li>
+        <li>Support remote services via <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Data.SfDataManager.html" target="_blank" rel="noopener" aria-label="Class reference of DataManager">DataManager</a></li>
+        <li>DataManager configuration:
+            <ul>
+                <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html#Syncfusion_Blazor_DataManager_Url" target="_blank" rel="noopener" aria-label="Class reference of Url property in DataManager">Url</a> - Service endpoint</li>
+                <li><a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DataManager.html#Syncfusion_Blazor_DataManager_Adaptor" target="_blank" rel="noopener" aria-label="Class reference of Adaptor property in DataManager">Adaptor</a> - Default: ODataV4Adaptor</li>
+            </ul>
+        </li>
+    </ul>
+    
+    <p>This demo uses TreeView bound to Northwind remote service via DataManager instance. For comprehensive documentation, refer to the <a href="https://blazor.syncfusion.com/documentation/treeview/data-binding/#remote-data" target="_blank" rel="noopener" aria-label="Blazor TreeView Data Binding documentation">documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    @*Initialize the Spinner component*@
+    <SfSpinner @ref="SpinnerRef" Size="40" Visible="true" CssClass="tree-spinner"></SfSpinner>
+    <div class="control_wrapper">
+        @*Initialize the TreeView component*@
+        <SfTreeView TValue="TreeData">
+            <TreeViewEvents TValue="TreeData" Created="OnCreated"></TreeViewEvents>
+            <TreeViewFieldsSettings TValue="TreeData" Query="@employeeQuery" Id="EmployeeID" Text="FirstName" HasChildren="EmployeeID">
+                <SfDataManager Url="https://services.odata.org/V3/Northwind/Northwind.svc" Adaptor="Syncfusion.Blazor.Adaptors.ODataV4Adaptor" CrossDomain="true"></SfDataManager>
+                <TreeViewFieldChild TValue="TreeData" Query="@orderQuery" Id="OrderID" Text="ShipName" ParentID="EmployeeID">
+                    <SfDataManager Url="https://services.odata.org/V3/Northwind/Northwind.svc" Adaptor="Syncfusion.Blazor.Adaptors.ODataV4Adaptor" CrossDomain="true"></SfDataManager>
+                </TreeViewFieldChild>
+            </TreeViewFieldsSettings>
+        </SfTreeView>
+    </div>
+</div>
+@code{
+    // Specify the reference of Spinner element.
+    private SfSpinner? SpinnerRef { get; set; }
+
+    // Specifies the event handler for Created event in TreeView component.
+    public async Task OnCreated()
+    {
+        await Task.Delay(500);
+        if (SpinnerRef != null)
+        {
+            await SpinnerRef.HideAsync();
+            SpinnerRef?.Dispose();
+        }
+    }
+    // Specify the column value of employee table.
+    public static List<string> EmployeeDetails = new List<string>() { "EmployeeID", "FirstName", "Title" };
+    // Specify the query value of TreeView component.
+    Query employeeQuery = new Query().From("Employees").Select(EmployeeDetails).Take(5);
+    // Specify the column value of order table.
+    public static List<string> OrderDetails = new List<string>() { "OrderID", "EmployeeID", "ShipName" };
+    // Specify the query value of TreeView component.
+    Query orderQuery = new Query().From("Orders").Select(OrderDetails).Take(5);
+    public class TreeData
+    {
+        public int? EmployeeID { get; set; }
+        public int OrderID { get; set; }
+        public string? ShipName { get; set; }
+        public string? FirstName { get; set; }
+    }
+}
+<style>
+    /* Sample specific styles */
+    .control_wrapper {
+        max-width: 500px;
+        margin: auto;
+        border: 1px solid #dddddd;
+        border-radius: 3px;
+        max-height: 420px;
+        min-height: 230px;
+        overflow: auto;
+    }
+    .tree-spinner {
+        margin-top: -50px;
+    }
+</style>

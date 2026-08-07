@@ -1,0 +1,635 @@
+@namespace BlazorDemos.Shared
+@implements IDisposable;
+@inject IJSRuntime JsRuntime;
+@inject SampleService SampleService;
+
+
+<div class="@classNames" role="tree" tabindex="0">
+    <ul class="@SampleUtils.TreeParent" role="presentation">
+        @foreach (var components in this.DataSource ?? Enumerable.Empty<SampleListType>())
+        {
+            <li class="@SampleUtils.TreeParentLi" role="treeitem">
+                @{
+                    var parentTextClass = SampleUtils.TreeText;
+                    parentTextClass = SampleUtils.AddClass(parentTextClass, SampleUtils.ActiveClass);
+                }
+                <div class="@SampleUtils.TreeTextContent" id="sf-tree-category">
+                    <span class="@parentTextClass">@components.Name</span>
+                </div>
+                <div class="sf-category-separator"></div>
+                <ul class="@SampleUtils.TreeParent" id="sf-inner-tree-category" role="group">
+                    @foreach (var component in components.SourceData ?? new List<SampleListType>())
+                    {
+                        if (!(component.IsHide ?? false))
+                        {
+                            <li class="@SampleUtils.TreeParent" role="treeitem" tabindex="@(focusedItem == component ? 0 : -1)" data-tree-id="@component.Name"
+                            @onfocus="@(() => focusedItem = component)" @onkeydown="(e => OnComponentKeyDown(component, e))"
+                                @onkeydown:preventDefault="true">
+                                @{
+                                    var nodeFullRow = SampleUtils.TreeFullRow;
+                                    var treeTextClass = SampleUtils.TreeText;
+                                    if (EqualityComparer<SampleListType>.Default.Equals(component, childSelected))
+                                    {
+                                        nodeFullRow = SampleUtils.AddClass(nodeFullRow, SampleUtils.TreeActive);
+                                        treeTextClass = SampleUtils.AddClass(treeTextClass, SampleUtils.ActiveClass);
+                                    }
+                                }
+                                <div class="@nodeFullRow"  @onclick="@(async () => await OnChildClick(component))"></div>
+                                <div class="@SampleUtils.TreeTextContent">
+                                    @{
+                                        var childIconClass = "sb-icons" + SampleUtils.Space + SampleUtils.TreeCollapseIcon;
+                                        if (expandedItems?.Any(i => i.Name == component.Name) == true)
+                                        {
+                                            childIconClass = "sb-icons" + SampleUtils.Space + SampleUtils.TreeExpandIcon;
+                                        }
+                                    } 
+                                    <div class="@childIconClass" @onclick="@(async () => await OnChildClick(component))"></div>
+                                    <span class="@treeTextClass">
+                                        @if (TreeTemplate != null)
+                                        {
+                                            @TreeTemplate(component)
+                                        }
+                                    </span>
+                                </div>
+
+                                @* Render grouped samples when this component node is expanded *@
+                                @if (component.Samples != null && component.Samples.Count > 0)
+                                {
+                                    var isComponentExpanded = expandedItems?.Any(item => item.Name == component.Name) == true;
+                                    var outerListClass = SampleUtils.TreeParentLi;
+                                    if (!isComponentExpanded)
+                                    {
+                                        outerListClass = SampleUtils.AddClass(outerListClass, SampleUtils.DisplayNone);
+                                    }
+
+                                    @* Group samples by Category. Groups whose Category equals the component name
+                                       are rendered as direct leaf items; all other categories get a sub-group header. *@
+                                    var sampleGroups = SampleService.IsDevice ? component.Samples.Where(s => !s.IsHideInMobile).GroupBy(s => s.Category ?? component.Name).ToList() : 
+                                          component.Samples.GroupBy(s => s.Category ?? component.Name).ToList();
+
+                                    var hasMultipleGroups = sampleGroups.Count > 1;
+
+                                    <ul class="@outerListClass" role="tree">
+                                        @foreach (var grp in sampleGroups)
+                                        {
+                                            var groupKey = component.Name + "::" + grp.Key;
+
+                                            if (hasMultipleGroups && grp.Key != component.Name)
+                                            {
+                                                // Sub-group header with its own expand/collapse
+                                                var isSubGroupExpanded = expandedSubGroups?.Contains(groupKey) == true;
+                                                var subGroupIconClass = "sb-icons" + SampleUtils.Space +
+                                                    (isSubGroupExpanded ? SampleUtils.TreeExpandIcon : SampleUtils.TreeCollapseIcon);
+                                                var subGroupChildClass = SampleUtils.TreeParentLi;
+                                                if (!isSubGroupExpanded)
+                                                {
+                                                    subGroupChildClass = SampleUtils.AddClass(subGroupChildClass, SampleUtils.DisplayNone);
+                                                }
+
+                                                // Highlight sub-group header if any sample in this group is selected
+                                                var isGroupActive = selectedSample != null && grp.Any(s => s.Url == selectedSample.Url);
+                                                var subGroupHeaderClass = SampleUtils.TreeTextContent + " sf-subgroup-header";
+                                                if (isGroupActive)
+                                                {
+                                                    subGroupHeaderClass += " " + SampleUtils.ActiveClass;
+                                                }
+
+                                                <li class="sf-tree-subgroup-li @SampleUtils.TreeParent" role="treeitem"
+                                                    tabindex="0"
+                                                    aria-expanded="@isSubGroupExpanded.ToString().ToLower()"
+                                                    @onclick:stopPropagation="true"
+                                                    @onclick="@(() => ToggleSubGroup(groupKey))"
+                                                    @onkeydown="@((e) => { if (e.Key == "Enter") ToggleSubGroup(groupKey); })">
+                                                    <div class="@subGroupHeaderClass">
+                                                        <div class="@subGroupIconClass"></div>
+                                                        <span class="@SampleUtils.TreeText sf-subgroup-text">
+                                                            @grp.Key
+                                                            @if (grp.Any(s => s.Type != SampleType.None && s.Type != SampleType.New && s.Type != SampleType.AI))
+                                                            {
+                                                                <span class="sf-green-dot-badge"></span>
+                                                            }
+                                                            else if (grp.Any(s => s.Type == SampleType.New))
+                                                            {
+                                                                <span class="e-badge sb-badge e-sample-status new sf-list-new-tag"></span>
+                                                            }
+                                                        </span>
+                                                    </div>
+                                                    <ul class="@subGroupChildClass sf-subgroup-children" role="tree" aria-label="Component Samples">
+                                                        @foreach (var sample in grp)
+                                                        {
+                                                            var sampleLiClass = SampleUtils.ListLiClass + " sf-subgroup-item";
+                                                            if (selectedSample != null && sample.Url == selectedSample.Url)
+                                                            {
+                                                                sampleLiClass = SampleUtils.AddClass(sampleLiClass, SampleUtils.ListActive);
+                                                            }
+                                                            <li class="@sampleLiClass" id="sf-list-samples" role="treeitem" tabindex="@(focusedItem == sample ? 0 : -1)" data-sample-url="@sample.Url"
+                                                                @onfocus="@(() => focusedItem = sample)"
+                                                                @onkeydown="(e => OnSampleKeyDown(sample, e))"
+                                                                @onclick:stopPropagation="true"
+                                                                @onclick="@(async () => await OnSampleClick(sample))"
+                                                                  @onkeydown:preventDefault="true">
+                                                                <div class="@SampleUtils.TextContent ">
+                                                                    <span class="@SampleUtils.ListText">@sample.Name</span>
+                                                                    @if (sample.Type == SampleType.AI)
+                                                                    {
+                                                                        <span class="sf-ai-badge">AI</span>
+                                                                    }
+                                                                    else if (sample.Type != SampleType.None && sample.Type != SampleType.New)
+                                                                    {
+                                                                        <span class="sf-green-dot-badge"></span>
+                                                                    }
+                                                                    @if (sample.Type == SampleType.New)
+                                                                    {
+                                                                        <span class="e-badge sb-badge e-sample-status new sf-list-new-tag"></span>
+                                                                    }
+                                                                </div>
+                                                            </li>
+                                                        }
+                                                    </ul>
+                                                </li>
+                                            }
+                                            else
+                                            {
+                                                @* Same category as the component — render as flat leaf items *@
+                                                @foreach (var sample in grp)
+                                                {
+                                                    var sampleLiClass = SampleUtils.ListLiClass;
+                                                    if (selectedSample != null && sample.Url == selectedSample.Url)
+                                                    {
+                                                        sampleLiClass = SampleUtils.AddClass(sampleLiClass, SampleUtils.ListActive);
+                                                    }
+                                                    <li class="@sampleLiClass" id="sf-list-samples" role="treeitem" tabindex="@GetTabIndex(sample)" data-sample-url="@sample.Url"
+                                                        @onclick:stopPropagation="true"
+                                                        @onkeydown:preventDefault="true"
+                                                        @onkeydown="(e => OnSampleKeyDown(sample, e))"
+                                                        @onfocus="@(() => focusedItem = sample)"
+                                                        @onclick="@(async () => await OnSampleClick(sample))">
+                                                        <div class="@SampleUtils.TextContent">
+                                                            <span class="@SampleUtils.ListText">@sample.Name</span>
+                                                            @if (sample.Type == SampleType.AI)
+                                                            {
+                                                                <span class="sf-ai-badge" style="background-color:#28a745;color:#fff;padding:2px 6px;border-radius:8px;font-size:0.75rem;display:inline-block;line-height:1">AI</span>
+                                                            }
+                                                            else if (sample.Type != SampleType.None && sample.Type != SampleType.New) 
+                                                            {
+                                                                <span class="sf-green-dot-badge"></span>
+                                                            }
+                                                            @if (sample.Type == SampleType.New)
+                                                            {
+                                                                <span class="e-badge sb-badge e-sample-status new sf-list-new-tag"></span>
+                                                            }
+                                                        </div>
+                                                    </li>
+                                                }
+                                            }
+                                        }
+                                    </ul>
+                                }
+                            </li>
+                        }
+                    }
+                </ul>
+            </li>
+        }
+    </ul>
+</div>
+
+@code {
+    protected override void OnParametersSet()
+    {
+        EnsureSelectedSampleExpanded();
+    }
+
+    private void EnsureSelectedSampleExpanded()
+    {
+        if (selectedSample == null || DataSource == null)
+            return;
+
+        foreach (var parent in DataSource)
+        {
+            foreach (var comp in parent.SourceData ?? Enumerable.Empty<SampleListType>())
+            {
+                if (comp.Samples == null) continue;
+                var found = comp.Samples.FirstOrDefault(s => string.Equals(s.Url?.Trim('/'), selectedSample.Url?.Trim('/'), StringComparison.OrdinalIgnoreCase));
+                if (found != null)
+                {
+                    if (expandedItems == null) expandedItems = new List<SampleListType>();
+                    if (!expandedItems.Any(e => e.Name == comp.Name))
+                    {
+                        expandedItems.Clear();
+                        expandedItems.Add(comp);
+                    }
+                    childSelected = comp;
+
+                    // Clear all previously expanded sub-groups
+                    expandedSubGroups.Clear();
+
+                    // If the sample belongs to a sub-group (Category differs from component name), expand that sub-group too
+                    var sampleCategory = found.Category ?? comp.Name;
+                    if (!string.IsNullOrEmpty(sampleCategory) && sampleCategory != comp.Name)
+                    {
+                        var groupKey = comp.Name + "::" + sampleCategory;
+                        expandedSubGroups.Add(groupKey);
+                    }
+                    return;
+                }
+            }
+        }
+    }
+    private SampleListType? childSelected;
+    
+    private object? focusedItem;
+
+    // Track which top-level component nodes are expanded.
+    public List<SampleListType>? expandedItems = new List<SampleListType>();
+    // Track which sub-group headers are expanded. Keys are "ComponentName::GroupCategory".
+    public HashSet<string> expandedSubGroups = new HashSet<string>();
+    private Sample? selectedSample;
+    private string classNames = SampleUtils.TreeClass + SampleUtils.Space + SampleUtils.TreeHide;
+
+    /// <summary>
+    /// Child content of tree component.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    /// <summary>
+    /// Specifies the datasource of the tree component.
+    /// </summary>
+    [Parameter]
+    public IEnumerable<SampleListType>? DataSource { get; set; }
+
+    /// <summary>
+    /// Specifies the template of the tree component.
+    /// </summary>
+    [Parameter]
+    public RenderFragment<SampleListType>? TreeTemplate { get; set; }
+
+    /// <summary>
+    /// Triggers the event callback on tree node selection.
+    /// </summary>
+    [Parameter]
+    public EventCallback<SampleListType> OnNodeSelect { get; set; }
+
+    /// <summary>
+    /// Triggers the event callback on sample selection (leaf nodes).
+    /// </summary>
+    [Parameter]
+    public EventCallback<Sample> OnSampleSelect { get; set; }
+
+    /// <summary>
+    /// Show or hide the tree component based on the logic.
+    /// </summary>
+    /// <param name="isVisible">Specifies the input to show or hide the component.</param>
+    public void ShowTree(bool isVisible = true)
+    {
+        if (isVisible)
+        {
+            classNames = SampleUtils.RemoveClass(classNames, SampleUtils.TreeHide);
+        }
+        else
+        {
+            classNames = SampleUtils.AddClass(classNames, SampleUtils.TreeHide);
+        }
+        StateHasChanged();
+    }
+
+    private void ExpandComponentFully(SampleListType component)
+    {
+        // Expand the top‑level component
+        if (expandedItems?.Any(e => e.Name == component.Name) != true)
+        {
+            expandedItems ??= new List<SampleListType>();
+            expandedItems.Add(component);
+        }
+
+        // Expand all subgroup categories for that component
+        if (component.Samples != null)
+        {
+            foreach (var grp in component.Samples
+                         .GroupBy(s => s.Category ?? component.Name))
+            {
+                if (grp.Key != component.Name)
+                {
+                    var groupKey = component.Name + "::" + grp.Key;
+                    expandedSubGroups.Add(groupKey);
+                }
+            }
+        }
+    }
+
+    /// <summary>
+    /// Select the tree node based on given node data.
+    /// </summary>
+    /// <param name="nodeItem">Specifies the node item need to be selected.</param>
+    public void SelectNode(SampleListType nodeItem)
+    {
+        childSelected = nodeItem;
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Select a sample (leaf) and ensure its parent component — and any sub-group containing it — are expanded.
+    /// </summary>
+    public async Task SelectSample(Sample sample){
+        if (sample == null) return;
+        // Wait until DataSource is available
+        if (DataSource == null || !DataSource.Any())
+        {
+            selectedSample = sample;
+            return;
+        }
+        selectedSample = sample;
+        
+        // Find the component containing this sample and expand it
+        foreach (var parent in DataSource)
+        {
+            foreach (var comp in parent.SourceData ?? Enumerable.Empty<SampleListType>())
+            {
+                if (comp.Samples == null) continue;
+                var found = comp.Samples.FirstOrDefault(s => string.Equals(s.Url?.Trim('/'), sample.Url?.Trim('/'), StringComparison.OrdinalIgnoreCase));
+                if (found != null)
+                {
+                    // Expand the parent component node
+                    if (expandedItems == null) expandedItems = new List<SampleListType>();
+                    expandedItems.Clear();
+                    expandedItems.Add(comp);
+                    childSelected = comp;
+                    selectedSample = found;
+
+                    // Clear all previously expanded sub-groups
+                    expandedSubGroups.Clear();
+
+                    // If the sample belongs to a sub-group (Category differs from component name), expand that sub-group too
+                    var sampleCategory = found.Category ?? comp.Name;
+                    if (!string.IsNullOrEmpty(sampleCategory) && sampleCategory != comp.Name)
+                    {
+                        var groupKey = comp.Name + "::" + sampleCategory;
+                        expandedSubGroups.Add(groupKey);
+                    }
+
+                    StateHasChanged();
+
+                    // Scroll to the selected item after a small delay to allow render
+                    await Task.Delay(100);
+                    await JsRuntime.InvokeVoidAsync("ScrollToSelected");
+                    return;
+                }
+            }
+        }
+        // If not found, still mark the sample as selected
+        StateHasChanged();
+    }
+
+    /// <summary>
+    /// Toggle a sub-group header expand/collapse state.
+    /// </summary>
+    private void ToggleSubGroup(string groupKey)
+    {
+        if (expandedSubGroups.Contains(groupKey))
+        {
+            expandedSubGroups.Remove(groupKey);
+        }
+        else
+        {
+            expandedSubGroups.Add(groupKey);
+        }
+        StateHasChanged();
+    }
+    
+    private int GetTabIndex(object item)
+    {
+        return ReferenceEquals(item, focusedItem) || focusedItem == null ? 0 : -1;
+    }
+
+    private async Task ApplyFocus(object item)
+    {
+        string selector = item switch
+        {
+            SampleListType c => $"[data-tree-id='{c.Name}']",
+            Sample s => $"[data-sample-url='{s.Url}']",
+            _ => string.Empty
+        };
+
+        if (!string.IsNullOrEmpty(selector))
+        {
+            await JsRuntime.InvokeVoidAsync(
+                "treeFocus.focusBySelector",
+                selector
+            );
+        }
+    }
+     
+    private List<object> GetVisibleItems()
+    {
+        var result = new List<object>();
+
+        if (DataSource == null) return result;
+
+        foreach (var parent in DataSource)
+        {
+
+            foreach (var component in parent.SourceData ?? Enumerable.Empty<SampleListType>())
+            {
+                result.Add(component);
+
+                if (expandedItems?.Any(e => e.Name == component.Name) != true)
+                    continue;
+
+                var samples = component.Samples;
+                if (samples == null) continue;
+
+                foreach (var sample in samples)
+                {
+                    result.Add(sample); // ✅ add once, flat order
+                }
+            }
+        }
+
+        return result;
+    }
+    private async Task MoveFocusLogical(bool down, int step = 1)
+    {
+        var items = GetVisibleItems();
+        if (items.Count == 0)
+            return;
+
+        // 🔑 Use DOM active element, NOT focusedItem
+        var current = await GetCurrentlyFocusedItem(items);
+
+        int currentIndex = current != null
+            ? items.IndexOf(current)
+            : -1;
+
+        // ✅ Start from first or last when nothing focused
+        int nextIndex;
+        if (currentIndex == -1)
+        {
+            nextIndex = down ? 0 : items.Count - 1;
+        }
+        else
+        {
+            nextIndex = down
+                ? Math.Min(items.Count - 1, currentIndex + step)
+                : Math.Max(0, currentIndex - step);
+        }
+
+        var nextItem = items[nextIndex];
+
+        focusedItem = nextItem;
+        StateHasChanged();
+
+        await Task.Yield();
+        await ApplyFocus(nextItem);
+    }
+
+    private async Task<object?> GetCurrentlyFocusedItem(List<object> items)
+    {
+        var focusedSelector = await JsRuntime.InvokeAsync<string>(
+            "treeFocus.getFocusedSelector"
+        );
+
+        if (string.IsNullOrEmpty(focusedSelector))
+            return null;
+
+        return items.FirstOrDefault(i => MatchesSelector(i, focusedSelector));
+    }
+
+    private bool MatchesSelector(object item, string selector)
+    {
+        return item switch
+        {
+            SampleListType c => selector == $"[data-tree-id='{c.Name}']",
+            Sample s => selector == $"[data-sample-url='{s.Url}']",
+            _ => false
+        };
+    }
+
+
+
+    private async Task OnComponentKeyDown(SampleListType component, KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            // 🔹 KEYBOARD NAVIGATION KEYS
+            case "ArrowDown":
+            case "ArrowUp":
+            case "PageDown":
+            case "PageUp":
+
+                // ✅ Ensure all inner levels are expanded
+                ExpandComponentFully(component);
+                StateHasChanged();
+
+                // Move focus after expansion
+                if (e.Key == "ArrowDown")
+                    await MoveFocusLogical(true);
+                else if (e.Key == "ArrowUp")
+                    await MoveFocusLogical(false);
+                else if (e.Key == "PageDown")
+                    await MoveFocusLogical(true, 10);
+                else if (e.Key == "PageUp")
+                    await MoveFocusLogical(false, 10);
+                break;
+
+            // 🔹 ACTIVATION KEYS (NO CHANGE)
+            case "Enter":
+                await OnChildClick(component); // existing behavior
+                break;
+        }
+    }
+
+    private async Task OnSampleKeyDown(Sample sample, KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "ArrowDown":
+                await MoveFocusLogical(true);
+                break;
+
+            case "ArrowUp":
+                await MoveFocusLogical(false);
+                break;
+
+            case "PageDown":
+                await MoveFocusLogical(true, 10);
+                break;
+
+            case "PageUp":
+                await MoveFocusLogical(false, 10);
+                break;
+
+            case "Enter":
+                await HandleSampleEnter(sample);
+                break;
+        }
+    }
+
+
+    private async Task HandleSampleEnter(Sample sample)
+    {
+        // Always update selectedSample and expand parent/group
+        await SelectSample(sample);
+        if (OnSampleSelect.HasDelegate)
+        {
+            await OnSampleSelect.InvokeAsync(sample);
+        }
+        StateHasChanged();
+    }
+
+
+
+    // Child node selection handler.
+    private async Task OnChildClick(SampleListType child)
+    {
+        // If this child has nested samples, toggle collapse/expand instead of navigating
+        if (child?.Samples != null && child.Samples.Count > 0)
+        {
+            if (expandedItems == null) expandedItems = new List<SampleListType>();
+            var idx = expandedItems.FindIndex(item => item.Name == child.Name);
+            if (idx == -1)
+            {
+                // Collapse all other expanded components and expand only this one
+                expandedItems.Clear();
+                expandedItems.Add(child);
+                // mark this child as selected so parent/category active state updates
+                childSelected = child;
+            }
+            else
+            {
+                // If clicking the already expanded component, collapse it
+                expandedItems.RemoveAt(idx);
+                if (childSelected != null && childSelected.Name == child.Name)
+                {
+                    childSelected = null;
+                }
+            }
+            StateHasChanged();
+            return;
+        }
+        childSelected = child;
+        if (OnNodeSelect.HasDelegate)
+        {
+            await OnNodeSelect.InvokeAsync(child);
+        }
+    }
+
+    private async Task OnSampleClick(Sample sample)
+    {
+        await SelectSample(sample);
+        if (OnSampleSelect.HasDelegate)
+        {
+            await OnSampleSelect.InvokeAsync(sample);
+        }
+        StateHasChanged();
+    }
+
+    public void Dispose()
+    {
+        childSelected = null;
+        expandedItems = null;
+        expandedSubGroups.Clear();
+        selectedSample = null;
+        DataSource = null;
+    }
+}

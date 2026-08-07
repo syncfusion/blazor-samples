@@ -1,0 +1,120 @@
+@page "/maps/tooltip"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample depicts Cricket World Cup finals participants with their appearance counts, displaying comprehensive information through custom tooltips on shape hover or tap.</p>
+    
+    <p>Tooltip implementation includes:</p>
+    
+    <ul>
+        <li>Configuration using the <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayerTooltipSettings.html" aria-label="Class reference of MapsLayerTooltipSettings">MapsLayerTooltipSettings</a></li>
+        <li>Display of country name, finalist count, and winning count information</li>
+        <li>Interactive legend positioned on the map left side</li>
+        <li>Tooltip visibility on mouse hover or touch interaction</li>
+    </ul>
+    
+    <p>For comprehensive information about tooltip implementation, refer to the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/maps/user-interactions/#tooltip" aria-label="Blazor Maps Tooltip documentation">tooltip documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section" style="margin-left:6%">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsEvents TooltipRendering="OnTooltipRendering" />
+        <MapsTitleSettings Text="Finalist in Cricket World Cup">
+            <MapsTitleTextStyle Size="16px" FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsZoomSettings Enable="false" />
+        <MapsLegendSettings Visible="true" Mode="LegendMode.Interactive" Position="@Position" Alignment="@Alignment" X="25" Y="20" Orientation="@Orientation" Height="@Height" Width="@Width">
+            <MapsLegendTextStyle FontFamily="Segoe UI"></MapsLegendTextStyle>
+        </MapsLegendSettings>
+        <MapsLayers>
+            <MapsLayer ShapeData='new {dataOptions = SampleService?.WebAssetsPath + "data/maps/world-map.json"}' DataSource="@PerformanceReport" TValue="Country"
+                       ShapePropertyPath="@ShapePropertyPath" ShapeDataPath="Name">
+                <MapsLayerTooltipSettings Visible="true" ValuePath="Name" Format="<b>${City}</b><br>Finalist: <b>${Winner}</b><br>Win: <b>${Runner}">
+                    <MapsLayerTooltipTextStyle FontFamily="Segoe UI"></MapsLayerTooltipTextStyle>
+                </MapsLayerTooltipSettings>
+                <MapsShapeSettings Fill="#E5E5E5" ColorValuePath="Winner">
+                    <MapsShapeColorMappings>
+                        <MapsShapeColorMapping Value="1" Color="@ShapeColorOne" />
+                        <MapsShapeColorMapping Value="2" Color="@ShapeColorTwo" />
+                        <MapsShapeColorMapping Value="3" Color="@ShapeColorThree" />
+                        <MapsShapeColorMapping Value="7" Color="@ShapeColorFour" />
+                    </MapsShapeColorMappings>
+                </MapsShapeSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        Source:
+        <a href="https://en.wikipedia.org/wiki/List_of_Cricket_World_Cup_finals" target="_blank" rel="noopener">en.wikipedia.org</a>
+    </div>
+</div>
+
+@code {
+    public Theme Theme { get; set; }
+    public LegendPosition Position = LegendPosition.Float;
+    public Alignment Alignment = Alignment.Far;
+    public LegendArrangement Orientation = LegendArrangement.Vertical;
+    public string Height = "80%";
+    public string Width = "10";
+    public string[] ShapePropertyPath = { "name" };
+    public string[] ShapeColorOne = { "#b3daff" };
+    public string[] ShapeColorTwo = { "#80c1ff" };
+    public string[] ShapeColorThree = { "#1a90ff" };
+    public string[] ShapeColorFour = { "#005cb3" };
+
+    public List<Country> PerformanceReport = new List<Country>
+    {
+        new Country { Name = "India", Winner = "3", Runner = "2", City = "India" },
+        new Country { Name = "Dominican Rep.", Winner = "3", Runner = "2", City = "West Indies" },
+        new Country { Name = "Cuba", Winner = "3", Runner = "2", City = "West Indies" },
+        new Country { Name = "Jamaica", Winner = "3", Runner = "2", City = "West Indies" },
+        new Country { Name = "Haiti", Winner = "3", Runner = "2", City = "West Indies" },
+        new Country { Name = "Guyana", Winner = "3", Runner = "2", City = "West Indies" },
+        new Country { Name = "Suriname", Winner = "3", Runner = "2", City = "West Indies" },
+        new Country { Name = "Trinidad and Tobago", Winner = "3", Runner = "2", City = "West Indies" },
+        new Country { Name = "Sri Lanka", Winner = "3", Runner = "1", City = "Sri Lanka" },
+        new Country { Name = "United Kingdom", Winner = "3", Runner = "0", City = "England" },
+        new Country { Name = "Pakistan", Winner = "2", Runner = "1", City = "Pakistan" },
+        new Country { Name = "New Zealand", Winner = "1", Runner = "0", City = "New Zealand" },
+        new Country { Name = "Australia", Winner = "7", Runner = "5", City = "Australia" }
+    };
+    public class Country
+    {
+        public string? Name { get; set; }
+        public string? Winner { get; set; }
+        public string? Runner { get; set; }
+        public string? City { get; set; }
+    }
+    public void OnTooltipRendering(Syncfusion.Blazor.Maps.TooltipRenderEventArgs args)
+    {
+        if (args.Data == null)
+        {
+            args.Cancel = true;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Position = LegendPosition.Bottom;
+            Alignment = Alignment.Center;
+            Orientation = LegendArrangement.Horizontal;
+            Height = "10";
+            Width = "80%";
+        }
+        @*End:Hidden*@
+    }
+}

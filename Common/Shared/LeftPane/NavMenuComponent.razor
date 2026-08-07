@@ -1,0 +1,456 @@
+@namespace BlazorDemos.Shared
+@implements IDisposable;
+@using Syncfusion.Blazor.Popups
+
+@inject NavigationManager UriHelper;
+@inject SampleService SampleService;
+@inject DeviceMode DeviceMode;
+@inject IJSRuntime JsRuntime;
+
+<TreeComponent @ref="TreeRef" DataSource="@TreeDataSource" OnNodeSelect="@OnComponentSelection" OnSampleSelect="@OnTreeSampleSelection">
+    <TreeTemplate>
+        <div>
+            <span class="tree-text">@context.Name</span>
+            @if (context.Type != SampleType.None  && context.Type == SampleType.Updated){
+                <span class="sf-green-dot-badge"></span>
+            }
+            @if (context.Type != SampleType.None && context.Type != SampleType.Updated)
+            {
+                <span class="e-badge sb-badge e-sample-status @(context.Type.ToString().ToLower()) tree tree-badge"></span>
+            }
+        </div>
+    </TreeTemplate>
+</TreeComponent>
+@code {
+    private bool isCurrentComponent { get; set; }
+    public string samplesClass = "sb-component-samples";
+    public TreeComponent? TreeRef { get; set; }
+    public bool isNavigate { get; set; }
+    protected List<SampleListType>? TreeDataSource { get; set; } = new List<SampleListType>();
+
+    [CascadingParameter]
+    protected MainLayout? Layout { get; set; }
+
+    // List to tree navigation handler.
+    public void OnTreeNavigation()
+    {   
+        Layout?.CloseThemePrefPopups();
+        // Hides list component and show tree component.
+        samplesClass = SampleUtils.AddClass(samplesClass, SampleUtils.ComponentsHide);
+        JsRuntime.InvokeVoidAsync("ScrollToSelected");
+        TreeRef?.ShowTree();
+        JsRuntime.InvokeVoidAsync("focusChange");
+    }
+    
+    private void OnTreeNavigationKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter")
+        {
+            OnTreeNavigation();
+        }
+    }
+
+// List sample selection handler.
+    private async void OnSampleSelection(Sample item)
+    {
+        this.isCurrentComponent = true;
+        Layout?.RightPaneRef?.TabSelectedItemChange();
+        Layout?.CollapseSideBar();
+        var currentUrl = item?.Url?.ToLower();
+        if (item?.Name != null)
+        {
+            if (item != null && item.Directory != null && item.Directory.StartsWith("Buttons"))
+            {
+                this.SelectTreeNode(item.Name); // select corresponding tree node
+            }
+            if (item != null && item.Category != null && item.Directory != null && item.Directory.Contains("ColorPicker"))
+            {
+                if (item.Name.Equals("Inline Mode"))
+                {
+                    var controlIfo = SampleBrowser.SampleList.FirstOrDefault<SampleList>(control => control.DemoPath != null && control.DemoPath.ToLower().Equals(currentUrl));
+                    if (controlIfo != null)
+                    {
+                        this.SelectTreeNode(controlIfo.Name ?? string.Empty);
+                    }
+                }
+                else
+                {
+                    this.SelectTreeNode(item.Category);
+                }
+            }
+        }
+        if (currentUrl == null)
+        {
+            return;
+        }
+        RefreshSampleNavigator(currentUrl);
+        var specialcaseSamples = new List<string>
+        {
+            "buttons/default-functionalities",
+            "buttons/checkbox",
+            "buttons/radio-button",
+            "buttons/dropdown-menu",
+            "buttons/split-button",
+            "buttons/toggle-switch-button",
+            "buttons/progress-button",
+            "buttons/button-group",
+            "buttons/keyboard-navigation",
+            "ai-datagrid/semantic-filtering",
+            "ai-datagrid/anomaly-detection",
+            "ai-charts/stock-forecasting",
+            "ai-charts/data-preprocessing",
+            "ai-assistview/ai-models",
+            "ai-charts/smart-chart",
+            "ai-scheduler/smartscheduler",
+            "ai-richtexteditor/ai-assistant",
+            "ai-diagram/text-to-flowchart",
+            "ai-diagram/text-to-mindmap",
+            "ai-diagram/text-to-sequence-diagram",
+            "ai-ganttchart/progress-predictor",
+            "ai-ganttchart/resource-manager",
+            "ai-filemanager/tagsearch",
+            "ai-filemanager/smart-filemanager",
+            "ai-pivottable/smart-pivot",
+            "ai-treegrid/adaptive-datastructuring",
+            "ai-maps/weather-prediction",
+            "ai-querybuilder/natural-languagequery",
+            "ai-kanban/aitask-recommendation",
+            "ai-kanban/sentiment-analysis",
+            "ai-combobox/embeddings"
+        };
+
+        bool isSpecialCase = specialcaseSamples.Any(sample => currentUrl.Contains(sample));
+
+        if (isSpecialCase)
+        {
+            if (SampleService.SampleName != item?.Url!)
+            {
+                var PreviousSampleName = SampleService.SampleName ?? "";
+                SampleService.SampleName = item?.Url!;
+                if (!PreviousSampleName.Contains("ai-") || !(PreviousSampleName.Split('/')[0] == item?.Url!.Split('/')[0]))
+                {
+                    if ((item?.Url != "buttons/default-functionalities" && item?.Url != "buttons/keyboard-navigation") || (PreviousSampleName != "buttons/default-functionalities" && PreviousSampleName != "buttons/keyboard-navigation"))
+                    {
+                        SampleService.IsBrowserNav = true;
+                        SampleService.IsResourcesLoadedOnInternalNav = true;
+                        Layout?.RightPaneRef?.Refresh();
+                        SampleService?.DynamicResourceLoader?.Refresh();
+                        SampleService?.Spinner?.Show();
+                        await Task.Delay(10);
+                    }
+                } 
+                this.NavigatePage(currentUrl);
+            }
+        }
+        else
+        {
+            // For regular samples, check if component changed and refresh DynamicResourceLoader
+            if (SampleService.SampleName != item?.Url!)
+            {
+                var PreviousSampleName = SampleService.SampleName ?? "";
+                var previousComponent = PreviousSampleName?.Split('/')[0] ?? "";
+                var currentComponent = item?.Url?.Split('/')[0] ?? "";
+                
+                // Update the sample name before navigating
+                SampleService.SampleName = item?.Url!;
+                
+                // If navigating to a different component, refresh resources
+                if (previousComponent != currentComponent)
+                {
+                    SampleService.IsBrowserNav = true;
+                    SampleService.IsResourcesLoadedOnInternalNav = true;
+                    Layout?.RightPaneRef?.Refresh();
+                    SampleService?.DynamicResourceLoader?.Refresh();
+                    SampleService?.Spinner?.Show();
+                    await Task.Delay(10);
+                }
+            }
+            this.NavigatePage(currentUrl);
+        }
+    }
+
+    // Highlights the selected sample item in the left sidebar (tree-based selection).
+    public async Task HighlightSelectedSampleItem(string samplePath)
+    {
+        Sample? sampleItem = null;
+        SampleList? parentInfo = null;
+        foreach (var samplesInfo in SampleBrowser.SampleList)
+        {
+            var currentUrl = samplesInfo.Samples.Where<Sample>(sample => sample?.Url?.ToLower() == samplePath.ToLower()).ToList();
+            if (currentUrl.Count > 0)
+            {
+                sampleItem = currentUrl.FirstOrDefault();
+                parentInfo = samplesInfo;
+                break;
+            }
+        }
+        if (sampleItem != null && TreeRef != null)
+        {
+            await TreeRef.SelectSample(sampleItem);
+        }
+    }
+
+    // Tree component selection handler.
+    private async void OnComponentSelection(SampleListType nodeItem)
+    {
+        this.isCurrentComponent = false;
+
+        // Hide tree panel if previously opened in list mode (no list now).
+        TreeRef?.ShowTree(false);
+        samplesClass = SampleUtils.RemoveClass(samplesClass, SampleUtils.ComponentsHide);
+        Sample? sampleItem = null;
+        if (nodeItem != null && nodeItem.Samples != null)
+        {
+            if (nodeItem.Category == "Buttons & Actions" || nodeItem.Category == "Inputs")
+            {
+                sampleItem = nodeItem.Samples?.Where(sample => sample.Name == nodeItem.Name).FirstOrDefault();
+                sampleItem = sampleItem ?? nodeItem.Samples?.FirstOrDefault();
+            }
+            else
+            {
+                sampleItem = nodeItem.Samples?.FirstOrDefault();
+            }
+        }
+        if (sampleItem != null)
+        {
+            // Select the chosen sample in the tree so it becomes visible.
+            if (TreeRef != null)
+            {
+                await TreeRef.SelectSample(sampleItem);
+            }
+        }
+
+        Layout?.RightPaneRef?.TabSelectedItemChange();
+        Layout?.CollapseSideBar();
+        var Samples = nodeItem?.Samples;
+        if (Samples?.Count > 0 && nodeItem?.DemoPath != null && Samples[0].IsHideInMobile && nodeItem.DemoPath.Equals(Samples[0].Url) && DeviceMode.Isdevice)
+        {
+            nodeItem.DemoPath = Samples[1].Url;
+        }
+        RefreshSampleNavigator(nodeItem?.DemoPath ?? "");
+        if (SampleService.SampleName != nodeItem?.DemoPath)
+        {
+            SampleService.IsBrowserNav = true;
+            SampleService.IsResourcesLoadedOnInternalNav = true;
+            Layout?.RightPaneRef?.Refresh();
+            SampleService.SampleName = nodeItem?.DemoPath!;
+            SampleService?.DynamicResourceLoader?.Refresh();
+            SampleService?.Spinner?.Show();
+            await Task.Delay(10);
+            this.NavigatePage(nodeItem?.DemoPath ?? "");
+        }
+    }
+
+    // Tree component sample selection handler.
+    private async void OnTreeSampleSelection(Sample sample)
+    {
+        OnSampleSelection(sample);
+    }
+
+    // Handles query param and navigate to the Url.
+    private void NavigatePage(string url, bool forceReload = false)
+    {
+        if (UriHelper.Uri.IndexOf("?") >= 0 && url.IndexOf("?") < 0)
+        {
+            string[] themeurl = UriHelper.Uri.Split("?");
+            url += themeurl.Length > 0 ? "?" + themeurl[themeurl.Length - 1] : string.Empty;
+        }
+        else if (url.IndexOf("?") < 0)
+        {
+            url += "?theme=fluent2";
+        }
+        UriHelper.NavigateTo(url, forceReload);
+        isNavigate = true;
+    }
+
+    // Refresh sample navigator button states for device and desktop.
+    private void RefreshSampleNavigator(string url)
+    {
+        this.Layout?.SampleNavigatorRef?.RefreshState(url, true);
+        this.Layout?.RightPaneRef?.SampleNavigatorRef?.RefreshState(url, true);
+    }
+
+    // Select tree node for the current sample.
+    private void SelectTreeNode(string componentName, string demoPath = "")
+    {
+        if (TreeRef == null || TreeDataSource == null) { return; }
+        foreach (var parentData in TreeDataSource)
+        {
+            var treeSelectedNode = parentData?.SourceData?.Where(data => data.Name == componentName && data.DemoPath == demoPath).ToList();
+            if (treeSelectedNode?.Count > 0)
+            {
+                if (treeSelectedNode.Count > 1 && !string.IsNullOrEmpty(demoPath))
+                {
+                    this.TreeRef.SelectNode(treeSelectedNode.Where(data => data.DemoPath == demoPath).First());
+                }
+                else
+                {
+                    this.TreeRef.SelectNode(treeSelectedNode.First());
+                }
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Set selection to the list component based on given item.
+    /// </summary>
+    /// <param name="item">Item that need to be selected.</param>
+    public void SelectItem(Sample item)
+    {
+        // Ensure the tree expands and selects the sample
+        TreeRef?.SelectSample(item);
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        // Initialize tree data synchronously without JS interop
+        InitializeTreeDataSourceSync();
+    }
+
+    private void InitializeTreeDataSourceSync()
+    {
+        SampleBrowser.SampleUrls.Clear();
+        
+        // Define special case components that should only render under the Button category
+        List<string> specialCaseComponents = new List<string>
+        {
+            "split-button",
+            "button-group",
+            "dropdown-menu",
+            "progress-button",
+            "toggle-switch-button",
+            "checkbox",
+            "radio-button"
+        };
+        
+        // Gets the tree datasource - use SampleService.IsDevice instead of user agent check
+        this.TreeDataSource = SampleBrowser.SampleList.GroupBy(groupBy => groupBy.Category).Select(samples =>
+        {
+            List<SampleList> sampleItems = samples.ToList();
+            List<SampleListType> childItems = new List<SampleListType>();
+            List<List<Sample>> listData = new List<List<Sample>>();
+
+            sampleItems.ForEach(item =>
+            {
+                // Filter out special case components from categories other than "Button"
+                // These components should only appear under the main "Button" category
+                bool isSpecialCase = specialCaseComponents.Any(sc => 
+                    item.DemoPath != null && item.DemoPath.ToLower().Contains("buttons/" + sc));
+                bool isButtonCategory = item.Name == "Button";
+                
+                // Skip this item if it's a special case and not in the Button category
+                if (isSpecialCase && !isButtonCategory)
+                {
+                    return; // Skip this item
+                }
+                
+                if (SampleService.IsDevice)
+                {
+                    listData = item.Samples.Where(sample => !sample.IsHideInMobile).GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                }
+                else
+                {
+                    listData = item.Samples.GroupBy(groupBy => groupBy.Category).Select(items => items.ToList()).ToList();
+                }
+                for (var i = 0; i < listData.Count; i++)
+                {
+                    for (var j = 0; j < listData[i].Count; j++)
+                    {
+                        if (!SampleBrowser.SampleUrls.Contains(listData[i][j]?.Url?.ToLower() ?? ""))
+                        {
+                            SampleBrowser.SampleUrls.Add(listData[i][j]?.Url?.ToLower() ?? "");
+                        }
+                    }
+                }
+                childItems.Add(new SampleListType() { Name = item.Name, Type = item.Type, Samples = item.Samples, Category = item.Category, DemoPath = item.DemoPath, InfoTooltip = item.InfoTooltip, IsHide = item.IsHide });
+                // Update first sample information in the sample service.
+                if (SampleService.SampleInfo == null)
+                {
+                    SampleService.Update(UriHelper);
+                }
+            });
+            return new SampleListType() { SourceData = childItems, Name = sampleItems[0].Category };
+        }).ToList<SampleListType>();
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        if (firstRender)
+        {
+            this.SelectTreeNode(SampleService.ComponentName ?? "", SampleService.CurrentSamplePath ?? "");
+        }
+        else
+        {
+            this.isCurrentComponent = false;
+        }
+        SampleService.MetaData?.Refresh();
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            // Ensure the tree is visible
+            TreeRef?.ShowTree(true);
+            
+            // Small delay to ensure the tree has rendered with the DataSource parameter
+            await Task.Delay(10);
+
+            // Now find and select the current sample
+            Sample? found = null;
+            if (this.TreeDataSource != null)
+            {
+                foreach (var parent in this.TreeDataSource)
+                {
+                    foreach (var comp in parent.SourceData ?? new List<SampleListType>())
+                    {
+                        if (comp.Samples != null)
+                        {
+                            foreach (var s in comp.Samples)
+                            {
+                                if (s.Url == SampleService.CurrentSamplePath)
+                                {
+                                    found = s;
+                                    break;
+                                }
+                            }
+                        }
+                        if (found != null) break;
+                    }
+                    if (found != null) break;
+                }
+            }
+            if (found != null && TreeRef != null)
+            {
+                await TreeRef.SelectSample(found);
+                StateHasChanged();
+            }
+        }
+    }
+
+    public void Dispose()
+    {
+        TreeDataSource = null;
+    }
+
+    public string GetDeviceMode(string userAgent)
+    {
+        if (SampleService.IsDevice && userAgent.Contains("Mobile") && !userAgent.Contains("iPad"))
+        {
+            return "Mobile";
+        }
+        else if ((SampleService.IsDevice && !userAgent.Contains("Mobile")) || userAgent.Contains("Tablet") || userAgent.Contains("iPad") || userAgent.Contains("Macintosh"))
+        {
+            return "Tablet";
+        }
+        else
+        {
+            return "Desktop";
+        }
+    }
+}
