@@ -1,0 +1,67 @@
+@page "/fab/overview"
+@using Syncfusion.Blazor.Popups
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Grids
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@using BlazorDemos.Pages.Buttons
+@*End:Hidden*@
+
+<ActionDescription>
+  <p>This sample demonstrates the Floating Action Button (FAB) used to add a new record to a DataGrid. The example highlights practical integration between a persistent, high‑priority action control and a data presentation component, illustrating a common pattern for exposing the primary "add" operation in data‑centric UIs.</p>
+
+  <p>The FAB is rendered above application content so it remains visually prominent and accessible regardless of scroll position. In this example the button is positioned at the bottom‑left of the DataGrid target, providing a fixed, contextual control that users can rely on to initiate record creation. The placement ties the action to the grid while avoiding content overlap with essential grid controls.</p>
+
+  <p>Positioning the FAB near the DataGrid emphasizes the relationship between the control and the target component and supports discoverability for users performing frequent add operations. Because the FAB floats above the layout, it remains available as users navigate through long lists or paged data, improving task flow and reducing the need to search toolbar menus or contextual toolbars for the add command.</p>
+
+  <p>When integrating a FAB with a DataGrid, prefer a clear icon and concise accessible label so the button’s purpose is unambiguous. Ensure the control’s visual contrast, hit area, and keyboard focus are consistent with the surrounding UI so the action is usable across devices and assistive technologies. Test responsive placements to confirm the FAB does not occlude critical grid elements on small viewports.</p>
+
+  <p>This sample therefore demonstrates both the visual behavior and practical placement pattern for a Floating Action Button performing the primary add‑record action for a DataGrid, providing a straightforward, reusable pattern for data entry workflows.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <div id="target" class="fab-grid-container custom-index">
+        <SfTooltip Target="#fab"></SfTooltip>
+        <SfGrid id="Grid" @ref="OrderGrid" DataSource="@Orders">
+            <GridEditSettings AllowAdding="true" AllowEditing="true" Mode="EditMode.Dialog"></GridEditSettings>
+            <GridColumns>
+                <GridColumn Field=@nameof(OrderDetails.OrderID) HeaderText="Order ID"></GridColumn>
+                <GridColumn Field=@nameof(OrderDetails.CustomerID) HeaderText="Customer ID"></GridColumn>
+                <GridColumn Field=@nameof(OrderDetails.Freight) HeaderText="Freight" Format="C2"></GridColumn>
+                <GridColumn Field=@nameof(OrderDetails.ShipCountry) HeaderText="Ship Country"></GridColumn>
+            </GridColumns>
+        </SfGrid>
+        <SfFab id="fab" Target="#Grid" Position="FabPosition.BottomRight" IconCss="e-icons e-plus" aria-label="Add new order" Title="Add New Order" OnClick="OnAddOrder"></SfFab>
+    </div>
+</div>
+
+@code {
+    public List<OrderDetails>? Orders { get; set; }
+    private SfGrid<OrderDetails>? OrderGrid { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Orders = OrderDetails.GetAllRecords();
+    }
+
+    public async Task OnAddOrder()
+    {
+        if (OrderGrid != null)
+        {
+            await OrderGrid.AddRecordAsync();         
+        }
+    }
+
+}
+
+<style>
+    .fab-grid-container {
+        position: relative;
+    }
+
+    .custom-index {
+        z-index: 500 !important;
+    }
+</style>

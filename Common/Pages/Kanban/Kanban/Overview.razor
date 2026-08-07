@@ -1,0 +1,111 @@
+@page "/kanban/overview"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This example demonstrates an overview of Kanban functionalities and enables key features such as templating, toggle columns, drag-and-drop, swimlane, and tooltip.
+  </p>
+  <p>
+    The sample highlights the following features:
+  </p>
+  <ul>
+    <li>Card template</li>
+    <li>Header template</li>
+    <li>Swimlane</li>
+    <li>Tooltip</li>
+    <li>Toggle columns</li>
+  </ul>
+  <p><strong>See also</strong></p>
+  <ul>
+    <li><a href="https://blazor.syncfusion.com/documentation/kanban/getting-started" target="_blank" rel="noopener" aria-label="Blazor Kanban Getting Started documentation">Getting Started with Blazor Kanban</a></li>
+  </ul>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban CssClass="kanban-overview" KeyField="Status" DataSource="@CardData" EnableTooltip="true">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="@item.AllowToggle">
+                    <Template>
+                       @{
+                            var column = context as KanbanColumn;
+                            string iconClass;
+                            if (column.KeyField != null && column.KeyField.Count > 0)
+                            {
+                                iconClass = column.KeyField[0];
+                            }
+                            else
+                            {
+                                iconClass = string.Empty;
+                            }
+                        }
+                        <div class="header-template-wrap">
+                            <div class="header-icon e-icons @iconClass"></div>
+                            <div class="header-text">@column?.HeaderText</div>
+                        </div>
+                    </Template>
+                </KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Title" SelectionType="@SelectionType.Multiple">
+            <Template>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class="card-template @card.Priority">
+                        <div class="e-card-header">
+                            <div class="e-card-header-caption">
+                                <div class="e-card-header-title e-tooltip-text">@card.Title</div>
+                            </div>
+                        </div>
+                        <div class="e-card-content">
+                            <div class="e-text e-tooltip-text">@card.Summary</div>
+                        </div>
+                        <div class="e-card-footer">
+                            @{
+                                if (card != null && card.CardTags != null)
+                                {
+                                    @foreach (string tag in card.CardTags)
+                                    {
+                                        <div class="e-card-tag e-tooltip-text">@tag</div>
+                                    }
+                                }
+                            }
+                            <div class="e-card-avatar">
+                                @{
+                                    if (card != null && card.Assignee != null)
+                                    {
+                                        string[] AssigneeName = card.Assignee.Split();
+                                        foreach (string assignee in AssigneeName)
+                                        {
+                                            @assignee.Substring(0, 1).ToUpper()
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanCardSettings>
+        <KanbanSwimlaneSettings KeyField="Assignee"></KanbanSwimlaneSettings>
+    </SfKanban>
+</div>
+@code{
+
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetCardTasks();
+
+    private List<ColumnModel> ColumnData = new List<ColumnModel>() 
+    {
+        new ColumnModel(){ HeaderText= "To Do", KeyField= new List<string>() { "Open" }, AllowToggle= true },
+        new ColumnModel(){ HeaderText= "In Progress", KeyField= new List<string>() { "In Progress" }, AllowToggle= true },
+        new ColumnModel(){ HeaderText= "In Review", KeyField= new List<string>() { "Review" }, AllowToggle= true },
+        new ColumnModel(){ HeaderText= "Done", KeyField= new List<string>() { "Close" }, AllowToggle= true }
+    };
+}

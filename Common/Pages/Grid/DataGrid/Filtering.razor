@@ -1,0 +1,147 @@
+@page "/datagrid/filtering"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@*Hidden:Lines*@
+@using BlazorDemos
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates the DataGrid filtering functionality using the filter bar input, including standard and advanced filtering capabilities.</p>
+     
+    <p>The Blazor DataGrid allows users to view a subset of records by applying filter criteria, which can be enabled by setting the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_AllowFiltering' aria-label="Navigate to the AllowFiltering property reference for DataGrid component" rel="noopener">AllowFiltering</a> property to <strong>true</strong>. 
+        Once enabled, a filter row appears below the column headers, where users can enter values to filter individual columns and press <strong>Enter</strong> to apply the filter.
+    </p>
+    <p>The filter bar supports two activation modes:</p>
+    <ul>
+        <li><strong>OnEnter</strong> - The filter is activated only when the <strong>Enter</strong> key is pressed, providing explicit control over filtering.</li>
+        <li>
+            <strong>Immediate</strong> - The filter begins automatically after a 1500ms delay from when the user stops typing, enabling real-time filtering without explicit activation. Configure the delay duration using the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridFilterSettings.html' aria-label="Navigate to the class reference for GridFilterSettings" rel="noopener">GridFilterSettings</a> component's <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridFilterSettings.html#Syncfusion_Blazor_Grids_GridFilterSettings_ImmediateModeDelay' aria-label="Navigate to the ImmediateModeDelay property reference for Grid filter settings" rel="noopener">ImmediateModeDelay</a> property.
+        </li>
+    </ul>
+
+    <p>Filtering behavior can be customized using the <code>GridFilterSettings</code> component. 
+        By enabling the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridFilterSettings.html#Syncfusion_Blazor_Grids_GridFilterSettings_ShowFilterBarOperator' aria-label="Navigate to the ShowFilterBarOperator property reference for GridFilterSettings" rel="noopener">ShowFilterBarOperator</a> property, operator dropdowns such as <strong>Equal, Not Equal, Greater Than, Less Than, Contains, Starts With, Ends With, etc...</strong> are displayed alongside each filter input, allowing users to perform precise filtering without manually entering operator expressions.
+    </p>
+    <p>
+        Additionally, the filter bar intelligently renders input controls based on the column data type to ensure type-safe and user-friendly filtering.
+        <ul>
+            <li><strong>String Columns:</strong> Display text input fields for entering filter values.</li>
+            <li><strong>Numeric Columns:</strong> Render numeric input controls that accept only valid numeric values.</li>
+            <li><strong>Date Columns:</strong> Display date picker controls for selecting filter dates.</li>
+            <li><strong>Time Columns:</strong> Display time controls for selecting filter times.</li>
+            <li><strong>DateTime Columns:</strong> Render datetime picker controls for precise date and time selection.</li>
+            <li><strong>Boolean Columns:</strong> Display dropdown controls with True/False options.</li>
+        </ul>
+    </p>
+    
+    <p>In this demo, to enable or disable Filterbar operator feature, check or uncheck the checkbox. For more detailed information about filtering, refer to the <a target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/filtering' aria-label="Navigate to the documentation for filtering in DataGrid component" rel="noopener">filtering documentation</a>.</p>
+
+    <p>Looking for the full Blazor DataGrid component overview, features, pricing, and documentation? Visit our <a rel="noopener" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid' aria-label="Navigate to the Blazor DataGrid FT page">Blazor DataGrid component</a> page.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-switch-control">
+                <div>
+                    <SfCheckBox @bind-Checked="isChecked" LabelPosition="Syncfusion.Blazor.Buttons.LabelPosition.Before" Label="Show FilterBar Operator" @onchange="onChange"></SfCheckBox>
+                </div>
+            </div>
+            <SfGrid @ref="Grid" DataSource="@GridData" AllowFiltering="true" AllowPaging="true">
+                <GridPageSettings PageCount="5"></GridPageSettings>
+                <GridFilterSettings ShowFilterBarOperator="@showFilterBarOperator" Mode="@filterMode"></GridFilterSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(Category.CategoryName) HeaderText="Category Name" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Category.ProductName) HeaderText="Product Name" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Category.QuantityPerUnit) HeaderText="Quantity per Unit" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(Category.UnitsInStock) HeaderText="Units in Stock" Width="150" TextAlign="TextAlign.Right"></GridColumn>
+                    <GridColumn Field=@nameof(Category.Discontinued) HeaderText="Discontinued" Width="150" TextAlign="TextAlign.Center" Type="ColumnType.Boolean">
+                        <FilterTemplate>
+                            @{
+                                var FilterContext = (context as PredicateModel);
+                                bool? fValue = string.IsNullOrEmpty(FilterContext?.Value?.ToString()) ? null : (bool?)FilterContext.Value;
+                            }
+                            <SfCheckBox Checked="@fValue"  EnableTriState="true" ValueChange="OnValueChange" TChecked="bool?"></SfCheckBox>
+                        </FilterTemplate>
+                    </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code{
+
+    public SfGrid<Category>? Grid { get; set; }
+    public List<Category>? GridData { get; set; }
+    private bool showFilterBarOperator { get; set; }
+    private bool isChecked = false;
+    private FilterBarMode filterMode = FilterBarMode.OnEnter;
+
+    private void onChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (args.Value != null)
+        {
+            showFilterBarOperator = (bool)args.Value;
+            filterMode = showFilterBarOperator ? FilterBarMode.Immediate : FilterBarMode.OnEnter;
+        }
+    }
+    protected override void OnInitialized()
+    {
+        
+        GridData = Category.GetAllRecords().ToList();
+    }
+
+    private async Task OnValueChange(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool?> args)
+    {
+        if(Grid != null){
+        if (args.Checked != null)
+            await Grid.FilterByColumnAsync("Discontinued", "equal", args.Checked); //Perform filtering while check/uncheck the checkbox
+        else
+            await Grid.ClearFilteringAsync("Discontinued");
+        }
+    }
+}
+
+@*Hidden:Lines*@
+<style type="text/css" class="cssStyles">
+
+    .e-checkbox-wrapper .e-checkbox + .e-label {
+        font-weight: bold;
+    }
+
+    .fluent2-highcontrast .e-switch-control,
+    .fluent2-dark .e-switch-control,
+    .fluent2 .e-switch-control {
+        padding-bottom: 20px;
+        margin-left: -10px;
+    }
+
+    .highcontrast .e-switch-control,
+    .fluent .e-switch-control,
+    .fluent-dark .e-switch-control,
+    .material3 .e-switch-control,
+    .material3-dark .e-switch-control,
+    .bootstrap5\.3 .e-switch-control,
+    .bootstrap5\.3-dark .e-switch-control,
+    .tailwind3 .e-switch-control,
+    .tailwind3-dark .e-switch-control,
+    .material .e-switch-control,
+    .material-dark .e-switch-control,
+    .bootstrap4 .e-switch-control,
+    .bootstrap5 .e-switch-control,
+    .bootstrap5-dark .e-switch-control,
+    .tailwind .e-switch-control,
+    .tailwind-dark .e-switch-control,
+    .fabric .e-switch-control,
+    .fabric-dark .e-switch-control {
+        padding-bottom: 20px;
+    }
+
+</style>
+@*End:Hidden*@

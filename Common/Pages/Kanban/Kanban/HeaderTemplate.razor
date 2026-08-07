@@ -1,0 +1,58 @@
+@page "/kanban/header-template"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates the header template feature of the Kanban component. Column headers are customized with icons for improved clarity.
+  </p>
+  <p>
+    Customize a column header using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_Template" aria-label="Class reference of Template property in Kanban">Template</a> property on <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html" aria-label="Class reference of KanbanColumn">KanbanColumn</a> to insert rich content or visuals.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@CardData">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="@item.AllowToggle">
+                    <Template>
+                        @{
+                            var column = context as KanbanColumn;
+                            string iconClass;
+                            if (column.KeyField != null && column.KeyField.Count > 0)
+                            {
+                                iconClass = column.KeyField[0];
+                            }
+                            else
+                            {
+                                iconClass = string.Empty;
+                            }
+                        }
+                        <div class="header-template-wrap">
+                            <div class="header-icon e-icons @iconClass"></div>
+                            <div class="header-text">@column.HeaderText</div>
+                        </div>
+                    </Template>
+                </KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+    </SfKanban>
+</div>
+@code{
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetTasks();
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "To Do", KeyField = new List<string>() { "Open" } },
+        new ColumnModel() { HeaderText = "In Progress", KeyField = new List<string>() { "In Progress" } },
+        new ColumnModel() { HeaderText = "In Review", KeyField = new List<string>() { "Review" } },
+        new ColumnModel() { HeaderText = "Done", KeyField = new List<string>() { "Close" } }
+    };
+}

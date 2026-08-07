@@ -1,0 +1,142 @@
+@page "/ai-assistview/overview"
+
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates an Overview UI that integrates streaming responses, file attachments, speech-to-text input, text-to-speech playback and regenerate controls.</p>
+    
+    <p><b>Key Features:</b></p>
+    <ul>
+        <li>
+            <code>Streaming</code> responses rendered in real time using streaming functionality.
+        </li>
+        <li>
+            <code>File attachments</code> via the built-in attachment settings.
+        </li>
+        <li>
+            <code>Speech-to-text</code> voice input using the browser SpeechRecognition wrapper.
+        </li>
+        <li>
+            <code>Text-to-speech</code> playback using the audio controls and synthetic speech.
+        </li>
+        <li>
+            <code>Regenerate</code> control to retry AI responses for a selected prompt.
+        </li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="overview-aiassistview"> 
+        <SfAIAssistView @ref="sfAIAssistView" ID="aiAssistView" EnableStreaming="true" AttachmentSettings="@attachmentSettings" PromptSuggestions="@suggestions" PromptRequested="@PromptRequest">
+            <AssistViewSpeechToText Enable="true"></AssistViewSpeechToText>
+            <AssistViews>
+                <AssistView>
+                    <BannerTemplate>
+                        <div class="banner-content">
+                            <div class="e-icons e-assistview-icon"></div>
+                            <h3>Let's get started</h3>
+                            <i>Ask anything. Create faster. Work smarter with AI.</i>
+                        </div>
+                    </BannerTemplate>
+                </AssistView>
+            </AssistViews>
+            <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+            </AssistViewToolbar>
+            <AssistViewFooterToolbar ToolbarPosition="ToolbarPosition.Bottom">
+                <AssistViewFooterToolbarItem Align="ItemAlign.Left" IconCss="e-icons e-assist-attachment-icon" Tooltip="Attach File"></AssistViewFooterToolbarItem>
+                <AssistViewFooterToolbarItem Align="ItemAlign.Left" IconCss="e-icons e-assist-speech-to-text"></AssistViewFooterToolbarItem>
+            </AssistViewFooterToolbar>
+            <ResponseToolbar>
+                <ResponseToolbarItem IconCss="e-icons e-assist-copy" Tooltip="Copy"></ResponseToolbarItem>
+                <ResponseToolbarItem IconCss="e-icons e-assist-like" Tooltip="Like"></ResponseToolbarItem>
+                <ResponseToolbarItem IconCss="e-icons e-assist-dislike" Tooltip="Need Improvement"></ResponseToolbarItem>
+                <ResponseToolbarItem IconCss="e-icons e-assist-audio" Tooltip="Read Aloud"></ResponseToolbarItem>
+                <ResponseToolbarItem IconCss="e-icons e-assist-regenerate" Tooltip="Regenerate"></ResponseToolbarItem>
+            </ResponseToolbar>
+        </SfAIAssistView>
+    </div>
+</div>
+
+@code {
+    private SfAIAssistView sfAIAssistView = new SfAIAssistView();
+
+    private List<string> suggestions = PromptResponseData.GetOverviewSuggestionData().ToList();
+
+    private IReadOnlyList<PromptResponseData> prompts = PromptResponseData.GetOverviewPromptResponseData();
+
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
+    private AssistViewAttachmentSettings attachmentSettings = new AssistViewAttachmentSettings()
+    {
+        Enable = true,
+        SaveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Save",
+        RemoveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"
+    };
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
+
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        await Task.Delay(2000);
+        var promptData = prompts.FirstOrDefault(prompt => prompt.Prompt == args.Prompt);
+        var defaultResponse = "For real-time prompt processing, connect the AI AssistView control to your preferred AI service or provide sample responses in the prompt response data.";
+        
+        if (promptData != null)
+        {
+            args.Response = promptData.Response;
+            args.PromptSuggestions = promptData.SuggestionData.Count > 0 ? promptData.SuggestionData.ToList() : suggestions;
+        }
+        else
+        {
+            args.Response = defaultResponse;
+            args.PromptSuggestions = suggestions;
+        }
+    }
+
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-refresh")
+        {
+            sfAIAssistView.Prompts.Clear();
+        }
+    }
+}
+
+<style>
+    .overview-aiassistview {
+        height: 620px;
+        width: 65vw;
+        margin: 0 auto;
+    }
+
+    .overview-aiassistview .banner-content .e-assistview-icon:before {
+        font-size: 35px;
+    }
+
+    .overview-aiassistview .banner-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 330px;
+        text-align: center;
+    }
+
+    @@media only screen and (max-width: 750px) {
+        .overview-aiassistview {
+            width: 100%;
+        }
+    }
+</style>

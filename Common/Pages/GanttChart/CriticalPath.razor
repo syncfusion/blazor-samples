@@ -1,0 +1,119 @@
+@page "/gantt-chart/criticalpath"
+
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Gantt
+@using Syncfusion.Blazor.Navigations
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+	<p>
+		This sample demonstrates how to render a <a class="e-gantt-criticalpath-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+												href="https://www.syncfusion.com/gantt-sdk/blazor-gantt-chart"
+												target="_blank" rel="noopener">Blazor Gantt Chart</a> with critical path visualization. The chart uses the default week-day timeline view, and dependency lines are enabled to illustrate task execution order and phase hierarchy.
+	</p>
+	<p>The critical path represents the sequence of tasks or a single task that directly determines the project's finish date. Any delay in a task on the critical path will result in a delay to the overall project timeline.</p>
+	<p>
+		The critical path feature can be enabled using the built-in toolbar button or by setting the <a class="e-gantt-criticalpath-reference-link" aria-label="Navigate to the EnableCriticalPath property reference for gantt chart component" target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.SfGantt-1.html#Syncfusion_Blazor_Gantt_SfGantt_1_EnableCriticalPath">EnableCriticalPath</a> property to <code>true</code>.
+		When enabled, any CRUD operation triggers a validation of the critical path. Tasks and connector lines that fall within the critical path are automatically highlighted, helps identify and manage time-sensitive activities effectively.
+	</p>
+	<p>For further details, refer to the <a class="e-gantt-criticalpath-reference-link" aria-label="Navigate to the documentation for critical path in gantt chart component" target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/gantt-chart/criticalpath">documentation</a>.</p>
+</ActionDescription>
+
+<div class="control-section e-gantt-criticalpath-sample">
+	<SfGantt @ref="GanttInstance" ID="Gantt" DataSource="@TaskCollection" Height="450px" EnableCriticalPath="@EnableCriticalPath"
+			 EnableContextMenu="true" Width="100%" HighlightWeekends="true" AllowSelection="true"
+			 GridLines="GridLine.Both" TreeColumnIndex="1" ScrollToTaskbarOnClick="true">
+		<SfToolbar ID="Gantt_Gantt_Toolbar">
+			<ToolbarItems>
+				<ToolbarItem Type="ItemType.Input">
+					<Template>
+						<div class="e-gantt-toolbar-template">
+							<SfCheckBox Label="Critical Path" @bind-Checked="IsCriticalPathEnabled" @onchange="OnCriticalPathToggle"></SfCheckBox>
+						</div>
+					</Template>
+				</ToolbarItem>
+			</ToolbarItems>
+		</SfToolbar>
+		<GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration"
+						 Progress="Progress" Dependency="Predecessor" ParentID="ParentId">
+		</GanttTaskFields>
+		<GanttEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true"
+						   AllowTaskbarEditing="true" ShowDeleteConfirmDialog="true">
+		</GanttEditSettings>
+		<GanttColumns>
+			<GanttColumn Field="TaskId" Width="100"></GanttColumn>
+			<GanttColumn Field="TaskName" HeaderText="Job Name" Width="250"
+						 ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+			<GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+		</GanttColumns>
+		<GanttLabelSettings LeftLabel="TaskName" TaskLabel="Progress" TValue="CriticalPathData.TaskData"></GanttLabelSettings>
+		<GanttSplitterSettings Position="40%"></GanttSplitterSettings>
+		<GanttCriticalPathSettings SlackValue="1"></GanttCriticalPathSettings>
+	</SfGantt>
+</div>
+
+@*Hidden:Lines*@
+@code {
+	protected override void OnInitialized()
+	{
+		if (SampleService != null) 
+		{ 
+			SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		}
+	}
+	private async void OnTouchMousePreferenceChanged()
+	{
+		if (GanttInstance == null)
+		{
+			return;
+		}
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+#if WASM
+	private bool _disposed;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender || _disposed || GanttInstance == null)
+		{
+			return;
+		}
+
+		await Task.Delay(30);
+
+		if (_disposed || GanttInstance == null)
+		{
+			return;
+		}
+
+		await GanttInstance.RefreshAsync().ConfigureAwait(true);
+	}
+#endif
+	public void Dispose()
+	{
+#if WASM
+		_disposed = true;
+#endif
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}
+
+	.e-bigger .e-dialog,
+	.e-bigger .e-dlg-overlay {
+		transform: translateZ(0);
+	}
+</style>
+@*End:Hidden*@

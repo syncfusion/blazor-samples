@@ -1,0 +1,750 @@
+@page "/scheduler/integration-with-chart"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.DropDowns
+@using SchedulerWithChartApp.Data
+@using ThemeHelper
+@inject NavigationManager NavigationManager
+
+<PageTitle>Scheduler With Chart</PageTitle>
+<ActionDescription>
+<div id="action-description">
+  <p>
+    <strong>Fleet Management Dashboard:</strong> A modern timeline scheduler with real-time analytics visualization.
+    Manage driver schedules and monitor fleet metrics through an integrated analytics dashboard.
+  </p>
+</div>
+<div id="description">
+  <p>
+    This sample demonstrates a fleet-management solution that pairs a <strong>Timeline Month Scheduler</strong>
+    with a real-time <strong>Analytics Chart</strong>. The left panel shows driver routes grouped by resource; the
+    right panel delivers analytics for quick insights and decision-making.
+  </p>
+ 
+  <p><strong>Key components</strong></p>
+  <ul>
+    <li><strong>Timeline Scheduler:</strong> Monthly timeline with resource grouping for drivers and routes.</li>
+    <li><strong>Analytics Dashboard:</strong> Three switchable views — <em>Trip Count</em>, <em>Truck Capacity</em>, and <em>Longest Trips</em>.</li>
+    <li><strong>Real-time sync:</strong> Charts update immediately on event create/edit/delete.</li>
+    <li><strong>Visual consistency:</strong> Chart bars inherit scheduler resource colors.</li>
+  </ul>
+  <p>Looking for the full Blazor Scheduler component overview, features, pricing, and documentation? Visit our <a rel="noopener" target='_blank' href='https://www.syncfusion.com/scheduler-sdk/blazor-scheduler' aria-label="Navigate to the Blazor Scheduler FT page">Blazor Scheduler</a> component page.</p>
+</div>
+</ActionDescription>
+<div class="col-lg-12 schedule-with-chart control-section">
+  <div class="content-wrapper">
+    <div class="control-section modern-layout">
+
+      <!-- Scheduler -->
+      <div id="scheduler" class="scheduler-wrapper">
+        <SfSchedule TValue="TruckEvent" Height="650px" Width="100%" @bind-SelectedDate="CurrentDate" AllowOverlap="false">
+
+          <ScheduleResources>
+            <ScheduleResource TItem="TruckDriver" TValue="int" Field="DriverId" Name="TruckDetails" Title="Driver"
+                              AllowMultiple="false" DataSource="@Drivers" TextField="Driver" IdField="Id" ColorField="Color" />
+          </ScheduleResources>
+
+          <ScheduleGroup Resources="@GroupData">
+            <HeaderTooltipTemplate>
+                @{
+                    if (context.ResourceData is TruckDriver a)
+                    {
+                        <div class="template-wrap">
+                            <div><b>Name :</b> @a.Driver</div>
+                            <div><b>Truck :</b> @a.Truck</div>
+                            <div><b>Capacity :</b> @a.Capacity</div>
+                        </div>
+                    }
+                }
+            </HeaderTooltipTemplate>
+        </ScheduleGroup>
+
+          <ScheduleViews>
+            <ScheduleView Option="View.TimelineMonth" />
+          </ScheduleViews>
+
+          <ScheduleEventSettings DataSource="@TruckEvents" />
+
+          <ScheduleTemplates>
+
+            <HeaderIndentTemplate>
+              <div class="template-wrap header-indent">
+                <div class="name">Driver</div>
+                <div class="type">Truck</div>
+                <div class="capac">Capacity</div>
+              </div>
+            </HeaderIndentTemplate>
+
+            <ResourceHeaderTemplate>
+              @if (context.ResourceData is TruckDriver d)
+              {
+                <div class="template-wrap">
+                  <div class="room-name">@d.Driver</div>
+                  <div class="truck-type">@d.Truck</div>
+                  <div class="capacity">@d.Capacity</div>
+                </div>
+              }
+            </ResourceHeaderTemplate>
+
+          </ScheduleTemplates>
+
+          <ScheduleEvents ActionCompleted="ScheduleActionCompleted" />
+
+        </SfSchedule>
+      </div>
+
+      <!-- Chart -->
+      <div id="chart-container" class="chart-section">
+        <div class="chart-header">
+          <h4 class="chart-title">Analytics</h4>
+
+          <div id="chart-ddl" class="dropdown-wrapper">
+            <SfDropDownList TValue="string" TItem="string" DataSource="@AnalyticsModes" @bind-Value="CurrentMode"
+                            Width="100%" />
+          </div>
+        </div>
+
+        <div id="chart" class="chart-area">
+          <SfChart @key="CurrentMode" Height="100%" Width="100%" Title="@ChartTitle" Theme="@Theme">
+            <ChartMargin Left="30" />
+            <ChartLegendSettings Visible="false" />
+            <ChartTooltipSettings Enable="true" EnableHighlight="true"></ChartTooltipSettings>
+            <ChartPrimaryXAxis
+            ValueType="Syncfusion.Blazor.Charts.ValueType.Category"
+            LabelIntersectAction="Syncfusion.Blazor.Charts.LabelIntersectAction.None"
+            LabelRotation="-45"
+            EdgeLabelPlacement="Syncfusion.Blazor.Charts.EdgeLabelPlacement.Shift" />
+            @if (CurrentMode == "Trip Count")
+            {
+                <ChartPrimaryYAxis Title="Count" Interval="2" />
+            }
+            else if (CurrentMode == "Capacity")
+            {
+                <ChartPrimaryYAxis Title="Capacity (t)" />
+            }
+            else
+            {
+                <ChartPrimaryYAxis Title="Duration (hours)" />
+            }
+            <ChartSeriesCollection>
+              <ChartSeries DataSource="@ChartData" Type="ChartSeriesType.Column" XName="Driver" YName="Value"
+                           Name="@ChartTitle" PointColorMapping="Color" EnableTooltip="true" />
+            </ChartSeriesCollection>
+          </SfChart>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+ 
+@code {
+  private Theme Theme { get; set; }
+  private DateTime CurrentDate = new DateTime(2026, 1, 12);
+  private readonly string[] GroupData = { "TruckDetails" };
+
+  private List<TruckDriver> Drivers = new();
+  private List<TruckEvent> TruckEvents = new();
+  private List<object> ChartData = new();
+
+  private readonly List<string> AnalyticsModes = new()
+    {
+        "Trip Count",
+        "Capacity",
+        "Longest"
+    };
+
+  private string ChartTitle = "Trip Count";
+
+  private bool _isChartUpdating;
+
+  private EventCallback<ActionEventArgs<TruckEvent>> ScheduleActionCompleted;
+  private string _currentMode = "Trip Count";
+  private string CurrentMode
+  {
+    get => _currentMode;
+    set
+    {
+      if (_currentMode == value) return;
+      _currentMode = value;
+      _ = GenerateChartDataSafeAsync();
+    }
+  }
+
+  protected override async Task OnInitializedAsync()
+  {
+    Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    Drivers = SchedulerWithChartData.GetDriversMaster().ToList();
+    TruckEvents = SchedulerWithChartData.GetTruckData().ToList();
+
+    ScheduleActionCompleted =
+        EventCallback.Factory.Create<ActionEventArgs<TruckEvent>>(
+            this, OnScheduleActionComplete);
+
+    await GenerateChartDataSafeAsync();
+  }
+  private async Task GenerateChartDataSafeAsync()
+  {
+    if (_isChartUpdating) return;
+    _isChartUpdating = true;
+
+    try
+    {
+      await InvokeAsync(() =>
+      {
+        switch (CurrentMode)
+        {
+          case "Capacity":
+            ChartTitle = "Truck Capacity";
+
+            ChartData = Drivers
+                .Where(d => TruckEvents.Any(e => e.DriverId == d.Id))
+                .Select(d => new
+                {
+                    Driver = d.Truck,
+                    Value = double.Parse(d.Capacity.Replace(" t", "")),
+                    Color = d.Color
+                })
+                .Cast<object>()
+                .ToList();
+            break;
+
+          case "Longest":
+            ChartTitle = "Longest Trip";
+            ChartData = Drivers
+                .Select(d => new
+                {
+                    Driver = d.Driver,
+                    Value = TruckEvents
+                        .Where(e => e.DriverId == d.Id)
+                        .Select(e => (e.EndTime - e.StartTime).TotalHours)
+                        .DefaultIfEmpty(0)
+                        .Max(),
+                    Color = d.Color
+                })
+                .Where(x => x.Value > 0)
+                .Cast<object>()
+                .ToList();
+            break;
+
+          default:
+            ChartTitle = "Trip Count";
+            ChartData = Drivers
+                      .Select(d => new
+                      {
+                        Driver = d.Driver,
+                        Value = TruckEvents.Count(e => e.DriverId == d.Id),
+                        Color = d.Color
+                      })
+                      .Where(x => x.Value > 0)
+                      .Cast<object>()
+                      .ToList();
+            break;
+        }
+      });
+    }
+    finally
+    {
+      _isChartUpdating = false;
+    }
+  }
+  private async void OnScheduleActionComplete(ActionEventArgs<TruckEvent> args)
+  {
+    if (args.ActionType == ActionType.EventCreate || args.ActionType == ActionType.EventChange || args.ActionType == ActionType.EventRemove)
+    {
+      await GenerateChartDataSafeAsync();
+    }
+  }
+}
+
+<style>
+  /* Modern Container Styling */
+  .schedule-with-chart .control-section {
+    background: var(--bg-card);
+    border-radius: var(--border-radius);
+    padding: 10px;
+    overflow: hidden;
+  }
+
+  .schedule-with-chart .modern-layout {
+    display: flex;
+    gap: 16px;
+    align-items: stretch !important;
+  }
+
+  .schedule-with-chart .scheduler-wrapper {
+    flex: 1;
+    min-width: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.05);
+  }
+
+  .schedule-with-chart .chart-section {
+    width: 350px;
+    height: 650px;
+    border: 2px solid #e9ecef;
+    border-radius: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .schedule-with-chart .chart-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #667eea, transparent);
+    opacity: 0.3;
+  }
+
+  .schedule-with-chart .chart-header {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding: 16px;
+    border-bottom: 2px solid #e9ecef;
+    flex-shrink: 0;
+  }
+
+  .schedule-with-chart .chart-title {
+    margin: 0;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .schedule-with-chart .chart-title::before {
+    content: '';
+    width: 3px;
+    height: 20px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border-radius: 2px;
+  }
+
+  .schedule-with-chart .dropdown-wrapper {
+    width: 100%;
+    position: relative;
+  }
+
+  .schedule-with-chart .dropdown-wrapper label {
+    display: block;
+    font-size: 12px;
+    font-weight: 600;
+    color: #6c757d;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 6px;
+  }
+  
+  .schedule-with-chart .dropdown-wrapper .e-ddl {
+    border-radius: 10px;
+    border: 2px solid #e0e3e8;
+    padding: 12px 14px;
+    font-size: 14px;
+    font-weight: 500;
+    transition: var(--transition);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    color: var(--text-primary);
+  }
+  
+  .schedule-with-chart .dropdown-wrapper .e-ddl:hover {
+    border-color: #667eea;
+    box-shadow: 0 4px 12px rgba(102, 126, 234, 0.12);
+  }
+  
+  .schedule-with-chart .dropdown-wrapper .e-ddl:focus,
+  .schedule-with-chart .dropdown-wrapper .e-ddl.e-active {
+    border-color: #667eea;
+    box-shadow: 0 0 0 4px rgba(102, 126, 234, 0.1), 0 4px 12px rgba(102, 126, 234, 0.15);
+    outline: none;
+  }
+
+  .schedule-with-chart .chart-area {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: linear-gradient(135deg, rgba(102, 126, 234, 0.02) 0%, rgba(118, 75, 162, 0.02) 100%);
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .chart-area svg {
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.05));
+    max-height: 100%;
+    width: 100%;
+    object-fit: contain;
+  }
+
+  /* Scheduler Styling */
+  .schedule-with-chart .e-schedule {
+    border-radius: 10px;
+    overflow: hidden;
+  }
+
+  .schedule-with-chart .e-schedule .e-timeline-view .e-resource-left-td,
+  .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-left-td {
+    vertical-align: bottom;
+  }
+
+  .schedule-with-chart .e-schedule.e-device .e-timeline-view .e-resource-left-td,
+  .schedule-with-chart .e-schedule.e-device .e-timeline-month-view .e-resource-left-td {
+    width: 75px;
+  }
+
+  .schedule-with-chart .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text,
+  .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-left-td .e-resource-text {
+    display: flex;
+    font-weight: 500;
+    padding: 0;
+  }
+
+  .schedule-with-chart .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text>div,
+  .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-left-td .e-resource-text>div {
+    border-right: 1px solid var(--border-color);
+    border-top: 1px solid var(--border-color);
+    flex: 0 0 33.333%;
+    font-weight: 500;
+    height: 36px;
+    line-height: 34px;
+    padding-left: 5px;
+    color: var(--text-primary);
+    font-size: 12px;
+  }
+
+  .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-left-td .e-resource-text>div {
+    border-top: 0;
+  }
+
+  .schedule-with-chart .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text>div:last-child,
+  .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-left-td .e-resource-text>div:last-child {
+    border-right: 0;
+  }
+
+  .schedule-with-chart .e-schedule .template-wrap {
+    display: flex;
+    height: 100%;
+    text-align: left;
+  }
+
+  .schedule-with-chart .e-schedule .template-wrap>div {
+    border-right-color: #0000001f;
+    border-right-style: solid;
+    border-right-width: 1px;
+    flex: 0 0 33.333%;
+    font-weight: 500;
+    overflow: hidden;
+    padding-left: 8px;
+    text-overflow: ellipsis;
+    color: var(--text-primary);
+    font-size: 13px;
+  }
+
+  .schedule-with-chart .e-schedule .template-wrap:not(.header-indent)>div {
+    line-height: 58px;
+  }
+
+  .schedule-with-chart .e-schedule .header-indent>div {
+    line-height: 35px;
+  }
+
+  .schedule-with-chart .e-schedule .template-wrap>div:last-child {
+    border-right: 0;
+  }
+
+  .schedule-with-chart .e-schedule .e-timeline-view .e-resource-cells,
+  .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-cells {
+    padding-left: 0;
+  }
+
+  .schedule-with-chart .e-schedule .e-timeline-view .e-date-header-wrap table col,
+  .schedule-with-chart .e-schedule .e-timeline-view .e-content-wrap table col {
+    width: 500px;
+  }
+
+  /* Event Styling */
+  .schedule-with-chart .e-appointment {
+    border-radius: 6px;
+    transition: var(--transition);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .schedule-with-chart .e-rtl .e-resource-text,
+  .schedule-with-chart .e-rtl .template-wrap,
+  .schedule-with-chart .e-rtl .header-indent {
+    flex-direction: row-reverse;
+  }
+
+  .schedule-with-chart .e-rtl .e-resource-text>div,
+  .schedule-with-chart .e-rtl .template-wrap>div {
+    direction: rtl;
+    text-align: right;
+  }
+
+  .schedule-with-chart .e-schedule:not(.e-rtl) .e-timeline-view .e-resource-left-td .e-resource-text>div:last-child {
+    border-right: 0;
+  }
+
+  .schedule-with-chart .e-schedule.e-rtl .e-timeline-view .e-resource-cells,
+  .schedule-with-chart .e-schedule.e-rtl .e-timeline-month-view .e-resource-cells {
+    padding-right: 0;
+  }
+
+  .schedule-with-chart .e-schedule.e-rtl .template-wrap {
+    text-align: right;
+  }
+
+  .schedule-with-chart .e-schedule:not(.e-rtl) .template-wrap>div:last-child {
+    border-right: 0;
+  }
+
+.fluent2-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.fluent2-dark .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #525252;
+}
+
+.fluent2-highcontrast .schedule-with-chart .e-schedule .template-wrap > div,
+.fluent2-highcontrast .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #fff;
+}
+
+.highcontrast .schedule-with-chart .e-schedule .template-wrap > div,
+.highcontrast .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #969696;
+}
+
+.material3-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.material3-dark .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #444746;
+}
+
+.fabric-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.fabric-dark .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #414040;
+}
+
+.fluent-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.fluent-dark .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #292827;
+}
+
+.bootstrap-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.bootstrap-dark .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #505050;
+}
+
+.bootstrap5-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.bootstrap5-dark .schedule-with-chart .e-schedule .e-resource-text > div,
+.bootstrap5\.3-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.bootstrap5\.3-dark .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #444c54;
+}
+
+.tailwind-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.tailwind3-dark .schedule-with-chart .e-schedule .template-wrap > div,
+.tailwind-dark .schedule-with-chart .e-schedule .e-resource-text > div,
+.tailwind3-dark .schedule-with-chart .e-schedule .e-resource-text > div {
+  border-color: #4b5563;
+}
+
+.tailwind-dark .schedule-with-chart .e-resource-text > div,
+.tailwind3-dark .schedule-with-chart .e-resource-text > div {
+  background-color: #374151;
+}
+
+/* Chart Section Border */
+.material-dark .schedule-with-chart .chart-section,
+.material3-dark .schedule-with-chart .chart-section,
+.fluent-dark .schedule-with-chart .chart-section,
+.fluent2-dark .schedule-with-chart .chart-section,
+.bootstrap-dark .schedule-with-chart .chart-section,
+.bootstrap5-dark .schedule-with-chart .chart-section,
+.bootstrap5\.3-dark .schedule-with-chart .chart-section,
+.fabric-dark .schedule-with-chart .chart-section,
+.tailwind-dark .schedule-with-chart .chart-section,
+.tailwind3-dark .schedule-with-chart .chart-section {
+  border: 2px solid #4b5563 !important;
+}
+
+
+/* Chart Header Bottom Border */
+.material-dark .schedule-with-chart .chart-header,
+.material3-dark .schedule-with-chart .chart-header,
+.fluent-dark .schedule-with-chart .chart-header,
+.fluent2-dark .schedule-with-chart .chart-header,
+.bootstrap-dark .schedule-with-chart .chart-header,
+.bootstrap5-dark .schedule-with-chart .chart-header,
+.bootstrap5\.3-dark .schedule-with-chart .chart-header,
+.fabric-dark .schedule-with-chart .chart-header,
+.tailwind-dark .schedule-with-chart .chart-header,
+.tailwind3-dark .schedule-with-chart .chart-header {
+  border-bottom: 2px solid #4b5563 !important;
+}
+
+
+/* Dropdown Border */
+.material-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.material3-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.fluent-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.fluent2-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.bootstrap-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.bootstrap5-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.bootstrap5\.3-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.fabric-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.tailwind-dark .schedule-with-chart .dropdown-wrapper .e-ddl,
+.tailwind3-dark .schedule-with-chart .dropdown-wrapper .e-ddl {
+  border: 2px solid #4b5563 !important;
+}
+
+.material-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.material3-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.bootstrap-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.bootstrap5-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.bootstrap5\.3-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.fabric-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.tailwind-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.tailwind3-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.fluent-dark .schedule-with-chart .dropdown-wrapper .e-input-group,
+.fluent2-dark .schedule-with-chart .dropdown-wrapper .e-input-group {
+	border: 2px solid #4b5563 !important;  /* same as scheduler */
+}
+
+
+  /* Responsive Design */
+  @@media (min-width: 1440px) {
+    .schedule-with-chart .chart-section {
+      width: 480px;
+      height: 650px;
+    }
+    .schedule-with-chart .chart-title {
+      font-size: 19px;
+    }
+  }
+
+  @@media (max-width: 1200px) {
+    .schedule-with-chart .chart-section {
+      width: 380px;
+      height: 650px;
+      padding: 16px;
+    }
+    .schedule-with-chart .chart-title {
+      font-size: 16px;
+    }
+  }
+
+  @@media (max-width: 1024px) {
+    .schedule-with-chart .modern-layout {
+      flex-direction: column;
+    }
+
+    .schedule-with-chart .schedule-with-chart .scheduler-wrapper {
+      width: 100%;
+    }
+
+    .schedule-with-chart .chart-section {
+      width: 100%;
+    }
+
+    .schedule-with-chart #scheduler {
+      height: 500px !important;
+      width: 100% !important;
+    }
+
+    .schedule-with-chart .e-schedule {
+      width: 100% !important;
+      height: 500px !important;
+    }
+  }
+
+  @@media (max-width: 768px) {
+    .schedule-with-chart .control-section {
+      padding: 12px;
+      margin: 12px;
+    }
+
+    .schedule-with-chart .modern-layout {
+      gap: 12px;
+    }
+
+    .schedule-with-chart .chart-section {
+      width: 100%;
+      height: 650px;
+      padding: 12px;
+    }
+
+    .schedule-with-chart .e-schedule .e-timeline-view .e-resource-left-td,
+    .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-left-td {
+      width: 100px;
+    }
+
+    .schedule-with-chart .e-schedule .e-timeline-view .e-resource-left-td .e-resource-text>div,
+    .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-left-td .e-resource-text>div,
+    .schedule-with-chart .e-schedule .template-wrap>div {
+      flex: 0 0 100%;
+    }
+
+    .schedule-with-chart .e-schedule .template-wrap>div:first-child,
+    .schedule-with-chart .e-schedule .template-wrap>div:nth-child(2) {
+      border-right: 0;
+    }
+
+    .schedule-with-chart .e-schedule .truck-type,
+    .schedule-with-chart .e-schedule .capacity {
+      display: none;
+    }
+
+    .schedule-with-chart .e-schedule .e-timeline-view .e-resource-left-td,
+    .schedule-with-chart .e-schedule .e-timeline-month-view .e-resource-left-td {
+      width: 230px;
+    }
+  }
+
+  @@media (max-width: 550px) {
+    .schedule-with-chart .control-section {
+      padding: 8px;
+      margin: 8px;
+    }
+
+    .schedule-with-chart .chart-title {
+      font-size: 12px;
+    }
+
+    .schedule-with-chart #scheduler {
+      height: 400px !important;
+      width: 100% !important;
+    }
+
+    .schedule-with-chart .e-schedule {
+      width: 100% !important;
+      height: 400px !important;
+    }
+
+    .schedule-with-chart .chart-area {
+      min-height: 350px;
+    }
+  }
+.schedule-with-chart
+.e-schedule
+.e-resource-text > div,
+.schedule-with-chart
+.e-schedule
+.template-wrap > div {
+    box-sizing: border-box;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+</style>

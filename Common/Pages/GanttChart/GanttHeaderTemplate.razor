@@ -1,0 +1,155 @@
+@page "/gantt-chart/header-template"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+		This sample demonstrates header templating in the <a class="e-gantt-ganttheadertemplate-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component"
+                                                             href="https://www.syncfusion.com/gantt-sdk/blazor-gantt-chart"
+                                                             target="_blank" rel="noopener">Blazor Gantt Chart</a>.
+        Each column header renders custom icons and layouts defined through a dedicated template so the grid�s presentation aligns with project branding or data emphasis.
+    </p>
+
+    <p>
+        Supply custom markup by assigning a
+		<a class="e-gantt-ganttheadertemplate-reference-link" aria-label="Navigate to the HeaderTemplate property reference for Gantt column"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html#Syncfusion_Blazor_Gantt_GanttColumn_HeaderTemplate"
+           target="_blank" rel="noopener">HeaderTemplate</a>
+        to the
+		<a class="e-gantt-ganttheadertemplate-reference-link" aria-label="Navigate to the class reference for Gantt column"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttColumn.html"
+           target="_blank" rel="noopener">GanttColumn</a>.
+        The template receives the column context, enabling dynamic content such as icons, badges, or descriptive text across all headers.
+    </p>
+    <p>
+        For further details, refer to the
+		<a class="e-gantt-ganttheadertemplate-reference-link" aria-label="Navigate to the documentation for the header template in the Gantt chart component"
+           href="https://blazor.syncfusion.com/documentation/gantt-chart/columns#header-template"
+           target="_blank" rel="noopener">documentation</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-header-template-sample">
+	<SfGantt @ref="GanttInstance" DataSource="@TaskCollection" Height="400px" Width="100%" HighlightWeekends="true"
+			 ProjectStartDate="@(new DateTime(2021, 3, 24))" ProjectEndDate="@(new DateTime(2021, 7, 6))" TreeColumnIndex="1">
+		<GanttTaskFields Id="Id" Name="Name" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress"
+						 ParentID="ParentId"></GanttTaskFields>
+		<GanttResource DataSource="@ResourceCollection" Id="Id" Name="Name" MaxUnits="MaxUnit"
+					   TValue="ResourceModel.TaskInfoModel" TResources="ResourceModel.ResourceInfoModel"></GanttResource>
+		<GanttAssignmentFields DataSource="@AssignmentCollection" PrimaryKey="PrimaryId"
+							   TaskID="TaskId" ResourceID="ResourceId" TValue="ResourceModel.TaskInfoModel"
+							   TAssignment="ResourceModel.AssignmentModel"></GanttAssignmentFields>
+		<GanttColumns>
+			<GanttColumn Field="Id" Visible="false"></GanttColumn>
+			<GanttColumn Field="Name" HeaderText="Job Name" Width="250"
+						 ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip">
+				<HeaderTemplate>
+					<div>
+						<i class="app-icon-job_title"></i>
+						Job Name
+					</div>
+				</HeaderTemplate>
+			</GanttColumn>
+			<GanttResourceColumn HeaderText="Event Resources" Width="300">
+				<HeaderTemplate>
+					<div>
+						<i class="app-icon-resource"></i>
+						Resources
+					</div>
+				</HeaderTemplate>
+			</GanttResourceColumn>
+			<GanttColumn Field="StartDate" HeaderText="Start Date" Width="140">
+				<HeaderTemplate>
+					<div>
+						<i class="app-icon-calendar"></i>
+						Start Date
+					</div>
+				</HeaderTemplate>
+			</GanttColumn>
+			<GanttColumn Field="EndDate" HeaderText="End Date" Width="140">
+				<HeaderTemplate>
+					<div>
+						<i class="app-icon-calendar"></i>
+						End Date
+					</div>
+				</HeaderTemplate>
+			</GanttColumn>
+			<GanttColumn Field="Duration" HeaderText="Duration" Width="140">
+				<HeaderTemplate>
+					<div>
+						<i class="app-icon-time"></i>
+						Duration
+					</div>
+				</HeaderTemplate>
+			</GanttColumn>
+			<GanttColumn Field="Progress" HeaderText="Progress" Width="140">
+				<HeaderTemplate>
+					<div>
+						<i class="app-icon-progress"></i>
+						Progress
+					</div>
+				</HeaderTemplate>
+			</GanttColumn>
+		</GanttColumns>
+		<GanttLabelSettings RightLabel="Name" TValue="ResourceModel.TaskInfoModel"></GanttLabelSettings>
+		<GanttSplitterSettings ColumnIndex="3"></GanttSplitterSettings>
+	</SfGantt>
+</div>
+@*Hidden:Lines*@
+@code {
+	protected override void OnInitialized()
+	{
+		if (SampleService != null) 
+		{ 
+			SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+		}
+	}
+
+	private async void OnTouchMousePreferenceChanged()
+	{
+		if (GanttInstance == null)
+		{
+			return;
+		}
+		await GanttInstance.RefreshAsync();
+		await GanttInstance.CallStateHasChangedAsync();
+	}
+#if WASM
+	private bool _disposed;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender || _disposed || GanttInstance == null)
+		{
+			return;
+		}
+
+		await Task.Delay(30);
+
+		if (_disposed || GanttInstance == null)
+		{
+			return;
+		}
+
+		await GanttInstance.RefreshAsync().ConfigureAwait(true);
+	}
+#endif
+	public void Dispose()
+	{
+#if WASM
+		_disposed = true;
+#endif
+		SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+	}
+}
+<style>
+	.container-fluid {
+		padding: 0px !important;
+	}		
+</style>
+@*End:Hidden*@

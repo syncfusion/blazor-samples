@@ -1,0 +1,472 @@
+﻿@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.SplitButtons
+@using BlazorDemos.Shared
+@namespace BlazorDemos.Shared.Header
+
+<link href='https://fonts.googleapis.com/css?family=Open Sans' rel='stylesheet'>
+<div class="sf-topbar-host @(IsPrerendered ? "sb-hide" : "")"> 
+    <div class="sb-product-header-section" >
+        <div class="topbar-shell">
+
+            <!-- Left: Brand -->
+            <div class="topbar-left">
+               <div class="syncfusion-logo">
+                  <a class="sync-logo-img" title="Syncfusion" aria-label="Syncfusion logo" target="_blank" rel="noopener" href="https://www.syncfusion.com/"></a>
+                </div>
+            </div>
+
+                <div class="mobile-products-wrapper mobile-only">
+                    <div class=@BackdropClass @onclick="CloseProductDropdown"></div>
+                    <span class="products-mobile-mode-icon e-icons e-more-horizontal-1" @onclick="ToggleMobileMenu"></span>
+                    @if (_isMobileMenuOpen)
+                    {
+                        <div class="mobile-products-menu">
+                            <div class="mobile-product-lineups-text-wrapper">
+                                <span class="mobile-product-lineups-text">Our Product Lineups</span>
+                            </div>
+                            <div class="mobile-suite">
+                                <span class="mobile-suite-title">UI Component Suite</span>
+                                <span class="active-pill">
+                                    <span class="e-icons e-bullet-2 active-pill-dot"></span>
+                                    <span class="active-pill-text">Active</span>
+                                </span>
+                            </div>
+
+                            <div class="mobile-item" @onclick="ToggleMobileDocumentSDK">
+                                <span class="document-sf-icon-document"></span>
+                                <span>Document SDK</span>
+                                <span class="e-icons e-chevron-down products-dropdown-icon"></span>
+                            </div>
+
+                            @if (_isMobileDocumentSDKOpen)
+                            {
+                                <div class="mobile-submenu">
+                                    <a href="https://document.syncfusion.com/demos/pdf/default" target="_blank">PDF Library</a>
+                                    <a href="https://document.syncfusion.com/demos/word/salesinvoice" target="_blank">Word Library</a>
+                                    <a href="https://document.syncfusion.com/demos/excel/create" target="_blank">Excel Library</a>
+                                    <a href="https://document.syncfusion.com/demos/powerpoint/default" target="_blank">PowerPoint Library</a>
+                                </div>
+                            }
+
+                            <div class="mobile-item" @onclick="ToggleMobilePdfViewer">
+                                <span class="document-sf-icon-pdf"></span>
+                                <span>PDF Viewer SDK</span>
+                                <span class="e-icons e-chevron-down products-dropdown-icon"></span>
+                            </div>
+                            @if (_isMobilePdfViewerOpen)
+                            {
+                                <div class="mobile-submenu">
+                                     <a href="https://document.syncfusion.com/demos/pdf-viewer/blazor-server/default" target="_blank"> Blazor</a>
+                                </div>
+                            }
+
+                            <div class="mobile-item" @onclick="ToggleMobileDocxEditor">
+                                <span class="document-sf-icon-docx"></span>
+                                <span>DOCX Editor SDK</span>
+                                <span class="e-icons e-chevron-down products-dropdown-icon"></span>
+                            </div>
+                            @if (_isMobileDocxEditorOpen)
+                            {
+                                <div class="mobile-submenu">
+                                <a href="https://liveviewereditorblazorapp.azurewebsites.net/demos/docx-editor/blazor-server/document-editor/default-functionalities" target="_blank">
+                                    Blazor
+                                    </a>
+                                </div>
+                            }
+
+                            <div class="mobile-item" @onclick="ToggleMobileSpreadsheetEditor">
+                                <span class="document-sf-icon-spreadsheet"></span>
+                                <span>Spreadsheet Editor SDK</span>
+                                <span class="e-icons e-chevron-down products-dropdown-icon"></span>
+                            </div>
+                            @if (_isMobileSpreadsheetEditorOpen)
+                            {
+                                <div class="mobile-submenu">
+                                    <a href="https://liveviewereditorblazorapp.azurewebsites.net/demos/spreadsheet-editor/blazor-server/spreadsheet/overview" target="_blank"> Blazor </a>
+                                </div>
+                            }
+
+                        </div>
+                    }
+                </div>
+                <div class="sb-products desktop-only">
+                    <div class="product-lineups-text-wrapper">
+                        <span class="product-lineups-text">Our Product Lineups</span>
+                    </div>
+                    <div class="ui-suite-container">
+                        <span class="platform-icon-ui-component-suite"></span>
+                        <span class="tab-text">UI Component Suite</span>
+
+                        <span class="active-pill">
+                            <span class="e-icons e-bullet-2 active-pill-dot"></span>
+                            <span class="active-pill-text">Active</span>
+                        </span>
+
+
+                    </div>
+
+                @if (IsVisible || ShowDialog)
+                {
+                    <div class="dropdown-backdrop" @onclick="CloseAllDropdowns"></div>
+                }
+
+                <div class="products-dropdown-wrapper">
+                    <div class="products-container" @onclick="OpenDialog" @onclick:stopPropagation="true" title="SDKs for viewing and editing">
+                        <span class="document-sf-icon-document" role="button" tabindex="0"></span>
+                        <button class="sb-dropdown-products custom-dropdown-btn">Document SDK</button>
+                        <span class="e-icons e-chevron-down products-dropdown-icon"></span>
+                    </div>
+                    @if (IsVisible)
+                    {
+                        <div class="doc-sdk-dropdown-panel">
+                            <div class="sdk-dropdown-header">
+                                <span class="sdk-dropdown-title">
+                                    <a href="https://www.syncfusion.com/document-sdk" target="_blank" rel="noopener">
+                                        Document SDK
+                                    </a>
+                                </span>
+                                <button class="sdk-dropdown-close" @onclick="CloseAllDropdowns">&#x2715;</button>
+                            </div>
+                            <div class="doc-sdk-container">
+                                <p class="doc-sdk-description">
+                                    A complete document SDK with APIs to programmatically create, edit,
+                                    convert, and process Word, Excel, PDF, and PowerPoint files.
+                                </p>
+                                <div class="doc-sdk-grid">
+                                    <!-- PDF -->
+                                    <a class="doc-sdk-item" href="https://document.syncfusion.com/demos/pdf/default" target="_blank">
+                                        <span class="doc-sdk-icon-pdfx"></span>
+                                        <div class="doc-sdk-text">
+                                            <span class="control-header">PDF Library</span>
+                                            <span class="control-description">
+                                                Create, read, edit, convert, and secure PDF documents.
+                                            </span>
+                                        </div>
+                                    </a>
+                                    <!-- Word -->
+                                    <a class="doc-sdk-item" href="https://document.syncfusion.com/demos/word/salesinvoice" target="_blank">
+                                        <span class="doc-sdk-icon-docx"></span>
+                                        <div class="doc-sdk-text">
+                                            <span class="control-header">Word Library</span>
+                                            <span class="control-description">
+                                                Generate, read, edit, and convert Word (DOCX) files.
+                                            </span>
+                                        </div>
+                                    </a>
+                                    <!-- Excel -->
+                                    <a class="doc-sdk-item" href="https://document.syncfusion.com/demos/excel/create" target="_blank">
+                                        <span class="doc-sdk-icon-xlsx"></span>
+                                        <div class="doc-sdk-text">
+                                            <span class="control-header">Excel Library</span>
+                                            <span class="control-description">
+                                                Create, read, edit, and manipulate Excel (XLSX) files.
+                                            </span>
+                                        </div>
+                                    </a>
+                                    <!-- PowerPoint -->
+                                    <a class="doc-sdk-item" href="https://document.syncfusion.com/demos/powerpoint/default" target="_blank">
+                                        <span class="doc-sdk-icon-pptx"></span>
+                                        <div class="doc-sdk-text">
+                                            <span class="control-header">PowerPoint Library</span>
+                                            <span class="control-description">
+                                                Create, read, edit, and convert PowerPoint (PPTX) presentations.
+                                            </span>
+                                        </div>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    }
+                </div>
+
+                <div class="products-dropdown-wrapper">
+                    <div class="products-container" @onclick="OpenPdfViewer" @onclick:stopPropagation="true" title="View and interact with PDF documents">
+                        <span class="document-sf-icon-pdf"></span>
+                        <a class="sb-dropdown-products custom-dropdown-btn">PDF Viewer SDK</a>
+                        <span class="e-icons e-chevron-down products-dropdown-icon"></span>
+                    </div>
+                    @if (ShowDialog && ActiveDropdown == "pdf")
+                    {
+                        <LibraryPlatforms @bind-Visible="ShowDialog"
+                                          Title="@CurrentTitle"
+                                          Description="@CurrentDescription"
+                                          Items="@CurrentItems" />
+                    }
+                </div>
+
+                <div class="products-dropdown-wrapper">
+                    <div class="products-container" @onclick="OpenDocxEditor" @onclick:stopPropagation="true" title="Create and edit DOCX files">
+                        <span class="document-sf-icon-docx"></span>
+                        <a class="sb-dropdown-products custom-dropdown-btn">DOCX Editor SDK</a>
+                        <span class="e-icons e-chevron-down products-dropdown-icon"></span>
+                    </div>
+                    @if (ShowDialog && ActiveDropdown == "docx")
+                    {
+                        <LibraryPlatforms @bind-Visible="ShowDialog"
+                                          Title="@CurrentTitle"
+                                          Description="@CurrentDescription"
+                                          Items="@CurrentItems" />
+                    }
+                </div>
+
+                <div class="products-dropdown-wrapper spreadsheet-dropdown-wrapper" title="Edit and manage spreadsheet documents">
+                    <div class="products-container" @onclick="OpenSpreadsheetEditor" @onclick:stopPropagation="true">
+                        <span class="document-sf-icon-spreadsheet"></span>
+                        <a class="sb-dropdown-products custom-dropdown-btn">Spreadsheet Editor SDK</a>
+                        <span class="e-icons e-chevron-down products-dropdown-icon"></span>
+                    </div>
+                    @if (ShowDialog && ActiveDropdown == "spreadsheet")
+                    {
+                        <LibraryPlatforms @bind-Visible="ShowDialog"
+                                          Title="@CurrentTitle"
+                                          Description="@CurrentDescription"
+                                          Items="@CurrentItems" />
+                    }
+                </div>
+
+                </div>
+        </div>
+    </div>
+</div>
+
+<style>
+
+/* svg */
+.platform-icon-ui-component-suite {
+    width: 28px;
+    height: 28px;
+    margin-right: 0;
+    pointer-events: none;
+    background-image: url( @SvgPath );
+}
+
+</style>
+
+@code {
+    [Parameter]
+    public bool IsPrerendered { get; set; }
+#if SERVER && NET9_0
+    public string SvgPath = "_content/Blazor_Server_Common_NET9/styles/common/fonts/ui-suite.svg";
+#elif SERVER && NET8_0
+    public string SvgPath = "_content/Blazor_Server_Common_NET8/styles/common/fonts/ui-suite.svg";
+#elif SERVER
+    public string SvgPath = "_content/Blazor_Server_Common_NET10/styles/common/fonts/ui-suite.svg";
+#elif NET9_0
+    public string SvgPath = "_content/Blazor_WASM_Common_NET9/styles/common/fonts/ui-suite.svg";
+#elif NET8_0
+    public string SvgPath = "_content/Blazor_WASM_Common_NET8/styles/common/fonts/ui-suite.svg";
+#else
+    public string SvgPath = "_content/Blazor_WASM_Common_NET10/styles/common/fonts/ui-suite.svg";
+#endif
+    public string BackdropClass = "product-menu-backdrop-hide";
+    private bool _isDocumentSDKOpen = false;
+    private bool _isMobileMenuOpen;
+    public bool AppClicked = true;
+    private bool _isMobileDocumentSDKOpen;
+    private bool _isMobilePdfViewerOpen;
+    private bool _isMobileDocxEditorOpen;
+    private bool _isMobileSpreadsheetEditorOpen;
+
+    private bool IsVisible = false;
+    private bool ShowDialog = false;
+    private string ActiveDropdown = "";
+
+    public record SdkPlatformItem(string Name, string IconCss, string Url = "");
+    private string CurrentTitle = "";
+    private string CurrentDescription = "";
+    private List<SdkPlatformItem> CurrentItems = new();
+
+    [CascadingParameter]
+    public MainLayout? ParentLayout { get; set; }
+
+    private async Task OpenDialog()
+        {
+        if (ParentLayout != null)
+        {
+            await ParentLayout.HideToast();
+        }
+            IsVisible = !IsVisible;
+            ShowDialog = false;
+            ActiveDropdown = "";
+        }
+
+    private void CloseAllDropdowns()
+        {
+            IsVisible = false;
+            ShowDialog = false;
+            ActiveDropdown = "";
+        }
+
+    private async Task OpenPdfViewer()
+        {
+            CurrentTitle = "PDF Viewer SDK";
+            CurrentDescription =
+                "A fast, reliable, and feature-rich UI control for viewing, annotating, " +
+                "and interacting with PDF files across platforms.";
+
+            CurrentItems = new()
+            {
+                 new("Blazor",       "blazor-icon",   "https://document.syncfusion.com/demos/pdf-viewer/blazor-server/default"),
+                new("React",        "react-icon",    "https://document.syncfusion.com/demos/pdf-viewer/react/"),
+                new("Angular",      "angular-icon",  "https://document.syncfusion.com/demos/pdf-viewer/angular/"),
+                new(".NET MAUI",    "maui-icon",     "https://github.com/syncfusion/pdf-viewer-sdk-net-maui-demos"),
+                new("ASP.NET Core", "core-icon",     "https://document.syncfusion.com/demos/pdf-viewer/asp-net-core/pdfviewer/default"),
+                new("JavaScript",   "js-icon",       "https://document.syncfusion.com/demos/pdf-viewer/javascript/"),
+                new("Vue",          "vue-icon",      "https://document.syncfusion.com/demos/pdf-viewer/vue/"),
+                new("ASP.NET MVC",  "mvc-icon",      "https://document.syncfusion.com/demos/pdf-viewer/asp-net-mvc/pdfviewer/default"),
+                new("WPF",          "wpf-icon",      "https://www.syncfusion.com/pdf-viewer-sdk/wpf-pdf-viewer"),
+                new("WinForms",     "winforms-icon", "https://github.com/syncfusion/pdf-viewer-sdk-winforms-demos"),
+                new("UWP",          "uwp-icon",      "https://apps.microsoft.com/detail/9nblggh5wngv?hl=en-GB&gl=IN"),
+                new("Flutter",      "flutter-icon",  "https://github.com/syncfusion/flutter-examples/tree/master/lib/samples/pdf_viewer")
+            };
+
+            var wasActive = ShowDialog && ActiveDropdown == "pdf";
+            ActiveDropdown = "pdf";
+            ShowDialog = !wasActive;
+            IsVisible = false;
+            if (ParentLayout != null)
+            {
+                await ParentLayout.HideToast();
+        }
+        }
+
+    private async Task OpenDocxEditor()
+    {
+        CurrentTitle = "DOCX Editor SDK";
+        CurrentDescription =
+            "A powerful and intuitive DOCX Editor control for creating, editing, viewing, " +
+            "and formatting Word documents across platforms.";
+
+        CurrentItems = new()
+        {
+            new("Blazor",       "blazor-icon",   "https://liveviewereditorblazorapp.azurewebsites.net/demos/docx-editor/blazor-server/document-editor/default-functionalities"),
+            new("React",        "react-icon",    "https://document.syncfusion.com/demos/docx-editor/react/"),
+            new("Angular",      "angular-icon",  "https://document.syncfusion.com/demos/docx-editor/angular/"),
+            new("ASP.NET Core", "core-icon",     "https://document.syncfusion.com/demos/docx-editor/asp-net-core/documenteditor/default"),
+            new("JavaScript",   "js-icon",       "https://document.syncfusion.com/demos/docx-editor/javascript/"),
+            new("Vue",          "vue-icon",      "https://document.syncfusion.com/demos/docx-editor/vue/"),
+            new("ASP.NET MVC",  "mvc-icon",      "https://document.syncfusion.com/demos/docx-editor/asp-net-mvc/documenteditor/defaultfunctionalities"),
+            new("WPF",          "wpf-icon",      "https://www.syncfusion.com/docx-editor-sdk/wpf-docx-editor"),
+            new("UWP",          "uwp-icon",      "https://apps.microsoft.com/detail/9nblggh5wngv?hl=en-US&gl=US#activetab=pivot:overviewtab")
+        };
+
+        var wasActive = ShowDialog && ActiveDropdown == "docx";
+        ActiveDropdown = "docx";
+        ShowDialog = !wasActive;
+        IsVisible = false;
+        if (ParentLayout != null)
+        {
+            await ParentLayout.HideToast();
+        }
+    }
+ 
+    private async Task OpenSpreadsheetEditor()
+    {
+        CurrentTitle = "Spreadsheet Editor SDK";
+        CurrentDescription =
+            "A robust, feature-rich spreadsheet control for viewing, editing, and organizing " +
+            "Excel-style workbooks across platforms.";
+
+        CurrentItems = new()
+        {
+            new("Blazor",       "blazor-icon",   "https://liveviewereditorblazorapp.azurewebsites.net/demos/spreadsheet-editor/blazor-server/spreadsheet/overview"),
+            new("React",        "react-icon",    "https://document.syncfusion.com/demos/spreadsheet-editor/react/"),
+            new("Angular",      "angular-icon",  "https://document.syncfusion.com/demos/spreadsheet-editor/angular/"),
+            new("ASP.NET Core", "core-icon",     "https://document.syncfusion.com/demos/spreadsheet-editor/asp-net-core/spreadsheet/defaultfunctionalities"),
+            new("JavaScript",   "js-icon",       "https://document.syncfusion.com/demos/spreadsheet-editor/javascript/"),
+            new("Vue",          "vue-icon",      "https://document.syncfusion.com/demos/spreadsheet-editor/vue/"),
+            new("ASP.NET MVC",  "mvc-icon",      "https://document.syncfusion.com/demos/spreadsheet-editor/asp-net-mvc/spreadsheet/defaultfunctionalities"),
+            new("WPF",          "wpf-icon",      "https://www.syncfusion.com/spreadsheet-editor-sdk/wpf-spreadsheet-editor"),
+            new("WinForms",     "winforms-icon", "https://github.com/syncfusion/spreadsheet-editor-sdk-winforms-demos"),
+            new("UWP",          "uwp-icon",      "https://apps.microsoft.com/detail/9nblggh5wngv?hl=en-GB&gl=IN")
+        };
+
+        var wasActive = ShowDialog && ActiveDropdown == "spreadsheet";
+        ActiveDropdown = "spreadsheet";
+        ShowDialog = !wasActive;
+        IsVisible = false;
+        if (ParentLayout != null)
+        {
+            await ParentLayout.HideToast();
+        }
+    }
+
+    public void ToggleMobileMenu()
+    {
+        AppClicked = false;
+        _isMobileMenuOpen = !_isMobileMenuOpen;
+        if(_isMobileMenuOpen) {
+            BackdropClass = "product-menu-backdrop";
+        }
+    }
+
+    public void ToggleMobileDocumentSDK()
+    {
+        AppClicked = false;
+        var next = !_isMobileDocumentSDKOpen;
+        _isMobileDocumentSDKOpen = next;
+        if (next) {
+          _isMobilePdfViewerOpen = false;
+          _isMobileDocxEditorOpen = false;
+          _isMobileSpreadsheetEditorOpen = false; 
+        }
+    }
+
+    public void ToggleMobilePdfViewer()
+    {
+        AppClicked = false;
+        var next = !_isMobilePdfViewerOpen;
+        _isMobilePdfViewerOpen = next;
+        if (next) { _isMobileDocumentSDKOpen = false;
+            _isMobileDocxEditorOpen = false;
+            _isMobileSpreadsheetEditorOpen = false;
+        }
+    }
+
+    public void ToggleMobileDocxEditor()
+    {
+        AppClicked = false;
+        var next = !_isMobileDocxEditorOpen;
+        _isMobileDocxEditorOpen = next;
+        if (next) { _isMobileDocumentSDKOpen = false;
+            _isMobilePdfViewerOpen = false;
+            _isMobileSpreadsheetEditorOpen = false;
+        }
+    }
+
+    public void ToggleMobileSpreadsheetEditor()
+    {
+        AppClicked = false;
+        var next = !_isMobileSpreadsheetEditorOpen;
+        _isMobileSpreadsheetEditorOpen = next;
+        if (next) { _isMobileDocumentSDKOpen = false; _isMobilePdfViewerOpen = false; _isMobileDocxEditorOpen = false; }
+    }
+
+    public void CloseProductDropdown()
+    {
+        if (_isDocumentSDKOpen && AppClicked)
+        {
+            _isDocumentSDKOpen = false;
+            StateHasChanged();
+        } 
+        else if (_isMobileMenuOpen && AppClicked)
+        {
+            _isMobileMenuOpen = false;
+            _isMobileDocumentSDKOpen = false;
+            _isMobilePdfViewerOpen = false;
+            _isMobileDocxEditorOpen = false;
+            _isMobileSpreadsheetEditorOpen = false;
+            BackdropClass = "product-menu-backdrop-hide";
+            StateHasChanged();
+        }
+    }
+
+    protected override void OnAfterRender(bool firstRender)
+    {
+        base.OnAfterRender(firstRender);
+        AppClicked = true;
+    }
+
+}
+
+            
