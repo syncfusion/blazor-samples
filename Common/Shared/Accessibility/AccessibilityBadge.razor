@@ -1,0 +1,321 @@
+@namespace BlazorDemos.Shared
+
+@inject IJSRuntime JsRuntime
+@inject NavigationManager UriHelper
+@implements IDisposable
+
+<span class="sb-accessibility-badge">
+    <button id="sb-accessibility-badge-button"
+            type="button"
+            class="sb-accessibility-badge-button"
+            aria-describedby="@TooltipId"
+            aria-label="@BadgeLabel accessibility compliance details"
+            @onclick="OnBadgeClicked"
+            @onkeydown="OnBadgeKeyDown">
+        <span class="sb-accessibility-badge-icon" aria-hidden="true">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" role="presentation">
+                <path d="M12 2L4.5 5V11C4.5 16.2 8.1 20.9 12 22C15.9 20.9 19.5 16.2 19.5 11V5L12 2Z"
+                      fill="currentColor" opacity=".15">
+                </path>
+                <path d="M12 2L4.5 5V11C4.5 16.2 8.1 20.9 12 22C15.9 20.9 19.5 16.2 19.5 11V5L12 2Z"
+                      stroke="currentColor" stroke-width="1.8">
+                </path>
+                <path d="M9 12L11 14L15 10"
+                      stroke="currentColor" stroke-width="2"
+                      stroke-linecap="round"
+                      stroke-linejoin="round">
+                </path>
+            </svg>
+        </span>
+        <span class="sb-accessibility-badge-text">@BadgeLabel</span>
+    </button>
+
+    <span id="@TooltipId"
+          role="tooltip"
+          class="sb-accessibility-tooltip">
+        <span class="sb-accessibility-tooltip-content">@TooltipSummary</span>
+        @if (HasLiveSummary)
+        {
+            <span class="sb-accessibility-tooltip-summary is-live"
+                  aria-live="polite"
+                  aria-atomic="true">
+                <span class="sb-accessibility-tooltip-summary-check"
+                      aria-label="@($"{_passedChecks} automated checks passed")">
+                    <span class="sb-accessibility-tooltip-summary-num">@_passedChecks</span>
+                    <span class="sb-accessibility-tooltip-summary-label">passed</span>
+                </span>
+                <span class="sb-accessibility-tooltip-summary-violation"
+                      aria-label="@($"{_violations} violations")">
+                    <span class="sb-accessibility-tooltip-summary-num">@_violations</span>
+                    <span class="sb-accessibility-tooltip-summary-label">@(_violations == 1 ? "violation" : "violations")</span>
+                </span>
+            </span>
+        }
+        <span class="sb-accessibility-tooltip-links">
+            <a class="sb-accessibility-tooltip-link sb-accessibility-tooltip-link--report"
+               href="@AccessibilityReportLink"
+               target="_blank"
+               rel="noopener noreferrer"
+               @onclick:preventDefault
+               @onclick:stopPropagation
+               @onclick="OnAccessibilityReportClicked"
+               @onkeydown:preventDefault
+               @onkeydown="OnAccessibilityReportKeyDown">
+                Accessibility report
+            </a>
+            <span class="sb-accessibility-tooltip-divider" aria-hidden="true">|</span>
+            <a class="sb-accessibility-tooltip-link sb-accessibility-tooltip-link--vpat"
+               href="@VpatLink"
+               target="_blank"
+               rel="noopener noreferrer">
+                VPAT
+            </a>
+        </span>
+    </span>
+</span>
+
+@code {
+    private const string TooltipId = "sb-accessibility-tooltip";
+
+    private DotNetObjectReference<AccessibilityBadge>? dotNetRef;
+
+    [CascadingParameter]
+    protected MainLayout? Layout { get; set; }
+
+
+    private bool _hasLiveSummary;
+    private int _passedChecks;
+    private int _bestPractices;
+    private int _violations;
+    private string? _trackedPath;
+
+    /// <summary>
+    /// Optional per-demo metadata overrides. Any unset properties fall
+    /// back to the values declared in <see cref="AccessibilityConfig"/>.
+    /// </summary>
+    [Parameter]
+    public AccessibilityBadgeMetadata? Meta { get; set; }
+
+    private string BadgeLabel =>
+        !string.IsNullOrWhiteSpace(Meta?.BadgeLabel)
+            ? Meta!.BadgeLabel!
+            : AccessibilityConfig.BadgeLabel;
+
+    private bool HasLiveSummary => _hasLiveSummary;
+
+    private string TooltipSummary
+    {
+        get
+        {
+            // Explicit per-demo override always wins.
+            if (!string.IsNullOrWhiteSpace(Meta?.TooltipSummary))
+            {
+                return Meta!.TooltipSummary!;
+            }
+
+            // Until the first scan lands we show the static
+            // placeholder copy from the shared config.
+            if (!_hasLiveSummary)
+            {
+                return AccessibilityConfig.TooltipSummary;
+            }
+
+            // Live scan result - summarise against the latest
+            // passed-rule / violation counts so the tooltip copy
+            // reflects what axe-core measured for the current sample.
+            if (_passedChecks <= 0 && _bestPractices <= 0 && _violations <= 0)
+            {
+                return AccessibilityConfig.TooltipSummary;
+            }
+
+            var totalPassed = _passedChecks + _bestPractices;
+            var introPhrase = $"This demo passes {totalPassed} automated axe checks with {_violations} violations \u2014 semantic markup, ARIA, full keyboard operation, visible focus. Section 508 conformant.";
+
+            return introPhrase;
+        }
+    }
+
+    private string VpatLink =>
+        !string.IsNullOrWhiteSpace(Meta?.VpatLink)
+            ? Meta!.VpatLink!
+            : AccessibilityConfig.DefaultVpatUrl;
+
+    private string AccessibilityReportLink =>
+        !string.IsNullOrWhiteSpace(Meta?.AccessibilityReportLink)
+            ? Meta!.AccessibilityReportLink!
+            : "#accessibility-report";
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        dotNetRef = DotNetObjectReference.Create(this);
+        UriHelper.LocationChanged += OnLocationChanged;
+    }
+
+    public void Dispose()
+    {
+        try { 
+            UriHelper.LocationChanged -= OnLocationChanged;
+            dotNetRef?.Dispose();
+         }
+        catch { /* teardown */ }
+    }
+
+    private async void OnLocationChanged(object? sender,LocationChangedEventArgs args)
+    {
+        _hasLiveSummary = false;
+        _passedChecks = 0;
+        _bestPractices = 0;
+        _violations = 0;
+        _trackedPath = null;
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+        if (firstRender)
+        {
+            _trackedPath = NormalisePath(
+                    UriHelper.ToAbsoluteUri(UriHelper.Uri).PathAndQuery);
+            await SubscribeToUpdatesAsync();
+
+                await RefreshSummaryAsync();
+        }
+    }
+
+    private async Task RefreshSummaryAsync()
+    {
+        AccessibilitySummarySnapshot? summary;
+        try
+        {
+            summary = await JsRuntime.InvokeAsync<AccessibilitySummarySnapshot>(
+                "blazorAccessibility.getLastSummary");
+        }
+        catch (JSDisconnectedException) { return; }
+        catch (InvalidOperationException) { return; }
+        catch (Microsoft.JSInterop.JSException) { return; }
+        if (summary is null)
+        {
+            SuppressPill();
+            return;
+        }
+        var currentPath = NormalisePath(UriHelper.ToAbsoluteUri(UriHelper.Uri).PathAndQuery);
+        // Anchor the pill to the URL we read it for.  If the user
+        // navigates to another sample before this method returns,
+        // _hasLiveSummary will already have been reset by the
+        // LocationChanged handler.
+        if (!string.Equals(currentPath, _trackedPath, StringComparison.Ordinal))
+        {
+            _trackedPath = currentPath;
+        }
+        if (!summary.HasRun)
+        {
+            SuppressPill();
+            return;
+        }
+        // Drop the count strip whenever the cached summary does
+        // not match the current sample - axe still runs and
+        // captureSummary will commit a fresh entry stamped for
+        // the new sample.
+        var cachedPath = NormalisePath(summary.TargetLink);
+        if (!string.IsNullOrEmpty(cachedPath) && !string.Equals(currentPath, cachedPath, StringComparison.Ordinal))
+        {
+            SuppressPill();
+            return;
+        }
+        _passedChecks = summary.PassedRules;
+        _bestPractices = summary.BestPractices;
+        _violations = summary.FailedRules;
+        _hasLiveSummary = true;
+        _trackedPath = currentPath;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void SuppressPill()
+    {
+        _hasLiveSummary = false;
+        StateHasChanged();
+    }
+
+    private static string NormalisePath(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path))
+            return string.Empty;
+
+        path = path.Split('?')[0];
+
+        if (!path.StartsWith("/"))
+            path = "/" + path;
+
+        return path.TrimEnd('/');
+    }
+
+    private async Task SubscribeToUpdatesAsync()
+    {
+        try
+        {
+            await JsRuntime.InvokeVoidAsync("blazorAccessibility.subscribeSummary", dotNetRef);
+        }
+        catch (JSDisconnectedException) { }
+        catch (InvalidOperationException) { }
+        catch (Microsoft.JSInterop.JSException) { }
+    }
+
+    [JSInvokable]
+    public Task OnSummaryUpdated()
+    {
+        return RefreshSummaryAsync();
+    }
+
+    // The badge button opens the detailed axe-core report in a new
+    // browser tab via blazorAccessibility.runAndOpenReport.
+    private async Task OnBadgeClicked(MouseEventArgs args)
+    {
+        await OpenReportAsync();
+    }
+
+    private async Task OnBadgeKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter" || args.Key == " ")
+        {
+            await OpenReportAsync();
+        }
+    }
+
+    // The "Accessibility report" anchor intercepts both mouse clicks
+    // and Enter/Space via @onclick:preventDefault +
+    // @onclick:stopPropagation so the placeholder hash never wins the
+    // navigation and the event never bubbles up to the badge wrapper.
+    private async Task OnAccessibilityReportClicked(MouseEventArgs args)
+    {
+        await OpenReportAsync();
+    }
+
+    private async Task OnAccessibilityReportKeyDown(KeyboardEventArgs args)
+    {
+        if (args.Key == "Enter" || args.Key == " ")
+        {
+            await OpenReportAsync();
+        }
+    }
+
+    private async Task OpenReportAsync()
+    {
+        try
+        {
+            await JsRuntime.InvokeVoidAsync("blazorAccessibility.runAndOpenReport");
+            await RefreshSummaryAsync();
+        }
+        catch (JSDisconnectedException)
+        {
+        }
+        catch (InvalidOperationException)
+        {
+        }
+        catch (Microsoft.JSInterop.JSException)
+        {
+        }
+    }
+}

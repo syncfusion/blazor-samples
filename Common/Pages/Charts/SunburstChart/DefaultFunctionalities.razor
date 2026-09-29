@@ -1,0 +1,131 @@
+@page "/sunburst-chart/default-functionalities"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This Blazor Sunburst Chart example visualizes the top universities from the QS World University Rankings 2026, grouped by region and country.</p>
+
+    <p>In this example, you can see how to render and configure a sunburst chart. The sunburst chart is ideal for displaying hierarchical data where each ring represents a level in the hierarchy. Key features demonstrated here include:</p>
+    <ul>
+        <li><code>Title</code> and <code>SubTitle</code> to provide a heading and source for the chart</li>
+        <li><code>Radius</code> set to <code>0.9</code> to give the chart a slightly inset frame inside the available area</li>
+        <li><code>SunburstDataLabelSettings</code> with <code>LabelRotationMode</code> set to <code>Angle</code> and <code>LabelOverflowMode</code> set to <code>Trim</code> to keep labels readable along the radial layout</li>
+        <li><code>SunburstTooltipSettings</code> with <code>EnableHighlight</code> set to <code>true</code> to show the value and category of a segment on hover and emphasize the hovered segment</li>
+        <li>A custom <code>Palette</code> aligned to the active theme to color the rings consistently</li>
+    </ul>
+
+    <p><code>Tooltip</code> is enabled in this example. To see tooltip details, hover over or tap on a segment.</p>
+
+    <p>More information about the sunburst chart can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/sunburst-chart/getting-started' aria-label="Navigate to the documentation for sunburst chart component" rel='noopener'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfSunburstChart TItem="NodeDetails"
+                     DataSource="@data"
+                     Palette="@Palette"
+                     IdMemberPath="@nameof(NodeDetails.Id)"
+                     ParentIdMemberPath="@nameof(NodeDetails.ParentId)"
+                     LabelMemberPath="@nameof(NodeDetails.Name)"
+                     ValueMemberPath="@nameof(NodeDetails.Value)"
+                     InnerRadius="0.25"
+                     StartAngle="0"
+                     EndAngle="360"
+                     Radius="@Radius"
+                     EnableAnimation="true"
+                     AnimationType="SunburstAnimationType.FadeIn"
+                     Title="World University Rankings 2026"
+                     Subtitle="Source: topuniversities.com"
+                     ID="SunburstChart"
+                     Theme="@Theme"
+                     Width="@Width"
+                     Height="@Height">
+        <SunburstTitleSettings FontWeight="600" Size="16px" />
+        <SunburstSubtitleSettings FontWeight="400" Size="12px" />
+        <SunburstDataLabelSettings Visible="true"
+                                   RotationMode="SunburstLabelRotationMode.Angle">
+            <SunburstDataLabelTextStyle FontWeight="500" />
+        </SunburstDataLabelSettings>
+        <SunburstTooltipSettings Enable="true"
+                                 EnableHighlight="true"
+                                 HeaderText="QS Overall Score"
+                                 Format="${point.label}<br/>Score: ${point.value}" />
+    </SfSunburstChart>
+</div>
+
+@code
+{
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public string Height { get; set; } = "600px";
+    public double Radius { get; set; } = 0.9;
+    public string FontFamily { get; set; } = "Roboto";
+
+    private string[] Palette = Array.Empty<string>();
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+        Palette = SunburstThemeColors.GetDefaultPalette(Theme);
+
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+            Height = "360px";
+            Radius = 0.85;
+        }
+        @*End:Hidden*@
+    }
+
+    public class NodeDetails
+    {
+        public string Id { get; set; } = string.Empty;
+        public string ParentId { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public double Value { get; set; }
+    }
+    private List<NodeDetails> data = new()
+    {
+        new() { Id = "na", ParentId = "", Name = "North America" },
+        new() { Id = "usa", ParentId = "na", Name = "United States" },
+        new() { Id = "mit", ParentId = "usa", Name = "MIT", Value = 100.0 },
+        new() { Id = "stanford", ParentId = "usa", Name = "Stanford University", Value = 98.9 },
+        new() { Id = "harvard", ParentId = "usa", Name = "Harvard University", Value = 97.7 },
+        new() { Id = "eu", ParentId = "", Name = "Europe" },
+        new() { Id = "uk", ParentId = "eu", Name = "United Kingdom" },
+        new() { Id = "imperial", ParentId = "uk", Name = "Imperial College London", Value = 99.4 },
+        new() { Id = "oxford", ParentId = "uk", Name = "University of Oxford", Value = 97.9 },
+        new() { Id = "cambridge", ParentId = "uk", Name = "University of Cambridge", Value = 97.2 },
+        new() { Id = "switzerland", ParentId = "eu", Name = "Switzerland" },
+        new() { Id = "eth", ParentId = "switzerland", Name = "ETH Zurich", Value = 96.7 },
+        new() { Id = "asia", ParentId = "", Name = "Asia" },
+        new() { Id = "singapore", ParentId = "asia", Name = "Singapore" },
+        new() { Id = "nus", ParentId = "singapore", Name = "National University of Singapore", Value = 95.9 },
+        new() { Id = "china", ParentId = "asia", Name = "China" },
+        new() { Id = "tsinghua", ParentId = "china", Name = "Tsinghua University", Value = 92.5 },
+        new() { Id = "peking", ParentId = "china", Name = "Peking University", Value = 91.2 },
+        new() { Id = "hongkong", ParentId = "asia", Name = "Hong Kong" },
+        new() { Id = "hku", ParentId = "hongkong", Name = "University of Hong Kong", Value = 90.8 },
+        new() { Id = "oceania", ParentId = "", Name = "Oceania" },
+        new() { Id = "australia", ParentId = "oceania", Name = "Australia" },
+        new() { Id = "melbourne", ParentId = "australia", Name = "University of Melbourne", Value = 89.5 },
+        new() { Id = "unsw", ParentId = "australia", Name = "UNSW Sydney", Value = 88.2 },
+        new() { Id = "sydney", ParentId = "australia", Name = "University of Sydney", Value = 87.4 },
+        new() { Id = "middleeast", ParentId = "", Name = "Middle East" },
+        new() { Id = "saudi", ParentId = "middleeast", Name = "Saudi Arabia" },
+        new() { Id = "kfupm", ParentId = "saudi", Name = "King Fahd University of Petroleum & Minerals", Value = 89.0 },
+        new() { Id = "ksu", ParentId = "saudi", Name = "King Saud University", Value = 84.5 },
+        new() { Id = "uae", ParentId = "middleeast", Name = "United Arab Emirates" },
+        new() { Id = "khalifa", ParentId = "uae", Name = "Khalifa University", Value = 81.0 }
+    };
+}

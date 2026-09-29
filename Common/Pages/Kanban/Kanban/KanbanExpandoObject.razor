@@ -1,0 +1,148 @@
+@page "/kanban/expando-object"
+
+@using Syncfusion.Blazor.Kanban
+@using System.Dynamic
+@using System.Security.Cryptography
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates data binding with an <code>ExpandoObject</code> collection and supports CRUD operations in the <a class="e-kanban-expandoobject-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                                                            href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                                                            target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a software development task tracker. Cards are generated dynamically with random status, summary, and assignee values.
+</p>
+<p>
+    In this demo, an <code>ExpandoObject</code> collection is bound to the Kanban <a class="e-kanban-expandoobject-reference-link" aria-label="Navigate to the API reference of DataSource property in Kanban"
+                                                                                                                                            href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.SfKanban-1.html#Syncfusion_Blazor_Kanban_SfKanban_1_DataSource"
+                                                                                                                                            target="_blank" rel="noopener">DataSource</a> property to dynamically render fields and support runtime changes.
+</p>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for data binding in kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/data-binding"
+           target="_blank" rel="noopener">Data Binding</a>: Bind an <code>ExpandoObject</code> collection to the Kanban <code>DataSource</code> property.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for dialog editing in kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/dialog"
+           target="_blank" rel="noopener">Dialog Editing</a>: Add, update, and delete cards directly from the card editor dialog.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for columns in kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns"
+           target="_blank" rel="noopener">Columns</a>: Group cards by workflow stage such as To Do, In Progress, Testing, and Done.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Dynamic Generation</b>: 20 tasks are generated at runtime with random status, summary, and assignee values.</li>
+    <li><b>Allow Adding</b>: The <code>AllowAdding</code> flag on each column enables the plus button to add new cards.</li>
+    <li><b>Edit Cards</b>: Double-click any card to open the editor dialog and modify the underlying dynamic data.</li>
+    <li><b>Delete Cards</b>: Use the delete action in the editor dialog to remove a card from the dynamic collection.</li>
+</ul>
+<p>
+    The <b>Data Configuration</b> highlights the building blocks of dynamic data binding:
+</p>
+<ul>
+    <li><b>ExpandoObject</b>: A flexible <code>ExpandoObject</code> instance is used to hold the dynamic property values.</li>
+    <li><b>Dynamic Property Assignment</b>: Properties are assigned at runtime using the dynamic keyword on each item.</li>
+    <li><b>DataSource</b>: The <code>ExpandoObject</code> collection is assigned to the Kanban <code>DataSource</code> property.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-expandoobject-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@Tasks" Height="500px">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowAdding="true"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Summary">
+    <Template>
+        @{
+            var card = (IDictionary<string, object>)context;
+            <div class="min-card" style="--color: #5C6BC0;">
+                <div class="mc-strip"></div>
+                <div class="mc-content">
+                    <div class="mc-head">
+                        <span class="mc-type">Task</span>
+                    </div>
+                    <h3 class="mc-title">@GetValue(card, "Id")</h3>
+                    <p class="mc-desc">@GetValue(card, "Summary")</p>
+                    <div class="mc-footer">
+                    <span class="mc-priority" data-p="Normal">@GetValue(card, "Assignee", "Unassigned")</span>
+                        <span class="mc-id">@GetValue(card, "Status")</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </Template>
+</KanbanCardSettings>
+    </SfKanban>
+</div>
+<style>
+    .min-card { display: flex; border-radius: 8px; overflow: hidden; 
+                box-shadow: 0 2px 8px rgba(0,0,0,.08); 
+                transition: all .3s cubic-bezier(.25,.46,.45,.94); border: 1px solid #f0f0f0; }
+    .min-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.12); transform: translateY(-3px); 
+                      border-color: var(--color); }
+    .mc-strip { width: 5px; background: linear-gradient(180deg, var(--color) 0%, rgba(0,0,0,.1) 100%); flex-shrink: 0; }
+    .mc-content { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .mc-head { display: flex; justify-content: space-between; align-items: center; line-height: normal; padding: 7px;  }
+    .mc-type { font-size: 10px; font-weight: 700; background: rgba(0,0,0,.05); 
+               padding: 2px 6px; border-radius: 3px; border-left: 3px solid var(--color); text-transform: uppercase; }
+    .mc-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--color); 
+                 color: #fff; display: flex; align-items: center; justify-content: center; 
+                 font-size: 9px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,.15); 
+                 transition: transform .2s; }
+    .min-card:hover .mc-avatar { transform: scale(1.12); }
+    .mc-title { padding-left: 5px; font-size: 13px; font-weight: 700;  margin: 0; line-height: 1.3; }
+    .mc-desc { padding: 5px; font-size: 11px; margin: 0; line-height: 1.4; }
+    .mc-footer { display: flex; justify-content: space-between; font-size: 10px; 
+                 padding: 8px; border-top: 1px dashed #e5e5e5; font-weight: 600; line-height: normal; padding: 7px;  }
+    .mc-priority { padding: 2px 6px; border-radius: 3px; background: #ececec; color: #6b6b6b; }
+</style>
+@code{
+    public List<ExpandoObject> Tasks { get; set; } = new List<ExpandoObject>();
+
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "To Do", KeyField = new List<string>() { "Open" } },
+        new ColumnModel() { HeaderText = "In Progress", KeyField = new List<string>() { "In Progress" } },
+        new ColumnModel() { HeaderText = "Testing", KeyField = new List<string>() { "Testing" } },
+        new ColumnModel() { HeaderText = "Done", KeyField = new List<string>() { "Close" } }
+    };
+
+    private string GetValue(IDictionary<string, object> card, string key, string defaultValue = "")
+    {
+        if (card != null && card.TryGetValue(key, out var value) && value != null)
+        {
+            return value.ToString() ?? defaultValue;
+        }
+        return defaultValue;
+    }
+
+    protected override void OnInitialized()
+    {
+        Tasks = Enumerable.Range(1, 20).Select((x) =>
+        {
+            dynamic d = new ExpandoObject();
+            d.Id = "Task 1000" + x;
+            d.Status = (new string[] { "Open", "In Progress", "Testing", "Close" })[RandomNumberGenerator.GetInt32(4)];
+            d.Summary = (new string[] { "Analyze the new requirements gathered from the customer.", "Improve application performance", "Fix the issues reported in the IE browser.", "Validate new requirements", "Test the application in the IE browser." })[RandomNumberGenerator.GetInt32(5)];
+            d.Assignee = (new string[] { "Nancy Davloio", "Andrew Fuller", "Janet Leverling", "Steven walker", "Margaret hamilt", "Michael Suyama", "Robert King" })[RandomNumberGenerator.GetInt32(7)];
+            return d;
+        }).Cast<ExpandoObject>().ToList<ExpandoObject>();
+    }
+}

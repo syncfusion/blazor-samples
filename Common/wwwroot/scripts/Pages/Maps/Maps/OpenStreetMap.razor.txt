@@ -1,0 +1,89 @@
+@page "/maps/open-street-map"
+
+@using Syncfusion.Blazor.Maps
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+  <p>This sample demonstrates OpenStreetMap integration in the Maps component and includes a marker identifying the United Nations Headquarters. The example shows how to render OpenStreetMap tiles and place a geographic marker so the map centers on and highlights the UN location.</p>
+
+  <p>OpenStreetMap tiles are configured by specifying the appropriate URL in the <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html#Syncfusion_Blazor_Maps_MapsLayer_1_UrlTemplate" aria-label="Class reference of UrlTemplate property in Maps">UrlTemplate</a> property of the <a target="_blank" rel="noopener" class="code" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Maps.MapsLayer-1.html" aria-label="Class reference of MapsLayer">MapsLayer</a>. The sample demonstrates the minimal configuration required to load OSM tiles and align the map viewport with the marker.</p>
+
+  <p>The marker illustrates adding a point of interest to the map. Use the same marker configuration pattern to position additional markers, adjust the map center or zoom level, and apply custom symbol or tooltip settings as needed to match your scenario.</p>
+
+  <p>For complete configuration details, tile URL examples, and provider-specific guidance, see the OpenStreetMap documentation: <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/maps/providers/openstreetmap" aria-label="Blazor Maps OpenStreetMap documentation">OpenStreetMap documentation</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <SfMaps Theme="@Theme" Background="transparent">
+        <MapsAreaSettings Background="transparent" />
+        <MapsTitleSettings Text="Headquarters of the United Nations">
+            <MapsTitleTextStyle FontFamily="Segoe UI" />
+        </MapsTitleSettings>
+        <MapsCenterPosition Latitude="40.7209" Longitude="-73.9680" />
+        <MapsZoomSettings Enable="false" ZoomFactor="10" />
+        <MapsLayers>
+            <MapsLayer UrlTemplate="https://a.tile.openstreetmap.org/level/tileX/tileY.png" TValue="string">
+                <MapsMarkerSettings>
+                    <MapsMarker Visible="true" DataSource="@MarkerDatas" TValue="MarkerData">
+                        <ChildContent>
+                            <MapsMarkerTooltipSettings Visible="true" ValuePath="Name">
+                                <MapsMarkerTooltipTextStyle FontFamily="Segoe UI"></MapsMarkerTooltipTextStyle>
+                            </MapsMarkerTooltipSettings>
+                        </ChildContent>
+                        <MarkerTemplate>
+                            @{
+                                <div style="pointer-events: none;">
+                                    <img class="markerTemplate" src="@(SampleService?.WebAssetsPath + "images/maps/ballon.png")" alt="Street Pointer" />
+                                </div>
+                            }
+                        </MarkerTemplate>
+                    </MapsMarker>
+                </MapsMarkerSettings>
+            </MapsLayer>
+        </MapsLayers>
+    </SfMaps>
+    <div class="urllink">
+        <a href="https://www.openstreetmap.org/copyright" target="_blank" rel="noopener">© OpenStreetMap contributors</a>
+    </div>
+    <br />
+    <div class="urllink">
+        Source:
+        <a href="https://en.wikipedia.org/wiki/Headquarters_of_the_United_Nations" target="_blank" rel="noopener">en.wikipedia.org</a>
+    </div>
+</div>
+<style>
+    .markerTemplate {
+        height: 30px;
+        width: 20px;
+        display: block;
+        margin: auto;
+        font-size: 14px;
+        pointer-events: none;
+    }
+</style>
+@code {
+    public class MarkerData
+    {
+        public string? Name { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+    }
+
+    public List<MarkerData> MarkerDatas = new List<MarkerData>
+    {
+        new MarkerData { Name = "Manhattan, New York, USA", Latitude = 40.7388758, Longitude = -73.9730091 }
+    };
+    public Theme Theme { get; set; }
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

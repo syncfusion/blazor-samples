@@ -1,0 +1,263 @@
+@page "/kanban/api"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor.Popups
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates key APIs to manipulate the <a class="e-kanban-api-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                       href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                       target="_blank" rel="noopener">Blazor Kanban</a> component at runtime by visualizing a Bakery Orders. Use the property panel to add and remove columns dynamically across To Do, In Progress, Testing, and Close stages.
+</p>
+<p>
+    The demo shows how to add or remove columns programmatically using property binding and dynamic rendering concepts, enabling flexible board configuration without page reloads. The board exposes public methods on the <a class="e-kanban-api-reference-link" aria-label="Navigate to the API reference of SfKanban"
+                                                                                                       href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.SfKanban-1.html"
+                                                                                                       target="_blank" rel="noopener">SfKanban</a> instance for runtime manipulation.
+</p>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns"
+           target="_blank" rel="noopener">Columns</a>: Configure the workflow stages that group cards on the board.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the dialog in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/dialog#editing-cards-using-the-default-dialog"
+           target="_blank" rel="noopener">Validation Dialog</a>: Show a confirmation dialog when a duplicate or invalid column configuration is detected.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the data binding in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/data-binding"
+           target="_blank" rel="noopener">Data Binding</a>: Bind the card data source to the Kanban component for display across columns.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Add Column</b>: Use the property panel to add a new column by entering header text and selecting a key field.</li>
+    <li><b>Remove Column</b>: Remove an existing column by selecting it from the dropdown and confirming the removal.</li>
+    <li><b>Validation</b>: Duplicate or empty column configurations are blocked through a confirmation dialog.</li>
+    <li><b>Dynamic Render</b>: The board re-renders the updated column list as soon as a column is added or removed.</li>
+</ul>
+<p>
+    The <b>Property Panel</b> offers extensive customization options for runtime board manipulation:
+</p>
+<ul>
+    <li><b>Add Column</b>: Enter header text and pick a key field to add a new column to the board.</li>
+    <li><b>Remove Column</b>: Select an existing column and remove it from the board layout.</li>
+    <li><b>Validation</b>: See inline error messages when the input is invalid or already exists on the board.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-api-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-9 control-section">
+    <SfKanban @ref="KanbanRef" KeyField="Status" Height="500px" DataSource="@CardData">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
+            }
+			@if (@ColumnDynamicChange)
+            {
+                @foreach (ColumnModel changedItem in DynamicData)
+                {
+                    <KanbanColumn HeaderText="@changedItem.HeaderText" KeyField="@changedItem.KeyField" Index="@changedItem.Index"></KanbanColumn>
+                }
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id">
+    <Template>
+        @{
+            dynamic card = context;
+            <div class="min-card" style="--color: #5C6BC0;">
+                <div class="mc-strip"></div>
+                <div class="mc-content">
+                    <div class="mc-head">
+                        <span class="mc-type">Order</span>
+                        <span class="mc-avatar">BA</span>
+                    </div>
+                    <h3 class="mc-title">@card.Id</h3>
+                    <p class="mc-desc">@card.Summary</p>
+                    <div class="mc-footer">
+                        <span class="mc-priority" data-p="Normal">Item</span>
+                        <span class="mc-id">@card.Status</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </Template>
+</KanbanCardSettings>
+    </SfKanban>
+    <SfDialog Width="350px" Header="Validation" Content="@AlertContent" IsModal="true" ShowCloseIcon="true" Visible="@IsAlertShow">
+        <DialogButtons>
+            <DialogButton Content="OK" IsPrimary="true" OnClick="@(() => { IsAlertShow = false; })"></DialogButton>
+        </DialogButtons>
+    </SfDialog>
+</div>
+<PropertyPanel ControlSecClass="col-lg-9">
+        <div class="property-panel-header">Add Column</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Add Column">
+                <tbody>
+                    <tr>
+                        <td>
+                            <SfTextBox @ref="AddTextRef" Placeholder="Enter Text Field" @bind-Value="@TextValue"></SfTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfDropDownList @ref="AddKeyRef" TItem="string" TValue="string" DataSource="@ColumnKeys" PopupHeight="200px" Placeholder="Select Key Field" @bind-Value="DropDownValue"></SfDropDownList>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfNumericTextBox @ref="AddIndexRef" TValue="int?" Min="0" Max="@ColumnData.Count" Placeholder="Index" Value="@AddIndexValue"></SfNumericTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfButton ID="add" Content="Add" OnClick="OnAddColumn"></SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="property-panel-header">Delete Column</div>
+        <div class="property-panel-content">
+            <table class="property-panel-table" title="Delete Column">
+                <tbody>
+                    <tr>
+                        <td>
+                            <SfNumericTextBox @ref="DeleteIndexRef" TValue="int?" Min="0" Max="@(ColumnData.Count - 1)" Placeholder="Index" Value="@DeleteIndexValue"></SfNumericTextBox>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <SfButton ID="delete" Content="Delete" OnClick="OnDeleteColumn"></SfButton>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+</PropertyPanel>
+
+<style>
+    .property-panel-content table {
+        width: 100%;
+    }
+
+    .property-panel-content table tr {
+        height: 50px;
+    }
+
+    .property-panel-content table td {
+        padding-left: 10px;
+        width: 50%;
+    }
+
+    .sf-property-section .e-icons.e-settings,
+    .sf-property-panel-header {
+        height: 0;
+    }
+    .min-card { display: flex; border-radius: 8px; overflow: hidden; 
+                box-shadow: 0 2px 8px rgba(0,0,0,.08); 
+                transition: all .3s cubic-bezier(.25,.46,.45,.94); border: 1px solid #f0f0f0; }
+    .min-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.12); transform: translateY(-3px); 
+                      border-color: var(--color); }
+    .mc-strip { width: 5px; background: linear-gradient(180deg, var(--color) 0%, rgba(0,0,0,.1) 100%); flex-shrink: 0; }
+    .mc-content { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .mc-head { display: flex; justify-content: space-between;  align-items: center; line-height: normal; padding: 5px }
+    .mc-type { font-size: 10px; font-weight: 700; background: rgba(0,0,0,.05); 
+               padding: 2px 6px; border-radius: 3px; border-left: 3px solid var(--color); text-transform: uppercase; }
+    .mc-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--color); 
+                 color: #fff; display: flex; align-items: center; justify-content: center; 
+                 font-size: 9px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,.15); 
+                 transition: transform .2s; }
+    .min-card:hover .mc-avatar { transform: scale(1.12); }
+    .mc-title { padding-left: 5px; font-size: 13px; font-weight: 700; margin: 0; line-height: 1.3; }
+    .mc-desc { padding: 5px; font-size: 11px; margin: 0; line-height: 1.4; }
+    .mc-footer { display: flex; justify-content: space-between; font-size: 10px; 
+                 padding: 8px; border-top: 1px dashed #e5e5e5; font-weight: 600; line-height: normal;  }
+    .mc-priority { padding: 2px 6px; border-radius: 3px; background: #ececec; color: #6b6b6b; }
+</style>
+
+@code{
+    private SfTextBox? AddTextRef;
+    private SfKanban<KanbanDataModel>? KanbanRef;
+    private SfDropDownList<string, string>? AddKeyRef;
+    private SfNumericTextBox<int?>? AddIndexRef;
+    private SfNumericTextBox<int?>? DeleteIndexRef;
+    private string? DropDownValue = null;
+    private string TextValue = "";
+	public bool ColumnDynamicChange = false;
+    private int? AddIndexValue = 0;
+    private int? DeleteIndexValue = 0;
+    private bool IsAlertShow = false;
+    private string AlertContent = string.Empty;
+    private List<string> ColumnKeys = new List<string>() { "Review", "Testing", "Validate" };
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetBakeryOrders();
+
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel { HeaderText = "New Order", KeyField = new List<string>() { "New Order" } },
+        new ColumnModel { HeaderText = "Prep", KeyField = new List<string>() { "Prep" } },
+        new ColumnModel { HeaderText = "Oven", KeyField = new List<string>() { "Oven" } },
+        new ColumnModel { HeaderText = "Out for Delivery", KeyField = new List<string>() { "Out for Delivery" } }
+    };
+	private List<ColumnModel> DynamicData = new List<ColumnModel>();
+    
+    private void OnAddColumn()
+    {
+        if (!string.IsNullOrEmpty(AddTextRef?.Value) && !string.IsNullOrEmpty(AddKeyRef?.Value) && AddIndexRef?.Value != null)
+        {
+            DynamicData.Add(new ColumnModel { HeaderText = AddTextRef.Value, KeyField = new List<string>() { AddKeyRef.Value }, Index = (int)AddIndexRef.Value });
+            AddIndexValue = null;
+            ColumnDynamicChange = true;
+            DropDownValue = null;
+            TextValue = "";
+        }
+        else
+        {
+            if (string.IsNullOrEmpty(AddTextRef?.Value))
+            {
+                AlertContent = "Enter Column Header Text";
+            }
+            else if (string.IsNullOrEmpty(AddKeyRef?.Value))
+            {
+                AlertContent = "Enter Column Key Field";
+            }
+            else if (AddIndexRef?.Value == null)
+            {
+                AlertContent = "Enter Column Index";
+            }
+            IsAlertShow = true;
+        }
+    }
+
+    private async Task OnDeleteColumn()
+    {
+        if (DeleteIndexRef?.Value != null && KanbanRef != null)
+        {
+            await KanbanRef.DeleteColumnAsync((int)DeleteIndexRef.Value);
+            DeleteIndexValue = null;
+        }
+        else
+        {
+            AlertContent = "Enter Column Index";
+            IsAlertShow = true;
+        }
+    }
+}

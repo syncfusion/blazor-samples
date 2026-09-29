@@ -1,0 +1,251 @@
+@page "/sunburst-chart/selection"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This Blazor Sunburst Chart example visualizes <b>Customer Effort Score Distribution (in Percent of Customer Journeys)</b> across touchpoint tiers (First, Second, Third, Fourth, Fifth) categorized by engagement channels and interaction types.</p>
+
+<p>In this example, you can see how to configure selection and highlight behaviors in a sunburst chart with an asymmetric multi-tier radial hierarchy. By default, both selection and highlight are disabled. Use the property panel to enable selection or highlight, then choose the desired mode to explore hierarchical relationships. Key features demonstrated here include:</p>
+<ul>
+    <li><code>SunburstSelectionSettings</code> with <code>Enable</code> toggleable from the property panel to allow clicking and selecting a segment</li>
+    <li><code>Mode</code> options such as <code>Child</code>, <code>Parent</code>, <code>Single</code>, and <code>All</code> to control selection scope</li>
+    <li><code>SunburstHighlightSettings</code> with <code>Enable</code> toggleable to visually emphasize a segment on hover</li>
+    <li>Asymmetric depth levels ranging from 2 up to 4 rings producing an uneven sunburst flare silhouette</li>
+    <li><code>SunburstDataLabelSettings</code> with <code>LabelRotationMode</code> set to <code>Angle</code> and <code>LabelOverflowMode</code> set to <code>Trim</code> for readable curved labels</li>
+    <li>A custom <code>Palette</code> aligned to the active theme to color the rings consistently</li>
+</ul>
+
+<p><code>Tooltip</code> is enabled in this example. To see tooltip details, hover over or tap on a segment. Enable selection and highlight from the property panel to interact with the chart.</p>
+
+<p>More information about the sunburst chart selection and highlight can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/sunburst-chart/selection-highlight' aria-label="Navigate to the documentation for sunburst chart selection and highlight" rel='noopener'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section" align='center'>
+    <SfSunburstChart TItem="NodeDetails"
+                     @ref="ChartRef"
+                     DataSource="@data"
+                     Palette="@Palette"
+                     IdMemberPath="@nameof(NodeDetails.Id)"
+                     ParentIdMemberPath="@nameof(NodeDetails.ParentId)"
+                     LabelMemberPath="@nameof(NodeDetails.Name)"
+                     ValueMemberPath="@nameof(NodeDetails.Value)"
+                     InnerRadius="0.15"
+                     Radius="@Radius"
+                     Title="Customer Effort Score Distribution"
+                     Subtitle="Source: Gartner Customer Experience Survey, 2024"
+                     ID="effortScoreChart"
+                     Theme="@Theme"
+                     Width="@Width"
+                     EnableAnimation="true"
+                     AnimationType="SunburstAnimationType.Rotation"
+                     Height="@Height">
+        <SunburstTitleSettings FontWeight="600" Size="16px" />
+        <SunburstSubtitleSettings FontWeight="400" Size="12px" />
+
+        <SunburstLegendSettings Visible="true"
+                                Position="SunburstLegendPosition.Bottom"
+                                ToggleVisibility="true">
+            <SunburstLegendTextStyle FontWeight="400" />
+        </SunburstLegendSettings>
+
+        <SunburstDataLabelSettings Visible="true"
+                                   RotationMode="SunburstLabelRotationMode.Angle">
+            <SunburstDataLabelTextStyle FontWeight="500" />
+        </SunburstDataLabelSettings>
+
+        <SunburstTooltipSettings Enable="true"
+                                 EnableHighlight="true"
+                                 HeaderText="Customer Effort Score"
+                                 Format="${point.label} : ${point.value}%" />
+
+        <SunburstSelectionSettings Enable="@IsSelectionEnabled"
+                                   Mode="@SelectionModeValue" />
+
+        <SunburstHighlightSettings Enable="@IsHighlightEnabled"
+                                   Mode="@HighlightModeValue" />
+    </SfSunburstChart>
+</div>
+
+<PropertyPanel ControlSecClass="col-lg-9">
+    <table style="width: 100%">
+        <tbody>
+            <tr style="height: 50px">
+                <td>
+                    <div>Enable Selection:</div>
+                </td>
+                <td>
+                    <SfCheckBox Checked="@IsSelectionEnabled" ValueChange="@ChangeSelection" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td>
+                    <div>Selection Mode:</div>
+                </td>
+                <td>
+                    <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Child" DataSource="@SelectionModes">
+                        <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeSelectionMode"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td>
+                    <div>Enable Highlight:</div>
+                </td>
+                <td>
+                    <SfCheckBox Checked="@IsHighlightEnabled" ValueChange="@ChangeHighlight" TChecked="bool"></SfCheckBox>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td>
+                    <div>Highlight Mode:</div>
+                </td>
+                <td>
+                    <SfDropDownList TValue="string" TItem="DropDownData" Placeholder="Parent" DataSource="@HighlightModes">
+                        <DropDownListEvents TValue="string" TItem="DropDownData" ValueChange="ChangeHighlightMode"></DropDownListEvents>
+                        <DropDownListFieldSettings Value="Type"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</PropertyPanel>
+
+@code
+{
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public string Height { get; set; } = "600px";
+    public double Radius { get; set; } = 0.9;
+    public string FontFamily { get; set; } = "Roboto";
+
+    private SfSunburstChart<NodeDetails>? ChartRef { get; set; }
+
+    private string[] Palette = Array.Empty<string>();
+
+    private bool IsSelectionEnabled = false;
+    private bool IsHighlightEnabled = false;
+    private SunburstSelectionMode SelectionModeValue = SunburstSelectionMode.Child;
+    private SunburstHighlightMode HighlightModeValue = SunburstHighlightMode.Parent;
+
+    public List<DropDownData> SelectionModes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Child" },
+        new DropDownData() { Type = "Parent" },
+        new DropDownData() { Type = "Single" },
+        new DropDownData() { Type = "All" }
+    };
+
+    public List<DropDownData> HighlightModes { get; set; } = new List<DropDownData>
+    {
+        new DropDownData() { Type = "Child" },
+        new DropDownData() { Type = "Parent" },
+        new DropDownData() { Type = "Single" },
+        new DropDownData() { Type = "All" }
+    };
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+        Palette = SunburstThemeColors.GetSelectionPalette(Theme);
+
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+            Height = "360px";
+            Radius = 0.85;
+        }
+        @*End:Hidden*@
+    }
+
+    public class NodeDetails
+    {
+        public string Id { get; set; } = string.Empty;
+        public string ParentId { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public double Value { get; set; }
+    }
+
+    public class DropDownData
+    {
+        public string? Type { get; set; }
+    }
+
+    private async Task ChangeSelection(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        await Task.CompletedTask;
+        IsSelectionEnabled = args.Checked;
+    }
+
+    private async Task ChangeSelectionMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        await Task.CompletedTask;
+        SelectionModeValue = (SunburstSelectionMode)Enum.Parse(typeof(SunburstSelectionMode), args?.Value?.ToString() ?? string.Empty, true);
+    }
+
+    private async Task ChangeHighlight(Syncfusion.Blazor.Buttons.ChangeEventArgs<bool> args)
+    {
+        await Task.CompletedTask;
+        IsHighlightEnabled = args.Checked;
+    }
+
+    private async Task ChangeHighlightMode(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, DropDownData> args)
+    {
+        await Task.CompletedTask;
+        HighlightModeValue = (SunburstHighlightMode)Enum.Parse(typeof(SunburstHighlightMode), args?.Value?.ToString() ?? string.Empty, true);
+    }
+
+    private List<NodeDetails> data = new()
+    {
+        // ============== Tier 1: First (Lowest Effort - Flares 4 levels deep in Digital) ==============
+        new() { Id = "first", ParentId = "", Name = "First" },
+        new() { Id = "first-digital", ParentId = "first", Name = "Digital" },
+        new() { Id = "first-digital-self", ParentId = "first-digital", Name = "Self-Service" },
+        new() { Id = "first-digital-self-kb", ParentId = "first-digital-self", Name = "Knowledge Base", Value = 18 },
+        new() { Id = "first-digital-self-faq", ParentId = "first-digital-self", Name = "Instant FAQ", Value = 12 },
+        new() { Id = "first-digital-app", ParentId = "first-digital", Name = "Mobile App", Value = 16 },
+        new() { Id = "first-human", ParentId = "first", Name = "Human" },
+        new() { Id = "first-human-expert", ParentId = "first-human", Name = "Dedicated Rep", Value = 14 },
+
+        // ============== Tier 2: Second (Low Effort - 3 levels) ==============
+        new() { Id = "second", ParentId = "", Name = "Second" },
+        new() { Id = "second-web", ParentId = "second", Name = "Web Portal" },
+        new() { Id = "second-web-account", ParentId = "second-web", Name = "Account Mgmt", Value = 15 },
+        new() { Id = "second-web-billing", ParentId = "second-web", Name = "Quick Pay", Value = 11 },
+        new() { Id = "second-human", ParentId = "second", Name = "Chat Agent", Value = 14 },
+
+        // ============== Tier 3: Third (Moderate Effort - Flares 4 levels in Voice) ==============
+        new() { Id = "third", ParentId = "", Name = "Third" },
+        new() { Id = "third-voice", ParentId = "third", Name = "Voice Support" },
+        new() { Id = "third-voice-ivr", ParentId = "third-voice", Name = "IVR Routing" },
+        new() { Id = "third-voice-ivr-queue", ParentId = "third-voice-ivr", Name = "Priority Queue", Value = 16 },
+        new() { Id = "third-voice-ivr-callback", ParentId = "third-voice-ivr", Name = "Scheduled Return", Value = 10 },
+        new() { Id = "third-voice-tier2", ParentId = "third-voice", Name = "Specialist Transfer", Value = 12 },
+        new() { Id = "third-email", ParentId = "third", Name = "Async Email", Value = 12 },
+
+        // ============== Tier 4: Fourth (High Effort - 3 levels) ==============
+        new() { Id = "fourth", ParentId = "", Name = "Fourth" },
+        new() { Id = "fourth-transfers", ParentId = "fourth", Name = "Transfers" },
+        new() { Id = "fourth-trans-multi", ParentId = "fourth-transfers", Name = "Multiple Agents", Value = 14 },
+        new() { Id = "fourth-trans-repeat", ParentId = "fourth-transfers", Name = "Repeat Issues", Value = 10 },
+        new() { Id = "fourth-forms", ParentId = "fourth", Name = "Paperwork Filing", Value = 8 },
+
+        // ============== Tier 5: Fifth (Highest Effort - Shallow 2-level branch) ==============
+        new() { Id = "fifth", ParentId = "", Name = "Fifth" },
+        new() { Id = "fifth-escalations", ParentId = "fifth", Name = "Manager Escalations", Value = 10 },
+        new() { Id = "fifth-unresolved", ParentId = "fifth", Name = "Disputed Resolutions", Value = 8 }
+    };
+}

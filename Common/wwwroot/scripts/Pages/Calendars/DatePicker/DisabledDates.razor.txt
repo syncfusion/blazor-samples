@@ -1,0 +1,57 @@
+@page "/DatePicker/Disabled-Dates"
+
+@using Syncfusion.Blazor.Calendars
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+  <p>This sample demonstrates the Disabled Dates capability of the DatePicker component by preventing selection of all weekend days (Saturday and Sunday) within a month. Disabled cells are presented visually and programmatically so users cannot choose unavailable dates.</p>
+
+  <p>The example implements this behavior using the <code><a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.DatePickerEvents-1.html#Syncfusion_Blazor_Calendars_DatePickerEvents_1_OnRenderDayCell" aria-label="Class reference of OnRenderDayCell event in DatePicker">OnRenderDayCell</a></code> event. This event is raised for each day-cell element as it is created, allowing per-cell customization such as adding CSS classes, setting attributes, or marking cells as disabled to restrict selection.</p>
+
+  <p>In this sample, weekend dates are detected inside the event handler and decorated with a disabled CSS class and relevant attributes to prevent selection. The UI updates reflect the disabled state so users receive clear visual feedback that those dates are not selectable.</p>
+
+  <p>Implementation notes: when marking dates disabled, ensure equivalent accessibility support by exposing state through semantic attributes (for example, <code>aria-disabled</code>) and preserving predictable keyboard focus behavior. Keep cell modifications minimal and test rendering across cultures and localized calendars so weekend detection matches the intended locale.</p>
+
+  <p>The pattern shown here is suitable for enforcing business rules that exclude specific dates (holidays, maintenance windows, or recurring nonworkdays) while preserving the DatePicker’s native interaction model and accessibility characteristics.</p>
+
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        <label class="example-label">Date of journey</label>
+        <SfDatePicker TValue="DateTime?" @ref="@DatePickerObj" Placeholder="Choose a Date" ShowClearButton="true" FullScreen="true" aria-label="Select date of journey">
+            <DatePickerEvents TValue="DateTime?"  OnRenderDayCell="@DisableDate"></DatePickerEvents>
+        </SfDatePicker>
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>
+@code {
+    private SfDatePicker<DateTime?>? DatePickerObj { get; set; }
+    
+    private void DisableDate(RenderDayCellEventArgs args)
+    {
+        if (DatePickerObj != null)
+        {
+            var view = DatePickerObj.CurrentView();
+            if (view == "Month" && ((int)args.Date.DayOfWeek == 0 || (int)args.Date.DayOfWeek == 6))
+            {
+                args.IsDisabled = true;
+            }
+        }
+    }
+}

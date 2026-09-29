@@ -1,0 +1,122 @@
+@page "/circular-gauge/sleep-tracker"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.CircularGauge
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample represents hours slept by a person using a sleep tracker that displays the start time, end time, and duration of each sleep cycle.</p>
+
+<p>Features:</p>
+<ul>
+  <li>Circular gauge styled as a sleep tracker interface</li>
+  <li>Sleep duration visualization in circular format</li>
+  <li>Display of sleep cycle timing information</li>
+  <li>Date and sleep cycle details annotation</li>
+  <li>Start and end time indication</li>
+</ul>
+
+<p>More information on the circular gauge can be found in this <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/circular-gauge/getting-started" aria-label="Navigate to the Blazor Circular Gauge Getting Started documentation">documentation section</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <SfCircularGauge Theme="@Theme" Background="transparent">
+        @*<CircularGaugeEvents AxisLabelRendering="AxisLabelChange" />*@
+        <CircularGaugeAxes>
+            <CircularGaugeAxis Radius="70%" StartAngle="0" EndAngle="0" Minimum="0" Maximum="12">
+                <CircularGaugeAxisLabelStyle HiddenLabel="HiddenLabel.First">
+                    <CircularGaugeAxisLabelFont FontFamily="inherit" />
+                </CircularGaugeAxisLabelStyle>
+                <CircularGaugeRanges>
+                    <CircularGaugeRange Color="#6453D0" Start="0" End="@PointerValue" StartWidth="4" EndWidth="4" />
+                    <CircularGaugeRange Color="#6453D0" Start="12" End="@PointerValueOne" StartWidth="4" EndWidth="4" />
+                    <CircularGaugeRange Color="#d7d3ed" Start="@PointerValue" End="@PointerValueOne" StartWidth="4" EndWidth="4" />
+                </CircularGaugeRanges>
+                <CircularGaugeAxisLineStyle Width="0" />
+                <CircularGaugeAxisMajorTicks Height="12" Interval="1" Width="2" Offset="4"/>
+                <CircularGaugeAxisMinorTicks Height="7" Width="1" Interval="0.2" Offset="4" />
+                <CircularGaugePointers>
+                    <CircularGaugePointer Type="PointerType.Marker" Value="@PointerValue" MarkerShape="GaugeShape.Image" ImageUrl="@(SampleService?.WebAssetsPath + "images/circular-gauge/sun-icon.png")"  Radius="97%" MarkerWidth="28" MarkerHeight="28">
+                        <CircularGaugePointerAnimation Enable="false" />
+                    </CircularGaugePointer>
+                    <CircularGaugePointer Type="PointerType.Marker" Value="@PointerValueOne" MarkerShape="GaugeShape.Image" ImageUrl="@(SampleService?.WebAssetsPath + "images/circular-gauge/moon-icon.png")"  Radius="98%" Color="#349ff4" MarkerWidth="28" MarkerHeight="28">
+                        <CircularGaugePointerAnimation Enable="false" />
+                    </CircularGaugePointer>
+                </CircularGaugePointers>
+                <CircularGaugeAnnotations>
+                    <CircularGaugeAnnotation Angle="351" Radius="122%" ZIndex="1">
+                        <ContentTemplate>
+                            <div style="font-size:15px;border-radius: 20px;border: 2px solid gray;padding: 4px;width: 140%;text-align: center;margin-left: 8px;">Mon, 5 Apr</div>
+                        </ContentTemplate>
+                    </CircularGaugeAnnotation>
+                    <CircularGaugeAnnotation Angle="175" Radius="120%" ZIndex="1">
+                        <ContentTemplate>
+                            <div style="font-size:15px;margin-left:-28px">@PointerValueTwo</div>
+                        </ContentTemplate>
+                    </CircularGaugeAnnotation>
+                    <CircularGaugeAnnotation Angle="177" Radius="140%" ZIndex="1">
+                        <ContentTemplate>
+                            <div style="font-size:15px;margin-left: -15px;">Sleep time</div>
+                        </ContentTemplate>
+                    </CircularGaugeAnnotation>
+                    <CircularGaugeAnnotation Angle="264" Radius="42%" ZIndex="1">
+                        <ContentTemplate>
+                            <div style="color:#6453D0;font-size:15px;margin-top: 3px;">
+                                <p style="text-align: center;">4 Apr</p><p style="margin-top: -15px;">@TemplateValueTwo PM</p>
+                            </div>
+                        </ContentTemplate>
+                    </CircularGaugeAnnotation>
+                    <CircularGaugeAnnotation Angle="0" Radius="0%" ZIndex="1">
+                        <ContentTemplate>
+                            <div style="color:#6453D0;margin-top: -12px;"> - </div>
+                        </ContentTemplate>
+                    </CircularGaugeAnnotation>
+                    <CircularGaugeAnnotation Angle="94" Radius="55%" ZIndex="1">
+                        <ContentTemplate>
+                            <div style="color:#6453D0;font-size:15px;margin-left: -30px;margin-top: 5px;">
+                                <p style="text-align: center;">5 Apr </p><p style="margin-top: -15px;">@TemplateValueOne AM</p>
+                            </div>
+                        </ContentTemplate>
+                    </CircularGaugeAnnotation>
+                </CircularGaugeAnnotations>
+            </CircularGaugeAxis>
+        </CircularGaugeAxes>
+    </SfCircularGauge>
+</div>
+@code{
+    public SfCircularGauge? Circular;
+    public Theme Theme { get; set; }
+    public double PointerValue = 4.7;
+    public string TemplateValueOne = "4:43";
+    public string TemplateValueTwo = "9:00";
+    public double PointerValueOne = 9;
+    public string PointerValueTwo = string.Empty;
+    
+    @*Hidden:Lines*@
+    private void AxisLabelChange(AxisLabelRenderEventArgs args)
+    {
+        if (args.Value == 3 || args.Value == 6 || args.Value == 9 || args.Value == 12)
+        {
+            args.Text = args.Value.ToString();
+        }
+        else
+        {
+            args.Text = "";
+        }
+    }
+    @*End:Hidden*@
+    
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        TimeSpan timeSpan = new DateTime(2021, 1, 2, 4, 43, 0) - new DateTime(2021, 1, 1, 21, 0, 0);
+        PointerValueTwo = "0" + timeSpan.Hours + " hrs " + timeSpan.Minutes + " mins";
+    }
+}

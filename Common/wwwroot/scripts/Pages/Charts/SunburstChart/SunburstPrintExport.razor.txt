@@ -1,0 +1,240 @@
+@page "/sunburst-chart/print-export"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.DropDowns
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This Blazor Sunburst Chart example visualizes the most starred repositories of the GitHub Open Source Ecosystem, grouped by programming language and category.</p>
+
+    <p>In this example, you can see how to print and export a sunburst chart. Use the properties panel on the right to print the chart or export it as PNG, JPEG, SVG, PDF, XLSX or CSV with a custom file name. Key features demonstrated here include:</p>
+    <ul>
+        <li><code>PrintAsync</code> on the chart to open the browser's print dialog for the rendered sunburst</li>
+        <li><code>ExportAsync</code> with an <code>ExportType</code> of <code>PNG</code>, <code>JPEG</code>, <code>SVG</code>, <code>PDF</code>, <code>XLSX</code>, or <code>CSV</code> to save the chart locally</li>
+        <li>A custom <code>Palette</code> aligned to the active theme to color the rings consistently</li>
+    </ul>
+
+    <p><code>Tooltip</code> is enabled in this example. Hover or tap on a segment to see repository details.</p>
+
+    <p>More information about the sunburst chart print and export can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/sunburst-chart/print-export' aria-label="Navigate to the documentation for sunburst chart print and export" rel='noopener'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="col-lg-9 control-section" align='center'>
+    <SfSunburstChart TItem="NodeDetails"
+                     @ref="ChartRef"
+                     DataSource="@data"
+                     Palette="@Palette"
+                     IdMemberPath="@nameof(NodeDetails.Id)"
+                     ParentIdMemberPath="@nameof(NodeDetails.ParentId)"
+                     LabelMemberPath="@nameof(NodeDetails.Name)"
+                     ValueMemberPath="@nameof(NodeDetails.Value)"
+                     Title="GitHub Open Source Ecosystem"
+                     Subtitle="Source: octoverse.github.com"
+                     ID="githubOpenSourceChart"
+                     Theme="@Theme"
+                     Width="@Width"
+                     EnableAnimation="true"
+                     StartAngle="90" EndAngle="90"
+                     AnimationType="SunburstAnimationType.Rotation"
+                     InnerRadius="0.35"
+                     Height="@Height">
+        <SunburstChartMargin Left="15" Right="15" Top="10" Bottom="10" />
+        <SunburstTitleSettings FontFamily="Roboto" FontWeight="600" Size="17px" />
+        <SunburstSubtitleSettings FontFamily="Roboto" FontWeight="400" Size="12px" />
+
+        <SunburstLegendSettings Visible="true"
+                                Position="SunburstLegendPosition.Bottom"
+                                ItemPadding="14"
+                                ShapeWidth="12"
+                                ShapeHeight="12"
+                                ToggleVisibility="true">
+            <SunburstLegendBorder Width="1" />
+            <SunburstLegendTextStyle FontFamily="Roboto" FontWeight="400" />
+        </SunburstLegendSettings>
+
+        <SunburstDataLabelSettings Visible="true"
+                                   RotationMode="SunburstLabelRotationMode.Angle">
+            <SunburstDataLabelTextStyle FontFamily="Roboto" FontWeight="500" />
+        </SunburstDataLabelSettings>
+
+        <SunburstTooltipSettings Enable="true"
+                                 EnableHighlight="true"
+                                 HeaderText="Repository Popularity"
+                                 Format="${point.label} — ${root.label}<br/>Stars: ${point.value}K"
+                                 ShowHeaderLine="true">
+        </SunburstTooltipSettings>
+    </SfSunburstChart>
+</div>
+
+<PropertyPanel ControlSecClass="col-lg-9">
+    <table style="width: 100%">
+        <tbody>
+            <tr style="height: 50px; text-align: center">
+                <td colspan="2">
+                    <b>Print the chart</b>
+                </td>
+            </tr>
+            <tr style="height: 50px; text-align: center">
+                <td colspan="2">
+                    <SfButton ID="printButton" IsPrimary="true" IsToggle="true" OnClick="PrintChart">Print</SfButton>
+                </td>
+            </tr>
+            <tr style="height: 50px; text-align: center">
+                <td colspan="2">
+                    <b>Export the chart</b>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 40%; text-align: left; vertical-align: middle;">
+                    <div>Export Type:</div>
+                </td>
+                <td style="width: 60%; text-align: left;">
+                    <SfDropDownList TValue="ExportType" TItem="ExportFormat" Placeholder="Select a format" DataSource="@ExportFormats" @bind-Value="@SelectedExportType">
+                        <DropDownListFieldSettings Value="Type" Text="Name"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                </td>
+            </tr>
+            <tr style="height: 50px">
+                <td style="width: 40%; text-align: left; vertical-align: middle;">
+                    <div>File Name:</div>
+                </td>
+                <td style="width: 60%; text-align: left;">
+                    <SfTextBox @bind-value="@FileName" Placeholder="SunburstChart" />
+                </td>
+            </tr>
+            <tr style="height: 50px; text-align: center">
+                <td colspan="2">
+                    <SfButton ID="exportButton" IsPrimary="true" OnClick="ExportChart">Export</SfButton>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</PropertyPanel>
+
+@code
+{
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public string Height { get; set; } = "600px";
+    public double Radius { get; set; } = 0.9;
+    public string FontFamily { get; set; } = "Roboto";
+
+    private SfSunburstChart<NodeDetails>? ChartRef { get; set; }
+
+    private string[] Palette = Array.Empty<string>();
+
+    private string FileName { get; set; } = "SunburstChart";
+    private ExportType SelectedExportType { get; set; } = ExportType.JPEG;
+
+    public List<ExportFormat> ExportFormats { get; set; } = new List<ExportFormat>
+    {
+        new ExportFormat() { Name = "JPEG", Type = ExportType.JPEG },
+        new ExportFormat() { Name = "PNG", Type = ExportType.PNG },
+        new ExportFormat() { Name = "SVG", Type = ExportType.SVG },
+        new ExportFormat() { Name = "PDF", Type = ExportType.PDF },
+        new ExportFormat() { Name = "XLSX", Type = ExportType.XLSX },
+        new ExportFormat() { Name = "CSV", Type = ExportType.CSV }
+    };
+
+    public class ExportFormat
+    {
+        public string Name { get; set; } = string.Empty;
+        public ExportType Type { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+        Palette = SunburstThemeColors.GetPrintExportPalette(Theme);
+
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+            Height = "360px";
+            Radius = 0.85;
+        }
+        @*End:Hidden*@
+    }
+
+    public class NodeDetails
+    {
+        public string Id { get; set; } = string.Empty;
+        public string ParentId { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public double Value { get; set; }
+    }
+
+    public async Task PrintChart(MouseEventArgs args)
+    {
+        if (ChartRef != null)
+        {
+            await ChartRef.PrintAsync();
+        }
+    }
+
+    public async Task ExportChart(MouseEventArgs args)
+    {
+        if (ChartRef == null)
+        {
+            return;
+        }
+
+        var format = ExportFormats.FirstOrDefault(f => f.Type == SelectedExportType)
+                     ?? ExportFormats.FirstOrDefault()
+                     ?? new ExportFormat { Type = ExportType.PNG };
+
+        await ChartRef.ExportAsync(format.Type, string.IsNullOrWhiteSpace(FileName) ? "SunburstChart" : FileName);
+    }
+
+    private List<NodeDetails> data = new()
+    {
+        new() { Id = "typescript", ParentId = "", Name = "TypeScript" },
+        new() { Id = "react-eco", ParentId = "typescript", Name = "React Ecosystem" },
+        new() { Id = "react", ParentId = "react-eco", Name = "React", Value = 240 },
+        new() { Id = "nextjs", ParentId = "react-eco", Name = "Next.js", Value = 135 },
+        new() { Id = "angular-eco", ParentId = "typescript", Name = "Angular Ecosystem" },
+        new() { Id = "angular", ParentId = "angular-eco", Name = "Angular", Value = 98 },
+        new() { Id = "nx", ParentId = "angular-eco", Name = "Nx", Value = 26 },
+        new() { Id = "vue-eco", ParentId = "typescript", Name = "Vue Ecosystem" },
+        new() { Id = "vue", ParentId = "vue-eco", Name = "Vue", Value = 210 },
+        new() { Id = "nuxt", ParentId = "vue-eco", Name = "Nuxt", Value = 58 },
+        new() { Id = "python", ParentId = "", Name = "Python" },
+        new() { Id = "ai", ParentId = "python", Name = "AI & Machine Learning" },
+        new() { Id = "tensorflow", ParentId = "ai", Name = "TensorFlow", Value = 190 },
+        new() { Id = "pytorch", ParentId = "ai", Name = "PyTorch", Value = 92 },
+        new() { Id = "data-science", ParentId = "python", Name = "Data Science" },
+        new() { Id = "pandas", ParentId = "data-science", Name = "Pandas", Value = 46 },
+        new() { Id = "numpy", ParentId = "data-science", Name = "NumPy", Value = 31 },
+        new() { Id = "web-python", ParentId = "python", Name = "Web Frameworks" },
+        new() { Id = "django", ParentId = "web-python", Name = "Django", Value = 84 },
+        new() { Id = "fastapi", ParentId = "web-python", Name = "FastAPI", Value = 88 },
+        new() { Id = "java", ParentId = "", Name = "Java" },
+        new() { Id = "spring", ParentId = "java", Name = "Spring", Value = 55 },
+        new() { Id = "quarkus", ParentId = "java", Name = "Quarkus", Value = 15 },
+        new() { Id = "spark", ParentId = "java", Name = "Apache Spark", Value = 41 },
+        new() { Id = "kafka", ParentId = "java", Name = "Apache Kafka", Value = 32 },
+        new() { Id = "go", ParentId = "", Name = "Go" },
+        new() { Id = "kubernetes", ParentId = "go", Name = "Kubernetes", Value = 117 },
+        new() { Id = "helm", ParentId = "go", Name = "Helm", Value = 29 },
+        new() { Id = "terraform", ParentId = "go", Name = "Terraform", Value = 45 },
+        new() { Id = "prometheus", ParentId = "go", Name = "Prometheus", Value = 61 },
+        new() { Id = "rust", ParentId = "", Name = "Rust" },
+        new() { Id = "systems", ParentId = "rust", Name = "Systems Programming" },
+        new() { Id = "tokio", ParentId = "systems", Name = "Tokio", Value = 28 },
+        new() { Id = "web-rust", ParentId = "rust", Name = "Web Development" },
+        new() { Id = "actix", ParentId = "web-rust", Name = "Actix Web", Value = 23 },
+        new() { Id = "rocket", ParentId = "web-rust", Name = "Rocket", Value = 26 }
+    };
+}

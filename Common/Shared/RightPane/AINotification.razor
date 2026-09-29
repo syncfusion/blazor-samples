@@ -1,0 +1,69 @@
+@using Syncfusion.Blazor.Notifications
+
+<SfToast @ref="ToastObj" Timeout="0" CssClass="ai-toast ai-notification" Title="@ToastTitle" Content="@ToastContent" Width="400px" ShowCloseButton="true">
+    <ToastPosition X="Right" Y="Top" />
+</SfToast>
+
+
+@code {
+
+    private SfToast? ToastObj;
+    private bool showToast;
+
+    private string ToastTitle = string.Empty;
+    private string ToastContent = string.Empty;
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender && showToast)
+        {
+            await ShowToast();
+        }
+    }
+
+    private async Task ShowToast()
+    {
+        await Task.Delay(300);
+        await ToastObj!.ShowAsync();
+    }
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+
+        showToast = true;
+
+#if !STAGING && RELEASE
+
+        ToastTitle = "Explore AI Demos";
+
+        ToastContent = "You can now explore our <strong>Smart AI demos</strong> with limited AI token usage. Additionally, you can try out our <strong><a href=\"https://github.com/syncfusion/smart-ai-samples/tree/master/blazor\" target=\"_blank\">Syncfusion Smart AI Samples</a></strong> locally by using your own API key.";
+
+#else
+
+        ToastTitle = "API Key Required";
+
+        ToastContent = "You can now explore our <strong><a href=\"https://github.com/syncfusion/smart-ai-samples/tree/master/blazor\" target=\"_blank\">Syncfusion Smart AI Samples</a></strong> with limited AI token usage or run the samples locally using your own AI credentials . See the <a href=\"https://github.com/syncfusion/smart-ai-samples/tree/master/blazor#configuring-ai-service-credentials\" target=\"_blank\">AI samples configuration</a> to get started.";
+
+#endif
+    }
+}
+
+<style>
+    /* Target the same element (both classes applied) and common Syncfusion class */
+    .ai-toast.ai-notification {
+        top: 62px !important;
+    }
+
+    .ai-toast {
+        background-color: #e0f2fe !important;
+    }
+
+        .ai-toast .e-toast-content {
+            color: #616161 !important;
+        }
+
+        .ai-toast .e-toast-title {
+            color: #242424 !important;
+        }
+</style>

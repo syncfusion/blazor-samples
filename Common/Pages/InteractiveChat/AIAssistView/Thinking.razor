@@ -1,0 +1,138 @@
+@page "/ai-assistview/thinking"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates the thinking capabilities of the <code>AI AssistView</code> component. The AI AssistView provides a conversational interface that can display intermediate thinking states, helping users understand the progress of AI-generated responses.</p>
+    
+    <p>The <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.InteractiveChat.AssistView.html#Syncfusion_Blazor_InteractiveChat_AssistView_BannerTemplate">BannerTemplate</a> customizes the banner content, and the <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.InteractiveChat.AssistViewToolbar.html">AssistViewToolbar</a> adds custom toolbar items like a right-aligned <code>Refresh</code> button. The <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.InteractiveChat.SfAIAssistView.html#Syncfusion_Blazor_InteractiveChat_SfAIAssistView_PromptSuggestions">PromptSuggestions</a> property provides AI prompt suggestions, and the <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.InteractiveChat.SfAIAssistView.html#Syncfusion_Blazor_InteractiveChat_SfAIAssistView_PromptRequested">PromptRequested</a> event handles prompt requests when triggered.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="thinking-aiassistview">
+        <SfAIAssistView @ref="sfAIAssistView" ID="aiAssistView" PromptSuggestions="@suggestions" PromptRequested="@PromptRequest" EnableStreaming="true">
+            <AssistViews>
+                <AssistView>
+                    <BannerTemplate>
+                        <div class="banner-content">
+                            <div class="e-icons e-brain"></div>
+                            <h3>💭 Thinking Support</h3>
+                            <i>Break down complex problems and think through decisions.</i>
+                        </div>
+                    </BannerTemplate>
+                </AssistView>
+            </AssistViews>
+            <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+            </AssistViewToolbar>
+        </SfAIAssistView>
+    </div>
+</div>
+@code {
+    private SfAIAssistView sfAIAssistView = new SfAIAssistView();
+
+    private List<string> suggestions = PromptResponseData.GetThinkingSuggestionData().ToList();
+
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        var defaultResponse = "For real-time prompt processing, connect the AI AssistView control to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.";
+        // Show the initial thinking block
+        await sfAIAssistView.UpdateResponseAsync( string.Empty, GetPartialThinkingBlocks());
+        // Show the final response block
+        await Task.Delay(2000);
+        await sfAIAssistView.UpdateResponseAsync(defaultResponse, GetFinalThinkingBlocks());
+    }
+
+    private List<IResponseBlock> GetPartialThinkingBlocks()
+    {
+        return new()
+        {
+            new ThinkingBlock
+            {
+                BlockType = BlockType.Thinking,
+                Title = "Thinking",
+                Collapsible = true,
+                Collapsed = true,
+                IsActive = true,
+                Stages = new()
+                {
+                    new ThinkingStage
+                    {
+                        Status = ThinkingStageStatus.InProgress,
+                        Content = "Analyzing your request to deliver the most relevant response."
+                    }
+                }
+            }
+        };
+    }
+
+    private List<IResponseBlock> GetFinalThinkingBlocks()
+    {
+        return new()
+        {
+            new ThinkingBlock
+            {
+                BlockType = BlockType.Thinking,
+                Title = "Thinking",
+                Collapsible = true,
+                Collapsed = true,
+                IsActive = false,
+                Stages = new()
+                {
+                    new ThinkingStage
+                    {
+                        Status = ThinkingStageStatus.Completed,
+                        Content = "Analyzing your request to deliver the most relevant response."
+                    },
+                    new ThinkingStage
+                    {
+                        Status = ThinkingStageStatus.Completed,
+                        Content = "Done"
+                    }
+                }
+            }
+        };
+    }
+
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-refresh")
+        {
+            sfAIAssistView.Prompts.Clear();
+        }
+    }
+}
+<style>
+    .thinking-aiassistview {
+        height: 600px;
+        width: 60vw;
+        margin: 0 auto;
+    }
+
+    .thinking-aiassistview .banner-content .e-assistview-icon:before {
+        font-size: 35px;
+    }
+
+    .thinking-aiassistview .banner-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        height: 330px;
+        text-align: center;
+    }
+
+    @@media only screen and (max-width: 750px) {
+        .thinking-aiassistview {
+            width: 100%;
+        }
+    }
+</style>

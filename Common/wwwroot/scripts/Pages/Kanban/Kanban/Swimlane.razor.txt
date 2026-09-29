@@ -1,0 +1,264 @@
+@page "/kanban/swimlane"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This example demonstrates swimlane functionalities in the <a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                              href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                              target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a Marketing Campaigns. Cards are grouped by assignee so that work distribution across team members is visible at a glance.
+</p>
+<p>
+    This sample is configured using <a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the API reference of KanbanSwimlaneSettings"
+                                                                                                              href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html"
+                                                                                                              target="_blank" rel="noopener">KanbanSwimlaneSettings</a> with the following properties:
+</p>
+<ul>
+    <li><a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the API reference of KeyField property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html#Syncfusion_Blazor_Kanban_KanbanSwimlaneSettings_KeyField"
+           target="_blank" rel="noopener">KeyField</a> – Maps swimlane header (assignee in this demo).</li>
+    <li><a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the API reference of SortDirection property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html#Syncfusion_Blazor_Kanban_KanbanSwimlaneSettings_SortDirection"
+           target="_blank" rel="noopener">SortDirection</a> – Sorts swimlane cards.</li>
+    <li><a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the API reference of AllowDragAndDrop property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html#Syncfusion_Blazor_Kanban_KanbanSwimlaneSettings_AllowDragAndDrop"
+           target="_blank" rel="noopener">AllowDragAndDrop</a> – Enables drag-and-drop across swimlanes.</li>
+    <li><a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the API reference of ShowEmptyRow property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html#Syncfusion_Blazor_Kanban_KanbanSwimlaneSettings_ShowEmptyRow"
+           target="_blank" rel="noopener">ShowEmptyRow</a> – Shows or hides empty swimlane rows.</li>
+    <li><a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the API reference of ShowItemCount property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html#Syncfusion_Blazor_Kanban_KanbanSwimlaneSettings_ShowItemCount"
+           target="_blank" rel="noopener">ShowItemCount</a> – Shows item counts in swimlane headers.</li>
+    <li><a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the API reference of EnableFrozenRows property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html#Syncfusion_Blazor_Kanban_KanbanSwimlaneSettings_EnableFrozenRows"
+           target="_blank" rel="noopener">EnableFrozenRows</a> – Freezes swimlane rows at the top.
+    </li>
+</ul>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the drag and drop in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/drag-and-drop"
+           target="_blank" rel="noopener">Drag and Drop</a>: Move cards across columns and across swimlanes to reflect the new owner or status.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns"
+           target="_blank" rel="noopener">Columns</a>: Group cards by workflow stage such as To Do, In Progress, Testing, and Done.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Sort Direction</b>: Use the property panel dropdown to sort swimlane rows in ascending or descending order.</li>
+    <li><b>Drag and Drop</b>: Toggle cross-swimlane drag and drop to move work between team members.</li>
+    <li><b>Empty Rows</b>: Show or hide swimlane rows that do not contain any cards.</li>
+    <li><b>Item Count</b>: Display the count of cards in each swimlane to balance workload at a glance.</li>
+    <li><b>Frozen Rows</b>: Freeze swimlane headers so they remain visible while scrolling through cards.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-swimlane-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-8 control-section">
+    <div class="control-section overflow">
+        <SfKanban KeyField="Status" DataSource="@CardData" Height="500px">
+            <KanbanColumns>
+                @foreach (ColumnModel item in ColumnData)
+                {
+                    <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
+                }
+            </KanbanColumns>
+            <KanbanCardSettings ContentField="Summary" HeaderField="Id">
+                  <Template>
+            @{
+                var card = (context as KanbanDataModel);
+                <div class="e-cards" style="border-left: 4px solid @card?.Color;">
+                    <div class="e-card-header">
+                        <div class="e-card-header-caption">
+                            <div class="e-card-title">@card?.Title</div>
+                            <div class="e-card-sub-title">@card?.Id</div>
+                        </div>
+                    </div>
+                    <div class="e-card-content" style="padding: 2px 20px !important">
+                        <div class="card-summary">@card?.Summary</div>
+                        <div class="card-tags">
+                            @if (card?.CardTags != null) {
+                                @foreach (var tag in card.CardTags)
+                                {
+                                    <span class="e-badge e-badge-pill" style="background: @card?.Color;">@tag</span>
+                                }
+                            }
+                        </div>
+                    </div>
+                    <div class="e-card-footer">
+                        <span class="e-badge e-badge-info">@card?.Priority</span>
+                        <span class="e-badge e-badge-success">@card?.Assignee</span>
+                    </div>
+                </div>
+            }
+        </Template>
+    </KanbanCardSettings>
+            <KanbanSwimlaneSettings KeyField="Assignee" AllowDragAndDrop="@_allowDragAndDrop" ShowItemCount="@_showItemCount" SortDirection="@_sortDirection" EnableFrozenRows="@_enableFrozenRows"/>
+        </SfKanban>
+    </div>
+</div>
+<PropertyPanel ControlSecClass="col-lg-8">
+    <table class="property-panel-table" title="Swimlane Properties">
+        <tr>
+            <td>Sort direction</td>
+            <td>
+                <div>
+                    <SfDropDownList TItem="KanbanDataModel" TValue="string" DataSource="@SortData" @bind-Index="@_index" PopupHeight="200px">
+                        <DropDownListFieldSettings Text="Value" Value="Value"></DropDownListFieldSettings>
+                        <DropDownListEvents TItem="KanbanDataModel" TValue="string" ValueChange="@ChangeSortOrder"></DropDownListEvents>
+                    </SfDropDownList>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td>Swimlanes Drag & Drop</td>
+            <td>
+                <SfCheckBox Checked="@_allowDragAndDrop" ValueChange="@((args) => { _allowDragAndDrop = args.Checked; })" TChecked="bool"></SfCheckBox>
+            </td>
+        </tr>
+        <tr>
+            <td>Show items count</td>
+            <td>
+                <SfCheckBox Checked="@_showItemCount" ValueChange="@((args) => { _showItemCount = args.Checked; })" TChecked="bool"></SfCheckBox>
+            </td>
+        </tr>
+        <tr>
+            <td>Freeze swimlane row</td>
+            <td>
+                <SfCheckBox Checked="@_enableFrozenRows" ValueChange="@((args) => { _enableFrozenRows = args.Checked; })" TChecked="bool"></SfCheckBox>
+            </td>
+        </tr>
+    </table>
+</PropertyPanel>
+
+<style>
+    .sf-property-panel-section table {
+        width: 100%;
+    }
+
+    .sf-property-panel-section table tr {
+        height: 50px;
+    }
+
+    .sf-property-panel-section table td {
+        padding-left: 10px;
+        width: 50%;
+    }
+    .overflow {
+        overflow: hidden;
+    }
+    .e-cards {
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+    transition: all 0.2s ease;
+    border-left: 4px solid #5C6BC0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.e-card:hover {
+    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    transform: translateY(-2px);
+}
+
+.e-card-header {
+    border-bottom: 1px solid #f0f0f0;
+    padding-bottom: 8px;
+    margin-bottom: 8px;
+    padding: 18px 18px 0 !important;
+}
+
+.e-card-title {
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 2px;
+}
+
+.e-card-sub-title {
+    font-size: 11px;
+    letter-spacing: 0.5px;
+}
+
+.card-summary {
+    font-size: 12px;
+    line-height: 1.5;
+    margin-bottom: 8px;
+}
+
+.card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-bottom: 8px;
+}
+
+.card-tags .e-badge {
+    font-size: 10px;
+    padding: 3px 8px;
+    border-radius: 12px;
+}
+
+.e-card-footer {
+    display: flex;
+    align-items: center;
+    padding-top: 8px;
+    border-top: 1px solid #f0f0f0;
+    gap: 10px;
+    width: 100%;
+    padding-bottom: 5px !important;
+    padding-left: 20px !important;
+}
+
+.e-card-footer .e-badge {
+    font-size: 10px;
+    padding: 4px 8px;
+    height: auto;
+}
+
+/* Priority Badges */
+.e-badge.e-badge-info { background: var(--color-sf-primary-label-color); color: white; margin: 7px }
+.e-badge.e-badge-success { background: var(--color-sf-success-dark) color: white; }
+.e-badge.e-badge-warning { background: var(--color-sf-warning-bg-color); color: white; }
+.e-badge.e-badge-danger { background: var(--color-sf-danger-dark) color: white; }
+.e-badge.e-badge-pill { color: white; }
+    
+</style>
+
+@code{
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetMarketingCampaigns();
+    private IReadOnlyCollection<KanbanDataModel> SortData = KanbanDataModel.SortDropDowns();
+    private SortDirection _sortDirection { get; set; } = SortDirection.Ascending;
+    private bool _allowDragAndDrop { get; set; } = false;
+    private bool _showItemCount { get; set; } = true;
+    private bool _enableFrozenRows { get; set; } = false;
+    private int? _index { get; set; } = 0;
+    
+    private List<ColumnModel> ColumnData = new List<ColumnModel>() 
+    {
+        new ColumnModel(){ HeaderText= "Idea", KeyField= new List<string>() { "Idea" } },
+        new ColumnModel(){ HeaderText= "Drafting", KeyField= new List<string>() { "Drafting"} },
+        new ColumnModel(){ HeaderText= "Review", KeyField= new List<string>() { "Review" } },
+        new ColumnModel(){ HeaderText= "Live", KeyField= new List<string>() { "Live" } }
+    };
+
+    private void ChangeSortOrder(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, KanbanDataModel> args)
+    {
+        this._sortDirection = (args.Value == "Ascending") ? SortDirection.Ascending : SortDirection.Descending;
+    }
+}
+

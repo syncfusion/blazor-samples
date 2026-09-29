@@ -1,0 +1,162 @@
+@page "/ai-assistview/chatgpt-like"
+
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.InteractiveChatDemo
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates a ChatGPT-inspired <code>AI AssistView</code> with a compact, distraction-free layout, attachment support, speech-to-text input, and a simulated AI response flow.</p>
+
+    <p>The AI AssistView in this sample showcases how a branded, lightweight assistant interface can be created using Syncfusion’s <code>SfAIAssistView</code> control while offering essential interaction features and UI customization options:</p>
+    <ul>
+        <li>Configured the <code>AssistViewFooterToolbar</code> property to add footer toolbar items on both the left and right sides of the footer.</li>
+        <li>Custom banner template that displays the welcoming "Where should we begin?" message.</li>
+        <li>Simulated AI response handling using the <code>promptRequest</code> event.</li>
+        <li>Attachment support with configurable save and remove endpoints.</li>
+        <li>Speech-to-text input for hands-free interaction.</li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section chatgpt-clone">
+    <div class="chatgpt-aiassist @(isFirstPrompt ? "middle-footer" : "bottom-footer")" id="chatgptContainer">
+        <SfAIAssistView @ref="sfAIAssistView"
+                        ID="chatgpt_aiassistview"
+                        ShowHeader="false"
+                        PromptPlaceholder="Ask anything"
+                        AttachmentSettings="@attachmentSettings"
+                        PromptRequested="@PromptRequest"
+                        EnableStreaming="true">
+            <AssistViewSpeechToText Enable="true"></AssistViewSpeechToText>
+            <AssistViews>
+                <AssistView>
+                    <BannerTemplate>
+                        <div class="banner-content">
+                            <div class="chatgpt-header">
+                                <h3>Where should we begin?</h3>
+                            </div>
+                        </div>
+                    </BannerTemplate>
+                </AssistView>
+            </AssistViews>
+
+            <AssistViewFooterToolbar ToolbarPosition="ToolbarPosition.Inline">
+                <AssistViewFooterToolbarItem IconCss="e-icons e-assist-attachment-icon" Align="ItemAlign.Left"></AssistViewFooterToolbarItem>
+                <AssistViewFooterToolbarItem IconCss="e-icons e-assist-speech-to-text" Align="ItemAlign.Right"></AssistViewFooterToolbarItem>
+            </AssistViewFooterToolbar>
+        </SfAIAssistView>
+    </div>
+</div>
+
+@code {
+    private SfAIAssistView? sfAIAssistView;
+    private IReadOnlyList<PromptResponseData> prompts = PromptResponseData.GetAllPromptResponseData();
+    private bool isFirstPrompt = true;
+
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
+    private AssistViewAttachmentSettings attachmentSettings = new AssistViewAttachmentSettings()
+    {
+        Enable = true,
+        SaveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Save",
+        RemoveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"
+    };
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
+
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        if (isFirstPrompt)
+        {
+            isFirstPrompt = false;
+            await InvokeAsync(StateHasChanged);
+        }
+
+        await Task.Delay(1200);
+        var promptData = prompts.FirstOrDefault(p => p.Prompt == args.Prompt);
+        var response = promptData?.Response ?? "This is a placeholder ChatGPT-style response. Connect to an LLM service for real output.";
+        args.Response = response;
+    }
+}
+
+<style>
+    .control-section.chatgpt-clone {
+        min-height: 550px;
+    }
+
+    .chatgpt-aiassist {
+        width: 60vw;
+        margin: 10px auto;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .chatgpt-aiassist.middle-footer {
+        height: 350px;
+        gap: 10px;
+        justify-content: center;
+    }
+
+    .chatgpt-aiassist.middle-footer #chatgpt_aiassistview {
+        height: 220px;
+        flex: 0 0 220px;
+    }
+
+    .chatgpt-aiassist.bottom-footer {
+        height: 500px;
+    }
+
+    @@media only screen and (max-width: 750px) {
+        .chatgpt-aiassist {
+            width: 100%;
+        }
+    }
+
+    .chatgpt-aiassist .chatgpt-header {
+        display: flex;
+        justify-content: center;
+        height: 40px;
+        align-items: end;
+    }
+
+    .chatgpt-aiassist .chatgpt-header h3 {
+        font-weight: 400;
+        font-size: 28px;
+    }
+
+    .chatgpt-aiassist #chatgpt_aiassistview {
+        border: none;
+        height: 80%;
+    }
+
+    .chatgpt-aiassist .e-footer-content:focus-within,
+    .chatgpt-aiassist .e-footer.e-toolbar-inline:focus-within {
+        border-color: #b4b4c2;
+    }
+
+    .chatgpt-aiassist .e-footer .e-assist-prompt-textarea {
+        min-height: 28px;
+        padding: 8px 12px;
+    }
+
+    .chatgpt-aiassist .e-footer .e-assist-textarea {
+        padding: 8px 12px;
+    }
+
+    .chatgpt-aiassist .e-footer .e-toolbar {
+        background: transparent;
+        border: none;
+    }
+
+    .chatgpt-aiassist .e-footer .e-toolbar .e-btn.e-flat,
+    .chatgpt-aiassist .e-footer .e-toolbar .e-btn.e-flat:hover {
+        background: transparent;
+        box-shadow: none;
+    }
+</style>

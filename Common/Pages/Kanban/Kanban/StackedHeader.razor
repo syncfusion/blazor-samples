@@ -1,0 +1,524 @@
+@page "/kanban/stacked-header"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates the <a class="e-kanban-stackedheader-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                        href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                        target="_blank" rel="noopener">Blazor Kanban</a> component with the stacked header feature by visualizing a Assembly Line Tasks. The board displays two headers aligned in a stacked manner so the workflow phases are visually grouped.
+</p>
+<p>
+    Add an additional header above column headers to group related columns. Configure stacked headers by mapping <a class="e-kanban-stackedheader-reference-link" aria-label="Navigate to the API reference of Text property in Kanban"
+                                                                                                        href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanStackedHeader.html#Syncfusion_Blazor_Kanban_KanbanStackedHeader_Text"
+                                                                                                        target="_blank" rel="noopener">Text</a> and <a class="e-kanban-stackedheader-reference-link" aria-label="Navigate to the API reference of KeyFields property in Kanban"
+                                                                                                        href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanStackedHeader.html#Syncfusion_Blazor_Kanban_KanbanStackedHeader_KeyFields"
+                                                                                                        target="_blank" rel="noopener">KeyFields</a> in the <a class="e-kanban-stackedheader-reference-link" aria-label="Navigate to the API reference of KanbanStackedHeader"
+                                                                                                        href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanStackedHeader.html"
+                                                                                                        target="_blank" rel="noopener">KanbanStackedHeader</a> collection.
+</p>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the stacked header in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns#stacked-headers"
+           target="_blank" rel="noopener">Stacked Header</a>: Add a second header row that groups related columns into logical phases.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns"
+           target="_blank" rel="noopener">Columns</a>: Group cards by workflow stage such as Open, In Progress, In Review, and Completed.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the tooltip in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/tooltip"
+           target="_blank" rel="noopener">Tooltip</a>: Show extra card details on hover to surface context without cluttering the card.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Phase Groups</b>: Columns are grouped into logical phases such as To Do, Development Phase, and Done via the stacked header.</li>
+    <li><b>Custom Stacked Text</b>: Each stacked header renders a custom label that describes the workflow phase.</li>
+    <li><b>Column Mapping</b>: The <code>KeyFields</code> of a stacked header map the columns that should fall under that group.</li>
+    <li><b>Tooltip Support</b>: Cards display a tooltip on hover for quick access to additional details.</li>
+</ul>
+<p>
+    The <b>Stacked Header Configuration</b> highlights the building blocks of a custom stacked layout:
+</p>
+<ul>
+    <li><b>Text</b>: The label rendered in the stacked header row.</li>
+    <li><b>KeyFields</b>: The list of column key fields grouped under the stacked header.</li>
+    <li><b>KanbanStackedHeaders</b>: The collection of stacked headers rendered above the column headers.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-stackedheader-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@CardData" EnableTooltip="true" Height="500px">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id">
+            <Template>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class="stacked-card" style="border-left-color: @card.Color;">
+                        <div class="sc-header">
+                            <span class="sc-id">@card.Id</span>
+                            <span class="sc-priority" data-priority="@card.Priority">
+                                <span class="sc-priority-dot"></span>
+                                @card.Priority
+                            </span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(card.Title))
+                        {
+                            <div class="sc-title">@card.Title</div>
+                        }
+                        <div class="sc-content">@card.Summary</div>
+                        <div class="sc-tags">
+                            @if (card.CardTags != null)
+                            {
+                                @foreach (string tag in card.CardTags)
+                                {
+                                    <span class="sc-tag">@tag</span>
+                                }
+                            }
+                        </div>
+                        <div class="sc-footer">
+                            <div class="sc-type">
+                                <span class="sc-type-icon"></span>
+                                <span>@card.Type</span>
+                            </div>
+                            <div class="sc-assignee">
+                                <span class="sc-avatar" style="background: @card.Color;">
+                                    @GetInitials(card.Assignee)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanCardSettings>
+        <KanbanStackedHeaders>
+            @foreach (StackedHeaderModel item in StackedHeaderData)
+            {
+                <KanbanStackedHeader Text="@item.Text" KeyFields="@item.KeyFields"/>
+            }
+        </KanbanStackedHeaders>
+    </SfKanban>
+</div>
+<style>
+    /* Card Container */
+    .stacked-card {
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        padding: 0;
+        border-left: 4px solid #5C6BC0;
+        transition: all 0.2s ease;
+        overflow: hidden;
+        display: block;
+        line-height: normal;
+    }
+
+    .stacked-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateY(-1px);
+    }
+
+    .stacked-card:active {
+        cursor: grabbing;
+    }
+
+    /* Header */
+    .sc-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 14px 6px 14px;
+        
+    }
+
+    .sc-id {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .sc-priority {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        line-height: normal;
+    }
+
+    .sc-priority-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .sc-priority[data-priority="High"] {
+        background: #ffebee;
+        color: var(--color-sf-warning-bg-color);
+    }
+    .sc-priority[data-priority="High"] .sc-priority-dot {
+        background: var(--color-sf-warning-bg-color);
+    }
+
+    .sc-priority[data-priority="Normal"] {
+        background: #e3f2fd;
+        color: var(--color-sf-primary-label-color);
+    }
+    .sc-priority[data-priority="Normal"] .sc-priority-dot {
+        background: var(--color-sf-primary-label-color);
+    }
+
+    .sc-priority[data-priority="Low"] {
+        background: #e8f5e9;
+        color: var(--color-sf-success-dark);
+    }
+    .sc-priority[data-priority="Low"] .sc-priority-dot {
+        background: var(--color-sf-success-dark);
+    }
+
+    .sc-priority[data-priority="Critical"],
+    .sc-priority[data-priority="Release Breaker"] {
+        background: #fff3e0;
+        color: #dc3545;
+    }
+    .sc-priority[data-priority="Critical"] .sc-priority-dot,
+    .sc-priority[data-priority="Release Breaker"] .sc-priority-dot {
+        background: #dc3545;
+    }
+/* --- Low priority --- */
+.material3 .sc-priority[data-priority="Low"],
+.material3-dark .sc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+.material3 .sc-priority[data-priority="Low"] .sc-priority-dot,
+.material3-dark .sc-priority[data-priority="Low"] .sc-priority-dot {
+    background: #4d831e;
+}
+
+.fluent .sc-priority[data-priority="Low"],
+.fluent-dark .sc-priority[data-priority="Low"] {
+    color: #0b6a0b;
+}
+.fluent .sc-priority[data-priority="Low"] .sc-priority-dot,
+.fluent-dark .sc-priority[data-priority="Low"] .sc-priority-dot {
+    background: #0b6a0b;
+}
+
+.material .sc-priority[data-priority="Low"],
+.material-dark .sc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+.material .sc-priority[data-priority="Low"] .sc-priority-dot,
+.material-dark .sc-priority[data-priority="Low"] .sc-priority-dot {
+    background: #4d831e;
+}
+
+.bootstrap4 .sc-priority[data-priority="Low"],
+.bootstrap4-dark .sc-priority[data-priority="Low"] {
+    color: #28a745;
+}
+.bootstrap4 .sc-priority[data-priority="Low"] .sc-priority-dot,
+.bootstrap4-dark .sc-priority[data-priority="Low"] .sc-priority-dot {
+    background: #28a745;
+}
+
+.highcontrast .sc-priority[data-priority="Low"],
+.highcontrast-dark .sc-priority[data-priority="Low"] {
+    color: #166600;
+}
+.highcontrast .sc-priority[data-priority="Low"] .sc-priority-dot,
+.highcontrast-dark .sc-priority[data-priority="Low"] .sc-priority-dot {
+    background: #166600;
+}
+
+.fabric .sc-priority[data-priority="Low"],
+.fabric-dark .sc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+.fabric .sc-priority[data-priority="Low"] .sc-priority-dot,
+.fabric-dark .sc-priority[data-priority="Low"] .sc-priority-dot {
+    background: #4d831e;
+}
+
+/* --- Normal priority --- */
+.material3 .sc-priority[data-priority="Normal"],
+.material3-dark .sc-priority[data-priority="Normal"] {
+    color: #0677d5;
+}
+.material3 .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.material3-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #0677d5;
+}
+
+.material .sc-priority[data-priority="Normal"],
+.material-dark .sc-priority[data-priority="Normal"] {
+    color: #0677d5;
+}
+.material .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.material-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #0677d5;
+}
+
+.fluent .sc-priority[data-priority="Normal"],
+.fluent-dark .sc-priority[data-priority="Normal"] {
+    color: #0078d4;
+}
+.fluent .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.fluent-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #0078d4;
+}
+
+.bootstrap4 .sc-priority[data-priority="Normal"],
+.bootstrap4-dark .sc-priority[data-priority="Normal"] {
+    color: #17a2b8;
+}
+.bootstrap4 .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.bootstrap4-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #17a2b8;
+}
+
+.highcontrast .sc-priority[data-priority="Normal"],
+.highcontrast-dark .sc-priority[data-priority="Normal"] {
+    color: #0056b3;
+}
+.highcontrast .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.highcontrast-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #0056b3;
+}
+
+.fabric .sc-priority[data-priority="Normal"],
+.fabric-dark .sc-priority[data-priority="Normal"] {
+    color: #0078d6;
+}
+.fabric .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.fabric-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #0078d6;
+}
+
+/* --- High priority --- */
+.material3 .sc-priority[data-priority="High"],
+.material3-dark .sc-priority[data-priority="High"] {
+    color: #d74113;
+}
+.material3 .sc-priority[data-priority="High"] .sc-priority-dot,
+.material3-dark .sc-priority[data-priority="High"] .sc-priority-dot {
+    background: #d74113;
+}
+
+.material .sc-priority[data-priority="High"],
+.material-dark .sc-priority[data-priority="High"] {
+    color: #d74113;
+}
+.material .sc-priority[data-priority="High"] .sc-priority-dot,
+.material-dark .sc-priority[data-priority="High"] .sc-priority-dot {
+    background: #d74113;
+}
+
+.fluent .sc-priority[data-priority="High"],
+.fluent-dark .sc-priority[data-priority="High"] {
+    color: #ca5010;
+}
+.fluent .sc-priority[data-priority="High"] .sc-priority-dot,
+.fluent-dark .sc-priority[data-priority="High"] .sc-priority-dot {
+    background: #ca5010;
+}
+
+.bootstrap4 .sc-priority[data-priority="High"],
+.bootstrap4-dark .sc-priority[data-priority="High"] {
+    color: #fd7e14;
+}
+.bootstrap4 .sc-priority[data-priority="High"] .sc-priority-dot,
+.bootstrap4-dark .sc-priority[data-priority="High"] .sc-priority-dot {
+    background: #fd7e14;
+}
+
+.highcontrast .sc-priority[data-priority="High"],
+.highcontrast-dark .sc-priority[data-priority="High"] {
+    color: #ff6161;
+}
+.highcontrast .sc-priority[data-priority="High"] .sc-priority-dot,
+.highcontrast-dark .sc-priority[data-priority="High"] .sc-priority-dot {
+    background: #ff6161;
+}
+
+.fabric .sc-priority[data-priority="High"],
+.fabric-dark .sc-priority[data-priority="High"] {
+    color: #d83b01;
+}
+.fabric .sc-priority[data-priority="High"] .sc-priority-dot,
+.fabric-dark .sc-priority[data-priority="High"] .sc-priority-dot {
+    background: #d83b01;
+}
+.bootstrap5.3 .sc-priority[data-priority="High"],
+.bootstrap5.3-dark .sc-priority[data-priority="High"] {
+    color: #fd7e14 !important;
+}
+
+.bootstrap5.3 .sc-priority[data-priority="Normal"],
+.bootstrap5.3-dark .sc-priority[data-priority="Normal"] {
+    color: #0078d6 !important;
+}
+
+.bootstrap5.3 .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.bootstrap5.3-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #0078d6 !important;
+}
+
+.tailwind3 .sc-priority[data-priority="Normal"] .sc-priority-dot, .fluent2-highcontrast .sc-priority[data-priority="Normal"] .sc-priority-dot, .bootstrap5 .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.tailwind3-dark .sc-priority[data-priority="Normal"] .sc-priority-dot, .fluent2-highcontrast .sc-priority[data-priority="Normal"], .bootstrap5-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #0078d6 !important;
+}
+
+.tailwind3 .sc-priority[data-priority="Normal"] .sc-priority-dot,
+.tailwind3-dark .sc-priority[data-priority="Normal"] .sc-priority-dot {
+    background: #0078d6 !important;
+}
+    /* Title */
+    .sc-title {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px 14px 4px 14px;
+        line-height: 1.3;
+        word-wrap: break-word;
+    }
+
+    /* Content */
+    .sc-content {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 0 14px 10px 14px;
+        word-wrap: break-word;
+    }
+
+    /* Tags */
+    .sc-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 0 14px 10px 14px;
+    }
+
+    .sc-tag {
+        background: #f0f4f8;
+        color: #5a6c7d;
+        font-size: 10px;
+        font-weight: 500;
+        padding: 3px 8px;
+        border-radius: 10px;
+        line-height: 1.2;
+        display: inline-block;
+    }
+
+    /* Footer */
+    .sc-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 8px 14px;
+        
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .sc-type {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .sc-type-icon {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235C6BC0'><path d='M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm-7 14l-5-5 1.41-1.41L12 14.17l7.59-7.59L21 8l-9 9z'/></svg>");
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .sc-assignee {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .sc-avatar {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .sc-name {
+        font-size: 11px;
+        font-weight: 500;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }
+
+    /* Stacked Header Enhancement */
+    .e-kanban .e-kanban-stacked-header {
+        font-weight: 600;
+        color: #2c3e50;
+        border-bottom: 1px solid #e0e6ed;
+    }
+
+</style>
+@code{
+    
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetAssemblyLineTasks();
+    private List<ColumnModel> ColumnData = new List<ColumnModel>() 
+    {
+        new ColumnModel(){ HeaderText= "Frame Welding", KeyField= new List<string>() { "Frame Welding" } },
+        new ColumnModel(){ HeaderText= "Painting", KeyField= new List<string>() { "Painting" } },
+        new ColumnModel(){ HeaderText= "Assembly", KeyField= new List<string>() { "Assembly" } },
+        new ColumnModel() { HeaderText = "QA", KeyField = new List<string>() { "QA" } }
+    };
+
+    private List<StackedHeaderModel> StackedHeaderData = new List<StackedHeaderModel>() 
+    {
+        new StackedHeaderModel(){ Text= "Preparation", KeyFields= new List<string>() { "Frame Welding" } },
+        new StackedHeaderModel(){ Text= "Build Phase", KeyFields= new List<string>() { "Painting", "Assembly" } },
+        new StackedHeaderModel(){ Text= "Completion", KeyFields= new List<string>() { "QA" } }
+    };
+    private string GetInitials(string? name)
+    {
+        if (string.IsNullOrEmpty(name)) return "?";
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length >= 2)
+            return $"{parts[0][0]}{parts[1][0]}".ToUpper();
+        return name.Substring(0, Math.Min(2, name.Length)).ToUpper();
+    }
+}

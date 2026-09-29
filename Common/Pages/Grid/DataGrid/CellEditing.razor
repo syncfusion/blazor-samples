@@ -1,0 +1,517 @@
+@page "/datagrid/cell-editing"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons
+@using System.ComponentModel.DataAnnotations;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates Cell Editing mode in the DataGrid, which provides an Excel-like editing experience by allowing users to edit cells directly within the grid for faster data entry and updates.</p>
+
+    <p>The Blazor DataGrid Cell Editing feature provides efficient data manipulation with the following key capabilities:</p>
+    <ul>
+        <li><strong>Direct Cell Editing</strong> - Double-click an editable cell to start editing instantly.</li>
+        <li><strong>Keyboard Navigation</strong> - Use Tab, Shift+Tab, Enter, and Escape keys for efficient editing and navigation.</li>
+        <li><strong>Automatic Updates</strong> - Apply changes seamlessly without interrupting the editing workflow.</li>
+        <li><strong>Built-in Validation</strong> - Maintain data integrity by preventing invalid entries.</li>
+        <li><strong>Configurable Enter Navigation</strong> - Customize Enter key behavior using the <code>EnterKeyDirection</code> property.</li>
+        <li><strong>Edit on Key Press</strong> - Enable <code>AllowEditOnKeyPress</code> to start editing directly from keyboard input.</li>
+    </ul>
+
+    <p>Cell Editing mode is configured through the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html' aria-label="Navigate to the class reference for GridEditSettings">GridEditSettings</a> component with the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html#Syncfusion_Blazor_Grids_GridEditSettings_Mode' aria-label="Navigate to the Mode property reference for Grid edit settings">Mode</a> property set to <code>EditMode.Cell</code>.</p>
+
+    <p>In this sample, the <code>EnterKeyDirection</code> dropdown allows you to select navigation behavior, and the <code>AllowEditOnKeyPress</code> checkbox enables keystroke-initiated editing. The grid supports multiple editor types including text input, date/time picker, dropdown selectors, and checkbox toggle.</p>
+
+    <p>For more detailed information about cell editing, refer to the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/grid-sdk/blazor/data-grid/editing' aria-label="Navigate to the documentation for cell editing in DataGrid component">cell editing documentation</a>.</p>
+
+    <p>Looking for the full Blazor DataGrid component overview, features, pricing, and documentation? Visit the <a rel="noopener" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid' aria-label="Navigate to the Blazor DataGrid component">Blazor DataGrid component</a> page.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-switch-control">
+                <div class="cell-edit-controls">
+                    <div class="control-item">
+                        <label for="enterKeyDirection" class="enterkey-label">Enter Key Direction</label>
+                        <SfDropDownList DataSource="@EnterDirectionOptions"
+                                        @bind-Value="SelectedEnterDirection"
+                                        TValue="EnterKeyDirection"
+                                        TItem="DropdownOption<EnterKeyDirection>"
+                                        PopupHeight="200px"
+                                        Width="150px">
+                            <DropDownListFieldSettings Text="Label" Value="Value"></DropDownListFieldSettings>
+                        </SfDropDownList>
+                    </div>
+                    <div class="control-item control-item-keypress">
+                        <label class="keypress-label">Allow Edit on Key Press</label>
+                        <SfCheckBox @bind-Checked="AllowEditOnKeyPress" LabelPosition="Syncfusion.Blazor.Buttons.LabelPosition.Before"></SfCheckBox>
+                    </div>
+                </div>
+            </div>
+            <SfGrid DataSource="@GridData" Toolbar="@(new List<string>() { "Add", "Delete", "Update", "Cancel" })" AllowPaging="true" Height="auto" AllowFiltering="true" AllowGrouping="true" RowHeight="45">
+                <GridEvents TValue="AppointmentData" OnActionBegin="ActionBeginHandler"></GridEvents>
+                <GridPageSettings PageSize="12"></GridPageSettings>
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Cell" AllowEditOnKeyPress="@AllowEditOnKeyPress" EnterKeyDirection="@SelectedEnterDirection"></GridEditSettings>
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.CheckBox"></GridFilterSettings>
+                <GridSelectionSettings Type="Syncfusion.Blazor.Grids.SelectionType.Single" Mode="Syncfusion.Blazor.Grids.SelectionMode.Cell"></GridSelectionSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(AppointmentData.AppointmentID) HeaderText="Appointment ID" IsPrimaryKey="true" AllowEditing="false" Visible="false" Width="100"></GridColumn>
+                    <GridColumn Field=@nameof(AppointmentData.PatientName) HeaderText="Patient Name" EditType="EditType.DefaultEdit" Width="160" AllowGrouping="false"></GridColumn>
+                    <GridColumn Field=@nameof(AppointmentData.AppointmentTime) HeaderText="Date & Time" EditType="EditType.DateTimePickerEdit" Format="MM/dd/yyyy hh:mm tt" Type="ColumnType.DateTime" Width="200" AllowGrouping="false" DefaultValue="@(DateTime.Today.AddDays(1).AddHours(8))"></GridColumn>
+                    <GridColumn Field=@nameof(AppointmentData.Status) HeaderText="Status" EditType="EditType.DropDownEdit" Width="160">
+                        <EditTemplate>
+                            @{
+                                var editRecord = (context as AppointmentData)!;
+                            }
+                            <SfDropDownList TValue="string" TItem="StatusItem"
+                                            DataSource="@StatusList"
+                                            Value="@editRecord.Status.ToString()"
+                                            ValueChanged="@((string value) => { editRecord.Status = (AppointmentStatus)Enum.Parse(typeof(AppointmentStatus), value); })">
+                                <DropDownListFieldSettings Value="Value" Text="Text"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </EditTemplate>
+                        <Template>
+                            @{
+                                var item = (context as AppointmentData)!;
+                                var statusClass = GetStatusClass(item.Status);
+                            }
+                            <span class="badge status-badge @statusClass">@item.Status</span>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(AppointmentData.Doctor) HeaderText="Doctor" EditType="EditType.DropDownEdit" Width="160">
+                        <EditTemplate>
+                            @{
+                                var editRecord = (context as AppointmentData)!;
+                            }
+                            <SfDropDownList TValue="string" TItem="DoctorItem"
+                                            DataSource="@DoctorItems"
+                                            Value="@editRecord.Doctor"
+                                            ValueChanged="@((string value) => { editRecord.Doctor = value; })">
+                                <DropDownListFieldSettings Value="DoctorName" Text="DoctorName"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </EditTemplate>
+                        <Template>
+                            @{
+                                var item = (context as AppointmentData)!;
+                                var doctorImageId = GetDoctorImageId(item.Doctor ?? string.Empty);
+                            }
+                            <div class="doctor-cell">
+                                <img class="doctor-img" src="@NavigationManager.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/{doctorImageId}.png")" alt="@item.Doctor" />
+                                <div class="doctor-info">
+                                    <div class="doctor-name">@item.Doctor</div>
+                                </div>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(AppointmentData.AppointmentType) HeaderText="Type" EditType="EditType.DropDownEdit" Width="180">
+                        <EditTemplate>
+                            @{
+                                var editRecord = (context as AppointmentData)!;
+                            }
+                            <SfDropDownList TValue="string" TItem="TypeItem"
+                                            DataSource="@TypeList"
+                                            Value="@editRecord.AppointmentType.ToString()"
+                                            ValueChanged="@((string value) => { editRecord.AppointmentType = (AppointmentType)Enum.Parse(typeof(AppointmentType), value); })">
+                                <DropDownListFieldSettings Value="TypeValue" Text="TypeText"></DropDownListFieldSettings>
+                            </SfDropDownList>
+                        </EditTemplate>
+                        <Template>
+                            @{
+                                var item = (context as AppointmentData)!;
+                                var typeClass = GetTypeClass(item.AppointmentType);
+                            }
+                            <span class="type-text @typeClass">@item.AppointmentType</span>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(AppointmentData.PatientPhone) HeaderText="Phone" EditType="EditType.DefaultEdit" Width="150" AllowGrouping="false"></GridColumn>
+                    <GridColumn Field=@nameof(AppointmentData.Notes) HeaderText="Notes" EditType="EditType.DefaultEdit" Width="220" AllowGrouping="false" ClipMode="ClipMode.EllipsisWithTooltip"></GridColumn>
+                    <GridColumn Field=@nameof(AppointmentData.Fee) HeaderText="Fee" Format="C2" TextAlign="TextAlign.Right" Width="150" AllowGrouping="false"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@*Hidden:Lines*@
+<style type="text/css">
+
+    .e-checkbox-wrapper .e-checkbox + .e-label {
+        font-weight: bold;
+    }
+
+    .cell-edit-controls {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 30px;
+        align-items: center;
+        padding: 15px;
+        background-color: #f5f5f5;
+        border-radius: 4px;
+        width: auto;
+        max-width: 100%;
+        box-sizing: border-box;
+    }
+
+    .control-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .control-item-keypress {
+        gap: 0px;
+    }
+
+    .control-item label {
+        margin: 0;
+        white-space: nowrap;
+    }
+
+    .control-item .e-ddl {
+        width: 150px;
+        max-width: 100%;
+    }
+
+    /* Doctor Cell Template Styling */
+    .doctor-cell {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+    }
+
+    .doctor-img {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .doctor-info {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .doctor-name {
+        font-weight: 600;
+        font-size: 14px;
+    }
+
+    .badge {
+        padding: 4px 10px;
+        border-radius: 12px;
+        color: #fff;
+        font-size: 12px;
+        font-weight: 500;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+
+        .badge.status-badge.booked {
+            background-color: #28a745;
+        }
+
+        .badge.status-badge.pending {
+            background-color: #fd7e14;
+        }
+
+        .badge.status-badge.completed {
+            background-color: #007bff;
+        }
+
+        .badge.status-badge.canceled {
+            background-color: #dc3545;
+        }
+
+    .type-text {
+        font-weight: 500;
+        font-size: 16px;
+    }
+
+        .type-text.consultation {
+            color: #28a745;
+        }
+
+        .type-text.followup {
+            color: #fd7e14;
+        }
+
+        .type-text.labtest {
+            color: #6f42c1;
+        }
+
+        .type-text.emergency {
+            color: #dc3545;
+        }
+
+        .type-text.routinecheck {
+            color: #17a2b8;
+        }
+
+    .enterkey-label {
+        margin-right: 10px;
+        font-weight: 500;
+    }
+
+    .keypress-label {
+        font-weight: 500;
+    }
+
+    .material3-dark .cell-edit-controls,
+    .bootstrap5\.3-dark .cell-edit-controls,
+    .fluent2-dark .cell-edit-controls,
+    .tailwind3-dark .cell-edit-controls,
+    .fluent-dark .cell-edit-controls,
+    .highcontrast .cell-edit-controls,
+    .fluent2-highcontrast .cell-edit-controls {
+        background-color: #2a2a2a;
+    }
+
+    .material3-dark .badge.status-badge.booked,
+    .bootstrap5\.3-dark .badge.status-badge.booked,
+    .fluent2-dark .badge.status-badge.booked,
+    .tailwind3-dark .badge.status-badge.booked,
+    .fluent-dark .badge.status-badge.booked,
+    .highcontrast .badge.status-badge.booked
+    .fluent2-highcontrast .badge.status-badge.booked {
+        background-color: #14532d;
+    }
+
+    .material3-dark .badge.status-badge.pending,
+    .bootstrap5\.3-dark .badge.status-badge.pending,
+    .fluent2-dark .badge.status-badge.pending,
+    .tailwind3-dark .badge.status-badge.pending,
+    .fluent-dark .badge.status-badge.pending,
+    .highcontrast .badge.status-badge.pending,
+    .fluent2-highcontrast .badge.status-badge.pending {
+        background-color: #7c2d12;
+    }
+
+    .material3-dark .badge.status-badge.completed,
+    .bootstrap5\.3-dark .badge.status-badge.completed,
+    .fluent2-dark .badge.status-badge.completed,
+    .tailwind3-dark .badge.status-badge.completed,
+    .fluent-dark .badge.status-badge.completed,
+    .highcontrast .badge.status-badge.completed {
+        background-color: #1e3a8a;
+    }
+
+    .material3-dark .badge.status-badge.canceled,
+    .bootstrap5\.3-dark .badge.status-badge.canceled,
+    .fluent2-dark .badge.status-badge.canceled,
+    .tailwind3-dark .badge.status-badge.canceled,
+    .fluent-dark .badge.status-badge.canceled,
+    .highcontrast .badge.status-badge.canceled,
+    .fluent2-highcontrast .badge.status-badge.canceled {
+        background-color: #7f1d1d;
+    }
+
+    .material3-dark .type-text.consultation,
+    .bootstrap5\.3-dark .type-text.consultation,
+    .fluent2-dark .type-text.consultation,
+    .tailwind3-dark .type-text.consultation,
+    .fluent-dark .type-text.consultation,
+    .highcontrast .type-text.consultation,
+    .fluent2-highcontrast .type-text.consultation {
+        color: #37b317;
+    }
+
+    .material3-dark .type-text.followup,
+    .bootstrap5\.3-dark .type-text.followup,
+    .fluent2-dark .type-text.followup,
+    .tailwind3-dark .type-text.followup,
+    .fluent-dark .type-text.followup,
+    .highcontrast .type-text.followup,
+    .fluent2-highcontrast .type-text.followup {
+        color: #fb923c;
+    }
+
+    .material3-dark .type-text.labtest,
+    .bootstrap5\.3-dark .type-text.labtest,
+    .fluent2-dark .type-text.labtest,
+    .tailwind3-dark .type-text.labtest,
+    .fluent-dark .type-text.labtest,
+    .highcontrast .type-text.labtest,
+    .fluent2-highcontrast .type-text.labtest {
+        color: #c3d31b;
+    }
+
+    .material3-dark .type-text.emergency,
+    .bootstrap5\.3-dark .type-text.emergency,
+    .fluent2-dark .type-text.emergency,
+    .tailwind3-dark .type-text.emergency,
+    .fluent-dark .type-text.emergency,
+    .highcontrast .type-text.emergency,
+    .fluent2-highcontrast .type-text.emergency {
+        color: #f87171;
+    }
+
+    .material3-dark .type-text.routinecheck,
+    .bootstrap5\.3-dark .type-text.routinecheck,
+    .fluent2-dark .type-text.routinecheck,
+    .tailwind3-dark .type-text.routinecheck,
+    .fluent-dark .type-text.routinecheck,
+    .highcontrast .type-text.routinecheck,
+    .fluent2-highcontrast .type-text.routinecheck {
+        color: #a0169f;
+    }
+
+    .fluent2-highcontrast .e-switch-control,
+    .fluent2-dark .e-switch-control,
+    .fluent2 .e-switch-control {
+        padding-bottom: 20px;
+    }
+
+    .highcontrast .e-switch-control,
+    .fluent .e-switch-control,
+    .fluent-dark .e-switch-control,
+    .material3 .e-switch-control,
+    .material3-dark .e-switch-control,
+    .bootstrap5\.3 .e-switch-control,
+    .bootstrap5\.3-dark .e-switch-control,
+    .tailwind3 .e-switch-control,
+    .tailwind3-dark .e-switch-control,
+    .material .e-switch-control,
+    .material-dark .e-switch-control,
+    .bootstrap4 .e-switch-control,
+    .bootstrap5 .e-switch-control,
+    .bootstrap5-dark .e-switch-control,
+    .tailwind .e-switch-control,
+    .tailwind-dark .e-switch-control,
+    .fabric .e-switch-control,
+    .fabric-dark .e-switch-control,
+    .fluent2-highcontrast .e-switch-control {
+        padding-bottom: 20px;
+    }
+
+</style>
+@*End:Hidden*@
+
+@code {
+    private List<AppointmentData>? GridData { get; set; }
+    private bool AllowEditOnKeyPress { get; set; } = true;
+    private EnterKeyDirection SelectedEnterDirection { get; set; } = EnterKeyDirection.NextRow;
+    private List<DropdownOption<EnterKeyDirection>> EnterDirectionOptions { get; set; } = new List<DropdownOption<EnterKeyDirection>>
+    {
+        new DropdownOption<EnterKeyDirection> { Label = "None", Value = EnterKeyDirection.None },
+        new DropdownOption<EnterKeyDirection> { Label = "NextRow", Value = EnterKeyDirection.NextRow },
+        new DropdownOption<EnterKeyDirection> { Label = "NextColumn", Value = EnterKeyDirection.NextColumn }
+    };
+    private List<DoctorItem> DoctorItems { get; set; } = new List<DoctorItem>()
+    {
+        new DoctorItem() { DoctorName = "Dr. Martinez" },
+        new DoctorItem() { DoctorName = "Dr. Smith" },
+        new DoctorItem() { DoctorName = "Dr. Garcia" },
+        new DoctorItem() { DoctorName = "Dr. Brianna" },
+        new DoctorItem() { DoctorName = "Dr. Davis" },
+        new DoctorItem() { DoctorName = "Dr. Johnson" },
+        new DoctorItem() { DoctorName = "Dr. Williams" }
+    };
+
+    private List<TypeItem> TypeList { get; set; } = new List<TypeItem>()
+    {
+        new TypeItem() { TypeValue = "Consultation", TypeText = "Consultation" },
+        new TypeItem() { TypeValue = "FollowUp", TypeText = "FollowUp" },
+        new TypeItem() { TypeValue = "LabTest", TypeText = "LabTest" },
+        new TypeItem() { TypeValue = "Emergency", TypeText = "Emergency" },
+        new TypeItem() { TypeValue = "RoutineCheck", TypeText = "RoutineCheck" }
+    };
+
+    private List<StatusItem> StatusList { get; set; } = new List<StatusItem>()
+    {
+        new StatusItem() { Value = "Booked", Text = "Booked" },
+        new StatusItem() { Value = "Pending", Text = "Pending" },
+        new StatusItem() { Value = "Completed", Text = "Completed" },
+        new StatusItem() { Value = "Canceled", Text = "Canceled" }
+    };
+    protected override void OnInitialized()
+    {
+        GridData = AppointmentData.GetAppointmentData().ToList();
+    }
+    public void ActionBeginHandler(ActionEventArgs<AppointmentData> args)
+    {
+        if (args.RequestType == Syncfusion.Blazor.Grids.Action.Save && args.Action == "Add")
+        {
+            if (args.Data != null)
+            {
+                args.Data.AppointmentID = (int)(DateTimeOffset.UtcNow.ToUnixTimeMilliseconds() % 100000);
+            }
+        }
+    }
+    private string GetDoctorImageId(string doctorName)
+    {
+        return doctorName switch
+        {
+            "Dr. Martinez" => "1",
+            "Dr. Smith" => "2",
+            "Dr. Garcia" => "3",
+            "Dr. Brianna" => "4",
+            "Dr. Davis" => "5",
+            "Dr. Johnson" => "6",
+            "Dr. Williams" => "7",
+            _ => "1"
+        };
+    }
+    private string GetTypeClass(AppointmentType type)
+    {
+        return type switch
+        {
+            AppointmentType.Consultation => "consultation",
+            AppointmentType.FollowUp => "followup",
+            AppointmentType.LabTest => "labtest",
+            AppointmentType.Emergency => "emergency",
+            AppointmentType.RoutineCheck => "routinecheck",
+            _ => "default"
+        };
+    }
+    private string GetTypeDisplay(AppointmentType type)
+    {
+        return type switch
+        {
+            AppointmentType.Consultation => "Consultation",
+            AppointmentType.FollowUp => "Follow-up",
+            AppointmentType.LabTest => "Lab Test",
+            AppointmentType.Emergency => "Emergency",
+            AppointmentType.RoutineCheck => "Routine Check",
+            _ => type.ToString()
+        };
+    }
+    private string GetStatusClass(AppointmentStatus status)
+    {
+        return status switch
+        {
+            AppointmentStatus.Booked => "booked",
+            AppointmentStatus.Pending => "pending",
+            AppointmentStatus.Completed => "completed",
+            AppointmentStatus.Canceled => "canceled",
+            _ => "default"
+        };
+    }
+    private class DropdownOption<T>
+    {
+        public string? Label { get; set; }
+        public T? Value { get; set; }
+    }
+
+    public class DoctorItem
+    {
+        public string? DoctorName { get; set; }
+    }
+
+    public class TypeItem
+    {
+        public string? TypeValue { get; set; }
+        public string? TypeText { get; set; }
+    }
+
+    public class StatusItem
+    {
+        public string? Value { get; set; }
+        public string? Text { get; set; }
+    }
+}

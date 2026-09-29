@@ -1,0 +1,308 @@
+@page "/kanban/toggle-columns"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates the toggle column feature in the <a class="e-kanban-togglecolumns-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                                                  href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                                                  target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a  Course Scheduling, allowing users to collapse or expand columns using the header button. In this demo, the <strong>Testing</strong> column is initially collapsed.
+</p>
+<p>
+    The Kanban component enables column collapse/expand to optimize screen space. Remaining columns automatically stretch to occupy free space. Configure this behavior using the following <a class="e-kanban-togglecolumns-reference-link" aria-label="Navigate to the API reference of KanbanColumn"
+                                                                                                                                  href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html"
+                                                                                                                                  target="_blank" rel="noopener">KanbanColumn</a> properties:
+</p>
+<ul>
+    <li><a class="e-kanban-togglecolumns-reference-link" aria-label="Navigate to the API reference of AllowToggle property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_AllowToggle"
+           target="_blank" rel="noopener">AllowToggle</a> – Enables column expand/collapse.</li>
+    <li><a class="e-kanban-togglecolumns-reference-link" aria-label="Navigate to the API reference of IsExpanded property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_IsExpanded"
+           target="_blank" rel="noopener">IsExpanded</a> – Determines initial expand/collapse state.
+    </li>
+</ul>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the toggle columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns#toggle-columns"
+           target="_blank" rel="noopener">Toggle Columns</a>: Collapse and expand columns to focus on the workflow stages that matter.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns"
+           target="_blank" rel="noopener">Columns</a>: Group cards by workflow stage such as To Do, In Progress, Testing, and Done.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the drag and drop in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/drag-and-drop"
+           target="_blank" rel="noopener">Drag and Drop</a>: Move cards between the visible columns to update their workflow status.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Initial State</b>: The <strong>Testing</strong> column is collapsed by default using the <code>IsExpanded</code> property.</li>
+    <li><b>Header Toggle</b>: Use the chevron in any column header to collapse or expand the column on demand.</li>
+    <li><b>Auto Layout</b>: The remaining columns automatically stretch to occupy the freed space when a column is collapsed.</li>
+    <li><b>Card Persistence</b>: Cards in collapsed columns remain in the data source and reappear when the column is expanded again.</li>
+</ul>
+<p>
+    The <b>Column Configuration</b> highlights the building blocks of toggle behavior:
+</p>
+<ul>
+    <li><b>AllowToggle</b>: Enables or disables the toggle button on the column header.</li>
+    <li><b>IsExpanded</b>: Controls the initial expand or collapse state of the column.</li>
+    <li><b>Auto Resize</b>: The board rebalances the visible columns when a column is toggled.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-togglecolumns-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@CardData" Height="500px">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="@item.AllowToggle" IsExpanded="@item.IsExpanded"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Summary">
+    <Template>
+        @{
+            KanbanDataModel card = (KanbanDataModel)context;
+            <div class="min-card" style="--color: @card.Color;">
+                <div class="mc-strip"></div>
+                <div class="mc-content">
+                    <div class="mc-head">
+                        <span class="mc-type">@card.Type</span>
+                        <span class="mc-avatar">@GetInitials(card.Assignee)</span>
+                    </div>
+                    <h3 class="mc-title">@card.Title</h3>
+                    <p class="mc-desc">@card.Summary</p>
+                    <div class="mc-footer">
+                        <span class="mc-priority" data-p="@card.Priority">@card.Priority</span>
+                        <span class="mc-id">@card.Id</span>
+                    </div>
+                </div>
+            </div>
+        }
+    </Template>
+</KanbanCardSettings>
+    </SfKanban>
+</div>
+<style>
+    .min-card { display: flex; border-radius: 8px; overflow: hidden; 
+                box-shadow: 0 2px 8px rgba(0,0,0,.08); 
+                transition: all .3s cubic-bezier(.25,.46,.45,.94); border: 1px solid #f0f0f0; }
+    .min-card:hover { box-shadow: 0 8px 24px rgba(0,0,0,.12); transform: translateY(-3px); 
+                      border-color: var(--color); }
+    .mc-strip { width: 5px; background: linear-gradient(180deg, var(--color) 0%, rgba(0,0,0,.1) 100%); flex-shrink: 0; }
+    .mc-content { flex: 1; display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+    .mc-head { display: flex; justify-content: space-between; align-items: center; line-height: normal; padding: 5px;  }
+    .mc-type { font-size: 10px; font-weight: 700; background: rgba(0,0,0,.05); 
+               padding: 2px 6px; border-radius: 3px; border-left: 3px solid var(--color); text-transform: uppercase; }
+    .mc-avatar { width: 26px; height: 26px; border-radius: 50%; background: var(--color); 
+                 color: #fff; display: flex; align-items: center; justify-content: center; 
+                 font-size: 9px; font-weight: 700; box-shadow: 0 2px 6px rgba(0,0,0,.15); 
+                 transition: transform .2s; }
+    .min-card:hover .mc-avatar { transform: scale(1.12); }
+    .mc-title { padding-left: 5px; font-size: 13px; font-weight: 700;  margin: 0; line-height: 1.3; }
+    .mc-desc { padding: 5px; font-size: 11px; margin: 0; line-height: 1.4; }
+    .mc-footer { display: flex; justify-content: space-between; font-size: 10px; 
+                 padding: 8px; border-top: 1px dashed #e5e5e5; font-weight: 600; line-height: normal }
+    .mc-priority { padding: 2px 6px; border-radius: 3px; background: #f5f5f5; }
+    .mc-priority[data-p="High"] { background: #fce4e4; color: var(--color-sf-warning-bg-color); }
+    .mc-priority[data-p="Low"] { background: #e8f5e9; color: var(--color-sf-success-dark); }
+    .mc-priority[data-p="Normal"] { background: #e3f2fd; color: var(--color-sf-primary-label-color);}
+/* --- Low priority --- */
+.material3 .mc-priority[data-p="Low"],
+.material3-dark .mc-priority[data-p="Low"] {
+    color: #4d831e;
+}
+.material3 .mc-priority[data-p="Low"] .mc-priority-dot,
+.material3-dark .mc-priority[data-p="Low"] .mc-priority-dot {
+    background: #4d831e;
+}
+
+.fluent .mc-priority[data-p="Low"],
+.fluent-dark .mc-priority[data-p="Low"] {
+    color: #0b6a0b;
+}
+.fluent .mc-priority[data-p="Low"] .mc-priority-dot,
+.fluent-dark .mc-priority[data-p="Low"] .mc-priority-dot {
+    background: #0b6a0b;
+}
+
+.material .mc-priority[data-p="Low"],
+.material-dark .mc-priority[data-p="Low"] {
+    color: #4d831e;
+}
+.material .mc-priority[data-p="Low"] .mc-priority-dot,
+.material-dark .mc-priority[data-p="Low"] .mc-priority-dot {
+    background: #4d831e;
+}
+
+.bootstrap4 .mc-priority[data-p="Low"],
+.bootstrap4-dark .mc-priority[data-p="Low"] {
+    color: #28a745;
+}
+.bootstrap4 .mc-priority[data-p="Low"] .mc-priority-dot,
+.bootstrap4-dark .mc-priority[data-p="Low"] .mc-priority-dot {
+    background: #28a745;
+}
+
+.highcontrast .mc-priority[data-p="Low"],
+.highcontrast-dark .mc-priority[data-p="Low"] {
+    color: #166600;
+}
+.highcontrast .mc-priority[data-p="Low"] .mc-priority-dot,
+.highcontrast-dark .mc-priority[data-p="Low"] .mc-priority-dot {
+    background: #166600;
+}
+
+.fabric .mc-priority[data-p="Low"],
+.fabric-dark .mc-priority[data-p="Low"] {
+    color: #4d831e;
+}
+.fabric .mc-priority[data-p="Low"] .mc-priority-dot,
+.fabric-dark .mc-priority[data-p="Low"] .mc-priority-dot {
+    background: #4d831e;
+}
+
+/* --- Normal priority --- */
+.material3 .mc-priority[data-p="Normal"],
+.material3-dark .mc-priority[data-p="Normal"] {
+    color: #0677d5;
+}
+.material3 .mc-priority[data-p="Normal"] .mc-priority-dot,
+.material3-dark .mc-priority[data-p="Normal"] .mc-priority-dot {
+    background: #0677d5;
+}
+
+.material .mc-priority[data-p="Normal"],
+.material-dark .mc-priority[data-p="Normal"] {
+    color: #0677d5;
+}
+.material .mc-priority[data-p="Normal"] .mc-priority-dot,
+.material-dark .mc-priority[data-p="Normal"] .mc-priority-dot {
+    background: #0677d5;
+}
+
+.fluent .mc-priority[data-p="Normal"],
+.fluent-dark .mc-priority[data-p="Normal"] {
+    color: #0078d4;
+}
+.fluent .mc-priority[data-p="Normal"] .mc-priority-dot,
+.fluent-dark .mc-priority[data-p="Normal"] .mc-priority-dot {
+    background: #0078d4;
+}
+
+.bootstrap4 .mc-priority[data-p="Normal"],
+.bootstrap4-dark .mc-priority[data-p="Normal"] {
+    color: #17a2b8;
+}
+.bootstrap4 .mc-priority[data-p="Normal"] .mc-priority-dot,
+.bootstrap4-dark .mc-priority[data-p="Normal"] .mc-priority-dot {
+    background: #17a2b8;
+}
+
+.highcontrast .mc-priority[data-p="Normal"],
+.highcontrast-dark .mc-priority[data-p="Normal"] {
+    color: #0056b3;
+}
+.highcontrast .mc-priority[data-p="Normal"] .mc-priority-dot,
+.highcontrast-dark .mc-priority[data-p="Normal"] .mc-priority-dot {
+    background: #0056b3;
+}
+
+.fabric .mc-priority[data-p="Normal"],
+.fabric-dark .mc-priority[data-p="Normal"] {
+    color: #0078d6;
+}
+.fabric .mc-priority[data-p="Normal"] .mc-priority-dot,
+.fabric-dark .mc-priority[data-p="Normal"] .mc-priority-dot {
+    background: #0078d6;
+}
+
+/* --- High priority --- */
+.material3 .mc-priority[data-p="High"],
+.material3-dark .mc-priority[data-p="High"] {
+    color: #d74113;
+}
+.material3 .mc-priority[data-p="High"] .mc-priority-dot,
+.material3-dark .mc-priority[data-p="High"] .mc-priority-dot {
+    background: #d74113;
+}
+
+.material .mc-priority[data-p="High"],
+.material-dark .mc-priority[data-p="High"] {
+    color: #d74113;
+}
+.material .mc-priority[data-p="High"] .mc-priority-dot,
+.material-dark .mc-priority[data-p="High"] .mc-priority-dot {
+    background: #d74113;
+}
+
+.fluent .mc-priority[data-p="High"],
+.fluent-dark .mc-priority[data-p="High"] {
+    color: #ca5010;
+}
+.fluent .mc-priority[data-p="High"] .mc-priority-dot,
+.fluent-dark .mc-priority[data-p="High"] .mc-priority-dot {
+    background: #ca5010;
+}
+
+.bootstrap4 .mc-priority[data-p="High"],
+.bootstrap4-dark .mc-priority[data-p="High"] {
+    color: #fd7e14;
+}
+.bootstrap4 .mc-priority[data-p="High"] .mc-priority-dot,
+.bootstrap4-dark .mc-priority[data-p="High"] .mc-priority-dot {
+    background: #fd7e14;
+}
+
+.highcontrast .mc-priority[data-p="High"],
+.highcontrast-dark .mc-priority[data-p="High"] {
+    color: #ff6161;
+}
+.highcontrast .mc-priority[data-p="High"] .mc-priority-dot,
+.highcontrast-dark .mc-priority[data-p="High"] .mc-priority-dot {
+    background: #ff6161;
+}
+
+.fabric .mc-priority[data-p="High"],
+.fabric-dark .mc-priority[data-p="High"] {
+    color: #d83b01;
+}
+.fabric .mc-priority[data-p="High"] .mc-priority-dot,
+.fabric-dark .mc-priority[data-p="High"] .mc-priority-dot {
+    background: #d83b01;
+}
+</style>
+@code{
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetCourseScheduling();
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "Proposed", KeyField = new List<string>() { "Proposed" }, AllowToggle = true, IsExpanded = true },
+        new ColumnModel() { HeaderText = "Approved", KeyField = new List<string>() { "Approved" }, AllowToggle = true, IsExpanded = true },
+        new ColumnModel() { HeaderText = "In Session", KeyField = new List<string>() { "In Session" }, AllowToggle = true, IsExpanded = false },
+        new ColumnModel() { HeaderText = "Archived", KeyField = new List<string>() { "Archived" }, AllowToggle = true, IsExpanded = true }
+    };
+        private string GetInitials(string? name)
+    {
+        if (string.IsNullOrEmpty(name)) return "?";
+        var parts = name.Split(' ');
+        return parts.Length > 1 ? $"{parts[0][0]}{parts[1][0]}".ToUpper() 
+                                 : name[0].ToString().ToUpper();
+    }
+}

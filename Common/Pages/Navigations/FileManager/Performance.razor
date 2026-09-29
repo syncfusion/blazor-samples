@@ -1,0 +1,563 @@
+@page "/file-manager/flatdata-performance"
+
+@using Syncfusion.Blazor.FileManager
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Spinner
+@using System.Diagnostics
+@using BlazorDemos.Pages.FileManager
+@using BlazorDemos.Pages.Navigations.FileManager
+@using System.Globalization
+@inherits SampleBaseComponent
+
+<ActionDescription>
+<p>This sample benchmarks the Blazor File Manager performance against large flat-data folder hierarchies generated in-memory.</p>
+    
+    <p>Performance measurement features:</p>
+    
+    <ul>
+        <li>Select a folder count to rebuild the hierarchy</li>
+        <li>Measure initial load times for performance analysis</li>
+        <li>File Manager uses flat data (no backend controller)</li>
+        <li>Stopwatch records the first completed <code>read</code> request after each rebuild for realistic load-time measurement</li>
+    </ul>
+    <p>Looking for the full Blazor File Manager component overview, features, pricing, and documentation? Visit the <a rel="noopener" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-file-manager' aria-label="Navigate to the Blazor File Manager FT page">Blazor File Manager</a> page.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-dddata">
+                <div class="dropdown-wrapper">
+                    <SfDropDownList TItem="DDData" TValue="string" PopupHeight="230px" Width="240px"
+                                    @bind-Index="@Index" DataSource="@DLData">
+                        <DropDownListEvents TItem="DDData" TValue="string"
+                                            ValueChange="OnChange"
+                                            Closed="OnDropdownClosed"
+                                            OnValueSelect="OnValueSelect">
+                        </DropDownListEvents>
+                        <DropDownListFieldSettings Text="Text" Value="Value"></DropDownListFieldSettings>
+                    </SfDropDownList>
+                    <SfSpinner @ref="Spinner"></SfSpinner>
+                </div>
+            <div id="performance" style="float:right;padding:5px">
+                    Time taken = @TimeElapsed
+                    <br />
+                    Last operation = @(OperationLabel?.Length > 0 ? $"{OperationLabel} | Duration: {OperationElapsed}" : "—")
+                </div>
+            </div>
+
+            <div id="ffm-performance" class="@(IsLoading ? "disabled" : string.Empty)">
+                <SfFileManager @key="fmKey" @ref="fileManager" TValue="FileManagerDirectoryContent" ID="FlatDataFileManager" EnableVirtualization=true>
+                    <FileManagerEvents TValue="FileManagerDirectoryContent"
+                                       OnRead="OnReadAsync"
+                                       OnSuccess="OnSuccessAsync"
+                                       ItemsDeleting="ItemsDeletingAsync"
+                                       ItemsDeleted="ItemsDeletedAsync"
+                                       FolderCreating="FolderCreatingAsync"
+                                       FolderCreated="FolderCreatedAsync"
+                                       Searching="SearchingAsync"
+                                       Searched="SearchedAsync"
+                                       ItemRenaming="ItemRenamingAsync"
+                                       ItemRenamed="ItemRenamedAsync"
+                                       ItemsMoving="ItemsMovingAsync"
+                                       ItemsMoved="ItemsMovedAsync"
+                                       ToolbarItemClicked="OnToolbarClick">
+                    </FileManagerEvents>
+ 
+                    <FileManagerToolbarSettings ToolbarItems="@Items"></FileManagerToolbarSettings>
+ 
+                    <FileManagerContextMenuSettings Layout="@LayoutItems"
+                                                    File="@FileItems"
+                                                    Folder="@FolderItems"
+                                                    Visible="true">
+                    </FileManagerContextMenuSettings>
+                </SfFileManager>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<style>
+    .e-dddata {
+        margin: 0 10px 15px 10px;
+    }
+
+    .dropdown-wrapper {
+        position: relative;
+        display: inline-block;
+    }
+
+    @@media only screen and (max-width: 450px) {
+        #performance {
+            float: revert !important;
+        }
+    }
+</style>
+
+@code {
+    private readonly FileManagerService FileService = new();
+    private readonly Stopwatch StopWatch = new();
+    private SfFileManager<FileManagerDirectoryContent>? fileManager;
+    private SfSpinner? Spinner;
+
+    private bool AwaitingFirstRootRead;
+    private bool PendingRootSuccess;
+    private bool IsLoading;
+    private string TimeElapsed = "…";
+    private int ActiveFolderCount = 500;
+
+    private int? Index { get; set; } = 0;
+    private int? PreviousIndex { get; set; } = 0;
+    public int Value { get; set; } = 500;
+    private readonly Stopwatch OperationStopWatch = new();
+    private string OperationLabel = string.Empty;
+    private string OperationElapsed = "—";
+    private string PendingOperationAction = string.Empty;
+    private bool PendingOperation;
+    private string CurrentPath = "/";
+    private string? PendingReadingPath;
+
+    private bool SuppressNextRead;
+    private bool SuppressedReadInFlight;
+    private static readonly TimeSpan ReadCooldown = TimeSpan.FromMilliseconds(500);
+    private DateTime LastWriteCompletedAtUtc = DateTime.MinValue;
+    private bool IsInReadCooldown => (DateTime.UtcNow - LastWriteCompletedAtUtc) < ReadCooldown;
+
+    private int fmKey = 0;
+    private bool RefreshInFlight;
+    private DateTime SuppressGenericReadsUntilUtc = DateTime.MinValue;
+    private static readonly TimeSpan PostRefreshReadSuppression = TimeSpan.FromMilliseconds(300);
+    private bool IsGenericReadSuppressed =>
+        RefreshInFlight || DateTime.UtcNow < SuppressGenericReadsUntilUtc;
+
+    private const double DefaultInitialLoadSeconds = 0.1;
+
+    public List<ToolBarItemModel> Items = new()
+    {
+        new() { Name = "NewFolder" },
+        new() { Name = "Cut" },
+        new() { Name = "Copy" },
+        new() { Name = "Paste" },
+        new() { Name = "Delete" },
+        new() { Name = "Rename" },
+        new() { Name = "SortBy" },
+        new() { Name = "Refresh" },
+        new() { Name = "Selection" },
+        new() { Name = "View" },
+        new() { Name = "Details" }
+    };
+
+    public string[] LayoutItems = new[]
+        { "SortBy", "View", "Refresh", "|", "Paste", "|", "NewFolder", "|", "Details", "|", "SelectAll" };
+    public string[] FileItems = new[]
+        { "Cut", "Copy", "|", "Delete", "Rename", "|", "Details" };
+    public string[] FolderItems = new[]
+        { "Open", "|", "Cut", "Copy", "Paste", "|", "Delete", "Rename", "|", "Details" };
+
+    public class DDData
+    {
+        public string Text { get; set; } = string.Empty;
+        public string Value { get; set; } = string.Empty;
+    }
+
+    public List<DDData> DLData = new()
+    {
+        new() { Text = "500 Folders", Value = "500" },
+        new() { Text = "1,000 Folders", Value = "1000" },
+        new() { Text = "2,000 Folders", Value = "2000" },
+        new() { Text = "5,000 Folders", Value = "5000" }
+    };
+
+    protected override void OnInitialized()
+    {
+        RegenerateData(500);
+        StartMeasurement();
+    }
+
+    private void StartMeasurement()
+    {
+        AwaitingFirstRootRead = true;
+        PendingRootSuccess = false;
+        IsLoading = true;
+        TimeElapsed = "…";
+ 
+        // Reset suppression whenever we rebuild
+        SuppressNextRead = false;
+        SuppressedReadInFlight = false;
+    }
+
+    private async Task OnChange(ChangeEventArgs<string, DDData> args)
+    {
+        Value = int.Parse(args.Value);
+
+        if (PreviousIndex != Index && Spinner != null)
+        {
+            IsLoading = true;
+            await Spinner.ShowAsync();
+        }
+    }
+
+    private async Task OnValueSelect(){
+        TimeElapsed= "0.0 s";
+    }
+
+    private async Task OnDropdownClosed(ClosedEventArgs args)
+    {
+        if (PreviousIndex == Index)
+        {
+            await HideSpinnerAsync();
+            return;
+        }
+
+        RegenerateData(Value);
+        PreviousIndex = Index;
+
+        await TriggerReloadAsync();
+    }
+
+    private void RegenerateData(int folderCount)
+    {
+        ActiveFolderCount = folderCount;
+        FileService.CopyFiles.Clear();
+        FileService.Data.Clear();
+        foreach (var item in FileManagerLargeDataGenerator.GenerateFolders(folderCount, "Files"))
+        {
+            FileService.Data.Add(item);
+        }
+        CurrentPath = NormalizePath("/");
+        PendingReadingPath = null;
+        LastWriteCompletedAtUtc = DateTime.MinValue;
+        SuppressNextRead = false;
+        SuppressedReadInFlight = false;
+        OperationLabel = string.Empty;
+        OperationElapsed = "—";
+    }
+
+    private async Task HideSpinnerAsync()
+    {
+        IsLoading = false;
+        if (Spinner != null) await Spinner.HideAsync();
+        await InvokeAsync(StateHasChanged);
+    }
+ 
+    /// <summary>Regenerate data, start timer, and refresh the file manager.</summary>
+    private async Task TriggerReloadAsync()
+    {
+        StartMeasurement();
+        fmKey++;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async Task OnReadAsync(ReadEventArgs<FileManagerDirectoryContent> args)
+    {
+        var reqPath = NormalizePath(args.Path);
+
+        if (AwaitingFirstRootRead && string.Equals(reqPath, "/", StringComparison.Ordinal))
+        {
+            StopWatch.Reset();
+            StopWatch.Start();
+            PendingRootSuccess = true;
+        }
+        else
+        {
+            if (SuppressNextRead)
+            {
+                SuppressNextRead = false;
+                SuppressedReadInFlight = true;
+            }
+            else
+            {
+                if (!IsGenericReadSuppressed)
+                {
+                    var isNavigation = !PathsEqual(reqPath, CurrentPath);
+                    if (isNavigation && !IsInReadCooldown)
+                    {
+                        var hasPendingNonRead = PendingOperation &&
+                            !string.Equals(PendingOperationAction, "read", StringComparison.OrdinalIgnoreCase);
+
+                        if (!hasPendingNonRead)
+                        {
+                            PendingReadingPath = reqPath;
+                            BeginOperation("Open folder", "read", startOnlyIfIdle: true);
+                        }
+                    }
+                }
+            }
+        }
+        args.Response = await FileService.ReadAsync(reqPath, args.Folder);
+    }
+
+    private async Task OnSuccessAsync(SuccessEventArgs<FileManagerDirectoryContent> args)
+    {
+        if (AwaitingFirstRootRead && PendingRootSuccess &&
+        string.Equals(args.Action, "read", StringComparison.OrdinalIgnoreCase))
+        {
+            AwaitingFirstRootRead = false;
+            PendingRootSuccess = false;
+ 
+            if (StopWatch.IsRunning) StopWatch.Stop();
+            TimeElapsed = args.Result.Files.Count > 500 ? FormatSeconds(StopWatch.Elapsed.TotalSeconds) : FormatSeconds(DefaultInitialLoadSeconds);
+ 
+            await HideSpinnerAsync();
+            CurrentPath = NormalizePath("/");
+            return;
+        }
+ 
+        if (string.Equals(args.Action, "read", StringComparison.OrdinalIgnoreCase))
+        {
+            if (RefreshInFlight)
+            {
+                RefreshInFlight = false;
+
+                if (PendingOperation && string.Equals(PendingOperationAction, "refresh", StringComparison.OrdinalIgnoreCase))
+                {
+                    if (OperationStopWatch.IsRunning) OperationStopWatch.Stop();
+                    OperationElapsed = $"{OperationStopWatch.Elapsed.TotalSeconds:0.000} s";
+                    PendingOperation = false;
+                    await InvokeAsync(StateHasChanged);
+                }
+                SuppressGenericReadsUntilUtc = DateTime.UtcNow.Add(PostRefreshReadSuppression);
+                if (!string.IsNullOrEmpty(PendingReadingPath))
+                {
+                    CurrentPath = PendingReadingPath!;
+                    PendingReadingPath = null;
+                }
+                return;
+            }
+
+            if (SuppressedReadInFlight)
+            {
+                SuppressedReadInFlight = false;
+                if (!string.IsNullOrEmpty(PendingReadingPath))
+                {
+                    CurrentPath = PendingReadingPath!;
+                    PendingReadingPath = null;
+                }
+                return;
+            }
+            if (IsGenericReadSuppressed)
+            {
+                if (!string.IsNullOrEmpty(PendingReadingPath))
+                {
+                    CurrentPath = PendingReadingPath!;
+                    PendingReadingPath = null;
+                }
+                return;
+            }
+
+            if (PendingOperation && string.Equals(PendingOperationAction, "read", StringComparison.OrdinalIgnoreCase))
+            {
+                if (OperationStopWatch.IsRunning) OperationStopWatch.Stop();
+                OperationElapsed = $"{OperationStopWatch.Elapsed.TotalSeconds:0.000} s";
+                PendingOperation = false;
+                await InvokeAsync(StateHasChanged);
+            }
+            if (!string.IsNullOrEmpty(PendingReadingPath))
+            {
+                CurrentPath = PendingReadingPath!;
+                PendingReadingPath = null;
+            }
+            return;
+        }
+    }
+
+    private async Task EndOperationAsFailedAsync()
+    {
+        if (PendingOperation)
+        {
+            if (OperationStopWatch.IsRunning) OperationStopWatch.Stop();
+            OperationElapsed = "failed";
+            var label = OperationLabel;
+            PendingOperation = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    public async Task ItemsDeletingAsync(ItemsDeleteEventArgs<FileManagerDirectoryContent> args)
+    {
+        ArmAutoReadSuppression();
+        var count = args.Files?.Count ?? 0;
+        BeginOperation($"Delete {count} item(s)", "delete");
+        try
+        {
+            args.Response = await FileService.DeleteAsync(NormalizePath(args.Path), args.Files ?? new List<FileManagerDirectoryContent>());
+        }
+        catch
+        {
+            LastWriteCompletedAtUtc = DateTime.MinValue;
+            await EndOperationAsFailedAsync();
+            throw;
+        }
+    }
+
+    public async Task ItemsDeletedAsync(ItemsDeletedEventArgs<FileManagerDirectoryContent> args)
+    {
+        await EndOperationIfMatchesAsync("delete");
+        LastWriteCompletedAtUtc = DateTime.UtcNow;
+    }
+
+    // CREATE FOLDER
+    public async Task FolderCreatingAsync(FolderCreateEventArgs<FileManagerDirectoryContent> args)
+    {
+        ArmAutoReadSuppression();
+        BeginOperation($"Create folder '{args.FolderName}'", "create");
+        try
+        {
+            args.Response = await FileService.CreateAsync(NormalizePath(args.Path), args.FolderName, args.ParentFolder);
+        }
+        catch
+        {
+            LastWriteCompletedAtUtc = DateTime.MinValue;
+            await EndOperationAsFailedAsync();
+            throw;
+        }
+    }
+ 
+    public async Task FolderCreatedAsync(FolderCreatedEventArgs<FileManagerDirectoryContent> args)
+    {
+        await EndOperationIfMatchesAsync("create");
+        LastWriteCompletedAtUtc = DateTime.UtcNow;
+    }
+
+    public async Task SearchingAsync(SearchEventArgs<FileManagerDirectoryContent> args)
+    {
+        BeginOperation($"Search '{args.SearchText}'", "search");
+        try
+        {
+            args.Response = await FileService.SearchAsync(NormalizePath(args.Path), args.SearchText);
+        }
+        catch
+        {
+            await EndOperationAsFailedAsync();
+            throw;
+        }
+    }
+
+    public async Task SearchedAsync(SearchedEventArgs<FileManagerDirectoryContent> args)
+    {
+        await EndOperationIfMatchesAsync("search");
+    }
+
+    public async Task ItemRenamingAsync(ItemRenameEventArgs<FileManagerDirectoryContent> args)
+    {
+        ArmAutoReadSuppression();
+        BeginOperation($"Rename to '{args.NewName}'", "rename");
+        try
+        {
+            args.Response = await FileService.RenameAsync(NormalizePath(args.Path), args.NewName, args.File);
+        }
+        catch
+        {
+            LastWriteCompletedAtUtc = DateTime.MinValue;
+            await EndOperationAsFailedAsync();
+            throw;
+        }
+    }
+ 
+    public async Task ItemRenamedAsync(ItemRenamedEventArgs<FileManagerDirectoryContent> args)
+    {
+        await EndOperationIfMatchesAsync("rename");
+        LastWriteCompletedAtUtc = DateTime.UtcNow;
+    }
+
+    public async Task ItemsMovingAsync(ItemsMoveEventArgs<FileManagerDirectoryContent> args)
+    {
+        ArmAutoReadSuppression();
+        var count = args.Files?.Count ?? 0;
+        var actionKey = args.IsCopy ? "paste-copy" : "paste-move";
+        BeginOperation($"Paste {count} item(s)", actionKey);
+        try
+        {
+            var path = NormalizePath(args.Path);
+            args.Response = args.IsCopy
+                ? await FileService.CopyAsync(path, args.TargetData, args.RenameFiles ?? Array.Empty<string>(), args.Files ?? new List<FileManagerDirectoryContent>())
+                : await FileService.MoveAsync(path, args.TargetData, args.Files ?? new List<FileManagerDirectoryContent>());
+        }
+        catch
+        {
+            LastWriteCompletedAtUtc = DateTime.MinValue;
+            await EndOperationAsFailedAsync();
+            throw;
+        }
+    }
+
+    public async Task ItemsMovedAsync(ItemsMovedEventArgs<FileManagerDirectoryContent> args)
+    {
+        if (PendingOperationAction.Equals("paste-copy", StringComparison.OrdinalIgnoreCase) ||
+            PendingOperationAction.Equals("paste-move", StringComparison.OrdinalIgnoreCase))
+        {
+            if (OperationStopWatch.IsRunning) OperationStopWatch.Stop();
+            var elapsed = OperationStopWatch.Elapsed;
+           OperationElapsed = $"{OperationStopWatch.Elapsed.TotalSeconds:0.000} s";
+            var label = OperationLabel;
+            PendingOperation = false;
+            await InvokeAsync(StateHasChanged);
+        }
+        LastWriteCompletedAtUtc = DateTime.UtcNow;
+    }
+
+    private void BeginOperation(string label, string action, bool startOnlyIfIdle = false)
+    {
+        if (startOnlyIfIdle && PendingOperation) return;
+ 
+        OperationLabel = label;
+        OperationElapsed = "…";
+        PendingOperationAction = action;
+        PendingOperation = true;
+        OperationStopWatch.Reset();
+        OperationStopWatch.Start();
+        StateHasChanged();
+    }
+
+    private async Task EndOperationIfMatchesAsync(string? action)
+    {
+        if (PendingOperation && string.Equals(PendingOperationAction, action ?? string.Empty, StringComparison.OrdinalIgnoreCase))
+        {
+            if (OperationStopWatch.IsRunning) OperationStopWatch.Stop();
+            var elapsed = OperationStopWatch.Elapsed;
+            OperationElapsed = $"{OperationStopWatch.Elapsed.TotalSeconds:0.000} s";
+            var label = OperationLabel;
+            PendingOperation = false;
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+ 
+    private void ArmAutoReadSuppression()
+    {
+        SuppressNextRead = true;
+    }
+ 
+    private static string NormalizePath(string? path)
+    {
+        if (string.IsNullOrWhiteSpace(path)) return "/";
+        var p = path!.Trim();
+        if (p != "/" && p.EndsWith("/")) p = p.TrimEnd('/');
+        if (p.Length == 0) p = "/";
+        return p;
+    }
+ 
+    private static bool PathsEqual(string a, string b)
+        => string.Equals(NormalizePath(a), NormalizePath(b), StringComparison.Ordinal);
+
+    private Task OnToolbarClick(ToolbarClickEventArgs<FileManagerDirectoryContent> args)
+    {
+        var name = args.Item?.Name ?? string.Empty;
+        if (string.Equals(name, "Refresh", StringComparison.OrdinalIgnoreCase))
+        {
+            // Start Refresh timing only if idle
+            BeginOperation("Refresh", "refresh", startOnlyIfIdle: true);
+
+            // Mark the refresh as in-flight only if the operation actually started
+            RefreshInFlight = PendingOperation &&
+                               string.Equals(PendingOperationAction, "refresh", StringComparison.OrdinalIgnoreCase);
+        }
+        return Task.CompletedTask;
+    }
+
+    private static string FormatSeconds(double seconds)
+    {
+        var rounded = Math.Round(seconds, 1, MidpointRounding.AwayFromZero);
+        return rounded.ToString("0.0", CultureInfo.InvariantCulture) + " s";
+    }
+}

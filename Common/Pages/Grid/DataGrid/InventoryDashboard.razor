@@ -1,0 +1,1163 @@
+﻿@page "/datagrid/inventory-dashboard"
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Cards
+@using BlazorDemos.Pages.Grid.InventoryDeviceNameSpace
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@*Hidden:Lines*@
+@using BlazorDemos
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This demo showcases the Syncfusion® Blazor DataGrid displaying a comprehensive inventory dashboard with rich inventory data and interactive row details.</p>
+
+    <p>The DataGrid is populated with detailed product information, including product name, category, sales, ratings, pricing and stock status. Each row can be expanded to reveal a structured card-based layout with product descriptions, key highlights, technical specifications, and detailed pricing information.</p>
+
+    <p>This demo highlights the DataGrid's capability to present rich, interactive data with enhanced visual elements:</p>
+    <ul>
+        <li>Display product images and icons for quick visual identification</li>
+        <li>Render star ratings, review counts, and sales indicators using custom layouts</li>
+        <li>Leverage the Column Template feature to design fully customized cells</li>
+        <li>Use the Detail Template feature to organize expanded row content into a clean, card-based view</li>
+    </ul>
+
+    <p>Column and detail template features empower the design of fully customized grid cells with custom content, enabling a rich and visually appealing data presentation experience.</p>
+
+    <p>For more detailed information about the detail template feature, refer to the <a rel="noopener" target='_blank' href='https://blazor.syncfusion.com/documentation/datagrid/detail-template' aria-label="Navigate to the documentation for Detail template in DataGrid component">detail template documentation</a>.</p>
+
+    <p>Looking for the full Blazor DataGrid component overview, features, pricing, and documentation? Visit our <a rel="noopener" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid' aria-label="Navigate to the Blazor DataGrid FT page">Blazor DataGrid component</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="ig-root">
+            <SfGrid ID="Detail-Grid" TValue="InventoryProduct" DataSource="@_products" AllowSorting="true" AllowFiltering="true" AllowPaging="false" EnableHover="true" Height="600px">
+                <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.CheckBox"></GridFilterSettings>
+                <GridTemplates>
+                    <DetailTemplate>
+                        @{
+                            var card = (InventoryProduct)context;
+                        }
+                        <div class="ig-detail" role="region" aria-label="@($"{card.Name} detailed information")">
+                            <div class="detail-top">
+                                <div class="detail-grid">
+                                    <SfCard CssClass="ig-dcard ig-dcard--desc">
+                                        <CardHeader>
+                                            <div class="ig-dcard__header">
+                                                <span class="ig-dcard__avatar ig-dcard__avatar--blue" aria-hidden="true">
+                                                    <span class="e-icons e-description"></span>
+                                                </span>
+                                                <span class="ig-dcard__title">Product Description</span>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div class="product-description-text">@card.LongDescription</div>
+                                            <h4 class="sub-title">Key Highlights</h4>
+                                            <ul class="highlight-list">
+                                                @foreach (var h in card.Highlights ?? new List<Highlight>())
+                                                {
+                                                    <li>
+                                                        <span class="e-icons e-circle-check" aria-hidden="true"></span>
+                                                        <span>@h.Text</span>
+                                                    </li>
+                                                }
+                                            </ul>
+                                        </CardContent>
+                                    </SfCard>
+
+                                    <SfCard CssClass="ig-dcard ig-dcard--specs">
+                                        <CardHeader>
+                                            <div class="ig-dcard__header">
+                                                <span class="ig-dcard__avatar ig-dcard__avatar--green" aria-hidden="true">
+                                                    <span class="e-icons e-field-settings"></span>
+                                                </span>
+                                                <span class="ig-dcard__title">Technical Specifications</span>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            @foreach (var s in card.Specs ?? new List<TechSpec>())
+                                            {
+                                                <div class="info-row">
+                                                    <span>@s.Label</span>
+                                                    <strong>@s.Value</strong>
+                                                </div>
+                                            }
+                                        </CardContent>
+                                    </SfCard>
+
+                                    <SfCard CssClass="ig-dcard ig-dcard--price">
+                                        <CardHeader>
+                                            <div class="ig-dcard__header">
+                                                <span class="ig-dcard__avatar ig-dcard__avatar--purple" aria-hidden="true">
+                                                    <span class="e-icons e-calculation"></span>
+                                                </span>
+                                                <span class="ig-dcard__title">Pricing Details</span>
+                                            </div>
+                                        </CardHeader>
+                                        <CardContent>
+                                            <div class="info-row">
+                                                <span>Current Price</span>
+                                                <strong class="ig-dcard__current">@card.Price.ToString("C0")</strong>
+                                            </div>
+                                            <div class="info-row">
+                                                <span>Original Price</span>
+                                                <strong class="ig-dcard__original">@card.OriginalPrice.ToString("C0")</strong>
+                                            </div>
+                                            <div class="info-row">
+                                                <span>Discount</span>
+                                                <strong class="ig-dcard__discount">@card.DiscountPercent%</strong>
+                                            </div>
+                                            <div class="info-row">
+                                                <span>Cost Price</span>
+                                                <strong class="ig-dcard__cost">@card.CostPrice.ToString("C0")</strong>
+                                            </div>
+                                            <div class="info-row">
+                                                <span>Profit Margin</span>
+                                                <strong class="ig-dcard__profit">@card.ProfitMargin%</strong>
+                                            </div>
+                                        </CardContent>
+                                    </SfCard>
+                                </div>
+                            </div>
+                        </div>
+                    </DetailTemplate>
+                </GridTemplates>
+
+                <GridColumns>
+                    <GridColumn Field="@nameof(InventoryProduct.Name)" HeaderText="Product" Width="260" TextAlign="TextAlign.Left" HeaderTextAlign="TextAlign.Left" AllowSorting="true">
+                        <HeaderTemplate>
+                            <span>Product</span>
+                        </HeaderTemplate>
+                        <Template>
+                            @{
+                                var card = (InventoryProduct)context;
+                            }
+                            <div class="ig-product">
+                                <span class="ig-product__img"
+                                      style="background:@card.ImageColor; color:#fff;"
+                                      aria-hidden="true">
+                                    @if (!string.IsNullOrEmpty(card.ImageUrl!.ToString()))
+                                    {
+                                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/data-grid/{card.ImageUrl}.png")" alt="@card.Name" class="ig-product__img-el" />
+                                    }
+                                    else
+                                    {
+                                        <span>@card.CategoryIcon</span>
+                                    }
+                                </span>
+                                <span class="ig-product__text">
+                                    <span class="product-name">@card.Name</span>
+                                    <span class="product-description">@card.Description</span>
+                                    <span class="product-sku">SKU: @card.Sku</span>
+                                </span>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="@nameof(InventoryProduct.Category)" HeaderText="Category" Width="150" TextAlign="TextAlign.Left" HeaderTextAlign="TextAlign.Left" AllowSorting="true"> </GridColumn>
+                    <GridColumn Field="@nameof(InventoryProduct.SalesTotal)" HeaderText="Sales (30Days)" Width="130" TextAlign="TextAlign.Center" HeaderTextAlign="TextAlign.Center" AllowSorting="true" AllowFiltering="false">
+                        <HeaderTemplate>
+                            <span>Sales (30 Days)</span>
+                        </HeaderTemplate>
+                        <Template>
+                            @{
+                                var card = (InventoryProduct)context;
+                                var total = card.SalesTotal;
+                                var trend = card.SalesTrendPercent;
+                                var trendUp = trend >= 0;
+                                var absTrend = Math.Abs(trend);
+                            }
+                            <div class="sales-cell">
+                                <div class="ig-sales__value">@total </div>
+
+                                <div class="ig-sales__delta @(trendUp ? "ig-sales__delta--up" : "ig-sales__delta--down")">
+                                    <span class="e-icons @(trendUp ? "e-arrow-up" : "e-arrow-down")" aria-hidden="true"></span>
+                                    @absTrend.ToString("0.0")%
+                                </div>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="@nameof(InventoryProduct.Price)" HeaderText="Price" Width="100" TextAlign="TextAlign.Right" HeaderTextAlign="TextAlign.Right" Format="C2" AllowSorting="true">
+                        <HeaderTemplate>
+                            <span>Price</span>
+                        </HeaderTemplate>
+                        <Template>
+                            @{
+                                var card = (InventoryProduct)context;
+                            }
+                            <span class="ig-price">@card.Price.ToString("C2")</span>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="@nameof(InventoryProduct.Rating)" HeaderText="Rating" Width="200" TextAlign="TextAlign.Center" HeaderTextAlign="TextAlign.Center" AllowSorting="true">
+                        <HeaderTemplate>
+                            <span>Rating</span>
+                        </HeaderTemplate>
+                        <Template>
+                            @{
+                                var card = (InventoryProduct)context;
+                            }
+                            <div class="ig-rating-wrap">
+                                <div class="ig-rating" role="presentation"
+                                     aria-label="@($"{card.RatingDisplay} out of 5 stars, {card.ReviewCount} reviews. Hover for rating breakdown.")">
+                                    <span class="ig-rating__trigger" aria-hidden="true">
+                                        <span class="ig-rating__value" aria-hidden="true">@card.RatingDisplay</span>
+                                        <span class="ig-rating__stars" aria-hidden="true">
+                                            @for (var i = 1; i <= 5; i++)
+                                            {
+                                                if (i <= card.RatingFullStars)
+                                                {
+                                                    <svg class="ig-star ig-star--full" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                        <path d="M12 2.5l2.95 6.46 7.05.78-5.3 4.83 1.55 6.93L12 17.77l-6.25 3.73 1.55-6.93-5.3-4.83 7.05-.78L12 2.5z" />
+                                                    </svg>
+                                                }
+                                                else if (i == card.RatingFullStars + 1 && card.RatingHasPartialStar)
+                                                {
+                                                    <svg class="ig-star ig-star--partial" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                        <path class="ig-star__partial-bg" d="M12 2.5l2.95 6.46 7.05.78-5.3 4.83 1.55 6.93L12 17.77l-6.25 3.73 1.55-6.93-5.3-4.83 7.05-.78L12 2.5z" />
+                                                        <path class="ig-star__partial-fg" d="M12 2.5l2.95 6.46 7.05.78-5.3 4.83 1.55 6.93L12 17.77l-6.25 3.73 1.55-6.93-5.3-4.83 7.05-.78L12 2.5z" style="clip-path: inset(0 @(100 - card.RatingPartialPercent)% 0 0);" />
+                                                    </svg>
+                                                }
+                                                else
+                                                {
+                                                    <svg class="ig-star ig-star--empty" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                        <path d="M12 2.5l2.95 6.46 7.05.78-5.3 4.83 1.55 6.93L12 17.77l-6.25 3.73 1.55-6.93-5.3-4.83 7.05-.78L12 2.5z" />
+                                                    </svg>
+                                                }
+                                            }
+                                        </span>
+                                    </span>
+                                    <div class="ig-rating__count" tabindex="-1" aria-hidden="true">(@card.ReviewCount reviews)</div>
+
+                                    <div class="ig-rating__popover" role="tooltip">
+                                        <div class="ig-rating__popover-top">
+                                            <div class="ig-rating__popover-stars" aria-hidden="true">
+                                                @for (var i = 1; i <= 5; i++)
+                                                {
+                                                    if (i <= card.RatingFullStars)
+                                                    {
+                                                        <svg class="ig-pop-star ig-pop-star--full" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                            <path d="M12 2.5l2.95 6.46 7.05.78-5.3 4.83 1.55 6.93L12 17.77l-6.25 3.73 1.55-6.93-5.3-4.83 7.05-.78L12 2.5z" />
+                                                        </svg>
+                                                    }
+                                                    else if (i == card.RatingFullStars + 1 && card.RatingHasPartialStar)
+                                                    {
+                                                        <svg class="ig-pop-star ig-pop-star--partial" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                            <path class="ig-pop-star__partial-bg" d="M12 2.5l2.95 6.46 7.05.78-5.3 4.83 1.55 6.93L12 17.77l-6.25 3.73 1.55-6.93-5.3-4.83 7.05-.78L12 2.5z" />
+                                                            <path class="ig-pop-star__partial-fg" d="M12 2.5l2.95 6.46 7.05.78-5.3 4.83 1.55 6.93L12 17.77l-6.25 3.73 1.55-6.93-5.3-4.83 7.05-.78L12 2.5z" style="clip-path: inset(0 @(100 - card.RatingPartialPercent)% 0 0);" />
+                                                        </svg>
+                                                    }
+                                                    else
+                                                    {
+                                                        <svg class="ig-pop-star ig-pop-star--empty" viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                                                            <path d="M12 2.5l2.95 6.46 7.05.78-5.3 4.83 1.55 6.93L12 17.77l-6.25 3.73 1.55-6.93-5.3-4.83 7.05-.78L12 2.5z" />
+                                                        </svg>
+                                                    }
+                                                }
+                                            </div>
+                                            <div class="ig-rating__popover-headline">
+                                                <span class="ig-rating__popover-value">@card.RatingDisplay</span>
+                                                <span class="ig-rating__popover-out">out of 5</span>
+                                            </div>
+                                        </div>
+                                        <div class="ig-rating__popover-sub">@card.TotalRatings.ToString("N0") global ratings</div>
+                                        <div class="ig-rating__popover-bars">
+                                            <div class="ig-rating__popover-row">
+                                                <span class="ig-rating__popover-label">5 star</span>
+                                                <span class="ig-rating__popover-bar"><span class="ig-rating__popover-bar-fill" style="width:@(card.Star5Percent)%"></span></span>
+                                                <span class="ig-rating__popover-pct">@card.Star5Percent%</span>
+                                            </div>
+                                            <div class="ig-rating__popover-row">
+                                                <span class="ig-rating__popover-label">4 star</span>
+                                                <span class="ig-rating__popover-bar"><span class="ig-rating__popover-bar-fill" style="width:@(card.Star4Percent)%"></span></span>
+                                                <span class="ig-rating__popover-pct">@card.Star4Percent%</span>
+                                            </div>
+                                            <div class="ig-rating__popover-row">
+                                                <span class="ig-rating__popover-label">3 star</span>
+                                                <span class="ig-rating__popover-bar"><span class="ig-rating__popover-bar-fill" style="width:@(card.Star3Percent)%"></span></span>
+                                                <span class="ig-rating__popover-pct">@card.Star3Percent%</span>
+                                            </div>
+                                            <div class="ig-rating__popover-row">
+                                                <span class="ig-rating__popover-label">2 star</span>
+                                                <span class="ig-rating__popover-bar"><span class="ig-rating__popover-bar-fill" style="width:@(card.Star2Percent)%"></span></span>
+                                                <span class="ig-rating__popover-pct">@card.Star2Percent%</span>
+                                            </div>
+                                            <div class="ig-rating__popover-row">
+                                                <span class="ig-rating__popover-label">1 star</span>
+                                                <span class="ig-rating__popover-bar"><span class="ig-rating__popover-bar-fill" style="width:@(card.Star1Percent)%"></span></span>
+                                                <span class="ig-rating__popover-pct">@card.Star1Percent%</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field="@nameof(InventoryProduct.Status)" HeaderText="Status" Width="150" AllowSorting="true" TextAlign="TextAlign.Center" HeaderTextAlign="TextAlign.Center">
+                        <HeaderTemplate> <span>Status</span> </HeaderTemplate>
+                        <Template>
+                            @{
+                                var card = (InventoryProduct)context;
+                            }
+                            <div class="ig-status-cell">
+                                <span class="ig-status @card.StatusCss">
+                                    <span class="ig-status__dot" aria-hidden="true"></span>
+                                    @card.StatusLabel
+                                </span>
+                                <span class="status-units">@card.StatusUnit</span>
+                            </div>
+                        </Template>
+                    </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+@*Hidden:Lines*@
+<style>
+
+    .ig-root {
+        --ig-bg: #f8fafc;
+        --ig-surface: #ffffff;
+        --ig-border: #e2e8f0;
+        --ig-text: #0f172a;
+        --ig-text-muted: #64748b;
+        --ig-text-soft: #94a3b8;
+        --ig-primary: #6366f1;
+        --ig-success: #10b981;
+        --ig-warn: #f59e0b;
+        --ig-danger: #ef4444;
+        --ig-shadow-sm: 0 1px 2px rgba(15, 23, 42, 0.04);
+        --ig-radius: 12px;
+        --ig-radius-sm: 8px;
+        background: var(--ig-bg);
+        color: var(--ig-text);
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+
+    .ig-rating-wrap {
+        position: static;
+        display: block;
+        width: 100%;
+        text-align: center !important;
+    }
+
+    .ig-rating {
+        position: relative;
+        display: inline-flex;
+        flex-wrap: wrap;
+        align-items: center;
+        justify-content: center !important;
+        gap: 6px;
+        padding: 4px 8px;
+        border-radius: 6px;
+        cursor: default;
+        outline: none;
+        transition: background-color 150ms ease;
+    }
+
+        .ig-rating__trigger:hover,
+        .ig-rating:hover .ig-rating__trigger {
+            background: rgba(15, 23, 42, 0.04);
+        }
+  
+    #Detail-Grid .ig-rating:hover {
+        overflow: visible !important;
+    }
+
+    #Detail-Grid .e-rowcell {
+        overflow: visible !important;
+    }
+
+    .ig-rating__value {
+        font-size: 14px;
+        font-weight: 600;
+        line-height: 1;
+    }
+
+    .ig-rating__stars {
+        display: inline-flex;
+        align-items: center;
+        gap: 1px;
+        line-height: 1;
+        font-size: 14px;
+    }
+
+    .ig-star {
+        width: 14px;
+        height: 14px;
+        line-height: 1;
+        display: inline-block;
+        flex: 0 0 14px;
+    }
+
+    .ig-star--full {
+        fill: #f5b400;
+        stroke: #f5b400;
+        stroke-width: 1.4;
+        stroke-linejoin: round;
+    }
+
+    .ig-star--partial .ig-star__partial-bg {
+        fill: none;
+        stroke: #cbd5e1;
+        stroke-width: 1.4;
+        stroke-linejoin: round;
+    }
+
+    .ig-star--partial .ig-star__partial-fg {
+        fill: #f5b400;
+        stroke: #f5b400;
+        stroke-width: 1.4;
+        stroke-linejoin: round;
+    }
+
+    .ig-star--empty {
+        fill: none;
+        stroke: #cbd5e1;
+        stroke-width: 1.4;
+        stroke-linejoin: round;
+    }
+
+    .ig-rating__chevron {
+        font-size: 14px;
+        line-height: 1;
+        color: #64748b;
+        margin-left: 2px;
+        transform: rotate(90deg);
+        display: inline-block;
+    }
+
+    .ig-rating__count {
+        flex-basis: 100%;
+        display: block;
+        font-size: 12px;
+        font-weight: 500;
+        color: #6366f1;
+        text-decoration: none;
+        line-height: 1.2;
+        margin-top: 2px;
+    }
+
+    .ig-rating__popover {
+        position: absolute;
+        top: calc(100% + 10px);
+        left: 50%;
+        transform: translateX(-50%) translateY(4px);
+        width: 280px;
+        background: #ffffff;
+        border: 1px solid #e2e8f0;
+        border-radius: 12px;
+        box-shadow: 0 12px 32px rgba(15, 23, 42, 0.14), 0 2px 6px rgba(15, 23, 42, 0.06);
+        padding: 18px;
+        z-index: 9999;
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+        transition: opacity 150ms ease, transform 150ms ease, visibility 0s linear 150ms;
+        text-align: left;
+        color: #0f172a;
+    }
+
+        .ig-rating__popover::before,
+        .ig-rating__popover::after {
+            content: "";
+            position: absolute;
+            bottom: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            border: 8px solid transparent;
+        }
+
+        .ig-rating__popover::before {
+            border-bottom-color: #e2e8f0;
+            margin-bottom: 1px;
+        }
+    
+        .ig-rating__popover:hover,
+        .ig-rating:hover > .ig-rating__popover {
+            opacity: 1;
+            visibility: visible;
+            transform: translateX(-50%) translateY(0);
+            transition: opacity 150ms ease, transform 150ms ease, visibility 0s;
+            pointer-events: auto;
+        }
+
+    .ig-rating__close {
+        position: absolute;
+        top: 8px;
+        right: 8px;
+        width: 28px;
+        height: 28px;
+        border: none;
+        background: transparent;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        color: #475569;
+        padding: 0;
+        transition: background-color 150ms ease, color 150ms ease;
+    }
+
+        .ig-rating__close:hover,
+        .ig-rating__close:focus-visible {
+            background: #f1f5f9;
+            color: #0f172a;
+            outline: none;
+        }
+
+        .ig-rating__close .e-icons {
+            font-size: 14px;
+            line-height: 1;
+        }
+
+    .ig-rating__popover-stars {
+        display: inline-flex;
+        align-items: center;
+        gap: 3px;
+        font-size: 24px;
+        line-height: 1;
+        margin-right: 12px;
+        vertical-align: middle;
+    }
+
+    .ig-rating__popover-top {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 4px;
+    }
+
+    .ig-pop-star {
+        width: 24px;
+        height: 24px;
+        line-height: 1;
+        display: inline-block;
+        flex: 0 0 24px;
+    }
+
+    .ig-pop-star--full {
+        fill: #ff9900;
+    }
+
+    .ig-pop-star--partial .ig-pop-star__partial-bg {
+        fill: none;
+        stroke: #cbd5e1;
+        stroke-width: 1.6;
+        stroke-linejoin: round;
+    }
+
+    .ig-pop-star--partial .ig-pop-star__partial-fg {
+        fill: #ff9900;
+    }
+
+    .ig-pop-star--empty {
+        fill: none;
+        stroke: #cbd5e1;
+        stroke-width: 1.6;
+        stroke-linejoin: round;
+    }
+
+    .ig-rating__popover-headline {
+        display: flex;
+        align-items: baseline;
+        gap: 6px;
+        margin-bottom: 0;
+    }
+
+    .ig-rating__popover-value {
+        font-size: 18px;
+        font-weight: 600;
+        color: #0f172a;
+        line-height: 1.1;
+    }
+
+    .ig-rating__popover-out {
+        font-size: 13px;
+        font-weight: 400;
+        color: #475569;
+        line-height: 1.1;
+    }
+
+    .ig-rating__popover-sub {
+        font-size: 12px;
+        color: #475569;
+        margin-bottom: 12px;
+    }
+
+    .ig-rating__popover-bars {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .ig-rating__popover-row {
+        display: grid;
+        grid-template-columns: 40px 1fr 36px;
+        align-items: center;
+        gap: 8px;
+        padding: 2px 0;
+    }
+
+    .ig-rating__popover-label {
+        font-size: 12px;
+        color: #007185;
+        font-weight: 500;
+        line-height: 1.1;
+    }
+
+    .ig-rating__popover-bar {
+        position: relative;
+        height: 14px;
+        background: linear-gradient(to bottom, #f8fafc, #eef2f7);
+        border: 1px solid #d6dde6;
+        border-radius: 2px;
+        overflow: hidden;
+        box-shadow: inset 0 1px 1px rgba(15, 23, 42, 0.06);
+    }
+
+    .ig-rating__popover-bar-fill {
+        position: absolute;
+        inset: 0 auto 0 0;
+        background: linear-gradient(to bottom, #ffb84d, #ff9900);
+        border-radius: 1px;
+        box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35);
+    }
+
+    .ig-rating__popover-pct {
+        font-size: 12px;
+        color: #007185;
+        font-weight: 500;
+        text-align: right;
+        line-height: 1.1;
+    }
+
+    .ig-hdr {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        width: 100%;
+        text-transform: none;
+    }
+
+    .ig-hdr__icon {
+        color: var(--ig-text-soft);
+        font-size: 12px;
+        line-height: 1;
+        transition: color 150ms ease;
+    }
+
+    .ig-hdr__emoji {
+        font-size: 13px;
+        line-height: 1;
+        display: inline-flex;
+        align-items: center;
+    }
+
+    .ig-hdr:hover .ig-hdr__icon {
+        color: var(--ig-primary);
+    }
+
+    .ig-product {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 4px 0;
+    }
+
+    .ig-product__img {
+        width: 56px;
+        height: 56px;
+        border-radius: 8px;
+        background: #f1f5f9;
+        flex: 0 0 56px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 24px;
+        overflow: hidden;
+        border: 1px solid var(--ig-border);
+    }
+
+    .ig-product__img-el {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        display: block;
+    }
+
+    .ig-product__text {
+        display: flex;
+        flex-direction: column;
+        gap: 2px;
+        min-width: 0;
+    }
+
+    #Detail-Grid .product-name {
+        font-weight: 600;
+        font-size: 14px;
+        line-height: 1.2;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #Detail-Grid .product-description,
+    #Detail-Grid .product-sku {
+        display: inline-block;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #Detail-Grid .product-description {
+        font-size: 10px;
+        font-weight: 400;
+        color: #6B7280;
+    }
+
+    #Detail-Grid .product-sku {
+        font-size: 10px;
+        font-weight: 400;
+        color: #6B7280;
+    }
+
+    #Detail-Grid .sales-cell {
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+        gap: 8px;
+    }
+
+    .ig-sales__delta {
+        display: inline-flex;
+        align-items: center;
+        gap: 2px;
+        line-height: 1;
+    }
+
+    .ig-sales__delta--up,
+    .ig-sales__delta--up .e-arrow-up {
+        color: var(--ig-success) !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+    }
+
+    .ig-sales__delta--down,
+    .ig-sales__delta--down .e-arrow-down {
+        color: var(--ig-danger) !important;
+        font-size: 12px !important;
+        font-weight: 600 !important;
+    }
+
+
+    .ig-price {
+        text-align: right;
+        display: block;
+        width: 100%;
+        padding-right: 8px;
+    }
+
+    .ig-rating {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center !important;
+        gap: 6px;
+    }
+
+    .ig-rating__stars {
+        font-size: 14px;
+        line-height: 1;
+    }
+
+    .ig-status {
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+        padding: 3px 9px;
+        border-radius: 999px;
+        font-size: 11.5px;
+        font-weight: 500;
+        line-height: 1.4;
+        white-space: nowrap;
+    }
+
+    .ig-status__dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: currentColor;
+    }
+
+    .ig-status--ok {
+        background: #d1fae5;
+        color: #059669;
+    }
+
+    .ig-status--low {
+        background: #fee2e2;
+        color: #dc2626;
+    }
+
+    .ig-status--out {
+        background: #f3f4f6;
+        color: #6b7280;
+    }
+
+    .ig-id {
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--ig-text);
+        font-family: 'JetBrains Mono', 'SF Mono', Menlo, monospace;
+    }
+
+    .ig-detail {
+        padding: 16px 20px;
+    }
+
+    .ig-dcard {
+        border: 1px solid #e2e8f0;
+        border-radius: 16px;
+        font-family: inherit;
+        font-size: 15px;
+        line-height: 1.5;
+        min-width: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        box-shadow: 0 1px 2px rgba(15, 23, 42, 0.04);
+    }
+
+    .ig-dcard__header {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        width: 100%;
+    }
+
+    .ig-dcard__avatar {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        flex: 0 0 36px;
+        color: #ffffff;
+        font-size: 18px;
+        line-height: 1;
+    }
+
+        .ig-dcard__avatar .e-icons.e-field-settings {
+            font-size: 18px;
+            line-height: 1;
+            color: #10b981 !important;
+        }
+
+        .ig-dcard__avatar .e-icons.e-calculation {
+            font-size: 18px;
+            line-height: 1;
+            color: #ce67ce !important;
+        }
+
+    .ig-dcard__avatar--blue {
+        background: #dbeafe;
+        color: #3b82f6;
+    }
+
+        .ig-dcard__avatar--blue .e-description {
+            color: #3b82f6 !important;
+        }
+
+    .ig-dcard__avatar--green {
+        background: #d1fae5;
+        color: #10b981;
+    }
+
+    .ig-dcard__avatar--purple {
+        background: #ede9fe;
+        color: #FFF291;
+    }
+
+    .ig-dcard__title {
+        font-size: 16px;
+        font-weight: 600;
+        line-height: 1.2;
+    }
+
+    .ig-dcard__current {
+        color: #3b82f6;
+        font-size: 16px;
+        font-weight: 600;
+    }
+
+    .ig-dcard__original {
+        opacity: 0.55;
+        text-decoration: line-through;
+    }
+
+    .ig-dcard__discount {
+        color: #ef4444;
+    }
+
+    .ig-dcard__profit {
+        color: #22c55e;
+    }
+
+    .ig-status-cell {
+        display: flex;
+        flex-direction: column;
+        gap: 4px;
+        align-items: center;
+    }
+
+    .ig-status__sub {
+        display: block;
+        text-align: center;
+        font-size: 12px;
+        color: var(--ig-text-muted);
+    }
+
+    @@media (max-width: 1000px) {
+        .ig-detail__cards {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    @@media (max-width: 768px) {
+        .ig-page {
+            padding: 20px 12px 40px;
+        }
+
+        .ig-product__img {
+            width: 44px;
+            height: 44px;
+            flex: 0 0 44px;
+            font-size: 20px;
+        }
+
+        .product-name {
+            font-size: 13px;
+            max-width: 140px;
+        }
+    }
+
+    #Detail-Grid .detail-page {
+        padding: 16px;
+    }
+
+    #Detail-Grid .detail-top {
+        display: grid;
+        gap: 16px;
+        align-items: stretch;
+    }
+
+    #Detail-Grid .e-detailrow .e-detailcell {
+        padding: 0 !important;
+        overflow: hidden;
+    }
+
+    #Detail-Grid .product-detail-wrapper {
+        padding: 0;
+    }
+
+    #Detail-Grid .detail-grid {
+        display: grid;
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+        gap: 14px;
+        height: 100%;
+    }
+
+        #Detail-Grid .detail-grid > .e-card {
+            border-radius: 16px;
+            justify-content: normal;
+        }
+
+    #Detail-Grid .sub-title {
+        font-size: 15px;
+        font-weight: 700;
+        margin: 14px 0;
+        color: #3b82f6;
+    }
+
+    #Detail-Grid .e-card-title {
+        font-size: 15px;
+        font-weight: 700;
+    }
+
+    #Detail-Grid .e-card-header {
+        box-sizing: border-box;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        line-height: normal;
+        min-height: 22.5px;
+        padding: 16px;
+        width: 100%;
+        border-bottom: 1px solid var(--ig-dcard-divider, #dfe6ed);
+    }
+
+    #Detail-Grid .product-description-text {
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    #Detail-Grid .e-card-content {
+        padding: 14px 16px 16px;
+        font-size: 14px;
+    }
+
+    #Detail-Grid .highlight-list {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+    }
+
+	#Detail-Grid .highlight-list li {
+		display: flex;
+		align-items: center;
+		gap: 10px;
+		margin-bottom: 14px;
+		font-size: 13px;
+		font-weight: 500;
+	}
+
+	#Detail-Grid .highlight-list .e-circle-check {
+		color: #3b82f6 !important;
+		font-size: 16px !important;
+	}
+
+	#Detail-Grid .highlight-list li:last-child {
+		margin-bottom: 0;
+	}
+
+    #Detail-Grid .info-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 0.75rem;
+        padding: 10px 0;
+        border-bottom: 1px solid var(--ig-dcard-divider, #dfe6ed);
+    }
+
+	#Detail-Grid .info-row:last-child {
+		border-bottom: none;
+	}
+
+	#Detail-Grid .info-row span {
+		flex: 0 0 38%;
+		font-size: 13px;
+		font-weight: 500;
+	}
+
+    .fluent2-highcontrast .e-card:active,
+    .fluent2-highcontrast .e-card:hover ,
+    .fluent2-highcontrast .e-card .e-card-content:hover,
+    .fluent2-highcontrast .e-card .e-card-content:active {
+        color: black !important;
+    }
+
+    [class*="dark"] #Detail-Grid .info-row,
+    [class*="dark"] #Detail-Grid .e-card-header {
+        border-bottom: 1px solid var(--ig-dcard-divider, #555c66) !important;
+    }
+
+    [class*="dark"] .ig-rating__popover {
+        background: var(--color-sf-flyout-bg-color) !important;
+        color: var(--color-sf-content-text-color) !important;
+        border-color: var(--color-sf-border-light) !important;
+    }
+
+    .material3-dark .ig-rating__popover{
+        background-color: rgba(var(--color-sf-surface)) !important;
+        color: rgba(var(--color-sf-on-surface)) !important;
+    }
+
+    .material-dark .ig-rating__popover {
+        background: #303030 !important;
+    }
+
+    .fluent-dark .ig-rating__popover {
+        background: #252423 !important;
+    }
+
+    .tailwind-dark .ig-rating__popover {
+        background: rgb(27.323255814, 36.1372093023, 48.476744186) !important;
+    }
+
+    .fabric-dark .ig-rating__popover{
+        background: #201f1f !important;
+    }
+
+    .bootstrap5-dark .ig-rating__popover{
+        background-color: #212529 !important;
+    }
+
+    .fluent2-highcontrast .ig-rating__popover{
+        background: var(--color-sf-content-bg-color-alt1) !important;
+    }
+
+    .highcontrast .ig-rating__popover{
+        background: #000 !important;
+    }
+
+    [class*="dark"] .ig-rating__popover::after {
+       color: var(--color-sf-table-bg-color-selected) !important;
+    }
+
+    [class*="dark"] .ig-rating__popover::before {
+		border-bottom-color: var(--color-sf-border-light) !important;
+		color: var(--color-sf-table-bg-color-selected) !important
+    }
+
+    [class*="dark"] .ig-rating__popover-value {
+        color: var(--color-sf-content-text-color) !important;
+    }
+
+    .fluent2-highcontrast .ig-rating__popover-value,
+    .fluent2-highcontrast .ig-rating__popover-out,
+    .fluent2-highcontrast .ig-rating__popover-sub,
+    .highcontrast .ig-rating__popover-value,
+    .highcontrast .ig-rating__popover-out,
+    .highcontrast .ig-rating__popover-sub {
+        color: white !important;
+    }
+
+    .fluent2-highcontrast .ig-rating__popover-label,
+    .fluent2-highcontrast .ig-rating__popover-pct,
+    .highcontrast .ig-rating__popover-pct,
+    .highcontrast .ig-rating__popover-label{
+        color: #0bc0e0 !important;
+    }
+
+    [class*="dark"] .ig-rating__popover-out,
+    [class*="dark"] .ig-rating__popover-sub,
+    [class*="dark"] .ig-rating__popover-label,
+    [class*="dark"] .ig-rating__popover-pct {
+        color: var(--color-sf-content-text-color-alt2) !important;
+    }
+
+    [class*="dark"] .ig-rating__popover-bar {
+        background: var(--color-sf-content-bg-color-alt2);
+        border-color: var(--color-sf-border-light);
+    }
+
+</style>
+@*End:Hidden*@
+
+@code {
+    private IReadOnlyList<InventoryProduct> _products = new List<InventoryProduct>();
+
+    protected override void OnInitialized()
+    {
+        _products = InventoryGridSeed.Build(SampleService?.WebAssetsPath);
+    }
+}

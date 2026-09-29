@@ -1,0 +1,799 @@
+﻿@page "/datagrid/finance-dashboard"
+
+@*Hidden:Lines*@
+@inject NavigationManager UrlHelper
+@using ThemeHelper
+@inherits SampleBaseComponent
+@*End:Hidden*@
+@using System.Threading
+@using System.Collections.ObjectModel
+@using System.Security.Cryptography
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Spinner
+@using Syncfusion.Blazor.Popups
+@using FinanceSample.Data
+
+@implements IAsyncDisposable
+<ActionDescription>
+<p>This demo showcases the Syncfusion DataGrid as a real-time market terminal, displaying live stock financial data with dynamic price updates, inline trend visualizations, and detailed drill-down analysis.</p>
+
+<p>The DataGrid is populated with comprehensive market information, including ticker symbols, company names, sectors, previous price, price change, percentage change, daily high and low values, financial volume, and market capitalization.
+    To simulate a live financial environment, stock prices are refreshed every second.
+</p>
+
+<p>This demo highlights the DataGrid's ability to deliver a rich and interactive data exploration experience through the following features:</p>
+<ul>
+            <li><strong>Display ticker badges</strong> with derived color schemes for quick visual identification of stocks.</li>
+            <li><strong>Render inline sparkline charts</strong> to help users quickly identify price movement trends without leaving the grid.</li>
+            <li>Provide a details dialog with key market statistics and an interactive area chart for deeper analysis.</li>
+            <li>Leverage the <a target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_Template" rel="noopener">Column Template</a> feature to create fully customized and visually rich cell layouts.</li>
+            <li>Combine <a target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid.html#Syncfusion_Blazor_Grids_SfGrid_AllowSorting" rel="noopener">Sorting</a>, <a target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid.html#Syncfusion_Blazor_Grids_SfGrid_AllowFiltering" rel="noopener">Filtering</a>, and <a target='_blank' href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid.html#Syncfusion_Blazor_Grids_SfGrid_ShowColumnChooser" rel="noopener">Column Chooser</a> to efficiently explore and analyze market data.</li>
+</ul>
+
+    <p>This demo demonstrates how the Syncfusion DataGrid combines custom templates, real-time updates, advanced visualizations, and interactive data analysis features to create an engaging market monitoring experience.</p>
+
+<p>Looking for the full Blazor DataGrid component overview, features, pricing, and documentation? Visit our <a rel="noopener" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid' aria-label="Navigate to the Blazor DataGrid FT page">Blazor DataGrid component</a> page.</p>
+</ActionDescription>
+
+@*Hidden:Lines*@
+
+<style>
+    .pro-instrument {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    }
+
+    .pro-ticker-badge {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #555;
+    font-weight: 700;
+    font-size: 11px;
+    letter-spacing: 0.3px;
+    flex-shrink: 0;
+    text-transform: uppercase;
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.08);
+    }
+
+    #pro-stock-grid .e-spinner-pane {
+    display: none;
+    }
+
+    .e-grid .e-headercell {
+    border-right: none !important;
+    }
+
+    #pro-stock-grid .e-gridheader {
+    border-radius: 8px 8px 0 0;
+    }
+
+    .pro-sym-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    justify-content: center;
+    }
+
+    /* Delta */
+    .pro-up {
+    color: #00a653 !important;
+    }
+
+    .pro-dn {
+    /* color: #ec255b; */
+    color: #fa215c !important;
+    }
+
+    .pro-flat {
+    color: rgba(148, 163, 184, 0.6);
+    }
+
+    .price {
+    color: #ffffff;
+    padding: 2px 7px;
+    /* border-radius: 10px; */
+    border-radius: 9999px;
+    margin-left: 4px;
+    }
+
+    .pro-up-bg {
+    background-color: #63a17a;
+    }
+
+    /* Row layout: chart on the left, icon button on the right (vertically centered) */
+    .pro-chart-cell {
+    height: 100%;
+    padding: 4px 6px;
+    }
+
+    .pro-chart-spark {
+    display: flex;
+    align-items: center;
+    }
+
+    .highcontrast .e-headercell .e-headertext,
+    [class*="dark"] .e-headercell .e-headertext {
+    font-weight: 500;
+    }
+
+    /* Aggregate Footer Styling */
+    .e-gridfooter .e-footercell {
+    background-color: #f5f7fa;
+    font-weight: 600;
+    color: #1976d2;
+    padding: 12px 8px;
+    }
+
+    .e-headertext {
+    font-weight: bold !important;
+    }
+
+    .e-headercontent {
+    border-right-width: 0px !important;
+    }
+
+    /* =====================================================================
+    Theme tokens — calm teal + slate palette, works in light & dark.
+    Defined on .pro-dialog-body (the common ancestor) and on the button's
+    grid cell, so the variables cascade to ALL children.
+    ===================================================================== */
+    .pro-dialog-body {
+    --pro-accent: #0d9488;
+    --pro-accent-soft: #ccfbf1;
+    --pro-accent-hover: #0f766e;
+    --pro-surface: #f8fafc;
+    --pro-surface-border: #e2e8f0;
+    --pro-text-primary: #0f172a;
+    --pro-text-secondary: #64748b;
+    --pro-text-on-accent: #ffffff;
+    --pro-focus-ring: #fbbf24;
+    }
+
+    /* Dark theme overrides — Syncfusion uses .fluent-dark / .material-dark
+    / .bootstrap-dark / .tailwind-dark on the body. Use [class*="dark"]
+    to catch them all, plus data-bs-theme for completeness.            */
+    [class*="dark"] .pro-dialog-body,
+    [class*="high-contrast"] .pro-dialog-body,
+    [data-bs-theme="dark"] .pro-dialog-body {
+    --pro-accent: #2dd4bf;
+    --pro-accent-soft: #134e4a;
+    --pro-accent-hover: #5eead4;
+    --pro-surface: #1e293b;
+    --pro-surface-border: #334155;
+    --pro-text-primary: #f1f5f9;
+    --pro-text-secondary: #94a3b8;
+    --pro-text-on-accent: #042f2e;
+    --pro-focus-ring: #fde047;
+    }
+
+    /* Button tokens (scoped to its own grid cell since it lives outside dialog) */
+    .pro-details-btn {
+    --pro-accent: #0d9488;
+    --pro-accent-soft: #ccfbf1;
+    --pro-accent-hover: #0f766e;
+    --pro-text-on-accent: #ffffff;
+    --pro-focus-ring: #fbbf24;
+    }
+
+    [class*="dark"] .pro-details-btn,
+    [class*="high-contrast"] .pro-details-btn,
+    [data-bs-theme="dark"] .pro-details-btn {
+    --pro-accent: #2dd4bf;
+    --pro-accent-soft: #134e4a;
+    --pro-accent-hover: #5eead4;
+    --pro-text-on-accent: #042f2e;
+    --pro-focus-ring: #fde047;
+    }
+
+    /* =====================================================================
+    View icon button — bare icon only, NO background at all.
+    The button element itself is transparent; only the icon glyph is
+    visible. Hover/focus/active states do not paint any background.
+    ===================================================================== */
+    .pro-details-btn {
+    --pro-icon: var(--pro-accent);
+    padding: 0;
+    margin: 4px;
+    align-self: end;
+    border: none;
+    border-radius: 0;
+    background-color: transparent !important;
+    outline: none;
+    cursor: pointer;
+    color: var(--pro-icon) !important;
+    font-size: 16px;
+    line-height: 1;
+    }
+
+    .pro-details-btn:hover,
+    .pro-details-btn:focus,
+    .pro-details-btn:active,
+    .pro-details-btn:hover:focus,
+    .pro-details-btn:hover:active {
+    background: transparent;
+    background-color: transparent;
+    border: none;
+    box-shadow: none;
+    --pro-icon: var(--pro-accent-hover);
+    transform: none;
+    }
+
+    .pro-details-btn:focus-visible {
+    outline: 2px solid var(--pro-focus-ring);
+    outline-offset: 2px;
+    }
+
+    /* Dark theme: same — just transparent, icon tints via --pro-icon */
+    [class*="dark"] .pro-details-btn,
+    [class*="high-contrast"] .pro-details-btn,
+    [data-bs-theme="dark"] .pro-details-btn {
+    background: transparent !important;
+    background-color: transparent !important;
+    color: var(--pro-icon) !important;
+    }
+
+    /* =====================================================================
+    Dialog body layout
+    ===================================================================== */
+    .pro-dialog-body {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    padding: 4px 2px 0;
+    }
+
+    .pro-dialog-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    }
+
+    /* =====================================================================
+    Stat tile — soft, accessible, calm
+    ===================================================================== */
+    .pro-stat-tile {
+    background: var(--pro-surface);
+    border: 1px solid var(--pro-surface-border);
+    border-radius: 8px;
+    padding: 9px 11px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+    min-width: 0;
+    transition: border-color 0.18s ease, box-shadow 0.18s ease;
+    }
+
+    .pro-stat-tile:hover {
+    /* border-color: var(--pro-accent); */
+    /* box-shadow: 0 0 0 3px var(--pro-accent-soft); */
+    }
+
+    .pro-stat-label {
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.6px;
+    color: var(--pro-text-secondary);
+    font-weight: 600;
+    }
+
+    .pro-stat-value {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--pro-text-primary);
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    letter-spacing: -0.1px;
+    }
+
+    .pro-stat-company {
+    font-size: 12.5px;
+    font-weight: 600;
+    }
+
+    /* =====================================================================
+    Chart card
+    ===================================================================== */
+    .pro-dialog-chart {
+    background: var(--pro-surface);
+    border: 1px solid var(--pro-surface-border);
+    border-radius: 8px;
+    padding: 12px 14px 8px;
+    }
+
+    .pro-dialog-chart-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--pro-text-primary);
+    margin-bottom: 6px;
+    }
+
+    .pro-dialog-trend {
+    font-size: 12px;
+    font-weight: 700;
+    }
+
+    /* =====================================================================
+    Responsive
+    ===================================================================== */
+    @@media (max-width: 720px) {
+    .pro-dialog-stats {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+    }
+</style>
+
+@*End:Hidden*@
+
+<div class="col-lg-12 control-section" style="@(IsLoading ? "display: flex; align-items: center; justify-content: center; min-height: calc(100vh - 60px);" : "")">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfSpinner Size="40" Label="Initializing Market Terminal..." Type="SpinnerType.HighContrast" Visible="@IsLoading"></SfSpinner>
+            <div id="container" style="@(IsLoading ? "visibility: hidden; height: 0; overflow: hidden;" : "visibility: visible; transition: opacity 0.5s ease-in-out;")">
+                <SfGrid @ref="GridRef"
+                        DataSource="StockData"
+                        AllowSorting="true"
+                        AllowFiltering="true"
+                        AllowSelection="false"
+                        ShowColumnMenu="true"
+                        ShowColumnChooser="true"
+                        EnableHover="true"
+                        RowHeight="32"
+                        Height="610px">
+                    <GridEvents TValue="StockItem" OnActionComplete="OnGridActionComplete"></GridEvents>
+                    <GridFilterSettings Type="Syncfusion.Blazor.Grids.FilterType.CheckBox"></GridFilterSettings>
+                    <GridColumns>
+                        <GridColumn Field="Ticker" HeaderText="Stock Name" IsPrimaryKey="true" AllowSorting="true" AllowFiltering="true" TextAlign="TextAlign.Left" Width="260">
+                            <Template>
+                                @{
+                                    var stock = (StockItem)context;
+                                    if (!string.IsNullOrEmpty(stock.Ticker))
+                                    {
+                                        var shortTicker = stock.Ticker.Length > 2 ? stock.Ticker.Substring(0, 2) : stock.Ticker;
+                                        var colorPairs = new (string bg, string text)[]
+                                        {
+                                            ("#d4e4f7", "#1976d2"),  // Soft blue
+                                            ("#e6d9f5", "#7b1fa2"),  // Soft purple
+                                            ("#ffe5cc", "#e65100"),  // Soft orange
+                                            ("#d4f5e9", "#00796b"),  // Soft teal
+                                            ("#fff4cc", "#f57c00"),  // Soft yellow
+                                            ("#f5d4e6", "#c2185b"),  // Soft pink
+                                            ("#d4e8f5", "#0288d1"),  // Soft sky blue
+                                            ("#e8d5f2", "#6f42c1"),  // Soft indigo
+                                        };
+                                        var colorIndex = stock.Ticker.Aggregate(0, (acc, c) => acc + c) % colorPairs.Length;
+                                        var color = colorPairs[colorIndex];
+                                        <div class="pro-instrument">
+                                            <div class="pro-ticker-badge" style="background: @color.bg; color: @color.text;">@shortTicker</div>
+                                            <div class="pro-sym-info">
+                                                <div style="display: flex; align-items: baseline; gap: 6px;">
+                                                    <span style="font-weight: 700;">@stock.Ticker</span>
+                                                    <span>@stock.CompanyName</span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    }
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field="TrendData" HeaderText="Timeline" AllowSorting="false" AllowFiltering="false" TextAlign="TextAlign.Center" Width="220">
+                            <Template>
+                                @{
+                                    var stockItem = (StockItem)context;
+                                    var sparkColor = "#0288d1";
+                                    var sparkFill = "rgba(2, 136, 209, 0.2)";
+                                    var sparkPoints = stockItem.SparkLinePoints;
+                                }
+                                <div class="pro-chart-cell">
+                                    <div class="pro-chart-spark">
+                                        <SfSparkline TValue="SparklinePoint"
+                                                     DataSource="@sparkPoints"
+                                                     XName="Index"
+                                                     YName="Price"
+                                                     Type="SparklineType.Area"
+                                                     Fill="@sparkFill"
+                                                     LineWidth="2"
+                                                     Height="32px"
+                                                     Width="100%">
+                                            <SparklineBorder Color="@sparkColor" Width="2" />
+                                            <SparklineContainerArea Background="transparent">
+                                                <SparklineContainerAreaBorder Color="transparent" Width="0" />
+                                            </SparklineContainerArea>
+                                            <SparklinePadding Top="2" Bottom="2" Left="2" Right="2" />
+                                            <SparklineTooltipSettings TValue="SparklinePoint" Visible="true">
+                                                <SparklineTooltipTextStyle Color="#e2e8f0" FontFamily="monospace" Size="11px" />
+                                            </SparklineTooltipSettings>
+                                            <SparklineMarkerSettings Visible="@(new List<Syncfusion.Blazor.Charts.VisibleType> { Syncfusion.Blazor.Charts.VisibleType.None })" />
+                                            <SparklineAxisLineSettings Visible="false" />
+                                        </SfSparkline>
+                                        <button class="pro-details-btn e-icons e-circle-info icon" title="View detailed timeline"
+                                                @onclick="@(() => OpenDetailsDialog(stockItem))"
+                                                @onclick:stopPropagation="true">
+                                        </button>
+                                    </div>
+                                </div>
+                            </Template>
+                        </GridColumn>
+                        @* <GridColumn Field="Sector" HeaderText="Sector" AllowSorting="true" AllowFiltering="true" TextAlign="TextAlign.Left" ShowInColumnChooser="false"></GridColumn> *@
+                        <GridColumn Field="LastPrice" HeaderText="P&L " Width="150" AllowSorting="false" TextAlign="TextAlign.Right" FilterSettings="MenuFilterSettings">
+                            <Template>
+                                @{
+                                    var stock = (StockItem)context;
+                                    var cls = stock.Change > 0 ? "pro-up" : stock.Change < 0 ? "pro-dn" : "pro-flat";
+                                    bool isChangeNotZero = stock.Change != 0;
+                                    if (isChangeNotZero)
+                                    {
+                                        <span class="@cls">
+                                            @(stock.Change > 0 ? "+" : "")@stock.Change.ToString("F2")
+
+                                        </span>
+                                        <span class="price pro-up-bg">
+                                            @stock.LastPrice.ToString("N2")
+                                        </span>
+                                    }
+                                    else
+                                    {
+                                        @stock.LastPrice.ToString("N2")
+                                    }
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field="ChangePercent" HeaderText="Change %" Width="150" AllowSorting="true" TextAlign="TextAlign.Right" FilterSettings="MenuFilterSettings">
+                            <Template>
+                                @{
+                                    var stock = (StockItem)context;
+                                    var changePercent = stock.ChangePercent;
+                                    var up = changePercent > 0;
+                                    var down = changePercent < 0;
+                                    var cls = up ? "pro-up" : down ? "pro-dn" : "pro-flat";
+                                    var arrow = up ? "↑ " : down ? "↓ " : "";
+                                    <span class="@cls">
+                                        @arrow@Math.Abs(changePercent).ToString("F2")%
+                                    </span>
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field="High" HeaderText="High" Width="100" AllowSorting="true" AllowFiltering="false" TextAlign="TextAlign.Right">
+                            <Template>
+                                @{
+                                    var stock = (StockItem)context;
+                                    @stock.High.ToString("N2")
+                                }
+                            </Template>
+                        </GridColumn>
+                        <GridColumn Field="Low" HeaderText="Low" Width="100" AllowSorting="true" AllowFiltering="false" TextAlign="TextAlign.Right" ShowInColumnChooser="false">
+                            <Template>
+                                @{
+                                    var stock = (StockItem)context;
+                                    @stock.Low.ToString("N2")
+                                }
+                            </Template>
+                        </GridColumn>
+                    </GridColumns>
+                </SfGrid>
+            </div>
+        </div>
+    </div>
+</div>
+
+<SfDialog @ref="DetailsDialog"
+          Width="900px"
+          Height="650px"
+          IsModal="true"
+          ShowCloseIcon="true"
+          AllowDragging="true"
+          CloseOnEscape="true"
+          @bind-Visible="IsDetailsDialogVisible"
+          Header="@DialogHeader">
+    <DialogEvents Closed="@OnDialogClosed" Opened="@OnDialogOpen" />
+    <DialogTemplates>
+        <Content>
+            @if (SelectedStock != null)
+            {
+                <div class="pro-dialog-body">
+                    <div class="pro-dialog-stats">
+                        <div class="pro-stat-tile">
+                            <div class="pro-stat-label">Sector</div>
+                            <div class="pro-stat-value">@SelectedStock.Sector</div>
+                        </div>
+                        <div class="pro-stat-tile">
+                            <div class="pro-stat-label">Last Price</div>
+                            <div class="pro-stat-value">@SelectedStock.LastPrice.ToString("C2")</div>
+                        </div>
+                        <div class="pro-stat-tile">
+                            <div class="pro-stat-label">Change</div>
+                            <div class="pro-stat-value @(SelectedStock.Change >= 0 ? "pro-up" : "pro-dn")">
+                                @(SelectedStock.Change > 0 ? "+" : "")@SelectedStock.Change.ToString("F2")
+                            </div>
+                        </div>
+                        <div class="pro-stat-tile">
+                            <div class="pro-stat-label">Change %</div>
+                            <div class="pro-stat-value">
+                                <span class="@(SelectedStock.ChangePercent >= 0 ? "pro-up" : "pro-dn")">
+                                    @(SelectedStock.ChangePercent > 0 ? "↑ " : SelectedStock.ChangePercent < 0 ? "↓ " : "")
+                                    @Math.Abs(SelectedStock.ChangePercent).ToString("F2")%
+                                </span>
+                            </div>
+                        </div>
+                        <div class="pro-stat-tile">
+                            <div class="pro-stat-label">High</div>
+                            <div class="pro-stat-value">@SelectedStock.High.ToString("C2")</div>
+                        </div>
+                        <div class="pro-stat-tile">
+                            <div class="pro-stat-label">Low</div>
+                            <div class="pro-stat-value">@SelectedStock.Low.ToString("C2")</div>
+                        </div>
+                        <div class="pro-stat-tile">
+                            <div class="pro-stat-label">Volume</div>
+                            <div class="pro-stat-value">@SelectedStock.Volume.ToString("N0")</div>
+                        </div>
+                        <div class="pro-stat-tile">
+                            <div class="pro-stat-label">Market Cap</div>
+                            <div class="pro-stat-value">@FormatMarketCap(SelectedStock.MarketCap)</div>
+                        </div>
+                    </div>
+
+                    <div class="pro-dialog-chart">
+                        <div class="pro-dialog-chart-header">
+                            <span>Detailed Timeline (Last @SelectedStock.TrendData.Count ticks)</span>
+                        </div>
+                        @if (IsInitialRender)
+                        {
+                            <SfChart @ref="DialogChartRef" Height="350px" Width="100%" Theme="@CurrentTheme">
+                                <ChartPrimaryXAxis Title="Tick"
+                                                   ValueType="Syncfusion.Blazor.Charts.ValueType.Double"
+                                                   EdgeLabelPlacement="Syncfusion.Blazor.Charts.EdgeLabelPlacement.Shift">
+                                </ChartPrimaryXAxis>
+                                <ChartPrimaryYAxis Title="Price (USD)"
+                                                   LabelFormat="C2">
+                                </ChartPrimaryYAxis>
+                                <ChartTooltipSettings Enable="true" Shared="true" Format="Tick ${point.x} : <b>${point.y}</b>"></ChartTooltipSettings>
+                                <ChartCrosshairSettings Enable="true" LineType="Syncfusion.Blazor.Charts.LineType.Vertical">
+                                    <ChartCrosshairLine Width="1" Color="#666"></ChartCrosshairLine>
+                                </ChartCrosshairSettings>
+                                <ChartZoomSettings EnableSelectionZooming="true" EnablePan="true" EnableMouseWheelZooming="true" Mode="Syncfusion.Blazor.Charts.ZoomMode.X"></ChartZoomSettings>
+                                <ChartSeriesCollection>
+                                    <ChartSeries DataSource="@DialogChartData"
+                                                 XName="Index"
+                                                 YName="Price"
+                                                 Type="Syncfusion.Blazor.Charts.ChartSeriesType.Area"
+                                                 Name="@SelectedStock.Ticker"
+                                                 Fill="rgba(2, 136, 209, 0.25)">
+                                        <ChartSeriesBorder Width="2" Color="@ChartBorderColor"></ChartSeriesBorder>
+                                        <ChartMarker Visible="true" Width="6" Height="6" Shape="Syncfusion.Blazor.Charts.ChartShape.Circle" IsFilled="true">
+                                        </ChartMarker>
+                                    </ChartSeries>
+                                </ChartSeriesCollection>
+                            </SfChart>
+                        }
+                    </div>
+                </div>
+            }
+        </Content>
+    </DialogTemplates>
+</SfDialog>
+
+@code {
+    private Theme CurrentTheme { get; set; }
+    private List<StockItem> StockData = new();
+    private SfGrid<StockItem> GridRef = null!;
+    private readonly RandomNumberGenerator _randomNumberGenerator = RandomNumberGenerator.Create();
+    private PeriodicTimer? _timer;
+    private bool IsLoading { get; set; } = true;
+    private string CurrentSortField { get; set; } = "Id";
+    private SortDirection CurrentSortDirection { get; set; } = SortDirection.Ascending;
+    FilterSettings MenuFilterSettings = new FilterSettings { Type = Syncfusion.Blazor.Grids.FilterType.Menu };
+
+    // Details dialog state
+    private SfDialog DetailsDialog = null!;
+    private SfChart DialogChartRef = null!;
+    private bool IsDetailsDialogVisible { get; set; }
+    private StockItem? SelectedStock { get; set; }
+    private List<DialogChartPoint> DialogChartData { get; set; } = new();
+    private string DialogHeader { get; set; } = "Stock Details";
+    private string ChartBorderColor { get; set; } = "#0288d1";
+    private bool IsInitialRender { get; set; }
+
+    private void OpenDetailsDialog(StockItem stock)
+    {
+        SelectedStock = stock;
+        DialogHeader = $"{stock.Ticker} — {stock.CompanyName}";
+        ChartBorderColor = "#0288d1";
+
+        // Build chart points from the live trend data
+        DialogChartData = stock.TrendData
+            .Select((p, i) => new DialogChartPoint { Index = i, Price = (double)p })
+            .ToList();
+
+        IsDetailsDialogVisible = true;
+    }
+
+    private void OnDialogClosed(CloseEventArgs args)
+    {
+        SelectedStock = null;
+        DialogChartData = new();
+        IsInitialRender = false;
+    }
+    private void OnDialogOpen(Object args)
+    {
+        IsInitialRender = true;
+    }
+    private static string FormatMarketCap(decimal value)
+    {
+        double v = (double)value;
+        if (v >= 1_000_000_000_000) return (v / 1_000_000_000_000).ToString("F2") + "T";
+        if (v >= 1_000_000_000) return (v / 1_000_000_000).ToString("F2") + "B";
+        if (v >= 1_000_000) return (v / 1_000_000).ToString("F2") + "M";
+        if (v >= 1_000) return (v / 1_000).ToString("F2") + "K";
+        return v.ToString("F2");
+    }
+
+    public class DialogChartPoint
+    {
+        public int Index { get; set; }
+        public double Price { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        StockData = DataSource.BuildInitialStocks().ToList();
+        CurrentTheme = ThemeHelper.GetCurrentTheme(UrlHelper.Uri);
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await Task.Delay(2000);
+            IsLoading = false;
+            await InvokeAsync(StateHasChanged);
+            await StartTimer();
+        }
+    }
+
+    private async Task StartTimer()
+    {
+        _timer = new PeriodicTimer(TimeSpan.FromMilliseconds(1000));
+        while (await _timer.WaitForNextTickAsync())
+        {
+            await TickAsync();
+        }
+    }
+
+    private readonly byte[] _randomBuffer = new byte[8];
+    private async Task TickAsync()
+    {
+        foreach (var stock in StockData)
+        {
+            DataSource.FillRandomBytes(_randomBuffer);
+            var randomValue = BitConverter.ToUInt64(_randomBuffer);
+            var deltaPct = ((randomValue / (double)ulong.MaxValue) - 0.495) * 0.025;
+            var prevPrice = stock.LastPrice;
+            var newPrice = Math.Round(Math.Max(prevPrice * (decimal)(1 + deltaPct), 0.01m) * 100) / 100;
+            var change = Math.Round((newPrice - prevPrice) * 100) / 100;
+            var changePct = Math.Round((change / prevPrice) * 100 * 1000) / 1000;
+            var vol = DataSource.GenerateVolume();
+            var newMktCap = (long)Math.Round(stock.MarketCap * (1 + (decimal)deltaPct * 0.1m));
+            var isGain = change >= 0;
+
+            // Update stock data
+            stock.LastPrice = newPrice;
+            stock.Change = change;
+            stock.ChangePercent = changePct;
+            stock.IsGain = isGain;
+            stock.Volume = vol;
+            stock.MarketCap = newMktCap;
+
+            // Update high and low
+            if (newPrice > stock.High)
+                stock.High = newPrice;
+            if (newPrice < stock.Low)
+                stock.Low = newPrice;
+
+            // Update trend data
+            if (stock.TrendData.Count >= 20)
+                stock.TrendData.RemoveAt(0);
+            stock.TrendData.Add(newPrice);
+            stock.SparkLinePoints.Clear();
+            Collection<SparklinePoint> sparkPoints = new Collection<SparklinePoint>();
+            foreach (var point in stock.TrendData.Select((p, i) => new SparklinePoint { Index = i, Price = (double)p }).ToList())
+            {
+                sparkPoints.Add(point);
+            }
+            stock.SparkLinePoints = sparkPoints;
+        }
+
+        // Refresh dialog chart live if it's open and showing the same stock
+        if (IsDetailsDialogVisible && SelectedStock != null)
+        {
+            DialogChartData = SelectedStock.TrendData
+                .Select((p, i) => new DialogChartPoint { Index = i, Price = (double)p })
+                .ToList();
+            ChartBorderColor = "#0288d1";
+        }
+
+        // Re-apply sort to maintain sort state during real-time updates
+        if (_isUserSorted)
+        {
+            ApplySort();
+
+            if (_isUserSorting == false)
+            {
+                _isUserSorted = false;
+            }
+        }
+
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private void ApplySort()
+    {
+        if (string.IsNullOrEmpty(CurrentSortField))
+            return;
+
+        StockData = CurrentSortDirection == SortDirection.Ascending
+            ? StockData.OrderBy(s => GetSortValue(s, CurrentSortField)).ToList()
+            : StockData.OrderByDescending(s => GetSortValue(s, CurrentSortField)).ToList();
+    }
+
+    private object? GetSortValue(StockItem stock, string field)
+    {
+        return field switch
+        {
+            "Ticker" => stock.Ticker,
+            "CompanyName" => stock.CompanyName,
+            "Sector" => stock.Sector,
+            "LastPrice" => stock.LastPrice,
+            "Change" => stock.Change,
+            "ChangePercent" => stock.ChangePercent,
+            "High" => stock.High,
+            "Low" => stock.Low,
+            "Volume" => stock.Volume,
+            "MarketCap" => stock.MarketCap,
+            _ => stock.Id
+        };
+    }
+    private bool _isUserSorted { get; set; } = false;
+    private bool _isUserSorting { get; set; } = false;
+    private async Task OnGridActionComplete(ActionEventArgs<StockItem> args)
+    {
+        // Track sort changes when user clicks column headers
+        if (args.RequestType == Syncfusion.Blazor.Grids.Action.Sorting)
+        {
+            if (GridRef?.CurrentViewData?.Count() > 0)
+            {
+                var sortSettings = GridRef.SortSettings;
+                if (sortSettings?.Columns?.Count > 0)
+                {
+                    CurrentSortField = sortSettings.Columns[0].Field;
+                    CurrentSortDirection = sortSettings.Columns[0].Direction;
+                    _isUserSorting = true;
+                    _isUserSorted = true;
+                }
+                else
+                {
+                    CurrentSortField = "Id";
+                    CurrentSortDirection = SortDirection.Ascending;
+                    _isUserSorting = false;
+                }
+            }
+        }
+    }
+
+    async ValueTask IAsyncDisposable.DisposeAsync()
+    {
+        _timer?.Dispose();
+        await Task.CompletedTask;
+    }
+}

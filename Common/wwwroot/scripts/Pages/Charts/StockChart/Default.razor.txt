@@ -1,0 +1,148 @@
+@page "/stock-chart/stock-chart"
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@using System.Net.Http.Json
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This <a target="_blank" rel="noopener" href="https://www.syncfusion.com/blazor-components/blazor-stock-chart">Blazor Stock Chart</a> sample visualizes AAPL prices using a Candlestick series with interactive Tooltip and Crosshair for precise value and period inspection.</p>
+
+<p>Series and navigation:</p>
+<ul>
+  <li>Candlestick series presents OHLC movements at uniform time intervals</li>
+  <li>Use the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/stock-chart/period-selector">Period Selector</a> for quick preset range filtering (e.g., 1M, YTD)</li>
+  <li>Use the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/stock-chart/range-selector" aria-label="Navigate to Range Selector">Range Selector</a> for custom period selection</li>
+</ul>
+
+<p>Technical analysis:</p>
+<ul>
+  <li>Stock Chart supports 10 technical indicators: Accumulation Distribution, ATR, EMA, SMA, TMA, Momentum, MACD, RSI, Stochastic, and Bollinger Band</li>
+  <li>Use the indicator dropdown to add/remove indicators</li>
+  <li>Compare signals alongside price for comprehensive analysis</li>
+</ul>
+
+<p>Interaction: Tooltip is enabled—hover or tap to view values. Learn more in the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/stock-chart/getting-started" aria-label="Navigate to the documentation">documentation</a>.</p>
+</ActionDescription>
+
+
+@if (StockData == null)
+{
+    <div class="stock-chart-loader"></div>
+}
+else
+{
+    <div class="@LoaderClass"></div>
+    <div class="@ChartContainerClass">
+        <SfStockChart Title="AAPL Stock Price" IndicatorType="@IndicatorList" Theme="@CurrentTheme">
+            <StockChartEvents OnLoaded="@OnChartLoaded"></StockChartEvents>
+            <StockChartPrimaryXAxis>
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis>
+                <StockChartAxisLineStyle Width="0"></StockChartAxisLineStyle>
+                <StockChartAxisMajorTickLines Width="0"></StockChartAxisMajorTickLines>
+            </StockChartPrimaryYAxis>
+            <StockChartTooltipSettings Enable="true"></StockChartTooltipSettings>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@StockData" Type="ChartSeriesType.Candle"></StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+        </SfStockChart>
+    </div>
+    <style>
+        .stock-chart-loader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stock-chart-container {
+            visibility: hidden;
+        }
+
+        div[id*="_stockChart_rangeSelector_leftTooltip"], div[id*="_stockChart_rangeSelector_rightTooltip"] {
+            top: 10px !important;
+        }
+
+        div[id*="_selector_Secondary_Element"] {
+            transform: translate(0px, @TranslateY) !important;
+        }
+
+        .e-tbar-btn {
+            border-color: transparent !important;
+        }
+</style>
+}
+
+@code {
+    private ChartData[]? StockData { get; set; }
+    private string TranslateY { get; set; } = "-5px";
+    private string LoaderClass { get; set; } = "stock-chart-loader";
+    private string ChartContainerClass { get; set; } = "stock-chart-container";
+    private Theme CurrentTheme { get; set; } = Theme.Bootstrap4;
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetThemeProperties();
+        StockData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/stock-chart/chart-data.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime date { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+    }
+
+    private void OnChartLoaded(StockChartEventArgs args)
+    {
+        LoaderClass = string.Empty;
+        ChartContainerClass = string.Empty;
+        StateHasChanged();
+    }
+
+    private List<TechnicalIndicators> IndicatorList { get; set; } = new List<TechnicalIndicators>
+    {
+        TechnicalIndicators.Ema,
+        TechnicalIndicators.Tma,
+        TechnicalIndicators.Sma,
+        TechnicalIndicators.Momentum,
+        TechnicalIndicators.Atr,
+        TechnicalIndicators.BollingerBands
+    };
+
+    private void SetThemeProperties()
+    {
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+
+        if (CurrentTheme == Theme.Material3 || CurrentTheme == Theme.Material3Dark ||
+            CurrentTheme == Theme.Bootstrap4 || CurrentTheme == Theme.Material ||
+            CurrentTheme == Theme.MaterialDark)
+        {
+            TranslateY = "-7px";
+        }
+    }
+}

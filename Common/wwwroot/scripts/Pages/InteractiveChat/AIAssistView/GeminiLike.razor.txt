@@ -1,0 +1,312 @@
+@page "/ai-assistview/gemini-like"
+
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.SplitButtons
+@using Syncfusion.Blazor.InteractiveChatDemo
+@inject IJSRuntime JSRuntime
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates a Gemini-inspired <code>AI AssistView</code> that provides a focused conversational experience with attachment support, simulated AI responses, and a configurable AI model selector embedded within the chat footer.</p>
+    <p>
+        The AI AssistView in this sample showcases how a branded, lightweight assistant interface can be
+        created using Syncfusion's <code>SfAIAssistView</code> control while offering essential interaction
+        features and UI customization options:
+    </p>
+    <ul>
+        <li>Minimal header-less chat layout for distraction-free conversations.</li>
+        <li>Custom banner template displaying branded assistant visuals and contextual messaging.</li>
+        <li>Simulated AI response handling using the <code>PromptRequested</code> event.</li>
+        <li>File attachment support with configurable save and remove endpoints.</li>
+        <li>Footer toolbar customization with attachment actions and a model selector.</li>
+        <li>Speech-to-text input for hands-free interaction.</li>
+        <li>Dropdown-based AI model switching (Fast, Thinking, Pro).</li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section gemini-clone">
+    <div class="gemini-aiassist @(isFirstPrompt ? "middle-footer" : "bottom-footer")" id="geminiContainer">
+        <SfAIAssistView @ref="sfAIAssistView"
+                        ID="gemini_aiassistview"
+                        ShowHeader="false"
+                        PromptPlaceholder="Ask Gemini"
+                        AttachmentSettings="@attachmentSettings"
+                        PromptRequested="@PromptRequest"
+                        PromptChanged="@OnPromptChanged"
+                        EnableStreaming="true">
+            <AssistViewSpeechToText Enable="true"></AssistViewSpeechToText>
+            <AssistViews>
+                <AssistView>
+                    <BannerTemplate>
+                        <div class="banner-content">
+                            <div class="gemini-header">
+                                <h3>
+                                    Meet Gemini, your personal AI assistant
+                                </h3>
+                            </div>
+                        </div>
+                    </BannerTemplate>
+                </AssistView>
+            </AssistViews>
+
+            <AssistViewFooterToolbar ToolbarPosition="ToolbarPosition.Bottom">
+                <AssistViewFooterToolbarItem
+                    IconCss="e-icons e-assist-attachment-icon"
+                    Align="ItemAlign.Left">
+                </AssistViewFooterToolbarItem>
+
+                <AssistViewFooterToolbarItem Align="ItemAlign.Right">
+                    <Template>
+                        <SfDropDownButton Content="@currentModel"
+                                          CssClass="e-flat gemini_model"
+                                          >
+                            <ChildContent>
+                                <DropDownButtonEvents ItemSelected="@OnModelSelected"></DropDownButtonEvents>
+                                <DropDownMenuItems>
+                                    <DropDownMenuItem Text="Fast"></DropDownMenuItem>
+                                    <DropDownMenuItem Text="Thinking"></DropDownMenuItem>
+                                    <DropDownMenuItem Text="Pro"></DropDownMenuItem>
+                                </DropDownMenuItems>
+                            </ChildContent>
+
+                            <ItemTemplate Context="item">
+                                @{
+                                    var modelData = GetModelData(item.Text);
+                                    var isSelected = currentModel == item.Text;
+                                }
+                                <div class="model-item @(isSelected ? "selected-model" : "")">
+                                    <div class="model-content">
+                                        <div class="model-name">
+                                            @item.Text
+                                        </div>
+                                        <div class="model-description">
+                                            @modelData?.Description
+                                        </div>
+                                    </div>
+                                </div>
+                            </ItemTemplate>
+                        </SfDropDownButton>
+                    </Template>
+                </AssistViewFooterToolbarItem>
+                <AssistViewFooterToolbarItem
+                    IconCss="e-icons e-assist-speech-to-text"
+                    Align="ItemAlign.Right">
+                </AssistViewFooterToolbarItem>
+            </AssistViewFooterToolbar>
+        </SfAIAssistView>
+
+        <div id="buttonsContainer" class="gemini-buttons-container">
+            <SfButton IconCss="e-icons e-image"> Create image </SfButton>
+            <SfButton IconCss="e-icons e-callout"> Follow IPL </SfButton>
+            <SfButton IconCss="e-icons e-play"> Create Music </SfButton>
+            <SfButton> Write anything </SfButton>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    private SfAIAssistView? sfAIAssistView;
+    private IReadOnlyList<PromptResponseData> prompts = PromptResponseData.GetAllPromptResponseData();
+    private bool isFirstPrompt = true;
+    private string currentModel = "Fast";
+
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
+    private AssistViewAttachmentSettings attachmentSettings = new AssistViewAttachmentSettings()
+    {
+        Enable = true,
+        SaveUrl = "https://ej2services.syncfusion.com/js/development/api/FileUploader/Save",
+        RemoveUrl = "https://ej2services.syncfusion.com/js/development/api/FileUploader/Remove"
+    };
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
+
+    private List<ModelData> modelItems = new()
+    {
+        new ModelData
+        {
+            Text = "Fast",
+            Description = "Answers quickly"
+        },
+        new ModelData
+        {
+            Text = "Thinking",
+            Description = "Solve complex problems"
+        },
+        new ModelData
+        {
+            Text = "Pro",
+            Description = "Advanced maths and code with 3.1 Pro"
+        }
+    };
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await ToggleButtons();
+        }
+    }
+
+    private async Task PromptRequest(
+        AssistViewPromptRequestedEventArgs args)
+    {
+        if (isFirstPrompt)
+        {
+            isFirstPrompt = false;
+            await InvokeAsync(StateHasChanged);
+        }
+
+        await Task.Delay(1200);
+        var promptData = prompts.FirstOrDefault(p => p.Prompt == args.Prompt);
+        var response =
+            promptData?.Response
+            ?? "This is a placeholder Gemini-style response. Connect to an LLM service for real output.";
+        args.Response = response;
+        await Task.Delay(100);
+        await ToggleButtons();
+    }
+
+    private async Task OnPromptChanged()
+    {
+        await Task.Delay(50);
+        await ToggleButtons();
+    }
+
+    private async Task ToggleButtons()
+    {
+        var cleanedPrompt =
+            sfAIAssistView?.Prompt?
+                .Replace("<br>", "")
+                .Replace("&nbsp;", "")
+                .Trim();
+
+        var hasPrompt =
+            !string.IsNullOrWhiteSpace(cleanedPrompt);
+
+        await JSRuntime.InvokeVoidAsync(
+            "toggleGeminiButtons",
+            hasPrompt
+        );
+    }
+
+    private void OnModelSelected(MenuEventArgs args)
+    {
+        currentModel = args.Item.Text;
+        StateHasChanged();
+    }
+
+    private ModelData? GetModelData(string text)
+    {
+        return modelItems.FirstOrDefault(x => x.Text == text);
+    }
+
+    public class ModelData
+    {
+        public string Text { get; set; } = string.Empty;
+        public string Description { get; set; } = string.Empty;
+    }
+}
+
+<style>
+    .control-section.gemini-clone {
+        min-height: 550px;
+    }
+    .gemini-aiassist {
+        width: 60vw;
+        margin: 10px auto;
+        display: flex;
+        flex-direction: column;
+    }
+    .gemini-aiassist.middle-footer {
+        height: 400px;
+        gap: 10px;
+    }
+    .gemini-aiassist.bottom-footer {
+        height: 500px;
+    }
+    @@media only screen and (max-width: 750px) {
+
+        .gemini-aiassist {
+            width: 100%;
+        }
+    }
+    .gemini-aiassist .gemini-header {
+        display: flex;
+        justify-content: flex-start;
+        height: 150px;
+        align-items: end;
+    }
+    .gemini_model .model-item {
+        display: flex;
+        justify-content: space-between;
+        gap: 10px;
+        align-items: center;
+    }
+    .gemini_model .model-item .model-description {
+        font-size: 11px;
+    }
+    .gemini_model .model-content {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+    .gemini_model.e-dropdown-popup ul .e-item {
+        line-height: 18px;
+        padding: 25px 20px 25px 12px;
+    }
+    .gemini-aiassist .gemini-buttons-container {
+        display: flex;
+        justify-content: center;
+        gap: 15px;
+        flex-wrap: wrap;
+        margin-bottom: 30px;
+        flex-shrink: 0;
+        opacity: 1;
+        transform: translateY(0);
+    }
+    .gemini-aiassist.bottom-footer .gemini-buttons-container {
+        opacity: 0;
+        pointer-events: none;
+    }
+    .gemini-aiassist .gemini-button {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .gemini-aiassist #gemini_aiassistview {
+        border: none;
+    }
+    .gemini-aiassist h3 {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+    .gemini-aiassist .e-footer .e-dropdown-btn.e-btn:hover,
+    .gemini-aiassist .e-footer .e-dropdown-btn.e-btn:active {
+        color: var(--color-sf-icon-color);
+    }
+    .gemini-aiassist .e-dropdown-btn, .gemini-aiassist .e-dropdown-btn.e-btn {
+        box-shadow: none;
+    }
+    .gemini-aiassist .e-btn.e-flat.e-active,
+    .gemini-aiassist .e-dropdown-btn:active,
+    .gemini-aiassist .e-dropdown-btn.e-btn:active,
+    .gemini-aiassist .e-dropdown-btn.e-btn:hover,
+    .gemini-aiassist .e-dropdown-btn:focus,
+    .gemini-aiassist .e-dropdown-btn.e-btn:focus {
+        background: unset;
+        border: 1px solid transparent;
+        box-shadow: none;
+        color: unset;
+    }
+</style>

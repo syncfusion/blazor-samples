@@ -1,0 +1,81 @@
+@namespace BlazorDemos.Shared
+@using BlazorDemos.Service
+@inject SampleService SampleService;
+@inject NavigationManager UriHelper;
+
+<div id='sample-bread-crumb' class='sb-bread-crumb sb-rightpane-padding'>
+    <div class='sb-bread-crumb-text'>@path</div>
+</div>
+
+<div id='component-name' class='sb-component-name sb-rightpane-padding'>
+    <h1 class='sb-sample-text'>@component</h1>
+</div>
+
+@code {
+    private string? path { get; set; }
+    private string? component { get; set; }
+
+    /// <summary>
+    /// Resolves the leading segment of the breadcrumb based on the active
+    /// SDK selected in <see cref="SDKSwitcherService"/>. Matches the label
+    /// used by the SDK switcher dropdown so users see consistent text
+    /// between the header switcher and the breadcrumb.
+    ///   - UIEdition  → "All Demos"
+    ///   - Component SDKs → "Grid SDK" / "Charts SDK" / etc.
+    /// </summary>
+    private string ResolveSdkBreadcrumbSegment()
+    {
+        // Resolve the active SDK from the URL query parameter (?sdk=...) so
+        // the breadcrumb always reflects the SDK the user actually navigated
+        // to, even when the cached SDKSwitcherService.CurrentSDK has not yet
+        // been synced (deep links, back/forward navigation, prerender).
+        var uri = UriHelper.ToAbsoluteUri(UriHelper.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var resolvedSdkId = SDKSwitcherService.ResolveSdk(query["sdk"]);
+
+        SDKType sdkType = SDKType.UIEdition;
+        foreach (var value in Enum.GetValues<SDKType>())
+        {
+            if (string.Equals(
+                    SDKSwitcherService.GetSdkId(value),
+                    resolvedSdkId,
+                    StringComparison.OrdinalIgnoreCase))
+            {
+                sdkType = value;
+                break;
+            }
+        }
+
+        return sdkType switch
+        {
+            SDKType.UIEdition => "All Demos",
+            _ => SDKSwitcherService.GetSDKDisplayName(sdkType)
+        };
+    }
+
+    /// <summary>
+    /// Re-rendering the component with current sample description.
+    /// The path is prefixed with the SDK label (or "All Demos" for the UI
+    /// Edition) so users can see which SDK the current sample belongs to.
+    /// </summary>
+    public void Refresh(string componentName, string category, string sample)
+    {
+        string controlType = " Component";
+        if((SampleService?.SampleInfo?.Directory)?.IndexOf("DocumentProcessing/") >= 0)
+        {
+            controlType = " Library";
+        }
+        var sdkSegment = ResolveSdkBreadcrumbSegment();
+        if (componentName.Replace(SampleUtils.Space, string.Empty).Trim() == category.Replace(SampleUtils.Space, string.Empty).Trim())
+        {
+            path = sdkSegment + " / " + category + " / " + sample;
+            component = string.IsNullOrEmpty(SampleService?.SampleInfo?.HeaderText) ? "Example of " + sample + " in Blazor " + componentName + controlType : SampleService.SampleInfo.HeaderText;
+        }
+        else
+        {
+            path = sdkSegment + " / " + componentName + " / " + category + " / " + sample;
+            component = string.IsNullOrEmpty(SampleService?.SampleInfo?.HeaderText) ? "Example of " + sample + " in Blazor " + componentName + controlType : SampleService.SampleInfo.HeaderText;
+        }
+        StateHasChanged();
+    }
+}
