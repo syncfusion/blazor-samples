@@ -57,8 +57,8 @@ function samplePageAssets() {
     if (data.configuration == "Release") {
         assetFiles = [
             'https://cdn.syncfusion.com/blazor/sb/favicon.ico',
-            'https://cdn.syncfusion.com/blazor/sb/styles/34.1.29/common/roboto.min.css',
-            'https://cdn.syncfusion.com/blazor/sb/scripts/34.1.29/highlight.min.js'
+            'https://cdn.syncfusion.com/blazor/sb/styles/35.1.37/common/roboto.min.css',
+            'https://cdn.syncfusion.com/blazor/sb/scripts/35.1.37/highlight.min.js'
         ];
     } 
     else if(data.configuration == "Staging"){

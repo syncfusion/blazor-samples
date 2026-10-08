@@ -85,25 +85,25 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <div><p class="controlcategory">INTERACTIVE CHAT</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/ai-assistview/getting-started-webapp">AI AssistView</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/chat-ui/getting-started">Chat UI</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/inline-ai-assist/getting-started-with-server-app">Inline AI Assist - Preview</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/inline-ai-assist/getting-started-with-server-app">Inline AI Assist</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">DATA MANAGEMENT</p></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/datagrid/getting-started">DataGrid</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pivot-table/getting-started">Pivot Table</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/treegrid/getting-started">TreeGrid</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/grid-sdk/blazor/data-grid/getting-started">DataGrid</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/grid-sdk/blazor/pivot-table/getting-started">Pivot Table</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/grid-sdk/blazor/tree-grid/getting-started">TreeGrid</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/query-builder/getting-started">Query Builder</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/pager/getting-started">Pager</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/listview/getting-started">ListView</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">FILE VIEWERS & EDITORS</p></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/rich-text-editor/getting-started">Rich Text Editor</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/rich-text-editor-sdk/blazor/rich-text-editor/getting-started">Rich Text Editor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/image-editor/getting-started">Image Editor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/markdown-editor/getting-started">Markdown Editor</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/block-editor/getting-started-web-app">Block Editor</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">LAYOUT</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/card/getting-started">Card</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/dashboard-layout/getting-started">Dashboard Layout</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/dashboard-layout/getting-started">Dashboard Layout</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/dialog/getting-started">Dialog</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/predefined-dialogs/getting-started">Predefined Dialogs</a></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/splitter/getting-started">Splitter</a></div>
@@ -115,26 +115,27 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
         <td>
             <p></p>
             <div><p class="controlcategory">DATA VISUALIZATION</p></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/chart/getting-started-server">Charts</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/3d-chart/getting-started-with-web-app">3D Chart</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/barcode/getting-started">Barcode Generator</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/bullet-chart/getting-started">Bullet Chart</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/circular-gauge/getting-started">Circular Gauge</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/circular-gauge/getting-started">Arc Gauge</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/heatmap-chart/getting-started">HeatMap Chart</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/linear-gauge/getting-started">Linear Gauge</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/range-selector/getting-started">Range Selector</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/smith-chart/getting-started">Smith Chart</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/chart-wizard/getting-started ">Chart Wizard</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/sparkline/getting-started">Sparkline Charts</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/stock-chart/getting-started">Stock Chart</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/stock-chart/getting-started">Sankey</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/charts/getting-started-with-web-app">Charts</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/3d-charts/getting-started-with-web-app">3D Chart</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/sunburst-chart/getting-started-with-web-app">Sunburst Chart - Preview</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/barcode-generator/getting-started">Barcode Generator</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/bullet-chart/getting-started">Bullet Chart</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/circular-gauge/getting-started">Circular Gauge</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/circular-gauge/getting-started">Arc Gauge</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/heatmap-chart/getting-started">HeatMap Chart</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/linear-gauge/getting-started">Linear Gauge</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/range-selector/getting-started">Range Selector</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/smith-chart/getting-started">Smith Chart</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/chart-wizard/getting-started">Chart Wizard</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/sparkline-charts/getting-started">Sparkline Charts</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/stock-chart/getting-started">Stock Chart</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/stock-chart/getting-started">Sankey</a></div>
             <p>&nbsp;</p>
             <p></p>
             <div><p class="controlcategory">DIAGRAMS AND MAPS</p></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/diagram-component/getting-started">Diagram</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/treemap/getting-started">TreeMap</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/maps/getting-started">Maps</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/diagram-sdk/blazor/getting-started">Diagram</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/treemap/getting-started">TreeMap</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/chart-sdk/blazor/maps/getting-started">Maps</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">BUTTONS & ACTIONS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/button/getting-started">Button</a></div>
@@ -151,13 +152,13 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
         </td>
         <td>
             <div><p class="controlcategory">SCHEDULING & CALENDARS</p></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/scheduler/getting-started">Scheduler</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/gantt-chart/getting-started">Gantt Chart</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/calendar/getting-started">Calendar</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/datepicker/getting-started">DatePicker</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/daterangepicker/getting-started">DateRangePicker</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/datetime-picker/getting-started">DateTime Picker</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/timepicker/getting-started">TimePicker</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/scheduler-sdk/blazor/schedule/getting-started">Scheduler</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/gantt-sdk/blazor/gantt-chart/getting-started">Gantt Chart</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/scheduler-sdk/blazor/calendar/getting-started">Calendar</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/scheduler-sdk/blazor/date-picker/getting-started">DatePicker</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/scheduler-sdk/blazor/daterange-picker/getting-started">DateRangePicker</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/scheduler-sdk/blazor/datetime-picker/getting-started">DateTime Picker</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/scheduler-sdk/blazor/time-picker/getting-started">TimePicker</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">INPUTS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/check-box/getting-started">CheckBox</a></div>
@@ -177,7 +178,7 @@ Clone the repository. This repository contains Blazor Web App Server demos, Blaz
             <p>&nbsp;</p>
             <div><p class="controlcategory">FILE MANAGEMENT</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/file-upload/getting-started">File Upload</a></div>
-            <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/file-manager/getting-started">File Manager</a></div>
+            <div class="controlanchorlink"><a target="_self" href="https://help.syncfusion.com/file-manager-sdk/blazor/getting-started-with-web-app">File Manager</a></div>
             <p>&nbsp;</p>
             <div><p class="controlcategory">FORMS</p></div>
             <div class="controlanchorlink"><a target="_self" href="https://blazor.syncfusion.com/documentation/data-form/getting-started">Data Form</a></div>
