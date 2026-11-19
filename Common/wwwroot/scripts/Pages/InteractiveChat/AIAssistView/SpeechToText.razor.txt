@@ -1,0 +1,124 @@
+@page "/ai-assistview/ai-speechtotext"
+
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Buttons
+
+<ActionDescription>
+    <p>This sample demonstrates the integration of <code>Speech-to-Text</code> functionality with the AI AssistView component. It allows users to convert spoken input into text using the device's microphone and the browser's <code>SpeechRecognition</code> API.</p>
+    
+    <p><b>Key Features:</b></p>
+    <ul>
+        <li>
+            The <code>AssistViewFooterToolbar</code> to customize the footer options with speech to text, attachments and a send icon.
+        </li>
+        <li>
+            The <code>AssistViewSpeechToText</code> adds the speech to text button at the footer to captures voice input and transcribes it into text.
+        </li>
+        <li>
+            The <code>AttachmentSettings</code> to allow file uploads for the attached files.
+        </li>
+        <li>
+            The <code>AssistViewToolbar</code> adds a right-aligned <code>Refresh</code> button to clear previous prompts.
+        </li>
+        <li>
+            Responses are streamed dynamically using the <code>UpdateResponseAsync</code> method for a real-time experience.
+        </li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="integration-speechtotext-section">
+        <SfAIAssistView @ref="assistView" PromptRequested="@PromptRequest" AttachmentSettings="@attachmentSettings" EnableStreaming="true">
+            <AssistViewSpeechToText Enable="true"></AssistViewSpeechToText>
+            <AssistViews>
+                <AssistView>
+                    <BannerTemplate>
+                        <div class="banner-content">
+                            <div class="e-icons e-listen-icon"></div>
+                            <h3>Speech To Text</h3>
+                            <i>Click the below mic-button to convert your voice to text.</i>
+                        </div>
+                    </BannerTemplate>
+                </AssistView>
+            </AssistViews>
+            <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+            </AssistViewToolbar>
+            <AssistViewFooterToolbar ToolbarPosition="ToolbarPosition.Bottom">
+                <AssistViewFooterToolbarItem Align="ItemAlign.Left" IconCss="e-icons e-assist-attachment-icon"></AssistViewFooterToolbarItem>
+                <AssistViewFooterToolbarItem Align="ItemAlign.Left" IconCss="e-icons e-assist-speech-to-text"></AssistViewFooterToolbarItem>
+                <AssistViewFooterToolbarItem Type="ItemType.Spacer"></AssistViewFooterToolbarItem>
+                <AssistViewFooterToolbarItem Align="ItemAlign.Right" IconCss="e-icons e-assist-send"></AssistViewFooterToolbarItem>
+            </AssistViewFooterToolbar>
+        </SfAIAssistView>
+    </div>
+</div>
+
+@code {
+    private SfAIAssistView assistView = new SfAIAssistView();
+    private string finalResponse { get; set; } = String.Empty;
+
+    @*Hidden:Lines*@
+    #pragma warning disable BL0005
+    @*End:Hidden*@
+    private AssistViewAttachmentSettings attachmentSettings = new AssistViewAttachmentSettings()
+    {
+        Enable = true,
+        SaveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Save",
+        RemoveUrl = "https://blazor.syncfusion.com/services/production/api/FileUploader/Remove"
+    };
+    @*Hidden:Lines*@
+    #pragma warning restore BL0005
+    @*End:Hidden*@
+
+    private async Task PromptRequest(AssistViewPromptRequestedEventArgs args)
+    {
+        await Task.Delay(3000);
+        var defaultResponse = "For real-time prompt processing, connect the AI AssistView control to your preferred AI service, such as OpenAI or Azure Cognitive Services. Ensure you obtain the necessary API credentials to authenticate and enable seamless integration.";
+        args.Response = defaultResponse;
+    }
+
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-refresh")
+        {
+            assistView.Prompts.Clear();
+        }
+    }
+}
+<style>
+    .integration-speechtotext-section {
+        height: 550px;
+        width: 550px;
+        margin: 0 auto;
+    }
+
+        .integration-speechtotext-section .e-view-container {
+            margin: auto;
+        }
+
+        .integration-speechtotext-section .e-banner-view {
+            margin-left: 0;
+        }
+
+        .integration-speechtotext-section .banner-content .e-listen-icon:before {
+            font-size: 35px;
+        }
+
+        .integration-speechtotext-section .banner-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 330px;
+            text-align: center;
+        }
+
+    @@media only screen and (max-width: 750px) {
+        .integration-speechtotext-section {
+            width: 100%;
+        }
+    }
+</style>

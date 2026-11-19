@@ -1,0 +1,202 @@
+@page "/pivot-table/server-side-aggregation"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor.Grids
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates how to leverage a server-side pivot engine to fetch and display summarized data in the Pivot Table, including comprehensive export options for Excel, CSV, and PDF formats with customizable headers and footers.
+  </p>
+  <p>
+    The Pivot Table's server-side pivot engine (external pivot engine) utilizes the Syncfusion <a target="_blank" rel="noopener" href="https://www.nuget.org/packages/Syncfusion.Pivot.Engine/" aria-label="NuGet package reference of Pivot Engine">Syncfusion.Pivot.Engine</a> package to gather data from the data source and perform all pivot operations such as <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/aggregation" aria-label="Blazor PivotTable Aggregation documentation">Aggregation</a>, <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/filtering" aria-label="Blazor PivotTable Filtering documentation">Filtering</a>, <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/sorting" aria-label="Blazor PivotTable Sorting documentation">Sorting</a>, and <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/grouping" aria-label="Blazor PivotTable Grouping documentation">Grouping</a> on a separate hosted server. Only the paged data required for the viewport is transmitted to the pivot table via a web service, significantly improving performance.
+  </p>
+  <p>
+    The <a target="_blank" rel="noopener" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.PivotView.IPivotViewDataSourceSettings.html#Syncfusion_Blazor_PivotView_IPivotViewDataSourceSettings_Url" aria-label="Class reference of DataSourceSettings property in PivotView">DataSourceSettings->Url</a> property enables connection to the web service endpoint.
+  </p>
+  <p>
+    In this demo, the Pivot Table is rendered using an external server-side engine, which substantially enhances performance when handling large datasets. By offloading data processing to the server, client-side rendering becomes faster and more efficient, ensuring a smoother user experience even with complex or high-volume data.
+  </p>
+  <p>
+    For further performance improvements with large data volumes, we recommend enabling <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/virtual-scrolling" aria-label="Reference of Virtualization feature in PivotView">Virtualization</a> or <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/paging" aria-label="Reference for Paging feature in PivotView">Paging</a> features.
+  </p>
+  <p>
+    The built-in toolbar includes robust export options for Excel, CSV, and PDF documents. These export features support adding custom headers and footers, enabling enriched document formatting and professional presentation.
+  </p>
+  <p>
+    For detailed information about server-side aggregation and configuration, refer to the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/server-side-pivot-engine">server-side pivot engine documentation</a>.
+  </p>
+</ActionDescription>
+
+<div class="control-section pivot-control-section">
+    <div class="content-wrapper">
+        <div id="Pivot" style="margin-top:10px">
+            <SfPivotView TValue="SalesAnalysis" @ref="pivotView" Width="100%" Height="450"
+                ShowFieldList="true" ShowGroupingBar="true" MaxNodeLimitInMemberEditor="50" ShowToolbar="true" AllowExcelExport="true" AllowPdfExport="true" Toolbar="@customToolbar">
+                <PivotViewDataSourceSettings TValue="SalesAnalysis"
+                    Url="https://blazor.syncfusion.com/services/production/api/pivotengine/post" ExpandAll="false"
+                    EnableSorting="true" EnableServerSideAggregation="true" AlwaysShowValueHeader="true">
+                    <PivotViewColumns>
+                        <PivotViewColumn Name="Year" Caption="Production Year"></PivotViewColumn>
+                    </PivotViewColumns>
+                    <PivotViewRows>
+                        <PivotViewRow Name="Country"></PivotViewRow>
+                        <PivotViewRow Name="Products"></PivotViewRow>
+                    </PivotViewRows>
+                    <PivotViewValues>
+                        <PivotViewValue Name="Sold" Caption="Unit Sold"></PivotViewValue>
+                        <PivotViewValue Name="Amount" Caption="Sold Amount"></PivotViewValue>
+                    </PivotViewValues>
+                    <PivotViewFormatSettings>
+                        <PivotViewFormatSetting Name="Amount" Format="C0"></PivotViewFormatSetting>
+                        <PivotViewFormatSetting Name="Sold" Format="N0"></PivotViewFormatSetting>
+                    </PivotViewFormatSettings>
+                    <PivotViewDrilledMembers>
+                        <PivotViewDrilledMember Name="Country" Items="@(new string[] { "France","Germany" })"></PivotViewDrilledMember>
+                    </PivotViewDrilledMembers>
+                </PivotViewDataSourceSettings>
+                <PivotViewEvents TValue="SalesAnalysis" BeforeExport="beforeExport"></PivotViewEvents>
+                <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            </SfPivotView>
+        </div>
+    </div>
+</div>
+
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+    @@media (max-width: 400px) {
+        .pivot-control-section {
+            overflow: auto;
+        }
+    }
+</style>
+
+@code {
+    private SfPivotView<SalesAnalysis>? pivotView;
+    public List<Syncfusion.Blazor.PivotView.ToolbarItems> customToolbar = new List<Syncfusion.Blazor.PivotView.ToolbarItems>
+    {
+        Syncfusion.Blazor.PivotView.ToolbarItems.Export,
+        Syncfusion.Blazor.PivotView.ToolbarItems.FieldList
+    };
+    public void beforeExport(BeforeExportEventArgs args)
+    {
+        Syncfusion.Blazor.Grids.ExcelExportProperties ExportProperties = new Syncfusion.Blazor.Grids.ExcelExportProperties();
+        List<Syncfusion.Blazor.Grids.ExcelCell> ExcelCells1 = new List<Syncfusion.Blazor.Grids.ExcelCell> { new
+        Syncfusion.Blazor.Grids.ExcelCell() { Index = 1, ColSpan = 13, Value = "INVOICE", Style = new
+        Syncfusion.Blazor.Grids.ExcelStyle() { FontColor = "#C25050", FontSize = 19, HAlign =
+        Syncfusion.Blazor.Grids.ExcelHorizontalAlign.Center, Bold = true } } };
+        List<Syncfusion.Blazor.Grids.ExcelCell> ExcelCells2 = new List<Syncfusion.Blazor.Grids.ExcelCell>
+        {
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 1, ColSpan = 3, Value = "Adventure Traders", Style = new
+            Syncfusion.Blazor.Grids.ExcelStyle() { FontColor = "#C67878", FontSize = 12, Bold = true } },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 2, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 3, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 10, ColSpan = 2, Value = "INVOICE NUMBER", Style = new Syncfusion.Blazor.Grids.ExcelStyle()
+            { FontColor = "#C67878", Bold = true } },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 11, ColSpan = 2, Value = "DATE", Style = new Syncfusion.Blazor.Grids.ExcelStyle() {
+            FontColor = "#C67878", Bold = true} },
+        };
+        List<Syncfusion.Blazor.Grids.ExcelCell> ExcelCells3 = new List<Syncfusion.Blazor.Grids.ExcelCell>
+        {
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 1, ColSpan = 3, Value = "2501 Aerial Center Parkway" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 2, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 3, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 10, ColSpan = 2, Value = 2345 },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 11, ColSpan = 2, Value = DateTime.Now.ToString("MM/dd/yyyy HH:mm:ss") },
+        };
+        List<Syncfusion.Blazor.Grids.ExcelCell> ExcelCells4 = new List<Syncfusion.Blazor.Grids.ExcelCell>
+        {
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 1, ColSpan = 3, Value = "Tel +1 888.936.8638 Fax +1 919.573.0306"},
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 2, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 3, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 10, ColSpan = 2, Value = "CUSTOMER ID", Style = new
+            Syncfusion.Blazor.Grids.ExcelStyle() { FontColor = "#C67878", Bold = true}},
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 11, ColSpan = 2, Value = "Terms" , Style = new Syncfusion.Blazor.Grids.ExcelStyle()
+            { FontColor = "#C67878", Bold = true}}
+        };
+        List<Syncfusion.Blazor.Grids.ExcelCell> ExcelCells5 = new List<Syncfusion.Blazor.Grids.ExcelCell>
+        {
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 1, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 2, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 3, Value = "" },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 10, ColSpan = 2, Value = 564 },
+            new Syncfusion.Blazor.Grids.ExcelCell() { Index = 11, ColSpan = 2, Value = "Net 30 Days" }
+        };
+        List<Syncfusion.Blazor.Grids.ExcelRow> ExcelRows = new List<Syncfusion.Blazor.Grids.ExcelRow>
+        {
+            new Syncfusion.Blazor.Grids.ExcelRow() { Index = 1, Cells = ExcelCells1 },
+            new Syncfusion.Blazor.Grids.ExcelRow() { Index = 2},
+            new Syncfusion.Blazor.Grids.ExcelRow() { Index = 3, Cells = ExcelCells2 },
+            new Syncfusion.Blazor.Grids.ExcelRow() { Index = 4, Cells = ExcelCells3 },
+            new Syncfusion.Blazor.Grids.ExcelRow() { Index = 5, Cells = ExcelCells4 },
+            new Syncfusion.Blazor.Grids.ExcelRow() { Index = 6, Cells = ExcelCells5 },
+            new Syncfusion.Blazor.Grids.ExcelRow() { Index = 7 }
+        };
+        List<Syncfusion.Blazor.Grids.ExcelCell> FooterCells1 = new List<Syncfusion.Blazor.Grids.ExcelCell> { new
+        Syncfusion.Blazor.Grids.ExcelCell() { ColSpan = 13, Value = "Thank you for your business!", Style = new Syncfusion.Blazor.Grids.ExcelStyle() {
+        FontColor = "#C67878", HAlign = Syncfusion.Blazor.Grids.ExcelHorizontalAlign.Center, Bold = true } } };
+        List<Syncfusion.Blazor.Grids.ExcelCell> FooterCells2 = new List<Syncfusion.Blazor.Grids.ExcelCell> { new
+        Syncfusion.Blazor.Grids.ExcelCell() { ColSpan = 13, Value = "!Visit Again!", Style = new Syncfusion.Blazor.Grids.ExcelStyle() {
+        FontColor = "#C67878", HAlign = Syncfusion.Blazor.Grids.ExcelHorizontalAlign.Center, Bold = true } } };
+        List<Syncfusion.Blazor.Grids.ExcelRow> FooterRows = new List<Syncfusion.Blazor.Grids.ExcelRow>
+        {
+            new Syncfusion.Blazor.Grids.ExcelRow() { Cells = FooterCells1 },
+            new Syncfusion.Blazor.Grids.ExcelRow() { Cells = FooterCells2 }
+        };
+        Syncfusion.Blazor.Grids.ExcelHeader Header = new Syncfusion.Blazor.Grids.ExcelHeader()
+        {
+            HeaderRows = 7,
+            Rows = ExcelRows
+        };
+        Syncfusion.Blazor.Grids.ExcelFooter Footer = new Syncfusion.Blazor.Grids.ExcelFooter()
+        {
+            FooterRows = 5,
+            Rows = FooterRows
+        };
+        ExportProperties.Header = Header;
+        ExportProperties.Footer = Footer;
+        args.ExcelExportProperties = ExportProperties;
+        
+        Syncfusion.Blazor.Grids.PdfExportProperties PdfExportProperties = new Syncfusion.Blazor.Grids.PdfExportProperties();
+        List<PdfHeaderFooterContent> headerContent = new List<PdfHeaderFooterContent>
+            {
+                new PdfHeaderFooterContent() {
+                    // Here you can set the content type, value, and other properties for customizing the header or footer of the exported PDF document.
+                    Type = ContentType.Text,
+                    Value = "INVOICE",
+                    Position = new PdfPosition() { X = 300, Y = 50 },
+                    Style = new PdfContentStyle() { TextBrushColor = "#C25050", FontSize = 19 }
+                }
+            };
+        PdfHeader header = new PdfHeader()
+            {
+                FromTop = 0,
+                Height = 130,
+                Contents = headerContent
+            };
+        List<PdfHeaderFooterContent> footerContent = new List<PdfHeaderFooterContent>
+            {
+                new PdfHeaderFooterContent() {
+                    // Here you can set the content type, value, and other properties for customizing the header or footer of the exported PDF document.
+                    Type = ContentType.Text,
+                    Value = "Thank you for your business!",
+                    Position = new PdfPosition() { X = 250, Y = 50 },
+                    Style = new PdfContentStyle() { TextBrushColor = "#C67878", FontSize = 13 }
+                }
+            };
+        PdfFooter footer = new PdfFooter()
+            {
+                Height = 130,
+                Contents = footerContent
+            };
+        PdfExportProperties.Header = header;
+        PdfExportProperties.Footer = footer;
+        args.PdfExportProperties = PdfExportProperties;
+    }
+}

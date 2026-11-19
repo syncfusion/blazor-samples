@@ -1,0 +1,127 @@
+@page "/DropDown-List/Forms-Validation"
+
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This example demonstrates DropDownList integration within an <code>EditForm</code> using Data Annotations validation. The sample shows how to combine a DropDownList with Blazor’s validation pipeline so that selected values are validated against model attributes and invalid entries produce clear, inline feedback for the user.</p>
+
+<p>Validation features:</p>
+<ul>
+  <li>Place the DropDownList inside an <code>EditForm</code> and bind its value to a model property to participate in form validation.</li>
+  <li>Validate inputs using <code>DataAnnotationsValidator</code>, which evaluates standard data-annotation attributes on the bound model.</li>
+  <li>Choose valid values from the dropdown; selection updates the model and satisfies the validator when constraints are met.</li>
+  <li>When input does not satisfy declared attributes, descriptive error messages are displayed adjacent to the field to guide correction.</li>
+</ul>
+
+<p>Validation rules applied:</p>
+<ul>
+  <li><strong>Required</strong> — the field must have a non-empty, valid value before the form can be submitted successfully.</li>
+</ul>
+
+<p>Form behavior and usage:</p>
+<ul>
+  <li>Click the <strong>Submit</strong> button to trigger form validation; invalid fields are marked and error messages are shown until corrected.</li>
+  <li>Valid selections from the DropDownList clear errors and allow the form to proceed with submission or subsequent processing.</li>
+  <li>The sample emphasizes typical validation workflows—binding, declaration of attributes, user selection, and visual feedback—so developers can adopt the pattern consistently across forms.</li>
+</ul>
+
+<p>This concise example serves as a practical reference for combining DropDownList controls with Data Annotations validation in Blazor EditForm scenarios. It demonstrates common patterns for enforcing required fields and presenting user-friendly error messages while preserving standard selection behavior.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+            <EditForm Model="@_model" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator/>
+                <div>
+                    <label class="example-label">Select an employee</label>
+                    <SfDropDownList Placeholder="e.g. Andrew Fuller" PopupHeight="200px" @bind-Value="@_model.FirstName" DataSource="@Data">
+                        <DropDownListFieldSettings Value="FirstName" Text="FirstName"/>
+                    </SfDropDownList>
+                    <ValidationMessage For="()=>_model.FirstName"/>
+                </div>            
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 260px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+        padding: 20px 0px 0px;
+    }
+
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+</style>
+
+@code {
+    private string Message = string.Empty;
+    
+    private async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        _model.FirstName = null;
+        StateHasChanged();
+    }
+
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+
+    private EmployeeData _model = new EmployeeData();
+    public class EmployeeData
+    {
+        [Required(ErrorMessage = "The Employee field is required.")]
+        public string? FirstName { get; set; }
+        public string? Designation { get; set; }
+        public string? Eimg { get; set; }
+    }
+
+    private List<EmployeeData> Data = new List<EmployeeData> 
+    {
+        new EmployeeData() { FirstName = "Andrew Fuller",  Designation = "Team Lead", Eimg= "7" },
+        new EmployeeData() { FirstName = "Anne Dodsworth", Designation = "Developer", Eimg= "1" },
+        new EmployeeData() { FirstName = "Janet Leverling", Designation = "HR", Eimg= "3" },
+        new EmployeeData() { FirstName = "Laura Callahan", Designation = "Product Manager", Eimg= "2" },
+        new EmployeeData() { FirstName = "Margaret Peacock", Designation = "Developer", Eimg= "6" },
+        new EmployeeData() { FirstName = "Michael Suyama", Designation = "Team Lead", Eimg= "9" },
+        new EmployeeData() { FirstName = "Nancy Davolio", Designation = "Product Manager", Eimg= "4" },
+        new EmployeeData() { FirstName = "Robert King", Designation = "Developer", Eimg= "8" },
+        new EmployeeData() { FirstName = "Steven Buchanan", Designation = "CEO", Eimg= "10" }
+    };
+}

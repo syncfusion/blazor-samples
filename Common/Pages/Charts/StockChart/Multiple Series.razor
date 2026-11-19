@@ -1,0 +1,163 @@
+@page "/stock-chart/multiple-series"
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.Charts
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using System.Net.Http.Json
+@inject HttpClient Http
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample visualizes close values for multiple stocks with support for crosshair-based period and value readouts for comparative analysis.</p>
+
+<p>Series types:</p>
+<ul>
+  <li>Stock Chart supports six primary series types: Line, Spline, Hilo, HiloOpenClose, Hollow Candle, and Candle</li>
+  <li>Use the series dropdown in the Period Selector to switch types at runtime</li>
+  <li>Compare how different encodings reveal patterns and trends</li>
+</ul>
+
+<p>Legend and customization:</p>
+<ul>
+  <li>Legend is enabled to toggle individual series visibility</li>
+  <li>Customize legend appearance using <code>StockChartLegendSettings</code></li>
+</ul>
+
+<p>Learn more in the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/stock-chart/series-types" aria-label="Navigate to the documentation section">series types documentation</a>.</p>
+</ActionDescription>
+
+
+@if (GoogleStockData == null || AlphabetStockData == null)
+{
+    <div class="stock-chart-loader"></div> 
+}
+else
+{
+    <div class="@LoaderClass"></div>
+    <div class="@ChartContainerClass">
+        <SfStockChart Title="Multiple Series" IndicatorType="@IndicatorList" Theme="@CurrentTheme" SeriesType="@AvailableSeriesTypes">
+            <StockChartEvents OnLoaded="@OnChartLoaded"></StockChartEvents>
+            <StockChartPrimaryXAxis>
+                <StockChartAxisMajorGridLines Width="0"></StockChartAxisMajorGridLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryXAxis>
+            <StockChartPrimaryYAxis Interval="40">
+                <StockChartAxisLineStyle Color="Transparent"></StockChartAxisLineStyle>
+                <StockChartAxisMajorTickLines Width="0" Color="Transparent"></StockChartAxisMajorTickLines>
+                <StockChartAxisCrosshairTooltip Enable="true"></StockChartAxisCrosshairTooltip>
+            </StockChartPrimaryYAxis>
+            <StockChartCrosshairSettings Enable="true"></StockChartCrosshairSettings>
+            <StockChartSeriesCollection>
+                <StockChartSeries DataSource="@GoogleStockData" Type="ChartSeriesType.Spline" XName="x" YName="close" Name="GOOG"></StockChartSeries>
+                <StockChartSeries DataSource="@AlphabetStockData" Type="ChartSeriesType.Spline" XName="x" YName="close" Name="GOOGL"></StockChartSeries>
+            </StockChartSeriesCollection>
+            <StockChartChartArea>
+                <StockChartChartAreaBorder Width="0"></StockChartChartAreaBorder>
+            </StockChartChartArea>
+            <StockChartLegendSettings Visible="true"></StockChartLegendSettings>
+        </SfStockChart>
+    </div>
+    <style>
+        .stock-chart-loader {
+            border: 6px solid #f3f3f3;
+            border-top: 6px solid #7a0fff;
+            width: 40px;
+            height: 40px;
+            position: absolute;
+            top: 46%;
+            left: 46%;
+            border-radius: 50%;
+            -webkit-animation: loader 2s linear infinite;
+            animation: loader 2s linear infinite;
+        }
+
+        .stockchart-container {
+            visibility: hidden;
+        }
+
+        div[id*="_stockChart_rangeSelector_leftTooltip"], div[id*="_stockChart_rangeSelector_rightTooltip"] {
+            top: 10px !important;
+        }
+
+        div[id*="_selector_Secondary_Element"] {
+            transform: translate(0px, @TranslateY) !important;
+        }
+
+        .e-tbar-btn {
+            border-color: transparent !important;
+        }
+
+        @if(this.CurrentTheme == Theme.Fluent2HighContrast)
+        {
+            <text>
+                g[id*="_stockChart_chart_chart_legend_g"] {
+                    transform: translate(0px, 1px) !important;
+                }
+            </text>
+        }
+    </style>
+}
+@code
+{
+    private ChartData[]? GoogleStockData { get; set; }
+    private ChartData[]? AlphabetStockData { get; set; }
+    private string TranslateY { get; set; } = "-5px";
+
+    protected override async Task OnInitializedAsync()
+    {
+        SetTheme();
+        GoogleStockData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/stock-chart/goog.json");
+        AlphabetStockData = await Http.GetFromJsonAsync<ChartData[]>(NavigationManager.BaseUri + SampleService?.WebAssetsPath + "data/stock-chart/googl.json");
+    }
+
+    public class ChartData
+    {
+        public DateTime x { get; set; }
+        public double open { get; set; }
+        public double low { get; set; }
+        public double close { get; set; }
+        public double high { get; set; }
+        public double volume { get; set; }
+    }
+
+    private string LoaderClass { get; set; } = "stockchart-loader";
+    private string ChartContainerClass { get; set; } = "stockchart-container";
+    private List<TechnicalIndicators> IndicatorList { get; set; } = new List<TechnicalIndicators>();
+    public List<ChartSeriesType> AvailableSeriesTypes { get; set; } = new List<ChartSeriesType>
+    {
+        ChartSeriesType.Line,
+        ChartSeriesType.Hilo,
+        ChartSeriesType.HiloOpenClose,
+        ChartSeriesType.Candle,
+        ChartSeriesType.Spline
+    };
+
+    private void OnChartLoaded(StockChartEventArgs args)
+    {
+        LoaderClass = string.Empty;
+        ChartContainerClass = string.Empty;
+        StateHasChanged();
+    }
+
+    private Theme CurrentTheme { get; set; } = Theme.Bootstrap4;
+
+    private void SetTheme()
+    {
+        CurrentTheme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        if (CurrentTheme == Theme.Material3 || 
+            CurrentTheme == Theme.Material3Dark || 
+            CurrentTheme == Theme.Bootstrap4 || 
+            CurrentTheme == Theme.Material || 
+            CurrentTheme == Theme.MaterialDark)
+        {
+            TranslateY = "-7px";
+        }
+    }
+    
+}

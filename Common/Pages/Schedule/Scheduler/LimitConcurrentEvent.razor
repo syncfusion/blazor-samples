@@ -1,0 +1,121 @@
+﻿@page "/scheduler/limit-concurrent-events"
+
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Inputs
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+        This demo illustrates how to limit the number of concurrent events displayed within a single time slot on the Scheduler component.
+    </p>
+    <p>
+        In this demo, the <code>MaxEventStack</code> property allows you to control how many events are visible at a time within each time slot.
+        When multiple events overlap and exceed the specified limit, a "+N" indicator appears, showing how many additional events exist.
+        Users can click on this indicator to view remaining events in a popup window.
+    </p>
+    <p>
+        Use the options below to customize the event display:
+    </p>
+    <ul>
+        <li>Select <strong>"Show all events"</strong> to display all events</li>
+        <li>Select <strong>"Show up to N labels"</strong> to set a maximum limit for visible events per time slot</li>
+        <li>Modify the numeric value to adjust how many events display before the "+N" indicator appears</li>
+    </ul>
+    <p>
+        The <code>MaxEventStack</code> property is applicable only with Day, Week, and WorkWeek views when the timeScale option is enabled.
+    </p>
+    <p>Looking for the full Blazor Scheduler component overview, features, pricing, and documentation? Visit our <a rel="noopener" target='_blank' href='https://www.syncfusion.com/scheduler-sdk/blazor-scheduler' aria-label="Navigate to the Blazor Scheduler FT page">Blazor Scheduler</a> component page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-9 control-section">
+    <SfSchedule TValue="ScheduleData.AppointmentData" Height="650px" @bind-SelectedDate="@CurrentDate">
+        <ScheduleEventSettings DataSource="@DataSource"></ScheduleEventSettings>
+        <ScheduleViews>
+            <ScheduleView Option="View.Day" MaxEventStack="@GetMaxStack()"></ScheduleView>
+            <ScheduleView Option="View.Week" MaxEventStack="@GetMaxStack()"></ScheduleView>
+            <ScheduleView Option="View.WorkWeek" MaxEventStack="@GetMaxStack()"></ScheduleView>
+        </ScheduleViews>
+    </SfSchedule>
+</div>
+
+<PropertyPanel ControlSecClass="col-lg-9">
+<div class="event-options">
+    <div class="option-row">
+        <SfRadioButton Name="eventDisplay"
+                       Value="all" TChecked="string" @bind-Checked="DisplayMode">
+        </SfRadioButton>
+        <div class="option-text">
+            <div class="title"><b>Show all events</b></div>
+        </div>
+    </div>
+
+    <div class="option-row">
+        <SfRadioButton Name="eventDisplay"
+                       Value="limited"
+                       TChecked="string" @bind-Checked="DisplayMode">
+        </SfRadioButton>
+        <div class="option-text">
+            <div class="title inline">
+                <b>Show up to</b>
+                <SfNumericTextBox TValue="int"
+                                  @bind-Value="MaxEventsLimit"
+                                  Min="1"
+                                  Width="120px"
+                                  CssClass="small-input"
+                                  Enabled="@(DisplayMode == "limited")">
+                </SfNumericTextBox>
+                <b>labels</b>
+            </div>
+        </div>
+    </div>
+
+</div>
+</PropertyPanel>
+
+@code {
+    public DateTime CurrentDate { get; set; } = new DateTime(DateTime.Today.Year, 5, 29);
+    private List<ScheduleData.AppointmentData> DataSource = new ScheduleData().GetConcurrentData();
+    private string? DisplayMode = "limited";
+    private int MaxEventsLimit = 1;
+
+    int GetMaxStack()
+    {
+        return DisplayMode == "all" ? 0 : MaxEventsLimit;
+    }
+}
+
+<style>
+    .event-options {
+        display: flex;
+        flex-direction: column;
+        gap: 12px;
+    }
+
+    .option-row {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        height: 70px;
+    }
+
+    .option-text {
+        display: flex;
+        flex-direction: column;
+    }
+
+    .title {
+        font-size: 16px;
+    }
+
+    .title.inline {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+</style>

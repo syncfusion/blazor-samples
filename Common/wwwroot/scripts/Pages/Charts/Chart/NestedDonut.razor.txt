@@ -1,0 +1,97 @@
+@page "/chart/nested-donut"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This Blazor Nested Donut chart example visualizes Qatar's population by nationality using multiple pie series. The outer ring represents individual countries, while the inner ring groups them into broader regions, making hierarchical relationships easy to compare.</p>
+
+    <p>The <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.AccumulationChartSeries.html#Syncfusion_Blazor_Charts_AccumulationChartSeries_Radius' aria-label="Navigate to the Radius property reference for accumulation chart series" rel="noopener">Radius</a> and <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.AccumulationChartSeries.html#Syncfusion_Blazor_Charts_AccumulationChartSeries_InnerRadius' aria-label="Navigate to the Inner Radius property reference for accumulation chart series" rel="noopener">Inner Radius</a> properties define the size of each ring. The <code>MappingKey</code> property links related segments to a common legend item, while the <a target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Charts.AccumulationChartSeries.html#Syncfusion_Blazor_Charts_AccumulationChartSeries_PointColorMapping' aria-label="Navigate to the PointColorMapping property reference for accumulation chart series" rel="noopener">PointColorMapping</a> property maintains consistent colors between countries and their corresponding regions.</p>
+
+    <p><code>Tooltip</code> support provides additional details. Hover over a segment (or tap on touch devices) to view the nationality and its population share percentage.</p>
+    <p>More information about the nested donut feature can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/accumulation-chart/chart-types/pie-doughnut' aria-label="Navigate to the documentation for Nested Donut in accumulation chart component" rel="noopener">documentation section</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <SfAccumulationChart Title="The Population of Qatar by Nationality" EnableBorderOnMouseMove="false" Theme="@Theme">
+        <AccumulationChartSeriesCollection>
+            <AccumulationChartSeries DataSource="@CountryData" XName="@nameof(NestedPieData.X)" YName="@nameof(NestedPieData.Y)" Name="Countries" Radius="90%" InnerRadius="75%" PointColorMapping="@nameof(NestedPieData.Color)">
+                <AccumulationDataLabelSettings Visible="true" Name="@nameof(NestedPieData.Text)" Position="AccumulationLabelPosition.Outside" />
+                <AccumulationChartSeriesBorder Color="#ffffff" Width="2" />
+                <AccumulationChartAnimation Enable="false" />
+            </AccumulationChartSeries>
+            <AccumulationChartSeries DataSource="@RegionData" XName="@nameof(NestedPieData.X)" YName="@nameof(NestedPieData.Y)" Name="Regions" Radius="67%" InnerRadius="35%" PointColorMapping="@nameof(NestedPieData.Color)">
+                <AccumulationDataLabelSettings Visible="true" Name="@nameof(NestedPieData.Text)" Position="AccumulationLabelPosition.Inside" />
+                <AccumulationChartSeriesBorder Color="#ffffff" Width="2" />
+                <AccumulationChartAnimation Enable="false" />
+            </AccumulationChartSeries>
+        </AccumulationChartSeriesCollection>
+        <AccumulationChartLegendSettings Visible="true" MappingKey="@nameof(NestedPieData.X)" />
+        <AccumulationChartTooltipSettings Enable="true" Format="<b>${point.x}</b><br/>Population: <b>${point.y}%</b>" />
+        <AccumulationChartCenterLabel Text="Qatar Population<br><b>3.1 Million</b>">
+            <AccumulationChartCenterLabelFont Size="10px" FontWeight="bold"></AccumulationChartCenterLabelFont>
+        </AccumulationChartCenterLabel>
+    </SfAccumulationChart>
+</div>
+
+@code{
+
+    private Theme Theme { get; set; }
+    private const string ColorSouthAsia = "#1f4e8c";
+    private const string ColorMiddleEast = "#7a3b8f";
+    private const string ColorSEAsia = "#e91e63";
+    private const string ColorAfrica = "#f4c20d";
+    private const string ColorOthers = "#66a99c";
+
+    private List<NestedPieData> CountryData = new List<NestedPieData>
+    {
+        new NestedPieData() { X = "India", Y = 21.80, Color = ColorSouthAsia, Text = "India" },
+        new NestedPieData() { X = "Bangladesh", Y = 12.50, Color = ColorSouthAsia, Text = "Bangladesh" },
+        new NestedPieData() { X = "Nepal", Y = 12.50, Color = ColorSouthAsia, Text = "Nepal" },
+        new NestedPieData() { X = "Pakistan", Y =  4.70, Color = ColorSouthAsia, Text = "Pakistan" },
+        new NestedPieData() { X = "Sri Lanka", Y =  4.35, Color = ColorSouthAsia, Text = "Sri Lanka" },
+        new NestedPieData() { X = "Qatar", Y = 10.50, Color = ColorMiddleEast, Text = "Qatar" },
+        new NestedPieData() { X = "Iran", Y =  1.00, Color = ColorMiddleEast, Text = "Iran" },
+        new NestedPieData() { X = "Jordan", Y =  1.60, Color = ColorMiddleEast, Text = "Jordan" },
+        new NestedPieData() { X = "Syria", Y =  1.80, Color = ColorMiddleEast, Text = "Syria" },
+        new NestedPieData() { X = "Lebanon", Y =  1.25, Color = ColorMiddleEast, Text = "Lebanon" },
+        new NestedPieData() { X = "Philippines", Y =  7.36, Color = ColorSEAsia, Text = "Philippines" },
+        new NestedPieData() { X = "Sudan", Y =  1.90, Color = ColorAfrica, Text = "Sudan" },
+        new NestedPieData() { X = "Egypt", Y =  9.35, Color = ColorAfrica, Text = "Egypt" },
+        new NestedPieData() { X = "Others", Y =  9.39, Color = ColorOthers, Text = "Others" },
+    };
+
+    private List<NestedPieData> RegionData = new List<NestedPieData>
+    {
+        new NestedPieData() { X = "South Asia", Y = 55.85, Color = ColorSouthAsia, Text = "South Asia" },
+        new NestedPieData() { X = "Middle East", Y = 16.15, Color = ColorMiddleEast, Text = "Middle East" },
+        new NestedPieData() { X = "S.E. Asia", Y =  7.36, Color = ColorSEAsia, Text = "S.E. Asia" },
+        new NestedPieData() { X = "Africa", Y = 11.25, Color = ColorAfrica, Text = "Africa" },
+        new NestedPieData() { X = "Others", Y =  9.39, Color = ColorOthers, Text = "Others" },
+    };
+
+    protected override void OnInitialized()
+    {
+        
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public class NestedPieData
+    {
+        public string X { get; set; } = string.Empty;
+        public double Y { get; set; }
+        public string Color { get; set; } = string.Empty;
+        public string Text { get; set; } = string.Empty;
+    }
+}

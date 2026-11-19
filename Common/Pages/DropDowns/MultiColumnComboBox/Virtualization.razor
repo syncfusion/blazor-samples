@@ -1,0 +1,105 @@
+@page "/MultiColumn-ComboBox/Virtualization"
+
+@using Syncfusion.Blazor.MultiColumnComboBox
+@using System.Security.Cryptography
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+  <p>
+    This example demonstrates the virtualization feature of the
+    <a href="https://www.syncfusion.com/blazor-components/blazor-multicolumn-combobox" aria-label="Navigate to Feature Tour of Blazor MultiColumn ComboBox" target="_blank" rel="noopener">Blazor MultiColumn ComboBox</a>
+    to optimize rendering and interaction when working with large data sets. Virtualization ensures the component remains responsive by limiting rendering to only the items that are visible in the viewport while preserving the control's appearance and behavior.
+  </p>
+
+  <p>Virtualization highlights:</p>
+  <ul>
+    <li>Load and display only visible items — reduces DOM complexity and rendering time by creating elements on demand as the user scrolls.</li>
+    <li>Efficient handling of extensive data sets — enables the component to work smoothly with thousands of records without degrading throughput.</li>
+    <li>Smooth scrolling without performance degradation — maintains frame rates by minimizing layout recalculations and costly reflows.</li>
+    <li>Quick user interactions maintained — selection, filtering, and navigation remain snappy because only a small subset of rows is managed at any time.</li>
+  </ul>
+
+  <p>Practical benefits:</p>
+  <ul>
+    <li>Exceptional performance with large datasets — delivers fast initial rendering and predictable scrolling behavior.</li>
+    <li>Reduced memory consumption — lowers browser memory usage by avoiding the creation of offscreen DOM nodes.</li>
+    <li>Improved user experience with responsive interactions — users experience immediate feedback during typing, scrolling, and selection operations.</li>
+  </ul>
+
+  <p>
+    See also: <a href="https://blazor.syncfusion.com/documentation/multicolumn-combobox/getting-started/" target="_blank" rel="noopener" aria-label="Navigate to Blazor MultiColumn ComboBox Getting Started documentation">Getting Started with Blazor MultiColumn ComboBox</a>.
+  </p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        <label class="example-label">Select an employee</label>
+        <SfMultiColumnComboBox TItem="Employee" TValue="string" PopupHeight="200px" PopupWidth="600px" EnableVirtualization="true" @bind-Value="@Value" DataSource="@Employees" TextField="Name" ValueField="Name" Placeholder="e.g. Alice Johnson">
+        </SfMultiColumnComboBox>
+    </div>
+</div>
+
+@code {
+    public class Employee
+    {
+        public string? Name { get; set; }
+        public string? Department { get; set; }
+        public string? Role { get; set; }
+        public string? Location { get; set; }
+        public int Experience { get; set; }
+    }
+
+    private string Value { get; set; } = "Alice Johnson";
+
+    private List<Employee> Employees = new List<Employee>();
+
+    protected override Task OnInitializedAsync()
+    {
+        List<Employee> employees = new List<Employee>();
+        string[] names = { "John Doe", "Jane Smith", "Alice Johnson", "Bob Brown", "Emily Davis" };
+        string[] departments = { "HR", "IT", "Finance", "Marketing", "Sales" };
+        string[] roles = { "Manager", "Developer", "Analyst", "Consultant", "Executive" };
+        string[] locations = { "New York", "San Francisco", "London", "Berlin", "Tokyo" };
+
+        for (int i = 1; i <= 2000; i++)
+        {
+            int nameIndex = RandomNumberGenerator.GetInt32(names.Length);
+            int deptIndex = RandomNumberGenerator.GetInt32(departments.Length);
+            int roleIndex = RandomNumberGenerator.GetInt32(roles.Length);
+            int locIndex = RandomNumberGenerator.GetInt32(locations.Length);
+            int experience = RandomNumberGenerator.GetInt32(1, 21);
+            
+            employees.Add(new Employee
+                {
+                    Name = names[nameIndex],
+                    Department = departments[deptIndex],
+                    Role = roles[roleIndex],
+                    Location = locations[locIndex],
+                    Experience = experience
+                });
+        }
+
+        Employees = employees;
+
+        return base.OnInitializedAsync();
+    }
+}
+
+
+
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>

@@ -1,0 +1,246 @@
+@page "/datagrid/print"
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using BlazorDemos
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates the Blazor DataGrid printing feature using the <code>Printing</code> and <code>Printed</code> events for customizing the printed output and managing actions before and after the print operation.</p>
+
+    <p>The <code>Printing</code> event provides the following customization options:</p>
+    <ul>
+        <li><code>PrintDataSource</code> - Specifies a custom data source for printing instead of the Grid current data source.</li>
+        <li><code>HeaderTemplate</code> - Defines custom content to display in the printed document header.</li>
+        <li><code>FooterTemplate</code> - Defines custom content to display in the printed document footer.</li>
+        <li><code>Cancel</code> - Cancels the print operation programmatically when required.</li>
+    </ul>
+
+    <p>The <code>Printed</code> event triggers after the print operation is initiated and can be used for post-print processing and restoration of temporary Grid changes.</p>
+
+    <p>In this example, the <code>Printing</code> event performs the following actions:</p>
+    <ul>
+        <li>Assigns a custom data source through <code>PrintDataSource</code> to print only paid invoices.</li>
+        <li>Hides sensitive columns such as Cost, Profit, and Notes.</li>
+        <li>Generates custom header and footer templates with dynamically calculated summary information.</li>
+    </ul>
+
+    <p>The <code>Printed</code> event restores the column visibility after the print operation completes.</p>
+
+    <p>Click the toolbar <strong>Print</strong> button to start the print process. The DataGrid prepares the configured print content and opens the browser's print dialog, allowing users to preview and print the data.</p>
+
+    <p>For more information about DataGrid printing, refer to the <a target='_blank' href='https://help.syncfusion.com/grid-sdk/blazor/data-grid/print' aria-label="Navigate to the documentation for Print in DataGrid component" rel="noopener">print documentation</a>.</p>
+
+    <p>To learn more about the Blazor DataGrid, including features, documentation, and pricing, visit the <a rel="noopener" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid' aria-label="Navigate to the Blazor DataGrid FT page">Blazor DataGrid component</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid DataSource="@Invoices" Height="100%" AllowPaging="true" Toolbar="@(new List<string>() { "Print" })">
+                <GridEvents TValue="Invoice" Printing="Printing" Printed="OnPrintCompleted"> </GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(Invoice.InvoiceID) HeaderText="Invoice No" Width="100"></GridColumn>
+                    <GridColumn Field=@nameof(Invoice.Customer) HeaderText="Customer" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(Invoice.Date) HeaderText="Date" Width="90" Format="yyyy-MM-dd" TextAlign="TextAlign.Right"></GridColumn>
+                    <GridColumn Field=@nameof(Invoice.Status) HeaderText="Status" Width="80"></GridColumn>
+                    <GridColumn Field=@nameof(Invoice.Amount) HeaderText="Amount" Width="80" Format="C" TextAlign="TextAlign.Right"></GridColumn>
+                    <GridColumn Field=@nameof(Invoice.CostPrice) HeaderText="Cost" Width="90" Format="C" TextAlign="TextAlign.Right" Visible="@IsUIMode"></GridColumn>
+                    <GridColumn Field=@nameof(Invoice.Profit) HeaderText="Profit" Width="90" Format="C" TextAlign="TextAlign.Right" Visible="@IsUIMode"></GridColumn>
+                    <GridColumn Field=@nameof(Invoice.InternalNotes) HeaderText="Notes" Width="200" Visible="@IsUIMode" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+    private List<Invoice> Invoices = new();
+    private bool IsUIMode = true;
+
+    protected override void OnInitialized()
+    {
+        Invoices = Invoice.GetAllRecords().ToList();
+    }
+
+    private void Printing(PrintingEventArgs args)
+    {
+        IsUIMode = false;
+        List<Invoice> printDataSource = Invoices.Where(x => x.Status == "Paid").ToList();
+        args.PrintDataSource = printDataSource;
+        decimal paidTotal = printDataSource.Sum(x => x.Amount);
+        int paidCount = printDataSource.Count;
+
+        args.HeaderTemplate = @<div class="print-report-header">
+            <table class="print-report-table">
+                <tr>
+                    <td class="print-report-header-content">
+                        <h1 class="print-report-header-title">✅ PAID INVOICES REPORT</h1>
+                        <p class="print-report-header-subtitle">Official Paid Transactions Summary</p>
+                    </td>
+                    <td class="print-report-summary-cell">
+                        <div class="print-report-summary">
+                            <div class="print-report-summary-text">Company: Global Sales Inc</div>
+                            <div class="print-report-summary-text">Tax ID: 98-7654321</div>
+                            <div class="print-report-summary-text">Report Date: @DateTime.Now.ToString("MMM dd, yyyy")</div>
+                            <div class="print-report-summary-total">
+                                Paid Invoices: @paidCount | Total: @paidTotal.ToString("C")
+                            </div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+        </div>;
+
+
+        args.FooterTemplate = @<div class="print-report-footer">
+            <table class="print-report-table">
+                <tr>
+                    <td class="print-report-footer-details">
+                        <div class="print-report-payment-details">
+                            <strong class="print-report-payment-heading">✓ PAYMENT RECEIVED:</strong>
+                            <ul class="print-report-payment-list">
+                                <li>Number of Paid Invoices: @paidCount</li>
+                                <li>All payments successfully processed</li>
+                                <li>Receipts on file</li>
+                            </ul>
+                        </div>
+                    </td>
+                    <td class="print-report-footer-summary">
+                        <div class="print-report-total">
+                            TOTAL PAID: @paidTotal.ToString("C")
+                        </div>
+                        <div class="print-report-verification">
+                            <div>Verified by: _________________</div>
+                            <div class="print-report-verification-date">Date: @DateTime.Now.ToString("MM/dd/yyyy")</div>
+                        </div>
+                    </td>
+                </tr>
+            </table>
+            <div class="print-report-certification">
+                ✅ <strong>CERTIFIED:</strong> Only PAID invoices are included in this report. This document is for accounting records.
+            </div>
+        </div>;
+
+    }
+
+    private void OnPrintCompleted()
+    {
+        IsUIMode = true;
+    }
+}
+
+@*Hidden:Lines*@
+<style>
+    .print-report-header {
+        padding: 25px;
+        background: linear-gradient(135deg, #2E7D32 0%, #1B5E20 100%) !important;
+        color: white !important;
+        border-radius: 5px;
+    }
+
+    .print-report-table {
+        width: 100%;
+        border-collapse: collapse;
+    }
+
+    .print-report-header-content {
+        vertical-align: middle;
+    }
+
+    .print-report-header-title {
+        margin: 0;
+        font-size: 28px;
+        color: white !important;
+    }
+
+    .print-report-header-subtitle {
+        margin: 5px 0 0 0;
+        font-size: 12px;
+        color: white !important;
+    }
+
+    .print-report-summary-cell {
+        text-align: right;
+        vertical-align: top;
+    }
+
+    .print-report-summary {
+        font-size: 11px;
+        background: rgba(255, 255, 255, 0.2) !important;
+        padding: 10px;
+        border-radius: 3px;
+    }
+
+    .print-report-summary-text {
+        color: white !important;
+    }
+
+    .print-report-summary-total {
+        margin-top: 5px;
+        border-top: 1px solid rgba(255, 255, 255, 0.3);
+        padding-top: 5px;
+        color: white !important;
+    }
+
+    .print-report-footer {
+        padding: 20px;
+        background: #F5F5F5 !important;
+        border-top: 3px solid #2E7D32 !important;
+    }
+
+    .print-report-footer-details {
+        width: 60%;
+        vertical-align: top;
+    }
+
+    .print-report-footer-summary {
+        width: 40%;
+        text-align: right;
+        vertical-align: top;
+    }
+
+    .print-report-payment-details {
+        font-size: 11px;
+        line-height: 1.6;
+    }
+
+    .print-report-payment-heading {
+        color: #2E7D32 !important;
+    }
+
+    .print-report-payment-list {
+        margin: 5px 0;
+        padding-left: 20px;
+    }
+
+    .print-report-total {
+        font-size: 13px;
+        font-weight: bold;
+        color: #2E7D32 !important;
+        background: #E8F5E9 !important;
+        padding: 15px;
+        border-radius: 5px;
+    }
+
+    .print-report-verification {
+        margin-top: 20px;
+        font-size: 10px;
+    }
+
+    .print-report-verification-date {
+        margin-top: 10px;
+    }
+
+    .print-report-certification {
+        margin-top: 15px;
+        padding: 10px;
+        background: #C8E6C9 !important;
+        border-left: 4px solid #2E7D32 !important;
+        font-size: 9px;
+    }
+</style>
+@*End:Hidden*@

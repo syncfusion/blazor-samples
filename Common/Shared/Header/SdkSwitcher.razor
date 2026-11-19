@@ -1,0 +1,610 @@
+@namespace BlazorDemos.Shared
+@using BlazorDemos.Service
+@using BlazorDemos.Shared
+@using BlazorDemos.Shared.Header
+@using System.Collections.ObjectModel
+@using Microsoft.AspNetCore.Components.Routing
+@inject NavigationManager UriHelper
+@inject SampleService sampleService
+@inject IJSRuntime JsRuntime
+
+<div id="header-sdk-switcher" title='Switch between different SDKs' @onclick:stopPropagation="true">
+    <div class="sf-dropdown-container @SampleUtils.SdkSwitcherContainer">
+        <div class="sf-dropdown-input-container"
+               id="sdk-switcher-trigger"
+             role="button"
+             tabindex="0"
+             aria-haspopup="menu"
+             aria-expanded="@_isOpen.ToString().ToLowerInvariant()"
+             aria-label="SDK switcher"
+             @onclick="ToggleMenu"
+             @onkeydown="OnTriggerKeyDown">
+            <input class="sf-dropdown-input"
+                   readonly="readonly"
+                   tabindex="-1"
+                   value="@CurrentSDKDisplay" />
+            <span class="sb-icons sf-dropdown-icon" aria-hidden="true"></span>
+        </div>
+
+        @if (_isOpen)
+        {
+            <div class="@SampleUtils.DropDownPopup @SampleUtils.SdkSwitcherMenu"
+                 role="menu"
+                 aria-label="SDK switcher menu"
+                 @onkeydown="OnMenuKeyDown">
+                @foreach (var item in MenuItems)
+                {
+                    @RenderMenuItem(item, 0)
+                }
+            </div>
+        }
+    </div>
+</div>
+
+@code {
+    /// <summary>
+    /// Hierarchical menu definition. The structure mirrors the
+    /// reference design: top-level entries, with the Standalone UI SDK
+    /// exposing its component SDKs as a nested submenu.
+    /// </summary>
+    private Collection<SdkMenuItem> MenuItems = new();
+
+    /// <summary>
+    /// Tracks which parent items have their submenu expanded.
+    /// </summary>
+    private readonly HashSet<string> _expandedGroups = new(StringComparer.OrdinalIgnoreCase);
+
+    /// <summary>
+    /// True while the menu popup is open.
+    /// </summary>
+    private bool _isOpen;
+
+    /// <summary>
+    /// Identifier (id) of the menu item currently highlighted by keyboard focus.
+    /// </summary>
+    private string? _focusedId;
+
+    private string? _focusAfterRenderId;
+
+    private string CurrentSDKDisplay = "UI Edition";
+
+    /// <summary>
+    /// Identifier of the menu item that owns the Fluent blue "selected"
+    /// background. Exactly one row in the tree carries this state at any time,
+    /// so the highlight never appears on multiple items simultaneously.
+    /// Derived from the active <see cref="SDKSwitcherService.CurrentSDK"/>.
+    /// </summary>
+    private string? _selectedItemId;
+
+    /// <summary>
+    /// Indicates whether the menu popup is currently visible. Exposed so that
+    /// external layouts (e.g. <c>MainLayout</c>) can close the popup when an
+    /// outside-click occurs without reaching into private state.
+    /// </summary>
+    public bool IsMenuOpen => _isOpen;
+
+    /// <summary>
+    /// Programmatically close the dropdown. Safe to call when already closed.
+    /// </summary>
+    public async Task CloseMenu(bool restoreFocus = false)
+    {
+        _isOpen = false;
+        _expandedGroups.Clear();
+        _focusedId = null;
+        if (restoreFocus)
+        {
+            _focusAfterRenderId = "sdk-switcher-trigger";
+        }
+        StateHasChanged();
+        await Task.CompletedTask;
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        InitializeMenu();
+        SyncSelectionFromSdk();
+        SyncExpansionFromSelection();
+        // Subscribe to static SDK change event
+        SDKSwitcherService.OnSDKChanged += OnSDKChangedCallback;
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            await SyncSDKFromUrl();
+        }
+
+        if (_focusAfterRenderId != null)
+        {
+            var focusId = _focusAfterRenderId;
+            _focusAfterRenderId = null;
+            await JsRuntime.InvokeVoidAsync("eval", $"document.getElementById('{focusId}')?.focus();");
+        }
+    }
+
+    private async Task SyncSDKFromUrl()
+    {
+        var uri = UriHelper.ToAbsoluteUri(UriHelper.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var sdk = query["sdk"];
+
+        var resolvedSdk = SDKSwitcherService.ResolveSdk(sdk);
+
+        if (string.Equals(
+                resolvedSdk,
+                SDKSwitcherService.CurrentSdkId,
+                StringComparison.OrdinalIgnoreCase))
+        {
+            return;
+        }
+
+        var sdkType = Enum.GetValues<SDKType>()
+            .First(x =>
+                SDKSwitcherService.GetSdkId(x)
+                    .Equals(resolvedSdk, StringComparison.OrdinalIgnoreCase));
+
+        SDKSwitcherService.SetSDK(sdkType);
+        SyncSelectionFromSdk();
+        SyncExpansionFromSelection();
+    }
+
+    /// <summary>
+    /// Compute the text shown on the switcher button so it always matches
+    /// the user's selection:
+    ///   - UIEdition → "All demos"
+    ///   - anything else → the SDK's display name (e.g. "Grid SDK")
+    /// </summary>
+    private string ResolveDisplayText()
+    {
+        return SDKSwitcherService.CurrentSDK switch
+        {
+            SDKType.UIEdition => "All demos",
+            _ => SDKSwitcherService.GetSDKDisplayName(SDKSwitcherService.CurrentSDK)
+        };
+    }
+
+    /// <summary>
+    /// Recursively search the menu tree for the item that should carry the
+    /// selected highlight given the current <see cref="SDKSwitcherService.CurrentSDK"/>.
+    /// Only one id is ever returned, guaranteeing that the selected state is
+    /// never shared between rows.
+    /// </summary>
+    private void SyncSelectionFromSdk()
+    {
+        _selectedItemId = ResolveSelectedId(MenuItems, SDKSwitcherService.CurrentSDK);
+    }
+
+    private void SyncExpansionFromSelection()
+    {
+        _expandedGroups.Remove("standalone-ui-sdk");
+
+        if (SDKSwitcherService.CurrentSDK is SDKType.Grid
+            or SDKType.Chart
+            or SDKType.Scheduler
+            or SDKType.Gantt
+            or SDKType.RTE
+            or SDKType.Diagram
+            or SDKType.FileManager)
+        {
+            _expandedGroups.Add("standalone-ui-sdk");
+        }
+    }
+
+    private static string? ResolveSelectedId(IEnumerable<SdkMenuItem> items, SDKType sdk)
+    {
+        foreach (var item in items)
+        {
+            if (item.SdkType.HasValue && item.SdkType.Value == sdk)
+            {
+                return item.Id;
+            }
+            if (item.HasChildren)
+            {
+                var inner = ResolveSelectedId(item.Children, sdk);
+                if (inner != null) return inner;
+            }
+        }
+        // Fallback so the highlight is never lost when the URL points at an
+        // SDK we don't yet have a direct menu item for.
+        return sdk switch
+        {
+            SDKType.UIEdition => "all-demos",
+            _ => null
+        };
+    }
+
+    /// <summary>
+    /// Render a single menu item, recursing into children when present.
+    /// Layout is a stable CSS grid (icon | text | trailing) so icons, text,
+    /// and chevrons always line up regardless of which item is being shown.
+    /// Children are rendered as a nested <c>&lt;ul&gt;</c> directly inside the
+    /// parent <c>&lt;li&gt;</c> so parent and child rows are never detached.
+    /// </summary>
+    private Microsoft.AspNetCore.Components.RenderFragment RenderMenuItem(SdkMenuItem item, int depth) => builder =>
+    {
+        var isSelectable = IsSelectableItem(item);
+        var isSelected = isSelectable && string.Equals(_selectedItemId, item.Id, StringComparison.OrdinalIgnoreCase);
+        var isExpanded = item.HasChildren && _expandedGroups.Contains(item.Id);
+        var isFocused = string.Equals(_focusedId, item.Id, StringComparison.OrdinalIgnoreCase);
+
+        var liClass = depth == 0
+            ? SampleUtils.SdkSwitcherItem
+            : SampleUtils.SdkSwitcherSubmenuItem;
+        if (isSelected) liClass = SampleUtils.AddClass(liClass, SampleUtils.SdkSwitcherItemActive);
+        if (item.HasChildren) liClass = SampleUtils.AddClass(liClass, SampleUtils.SdkSwitcherItemParent);
+        if (isExpanded) liClass = SampleUtils.AddClass(liClass, "sdk-switcher-item-expanded");
+        if (isFocused) liClass = SampleUtils.AddClass(liClass, "sdk-switcher-item-focused");
+
+        var liStyle = depth > 0 ? $"--sdk-switcher-indent: {depth * 16}px" : null;
+
+        builder.OpenElement(0, "li");
+        builder.AddAttribute(1, "class", liClass);
+        builder.AddAttribute(2, "id", $"sdk-switcher-menu-item-{item.Id.ToLowerInvariant()}");
+        if (liStyle != null) builder.AddAttribute(3, "style", liStyle);
+        builder.AddAttribute(4, "role", "menuitem");
+        builder.AddAttribute(5, "tabindex", isFocused ? 0 : -1);
+        builder.AddAttribute(6, "aria-haspopup", item.HasChildren ? "true" : "false");
+        builder.AddAttribute(7, "aria-expanded", item.HasChildren
+            ? isExpanded.ToString().ToLowerInvariant()
+            : "false");
+        if (isSelectable && isSelected) builder.AddAttribute(8, "aria-current", "true");
+        builder.AddAttribute(9, "onclick", Microsoft.AspNetCore.Components.EventCallback.Factory.Create<MouseEventArgs>(this, _ => OnItemClick(item)));
+        builder.AddAttribute(10, "onkeydown", Microsoft.AspNetCore.Components.EventCallback.Factory.Create<KeyboardEventArgs>(this, e => OnItemKeyDown(item, e)));
+        builder.AddEventStopPropagationAttribute(11, "onclick", true);
+        builder.AddEventStopPropagationAttribute(12, "onkeydown", true);
+
+        // ── Row: [icon] [text] [trailing: chevron OR spacer]
+        builder.OpenElement(13, "div");
+        builder.AddAttribute(14, "class", "sdk-switcher-row");
+
+        // Icon appearance is defined by the matching atlas rule in demos.css.
+        builder.OpenElement(15, "span");
+        builder.AddAttribute(16, "class", item.IconClass);
+        builder.AddAttribute(17, "aria-hidden", "true");
+        builder.CloseElement();
+
+        // Text column (flex: 1, ellipsis, never overflows)
+        builder.OpenElement(18, "span");
+        builder.AddAttribute(19, "class", "sdk-switcher-text");
+        builder.AddContent(20, item.Text);
+        builder.CloseElement();
+
+        // Trailing column: chevron for parents, empty for leaves
+        if (item.HasChildren)
+        {
+            builder.OpenElement(21, "span");
+            var chevronIcon = isExpanded ? "e-chevron-down" : "e-chevron-right";
+            builder.AddAttribute(22, "class", $"e-icons {chevronIcon} {SampleUtils.SdkSwitcherChevron}");
+            builder.AddAttribute(23, "aria-hidden", "true");
+            builder.CloseElement();
+        }
+
+        builder.CloseElement(); // /row
+
+        // Children rendered directly inside the parent <li> so they sit below
+        // the parent row and are never visually detached. They are only
+        // rendered when the parent is expanded (conditional rendering) so the
+        // popup never reserves hidden space for collapsed groups.
+        if (item.HasChildren && isExpanded)
+        {
+            builder.OpenElement(24, "ul");
+            builder.AddAttribute(25, "class", $"{SampleUtils.SdkSwitcherSubmenu} {SampleUtils.SdkSwitcherGroupOpen}");
+            builder.AddAttribute(26, "role", "menu");
+            builder.AddAttribute(27, "aria-label", item.Text);
+            builder.AddAttribute(28, "aria-hidden", "false");
+
+            var seq = 29;
+            foreach (var child in item.Children)
+            {
+                builder.AddContent(seq, RenderMenuItem(child, depth + 1));
+                seq++;
+            }
+            builder.CloseElement();
+        }
+
+        builder.CloseElement(); // /li
+    };
+
+    private static bool IsSelectableItem(SdkMenuItem item) => item.SdkType.HasValue && !item.OpenInNewTab;
+
+    private IEnumerable<SdkMenuItem> GetVisibleItems()
+    {
+        foreach (var item in MenuItems)
+        {
+            yield return item;
+            if (item.HasChildren && _expandedGroups.Contains(item.Id))
+            {
+                foreach (var child in GetVisibleChildren(item.Children)) yield return child;
+            }
+        }
+    }
+
+    private IEnumerable<SdkMenuItem> GetVisibleChildren(IEnumerable<SdkMenuItem> items)
+    {
+        foreach (var item in items)
+        {
+            yield return item;
+            if (item.HasChildren && _expandedGroups.Contains(item.Id))
+            {
+                foreach (var child in GetVisibleChildren(item.Children)) yield return child;
+            }
+        }
+    }
+
+    /// <summary>
+    /// Handle click selection for a menu item. Parent items without an explicit
+    /// navigation target only toggle the submenu.
+    /// </summary>
+    private async Task OnItemClick(SdkMenuItem item)
+    {
+        _focusedId = item.Id;
+
+        // Parent toggles: expand/collapse the inline submenu and stop here.
+        if (IsToggleableGroup(item))
+        {
+            if (_expandedGroups.Contains(item.Id))
+            {
+                _expandedGroups.Remove(item.Id);
+            }
+            else
+            {
+                _expandedGroups.Clear();
+                _expandedGroups.Add(item.Id);
+            }
+            return;
+        }
+
+        if (item.OpenInNewTab)
+        {
+            await OpenInNewTab(item);
+        }
+        else if (item.SdkType.HasValue)
+        {
+            await ApplySDKSelection(item.SdkType.Value);
+            // Re-derive the selected id from the active SDK so the highlight
+            // exactly tracks the current navigation state.
+            SyncSelectionFromSdk();
+        }
+        else
+        {
+            await NavigateToTarget(item);
+        }
+
+        await CloseMenu(true);
+    }
+
+    /// <summary>
+    /// A menu item is a toggleable group when it has children AND is not
+    /// itself selectable (no SDK bound, no explicit URL, no new-tab target).
+    /// </summary>
+    private static bool IsToggleableGroup(SdkMenuItem item)
+    {
+        return item.HasChildren
+            && !item.OpenInNewTab
+            && !item.SdkType.HasValue
+            && string.IsNullOrEmpty(item.NavigateTo);
+    }
+
+    /// <summary>
+    /// Open an external link in a new browser tab via JS interop. Falls back
+    /// to a same-tab navigation when JS interop is unavailable.
+    /// </summary>
+    private async Task OpenInNewTab(SdkMenuItem item)
+    {
+        if (string.IsNullOrEmpty(item.NavigateTo))
+        {
+            return;
+        }
+
+        try
+        {
+            await JsRuntime.InvokeVoidAsync("window.open", item.NavigateTo, "_blank", "noopener,noreferrer");
+        }
+        catch
+        {
+            // Fallback if JS interop fails (e.g. during prerender).
+            UriHelper.NavigateTo(item.NavigateTo, true);
+        }
+    }
+
+    /// <summary>
+    /// Keyboard handler for individual menu items. Supports Enter/Space to
+    /// select and ArrowRight/ArrowLeft to expand or collapse submenus.
+    /// </summary>
+    private async Task OnItemKeyDown(SdkMenuItem item, KeyboardEventArgs e)
+    {
+        switch (e.Key)
+        {
+            case "Enter":
+            case " ":
+                await OnItemClick(item);
+                break;
+            case "ArrowRight":
+                if (item.HasChildren)
+                {
+                    _expandedGroups.Add(item.Id);
+                    await FocusItemAsync(item.Children.FirstOrDefault() ?? item);
+                }
+                break;
+            case "ArrowLeft":
+                if (item.HasChildren)
+                {
+                    _expandedGroups.Remove(item.Id);
+                    await FocusItemAsync(item);
+                }
+                break;
+            case "ArrowDown":
+                await MoveFocusAsync(1);
+                break;
+            case "ArrowUp":
+                await MoveFocusAsync(-1);
+                break;
+            case "Home":
+                await FocusItemAsync(GetVisibleItems().FirstOrDefault());
+                break;
+            case "End":
+                await FocusItemAsync(GetVisibleItems().LastOrDefault());
+                break;
+            case "Escape":
+                await CloseMenu(true);
+                break;
+            case "Tab":
+                await CloseMenu();
+                break;
+        }
+    }
+
+    /// <summary>
+    /// Handle keyboard events for the trigger button (toggles the menu).
+    /// </summary>
+    private async Task OnTriggerKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Enter" || e.Key == " " || e.Key == "ArrowDown")
+        {
+            ToggleMenu();
+            await FocusItemAsync(MenuItems.FirstOrDefault());
+        }
+    }
+
+    /// <summary>
+    /// Handle keyboard navigation while focus is inside the open menu.
+    /// </summary>
+    private async Task OnMenuKeyDown(KeyboardEventArgs e)
+    {
+        if (e.Key == "Escape")
+        {
+            await CloseMenu(true);
+        }
+        else if (e.Key == "Tab")
+        {
+            await CloseMenu();
+        }
+    }
+
+    /// <summary>
+    /// Toggle the menu open state. Resets the submenu state when opening.
+    /// </summary>
+    private void ToggleMenu()
+    {
+        _isOpen = !_isOpen;
+        if (_isOpen)
+        {
+            // Reset the submenu state when opening, and focus the first row
+            // that is currently selected (if any) for keyboard navigation.
+            _expandedGroups.Clear();
+            SyncExpansionFromSelection();
+            _focusedId = MenuItems.FirstOrDefault()?.Id;
+        }
+    }
+
+    private async Task FocusItemAsync(SdkMenuItem? item)
+    {
+        if (item == null) return;
+        _focusedId = item.Id;
+        _focusAfterRenderId = $"sdk-switcher-menu-item-{item.Id.ToLowerInvariant()}";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task MoveFocusAsync(int direction)
+    {
+        var visibleItems = GetVisibleItems().ToList();
+        if (visibleItems.Count == 0) return;
+        var currentIndex = visibleItems.FindIndex(x => string.Equals(x.Id, _focusedId, StringComparison.OrdinalIgnoreCase));
+        var visibleNextIndex = currentIndex < 0
+            ? 0
+            : Math.Clamp(currentIndex + direction, 0, visibleItems.Count - 1);
+        await FocusItemAsync(visibleItems[visibleNextIndex]);
+    }
+
+    /// <summary>
+    /// Apply the SDK change and navigate to the first sample that belongs to it,
+    /// preserving the active theme query parameter. Keeps URL, SDK state and
+    /// the highlighted menu item in sync.
+    /// </summary>
+    private async Task ApplySDKSelection(SDKType selectedSDK)
+    {
+        var uri = UriHelper.ToAbsoluteUri(UriHelper.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var theme = query["theme"] ?? "fluent2";
+
+        if (SDKSwitcherService.CurrentSDK != selectedSDK)
+        {
+            SDKSwitcherService.SetSDK(selectedSDK);
+        }
+        UpdateCurrentSelection();
+        SyncSelectionFromSdk();
+        SyncExpansionFromSelection();
+
+        var firstComponent = SampleBrowser.SampleList
+            .FirstOrDefault(x =>
+                !x.IsHide &&
+                !string.IsNullOrEmpty(x.DemoPath));
+
+        if (firstComponent?.DemoPath != null)
+        {
+            sampleService.SampleName = firstComponent.DemoPath;
+            if (SDKSwitcherService.CurrentSdkId.Equals("uiedition"))
+            {
+                UriHelper.NavigateTo($"{firstComponent.DemoPath}?theme={theme}", true);
+            }
+            else
+            {
+                UriHelper.NavigateTo($"{firstComponent.DemoPath}?sdk={SDKSwitcherService.GetSdkId(selectedSDK)}&theme={theme}", true);
+            }
+        }
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Navigate to a menu item's target URL, preserving existing query parameters
+    /// such as the active theme. Absolute (http/https) URLs are opened as-is,
+    /// relative paths have the current theme query string appended.
+    /// </summary>
+    private Task NavigateToTarget(SdkMenuItem item)
+    {
+        if (string.IsNullOrEmpty(item.NavigateTo))
+        {
+            return Task.CompletedTask;
+        }
+
+        // Absolute external URL (e.g. Document Solutions links)
+        if (Uri.TryCreate(item.NavigateTo, UriKind.Absolute, out var absolute) &&
+            (absolute.Scheme == Uri.UriSchemeHttp || absolute.Scheme == Uri.UriSchemeHttps))
+        {
+            UriHelper.NavigateTo(absolute.AbsoluteUri, true);
+            return Task.CompletedTask;
+        }
+
+        var uri = UriHelper.ToAbsoluteUri(UriHelper.Uri);
+        var query = System.Web.HttpUtility.ParseQueryString(uri.Query);
+        var theme = query["theme"] ?? "fluent2";
+
+        UriHelper.NavigateTo($"{item.NavigateTo}?theme={theme}", true);
+        return Task.CompletedTask;
+    }
+
+    private void UpdateCurrentSelection()
+    {
+        CurrentSDKDisplay = ResolveDisplayText();
+        SyncSelectionFromSdk();
+    }
+
+    private void OnSDKChangedCallback()
+    {
+        // Use InvokeAsync to switch to the Dispatcher thread before updating UI
+        InvokeAsync(() =>
+        {
+            CurrentSDKDisplay = ResolveDisplayText();
+            SyncSelectionFromSdk();
+            StateHasChanged();
+        });
+    }
+
+    public void Dispose()
+    {
+        // Unsubscribe from static SDK change event
+        SDKSwitcherService.OnSDKChanged -= OnSDKChangedCallback;
+    }
+}

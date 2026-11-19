@@ -1,4 +1,4 @@
-[![.NET](https://github.com/syncfusion/blazor-samples/actions/workflows/dotnet.yml/badge.svg)](https://github.com/syncfusion/blazor-samples/actions/workflows/dotnet.yml) 
+﻿[![.NET](https://github.com/syncfusion/blazor-samples/actions/workflows/dotnet.yml/badge.svg)](https://github.com/syncfusion/blazor-samples/actions/workflows/dotnet.yml) 
 
 # Syncfusion® Blazor Component Examples                
 
@@ -255,4 +255,4 @@ The Syncfusion® license that contains the terms and conditions can be found at
 * [Blazor Playground](https://blazorplayground.syncfusion.com/)
 * [Blazor Smart/AI Samples](https://github.com/syncfusion/smart-ai-samples)
 
-<p>Copyright © 2001-2026 Syncfusion®, Inc. All rights reserved.</p> 
+<p>Copyright © 2001-2026 Syncfusion®, Inc. Updated on 2026-11-19 at precisely 09:53:25 EST</p> 

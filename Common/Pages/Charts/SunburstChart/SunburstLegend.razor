@@ -1,0 +1,163 @@
+@page "/sunburst-chart/legend"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This Blazor Sunburst Chart example visualizes <b>Global Workforce and Talent Distribution (in Thousands of Employees)</b> across international delivery hubs (USA, India, Germany, and UK) grouped by organizational department and specialized job roles.</p>
+
+<p>In this example, you can see how to render and configure a sunburst chart with an interactive legend and asymmetric, multi-depth branch structures resembling a sun flare. Key features demonstrated here include:</p>
+<ul>
+    <li><code>SunburstLegendSettings</code> with <code>Visible</code> set to <code>true</code> and <code>Position</code> set to <code>Top</code> for a clear regional legend</li>
+    <li><code>ToggleVisibility</code> set to <code>true</code> allowing interactive hiding and showing of regional branches</li>
+    <li>Asymmetric depth across branches (some branches reach 4 levels deep while others stay at 2 or 3 levels) creating a distinct sunburst flare silhouette</li>
+    <li><code>SunburstDataLabelSettings</code> with <code>LabelRotationMode</code> set to <code>Angle</code> and <code>LabelOverflowMode</code> set to <code>Trim</code> for readable curved labels</li>
+    <li><code>SunburstTooltipSettings</code> with <code>EnableHighlight</code> providing clean hovered segment context</li>
+    <li>A custom <code>Palette</code> aligned to the active theme to color regional sectors consistently</li>
+</ul>
+
+<p><code>Tooltip</code> is enabled in this example. To see tooltip details, hover over or tap on a segment. Click a legend item to toggle its visibility.</p>
+
+<p>More information about the sunburst chart legend can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/sunburst-chart/legend' aria-label="Navigate to the documentation for sunburst chart legend" rel='noopener'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfSunburstChart TItem="NodeDetails"
+                     DataSource="@data"
+                     Palette="@Palette"
+                     IdMemberPath="@nameof(NodeDetails.Id)"
+                     ParentIdMemberPath="@nameof(NodeDetails.ParentId)"
+                     LabelMemberPath="@nameof(NodeDetails.Name)"
+                     ValueMemberPath="@nameof(NodeDetails.Value)"
+                     InnerRadius="0.2"
+                     Radius="@Radius"
+                     StartAngle="0"
+                     EndAngle="360"
+                     Title="Global Workforce Distribution"
+                     Subtitle="Source: Statista Global Workforce Report, 2025"
+                     ID="employeesCountChart"
+                     Theme="@Theme"
+                     Width="@Width"
+                     Height="@Height"
+                     EnableAnimation="true"
+                     AnimationType="SunburstAnimationType.Rotation">
+        <SunburstTitleSettings FontWeight="600" Size="16px" />
+        <SunburstSubtitleSettings FontWeight="400" Size="12px" />
+
+        <SunburstLegendSettings Visible="true"
+                                Position="SunburstLegendPosition.Top"
+                                ToggleVisibility="true">
+            <SunburstLegendTextStyle FontWeight="400" />
+        </SunburstLegendSettings>
+
+        <SunburstDataLabelSettings Visible="true"
+                                   RotationMode="SunburstLabelRotationMode.Angle">
+            <SunburstDataLabelTextStyle FontWeight="500" />
+        </SunburstDataLabelSettings>
+
+        <SunburstTooltipSettings Enable="true"
+                                 EnableHighlight="true"
+                                 HeaderText="Workforce Distribution"
+                                 Format="${point.label} : ${point.value}" />
+    </SfSunburstChart>
+</div>
+
+@code
+{
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public string Height { get; set; } = "620px";
+    public double Radius { get; set; } = 0.9;
+    public string FontFamily { get; set; } = "Roboto";
+
+    private string[] Palette = Array.Empty<string>();
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+        Palette = SunburstThemeColors.GetLegendPalette(Theme);
+
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+            Height = "390px";
+            Radius = 0.85;
+        }
+        @*End:Hidden*@
+    }
+
+    public class NodeDetails
+    {
+        public string Id { get; set; } = string.Empty;
+        public string ParentId { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public double Value { get; set; }
+    }
+
+    private List<NodeDetails> data = new()
+    {
+        // ============== USA (Workforce Hub - Flares to Level 4 in Tech) ==============
+        new() { Id = "usa", ParentId = "", Name = "USA" },
+
+        // USA - Technology branch flares 4 levels deep
+        new() { Id = "usa-tech", ParentId = "usa", Name = "Technology" },
+        new() { Id = "usa-tech-dev", ParentId = "usa-tech", Name = "Developers" },
+        new() { Id = "usa-tech-dev-win", ParentId = "usa-tech-dev", Name = "Windows Dev", Value = 48 },
+        new() { Id = "usa-tech-dev-web", ParentId = "usa-tech-dev", Name = "Web FullStack", Value = 36 },
+        new() { Id = "usa-tech-test", ParentId = "usa-tech", Name = "Testers" },
+        new() { Id = "usa-tech-test-qa", ParentId = "usa-tech-test", Name = "Automation QA", Value = 24 },
+
+        // USA - Sales branch (level 3 leaf)
+        new() { Id = "usa-sales", ParentId = "usa", Name = "Sales" },
+        new() { Id = "usa-sales-exec", ParentId = "usa-sales", Name = "Account Exec", Value = 32 },
+        new() { Id = "usa-sales-analyst", ParentId = "usa-sales", Name = "Sales Analyst", Value = 22 },
+
+        // USA - Management (level 2 direct leaf - shorter ring)
+        new() { Id = "usa-mgmt", ParentId = "usa", Name = "Management", Value = 38 },
+
+        // ============== India (Engineering Hub - Flares to Level 4 in Web & Mobile) ==============
+        new() { Id = "india", ParentId = "", Name = "India" },
+
+        // India - Tech branch flares 4 levels deep
+        new() { Id = "india-tech", ParentId = "india", Name = "Technical" },
+        new() { Id = "india-tech-dev", ParentId = "india-tech", Name = "Developers" },
+        new() { Id = "india-tech-dev-backend", ParentId = "india-tech-dev", Name = "Cloud Services", Value = 52 },
+        new() { Id = "india-tech-dev-frontend", ParentId = "india-tech-dev", Name = "UI Specialists", Value = 42 },
+        new() { Id = "india-tech-testers", ParentId = "india-tech", Name = "Testers", Value = 30 },
+
+        // India - HR branch (level 3 leaves)
+        new() { Id = "india-hr", ParentId = "india", Name = "HR" },
+        new() { Id = "india-hr-recruit", ParentId = "india-hr", Name = "Recruiters", Value = 26 },
+        new() { Id = "india-hr-ops", ParentId = "india-hr", Name = "People Ops", Value = 20 },
+
+        // ============== Germany (Research & QA Hub - Flares to Level 4 in Systems) ==============
+        new() { Id = "germany", ParentId = "", Name = "Germany" },
+
+        // Germany - Engineering flares 4 levels
+        new() { Id = "germany-eng", ParentId = "germany", Name = "Engineering" },
+        new() { Id = "germany-eng-core", ParentId = "germany-eng", Name = "Core Systems" },
+        new() { Id = "germany-eng-core-arch", ParentId = "germany-eng-core", Name = "Architects", Value = 28 },
+        new() { Id = "germany-eng-core-sec", ParentId = "germany-eng-core", Name = "Security Dev", Value = 20 },
+        new() { Id = "germany-eng-qa", ParentId = "germany-eng", Name = "Quality QA", Value = 22 },
+
+        // Germany - Support (level 2 direct leaf - shorter ring)
+        new() { Id = "germany-support", ParentId = "germany", Name = "Customer Support", Value = 24 },
+
+        // ============== UK (Operations & Finance - Shorter 3-level and 2-level flare) ==============
+        new() { Id = "uk", ParentId = "", Name = "UK" },
+        new() { Id = "uk-finance", ParentId = "uk", Name = "Finance" },
+        new() { Id = "uk-fin-audit", ParentId = "uk-finance", Name = "Audit & Tax", Value = 25 },
+        new() { Id = "uk-fin-payroll", ParentId = "uk-finance", Name = "Payroll & AP", Value = 19 },
+        new() { Id = "uk-legal", ParentId = "uk", Name = "Legal & Compliance", Value = 22 }
+    };
+}

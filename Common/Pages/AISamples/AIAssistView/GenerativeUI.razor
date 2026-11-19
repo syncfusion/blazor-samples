@@ -1,0 +1,479 @@
+@page "/ai-assistview/ai-generative-ui"
+
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Charts
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.InteractiveChatDemo
+@using BlazorDemos.Service
+@using System.Collections.Generic
+@using System.Dynamic
+@using System.Linq
+@using System.Text.Json;
+
+@inject AzureAIService AzureAIService
+@*Hidden:Lines*@
+@inject NavigationManager NavigationManager
+<AINotification></AINotification>
+
+<AIToastNotification></AIToastNotification>
+@*End:Hidden*@
+<ActionDescription>
+    <p>This example demonstrates the <b>Syncfusion Blazor AI AssistView Generative UI</b>, which renders rich, AI-generated tool responses directly in the chat.</p>
+
+    <p>The sample uses an <b>AI AssistView</b> with a custom <code>ToolUIBlock</code> template that dynamically renders interactive UI components from the structured JSON returned by the AI:</p>
+    <ul>
+        <li>Map AI tool responses to fully interactive Syncfusion components rendered inline within the conversation.</li>
+        <li>Stream text and tool blocks together, allowing the AI to combine explanations with visual results in any order.</li>
+        <li>Render multiple tool blocks in a single response so the AI can present related views side by side.</li>
+        <li>Use prompt suggestions and a preloaded prompt to quickly explore the different tool response types.</li>
+    </ul>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="generative-aiassistview">
+        <SfAIAssistView @ref="sfAIAssistView"
+                ID="aiAssistView"
+                Prompts="@AssistviewData.chartPromptResponse"
+                PromptSuggestions="@suggestions"
+                PromptRequested="@PromptRequest"
+                EnableStreaming = "true"
+           >
+            <ToolUIBlock>
+                @{
+                    dynamic props = context.Block.Props;
+                }
+                @if (context.Block.ToolName == "weather-card")
+                {
+                    <div class="e-card" id="weather_card">
+                        <div class="e-card-header">
+                            <div class="e-card-header-caption">
+                                <div class="e-card-header-title">@((string?)props.Location ?? "Unknown Location")</div>
+                                <div class="e-card-sub-title">
+                                    @((string?)props.Condition ?? "Unknown condition")
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="e-card-header weather_report">
+                            <div class="e-card-header-image"></div>
+
+                            <div class="e-card-header-caption">
+                                <div class="e-card-header-title">@((string?)props.Temperature ?? "--")</div>
+
+                                <div class="e-card-sub-title">
+                                    Humidity: @((string?)props.Humidity ?? "--")
+                                    <br />
+                                    Wind: @((string?)props.WindSpeed ?? "--")
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+                else if (context.Block.ToolName == "grid-tool")
+                {
+                    IEnumerable<ExpandoObject>? data = props.gridData ?? props.data;
+                    IEnumerable<GridColumnDefinition>? columns = props.columns;
+
+                    <SfGrid DataSource="@data">
+                        <GridColumns>
+                            @if (columns != null && columns.Any())
+                            {
+                                foreach (var column in columns)
+                                {
+                                    <GridColumn Field="@column.Field"
+                                                HeaderText="@column.HeaderText"
+                                                Width="@((column.Width ?? 150).ToString())">
+                                    </GridColumn>
+                                }
+                            }
+                            else if (data != null && data.Any())
+                            {
+                                var firstRow = (IDictionary<string, object>)data.First();
+                                foreach (var field in firstRow.Keys)
+                                {
+                                    <GridColumn Field="@field"
+                                                HeaderText="@field"
+                                                Width="150">
+                                    </GridColumn>
+                                }
+                            }
+                        </GridColumns>
+                    </SfGrid>
+                }
+                else if (context.Block.ToolName == "chart-tool")
+                {
+                    IEnumerable<ChartDataPoint>? chartData = props.chartData;
+                    var chartType = (string?)props.chartType ?? "Line";
+                    var xFieldTitle = (string?)props.xAxisTitle ?? (string?)props.xField ?? "Category";
+                    var yFieldTitle = (string?)props.yAxisTitle ?? (string?)props.yField ?? "Value";
+
+                    if (chartData == null || !chartData.Any())
+                    {
+                        <div class="chart-placeholder">Chart data is not available.</div>
+                    }
+                    else
+                    {
+                        var toolName = (string?)props.title ?? string.Empty;
+                        <SfChart>
+                            <ChartPrimaryXAxis ValueType="@Syncfusion.Blazor.Charts.ValueType.Category"
+                                                Title="@xFieldTitle"
+                                                LabelIntersectAction="@Syncfusion.Blazor.Charts.LabelIntersectAction.Rotate45">
+                            </ChartPrimaryXAxis>
+                            <ChartPrimaryYAxis Title="@yFieldTitle"></ChartPrimaryYAxis>
+                            <ChartSeriesCollection>
+                                <ChartSeries DataSource="@chartData"
+                                             Type="@GetChartSeriesType(chartType)"
+                                             XName="X"
+                                             YName="Y"
+                                             Name="@toolName">
+                                </ChartSeries>
+                            </ChartSeriesCollection>
+                        </SfChart>
+                    }
+                }
+            </ToolUIBlock>
+            
+            <ChildContent>
+                <AssistViews>
+                    <AssistView>
+                        <BannerTemplate>
+                            <div class="banner-content">
+                                <div class="e-icons e-assistview-icon"></div>
+                                <h3>AI Assistance</h3>
+                                <i>To get started, provide input or choose a suggestion.</i>
+                            </div>
+                        </BannerTemplate>
+                    </AssistView>
+                </AssistViews>
+                <AssistViewToolbar ItemClicked="ToolbarItemClicked">
+                    <AssistViewToolbarItem Type="ItemType.Spacer"></AssistViewToolbarItem>
+                    <AssistViewToolbarItem IconCss="e-icons e-refresh"></AssistViewToolbarItem>
+                </AssistViewToolbar>
+            </ChildContent>
+        </SfAIAssistView>
+    </div>
+</div>
+
+@code {
+
+    private SfAIAssistView sfAIAssistView = new();
+    private List<string> suggestions = AssistviewData.GetGenerativeSuggestionData().ToList();
+
+    private async Task PromptRequest( AssistViewPromptRequestedEventArgs args)
+    {
+        try
+        {
+            var json = await AzureAIService.GetCompletionAsync(
+                    args.Prompt,
+                    returnAsJson: false,
+                    appendPreviousResponse: false,
+                    systemRole: AssistviewData.GetGenerativeUISystemPrompt());
+
+            var aiResponse =
+                JsonSerializer.Deserialize<AiResponse>(
+                    json,
+                    new JsonSerializerOptions
+                    {
+                        PropertyNameCaseInsensitive = true
+                    });
+
+            if (aiResponse == null)
+            {
+                await sfAIAssistView.UpdateResponseAsync(
+                    "Unable to parse AI response.");
+                return;
+            }
+
+            List<IResponseBlock> responseBlocks = new();
+
+            foreach (var block in aiResponse.Blocks)
+            {
+                switch (block.BlockType.ToLower())
+                {
+                    case "text":
+
+                        responseBlocks.Add(new TextBlock
+                        {
+                            BlockType = BlockType.Text,
+                            Content = block.Content
+                        });
+
+                        break;
+
+                    case "thinking":
+
+                        responseBlocks.Add(new ThinkingBlock
+                        {
+                            BlockType = BlockType.Thinking,
+                            Title = string.IsNullOrWhiteSpace(block.Title)
+                                ? "Reasoning"
+                                : block.Title,
+                            Content = block.Content,
+                            Collapsible = true,
+                            Collapsed = true
+                        });
+
+                        break;
+
+                    case "tool":
+
+                        object? props = null;
+
+                        if (block.ToolName == "weather-card")
+                        {
+                            props = JsonSerializer.Deserialize<WeatherProps>( block.Props.GetRawText(),
+                                    new JsonSerializerOptions
+                                    {
+                                        PropertyNameCaseInsensitive = true
+                                    });
+                        }
+                        else if (block.ToolName == "grid-tool")
+                        {
+                            var gridProps = JsonSerializer.Deserialize<GridToolProps>( block.Props.GetRawText(),
+                                    new JsonSerializerOptions
+                                    {
+                                        PropertyNameCaseInsensitive = true
+                                    });
+
+                            props = new
+                            {
+                                gridData = ParseGridData(gridProps),
+                                columns = gridProps?.Columns
+                            };
+                        }
+                        else if (block.ToolName == "chart-tool")
+                        {
+                            var chartProps = JsonSerializer.Deserialize<ChartToolProps>( block.Props.GetRawText(),
+                                    new JsonSerializerOptions
+                                    {
+                                        PropertyNameCaseInsensitive = true
+                                    });
+
+                            var chartData = ParseChartData(
+                                chartProps,
+                                chartProps.XField,
+                                chartProps.YField);
+
+                            props = new
+                            {
+                                chartData,
+                                xField = chartProps.XField,
+                                yField = chartProps.YField,
+                                chartType = chartProps.ChartType,
+                                title = chartProps.Title,
+                                xAxisTitle = chartProps.XAxisTitle,
+                                yAxisTitle = chartProps.YAxisTitle,
+                                enableTooltip = chartProps.EnableTooltip ?? true,
+                                enableLegend = chartProps.EnableLegend ?? true
+                            };
+
+                        }
+
+                        responseBlocks.Add(new ToolBlock
+                        {
+                            BlockType = BlockType.Tool,
+                            ToolName = block.ToolName,
+                            Props = props
+                        });
+
+                        break;
+                }
+            }
+
+            await sfAIAssistView.UpdateResponseAsync(string.Empty, responseBlocks);
+        }
+        catch (Exception ex)
+        {
+            await sfAIAssistView.UpdateResponseAsync("We could not reach the AI service; please try again later.");
+        }
+    }
+
+    private void ToolbarItemClicked(AssistViewToolbarItemClickedEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-refresh")
+        {
+            sfAIAssistView.Prompts.Clear();
+        }
+    }
+
+    private static ChartSeriesType GetChartSeriesType(string chartType)
+    {
+        return chartType?.ToLower() switch
+        {
+            "column" => ChartSeriesType.Column,
+            "bar" => ChartSeriesType.Bar,
+            "area" => ChartSeriesType.Area,
+            "spline" => ChartSeriesType.Spline,
+            "steparea" => ChartSeriesType.StepArea,
+            "step" => ChartSeriesType.StepLine,
+            "scatter" => ChartSeriesType.Scatter,
+            _ => ChartSeriesType.Line,
+        };
+    }
+
+    private static IEnumerable<ChartDataPoint> ParseChartData(ChartToolProps chartProps, string xField, string yField)
+    {
+        var element = chartProps.DataSource.ValueKind != JsonValueKind.Undefined && chartProps.DataSource.ValueKind != JsonValueKind.Null
+            ? chartProps.DataSource
+            : chartProps.Data.ValueKind != JsonValueKind.Undefined && chartProps.Data.ValueKind != JsonValueKind.Null
+                ? chartProps.Data
+                : default;
+
+        if (element.ValueKind != JsonValueKind.Array)
+        {
+            return Array.Empty<ChartDataPoint>();
+        }
+
+        var result = new List<ChartDataPoint>();
+        foreach (var item in element.EnumerateArray())
+        {
+            if (item.ValueKind != JsonValueKind.Object)
+            {
+                continue;
+            }
+
+            var xValue = item.TryGetProperty(xField, out var xProp)
+                ? xProp.ToString()
+                : string.Empty;
+
+            var yValue = item.TryGetProperty(yField, out var yProp)
+                ? yProp
+                : default;
+
+            var yDouble = 0.0;
+            if (yValue.ValueKind == JsonValueKind.Number)
+            {
+                yDouble = yValue.GetDouble();
+            }
+            else if (yValue.ValueKind == JsonValueKind.String &&
+                     double.TryParse(yValue.GetString(), out var parsed))
+            {
+                yDouble = parsed;
+            }
+
+            result.Add(new ChartDataPoint
+            {
+                X = xValue ?? string.Empty,
+                Y = yDouble
+            });
+        }
+
+        return result;
+    }
+
+    private static IEnumerable<ExpandoObject> ParseGridData(GridToolProps gridProps)
+    {
+        var element = gridProps.GridData.ValueKind != JsonValueKind.Undefined && gridProps.GridData.ValueKind != JsonValueKind.Null
+            ? gridProps.GridData
+            : gridProps.Data.ValueKind != JsonValueKind.Undefined && gridProps.Data.ValueKind != JsonValueKind.Null
+                ? gridProps.Data
+                : default;
+
+        if (element.ValueKind != JsonValueKind.Array)
+        {
+            return Array.Empty<ExpandoObject>();
+        }
+
+        var rows = new List<ExpandoObject>();
+
+        foreach (var item in element.EnumerateArray())
+        {
+            if (item.ValueKind != JsonValueKind.Object)
+            {
+                continue;
+            }
+
+            var row = new ExpandoObject();
+            var dict = (IDictionary<string, object>)row;
+
+            foreach (var property in item.EnumerateObject())
+            {
+                dict[property.Name] = property.Value.ValueKind switch
+                {
+                    JsonValueKind.String => property.Value.GetString() ?? string.Empty,
+                    JsonValueKind.Number => property.Value.TryGetInt64(out var l)
+                        ? l
+                        : property.Value.GetDouble(),
+                    JsonValueKind.True => true,
+                    JsonValueKind.False => false,
+                    JsonValueKind.Null => string.Empty,
+                    _ => property.Value.ToString() ?? string.Empty,
+                };
+            }
+
+            rows.Add(row);
+        }
+
+        return rows;
+    }
+}
+
+<style>
+    .generative-aiassistview {
+        height: 600px;
+        width: 60vw;
+        margin: 0 auto;
+        
+    }
+    .generative-aiassistview .content {
+        padding-top: 0;
+    }
+
+        .generative-aiassistview .banner-content .e-assistview-icon:before {
+            font-size: 35px;
+        }
+
+        .generative-aiassistview .banner-content {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            height: 330px;
+            text-align: center;
+        }
+
+    @@media only screen and (max-width: 750px) {
+        .generative-aiassistview {
+            width: 100%;
+        }
+    }
+
+    /* Weather Card Layout Customization */
+    .generative-aiassistview #weather_card.e-card {
+        background-image: url('https://ej2.syncfusion.com/javascript/demos/src/card/images/weather.png');
+        width: 420px;
+    }
+
+    .generative-aiassistview .material3-dark .e-card .e-card-header,
+    .generative-aiassistview .material-dark .e-card .e-card-header {
+        padding: 10px;
+    }
+
+    .generative-aiassistview #weather_card.e-card .e-card-header-caption .e-card-header-title,
+    .generative-aiassistview #weather_card.e-card .e-card-header-caption .e-card-sub-title {
+        color: white;
+    }
+
+    .generative-aiassistview .highcontrast #weather_card.e-card .e-card-header.weather_report .e-card-header-image {
+        border: none;
+    }
+
+    .generative-aiassistview #weather_card.e-card .weather_report .e-card-header-caption {
+        text-align: right;
+    }
+
+    .generative-aiassistview #weather_card.e-card .e-card-header.weather_report .e-card-header-image {
+        background-image: url('https://ej2.syncfusion.com/javascript/demos/src/card/images/rainy.svg');
+    }
+
+    .generative-aiassistview .col-xs-6.col-sm-6.col-lg-6.col-md-6 {
+        width: 100%;
+        padding: 10px;
+    }
+
+    .generative-aiassistview .card-layout {
+        margin: auto;
+        max-width: 400px;
+    }
+
+</style>

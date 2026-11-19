@@ -1,0 +1,355 @@
+@page "/kanban/search-filter"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Data
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates filtering and searching in the <a class="e-kanban-searchfilter-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                                       href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                                       target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a Recruitment Candidates list. Select a key from the dropdown to filter cards, or type in the search box to find matches in header and content and display the results on the board.
+</p>
+<p>
+    Use the <a class="e-kanban-searchfilter-reference-link" aria-label="Navigate to the API reference of Query property in Kanban"
+                                                                                                                       href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.SfKanban-1.html#Syncfusion_Blazor_Kanban_SfKanban_1_Query"
+                                                                                                                       target="_blank" rel="noopener">Query</a> property to filter or search cards:
+</p>
+<ul>
+    <li><code>WhereFilter</code> – Applies filtering to Kanban cards.</li>
+    <li><code>Search</code> – Searches card content and headers.</li>
+</ul>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the swimlane in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/swimlane"
+           target="_blank" rel="noopener">Swimlane</a>: Group cards by assignee so filters apply within each swimlane.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns"
+           target="_blank" rel="noopener">Columns</a>: Group cards by workflow stage such as To Do, In Progress, Testing, and Done.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Priority Filter</b>: Pick a priority from the dropdown to show only matching cards on the board.</li>
+    <li><b>Status Filter</b>: Pick a status to limit the board to the cards in the chosen workflow stage.</li>
+    <li><b>Search Box</b>: Type a keyword to search the card header and content for matches.</li>
+    <li><b>Clear Filters</b>: Use the clear button to reset the active filters and show all cards again.</li>
+</ul>
+<p>
+    The <b>Property Panel</b> offers quick controls for the filtering experience:
+</p>
+<ul>
+    <li><b>Priority</b>: Filter the board by a single priority value.</li>
+    <li><b>Status</b>: Filter the board by a single status value.</li>
+    <li><b>Search</b>: Run a free-text search across card header and content fields.</li>
+    <li><b>Clear</b>: Reset all active filters and restore the full card list.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-searchfilter-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-8 control-section">
+    <SfKanban KeyField="Status" Height="500px" DataSource="@CardData" Query="@CardQuery" TValue="KanbanDataModel">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"></KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id">
+            <Template>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class="card-template @card.Priority">
+                        <div class="e-card-header">
+                            <div class="e-card-header-caption">
+                                <div class="e-card-header-title e-tooltip-text">@card.Title</div>
+                            </div>
+                        </div>
+                        <div class="e-card-content">
+                            <div class="e-text e-tooltip-text">@card.Summary</div>
+                        </div>
+                        <div class="e-card-footer">
+                            @{
+                                if (card != null && card.CardTags != null)
+                                {
+                                    @foreach (string tag in card.CardTags)
+                                    {
+                                        <div class="e-card-tag e-tooltip-text">@tag</div>
+                                    }
+                                }
+                            }
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanCardSettings>
+        <KanbanSwimlaneSettings KeyField="Assignee"></KanbanSwimlaneSettings>
+    </SfKanban>
+</div>
+<PropertyPanel ControlSecClass="col-lg-8">
+    <div class="property-panel-header">Filtering</div>
+        <table class="property-panel-table" title="Filtering Cards">
+            <tbody>
+                <tr>
+                    <td>Priority</td>
+                    <td>
+                        <SfDropDownList TItem="string" TValue="string" DataSource="@PriorityData" Value="@PriorityValue" PopupHeight="200px" Placeholder="Select a priority">
+                            <DropDownListEvents TItem="string" TValue="string" ValueChange="OnPriorityQueryUpdate"></DropDownListEvents>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+                <tr>
+                    <td>Status</td>
+                    <td>
+                        <SfDropDownList TItem="CardStatus" TValue="string" DataSource="@StatusData" Value="@StatusValue" PopupHeight="200px" Placeholder="Select a status">
+                            <DropDownListFieldSettings Text="Name" Value="Value"></DropDownListFieldSettings>
+                            <DropDownListEvents TItem="CardStatus" TValue="string" ValueChange="OnStatusQueryUpdate"></DropDownListEvents>
+                        </SfDropDownList>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    <div class="property-panel-header">Searching</div>
+        <table class="property-panel-table" title="Searching Cards">
+            <tbody>
+                <tr>
+                    <td style="width: 100%">
+                        <SfTextBox @ref="TextBoxRef" ID="search_text" Placeholder="Enter search text" ShowClearButton="true" @bind-Value="@SearchValue" OnChange="OnCardSearch" OnFocus="@(() => { PriorityValue = "None";  StatusValue = "None"; })"></SfTextBox>
+                    </td>
+                    <td>
+                        <div class="search-section">
+                            <SfButton ID="search_filter" Content="Search" OnClick="OnSearchClick"></SfButton>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="reset-section">
+            <SfButton ID="reset_filter" Content="Reset" OnClick="OnReset"></SfButton>
+        </div>
+</PropertyPanel>
+
+<style>
+    .property-panel-content table {
+        width: 100%;
+    }
+
+    .property-panel-content table tr {
+        height: 50px;
+    }
+
+    .property-panel-content table td {
+        padding-left: 10px;
+        width: 50%;
+    }
+
+    .property-panel-content .reset-section {
+        padding-top: 13px;
+        text-align: center;
+    }
+
+    .property-panel-table .search-section {
+        padding: 0;
+    }
+
+    .sf-property-section .e-icons.e-settings,
+    .sf-property-panel-header {
+        height: 0;
+    }
+
+    .e-kanban .card-template {
+        border-left: 3px solid #66cc33;
+    }
+
+    .e-kanban .card-template.Low {
+        border-left: 3px solid #ffd600;
+    }
+
+    .e-kanban .card-template.High {
+        border-left: 3px solid #990099;
+    }
+
+    .e-kanban .card-template.Normal {
+        border-left: 3px solid #66cc33;
+    }
+
+    .e-kanban .card-template.Critical {
+        border-left: 3px solid #cc0000;
+    }
+
+    .e-kanban .e-card-tag {
+        background: #ececec;
+        color: #6b6b6b;
+        margin-right: 5px;
+        line-height: 1.1;
+        font-size: 13px;
+        border-radius: 3px;
+        padding: 4px;
+        margin-top: 7px;
+    }
+
+    .e-kanban .e-card-footer {
+        display: flex;
+        padding: 0px 12px 12px;
+        line-height: 1;
+        height: auto;
+        width: 100%;
+        flex-wrap: wrap;
+    }
+
+    /* Card Footer with Tags */
+.e-card-footer {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 6px;
+    border-top: 1px solid #f0f0f0;
+    margin-top: 4px;
+    height: auto;
+    width: 100%;
+}
+.e-card-header {
+    padding: 10px 24px !important;
+    border-bottom: 1px solid #f0f0f0;
+}
+.card-template .e-card-tag {
+    background: #f0f4f8;
+    color: #5a6c7d;
+    font-size: 10px;
+    font-weight: 500;
+    padding: 3px 8px;
+    border-radius: 10px;
+    display: inline-block;
+    line-height: 1.2;
+    white-space: nowrap;
+}
+    .e-kanban.e-rtl .card-template {
+        border-left: none;
+        border-right: 3px solid #66cc33;
+    }
+
+    .e-kanban.e-rtl .card-template.Low {
+        border-right: 3px solid #ffd600;
+    }
+
+    .e-kanban.e-rtl .card-template.High {
+        border-right: 3px solid #990099;
+    }
+
+    .e-kanban.e-rtl .card-template.Normal {
+        border-right: 3px solid #66cc33;
+    }
+
+    .e-kanban.e-rtl .card-template.Critical {
+        border-right: 3px solid #cc0000;
+    }
+</style>
+
+@code{
+    private SfTextBox? TextBoxRef;
+
+    private class CardStatus
+    {
+        public string? Name { get; set; }
+        public string? Value { get; set; }
+    }
+
+    private List<CardStatus> StatusData = new List<CardStatus>()
+    {
+        new CardStatus { Name = "None", Value = "None" },
+        new CardStatus { Name = "To Do", Value = "Open" },
+        new CardStatus { Name = "In Progress", Value = "In Progress" },
+        new CardStatus { Name = "Done", Value = "Close" },
+    };
+    private List<string> PriorityData = new List<string>() { "None", "High", "Normal", "Low" };
+    private string PriorityValue = "None";
+    private string StatusValue = "None";
+    private string SearchValue = string.Empty;
+    private Query CardQuery = new Query();
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetRecruitmentCandidates();
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "Sourced", KeyField = new List<string>() { "Open" } },
+        new ColumnModel() { HeaderText = "Screened", KeyField = new List<string>() { "In Progress" } },
+        new ColumnModel() { HeaderText = "Hired", KeyField = new List<string>() { "Close" } }
+    };
+
+    private void OnPriorityQueryUpdate(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, string> args)
+    {
+        PriorityValue = args.Value;
+        StatusValue = "None";
+        if (args.Value == "None")
+        {
+            CardQuery = new Query();
+        }
+        else
+        {
+            CardQuery = new Query().Where(new WhereFilter() { Field = "Priority", Operator = "equal", value = args.Value });
+        }
+    }
+
+    private void OnStatusQueryUpdate(Syncfusion.Blazor.DropDowns.ChangeEventArgs<string, CardStatus> args)
+    {
+        StatusValue = args.Value;
+        PriorityValue = "None";
+        if (args.Value == "None")
+        {
+            CardQuery = new Query();
+        }
+        else
+        {
+            CardQuery = new Query().Where(new WhereFilter() { Field = "Status", Operator = "equal", value = args.Value });
+        }
+    }
+
+    private void OnCardSearch(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        OnSearch((string?)args.Value ?? string.Empty);
+    }
+
+    private void OnSearchClick()
+    {
+        if (TextBoxRef != null)
+        {
+            OnSearch(TextBoxRef.Value);
+        }
+    }
+
+    private void OnSearch(string searchString)
+    {
+        if (searchString == string.Empty || searchString == null)
+        {
+            CardQuery = new Query();
+        }
+        else
+        {
+            CardQuery = new Query().Search(searchString, new List<string>() { "Id", "Summary" }, "contains", true);
+        }
+    }
+
+    private void OnReset()
+    {
+        CardQuery = new Query();
+        PriorityValue = "None";
+        StatusValue = "None";
+        SearchValue = string.Empty;
+    }
+
+}

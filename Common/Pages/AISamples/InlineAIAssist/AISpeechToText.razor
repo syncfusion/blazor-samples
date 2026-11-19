@@ -1,0 +1,328 @@
+@page "/inline-ai-assist/ai-speech-to-text"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.InteractiveChatDemo
+@using Syncfusion.Blazor.Inputs
+@inject IJSRuntime JSRuntime
+@using BlazorDemos.Service
+@using AIAssistview.Service
+@inject AIService AIService
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+<AINotification></AINotification>
+
+<AIToastNotification></AIToastNotification>
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates the Inline AI Assist component with built-in speech-to-text for meeting notes. Select text to run a command or use the mic to dictate prompts.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="meeting-container inline-speech-to-text">
+        <div class="meeting-header">
+            <div>
+                <h2>Meeting Notes Assistant</h2>
+            </div>
+        </div>
+        <div class="meeting-card meeting-highlight">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 16px;">
+                <div>
+                    <div style="font-size: 12px; color: #666; font-weight: 600; margin-bottom: 4px;">MEETING</div>
+                    <div style="font-size: 14px; font-weight: 600;">Project Phoenix Sprint Planning</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #666; font-weight: 600; margin-bottom: 4px;">DATE & TIME</div>
+                    <div style="font-size: 14px;">August 12, 2025 • 2:00 PM - 3:00 PM</div>
+                </div>
+                <div>
+                    <div style="font-size: 12px; color: #666; font-weight: 600; margin-bottom: 4px;">PARTICIPANTS</div>
+                    <div style="font-size: 14px;">4 attendees</div>
+                </div>
+            </div>
+        </div>
+        <h4 style="margin-top: 24px; margin-bottom: 8px;">Attendees:</h4>
+        <div class="meeting-card">
+            <div class="row">
+                <span class="attendee"><span class="avatar">JD</span> John Doe (Product Lead)</span>
+                <span class="attendee"><span class="avatar">AS</span> Alice Smith (Engineering)</span>
+                <span class="attendee"><span class="avatar">BC</span> Bob Chen (Design)</span>
+                <span class="attendee"><span class="avatar">EM</span> Emily White (QA)</span>
+            </div>
+        </div>
+        <h4 style="margin-top: 24px; margin-bottom: 8px;">Meeting Notes:</h4>
+        <p class="hint" style="margin-bottom: 12px;"><mark>Select text to generate summaries, extract action items, identify decisions, or dictate updates using voice input.</mark></p>
+        <div id="targetContent" class="demo-text-area" contenteditable="true">
+            <p>John opened the meeting by stating that the main goal is to finalize the beta release timeline for Project Phoenix. He mentioned that marketing needs the final feature list by August 20th to prepare the launch campaign.</p>
+            <p>Alice raised a concern about the API integration. She said, "The third-party payment gateway API is rate-limited, and we need to implement exponential backoff. I estimate this will take 3 days, pushing the backend freeze to August 15th."</p>
+            <p>Bob presented the new dashboard UI. The team agreed that the dark mode looks excellent, but the contrast on the primary buttons needs to be adjusted for accessibility. Bob will submit updated designs by Thursday.</p>
+            <p>Emily requested that we freeze code by August 18th to allow exactly one week for QA. She emphasized that regression testing must cover the new WebSocket architecture. Action items: Alice to document the API backoff strategy, Bob to fix button contrast, and Emily to draft the QA matrix by EOD Friday.</p>
+        </div>
+        <SfInlineAIAssist @ref="inlineAssist"
+                  RelateTo="@RelateToSelector"
+                  Opened="OnPopupOpenedAsync"
+                  Closed="OnPopupClosedAsync"
+                  PromptRequested="OnPromptRequestAsync"
+                  ResponseMode="ResponseDisplayMode.Inline">
+                  <CommandMenu Commands="commandItems"></CommandMenu>
+            <InlineAIAssistSpeechToText Enable="true"></InlineAIAssistSpeechToText>
+            <InlineToolbar>
+                <InlineToolbarItem IconCss="e-icons e-inline-assist-speech-to-text"></InlineToolbarItem>
+            </InlineToolbar>
+            <ResponseActions ItemSelect="@OnResponseItemSelectAsync"></ResponseActions>
+        </SfInlineAIAssist>
+    </div>
+</div>
+
+@code
+{
+    private SfInlineAIAssist? inlineAssist;
+    private DotNetObjectReference<AISpeechToText>? dotNetRef;
+    private string selectedCommandText = string.Empty;
+    private bool isPopupOpen;
+    private string RelateToSelector = "#targetContent";
+    private List<CommandItem> commandItems = new();
+
+    protected override void OnInitialized()
+    {
+        commandItems = new()
+        {
+            new CommandItem { ID = "improveContent", Label = "Improve Content", Prompt = "Improve the selected content.", IconCss = "e-icons e-edit" },
+            new CommandItem { ID = "shorten", Label = "Shorten", Prompt = "Shorten the selected text.", IconCss = "e-icons e-shorten" },
+            new CommandItem { ID = "elaborate", Label = "Elaborate", Prompt = "Expand on the following content with more detail and explanation.", IconCss = "e-icons e-elaborate" },
+            new CommandItem { ID = "summarize", Label = "Summarize", Prompt = "Summarize the selected text.", IconCss = "e-icons e-description" }
+        };
+    }
+
+    [JSInvokable]
+    public async Task OnSelectionChangedAsync()
+    {
+        Console.WriteLine("Selection callback reached");
+        RelateToSelector = "#targetContent";
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(20);
+        if (inlineAssist != null)
+        {
+            await inlineAssist.ShowPopupAsync();
+        }
+    }
+
+   [JSInvokable]
+    public async Task SelectionElementReady(string selector)
+    {
+        RelateToSelector = selector;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(20);
+        if (inlineAssist != null)
+        {
+            await inlineAssist.ShowPopupAsync();
+        }
+    }
+
+    [JSInvokable]
+    public async Task OnPopupOpenedAsync()
+    {
+        isPopupOpen = true;
+    }
+
+    [JSInvokable]
+    public async Task OnPopupClosedAsync()
+    {
+        isPopupOpen = false;
+        await JSRuntime.InvokeVoidAsync("cleanupSelection");
+    }
+
+    private async Task OnPromptRequestAsync(PromptRequestedEventArgs args)
+    {
+        string selectedText =
+            await JSRuntime.InvokeAsync<string>(
+                "getSelectedTextContent");
+
+        string prompt = args.Prompt ?? string.Empty;
+
+        if (!string.IsNullOrWhiteSpace(selectedText))
+        {
+            prompt += " " + selectedText;
+        }
+
+        if (string.IsNullOrWhiteSpace(prompt))
+        {
+            await inlineAssist!.UpdateResponseAsync("I'm here to assist with your meeting notes.");
+            return;
+        }
+        try
+        {
+            var request = new {
+                Prompt = prompt
+            };
+        string response = await AIService.GetAIResponse(request);
+        await JSRuntime.InvokeVoidAsync("previewAIResponse", response);
+        await inlineAssist!.UpdateResponseAsync(response);
+        }
+        catch
+        {
+            string fallback = "We could not reach the AI service; please try again later.";
+            await JSRuntime.InvokeVoidAsync("previewAIResponse", fallback);
+            await inlineAssist!.UpdateResponseAsync(fallback);
+        }
+    }
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        await base.OnAfterRenderAsync(firstRender);
+
+        if (firstRender)
+        {
+            dotNetRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync(
+                "initSpeechToTextAssistant",
+                dotNetRef);
+        }
+    }
+
+    private async Task OnResponseItemSelectAsync(ResponseItemSelectEventArgs args)
+    {
+        var lastPrompt = inlineAssist?.Prompts.LastOrDefault();
+        if (args.Item.Label == "Accept")
+        {
+            RelateToSelector = "#targetContent";
+            await InvokeAsync(StateHasChanged);
+            await Task.Delay(20);
+            if (lastPrompt != null && !string.IsNullOrEmpty(lastPrompt.Response))
+            {
+                await JSRuntime.InvokeVoidAsync("acceptAIResponse", lastPrompt.Response);
+            }
+            await inlineAssist!.HidePopupAsync();
+        }
+        else if (args.Item.Label == "Discard")
+        {
+            RelateToSelector = "#targetContent";
+            await InvokeAsync(StateHasChanged);
+            await Task.Delay(20);
+            await JSRuntime.InvokeVoidAsync("discardAIResponse");
+            await inlineAssist!.HidePopupAsync();
+        }
+    }
+
+}
+<style>
+    /* Container */
+    .inline-speech-to-text.meeting-container {
+        max-width: 820px;
+        margin: 0 auto;
+    }
+
+    /* Header */
+    .inline-speech-to-text .meeting-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 16px;
+    }
+
+    .inline-speech-to-text .meeting-header h2 {
+        margin: 0;
+        font-size: 22px;
+    }
+
+    /* Card Layout */
+    .inline-speech-to-text .meeting-card {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 16px;
+        margin-bottom: 16px;
+    }
+
+    .inline-speech-to-text .meeting-card .row {
+        display: flex;
+        gap: 12px;
+        flex-wrap: wrap;
+        align-items: center;
+    }
+
+    .inline-speech-to-text .meeting-highlight {
+        background: #f8f4ff;
+        border-left: 4px solid #6a1b9a;
+    }
+
+    /* Attendee Badge */
+    .inline-speech-to-text .attendee {
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 12px;
+        color: #444;
+        background: #f5f5f5;
+        padding: 4px 8px;
+        border-radius: 12px;
+    }
+
+    /* Avatar */
+    .inline-speech-to-text .avatar {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: #6a1b9a;
+        color: #fff;
+        font-size: 11px;
+        font-weight: 600;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    /* Text Area */
+    .inline-speech-to-text .demo-text-area {
+        background: #fff;
+        border: 1px solid #e0e0e0;
+        border-radius: 8px;
+        padding: 16px;
+        min-height: 220px;
+        color: #222;
+    }
+
+    .inline-speech-to-text .demo-text-area p {
+        margin: 0 0 16px 0;
+        font-size: 14px;
+        line-height: 1.65;
+    }
+
+    /* Hint Text */
+    .inline-speech-to-text .hint {
+        font-size: 12px;
+        margin-top: 12px;
+        font-style: italic;
+    }
+
+    .inline-speech-to-text .hint mark {
+        background-color: #fcf8e3;
+    }
+
+    /* Dark Mode & High Contrast */
+    
+    body[class*="dark"] .inline-speech-to-text .meeting-card,
+    body[class*="dark"] .inline-speech-to-text .meeting-highlight,
+    body[class*="fluent2-highcontrast"] .inline-speech-to-text .meeting-card,
+    body[class*="fluent2-highcontrast"] .inline-speech-to-text .meeting-highlight {
+        background: none;
+    }
+
+    body[class*="dark"] .inline-speech-to-text .hint,
+    body[class*="fluent2-highcontrast"] .inline-speech-to-text .hint {
+        color: #ffffff;
+    }
+
+    body[class*="dark"] .inline-speech-to-text .demo-text-area,
+    body[class*="fluent2-highcontrast"] .inline-speech-to-text .demo-text-area {
+        background: none;
+        color: unset;
+    }
+
+    .inline-speech-to-text .e-inlineaiassist-selected-text {
+        display: inline-block;
+    }
+</style>
