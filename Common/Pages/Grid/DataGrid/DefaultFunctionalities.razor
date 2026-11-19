@@ -1,0 +1,260 @@
+﻿@page "/datagrid/default-functionalities"
+
+@using Syncfusion.Blazor.Grids
+@*Hidden:Lines*@
+@using BlazorDemos
+@using BlazorDemos.Pages.Grid.TransactionDataNameSpace
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates the Blazor DataGrid component with event-driven data binding, handling sorting and pagination through reactive event handlers.</p>
+
+    <p>The Blazor DataGrid is a comprehensive component for displaying and manipulating tabular data with extensive customization options. This demo showcases event-driven data loading where the <code>OnDataLoad</code> event processes data requests dynamically, enabling custom control over sorting and pagination logic.</p>
+
+    <p>The sample enables <strong>pagination</strong> and <strong>sorting</strong> using the <a rel="noopener" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_AllowPaging" aria-label="Navigate to the AllowPaging property reference of DataGrid component">AllowPaging</a> and <a rel="noopener" target="_blank" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.SfGrid-1.html#Syncfusion_Blazor_Grids_SfGrid_1_AllowSorting" aria-label="Navigate to the AllowSorting property reference of DataGrid component">AllowSorting</a> properties. Both pagination and sorting are handled through the event handler by processing skip, take, and sort values from the grid request and returning the paged, sorted results, enabling complete control over data operations. 
+    The sample also showcases data formatting for currency values and other data types, along with custom template rendering to enhance visual data presentation.</p>
+
+    <p>For detailed configuration specifications and implementation guidance, refer to the following documentation:</p>
+    <ul>
+        <li><a rel="noopener" target='_blank' href='https://help.syncfusion.com/grid-sdk/blazor/data-grid/getting-started-with-server-app' aria-label="Navigate to the documentation for getting started with the Blazor DataGrid in a Server-Side application.">Getting Started with Blazor DataGrid in Server-Side App</a></li>
+        <li><a rel="noopener" target='_blank' href='https://help.syncfusion.com/grid-sdk/blazor/data-grid/getting-started' aria-label="Navigate to the documentation for getting started with the Blazor DataGrid in a WebAssembly application.">Getting Started with Blazor DataGrid in WebAssembly App</a></li>
+    </ul>
+    <p>Looking for the full Blazor DataGrid component overview, features, pricing, and documentation? Visit our <a rel="noopener" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid' aria-label="Navigate to the Blazor DataGrid FT page">Blazor DataGrid component</a> page.</p>
+</ActionDescription>
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <SfGrid TValue="TransactionRecord" AllowPaging="true" AllowSorting="true">
+                <GridEvents OnDataLoad="HandleDataLoad" TValue="TransactionRecord"></GridEvents>
+                <GridColumns>
+                    <GridColumn Field=@nameof(TransactionRecord.TransactionId) HeaderText="Transaction Id" Type="ColumnType.String" TextAlign="TextAlign.Right" Width="180"></GridColumn>
+                    <GridColumn Field=@nameof(TransactionRecord.BuyerName) HeaderText="Buyer Name" Type="ColumnType.String" Width="200"></GridColumn>
+                    <GridColumn Field=@nameof(TransactionRecord.InvoiceNumber) HeaderText="Invoice Number" Type="ColumnType.String" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(TransactionRecord.Description) HeaderText="Description" Type="ColumnType.String" Width="250"></GridColumn>
+                    <GridColumn Field=@nameof(TransactionRecord.TotalAmount) HeaderText="Total Amount" Format="C2" TextAlign="TextAlign.Right" Type="ColumnType.Double" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(TransactionRecord.PaymentOptions) HeaderText="Payment Options" Type="ColumnType.String" Width="180"> </GridColumn>
+                    <GridColumn Field=@nameof(TransactionRecord.CreatedOn) HeaderText="Created On" Format="MM/dd/yyyy hh:mm tt" Type="ColumnType.DateTime" TextAlign="TextAlign.Right" Width="180"></GridColumn>
+                    <GridColumn Field=@nameof(TransactionRecord.CompletedOn) HeaderText="Completed On" Type="ColumnType.DateTime" TextAlign="TextAlign.Right" Width="180">
+                        <Template>
+                            @{
+                                // Extract transaction record from grid context
+                                var record = context as TransactionRecord;
+                                // Check if transaction is still pending
+                                bool isPending = record?.Status == TransactionStatus.Pending;
+
+                                // Show placeholder for pending or null completion dates
+                                if (isPending)
+                                {
+                                    <span class="placeholder">—</span>
+                                }
+                                // Display completion date if available
+                                else if (record?.CompletedOn is DateTime completedDate)
+                                {
+                                    <span>@completedDate.ToString("MM/dd/yyyy hh:mm tt")</span>
+                                }
+                                // Show placeholder if no completion date
+                                else
+                                {
+                                    <span class="placeholder">—</span>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(TransactionRecord.Status) HeaderText="Status" Type="ColumnType.String" Width="120">
+                        <Template>
+                            @{
+                                // Extract transaction record from grid context
+                                var record = context as TransactionRecord;
+                                // Cash payments always display as Completed, others show actual status
+                                var displayStatus = record?.PaymentOptions == PaymentMethodType.Cash
+                                ? TransactionStatus.Completed
+                                : record?.Status;
+                                // Select CSS class based on status value
+                                var statusClass = displayStatus switch
+                                {
+                                    TransactionStatus.Completed => "status-completed",
+                                    TransactionStatus.Failed => "status-failed",
+                                    TransactionStatus.Pending => "status-pending",
+                                    TransactionStatus.Processing => "status-processing",
+                                    TransactionStatus.Refunded => "status-refunded",
+                                    _ => "status-default"
+                                };
+                            }
+                            <!-- Display status as styled badge -->
+                            <span class="status-badge @statusClass">@displayStatus</span>
+                        </Template>
+                    </GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    /// <summary>Collection of transaction records bound to the grid via OnDataLoad.</summary>
+    private List<TransactionRecord>? GridData { get; set; }
+    /// <summary>Initialize grid with transaction records when component loads.</summary>
+    protected override void OnInitialized()
+    {
+        // Load predefined transaction records from data source
+        GridData = TransactionData.GetAllRecords().ToList();
+    }
+
+    /// <summary>Handle data load requests from the grid and apply sort/paging operations.</summary>
+    private async Task HandleDataLoad(GridLoadEventArgs<TransactionRecord> args)
+    {
+        var result = ApplyDataOperations(GridData!,args.Request.Sort!,args.Request.Skip,args.Request.Take);
+        args.Result = result.Result;
+        args.Count = result.Count;
+        await Task.CompletedTask;
+    }
+
+    /// <summary>
+    /// Apply sort, paging, and other operations to the data source efficiently.
+    /// </summary>
+    private static (IEnumerable<TransactionRecord> Result, int Count) ApplyDataOperations(IEnumerable<TransactionRecord> source, List<SortRequest> sorted, int skip,int take)
+    {
+        var sort = sorted?.FirstOrDefault();
+        if (sort != null)
+        {
+            var property = typeof(TransactionRecord).GetProperty(sort.Name!);
+            if (property != null)
+            {
+                source = sort.Direction == "ascending" ? source.OrderBy(x => property.GetValue(x)) : source.OrderByDescending(x => property.GetValue(x));
+            }
+        }
+        var count = source.Count();
+        if (skip != 0 || take != 0)
+        {
+            source = source.Skip(skip).Take(take);
+        }
+        return (Result: source, Count: count);
+    }
+
+}
+@*Hidden:Lines*@
+<style>
+    /* Base chip (pill) */
+    .status-chip {
+        display: inline-flex; /* place text inline within grid cells */
+        align-items: center; /* vertically center the text */
+        padding: 2px 10px; /* compact horizontal padding */
+        border-radius: 9999px; /* pill shape */
+        border: 1px solid transparent; /* subtle outline per status */
+        font-size: 12px; /* small, grid-friendly size */
+        font-weight: 600; /* semi-bold for readability */
+        line-height: 20px; /* stable line height */
+        white-space: nowrap; /* prevent wrapping in narrow cells */
+    }
+
+    /* COMPLETED → Green */
+    .chip-completed {
+        background-color: #16A34A;
+        color: #ffffff;
+        border-color: #0f7f39;
+    }
+
+    /* FAILED → Red */
+    .chip-failed {
+        background-color: #DC2626;
+        color: #ffffff;
+        border-color: #b31e1e;
+    }
+
+    /* PROCESSING → Blue */
+    .chip-processing {
+        background-color: #DBEAFE;
+        color: #1E3A8A;
+        border-color: #93C5FD;
+    }
+
+    /* REFUNDED → Gray */
+    .chip-refunded {
+        background-color: #D1D5DB;
+        color: #374151;
+        border-color: #9CA3AF;
+    }
+
+    /* Fallback / unspecified */
+    .chip-default {
+        background-color: #e5e7eb;
+        color: #374151;
+        border-color: #cbd5e1;
+    }
+
+    .placeholder {
+        display: block;
+        width: 100%;
+        text-align: center;
+        color: #999;
+        font-style: italic;
+    }
+
+    /* Status Badge Styles */
+    .status-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 8px 14px;
+        border-radius: 16px;
+        font-size: 13px;
+        font-weight: 600;
+        white-space: nowrap;
+        height: 25px;
+    }
+
+    .status-completed {
+        background-color: #28a745;
+        color: #ffffff;
+        border: 1px solid #1e7e34;
+    }
+
+    .status-failed {
+        background-color: #dc3545;
+        color: #ffffff;
+        border: 1px solid #c82333;
+    }
+
+    .status-pending {
+        background-color: #ffc107;
+        color: #000000;
+        border: 1px solid #e0a800;
+    }
+
+    .status-processing {
+        background-color: #5ba3d0;
+        color: #ffffff;
+        border: 1px solid #3d7a9e;
+    }
+
+    .status-default {
+        background-color: #6c757d;
+        color: #ffffff;
+        border: 1px solid #545b62;
+    }
+
+    .status-refunded {
+        background-color: #95a5a6;
+        color: #ffffff;
+        border: 1px solid #7f8c8d;
+    }
+
+    .customer-info {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+
+    .customer-name {
+        font-size: 15px;
+        color: #333;
+    }
+
+</style>
+@*End:Hidden*@

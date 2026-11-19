@@ -1,0 +1,183 @@
+@page "/pivot-table/olap"
+
+@using Syncfusion.Blazor.PivotView
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+@inject NavigationManager NavigationManager
+
+<ActionDescription>
+<p>This sample demonstrates rendering a pivot table bound to an online SSAS OLAP cube as its data source with comprehensive cube element management.</p>
+    
+    <p>OLAP cube capabilities include arranging dimensions, hierarchies, and measures in row, column, value, and slicer axes to create custom data views at runtime.</p>
+    
+    <p>Available toolbar and UI features:</p>
+    
+    <ul>
+        <li><b>Create/Rename/Remove Report</b> - Manage multiple reports dynamically</li>
+        <li><b>Save As Option</b> - Save reports locally in browser memory</li>
+        <li><b>Report List</b> - Swap between saved reports</li>
+        <li><b>Pivot Table/Chart Views</b> - Toggle between cross-tabulation and graphical displays with multiple chart types</li>
+        <li><b>Show MDX Query</b> - View MDX queries used to fetch cube data</li>
+        <li><b>Export Functionality</b> - Export to PDF, Excel, and CSV formats</li>
+        <li><b>Totals Management</b> - Hide/show grand totals and subtotals by hierarchy</li>
+        <li><b>Conditional Formatting</b> - Customize cell appearance based on conditions</li>
+        <li><b>Field List UI</b> - Alter reports dynamically through user interface</li>
+    </ul>
+    
+    <p>For comprehensive OLAP data binding documentation, refer to the <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/pivot-table/olap/" aria-label="Blazor PivotTable OLAP documentation">OLAP documentation</a>. For additional insights, visit the <a target="_blank" rel="noopener" href="https://www.syncfusion.com/blazor-components/blazor-pivot-table-olap">Blazor OLAP Pivot Table</a> page.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <div class="content-wrapper">
+        <SfPivotView TValue="PivotProductDetails" @ref="@Pivot" ShowGroupingBar="true" Height="500" Width="100%" ShowFieldList=true ShowToolbar=true Toolbar="@Olap" AllowConditionalFormatting=true AllowCalculatedField=true AllowPdfExport=true AllowExcelExport=true ShowTooltip=false EnableValueSorting=true>
+            <PivotViewDisplayOption Primary="Primary.Table" View="View.Both"></PivotViewDisplayOption>
+            <PivotViewDataSourceSettings TValue="PivotProductDetails" ProviderType="ProviderType.SSAS" Catalog="Adventure Works DW 2008 SE" Cube="Adventure Works" Url="https://bi.syncfusion.com/olap/msmdpump.dll" LocaleIdentifier="1033" EnableSorting="true">
+                <PivotViewColumns>
+                    <PivotViewColumn Name="[Product].[Product Categories]" Caption="Product Category"></PivotViewColumn>
+                    <PivotViewColumn Name="[Measures]" Caption="Measure"></PivotViewColumn>
+                </PivotViewColumns>
+                <PivotViewRows>
+                    <PivotViewRow Name="[Customer].[Customer Geography]" Caption="Customer Geography"></PivotViewRow>
+                </PivotViewRows>
+                <PivotViewValues>
+                    <PivotViewValue Name="[Measures].[Customer Count]" Caption="Customer Count"></PivotViewValue>
+                    <PivotViewValue Name="[Measures].[Internet Sales Amount]" Caption="Internet Sales"></PivotViewValue>
+                </PivotViewValues>
+                <PivotViewFilters>
+                    <PivotViewFilter Name="[Date].[Fiscal]" Caption="Date Fiscal"></PivotViewFilter>
+                </PivotViewFilters>
+            </PivotViewDataSourceSettings>
+            <PivotViewGridSettings ColumnWidth="120"></PivotViewGridSettings>
+            <PivotChartSettings Title="Sales Analysis" Theme="@Theme">
+                <PivotChartPrimaryYAxis>
+                    <PivotChartPrimaryYAxisBorder Width="0"></PivotChartPrimaryYAxisBorder>
+                </PivotChartPrimaryYAxis>
+            </PivotChartSettings>
+            <PivotViewEvents TValue="PivotProductDetails" RenameReport="RenameReport" RemoveReport="RemoveReport" SaveReport="SaveReport" LoadReport="LoadReport" FetchReport="FetchReport"></PivotViewEvents>
+        </SfPivotView>
+    </div>
+</div>
+
+
+<style>
+    .e-pivotview {
+        min-height: 200px;
+    }
+
+    html, body {
+        height: 100%;
+    }
+</style>
+
+@code{
+    private SfPivotView<PivotProductDetails>? Pivot;
+
+    public List<ToolbarItems> Olap = new List<ToolbarItems>
+    {
+        ToolbarItems.New,
+        ToolbarItems.Save,
+        ToolbarItems.SaveAs,
+        ToolbarItems.Rename,
+        ToolbarItems.Remove,
+        ToolbarItems.Load,
+        ToolbarItems.Grid,
+        ToolbarItems.Chart,
+        ToolbarItems.MDX,
+        ToolbarItems.Export,
+        ToolbarItems.SubTotal,
+        ToolbarItems.GrandTotal,
+        ToolbarItems.ConditionalFormatting,
+        ToolbarItems.FieldList
+    };
+    public string[] Items = new string[] { "[Date].[Fiscal].[Fiscal Quarter].&[2002]&[4]", "[Date].[Fiscal].[Fiscal Year].&[2005]" };
+    public string ?InitReport { get; set; }
+    public string[]? Name { get; set; }
+    public List<string> Report = new List<string>();
+    public List<string> ReportName = new List<string>();
+    private Theme Theme { get; set; }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+
+    public void SaveReport(SaveReportArgs args)
+    {
+        int i = 0;
+        bool IsSaved = false;
+        for (i = 0; i < this.ReportName.Count; i++)
+        {
+            if (this.ReportName[i] == args.ReportName)
+            {
+                this.Report[i] = args.Report;
+                IsSaved = true;
+            }
+        }
+        if (args.Report != null && !(IsSaved))
+        {
+            this.Report.Add(args.Report);
+            this.ReportName.Add(args.ReportName);
+        }
+    }
+    public void FetchReport(FetchReportArgs args)
+    {
+        args.ReportName = ReportName.ToArray();
+    }
+    public async Task LoadReport(LoadReportArgs args)
+    {
+        int i = 0;
+        int j = 0;
+        for (i = 0; i < ReportName.Count; i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                j = i;
+            }
+        }
+        if(Pivot != null)
+        {
+            await this.Pivot.LoadPersistDataAsync(Report[j]);
+        }
+    }
+    public async Task RemoveReport(RemoveReportArgs args)
+    {
+        int i = 0;
+        for (i = 0; i < ReportName.Count; i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+                ReportName.RemoveAt(i);
+                Report.RemoveAt(i);
+                break;
+            }
+        }        
+    }
+    public void RenameReport(RenameReportArgs args)
+    {
+        if (args.IsReportExists) {
+            int j = 0;
+            for (j = 0; j < ReportName.Count; j++)
+            {
+                if (ReportName[j] == args.Rename)
+                {
+                    ReportName.RemoveAt(j);
+                    Report.RemoveAt(j);
+                    break;
+                }
+            }
+        }
+        int i = 0;
+        for (i = 0; i <= (ReportName.Count - 1); i++)
+        {
+            if (ReportName[i] == args.ReportName)
+            {
+               ReportName[i]=args.Rename;
+            }
+        }
+    }
+}

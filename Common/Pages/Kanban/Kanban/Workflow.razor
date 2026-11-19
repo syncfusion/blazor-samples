@@ -1,0 +1,291 @@
+@page "/kanban/workflow"
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This example demonstrates workflow constraints that restrict card transitions between columns in the <a class="e-kanban-workflow-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                                    href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                                    target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a pizza kitchen order tracker. Drag and drop cards to see allowed and restricted movements between the Order, Ready to Serve, Home Delivery, and Delivered columns.
+</p>
+<p>
+    In this sample, cards can be dragged from <code>Order</code> to <code>Ready to Serve</code> and <code>Home Delivery</code>. Cards in <code>Delivered</code> cannot be moved back to <code>Order</code>. These actions are configured using the following <a class="e-kanban-workflow-reference-link" aria-label="Navigate to the API reference of KanbanColumn"
+                                                                                                                    href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html"
+                                                                                                                    target="_blank" rel="noopener">KanbanColumn</a> properties:
+</p>
+<ul>
+    <li><a class="e-kanban-workflow-reference-link" aria-label="Navigate to the API reference of TransitionColumns property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_TransitionColumns"
+           target="_blank" rel="noopener">TransitionColumns</a> – Allows transitions only to specified columns.</li>
+    <li><a class="e-kanban-workflow-reference-link" aria-label="Navigate to the API reference of AllowDrag property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_AllowDrag"
+           target="_blank" rel="noopener">AllowDrag</a> – Enables/disables dragging from the column.</li>
+    <li><a class="e-kanban-workflow-reference-link" aria-label="Navigate to the API reference of AllowDrop property in Kanban"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_AllowDrop"
+           target="_blank" rel="noopener">AllowDrop</a> – Enables/disables dropping into the column.</li>
+</ul>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the workflow in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/workflow"
+           target="_blank" rel="noopener">Workflow</a>: Restrict card transitions between columns to enforce the intended business process.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the card template in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/cards#customizing-card-layout-with-templates"
+           target="_blank" rel="noopener">Card Template</a>: Render a custom card layout with image, title, description, and tags.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the tooltip in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/tooltip"
+           target="_blank" rel="noopener">Tooltip</a>: Show extra card details on hover to surface order information on demand.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Order to Ready</b>: Drag a card from Order to either Ready to Serve or Home Delivery to start preparation or dispatch.</li>
+    <li><b>Ready to Served</b>: Drag a card from Ready to Serve to Delivered to mark the in-house order as served.</li>
+    <li><b>Home Delivery</b>: Drag a card from Home Delivery to Delivered to mark the delivery as complete.</li>
+    <li><b>Restricted Backflow</b>: Cards in Delivered cannot be dragged back to Order, enforcing the workflow direction.</li>
+</ul>
+<p>
+    The <b>Workflow Configuration</b> highlights the building blocks of column transitions:
+</p>
+<ul>
+    <li><b>TransitionColumns</b>: Whitelist the target columns a card is allowed to move into from a given column.</li>
+    <li><b>AllowDrop</b>: Control whether new cards can be dropped into a specific column.</li>
+    <li><b>AllowDrag</b>: Control whether cards in a specific column can be picked up for drag operations.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-workflow-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Category" DataSource="@Pizza" EnableTooltip="@IsEnableTooltip" Height="500px">
+        <KanbanColumns>
+            <KanbanColumn HeaderText="Order" KeyField="@(new List<string>() {"Order"})" AllowToggle="true" AllowDrop="false" TransitionColumns="@(new List<string>() {"Ready to Serve", "Ready to Deliver"})"/>
+            <KanbanColumn HeaderText="Ready to Serve" KeyField="@(new List<string>() {"Ready to Serve"})" AllowToggle="true" TransitionColumns="@(new List<string>() {"Served"})"/>
+            <KanbanColumn HeaderText="Home Delivery" KeyField="@(new List<string>() {"Ready to Deliver"})" AllowToggle="true" TransitionColumns="@(new List<string>() {"Delivered"})"/>
+            <KanbanColumn HeaderText="Delivered" KeyField="@(new List<string>() {"Delivered", "Served"})" AllowToggle="true" AllowDrag="false"/>
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Description">
+            <Template>
+                @{
+                    var card = (KanbanDataModel)context;
+                    <div class="card-template">
+                        <div class="card-template-wrap">
+                            <div>
+                                <div class='e-card-header'>
+                                    <div class='e-card-header-caption'>
+                                        <div class='e-card-header-title e-tooltip-text'>@card.Title</div>
+                                    </div>
+                                </div>
+                                <div class='e-card-content e-tooltip-text'>
+                                    <div class='e-text'>@card.Description</div>
+                                    <div class='e-card-kanban-image'>
+                                        <img src="@UriHelper.ToAbsoluteUri($"{SampleService?.WebAssetsPath}images/kanban/{card.ImageURL}.png")" alt="logo" />
+                                    </div>
+                                </div>
+                                <div class='e-card-custom-footer'>
+                                    @{
+                                        if (card != null && card.CardTags != null)
+                                        {
+                                            @foreach (string tag in card.CardTags)
+                                            {
+                                                <div class="e-card-tag-field">@tag</div>
+                                            }
+                                        }
+                                    }
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanCardSettings>
+        <KanbanTemplates>
+            <TooltipTemplate>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class='e-kanbantooltiptemp'>
+                        <table>
+                            <tr>
+                                <td class="details">
+                                    <table>
+                                        <colgroup>
+                                            <col style="width:35%">
+                                            <col style="width:65%">
+                                        </colgroup>
+                                        <tbody>
+                                            <tr>
+                                                <td class="CardHeader">Title:</td>
+                                                <td>@card.Title</td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                }
+            </TooltipTemplate>
+        </KanbanTemplates>
+    </SfKanban>
+</div>
+
+<style>
+    /* Card Container - Enhanced Styling */
+    .e-kanban .card-template {
+        border-radius: 10px;
+        overflow: hidden;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+        transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    }
+
+    .e-kanban .card-template:hover {
+        box-shadow: 0 12px 28px rgba(0, 0, 0, 0.15);
+        transform: translateY(-4px);
+        border-color: #ddd;
+    }
+
+    .e-kanban .card-template-wrap {
+        display: flex;
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    /* Card Header - Enhanced */
+    .e-kanban .e-card-header {
+        
+        padding: 10px 24px !important;
+    }
+
+    .e-kanban .e-card-header-caption {
+        border-radius: 6px;
+        padding: 8px 12px;
+        margin-bottom: 8px;
+    }
+
+    .e-kanban .e-card-header-title {
+        font-size: 13px;
+        font-weight: 700;
+        line-height: 1.4;
+        word-wrap: break-word;
+    }
+
+    /* Card Content - Enhanced */
+    .e-kanban .e-card-content {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 12px;
+        padding: 0;
+    }
+
+    .e-kanban .e-text {
+        font-size: 12px;
+        line-height: 1.5;
+        flex: 1;
+        word-wrap: break-word;
+    }
+
+    /* Image - Enhanced with Shadow and Border */
+    .e-kanban .e-card-kanban-image {
+        height: 50px;
+        width: 50px;
+        margin-left: 8px;
+        flex-shrink: 0;
+        border-radius: 50%;
+        overflow: hidden;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        border: 2px solid #f5f5f5;
+        transition: all 0.3s ease;
+    }
+
+    .e-kanban .card-template:hover .e-card-kanban-image {
+        transform: scale(1.08);
+        box-shadow: 0 6px 16px rgba(0, 0, 0, 0.2);
+    }
+
+    .e-kanban .e-card-kanban-image img {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+    }
+
+    /* Tags Footer - Enhanced */
+    .e-kanban .e-card-custom-footer {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 6px;
+        padding: 10px 0;
+        border-top: 1px solid #f0f0f0;
+        margin-top: 8px;
+        height: auto;
+        line-height: normal;
+        padding: 7px !important;
+    }
+
+    .e-kanban .e-card-tag-field {
+        background: #ececec;
+        color: #6b6b6b;
+        padding: 4px 10px;
+        border-radius: 12px;
+        font-size: 11px;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        transition: all 0.2s ease;
+    }
+
+    .e-kanban .e-card-tag-field:hover {
+        transform: translateY(-1px);
+    }
+
+    /* Card Table Styling */
+    .e-kanban .e-card td {
+        background-color: #fff;
+        padding: 6px 0;
+    }
+
+    /* Tooltip Enhancement */
+    .e-kanban .e-kanbantooltiptemp {
+        background: #ffffff;
+        border-radius: 8px;
+        padding: 12px;
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .e-kanban .e-kanbantooltiptemp table {
+        border-collapse: collapse;
+        width: 100%;
+    }
+
+    .e-kanban .e-kanbantooltiptemp td.CardHeader {
+        font-weight: 700;
+        padding-right: 12px;
+        font-size: 12px;
+    }
+
+    .e-kanban .e-kanbantooltiptemp td {
+        font-size: 12px;
+        padding: 6px 0;
+    }
+
+</style>
+
+@code{
+    private bool IsEnableTooltip = true;
+    private IReadOnlyCollection<KanbanDataModel> Pizza = KanbanDataModel.GetPizzaData();
+}

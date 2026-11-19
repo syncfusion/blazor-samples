@@ -1,0 +1,632 @@
+@page "/kanban/dialog-editing"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@using Syncfusion.Blazor.Inputs
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample showcases CRUD (Create, Read, Update, Delete) operations in the <a class="e-kanban-dialogediting-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                                            href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                                            target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a Veterinary  appointments. Add a new card using the property panel button, and double-click a card to open its details in a dialog for reading, editing, or deleting.
+</p>
+<p>
+    The edit dialog is configured through <a class="e-kanban-dialogediting-reference-link" aria-label="Navigate to the API reference of KanbanDialogSettings"
+                                                                                                                            href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanDialogSettings.html"
+                                                                                                                            target="_blank" rel="noopener">KanbanDialogSettings</a>. Double-click any card to open the dialog and perform updates or deletions.
+</p>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the dialog editing in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/dialog"
+           target="_blank" rel="noopener">Dialog Editing</a>: Open a card in an editor dialog by double-clicking it to update or delete the record.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns"
+           target="_blank" rel="noopener">Columns</a>: Group cards by workflow stage such as To Do, In Progress, Testing, and Done.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the add card in the kanban component"
+           href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.SfKanban-1.html#Syncfusion_Blazor_Kanban_SfKanban_1_AddCardAsync__0_System_Int32_"
+           target="_blank" rel="noopener">Add Card</a>: Add a new card with default values using the property panel button.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Add Card</b>: Use the property panel button to add a new card with default status and metadata.</li>
+    <li><b>Edit Card</b>: Double-click any card to open the editor and modify its ID, status, assignee, priority, and summary.</li>
+    <li><b>Delete Card</b>: Remove a card directly from the editor dialog using the delete action.</li>
+    <li><b>Status Update</b>: Change a card status from the dialog and see it move to the correct column after save.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-dialogediting-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-9 control-section">
+    <SfKanban @ref="KanbanRef" KeyField="Status" DataSource="@_cardData" Height="500px">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Id" ContentField="Summary">
+                     <Template>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class="dialog-card" style="border-left-color: @card.Color;">
+                        <div class="dc-header">
+                            <span class="dc-id">@card.Id</span>
+                            <span class="dc-priority" data-priority="@card.Priority">
+                                <span class="dc-priority-dot"></span>
+                                @card.Priority
+                            </span>
+                        </div>
+                        @if (!string.IsNullOrEmpty(card.Title))
+                        {
+                            <div class="dc-title">@card.Title</div>
+                        }
+                        <div class="dc-content">@card.Summary</div>
+                        <div class="dc-tags">
+                            @if (card.CardTags != null)
+                            {
+                                @foreach (string tag in card.CardTags)
+                                {
+                                    <span class="dc-tag">@tag</span>
+                                }
+                            }
+                        </div>
+                        <div class="dc-footer">
+                            <div class="dc-type">
+                                <span class="dc-type-icon"></span>
+                                <span>@card.Type</span>
+                            </div>
+                            <div class="dc-assignee">
+                                <span class="dc-avatar" style="background: @card.Color;">
+                                    @GetInitials(card.Assignee)
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanCardSettings>
+        <KanbanDialogSettings>
+            <Template>
+                @{
+                    var data = (KanbanDataModel)context;
+                    <table>
+                        <tbody>
+                            <tr>
+                                <td class="e-label">ID</td>
+                                <td>
+                                    <SfTextBox CssClass="e-field" Value="@data.Id" Enabled="false"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="e-label">Status</td>
+                                <td>
+                                    <SfDropDownList @ref="StatusRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@StatusData" @bind-Value="@data.Status">
+                                        <DropDownListFieldSettings Text="Value" Value="Value"/>
+                                    </SfDropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="e-label">Assignee</td>
+                                <td>
+                                    <SfDropDownList @ref="AssigneeRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@AssigneeData" @bind-Value="@data.Assignee">
+                                        <DropDownListFieldSettings Text="Value" Value="Value"/>
+                                    </SfDropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="e-label">Priority</td>
+                                <td>
+                                    <SfDropDownList @ref="PriorityRef" TValue="string" TItem="DropDownModel" CssClass="e-field" DataSource="@PriorityData" @bind-Value="@data.Priority">
+                                        <DropDownListFieldSettings Text="Value" Value="Value"/>
+                                    </SfDropDownList>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="e-label">Summary</td>
+                                <td>
+                                    <SfTextBox @ref="SummaryRef" CssClass="e-field" Multiline="true" @bind-Value="@data.Summary"/>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                }
+            </Template>
+        </KanbanDialogSettings>
+    </SfKanban>
+</div>
+<PropertyPanel ControlSecClass="col-lg-9">
+    <table class="property-panel-table" title="Add Card">
+        <tbody>
+            <tr>
+                <td>
+                    <SfButton Content="Add New Card" OnClick="ShowAddCardDialog"/>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</PropertyPanel>
+
+<style>
+    .sf-property-panel-section table {
+        width: 100%;
+    }
+
+    .sf-property-panel-section table tr {
+        height: 50px;
+    }
+
+    .sf-property-panel-section table td {
+        padding-left: 10px;
+        width: 50%;
+    }
+
+    .sf-property-section .e-icons.e-settings,
+    .sf-property-panel-header{
+        height: 0;
+    }
+      .dialog-card {
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        padding: 0;
+        border-left: 4px solid #5C6BC0;
+        transition: all 0.2s ease;
+        overflow: hidden;
+        display: block;
+    }
+
+    .dialog-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateY(-1px);
+    }
+
+    .dialog-card:active {
+        cursor: grabbing;
+    }
+
+    /* Header */
+    .dc-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 14px 6px 14px;
+        
+        line-height: normal;
+    }
+
+    .dc-id {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .dc-priority {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        line-height: normal;
+    }
+
+    .dc-priority-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .dc-priority[data-priority="High"] {
+        background: #ffebee;
+        color: var(--color-sf-warning-bg-color);
+    }
+    .dc-priority[data-priority="High"] .dc-priority-dot {
+        background: var(--color-sf-warning-bg-color);
+    }
+
+    .dc-priority[data-priority="Normal"] {
+        background: #e3f2fd;
+        color: var(--color-sf-primary-label-color);
+    }
+    .dc-priority[data-priority="Normal"] .dc-priority-dot {
+        background: var(--color-sf-primary-label-color);
+    }
+
+    .dc-priority[data-priority="Low"] {
+        background: #e8f5e9;
+        color: var(--color-sf-success-dark);
+    }
+    .dc-priority[data-priority="Low"] .dc-priority-dot {
+        background: var(--color-sf-success-dark);
+    }
+
+    .dc-priority[data-priority="Critical"],
+    .dc-priority[data-priority="Release Breaker"] {
+        background: #fff3e0;
+        color: #e65100;
+    }
+    .dc-priority[data-priority="Critical"] .dc-priority-dot,
+    .dc-priority[data-priority="Release Breaker"] .dc-priority-dot {
+        background: #e65100;
+    }
+/* --- Low priority --- */
+.material3 .dc-priority[data-priority="Low"],
+.material3-dark .dc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+.material3 .dc-priority[data-priority="Low"] .dc-priority-dot,
+.material3-dark .dc-priority[data-priority="Low"] .dc-priority-dot {
+    background: #4d831e;
+}
+
+.fluent .dc-priority[data-priority="Low"],
+.fluent-dark .dc-priority[data-priority="Low"] {
+    color: #0b6a0b;
+}
+.fluent .dc-priority[data-priority="Low"] .dc-priority-dot,
+.fluent-dark .dc-priority[data-priority="Low"] .dc-priority-dot {
+    background: #0b6a0b;
+}
+
+.material .dc-priority[data-priority="Low"],
+.material-dark .dc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+.material .dc-priority[data-priority="Low"] .dc-priority-dot,
+.material-dark .dc-priority[data-priority="Low"] .dc-priority-dot {
+    background: #4d831e;
+}
+
+.bootstrap4 .dc-priority[data-priority="Low"],
+.bootstrap4-dark .dc-priority[data-priority="Low"] {
+    color: #28a745;
+}
+.bootstrap4 .dc-priority[data-priority="Low"] .dc-priority-dot,
+.bootstrap4-dark .dc-priority[data-priority="Low"] .dc-priority-dot {
+    background: #28a745;
+}
+
+.highcontrast .dc-priority[data-priority="Low"],
+.highcontrast-dark .dc-priority[data-priority="Low"] {
+    color: #166600;
+}
+.highcontrast .dc-priority[data-priority="Low"] .dc-priority-dot,
+.highcontrast-dark .dc-priority[data-priority="Low"] .dc-priority-dot {
+    background: #166600;
+}
+
+.fabric .dc-priority[data-priority="Low"],
+.fabric-dark .dc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+.fabric .dc-priority[data-priority="Low"] .dc-priority-dot,
+.fabric-dark .dc-priority[data-priority="Low"] .dc-priority-dot {
+    background: #4d831e;
+}
+
+/* --- Normal priority --- */
+.material3 .dc-priority[data-priority="Normal"],
+.material3-dark .dc-priority[data-priority="Normal"] {
+    color: #0677d5;
+}
+.material3 .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.material3-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #0677d5;
+}
+
+.material .dc-priority[data-priority="Normal"],
+.material-dark .dc-priority[data-priority="Normal"] {
+    color: #0677d5;
+}
+.material .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.material-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #0677d5;
+}
+
+.fluent .dc-priority[data-priority="Normal"],
+.fluent-dark .dc-priority[data-priority="Normal"] {
+    color: #0078d4;
+}
+.fluent .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.fluent-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #0078d4;
+}
+
+.bootstrap4 .dc-priority[data-priority="Normal"],
+.bootstrap4-dark .dc-priority[data-priority="Normal"] {
+    color: #17a2b8;
+}
+.bootstrap4 .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.bootstrap4-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #17a2b8;
+}
+
+.highcontrast .dc-priority[data-priority="Normal"],
+.highcontrast-dark .dc-priority[data-priority="Normal"] {
+    color: #0056b3;
+}
+.highcontrast .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.highcontrast-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #0056b3;
+}
+
+.fabric .dc-priority[data-priority="Normal"],
+.fabric-dark .dc-priority[data-priority="Normal"] {
+    color: #0078d6;
+}
+.fabric .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.fabric-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #0078d6;
+}
+
+/* --- High priority --- */
+.material3 .dc-priority[data-priority="High"],
+.material3-dark .dc-priority[data-priority="High"] {
+    color: #d74113;
+}
+.material3 .dc-priority[data-priority="High"] .dc-priority-dot,
+.material3-dark .dc-priority[data-priority="High"] .dc-priority-dot {
+    background: #d74113;
+}
+
+.material .dc-priority[data-priority="High"],
+.material-dark .dc-priority[data-priority="High"] {
+    color: #d74113;
+}
+.material .dc-priority[data-priority="High"] .dc-priority-dot,
+.material-dark .dc-priority[data-priority="High"] .dc-priority-dot {
+    background: #d74113;
+}
+
+.fluent .dc-priority[data-priority="High"],
+.fluent-dark .dc-priority[data-priority="High"] {
+    color: #ca5010;
+}
+.fluent .dc-priority[data-priority="High"] .dc-priority-dot,
+.fluent-dark .dc-priority[data-priority="High"] .dc-priority-dot {
+    background: #ca5010;
+}
+
+.bootstrap4 .dc-priority[data-priority="High"],
+.bootstrap4-dark .dc-priority[data-priority="High"] {
+    color: #fd7e14;
+}
+.bootstrap4 .dc-priority[data-priority="High"] .dc-priority-dot,
+.bootstrap4-dark .dc-priority[data-priority="High"] .dc-priority-dot {
+    background: #fd7e14;
+}
+
+.highcontrast .dc-priority[data-priority="High"],
+.highcontrast-dark .dc-priority[data-priority="High"] {
+    color: #ff6161;
+}
+.highcontrast .dc-priority[data-priority="High"] .dc-priority-dot,
+.highcontrast-dark .dc-priority[data-priority="High"] .dc-priority-dot {
+    background: #ff6161;
+}
+
+.fabric .dc-priority[data-priority="High"],
+.fabric-dark .dc-priority[data-priority="High"] {
+    color: #d83b01;
+}
+.fabric .dc-priority[data-priority="High"] .dc-priority-dot,
+.fabric-dark .dc-priority[data-priority="High"] .dc-priority-dot {
+    background: #d83b01;
+}
+
+.bootstrap5.3 .dc-priority[data-priority="High"],
+.bootstrap5.3-dark .dc-priority[data-priority="High"] {
+    color: #fd7e14 !important;
+}
+
+.bootstrap5.3 .dc-priority[data-priority="Normal"],
+.bootstrap5.3-dark .dc-priority[data-priority="Normal"] {
+    color: #0078d6 !important;
+}
+
+.bootstrap5.3 .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.bootstrap5.3-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #0078d6 !important;
+}
+
+.tailwind3 .dc-priority[data-priority="Normal"] .dc-priority-dot, .fluent2-highcontrast .dc-priority[data-priority="Normal"] .dc-priority-dot, .bootstrap5 .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.tailwind3-dark .dc-priority[data-priority="Normal"] .dc-priority-dot, .fluent2-highcontrast .dc-priority[data-priority="Normal"], .bootstrap5-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #0078d6 !important;
+}
+
+.tailwind3 .dc-priority[data-priority="Normal"] .dc-priority-dot,
+.tailwind3-dark .dc-priority[data-priority="Normal"] .dc-priority-dot {
+    background: #0078d6 !important;
+}
+
+    /* Title */
+    .dc-title {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px 14px 4px 14px;
+        line-height: 1.3;
+        word-wrap: break-word;
+    }
+
+    /* Content */
+    .dc-content {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 0 14px 10px 14px;
+        word-wrap: break-word;
+    }
+
+    /* Tags */
+    .dc-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 0 14px 10px 14px;
+    }
+
+    .dc-tag {
+        background: #f0f4f8;
+        color: #5a6c7d;
+        font-size: 10px;
+        font-weight: 500;
+        padding: 3px 8px;
+        border-radius: 10px;
+        line-height: 1.2;
+        display: inline-block;
+    }
+
+    /* Footer */
+    .dc-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0px 14px;
+        
+        border-top: 1px solid #f0f0f0;
+    }
+
+    .dc-type {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .dc-type-icon {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235C6BC0'><path d='M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z'/></svg>");
+        background-size: contain;
+        background-repeat: no-repeat;
+    }
+
+    .dc-assignee {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .dc-avatar {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        flex-shrink: 0;
+    }
+
+    .dc-name {
+        font-size: 11px;
+        color: #555;
+        font-weight: 500;
+        max-width: 100px;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+    }    
+</style>
+
+@code{
+    private SfKanban<KanbanDataModel>? KanbanRef;
+    private SfDropDownList<string, DropDownModel>? StatusRef;
+    private SfDropDownList<string, DropDownModel>? AssigneeRef;
+    private SfDropDownList<string, DropDownModel>? PriorityRef;
+    private SfTextBox? SummaryRef;
+
+    private IReadOnlyCollection<KanbanDataModel> _cardData = KanbanDataModel.GetVetAppointments();
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "Scheduled", KeyField = new List<string>() { "Scheduled" } },
+        new ColumnModel() { HeaderText = "Checked-In", KeyField = new List<string>() { "Checked-In" } },
+        new ColumnModel() { HeaderText = "In Exam", KeyField = new List<string>() { "In Exam" } },
+        new ColumnModel() { HeaderText = "Discharged", KeyField = new List<string>() { "Discharged" } }
+    };
+
+    private class DropDownModel
+    {
+        public int Id { get; set; }
+        public string? Value { get; set; }
+    }
+
+    private List<DropDownModel> StatusData = new List<DropDownModel>()
+    {
+        new DropDownModel { Id = 0, Value = "Scheduled" },
+        new DropDownModel { Id = 1, Value = "Checked-In" },
+        new DropDownModel { Id = 2, Value = "In Exam" },
+        new DropDownModel { Id = 3, Value = "Discharged" }
+    };
+
+    private List<DropDownModel> AssigneeData = new List<DropDownModel>()
+    {
+        new DropDownModel { Id = 0, Value = "Nancy Davloio" },
+        new DropDownModel { Id = 1, Value = "Andrew Fuller" },
+        new DropDownModel { Id = 2, Value = "Janet Leverling" },
+        new DropDownModel { Id = 3, Value = "Steven walker" },
+        new DropDownModel { Id = 4, Value = "Robert King" },
+        new DropDownModel { Id = 5, Value = "Margaret hamilt" },
+        new DropDownModel { Id = 6, Value = "Michael Suyama" }
+    };
+
+    private List<DropDownModel> PriorityData = new List<DropDownModel>()
+    {
+        new DropDownModel { Id = 0, Value = "Low" },
+        new DropDownModel { Id = 1, Value = "Normal" },
+        new DropDownModel { Id = 2, Value = "Critical" },
+        new DropDownModel { Id = 3, Value = "Release Breaker" },
+        new DropDownModel { Id = 4, Value = "High" }
+    };
+
+    private async void ShowAddCardDialog()
+    {
+        if (this.KanbanRef != null)
+        {
+            var data = new KanbanDataModel()
+                {
+                    Id = "Task " + (this._cardData.Count + 1).ToString(),
+                    Title = "",
+                    Tags = "",
+                    Estimate = 0,
+                    Summary = "",
+                    Status = "Open",
+                    Type = "Story",
+                    Priority = "Low",
+                    Assignee = "Nancy Davloio"
+                };
+            await this.KanbanRef.OpenDialogAsync(CurrentAction.Add, data);
+        }
+    }
+        private string GetInitials(string? name)
+    {
+        if (string.IsNullOrEmpty(name)) return "?";
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length >= 2)
+            return $"{parts[0][0]}{parts[1][0]}".ToUpper();
+        return name.Substring(0, Math.Min(2, name.Length)).ToUpper();
+    }
+}

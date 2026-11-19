@@ -1,0 +1,302 @@
+@page "/inline-ai-assist/ai-rich-text-editor"
+
+@using Syncfusion.Blazor.RichTextEditor
+@using Syncfusion.Blazor.InteractiveChat
+@using BlazorDemos.Service
+@using AIAssistview.Service
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Popups
+
+@inject AIService AIService
+@inject IJSRuntime JSRuntime
+
+<ActionDescription>
+    <p>
+        In this example, the Inline AI Assist component is seamlessly integrated
+        with the Rich Text Editor, providing an advanced use-case scenario.
+        This integration demonstrates how AI-powered assistance can enhance
+        content creation and editing workflows.
+    </p>
+    <p>Key features demonstrated:</p>
+    <ul>
+        <li>
+            <code>CommandMenu</code> - Provides predefined AI actions such as
+            <strong>Improve Content</strong>,
+            <strong>Shorten</strong>,
+            <strong>Elaborate</strong>,
+            <strong>Simplify</strong>,
+            <strong>Summarize</strong>,
+            and
+            <strong>Check Grammar &amp; Spelling</strong>.
+        </li>
+
+        <li>
+            <code>ResponseMode</code> - Configured in
+            <code>Inline</code> mode, allowing generated AI content
+            to be shown directly in the editor.
+        </li>
+
+        <li>
+            <code>PromptRequested</code> - Integrates AI generation with the
+            selected editor content.
+        </li>
+    </ul>
+</ActionDescription>
+
+<style>
+    .e-inlineaiassist-selected-text {
+        display: inline-block;
+    }
+</style>
+
+<div class="control-section">
+    <div class="rte-integration-container">
+        <SfRichTextEditor @ref="rte" @bind-Value="RteValue">
+            <p><strong>Introduction</strong></p>
+            <p>
+                Technology has transformed the way we communicate and collaborate in both personal and professional settings. Digital tools enable instant connectivity across global distances, breaking down traditional barriers and creating new opportunities for innovation and growth.
+            </p>
+
+            <p><strong>Key Benefits</strong></p>
+            <p>
+                The integration of artificial intelligence into everyday applications is revolutionizing user experiences. From smart assistants to predictive analytics, AI-powered features help users accomplish tasks more efficiently while providing personalized recommendations based on individual preferences and behavior patterns.
+            </p>
+
+            <p><strong>Implementation Approach</strong></p>
+            <p>
+                When adopting new technologies, organizations should focus on user training and change management. A phased rollout allows teams to adapt gradually while providing feedback for continuous improvement. Clear communication about benefits and proper support resources are essential for successful adoption and long-term sustainability of technological initiatives.
+            </p>
+
+            <p><strong>Future Outlook</strong></p>
+            <p>
+                As digital transformation continues to accelerate, businesses must remain adaptable and open to emerging trends. Cloud computing, automation, and data-driven decision-making will play increasingly important roles in shaping competitive advantages. Organizations that embrace innovation while maintaining focus on user needs will be best positioned for future success.
+            </p>
+        <RichTextEditorQuickToolbarSettings
+           Text="@TextQuickToolbarItems">
+        </RichTextEditorQuickToolbarSettings>
+        <RichTextEditorToolbarSettings Items="ToolbarItems">
+                <RichTextEditorCustomToolbarItems>
+                    <RichTextEditorCustomToolbarItem Name="AIAssist">
+                        <Template><SfButton class="e-flat" IconCss="e-icons e-ai-chat" OnClick="@TriggerAIAssist"></SfButton></Template>
+                    </RichTextEditorCustomToolbarItem>
+        </RichTextEditorCustomToolbarItems>
+        </RichTextEditorToolbarSettings>
+        </SfRichTextEditor>
+
+        <SfInlineAIAssist @ref="InlineAssist"
+                          RelateTo="@RelateToSelector"
+                          ResponseMode="ResponseDisplayMode.Inline"
+                          PromptRequested="OnPromptRequestedAsync">
+
+            <CommandMenu Commands="@CommandItems"></CommandMenu>
+
+            <ResponseActions ItemSelect="OnResponseActionAsync">
+            </ResponseActions>
+            <InlineToolbar ItemClick="OnItemClick"></InlineToolbar>
+        </SfInlineAIAssist>
+
+    </div>
+</div>
+
+@code
+{
+    private DotNetObjectReference<AiRichTextEditor>? objRef;
+    private SfInlineAIAssist? InlineAssist;
+    private SfRichTextEditor? rte;
+    private string RteValue = string.Empty;
+    private string? ParagraphId;
+    private string? RelateToSelector;
+    private string? SelectionId;
+    private string SelectionContent = string.Empty;
+    private string? SelectedHtml;
+    private string AiAccumulatedResponse = string.Empty;
+    private bool IsSteamingActive = false;
+
+    private static readonly List<ToolbarItemModel> ToolbarItems = new()
+    {
+        new() { Command = ToolbarCommand.Bold }, new() { Command = ToolbarCommand.Italic }, new() { Command = ToolbarCommand.Underline },
+        new() { Command = ToolbarCommand.Separator }, new() { Command = ToolbarCommand.Formats }, new() { Command = ToolbarCommand.Alignments },
+        new() { Command = ToolbarCommand.OrderedList }, new() { Command = ToolbarCommand.UnorderedList },
+        new() { Command = ToolbarCommand.Separator }, new() { Command = ToolbarCommand.CreateLink }, new() { Command = ToolbarCommand.Image },
+        new() { Command = ToolbarCommand.Separator }, new() { Command = ToolbarCommand.SourceCode }, new() { Command = ToolbarCommand.Undo }, new() { Command = ToolbarCommand.Redo }
+    };
+
+    private static readonly List<ToolbarItemModel> TextQuickToolbarItems =
+    [
+    new() { Name = "AIAssist", TooltipText = "AI Assistant" },
+    new() { Command = ToolbarCommand.Bold },
+    new() { Command = ToolbarCommand.Italic },
+    new() { Command = ToolbarCommand.Underline },
+    new() { Command = ToolbarCommand.StrikeThrough },
+    new() { Command = ToolbarCommand.FontColor },
+    new() { Command = ToolbarCommand.BackgroundColor },
+    new() { Command = ToolbarCommand.Separator },
+    new() { Command = ToolbarCommand.UnorderedList },
+    new() { Command = ToolbarCommand.OrderedList }
+    ];
+    private static readonly List<CommandItem> CommandItems =
+    [
+        new CommandItem
+        {
+            ID = "improve",
+            Label = "Improve Content",
+            IconCss = "e-icons e-magic-wand",
+            Prompt = "Improve the clarity, coherence, and overall quality of the following content:"
+        },
+        new CommandItem
+        {
+            ID = "shorten",
+            Label = "Shorten",
+            IconCss = "e-icons e-shorten",
+            Prompt = "Shorten the following content without losing its core message:"
+        },
+        new CommandItem
+        {
+            ID = "elaborate",
+            Label = "Elaborate",
+            IconCss = "e-icons e-elaborate",
+            Prompt = "Expand on the following content with more detail and explanation:"
+        },
+        new CommandItem
+        {
+            ID = "simplify",
+            Label = "Simplify",
+            IconCss = "e-icons e-text-wrap",
+            Prompt = "Simplify the language and make the following content easier to understand:"
+        },
+        new CommandItem
+        {
+            ID = "summarize",
+            Label = "Summarize",
+            IconCss = "e-icons e-collapse-2",
+            Prompt = "Summarize the following content in a concise and clear way:"
+        },
+        new CommandItem
+        {
+            ID = "grammar",
+            Label = "Check Grammar & Spelling",
+            IconCss = "e-icons e-grammar-check",
+            Prompt = "Check the following content for grammar and spelling mistakes and correct them:"
+        }
+    ];
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            objRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("aiAssistRteInterop.initialize", objRef);
+        }
+    }
+ private async Task TriggerAIAssist()
+{
+    var hasSelection = await JSRuntime.InvokeAsync<bool>("aiAssistRteInterop.highlightCurrentSelection");
+    if (!hasSelection)
+        return;
+    SelectedHtml = await JSRuntime.InvokeAsync<string>("aiAssistRteInterop.getSelectedText");
+    RelateToSelector = await JSRuntime.InvokeAsync<string>("aiAssistRteInterop.getPopupTarget");
+    await InvokeAsync(StateHasChanged);
+    await Task.Delay(100); 
+    await InlineAssist!.ShowPopupAsync();
+    }
+     private async Task<string> RemoveParagraphTagFromRteValueAsync()
+    {
+    var source = RteValue ?? string.Empty;
+    if (string.IsNullOrEmpty(ParagraphId) &&
+        string.IsNullOrEmpty(SelectionId))
+    {
+        return source;
+    }
+    source = await JSRuntime.InvokeAsync<string>("aiAssistRteInterop.unwrapHighlightSpanWithOriginal", source, SelectionId, SelectionContent);
+    source = await JSRuntime.InvokeAsync<string>("aiAssistRteInterop.stripParagraphTag", source, ParagraphId);
+    return source;
+    }
+    private void ResetSelectionState()
+    {
+        SelectedHtml = null; AiAccumulatedResponse = string.Empty; RelateToSelector = null;
+        ParagraphId = null; SelectionId = null; SelectionContent = string.Empty;
+    }
+    private void OnItemClick(ToolbarItemClickEventArgs args)
+    {
+        if (args.Item.IconCss == "e-icons e-inline-stop")
+        {
+            IsSteamingActive = false;
+        }
+    }
+    private async Task OnPromptRequestedAsync(PromptRequestedEventArgs args)
+    {
+        try
+        {
+            var selectedText = await JSRuntime.InvokeAsync<string>("aiAssistRteInterop.getWrappedText");
+            if (string.IsNullOrWhiteSpace(selectedText))
+            {
+                return;
+            }
+            var prompt = $"{args.Prompt} {selectedText}";
+            var response = await AIService.GetAIResponse(new
+            {
+                Prompt = prompt
+            });
+            var words = response.Split(' ',StringSplitOptions.RemoveEmptyEntries);
+            var builder = new System.Text.StringBuilder();
+            IsSteamingActive = true;
+            foreach (var word in words)
+            {
+                if (!IsSteamingActive)
+                {
+                    break;
+                }
+                if (builder.Length > 0)
+                {
+                    builder.Append(' ');
+                }
+                    builder.Append(word);
+            var currentText = builder.ToString();
+            await InlineAssist!.UpdateResponseAsync(currentText,false);
+            await JSRuntime.InvokeVoidAsync("aiAssistRteInterop.updateSelectionText",currentText);
+            await Task.Delay(30); 
+            }
+            await InlineAssist!.UpdateResponseAsync(builder.ToString(),true);    
+            IsSteamingActive = false;
+        }
+        catch
+        {
+            const string fallback = "We could not reach the AI service; please try again later.";
+            await InlineAssist.UpdateResponseAsync(fallback);
+            await JSRuntime.InvokeVoidAsync("aiAssistRteInterop.updateSelectionText",fallback); 
+            IsSteamingActive = false;
+        }
+    }
+    private async Task OnResponseActionAsync(ResponseItemSelectEventArgs args)
+    {
+        if (args?.Item == null)
+        {
+            return;
+        }
+        if (args.Item.Label == "Accept")
+        {
+            await JSRuntime.InvokeVoidAsync("aiAssistRteInterop.acceptResponse");
+            RelateToSelector = null;
+            await InlineAssist!.HidePopupAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+        else if (args.Item.Label == "Discard")
+        {
+            await JSRuntime.InvokeVoidAsync("aiAssistRteInterop.discardResponse");
+            RelateToSelector = null;
+            await InlineAssist!.HidePopupAsync();
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+    [JSInvokable]
+    public async Task OnOutsideClick()
+    {
+    await JSRuntime.InvokeVoidAsync("aiAssistRteInterop.discardResponse");
+    RelateToSelector = null;
+    if (InlineAssist != null)
+    {
+        await InlineAssist.HidePopupAsync();
+    }
+    await InvokeAsync(StateHasChanged);
+    }
+}

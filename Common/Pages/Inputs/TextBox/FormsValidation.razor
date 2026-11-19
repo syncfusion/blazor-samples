@@ -1,0 +1,132 @@
+@page "/TextBox/Forms-Validation"
+
+@using Syncfusion.Blazor.Inputs;
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+  <p>
+    This sample demonstrates form validation using Data Annotation attributes. Enter a value in the input element to validate it against the configured attributes. When the input satisfies the validation rules the control is considered valid and the form is ready to submit; otherwise, an error message remains visible until a valid value is entered.
+  </p>
+
+  <p>
+    Validation in this sample is enforced by the DataAnnotationsValidator component and is triggered when the submit button is clicked externally. The example shows how an external submit control can invoke model validation, causing all attributed rules to be evaluated and any resulting messages to display without requiring an internal form submit.
+  </p>
+
+  <p><strong>Name field validation rules:</strong></p>
+  <ul>
+    <li><strong>Required</strong> — The field must contain a non-empty, valid value.</li>
+    <li><strong>MinLength</strong> — The value must contain more than 3 characters.</li>
+    <li><strong>MaxLength</strong> — The value must not exceed 10 characters.</li>
+  </ul>
+
+  <p><strong>Address field validation rule:</strong></p>
+  <ul>
+    <li><strong>Required</strong> — The field must contain a valid value.</li>
+  </ul>
+
+  <p>
+    Implementation notes: apply standard Data Annotation attributes (Required, MinLength, MaxLength) to the model properties, bind inputs to those properties, and render validation messages using ValidationMessage components. Keep error text concise and associate it with the corresponding input for screen reader accessibility.
+  </p>
+
+  <p>
+    The sample helps demonstrate predictable validation behavior when using external submit controls: rules are uniformly enforced, messages are surfaced clearly, and the UI indicates when the model is valid and ready for submission.
+  </p>
+</ActionDescription>
+
+
+<div class="control-section col-lg-12">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+            <EditForm Model="@_annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">                
+                <DataAnnotationsValidator />
+                <div class="form-group">
+                    <div class="example-content">
+                        <label for="Name" class="example-label">Name</label>
+                        <SfTextBox @bind-Value="@_annotation.Name" Placeholder="Enter a name"></SfTextBox>
+                        <ValidationMessage For="@(() => _annotation.Name)" />
+                    </div>                    
+                    <div class="example-content">
+                        <label for="Address" class="example-label">Address</label>
+                        <SfTextBox @bind-Value="@_annotation.Address" Multiline="true" Placeholder="Enter an address"></SfTextBox>
+                        <ValidationMessage For="@(() => _annotation.Address)" />
+                    </div>
+                </div>
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+
+
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 30px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .example-content {
+        padding: 0px 0px 15px 0px;
+    }
+
+    .example-content:last-child {
+        padding: 0px 0px 15px 0px;
+    }
+
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+    }
+
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+</style>
+
+@code {
+    private string Message = string.Empty;
+    private Annotation _annotation = new Annotation();
+    
+    private async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        _annotation.Name = null;
+        _annotation.Address = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+    public class Annotation
+    {
+        [Required(ErrorMessage = "The address field is required.")]
+        public string? Address { get; set; }
+        [Required(ErrorMessage = "The name field is required.")]
+        [MaxLength(10, ErrorMessage = "The name field should not contain more than 10 characters.")]
+        [MinLength(3, ErrorMessage = "The name field must contain at least 3 characters.")]
+        public string? Name { get; set; }
+    }
+}

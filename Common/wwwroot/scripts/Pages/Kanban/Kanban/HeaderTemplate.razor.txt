@@ -1,0 +1,103 @@
+@page "/kanban/header-template"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates the header template feature of the <a class="e-kanban-headertemplate-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                                       href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                                       target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a Hotel Housekeeping. Column headers are customized with icons for improved clarity across To Do, In Progress, In Review, and Done stages.
+</p>
+<p>
+    Customize a column header using the <a class="e-kanban-headertemplate-reference-link" aria-label="Navigate to the API reference of Template property in Kanban"
+                                                                                                                       href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html#Syncfusion_Blazor_Kanban_KanbanColumn_Template"
+                                                                                                                       target="_blank" rel="noopener">Template</a> property on <a class="e-kanban-headertemplate-reference-link" aria-label="Navigate to the API reference of KanbanColumn"
+                                                                                                                       href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumn.html"
+                                                                                                                       target="_blank" rel="noopener">KanbanColumn</a> to insert rich content or visuals.
+</p>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the header template in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns#header-template"
+           target="_blank" rel="noopener">Header Template</a>: Replace the default column header with a fully custom layout including icons and text.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the toggle columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns#toggle-columns"
+           target="_blank" rel="noopener">Toggle Columns</a>: Allow each column to be collapsed or expanded directly from the header.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the drag and drop in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/drag-and-drop"
+           target="_blank" rel="noopener">Drag and Drop</a>: Move cards between columns to update their workflow status with a single action.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Status Icon</b>: Each column header includes an icon that reflects the workflow status of the column.</li>
+    <li><b>Custom Layout</b>: The header layout combines an icon and a header text element in a single row.</li>
+    <li><b>Toggle Support</b>: The toggle button remains available on the customized header to collapse or expand the column.</li>
+    <li><b>Consistent Styling</b>: Custom headers are rendered with shared CSS so they look consistent across the board.</li>
+</ul>
+<p>
+    The <b>Header Configuration</b> highlights the building blocks of a custom header:
+</p>
+<ul>
+    <li><b>Template</b>: A Razor template is provided via the <code>Template</code> property on each <code>KanbanColumn</code>.</li>
+    <li><b>Icon Mapping</b>: The first key field of the column drives the icon CSS class to match the status semantics.</li>
+    <li><b>AllowToggle</b>: The toggle behavior is preserved while still rendering a fully custom header layout.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-headertemplate-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@CardData" Height="500px">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="@item.AllowToggle">
+                    <Template>
+                        @{
+                            var column = context as KanbanColumn;
+                            string iconClass;
+                            if (column.KeyField != null && column.KeyField.Count > 0)
+                            {
+                                iconClass = column.KeyField[0];
+                            }
+                            else
+                            {
+                                iconClass = string.Empty;
+                            }
+                        }
+                        <div class="header-template-wrap">
+                            <div class="header-icon e-icons @iconClass"></div>
+                            <div class="header-text">@column.HeaderText</div>
+                        </div>
+                    </Template>
+                </KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+    </SfKanban>
+</div>
+@code{
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetHotelHousekeeping();
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "Dirty", KeyField = new List<string>() { "Dirty" } },
+        new ColumnModel() { HeaderText = "In Progress", KeyField = new List<string>() { "In Progress" } },
+        new ColumnModel() { HeaderText = "Cleaned", KeyField = new List<string>() { "Cleaned" } },
+        new ColumnModel() { HeaderText = "Inspected", KeyField = new List<string>() { "Inspected" } }
+    };
+}

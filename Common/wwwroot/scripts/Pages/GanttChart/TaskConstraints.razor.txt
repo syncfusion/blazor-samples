@@ -1,0 +1,123 @@
+﻿@page "/gantt-chart/task-constraints"
+
+@using Syncfusion.Blazor.Gantt
+@using BlazorDemos.Pages.GanttChart.Data
+
+@inject IJSRuntime JsInterop
+@*Hidden:Lines*@
+@inject SampleService SampleService
+@implements IDisposable
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>
+        This sample demonstrates how to schedule and manage a software product release using the <a class="e-gantt-task-constraints-sample-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Gantt Chart component" href="https://www.syncfusion.com/gantt-sdk/blazor-gantt-chart" target="_blank" rel="noopener">Blazor Gantt Chart</a>.
+        It showcases how task constraints can be applied to control task scheduling and enforce project timeline requirements.
+    </p>
+    <p>
+        In Gantt Chart, task constraints define the rules that limit a task's start or finish date based on project scheduling requirements.
+    </p>
+    <p>
+        The supported constraint types include:
+        <ul>
+            <li><code>As Soon As Possible</code> - Schedules a task to start as early as possible based on its predecessors and project schedule.</li>
+            <li><code>As Late As Possible</code> - Schedules a task to finish as late as possible without delaying successor tasks or the overall project timeline.</li>
+            <li><code>Must Start On</code> - Forces a task to start exactly on the specified constraint date.</li>
+            <li><code>Must Finish On</code> - Forces a task to finish exactly on the specified constraint date.</li>
+            <li><code>Start No Earlier Than</code> - Prevents a task from starting before the specified constraint date.</li>
+            <li><code>Start No Later Than</code> - Requires a task to start on or before the specified constraint date.</li>
+            <li><code>Finish No Earlier Than</code> - Prevents a task from finishing before the specified constraint date.</li>
+            <li><code>Finish No Later Than</code> - Requires a task to finish on or before the specified constraint date.</li>
+        </ul>
+        These constraints help enforce scheduling restrictions while maintaining task dependencies and overall project consistency.
+    </p>
+    <p>
+        Constraints can be assigned to tasks by mapping the <a class="e-gantt-task-constraints-sample-reference-link" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html" target="_blank" rel="noopener">ConstraintType</a> and <a class="e-gantt-task-constraints-sample-reference-link" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html" target="_blank" rel="noopener">ConstraintDate  </a> properties of <a class="e-gantt-task-constraints-sample-reference-link" href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Gantt.GanttTaskFields.html" target="_blank" rel="noopener">GanttTaskFields</a>.
+        Constraint information can also be modified through the task edit dialog, enabling scheduling restrictions to be updated dynamically.
+    </p>
+    <p>
+        When a task violates an assigned constraint, the Gantt Chart displays a scheduling conflict dialog containing details about the violation. The dialog provides options to either cancel the action and preserve the existing schedule or remove the conflicting constraint and apply the schedule change. This helps maintain accurate scheduling while respecting project deadlines and dependency relationships.
+    </p>
+    <p>
+        For details on task constraints, constraint types, scheduling conflict handling, and constraint validation in Gantt Chart, refer to the <a class="e-gantt-task-constraints-sample-reference-link" href="https://blazor.syncfusion.com/documentation/gantt-chart/task-constraints" target="_blank" rel="noopener">documentation</a>.
+    </p>
+</ActionDescription>
+
+<div class="control-section e-gantt-task-constraints-sample">
+    <SfGantt @ref="GanttInstance" DataSource="@TaskCollection" DateFormat="M/d/yyyy hh:mm" HighlightWeekends="true"
+             Toolbar="@(new List<string>() { "Add", "Edit", "Update", "Cancel" })" Height="550px" Width="100%" TreeColumnIndex="1"
+             ProjectStartDate="@(new DateTime(2026, 1, 5))" ProjectEndDate="@(new DateTime(2026, 3, 15))" ScrollToTaskbarOnClick="true">
+        <GanttTaskFields Id="TaskId" Name="TaskName" StartDate="StartDate" EndDate="EndDate" Duration="Duration" Progress="Progress" Dependency="Predecessor"
+                         ParentID="ParentId" ConstraintType="ConstraintType" ConstraintDate="ConstraintDate"></GanttTaskFields>
+        <GanttEditSettings AllowAdding="true" AllowEditing="true" AllowTaskbarEditing="true"></GanttEditSettings>
+        <GanttColumns>
+            <GanttColumn Field="TaskId" HeaderText="TaskId" Visible="false"></GanttColumn>
+            <GanttColumn Field="TaskName" HeaderText="Job Name" Width="200" ClipMode="Syncfusion.Blazor.Grids.ClipMode.EllipsisWithTooltip"></GanttColumn>
+            <GanttColumn Field="ConstraintType" HeaderText="Constraint Type"></GanttColumn>
+            <GanttColumn Field="ConstraintDate" HeaderText="Constraint Date"></GanttColumn>
+            <GanttColumn Field="StartDate" HeaderText="Start Date"></GanttColumn>
+            <GanttColumn Field="EndDate" HeaderText="End Date"></GanttColumn>
+            <GanttColumn Field="Duration" HeaderText="Duration"></GanttColumn>
+            <GanttColumn Field="Progress" HeaderText="Progress"></GanttColumn>
+            <GanttColumn Field="Predecessor" HeaderText="Dependency"></GanttColumn>
+        </GanttColumns>
+        <GanttTimelineSettings ViewStartDate="@(new DateTime(2026, 1, 1))" ViewEndDate="@(new DateTime(2026, 2, 21))"></GanttTimelineSettings>
+        <GanttEventMarkers>
+            <GanttEventMarker Top="200px" Day="@(new DateTime(2026, 1, 7))" Label="Project Start" />
+            <GanttEventMarker Top="200px" Day="@(new DateTime(2026, 2, 7))" Label="Project End" />
+        </GanttEventMarkers>
+        <GanttLabelSettings LeftLabel="TaskName" RightLabel="ConstraintType" TValue="TaskConstraintsData.TaskData"></GanttLabelSettings>
+    </SfGantt>
+</div>
+
+@*Hidden:Lines*@
+@code {
+    protected override void OnInitialized()
+    {
+        SampleService.TouchMousePreferenceChanged += OnTouchMousePreferenceChanged;
+    }
+
+    private async void OnTouchMousePreferenceChanged()
+    {
+        if (GanttInstance == null)
+        {
+            return;
+        }
+        await GanttInstance.RefreshAsync();
+        await GanttInstance.CallStateHasChangedAsync();
+    }
+#if WASM
+	private bool _disposed;
+	protected override async Task OnAfterRenderAsync(bool firstRender)
+	{
+		if (!firstRender || _disposed || GanttInstance == null)
+		{
+			return;
+		}
+		await Task.Delay(30);
+		if (_disposed || GanttInstance == null)
+		{
+			return;
+		}
+		await GanttInstance.RefreshAsync().ConfigureAwait(true);
+	}
+#endif
+    public void Dispose()
+    {
+#if WASM
+		_disposed = true;
+#endif
+        SampleService.TouchMousePreferenceChanged -= OnTouchMousePreferenceChanged;
+    }
+}
+@*End:Hidden*@
+<style>
+    .container-fluid {
+        padding: 0px !important;
+    }
+
+    .e-bigger .e-dialog,
+    .e-bigger .e-dlg-overlay {
+        transform: translateZ(0);
+    }
+</style>

@@ -1,0 +1,101 @@
+@page "/DatePicker/Forms-Validation"
+
+@using Syncfusion.Blazor.Calendars;
+@using Syncfusion.Blazor.Buttons;
+@using System.ComponentModel.DataAnnotations;
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+  <p>This sample demonstrates form validation using Data Annotations with the DatePicker component. Users may type a date directly into the input or select one from the calendar popup. When the input value is a valid date the form becomes eligible for submission; otherwise, a contextual error message is shown.</p>
+
+  <p>Validation is triggered by an external submit action and executed against the bound model using the <code>DataAnnotationsValidator</code>. All configured data-annotation attributes are evaluated when the submit button is invoked, ensuring model-level validation is enforced consistently regardless of whether the value was typed or selected from the calendar.</p>
+
+  <p>The DatePicker integrates with Blazor forms by binding the selected or typed date to the model property. Validation state is reflected in the UI so users receive immediate feedback after submission attempts; invalid values prevent form submission until corrected.</p>
+
+  <p><strong>Validation rules configured:</strong></p>
+  <ul>
+    <li><strong>Required:</strong> The field must contain a valid date value.</li>
+    <li><strong>Range:</strong> The selected date must fall within the specified bounds: 5 March 2021 through 25 March 2021.</li>
+  </ul>
+
+  <p>Implementation notes: apply the appropriate data-annotation attributes to the model property bound to the DatePicker, include a <code>DataAnnotationsValidator</code> in the form, and provide clear, accessible error messages. Test both typed input and calendar selection to confirm validation behaves as expected and that the form only submits when all rules pass.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="control-wrapper">
+        @if (string.IsNullOrEmpty(Message))
+        {
+            <EditForm Model="@_annotation" OnValidSubmit="@OnValidSubmit" OnInvalidSubmit="@OnInvalidSubmit">
+                <DataAnnotationsValidator/>
+                <div class="form-group">
+                    <label class="example-label">Date of journey</label>
+                    <SfDatePicker id='DatePick' Placeholder="Choose a Date" TValue="DateTime?" Min='@MinDate' Max='@MaxDate' @bind-Value="@_annotation.Startdate" ShowClearButton="true" FullScreen="true"></SfDatePicker>
+                    <ValidationMessage For="@(() => _annotation.Startdate)"/>
+                </div>
+                <div class="submit-btn">
+                    <SfButton type="submit" IsPrimary="true">Submit</SfButton>
+                </div>
+            </EditForm>
+        }
+        else
+        {
+            <div class="alert alert-success">
+                @Message
+            </div>
+        }
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 250px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+
+    .submit-btn {
+        display: flex;
+        justify-content: center;
+        padding: 10px 0px 0px;
+    }
+
+    .validation-message {
+        color: red;
+        padding: 5px 0px 0px;
+    }
+</style>
+
+@code {
+    private string Message = string.Empty;
+    
+    private async void OnValidSubmit()
+    {
+        Message = "Form Submitted Successfully!";
+        await Task.Delay(2000);
+        Message = string.Empty;
+        _annotation.Startdate = null;
+        StateHasChanged();
+    }
+    private void OnInvalidSubmit()
+    {
+        Message = string.Empty;
+    }
+    private DateTime MinDate { get; set; } = new DateTime(2021, 3, 1);
+    private DateTime MaxDate { get; set; } = new DateTime(2021, 3, 31);
+    private Annotation _annotation = new Annotation();
+
+    public class Annotation
+    {
+        [Required(ErrorMessage = "The Date field is required.")]
+        [Range(typeof(DateTime), "3/5/2021", "3/25/2021", ParseLimitsInInvariantCulture = true, ErrorMessage = "The date should be between 5 March 2021 and 25 March 2021.")]
+        public DateTime? Startdate { get; set; } = null;
+    }
+}

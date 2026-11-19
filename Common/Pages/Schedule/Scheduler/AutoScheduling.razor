@@ -1,0 +1,728 @@
+@page "/scheduler/auto-scheduling"
+
+@using System.Linq
+@using Syncfusion.Blazor.Schedule
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.Calendars
+@using Syncfusion.Blazor.Navigations
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject IJSRuntime JSRuntime
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This demo showcases Auto Scheduling in the Scheduler with skill-based resource allocation, workload balancing, and automated appointment assignment. Automatically assign unplanned appointments to the most suitable doctor or nurse based on required skills, availability, and optimized time slot matching.
+</p>
+<p>
+    Auto Scheduling in the Scheduler helps healthcare teams efficiently assign patient appointments to qualified staff members. Unplanned appointments are listed in the grid with their required skills, while the Scheduler displays the current workload and availability of each resource.
+</p>
+
+<p>
+    <strong>Skill-Based Assignment</strong><br />
+    Appointments are automatically matched to doctors and nurses who possess the required skill. The scheduler ensures that only qualified resources can be assigned to specialized tasks such as Cardiology, Pediatrics, Surgery, ICU, ER, and Ward care.
+</p>
+
+<p>
+    <strong>Workload Balancing</strong><br />
+    The scheduling algorithm distributes appointments across available resources while respecting the configured daily workload limit. This helps prevent overbooking and promotes balanced utilization of staff members.
+</p>
+
+<p>
+    <strong>Automatic Scheduling</strong><br />
+    Clicking the <b>Auto Scheduling</b> button analyzes resource skills, workload capacity, and available schedule gaps to find the most appropriate time slot for each unplanned appointment.
+</p>
+
+<p>
+    <strong>Interactive Scheduling</strong><br />
+    Appointments can also be manually assigned by dragging records from the grid into the Scheduler. Skill matching, workload limits, and schedule conflict validation are automatically enforced during drag-and-drop operations.
+</p>
+<p>Looking for the full Blazor Scheduler component overview, features, pricing, and documentation? Visit our <a rel="noopener" target='_blank' href='https://www.syncfusion.com/scheduler-sdk/blazor-scheduler' aria-label="Navigate to the Blazor Scheduler FT page">Blazor Scheduler</a> component page.</p>
+</ActionDescription>
+
+<div class="schedule-control-section">
+    <div class="col-lg-12 control-section">
+        <div class="content-wrapper auto-scheduling">
+            <div class="schedule-container">
+                <div class="schedule-content">
+                    <h5 style="text-align: center; margin: 0; position: relative; bottom: 10px;">Automated Appointment Assignment</h5>
+                    <SfSchedule TValue="AppointmentData" @ref="ScheduleRef" ID="Schedule" Width="100%" height="100%" CssClass="schedule-auto-scheduling" @bind-SelectedDate="@CurrentDate" AllowOverlap="false" AllowResizing="false">
+
+                        <ScheduleToolBar>
+                        
+                            <ScheduleToolBarPrevious />
+                        
+                            <ScheduleToolBarNext />
+                        
+                            <ScheduleToolBarDateRange />
+                        
+                            <ScheduleToolBarCustom Type="ItemType.Spacer" />
+                        
+                            <ScheduleToolBarToday />
+                        
+                            <ScheduleToolBarCustom>
+                                <SfButton style="padding: 3.6px 6px;" CssClass="e-primary"
+                                          OnClick="HandleAutoScheduling">
+                                    Auto Scheduling
+                                </SfButton>
+                            </ScheduleToolBarCustom>
+                        
+                        </ScheduleToolBar>
+                        <ScheduleResources>
+                            <ScheduleResource TItem="ResourceData" TValue="int" DataSource="@ResourceDatasource" Field="StaffId" Title="Staff" Name="Staff" TextField="Text" IdField="Id" ColorField="Color" GroupIdField="Group"></ScheduleResource>
+                        </ScheduleResources>
+                        <ScheduleEvents TValue="AppointmentData" OnDragStart="DragStart" Dragged="ScheduleDragStop" OnCellClick="OnCellClick" OnPopupOpen="OnPopupOpen" ActionCompleted="OnActionCompleted" Created="OnScheduleCreated"></ScheduleEvents>
+                        <ScheduleGroup Resources="@GroupData"></ScheduleGroup>
+                        <ScheduleViews>
+                            <ScheduleView Option="View.TimelineDay">
+                            </ScheduleView>
+                        </ScheduleViews>
+                        <ScheduleTemplates>
+                            <ResourceHeaderTemplate Context="data">
+                            
+                                @{
+                                    var resource =
+                                    (data as Syncfusion.Blazor.Schedule.TemplateContext)?
+                                    .ResourceData as ResourceData;
+                                }
+
+                                @if (resource != null)
+                                {
+                                    <div class="resource-header-container">
+                                    
+                                        <div class="resource-header-avatar"
+                                             style="background-color:@resource.Color">
+                                            @resource.Text?.Substring(0,1)
+                                        </div>
+                                    
+                                        <div class="resource-header-info">
+                                        
+                                            <div class="resource-header-name">
+                                                @resource.Text
+                                            </div>
+                                        
+                                            <div class="resource-header-skills">
+                                            
+                                                @foreach (var skill in resource.Skills ?? new())
+                                                {
+                                                    <span class="skill-badge">
+                                                        @skill
+                                                    </span>
+                                                }
+                                            
+                                            </div>
+                                        
+                                        </div>
+                                    
+                                        <div class="resource-header-workload" style="margin-right: 15px;">
+                                        
+                                            @GetResourceWorkload(resource.Id, CurrentDate)/8h
+                                        
+                                        </div>
+                                    
+                                    </div>
+                                }
+                            
+                            </ResourceHeaderTemplate>
+                        
+                        </ScheduleTemplates>
+                        <ScheduleEventSettings DataSource="@ScheduleDatasource"></ScheduleEventSettings>
+                    </SfSchedule>
+                </div>
+                @if (IsGridRendered)
+                {
+                    <div class="grid-content">
+                        <h5 style="text-align: center; margin: 0; position: relative; bottom: 10px;">Unplanned Appointments</h5>
+                        <SfGrid DataSource="@GridDatasource" ID="Grid" @ref="GridRef" Width="340px" Height="100%" AllowRowDragAndDrop="true" AllowSelection="true" class="drag-grid-data">
+                            <GridRowDropSettings TargetID="Schedule"></GridRowDropSettings>
+                            <GridEditSettings AllowAdding="true"></GridEditSettings>
+                            <GridEvents RowDropping="GridDragStop" TValue="GridAppointmentData"></GridEvents>
+                            <GridColumns>
+                                <GridColumn HeaderText="Task" Width="185">
+                                    <Template>
+                                        @{
+                                            var appt = (context as GridAppointmentData)!;
+                                            <div class="task-template">
+                                                <div class="task-name">@appt.Task</div>
+                                                <span class="task-skill">@appt.RequiredSkill</span>
+                                            </div>
+                                        }
+                                    </Template>
+                                </GridColumn>
+                                <GridColumn Field="@nameof(GridAppointmentData.Duration)" HeaderText="Duration" Width="80"></GridColumn>
+                            </GridColumns>
+                        </SfGrid>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+@code {
+    DateTime CurrentDate = new DateTime(DateTime.Now.Year, DateTime.Now.Month, DateTime.Now.Day);
+    SfSchedule<AppointmentData>? ScheduleRef;
+    SfGrid<GridAppointmentData>? GridRef;
+    
+    private bool IsGridRendered;
+    
+    public string[] GroupData = new string[] { "Staff" };
+
+    private const int MaxDailyWorkload = 8;
+    private Dictionary<int, double> ResourceWorkload = new();
+    private HashSet<string> ScheduledAppointments = new();
+
+    public List<AppointmentData> ScheduleDatasource = new List<AppointmentData>();
+    public List<ResourceData> ResourceDatasource { get; set; } = new List<ResourceData>();
+    public List<GridAppointmentData> GridDatasource { get; set; } = new List<GridAppointmentData>();
+    private AppointmentData? DraggedEvent;
+
+    public class ResourceData
+    {
+        public int Id { get; set; }
+        public string? Text { get; set; }
+        public string? Color { get; set; }
+        public string? Group { get; set; }
+        public List<string>? Skills { get; set; }
+    }
+
+    public class AppointmentData
+    {
+        public int Id { get; set; }
+        public string? Subject { get; set; }
+        public DateTime StartTime { get; set; }
+        public DateTime EndTime { get; set; }
+        public bool IsAllDay { get; set; }
+        public int StaffId { get; set; }
+        public string? RequiredSkill { get; set; }
+    }
+
+    public class GridAppointmentData
+    {
+        public string? Task { get; set; }
+        public string? Duration { get; set; }
+        public string? RequiredSkill { get; set; }
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        ResourceDatasource = new List<ResourceData>
+        {
+            new ResourceData { Text = "Smith", Id = 1, Color = "#df5286", Group = "Doctor", Skills = new List<string> { "Cardiology", "General" } },
+            new ResourceData { Text = "Lee", Id = 2, Color = "#7fa900", Group = "Doctor", Skills = new List<string> { "Pediatrics", "General" } },
+            new ResourceData { Text = "Patel", Id = 3, Color = "#ea7a57", Group = "Doctor", Skills = new List<string> { "Surgery", "General" } },
+            new ResourceData { Text = "Amy", Id = 4, Color = "#5978ee", Group = "Nurse", Skills = new List<string> { "ICU", "Ward" } },
+            new ResourceData { Text = "John", Id = 5, Color = "#00bdae", Group = "Nurse", Skills = new List<string> { "ER", "Ward" } },
+            new ResourceData { Text = "Sara", Id = 6, Color = "#f57b42", Group = "Nurse", Skills = new List<string> { "ICU", "ER" } },
+        };
+
+        ScheduleDatasource = GetInitialEvents();
+
+        GridDatasource = new List<GridAppointmentData>
+        {
+            new GridAppointmentData { Task = "Cardiology Consultation", Duration = "2 Hours", RequiredSkill = "Cardiology" },
+            new GridAppointmentData { Task = "Pediatric Health Assessment", Duration = "1 Hour", RequiredSkill = "Pediatrics" },
+            new GridAppointmentData { Task = "Pre-Surgical Evaluation", Duration = "3 Hours", RequiredSkill = "Surgery" },
+            new GridAppointmentData { Task = "Critical Care Monitoring", Duration = "2 Hours", RequiredSkill = "ICU" },
+            new GridAppointmentData { Task = "Emergency Patient Intake", Duration = "1 Hour", RequiredSkill = "ER" },
+            new GridAppointmentData { Task = "Inpatient Care Management", Duration = "2 Hours", RequiredSkill = "Ward" },
+            new GridAppointmentData { Task = "General Medical Examination", Duration = "1 Hour", RequiredSkill = "General" },
+            new GridAppointmentData { Task = "Emergency Case Assessment", Duration = "1 Hour", RequiredSkill = "ER" }
+        };
+    }
+
+    private List<AppointmentData> GetInitialEvents()
+    {
+        var today = DateTime.Now;
+        today = new DateTime(today.Year, today.Month, today.Day, 0, 0, 0);
+
+        return new List<AppointmentData>
+        {
+            new AppointmentData { Id = 1, Subject = "Cardiac Checkup - Mr. Johnson", StartTime = new DateTime(today.Year, today.Month, today.Day, 9, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 11, 30,0), IsAllDay = false, StaffId = 1, RequiredSkill = "Cardiology" },
+            new AppointmentData { Id = 2, Subject = "Consultation - ECG Review", StartTime = new DateTime(today.Year, today.Month, today.Day, 12, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 14, 0,0), IsAllDay = false, StaffId = 1, RequiredSkill = "Cardiology" },
+            new AppointmentData { Id = 3, Subject = "Child Wellness Exam - Emma", StartTime = new DateTime(today.Year, today.Month, today.Day, 9, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 11, 0,0), IsAllDay = false, StaffId = 2, RequiredSkill = "Pediatrics" },
+            new AppointmentData { Id = 4, Subject = "Vaccination Clinic", StartTime = new DateTime(today.Year, today.Month, today.Day, 11, 30,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 13, 0,0), IsAllDay = false, StaffId = 2, RequiredSkill = "General" },
+            new AppointmentData { Id = 5, Subject = "Pre-Op Assessment", StartTime = new DateTime(today.Year, today.Month, today.Day, 9, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 10, 30,0), IsAllDay = false, StaffId = 3, RequiredSkill = "Surgery" },
+            new AppointmentData { Id = 6, Subject = "Surgical Consultation - Mrs. Smith", StartTime = new DateTime(today.Year, today.Month, today.Day, 11, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 13, 30,0), IsAllDay = false, StaffId = 3, RequiredSkill = "Surgery" },
+            new AppointmentData { Id = 7, Subject = "ICU Patient Monitoring", StartTime = new DateTime(today.Year, today.Month, today.Day, 9, 30,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 12, 30,0), IsAllDay = false, StaffId = 4, RequiredSkill = "ICU" },
+            new AppointmentData { Id = 8, Subject = "Vitals Check - ICU Ward", StartTime = new DateTime(today.Year, today.Month, today.Day, 13, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 14, 0,0), IsAllDay = false, StaffId = 4, RequiredSkill = "Ward" },
+            new AppointmentData { Id = 9, Subject = "ER Triage - Patient Intake", StartTime = new DateTime(today.Year, today.Month, today.Day, 9, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 11, 0,0), IsAllDay = false, StaffId = 5, RequiredSkill = "ER" },
+            new AppointmentData { Id = 10, Subject = "Emergency Response Team", StartTime = new DateTime(today.Year, today.Month, today.Day, 15, 30,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 17, 0,0), IsAllDay = false, StaffId = 5, RequiredSkill = "ER" },
+            new AppointmentData { Id = 11, Subject = "ICU Support & Monitoring", StartTime = new DateTime(today.Year, today.Month, today.Day, 11, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 13, 0,0), IsAllDay = false, StaffId = 6, RequiredSkill = "ICU" },
+            new AppointmentData { Id = 12, Subject = "ER Support - Critical Care", StartTime = new DateTime(today.Year, today.Month, today.Day, 16, 0,0), EndTime = new DateTime(today.Year, today.Month, today.Day, 17, 30,0), IsAllDay = false, StaffId = 6, RequiredSkill = "ER" },
+        };
+    }
+
+    private bool IsTimeSlotAvailableForResource(int resourceId, DateTime startTime, DateTime endTime)
+    {
+        if (ScheduleRef == null)
+            return false;
+
+        var allEvents = ScheduleDatasource;
+        var proposedDay = new DateTime(startTime.Year, startTime.Month, startTime.Day);
+
+        return !allEvents.Any(e =>
+        {
+            if (e.StaffId != resourceId)
+                return false;
+
+            var eventDay = new DateTime(e.StartTime.Year, e.StartTime.Month, e.StartTime.Day);
+            if (eventDay != proposedDay)
+                return false;
+
+            return startTime < e.EndTime && endTime > e.StartTime;
+        });
+    }
+
+
+    private void DragStart(DragEventArgs<AppointmentData> args)
+    {
+        
+            DraggedEvent = new AppointmentData
+            {
+                Id = args.Data.Id,
+                Subject = args.Data.Subject,
+                StaffId = args.Data.StaffId,
+                StartTime = args.Data.StartTime,
+                EndTime = args.Data.EndTime,
+                RequiredSkill = args.Data.RequiredSkill,
+            };
+        
+    }
+
+    public async Task ScheduleDragStop(DragEventArgs<AppointmentData> args)
+    {
+        var gridData = await JSRuntime.InvokeAsync<bool>("isSelectorFromPoint", args.MouseEventArgs.ClientX, args.MouseEventArgs.ClientY, "grid-content");
+        if (gridData)
+        {
+            var schedule = ScheduleRef;
+            var grid = GridRef;
+            if (schedule == null || grid == null)
+                return;
+
+            args.Cancel = true;
+            double duration = (args.EndTime - args.StartTime).TotalHours;
+            AppointmentData data = new AppointmentData
+            {
+                Id = args.Data.Id,
+                StartTime = args.StartTime,
+                EndTime = args.EndTime,
+                Subject = args.Data.Subject,
+                StaffId = args.Data.StaffId,
+                RequiredSkill = args.Data.RequiredSkill,
+                IsAllDay = args.Data.IsAllDay
+            };
+            ScheduleDatasource.Remove(args.Data);
+            await ScheduleRef!.RefreshEventsAsync();
+        }
+        if (DraggedEvent != null)
+        {
+            var resource = ResourceDatasource
+                .FirstOrDefault(r => r.Id == args.Data.StaffId);
+        
+            if (resource != null &&
+                !resource.Skills!.Contains(args.Data.RequiredSkill ?? ""))
+            {
+                args.Cancel = true;
+                return;
+            }
+
+            double durationHours = (args.Data.EndTime - args.Data.StartTime).TotalHours;
+            double currentWorkload = GetResourceWorkloadForDate(args.Data.StaffId,args.Data.StartTime,args.Data.Id);
+            if (currentWorkload + durationHours > MaxDailyWorkload)
+            {
+                args.Cancel = true;
+                return;
+            }
+        }
+        await InvokeAsync(StateHasChanged);
+    }
+
+    public async Task GridDragStop(RowDroppingEventArgs<GridAppointmentData> args)
+    {
+        if (args.TargetDimension != null)
+        {
+            var schedule = ScheduleRef;
+            if (schedule == null)
+                return;
+
+            await Task.Yield();
+            CellClickEventArgs? cellData = await schedule.GetTargetCellAsync((int)args.ClientX, (int)args.ClientY);
+            var eventData = args.Data;
+            if (eventData == null || eventData.Count == 0)
+                return;
+
+            var appt = eventData[0];
+            var durationStr = appt.Duration ?? "1 Hour";
+            int durationHours = int.Parse(durationStr.Split(' ')[0]);
+
+            if (cellData != null)
+            {
+                args.Cancel = true;
+                var resourceDetails = schedule.GetResourceByIndex(cellData.GroupIndex);
+                
+                if (resourceDetails != null && resourceDetails.GroupData != null)
+                {
+                    var staffId = (int)resourceDetails.GroupData.StaffId;
+                    var resource = ResourceDatasource.FirstOrDefault(r => r.Id == staffId);
+
+                    if (resource != null && resource.Skills != null && resource.Skills.Contains(appt.RequiredSkill ?? ""))
+                    {
+                        AppointmentData newEvent = new AppointmentData
+                        {
+                            Id = ScheduleDatasource.Max(e => e.Id) + 1,
+                            Subject = appt.Task,
+                            StartTime = cellData.StartTime,
+                            EndTime = cellData.StartTime.AddHours(durationHours),
+                            IsAllDay = cellData.IsAllDay,
+                            StaffId = staffId,
+                            RequiredSkill = appt.RequiredSkill
+                        };
+                        double currentWorkload = GetResourceWorkloadForDate(staffId, newEvent.StartTime, 0);
+                        if (currentWorkload + durationHours > MaxDailyWorkload)
+                        {
+                            return;
+                        }
+                    
+                        if (IsTimeSlotAvailableForResource(staffId,newEvent.StartTime,newEvent.EndTime))
+                        {
+                            ScheduleDatasource.Add(newEvent);
+                        
+                            GridDatasource.Remove(appt);
+                        
+                            await ScheduleRef!.RefreshEventsAsync();
+                        
+                            if (GridRef != null)
+                            {
+                                await GridRef.Refresh();
+                            }
+                        }
+                    
+                        StateHasChanged();
+                    }
+                }
+            }
+        }
+    }
+
+    private string GetResourceWorkload(int resourceId, DateTime date)
+    {
+        var dayStart = new DateTime(date.Year, date.Month, date.Day);
+        var dayEnd = new DateTime(date.Year, date.Month, date.Day, 23, 59, 59);
+
+        var allEvents = ScheduleDatasource;
+        double totalHours = 0;
+
+        foreach (var e in allEvents)
+        {
+            var eventDate = new DateTime(e.StartTime.Year, e.StartTime.Month, e.StartTime.Day);
+            if (eventDate != dayStart)
+                continue;
+
+            if (e.StaffId == resourceId)
+            {
+                totalHours += (e.EndTime - e.StartTime).TotalHours;
+            }
+        }
+
+        return $"{totalHours:F1}h";
+    }
+
+    private (DateTime startTime, DateTime endTime)? FindAvailableTimeSlotForResource(int resourceId, int durationHours, DateTime date)
+    {
+        var dayStart = new DateTime(date.Year, date.Month, date.Day);
+        dayStart = new DateTime(dayStart.Year, dayStart.Month, dayStart.Day, 9, 0, 0);
+
+        var dayEnd = new DateTime(date.Year, date.Month, date.Day, 23, 0, 0);
+
+        var allEvents = ScheduleDatasource;
+        var selectedDay = date.Date;
+
+        var resourceEvents = allEvents
+            .Where(e =>
+                e.StaffId == resourceId &&
+                e.StartTime.Date == selectedDay)
+            .OrderBy(e => e.StartTime)
+            .ToList();
+
+        var durationMs = durationHours * 60 * 60 * 1000;
+
+        if (resourceEvents.Count == 0)
+        {
+            if ((dayEnd - dayStart).TotalHours >= durationHours)
+            {
+                return (dayStart, dayStart.AddHours(durationHours));
+            }
+        }
+        else
+        {
+            if ((resourceEvents[0].StartTime - dayStart).TotalHours >= durationHours)
+            {
+                return (dayStart, dayStart.AddHours(durationHours));
+            }
+
+            for (int i = 0; i < resourceEvents.Count - 1; i++)
+            {
+                var gapStart = resourceEvents[i].EndTime;
+                var gapEnd = resourceEvents[i + 1].StartTime;
+                if ((gapEnd - gapStart).TotalHours >= durationHours)
+                {
+                    return (gapStart, gapStart.AddHours(durationHours));
+                }
+            }
+
+            var lastEventEnd = resourceEvents.Last().EndTime;
+            if ((dayEnd - lastEventEnd).TotalHours >= durationHours)
+            {
+                return (lastEventEnd, lastEventEnd.AddHours(durationHours));
+            }
+        }
+
+        return null;
+    }
+
+    private async Task HandleAutoScheduling()
+    {
+        if (ScheduleRef == null || GridRef == null)
+            return;
+
+        ResourceWorkload.Clear();
+        ScheduledAppointments.Clear();
+
+        var scheduleDate = CurrentDate;
+        var dayStart = CurrentDate.Date;
+
+        foreach (var resource in ResourceDatasource)
+        {
+            ResourceWorkload[resource.Id] = GetResourceWorkloadForDate(resource.Id,CurrentDate,0);
+        }
+
+        var appointmentsToSchedule = GridDatasource.ToList();
+        int nextEventId = ScheduleDatasource.Max(e => e.Id) + 1;
+
+        foreach (var appt in appointmentsToSchedule)
+        {
+            var durationStr = appt.Duration ?? "1 Hour";
+            int durationHours = int.Parse(durationStr.Split(' ')[0]);
+            var requiredSkill = appt.RequiredSkill ?? "General";
+
+            var matchingResources = ResourceDatasource
+                .Where(r => r.Skills != null && r.Skills.Contains(requiredSkill))
+                .OrderBy(r => ResourceWorkload.ContainsKey(r.Id) ? ResourceWorkload[r.Id] : 0)
+                .ToList();
+
+            foreach (var resource in matchingResources)
+            {
+                var currentWorkload = ResourceWorkload.ContainsKey(resource.Id) ? ResourceWorkload[resource.Id] : 0;
+
+                if (currentWorkload + durationHours <= MaxDailyWorkload)
+                {
+                    var timeSlot = FindAvailableTimeSlotForResource(resource.Id, durationHours, CurrentDate.Date);
+
+                    if (timeSlot.HasValue)
+                    {
+                        var newEvent = new AppointmentData
+                        {
+                            Id = nextEventId++,
+                            Subject = appt.Task,
+                            StartTime = timeSlot.Value.startTime,
+                            EndTime = timeSlot.Value.endTime,
+                            IsAllDay = false,
+                            StaffId = resource.Id,
+                            RequiredSkill = requiredSkill
+                        };
+
+                        ScheduleDatasource.Add(newEvent);
+                        ResourceWorkload[resource.Id] = currentWorkload + durationHours;
+                        ScheduledAppointments.Add(appt.Task ?? "");
+                        break;
+                    }
+                }
+            }
+        }
+
+        var remainingAppointments = GridDatasource
+            .Where(a => !ScheduledAppointments.Contains(a.Task ?? ""))
+            .ToList();
+        GridDatasource = remainingAppointments;
+
+        await ScheduleRef.RefreshEventsAsync(); 
+        StateHasChanged();
+    }
+    
+    private double GetResourceWorkloadForDate(int resourceId, DateTime date, int excludeEventId)
+    {
+        var dayStart = new DateTime(date.Year, date.Month, date.Day);
+        var allEvents = ScheduleDatasource;
+        double totalHours = 0;
+
+        foreach (var e in allEvents)
+        {
+            var eventDate = new DateTime(e.StartTime.Year, e.StartTime.Month, e.StartTime.Day);
+            if (eventDate != dayStart)
+                continue;
+
+            if (e.StaffId == resourceId && e.Id != excludeEventId)
+            {
+                totalHours += (e.EndTime - e.StartTime).TotalHours;
+            }
+        }
+
+        return totalHours;
+    }
+
+    public void OnCellClick(CellClickEventArgs args)
+    {
+        args.Cancel = true;
+    }
+
+    public void OnPopupOpen(PopupOpenEventArgs<AppointmentData> args)
+    {
+        if (args.Type == PopupType.Editor)
+        {
+            args.Cancel = true;
+        }
+    }
+
+
+    public async Task OnActionCompleted(Syncfusion.Blazor.Schedule.ActionEventArgs<AppointmentData> args)
+    {
+        if (args.ActionType == ActionType.EventCreate || args.ActionType == ActionType.EventChange || args.ActionType == ActionType.EventRemove)
+        {
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task OnScheduleCreated()
+    {
+        await Task.Yield();
+        IsGridRendered = true;
+        await InvokeAsync(StateHasChanged);
+    }
+   
+}
+<style>
+ .schedule-auto-scheduling.e-schedule .skill-badge {
+  display: inline-block;
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  padding: 2px 6px;
+  border-radius: 3px;
+  font-size: 10px;
+  font-weight: 500;
+  margin: 1px 2px;
+  white-space: nowrap;
+}
+
+.schedule-auto-scheduling.e-schedule .resource-header-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  box-sizing: border-box;
+}
+
+.schedule-auto-scheduling.e-schedule .resource-header-avatar {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  color: white;
+  font-weight: bold;
+  font-size: 16px;
+  flex: 0 0 40px;
+}
+
+.schedule-auto-scheduling.e-schedule .resource-header-info {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.schedule-auto-scheduling.e-schedule .resource-header-name {
+  font-weight: bold;
+  font-size: 13px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.schedule-auto-scheduling.e-schedule .resource-header-skills {
+  display: flex;
+  gap: 2px;
+  margin-bottom: 4px;
+  flex-wrap: wrap;
+}
+
+.schedule-auto-scheduling.e-schedule .resource-header-workload {
+  font-weight: bold;
+  font-size: 13px;
+  white-space: nowrap;
+  margin-left: 8px;
+  flex: 0 0 auto;
+}
+
+.schedule-auto-scheduling.e-schedule .e-resource-cells .e-resource-text .resource-header-container {
+  display: flex;
+  align-items: center;
+}
+
+.schedule-auto-scheduling.e-schedule .e-resource-cells .e-resource-text .resource-header-avatar {
+  margin-top: 0;
+}
+
+.schedule-auto-scheduling.e-schedule .e-resource-left-td {
+  min-width: 280px;
+  width: 280px;
+  max-width: 280px;
+}
+
+.auto-scheduling .schedule-container {
+  display: flex;
+  gap: 10px;
+  height: 650px;
+  margin-bottom: 15px;
+}
+
+.auto-scheduling .schedule-container .schedule-content {
+  flex: 1;
+  min-width: 0;
+}
+
+.schedule-auto-scheduling.e-schedule .e-timeline-view .e-resource-left-panel {
+  min-width: 280px;
+  width: 280px;
+  max-width: 280px;
+}
+
+.drag-grid-data .task-template {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.drag-grid-data .task-name {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.drag-grid-data .task-skill {
+  display: inline-block;
+  width: fit-content;
+  padding: 2px 8px;
+  border-radius: 3px;
+  background-color: #e0e7ff;
+  color: #4f46e5;
+  font-size: 11px;
+  font-weight: 500;
+}
+
+.schedule-auto-scheduling .e-quick-popup-wrapper .e-event-edit,
+.schedule-auto-scheduling .e-quick-popup-wrapper .e-edit {
+    visibility: hidden;
+}
+</style>

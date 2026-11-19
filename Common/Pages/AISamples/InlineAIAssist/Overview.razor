@@ -1,0 +1,352 @@
+@page "/inline-ai-assist/overview"
+@using Syncfusion.Blazor.InteractiveChat
+@using Syncfusion.Blazor.Navigations
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.InteractiveChatDemo
+@inject IJSRuntime JSRuntime
+@using BlazorDemos.Service
+@using AIAssistview.Service
+@inject AIService AIService
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+<AINotification></AINotification>
+
+<AIToastNotification></AIToastNotification>
+
+@*End:Hidden*@
+
+<ActionDescription>
+    <p>This sample demonstrates the overview functionalities of the Inline AI Assist component in an email draft assistant scenario. Users can access AI assistance in two ways: hover over any paragraph to see a sparkle button for inline editing, or click the AI Assistant button to enhance the entire email content.</p>
+</ActionDescription>
+
+<div class="control-section">
+    <div class="overview-inlineAIAssist">
+    <div class="email-container">
+        <div class="email-composer e-card">
+            <h3 class="demo-title">📧 Email Draft Assistant</h3>
+            <div class="email-field e-card-content">
+                <label class="field-label">To:</label>
+                <input type="text" class="field-input e-input" value="team@company.com" readonly />
+            </div>
+            <div class="email-field e-card-content">
+                <label class="field-label">Subject:</label>
+                <input type="text" class="field-input e-input" value="Project Update - Q1 Deliverables" readonly />
+            </div>
+            <div class="email-field-vertical e-card-content">
+                <div class="message-header">
+                    <SfButton @ref="aiAssistantButton" id="aiAssistantBtn" @onclick="OnAIAssistantClickAsync" IsPrimary="true" Title="AI Assistant">
+                        <span class="e-icons e-ai-chat"></span> AI Assistant
+                    </SfButton>
+                </div>
+                <div class="email-body" id="emailContent" @key="contentKey" @ref="emailContentRef">
+                    @((MarkupString)@emailContent)
+                    <SfButton @ref="sparkleButton"
+                              id="sparkleBtn"
+                              @onclick="OnSparkleClickAsync"
+                              IsPrimary="true"
+                              Title="AI Assistant"
+                              Class="sparkle-btn"
+                              Style="@sparkleButtonStyle">
+                        <span class="e-icons e-ai-chat"></span>
+                    </SfButton>
+                </div>
+            </div>
+            <div class="email-actions e-card-content">
+                <SfButton id="sendBtn" @onclick="OnSendEmailClick" IsPrimary="true" Title="Send">Send Email</SfButton>
+            </div>
+        </div>
+    </div>
+
+    <SfInlineAIAssist @ref="inlineAssist" RelateTo="@relateToSelector" Opened="OnPopupOpened" Closed="OnPopupClosed" PromptRequested="OnPromptRequestAsync">
+        <CommandMenu Commands="commandItems"></CommandMenu>
+        <ResponseActions ItemSelect="@OnResponseItemSelectAsync"></ResponseActions>
+    </SfInlineAIAssist>
+</div>
+</div>
+@code {
+    private SfInlineAIAssist inlineAssist = new SfInlineAIAssist();
+    private SfButton? aiAssistantButton;
+    private SfButton? sparkleButton;
+    private ElementReference emailContentRef;
+    private DotNetObjectReference<Overview>? dotNetRef;
+    private string relateToSelector = "#aiAssistantBtn";
+    private bool isGlobalRequest = false;
+    private bool isPopupOpen = false;
+    private string sparkleButtonStyle = "display: none;";
+    private string hoveredParagraphSelector = string.Empty;
+    private string currentContent = string.Empty;
+    private string initialEmailContent = string.Empty;
+    private int contentKey = 0;
+
+    private string emailContent = @"<p>
+                Dear Team,
+                </p>
+                <p>
+                I hope this email finds you well. I wanted to provide you with an update on our current project status. We successfully completed Phase 1 last week, and I'm pleased to share that all deliverables were met according to schedule. The client presentation went well and they expressed satisfaction with our progress.
+                </p>
+                <p>
+                As we move forward into Phase 2, I would appreciate it if everyone could submit their progress reports by Friday. Additionally, we should schedule a team meeting next week to discuss the upcoming timeline and address any questions or concerns you may have.
+                </p>
+                <p>
+                Thank you for your continued dedication and hard work on this project.
+                </p>
+                <p>
+                Best regards,<br>
+                Project Management Team
+                </p>";
+
+    private List<CommandItem> commandItems = new();
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        initialEmailContent = emailContent;
+        commandItems = new List<CommandItem>
+        {
+            new CommandItem { ID = "summarize", Label = "Summarize", Tooltip = "Create a brief summary", IconCss = "e-icons e-collapse-2", Prompt = "Summarize the main points" },
+            new CommandItem { ID = "fix-grammar", Label = "Fix Grammar", Tooltip = "Correct grammar and spelling", IconCss = "e-icons e-grammar-check", Prompt = "Fix grammar, spelling, and punctuation errors" },
+            new CommandItem { ID = "make-professional", Label = "Make Professional", Tooltip = "Transform to formal business tone", IconCss = "e-icons e-annotation-edit", Prompt = "Rewrite this in a professional, formal business tone" },
+            new CommandItem { ID = "make-friendly", Label = "Make Friendly", Tooltip = "Make the tone more casual and friendly", IconCss = "e-icons e-ai-chat", Prompt = "Rewrite this in a friendly, casual tone" }
+        };
+    }
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            dotNetRef = DotNetObjectReference.Create(this);
+            await JSRuntime.InvokeVoidAsync("initEmailParagraphHover", dotNetRef, "emailContent", "sparkleBtn");
+
+        }
+    }
+
+    [JSInvokable]
+    public async void OnParagraphHover(string paragraphSelector, double top)
+    {
+        if (isPopupOpen) return;
+
+        hoveredParagraphSelector = paragraphSelector;
+        relateToSelector = paragraphSelector;
+
+        sparkleButtonStyle = $"display: block; position: absolute; left: 8px; top: {top}px;";
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async void OnPopupOpened()
+    {
+        isPopupOpen = true;
+        sparkleButtonStyle = "display: none;";
+        await InvokeAsync(StateHasChanged);
+        await JSRuntime.InvokeVoidAsync("setPopupState", true);
+    }
+
+    [JSInvokable]
+    public async void OnEmailBodyLeave()
+    {
+        if (!isPopupOpen)
+        {
+            sparkleButtonStyle = "display: none;";
+            await InvokeAsync(StateHasChanged);
+        }
+    }
+
+    private async Task OnResponseItemSelectAsync(ResponseItemSelectEventArgs args)
+    {
+        if (args.Item.Label == "Accept")
+        {
+            var lastPrompt = inlineAssist?.Prompts.LastOrDefault();
+            if (lastPrompt != null && !string.IsNullOrEmpty(lastPrompt.Response))
+            {
+                if (isGlobalRequest)
+                {
+                    emailContent = lastPrompt.Response;
+                    await JSRuntime.InvokeVoidAsync("reattachParagraphHover", dotNetRef, "emailContent", "sparkleBtn");
+                }
+                else if (!string.IsNullOrEmpty(hoveredParagraphSelector))
+                {
+                    await JSRuntime.InvokeVoidAsync("updateParagraphContent", hoveredParagraphSelector, lastPrompt.Response);
+                }
+            }
+            await inlineAssist!.HidePopupAsync();
+        }
+        else if (args.Item.Label == "Discard")
+        {
+            await inlineAssist.HidePopupAsync();
+        }
+    }
+
+    private async Task OnAIAssistantClickAsync()
+    {
+        isGlobalRequest = true;
+        currentContent = initialEmailContent;
+        relateToSelector = "#aiAssistantBtn";
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(5);
+        await inlineAssist.ShowPopupAsync();
+    }
+
+    private async Task OnSparkleClickAsync()
+    {
+        if (string.IsNullOrEmpty(hoveredParagraphSelector)) return;
+
+        isGlobalRequest = false;
+        currentContent = await JSRuntime.InvokeAsync<string>("getElementInnerText", hoveredParagraphSelector);
+        sparkleButtonStyle = "display: none;";
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(20);
+        await inlineAssist.ShowPopupAsync();
+    }
+
+    private async Task OnPromptRequestAsync(PromptRequestedEventArgs args)
+    {
+        await Task.Delay(1000);
+        string contentToProcess = string.Empty;
+        if (isGlobalRequest)
+        {
+            contentToProcess = emailContent;
+        }
+        else if (!string.IsNullOrEmpty(currentContent))
+        {
+            contentToProcess = currentContent;
+        }
+
+        var requestArgs = new
+        {
+            Prompt = $"{args.Prompt}\n\nContent:\n{contentToProcess}"
+        };
+        string aiResponse = await AIService.GetAIResponse(requestArgs);
+        await inlineAssist.UpdateResponseAsync(aiResponse);
+    }
+
+    private async void OnPopupClosed()
+    {
+        isPopupOpen = false;
+        isGlobalRequest = false;
+        await JSRuntime.InvokeVoidAsync("setPopupState", false);
+    }
+
+    private async Task OnSendEmailClick()
+    {
+        emailContent = initialEmailContent;
+        contentKey++;
+        await InvokeAsync(StateHasChanged);
+        await Task.Delay(10);
+        await JSRuntime.InvokeVoidAsync("reattachParagraphHover", dotNetRef, "emailContent", "sparkleBtn");
+    }
+
+    public void Dispose()
+    {
+        dotNetRef?.Dispose();
+    }
+}
+
+<style>
+    .overview-inlineAIAssist .email-container:has(.e-rtl).email-container,
+    .overview-inlineAIAssist .email-container:has(.e-rtl) .e-input {
+        direction: rtl;
+        text-align: right;
+    }
+
+    .overview-inlineAIAssist {
+        display: flex;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .overview-inlineAIAssist #sparkleBtn,
+    .e-bigger .overview-inlineAIAssist #sparkleBtn {
+        max-height: 30px;
+        max-width: 30px;
+        padding: 6px;
+        line-height: 100%;
+        position: absolute;
+        display: none;
+        z-index: 1000;
+        left: 8px;
+    }
+
+    .e-bigger .overview-inlineAIAssist #sparkleBtn .e-btn .e-btn-icon {
+        font-size: 16px;
+    }
+
+    .e-bigger .e-card .e-card-content, .e-bigger.e-card .e-card-content {
+        padding: 16px;
+    }
+
+    .overview-inlineAIAssist .e-card:hover,
+    .overview-inlineAIAssist .e-card-content:hover {
+        background: none;
+    }
+
+    .overview-inlineAIAssist .demo-title {
+        margin: 0 0 15px 10px;
+    }
+
+    .overview-inlineAIAssist .email-composer {
+        border-radius: 12px;
+        padding: 16px;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .overview-inlineAIAssist .email-field {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .overview-inlineAIAssist .email-field-vertical {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+    }
+
+    .overview-inlineAIAssist .field-label {
+        font-weight: 600;
+        min-width: 80px;
+    }
+
+    .overview-inlineAIAssist .field-input {
+        flex: 1;
+    }
+
+    .overview-inlineAIAssist .email-body {
+        position: relative;
+        user-select: text;
+        min-height: 300px;
+        margin-top: 15px;
+        padding: 10px 15px 10px 40px;
+        border: 1px solid;
+        border-radius: 8px;
+        font-size: 15px;
+        line-height: 1.7;
+    }
+
+    .overview-inlineAIAssist .email-body > p {
+        padding: 10px;
+        border-radius: 6px;
+        position: relative;
+        cursor: text;
+        outline: none;
+    }
+
+    .overview-inlineAIAssist .email-body > *:hover:not(#sparkleBtn) {
+        background: #f8f9fa;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+    }
+
+    body[class*="dark"] .overview-inlineAIAssist .email-body > *:hover:not(#sparkleBtn),
+    body[class*="highcontrast"] .overview-inlineAIAssist .email-body > *:hover:not(#sparkleBtn) {
+        background: rgba(255, 255, 255, 0.08);
+    }
+
+    .overview-inlineAIAssist .email-actions,
+    .e-bigger .overview-inlineAIAssist .email-actions {
+        display: flex;
+        justify-content: flex-end;
+        padding-top: 0;
+        padding-bottom: 0;
+    }
+
+</style>

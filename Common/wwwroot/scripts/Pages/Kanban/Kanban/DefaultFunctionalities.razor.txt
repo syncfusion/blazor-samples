@@ -1,0 +1,497 @@
+@page "/kanban/default-functionalities"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates the default functionalities of the <a class="e-kanban-default-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                     href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                     target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a Coffee Roastery Batches. By default, cards can be dragged and dropped across all columns, and the board renders with the minimal configuration required for the component.
+</p>
+<p>
+    The sample uses the minimal configuration required to render the Kanban board and cards. Essential settings include <a class="e-kanban-default-reference-link" aria-label="Navigate to the API reference of DataSource property in Kanban"
+                                                                                                     href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.SfKanban-1.html#Syncfusion_Blazor_Kanban_SfKanban_1_DataSource"
+                                                                                                     target="_blank" rel="noopener">DataSource</a>, <a class="e-kanban-default-reference-link" aria-label="Navigate to the API reference of KanbanColumns"
+                                                                                                     href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanColumns.html"
+                                                                                                     target="_blank" rel="noopener">KanbanColumns</a>, and <a class="e-kanban-default-reference-link" aria-label="Navigate to the API reference of KanbanCardSettings"
+                                                                                                     href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanCardSettings.html"
+                                                                                                     target="_blank" rel="noopener">KanbanCardSettings</a>.
+</p>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the drag and drop in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/drag-and-drop"
+           target="_blank" rel="noopener">Drag and Drop</a>: Move cards between columns to update their workflow status with a single action.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns"
+           target="_blank" rel="noopener">Columns</a>: Group cards by workflow stage such as Open, In Progress, Testing, and Close.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the card settings in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/cards"
+           target="_blank" rel="noopener">Card Settings</a>: Map the title, summary, tags, and footer image to display rich card content.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Drag and Drop</b>: Click and hold any card to drag it across columns. The board updates status as soon as the card is dropped.</li>
+    <li><b>Card Footer</b>: Each card displays type, priority, and assignee avatars using built-in CSS field mappings.</li>
+    <li><b>Tag Visualization</b>: Tags appear as colored chips on each card for quick scanning of categories.</li>
+    <li><b>Auto Layout</b>: Columns are automatically sized to fit the available board width without any manual configuration.</li>
+</ul>
+<p>
+    The <b>Board Configuration</b> highlights the minimum property surface needed to render a fully functional Kanban:
+</p>
+<ul>
+    <li><b>DataSource</b>: Binds the task collection that supplies the cards rendered on the board.</li>
+    <li><b>KeyField</b>: Maps the data field that determines which column a card belongs to.</li>
+    <li><b>KanbanColumns</b>: Declares the column collection using header text and a matching key field.</li>
+    <li><b>KanbanCardSettings</b>: Configures the header, content, footer image, and tag fields on each card.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-default-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@CardData" Height="500px">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings HeaderField="Title" ContentField="Summary" TagsField="CardTags">
+            <Template>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class="default-kanban-card" style="border-left-color: @card.Color;">
+                        <div class="dkc-header">
+                            <div class="dkc-id">@card.Id</div>
+                            <div class="dkc-priority" data-priority="@card.Priority">
+                                <span class="dkc-priority-dot"></span>
+                                @card.Priority
+                            </div>
+                        </div>
+                        <div class="dkc-title">@card.Title</div>
+                        <div class="dkc-content">@card.Summary</div>
+                        <div class="dkc-tags">
+                            @if (card.CardTags != null)
+                            {
+                                @foreach (string tag in card.CardTags)
+                                {
+                                    <span class="dkc-tag">@tag</span>
+                                }
+                            }
+                        </div>
+                        <div class="dkc-footer">
+                            <div class="dkc-type">
+                                <span class="dkc-icon dkc-icon-type"></span>
+                                <span>@card.Type</span>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanCardSettings>
+    </SfKanban>
+</div>
+
+<style>
+    /* Card Container */
+    .default-kanban-card {
+        border-radius: 8px;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+        padding: 0;
+        border-left: 4px solid #5C6BC0;
+        transition: all 0.2s ease;
+        overflow: hidden;
+        display: block;
+        line-height: normal;
+    }
+
+    .default-kanban-card:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        transform: translateY(-1px);
+    }
+
+    .default-kanban-card:active {
+        cursor: grabbing;
+    }
+
+    /* Header Section */
+    .dkc-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 10px 14px 6px 14px;
+        
+    }
+
+    .dkc-id {
+        font-size: 11px;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+
+    .dkc-priority {
+        display: flex;
+        align-items: center;
+        gap: 5px;
+        font-size: 10px;
+        font-weight: 700;
+        padding: 3px 8px;
+        border-radius: 10px;
+        text-transform: uppercase;
+        line-height: normal;
+    }
+
+    .dkc-priority-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        display: inline-block;
+    }
+
+    .dkc-priority[data-priority="High"] {
+        background: #ffebee;
+        color: var(--color-sf-warning-bg-color);
+    }
+    .dkc-priority[data-priority="High"] .dkc-priority-dot {
+        background: var(--color-sf-warning-bg-color);
+    }
+
+    .dkc-priority[data-priority="Normal"] {
+        background: #e3f2fd;
+        color: var(--color-sf-primary-label-color);
+    }
+    .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+        background: var(--color-sf-primary-label-color);
+    }
+
+    .dkc-priority[data-priority="Low"] {
+        background: #7adf83;
+        color: var(--color-sf-success-dark);
+    }
+    .dkc-priority[data-priority="Low"] .dkc-priority-dot {
+        background: var(--color-sf-success-dark);
+    }
+
+.fluent .dkc-priority[data-priority="Low"],
+.fluent-dark .dkc-priority[data-priority="Low"] {
+    color: #0b6a0b;
+}
+
+.fluent .dkc-priority[data-priority="Low"] .dkc-priority-dot,
+.fluent-dark .dkc-priority[data-priority="Low"] .dkc-priority-dot {
+    background: #0b6a0b;
+}
+
+.material .dkc-priority[data-priority="Low"],
+.material-dark .dkc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+
+.material .dkc-priority[data-priority="Low"] .dkc-priority-dot,
+.material-dark .dkc-priority[data-priority="Low"] .dkc-priority-dot {
+    background: #4d831e;
+}
+
+.material3 .dkc-priority[data-priority="Low"],
+.material3-dark .dkc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+
+.material3 .dkc-priority[data-priority="Low"] .dkc-priority-dot,
+.material3-dark .dkc-priority[data-priority="Low"] .dkc-priority-dot {
+    background: #4d831e;
+}
+
+.bootstrap4 .dkc-priority[data-priority="Low"],
+.bootstrap4-dark .dkc-priority[data-priority="Low"] {
+    color: #28a745;
+}
+
+.bootstrap4 .dkc-priority[data-priority="Low"] .dkc-priority-dot,
+.bootstrap4-dark .dkc-priority[data-priority="Low"] .dkc-priority-dot {
+    background: #28a745;
+}
+
+.highcontrast .dkc-priority[data-priority="Low"],
+.highcontrast-dark .dkc-priority[data-priority="Low"] {
+    color: #166600;
+}
+
+.highcontrast .dkc-priority[data-priority="Low"] .dkc-priority-dot,
+.highcontrast-dark .dkc-priority[data-priority="Low"] .dkc-priority-dot {
+    background: #166600;
+}
+
+.fabric .dkc-priority[data-priority="Low"],
+.fabric-dark .dkc-priority[data-priority="Low"] {
+    color: #4d831e;
+}
+
+.fabric .dkc-priority[data-priority="Low"] .dkc-priority-dot,
+.fabric-dark .dkc-priority[data-priority="Low"] .dkc-priority-dot {
+    background: #4d831e;
+}
+
+.material3 .dkc-priority[data-priority="Normal"],
+.material3-dark .dkc-priority[data-priority="Normal"] {
+    color: #0677d5;
+}
+
+.material3 .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.material3-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #0677d5;
+}
+
+.material .dkc-priority[data-priority="Normal"],
+.material-dark .dkc-priority[data-priority="Normal"] {
+    color: #0677d5;
+}
+
+.material .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.material-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #0677d5;
+}
+
+.fluent .dkc-priority[data-priority="Normal"],
+.fluent-dark .dkc-priority[data-priority="Normal"] {
+    color: #0078d4;
+}
+
+.fluent .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.fluent-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #0078d4;
+}
+
+.bootstrap4 .dkc-priority[data-priority="Normal"],
+.bootstrap4-dark .dkc-priority[data-priority="Normal"] {
+    color: #17a2b8;
+}
+
+.bootstrap4 .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.bootstrap4-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #17a2b8;
+}
+
+.highcontrast .dkc-priority[data-priority="Normal"],
+.highcontrast-dark .dkc-priority[data-priority="Normal"] {
+    color: #0056b3;
+}
+
+.highcontrast .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.highcontrast-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #0056b3;
+}
+
+.fabric .dkc-priority[data-priority="Normal"],
+.fabric-dark .dkc-priority[data-priority="Normal"] {
+    color: #0078d6;
+}
+
+.fabric .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.fabric-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #0078d6;
+}
+
+.material3 .dkc-priority[data-priority="High"],
+.material3-dark .dkc-priority[data-priority="High"] {
+    color: #d74113;
+}
+
+.material3 .dkc-priority[data-priority="High"] .dkc-priority-dot,
+.material3-dark .dkc-priority[data-priority="High"] .dkc-priority-dot {
+    background: #d74113;
+}
+
+.material .dkc-priority[data-priority="High"],
+.material-dark .dkc-priority[data-priority="High"] {
+    color: #d74113;
+}
+
+.material .dkc-priority[data-priority="High"] .dkc-priority-dot,
+.material-dark .dkc-priority[data-priority="High"] .dkc-priority-dot {
+    background: #d74113;
+}
+
+.fluent .dkc-priority[data-priority="High"],
+.fluent-dark .dkc-priority[data-priority="High"] {
+    color: #ca5010;
+}
+
+.fluent .dkc-priority[data-priority="High"] .dkc-priority-dot,
+.fluent-dark .dkc-priority[data-priority="High"] .dkc-priority-dot {
+    background: #ca5010;
+}
+
+.bootstrap4 .dkc-priority[data-priority="High"],
+.bootstrap4-dark .dkc-priority[data-priority="High"] {
+    color: #fd7e14;
+}
+
+.bootstrap4 .dkc-priority[data-priority="High"] .dkc-priority-dot,
+.bootstrap4-dark .dkc-priority[data-priority="High"] .dkc-priority-dot {
+    background: #fd7e14;
+}
+
+.highcontrast .dkc-priority[data-priority="High"],
+.highcontrast-dark .dkc-priority[data-priority="High"] {
+    color: #ff6161;
+}
+
+.highcontrast .dkc-priority[data-priority="High"] .dkc-priority-dot,
+.highcontrast-dark .dkc-priority[data-priority="High"] .dkc-priority-dot {
+    background: #ff6161;
+}
+
+.fabric .dkc-priority[data-priority="High"],
+.fabric-dark .dkc-priority[data-priority="High"] {
+    color: #d83b01;
+}
+
+.fabric .dkc-priority[data-priority="High"] .dkc-priority-dot,
+.fabric-dark .dkc-priority[data-priority="High"] .dkc-priority-dot {
+    background: #d83b01;
+}
+
+.bootstrap5.3 .dkc-priority[data-priority="High"],
+.bootstrap5.3-dark .dkc-priority[data-priority="High"] {
+    color: #fd7e14 !important;
+}
+
+.bootstrap5.3 .dkc-priority[data-priority="Normal"],
+.bootstrap5.3-dark .dkc-priority[data-priority="Normal"] {
+    color: #0078d6 !important;
+}
+
+.bootstrap5.3 .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.bootstrap5.3-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #0078d6 !important;
+}
+
+.tailwind3 .dkc-priority[data-priority="Normal"] .dkc-priority-dot, .fluent2-highcontrast .dkc-priority[data-priority="Normal"] .dkc-priority-dot, .bootstrap5 .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.tailwind3-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot, .fluent2-highcontrast .dkc-priority[data-priority="Normal"], .bootstrap5-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #0078d6 !important;
+}
+
+.tailwind3 .dkc-priority[data-priority="Normal"] .dkc-priority-dot,
+.tailwind3-dark .dkc-priority[data-priority="Normal"] .dkc-priority-dot {
+    background: #0078d6 !important;
+}
+    /* Title */
+    .dkc-title {
+        font-size: 14px;
+        font-weight: 600;
+        padding: 8px 14px 4px 14px;
+        line-height: 1.3;
+        word-wrap: break-word;
+    }
+
+    /* Content/Summary */
+    .dkc-content {
+        font-size: 12px;
+        line-height: 1.5;
+        padding: 0 14px 10px 14px;
+        word-wrap: break-word;
+    }
+
+    /* Tags */
+    .dkc-tags {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 4px;
+        padding: 0 14px 10px 14px;
+    }
+
+    .dkc-tag {
+        background: #f0f4f8;
+        color: #5a6c7d;
+        font-size: 10px;
+        font-weight: 500;
+        padding: 3px 8px;
+        border-radius: 10px;
+        line-height: 1.2;
+        display: inline-block;
+    }
+
+    /* Footer */
+    .dkc-footer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 14px 14px;
+        border-top: 1px solid #f0f0f0;
+        
+        line-height: normal;
+    }
+
+    .dkc-type {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 11px;
+        font-weight: 500;
+    }
+
+    .dkc-icon {
+        display: inline-block;
+        width: 14px;
+        height: 14px;
+        background-size: contain;
+        background-repeat: no-repeat;
+        background-position: center;
+    }
+
+    .dkc-icon-type {
+        background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%235C6BC0'><path d='M12 2L2 7v10l10 5 10-5V7L12 2zm0 2.18L19.5 8 12 11.82 4.5 8 12 4.18zM4 9.74l7 3.5v6.93l-7-3.5V9.74zm9 10.43v-6.93l7-3.5v6.93l-7 3.5z'/></svg>");
+    }
+
+
+    .dkc-avatar {
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        color: #fff;
+        font-size: 10px;
+        font-weight: 700;
+        flex-shrink: 0;
+        letter-spacing: 0.3px;
+    } 
+</style>
+
+@code{
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetCoffeeRoasteryBatches();
+    private List<ColumnModel> ColumnData = new List<ColumnModel>() 
+    {
+        new ColumnModel(){ HeaderText= "Green Bean", KeyField= new List<string>() { "Green Bean" } },
+        new ColumnModel(){ HeaderText= "Roasting", KeyField= new List<string>() { "Roasting" } },
+        new ColumnModel(){ HeaderText= "Cooling", KeyField= new List<string>() { "Cooling" } },
+        new ColumnModel(){ HeaderText= "Packaging", KeyField=new List<string>() { "Packaging" } }
+    };
+
+    private string GetInitials(string? name)
+    {
+        if (string.IsNullOrEmpty(name)) return "?";
+        var parts = name.Split(' ', StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length >= 2)
+            return $"{parts[0][0]}{parts[1][0]}".ToUpper();
+        return name.Substring(0, Math.Min(2, name.Length)).ToUpper();
+    }
+}

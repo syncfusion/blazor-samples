@@ -1,0 +1,144 @@
+@page "/kanban/overview"
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates the comprehensive capabilities of the <a class="e-kanban-overview-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a photography  projects. It displays bug reports and feature requests across the entire workflow, from creation to closure.
+</p>
+<p>
+    Customizing the visual presentation of cards and column headers through the <a class="e-kanban-overview-reference-link" aria-label="Navigate to the documentation for card template in kanban component"
+                                                                                       href="https://blazor.syncfusion.com/documentation/kanban/cards#customizing-card-layout-with-templates"
+                                                                                                target="_blank" rel="noopener">Card Template</a> and
+    <a class="e-kanban-overview-reference-link" aria-label="Navigate to the documentation for header template in kanban component"
+       href="https://blazor.syncfusion.com/documentation/kanban/columns#header-template"
+       target="_blank" rel="noopener">Header Template</a> enhances the overall user experience.
+</p>
+<p>
+    Additional interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the swimlane in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/swimlane"
+           target="_blank" rel="noopener">Swimlane</a>: Group cards horizontally by a field such as assignee to organize work by ownership.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the tooltip in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/tooltip"
+           target="_blank" rel="noopener">Tooltip</a>: Display extra card details on hover, reducing on-card clutter.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the toggle columns in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/columns#toggle-columns"
+           target="_blank" rel="noopener">Toggle Columns</a>: Collapse or expand columns to optimize screen space and focus on relevant workflow stages.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the drag and drop in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/drag-and-drop"
+           target="_blank" rel="noopener">Drag and Drop</a>: Move cards between columns to update their workflow status with a single action.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Custom Card Template</b>: Each card displays title, summary, tags, and an avatar built from the assignee initials for quick identification.</li>
+    <li><b>Custom Header Template</b>: Column headers include an icon that reflects the status type for visual clarity.</li>
+    <li><b>Assignee Swimlane</b>: Cards are grouped by the assignee field to show work distribution across team members.</li>
+    <li><b>Tooltip</b>: Hover over any card to view a tooltip that surfaces additional details.</li>
+    <li><b>Toggle Columns</b>: Each column can be expanded or collapsed using the header chevron to manage on-screen real estate.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-overview-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban CssClass="kanban-overview" KeyField="Status" DataSource="@CardData" Height="500px" EnableTooltip="true">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField" AllowToggle="@item.AllowToggle">
+                    <Template>
+                       @{
+                            var column = context as KanbanColumn;
+                            string iconClass;
+                            if (column.KeyField != null && column.KeyField.Count > 0)
+                            {
+                                iconClass = column.KeyField[0];
+                            }
+                            else
+                            {
+                                iconClass = string.Empty;
+                            }
+                        }
+                        <div class="header-template-wrap">
+                            <div class="header-icon e-icons @iconClass"></div>
+                            <div class="header-text">@column?.HeaderText</div>
+                        </div>
+                    </Template>
+                </KanbanColumn>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Title" SelectionType="@SelectionType.Multiple">
+            <Template>
+                @{
+                    KanbanDataModel card = (KanbanDataModel)context;
+                    <div class="card-template @card.Priority">
+                        <div class="e-card-header">
+                            <div class="e-card-header-caption">
+                                <div class="e-card-header-title e-tooltip-text">@card.Title</div>
+                            </div>
+                        </div>
+                        <div class="e-card-content">
+                            <div class="e-text e-tooltip-text">@card.Summary</div>
+                        </div>
+                        <div class="e-card-footer">
+                            @{
+                                if (card != null && card.CardTags != null)
+                                {
+                                    @foreach (string tag in card.CardTags)
+                                    {
+                                        <div class="e-card-tag e-tooltip-text">@tag</div>
+                                    }
+                                }
+                            }
+                            <div class="e-card-avatar">
+                                @{
+                                    if (card != null && card.Assignee != null)
+                                    {
+                                        string[] AssigneeName = card.Assignee.Split();
+                                        foreach (string assignee in AssigneeName)
+                                        {
+                                            @assignee.Substring(0, 1).ToUpper()
+                                        }
+                                    }
+                                }
+                            </div>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanCardSettings>
+         <KanbanSwimlaneSettings KeyField="Assignee"></KanbanSwimlaneSettings>
+     </SfKanban>
+</div>
+@code{
+
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetPhotographyProjects();
+
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel(){ HeaderText= "Booked", KeyField= new List<string>() { "Booked" }, AllowToggle= true },
+        new ColumnModel(){ HeaderText= "Pre-Production", KeyField= new List<string>() { "Pre-Production" }, AllowToggle= true },
+        new ColumnModel(){ HeaderText= "Shooting", KeyField= new List<string>() { "Shooting" }, AllowToggle= true },
+        new ColumnModel(){ HeaderText= "Delivered", KeyField= new List<string>() { "Delivered" }, AllowToggle= true }
+    };
+}

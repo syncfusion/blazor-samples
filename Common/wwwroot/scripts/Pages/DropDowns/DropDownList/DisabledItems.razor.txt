@@ -1,0 +1,107 @@
+@page "/DropDown-List/DisabledItems"
+
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This example demonstrates the DropDownList component’s disabled-items feature, visually indicating options that are present but not selectable. Disabled entries remain visible for context while being excluded from selection and value binding, supporting scenarios such as deprecation, temporary unavailability, or conditional availability without removing items from the list.</p>
+
+<p>Disabled items behavior:</p>
+<ul>
+  <li>Disabled entries appear visually distinct (typically greyed out) in the popup to signal non-interactivity.</li>
+  <li>Disabled options cannot be selected or used to update the component value or the bound model.</li>
+  <li>Configure disabled state using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.DropDowns.FieldSettingsModel.html#Syncfusion_Blazor_DropDowns_FieldSettingsModel_Disabled" target="_blank" rel="noopener" aria-label="DropDownList Field Settings Disabled">DropDownListFieldSettings.Disabled</a> property.</li>
+</ul>
+
+<p>Implementation notes:</p>
+<ul>
+  <li>Expose a boolean field on your data model to mark disabled items and map it to <code>FieldSettings.Disabled</code> in the DropDownList configuration.</li>
+  <li>Disabled items remain in filtered and paged results to preserve list context; selection logic ignores these items to avoid accidental binding.</li>
+  <li>Provide clear styling and sufficient contrast for disabled states and include ARIA attributes where appropriate to improve screen-reader semantics.</li>
+</ul>
+
+<p>When working with remote data sources, determine disabled flags server-side and include them in the returned payload so <code>FieldSettings.Disabled</code> can reference the field directly. Ensure keyboard and focus behavior skip disabled entries and that the component announces non-interactive items to assistive technologies; consider using <code>aria-disabled</code> or <code>aria-describedby</code> to convey the reason when appropriate. Validate that disabled items are preserved during filtering and paging so users understand why certain choices are unavailable. Also test disabled-state behavior in forms and model-binding workflows to confirm that form validation and submission ignore disabled entries and that value-binding remains deterministic across browsers and devices.</p>
+
+<p>Refer to the linked API reference for examples and recommended property mappings; anchors open in a new tab and include aria-label attributes for accessibility.</p>
+</ActionDescription>
+
+
+ <div class="col-lg-12 control-section">
+    <div class="row">
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label class="example-label">Status</label>
+                <SfDropDownList TItem="Status" TValue="string" PopupHeight="200px" Placeholder="Select Status" DataSource="@Data" AllowFiltering="true">
+                    <DropDownListFieldSettings Text="Text" Value="Id" Disabled="State" />
+                </SfDropDownList>
+            </div>
+        </div>
+        <div class="col-lg-6">
+            <div class="control-wrapper">
+                <label class="example-label">Vegetable</label>
+            <SfDropDownList TValue="string" TItem="Vegetables" PopupHeight="200px" Placeholder="Select Vegetable" DataSource="@GroupData">
+                <DropDownListFieldSettings GroupBy="Category" Text="Vegetable" Value="Id" Disabled="State"/>
+            </SfDropDownList>
+            </div>
+        </div>
+    </div>
+ </div>
+
+ <style>
+    .control-wrapper {
+        max-width: 250px;
+        padding: 30px 0px 0px;
+        margin: 0 auto;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>
+
+@code{
+
+    public class Status
+    {
+        public string? Id { get; set; }
+        public string? Text { get; set; }
+        public bool State { get; set; }
+    }
+
+    private List<Status> Data = new List<Status>()
+    {
+        new Status() { Id = "State1", Text = "Open", State = false },
+        new Status() { Id = "State2", Text = "Waiting for Customer", State = false },
+        new Status() { Id = "State3", Text = "On Hold", State = true },
+        new Status() { Id = "State4", Text = "Follow-up", State = false },
+        new Status() { Id = "State5", Text = "Closed", State = true },
+        new Status() { Id = "State6", Text = "Solved", State = false },
+        new Status() { Id = "State7", Text = "Feature Request", State = false },
+    };
+
+    public class Vegetables
+    {
+        public string? Vegetable { get; set; }
+        public string? Category { get; set; }
+        public string? Id { get; set; }
+        public bool State { get; set; }
+    }
+
+    private List<Vegetables> GroupData = new List<Vegetables>()
+    {
+        new Vegetables() { Vegetable = "Cabbage", Category = "Leafy and Salad", Id = "item1", State = true },
+        new Vegetables() { Vegetable = "Pumpkins", Category = "Leafy and Salad", Id = "item2", State = false },
+        new Vegetables() { Vegetable = "Chickpea", Category = "Beans", Id = "item3", State = true },
+        new Vegetables() { Vegetable = "Garlic", Category = "Bulb and Stem", Id = "item4", State = false },
+        new Vegetables() { Vegetable = "Green bean", Category = "Beans", Id = "item5", State = false },
+        new Vegetables() { Vegetable = "Horse gram", Category = "Beans", Id = "item6", State = true },
+        new Vegetables() { Vegetable = "Nopal", Category = "Bulb and Stem", Id = "item7", State = true },
+        new Vegetables() { Vegetable = "Onion", Category = "Bulb and Stem", Id = "item8", State = false },     
+        new Vegetables() { Vegetable = "Spinach", Category = "Leafy and Salad", Id = "item9", State = true },
+        new Vegetables() { Vegetable = "Wheat grass", Category = "Leafy and Salad", Id = "item10", State = false },
+        new Vegetables() { Vegetable = "Yarrow", Category = "Leafy and Salad", Id = "item11", State = false }
+    };
+}

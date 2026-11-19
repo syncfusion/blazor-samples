@@ -1,0 +1,78 @@
+@page "/circular-gauge/direction-compass"
+
+@using Syncfusion.Blazor
+@using Syncfusion.Blazor.CircularGauge
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates how to create a direction compass by customizing circular gauge functionalities to suit specific use cases.</p>
+
+<p>Implementation approach:</p>
+<ul>
+  <li>Multiple needle pointers representing directional indicators</li>
+  <li>Custom labels showing cardinal directions (N, S, E, W)</li>
+  <li>Circular gauge adapted for navigation and orientation purposes</li>
+</ul>
+
+<p>More information on the circular gauge can be found in this <a target="_blank" rel="noopener" href="https://blazor.syncfusion.com/documentation/circular-gauge/getting-started" aria-label="Navigate to the Blazor Circular Gauge Getting Started documentation">documentation section</a>.</p>
+</ActionDescription>
+
+
+<div class="control-section">
+    <SfCircularGauge Theme="@Theme" Background="transparent">
+        <CircularGaugeEvents AxisLabelRendering="AxisLabelChange" />
+        <CircularGaugeAxes>
+            <CircularGaugeAxis Radius="80%" StartAngle="0" EndAngle="360" Minimum="0" Maximum="8">
+                <CircularGaugeAxisLabelStyle AutoAngle="true" HiddenLabel="HiddenLabel.Last" Offset="10">
+                    <CircularGaugeAxisLabelFont FontFamily="inherit" />
+                </CircularGaugeAxisLabelStyle>
+                <CircularGaugeRanges>
+                    <CircularGaugeRange Color="#f03e3e" Start="7" End="7" />
+                </CircularGaugeRanges>
+                <CircularGaugeAxisLineStyle Width="20" Color="#E0E0E0" />
+                <CircularGaugeAxisMajorTicks Height="15" Interval="1" />
+                <CircularGaugeAxisMinorTicks Height="10" Interval="0.5" />
+                <CircularGaugePointers>
+                    <CircularGaugePointer Value="7" Radius="50%" Color="#e20a22" PointerWidth="30">
+                        <CircularGaugePointerAnimation Enable="false" />
+                        <CircularGaugeCap Radius="15" Color="#ffffff">
+                            <CircularGaugeCapBorder Width="0" />
+                        </CircularGaugeCap>
+                        <LinearGradient StartValue="0%" EndValue="100%">
+                            <ColorStops>
+                                <ColorStop Opacity="0.9" Offset="0%" Color="#ff6b78" />
+                                <ColorStop Opacity="0.9" Offset="70%" Color="#e20a22" />
+                            </ColorStops>
+                        </LinearGradient>
+                    </CircularGaugePointer>
+                    <CircularGaugePointer Value="3" Radius="50%" Color="#f7f7f7" PointerWidth="30">
+                        <CircularGaugePointerAnimation Enable="false" />
+                        <CircularGaugeCap Radius="15" Color="#ffffff">
+                            <CircularGaugeCapBorder Width="0" />
+                        </CircularGaugeCap>
+                    </CircularGaugePointer>
+                </CircularGaugePointers>
+            </CircularGaugeAxis>
+        </CircularGaugeAxes>
+    </SfCircularGauge>
+</div>
+@code{
+    public Theme Theme { get; set; }
+    public string[] TextValues = { "N", "NE", "E", "SE", "S", "SW", "W", "NW", " " };
+    
+    private void AxisLabelChange(Syncfusion.Blazor.CircularGauge.AxisLabelRenderEventArgs args)
+    {
+        args.Text = TextValues[Convert.ToInt32(args.Value)];
+    }
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+    }
+}

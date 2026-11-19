@@ -1,0 +1,68 @@
+@page "/TimePicker/Time-Duration"
+
+@using Syncfusion.Blazor.Calendars;
+
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+<ActionDescription>
+  <p>This sample demonstrates the TimePicker popup list rendered with specific time‑duration metadata. Click or touch the TimePicker popup icon to open the list and select the desired time value.</p>
+
+  <p>The Time Duration example shows how to customize or disable individual time entries using the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.TimePickerEvents-1.html#Syncfusion_Blazor_Calendars_TimePickerEvents_1_OnItemRender" target="_blank" rel="noopener" aria-label="Class reference of OnItemRender event in TimePicker">OnItemRender</a> event. Each list item in this sample includes additional information about the duration to the next value; entries that should not be selectable are marked by adding the <strong>e-disabled</strong> class.</p>
+
+  <p>Use the OnItemRender handler to inject custom markup, apply CSS classes, or programmatically prevent selection for business rules such as blocked intervals or unavailable slots. Preserve the original anchor markup and ARIA attributes when customizing items to maintain accessibility.</p>
+
+  <p>When no value is selected or the selected value is not present in the popup list, use the <a href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Calendars.SfTimePicker-1.html#Syncfusion_Blazor_Calendars_SfTimePicker_1_ScrollTo" target="_blank" rel="noopener" aria-label="Class reference of ScrollTo property in TimePicker">ScrollTo</a> property to set the initial scroll position so the most relevant time is visible on open. ScrollTo improves discoverability and reduces manual scrolling in long lists.</p>
+
+  <p>For visual consistency, style disabled entries with muted contrast and keep duration metadata concise to avoid truncation. Ensure keyboard and touch navigation remain functional after customization, and verify focus behavior when ScrollTo changes the viewport. Test the rendering across cultures, time formats, browsers, and devices so disabled states, scroll positioning, and duration labels behave predictably.</p>
+</ActionDescription>
+
+
+<div class="control-section col-lg-12">
+    <div class="control-wrapper">
+        <label class="example-label">Select a Time</label>
+        <SfTimePicker TValue="DateTime?" ScrollTo="@ScrollValue" @ref="@TimePickerObj" ShowClearButton="true" FullScreen="true" Placeholder="Select a time">
+            <TimePickerEvents TValue="DateTime?" OnItemRender="@ItemRenderHandler" OnOpen="@OpenHandler"></TimePickerEvents>
+        </SfTimePicker>
+    </div>
+</div>
+
+<style>
+    .control-wrapper {
+        max-width: 200px;
+        margin: 0 auto;
+        padding: 50px 0px 0px;
+    }
+
+    .example-label {
+        font-size: 14px;
+        margin-bottom: 6px;
+    }
+</style>
+
+@code {
+    private SfTimePicker <DateTime?>? TimePickerObj;
+    private DateTime? ScrollValue { get; set; }
+    private DateTime? StartTime;
+    private TimeSpan? Minutes;
+    
+    private void OpenHandler(PopupEventArgs args)
+    {
+        if (TimePickerObj != null && TimePickerObj.Value != null)
+        {
+            ScrollValue = TimePickerObj.Value;
+        }
+    }
+    private void ItemRenderHandler(ItemEventArgs<DateTime?> args)
+    {
+        if (args.Value != null && args.Value.Value.Hour == 0 && args.Value.Value.Minute == 0 && args.Value.Value.Second == 0)
+        {
+            StartTime = args.Value;
+        }
+        Minutes = (args.Value - StartTime) / 60000;
+        if (Minutes != null && (Minutes.Value.TotalMilliseconds / 60) % 3 == 0)
+        {
+            args.IsDisabled = true;
+        }
+    }
+}

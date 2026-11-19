@@ -1,0 +1,202 @@
+@page "/datagrid/batch-editing"
+
+@using Syncfusion.Blazor.Grids
+@using Syncfusion.Blazor.Buttons
+@using Syncfusion.Blazor.DropDowns
+@*Hidden:Lines*@
+@using BlazorDemos
+@inherits SampleBaseComponent
+@inject NavigationManager NavigationManager
+
+
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This sample demonstrates how to use batch editing mode in the DataGrid to perform CRUD operations efficiently.</p>
+  
+  <p>The Blazor DataGrid batch editing feature enables you to start editing by double-clicking a cell and modifying its value. You can perform CRUD operations as follows:</p>
+  <ul>
+    <li><strong>Add</strong> - Click the Add toolbar button to create a new record.</li>
+    <li><strong>Edit</strong> - Double-click a row or click the Edit toolbar button after selecting a row to modify data.</li>
+    <li><strong>Delete</strong> - Click the Delete toolbar button after selecting a row to remove a record.</li>
+    <li><strong>Update</strong> - Click the Update toolbar button to save all edited changes.</li>
+    <li><strong>Cancel</strong> - Click the Cancel toolbar button to discard all edited changes.</li>
+    <li><strong>Undo</strong> - Click the Undo toolbar button or press <strong>Ctrl+Z</strong> to reverse the most recent batch editing action.</li>
+    <li><strong>Redo</strong> - Click the Redo toolbar button or press <strong>Ctrl+Y</strong> to reapply the most recently undone action.</li>
+  </ul>
+  
+    <p>CRUD operations are configured in the DataGrid using the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html' aria-label="Navigate to the class reference for GridEditSettings">GridEditSettings</a> component. You must define at least one column as a primary key using the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html#Syncfusion_Blazor_Grids_GridColumn_IsPrimaryKey' aria-label="Navigate to the IsPrimaryKey property reference for Grid column">IsPrimaryKey</a> property in the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridColumn.html' aria-label="Navigate to the class reference for GridColumn">GridColumn</a> component.</p>
+  
+  <p>The available edit modes are:</p>
+  <ul>
+    <li><strong>Inline</strong> - Edit records directly within the grid rows</li>
+    <li><strong>Dialog</strong> - Edit records in a modal dialog</li>
+  </ul>
+  
+  <p>By default, new rows are added at the top of the DataGrid. You can change this behavior by setting the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html#Syncfusion_Blazor_Grids_GridEditSettings_NewRowPosition' aria-label="Navigate to the NewRowPosition property reference for Grid edit settings">NewRowPosition</a> property to <strong>Batch</strong> in <code>GridEditSettings</code>.</p>
+   
+  <p>Undo and redo support is enabled by setting the <code>EnableUndoRedo</code>property to <strong>true</strong> in <code>GridEditSettings</code>. It is supported only in batch edit mode and maintains a history of cell edits, row additions, row deletions, paste operations, and autofill operations. In this sample, use the checkbox to dynamically enable or disable the feature.</p>
+
+  <p>In this demo, batch mode is enabled by setting the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Grids.GridEditSettings.html#Syncfusion_Blazor_Grids_GridEditSettings_Mode' aria-label="Navigate to the Mode property reference for Grid edit settings">Mode</a> property to <strong>Batch</strong> in the <code>GridEditSettings</code> component. Begin editing by double-clicking a cell and changing its value. When navigating to a new cell, the edited cell is highlighted to indicate which cells have been modified. Bulk save all edited data to the datasource by clicking the <strong>Update</strong> button on the toolbar.</p>
+  
+  <p>For more detailed information about batch editing, refer to the <a rel="noopener" target='_blank' href='https://help.syncfusion.com/grid-sdk/blazor/data-grid/batch-editing' aria-label="Navigate to the documentation for Batch editing in DataGrid component">batch editing documentation</a>.</p>
+
+  <p>Looking for the full Blazor DataGrid component overview, features, pricing, and documentation? Visit our <a rel="noopener" target='_blank' href='https://www.syncfusion.com/blazor-components/blazor-datagrid' aria-label="Navigate to the Blazor DataGrid FT page">Blazor DataGrid component</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <div class="content-wrapper">
+        <div class="row">
+            <div class="e-switch-control">
+                <div>
+                    <SfCheckBox @bind-Checked="isUndoRedoEnabled" LabelPosition="LabelPosition.Before" Label="Enable Undo and Redo" @onchange="OnEnableUndoRedoChange"></SfCheckBox>
+                </div>
+            </div>
+            <SfGrid DataSource="@GridData" Height="410" Toolbar="@ToolbarItems" AllowPaging="true">
+                <GridEditSettings AllowAdding="true" AllowDeleting="true" AllowEditing="true" Mode="EditMode.Batch" EnableUndoRedo="@enableUndoRedo"></GridEditSettings>
+                <GridColumns>
+                    <GridColumn Field=@nameof(InventoryStoreRecord.ID) HeaderText="ID" IsPrimaryKey="true" ValidationRules="@(new ValidationRules{ Required=true, Number=true})" TextAlign="TextAlign.Right" Width="110"></GridColumn>
+                    <GridColumn Field=@nameof(InventoryStoreRecord.Product) HeaderText="Product Name" AllowEditing="false" Width="140" DefaultValue="@("MacBook Pro")">
+                        <Template>
+                            @{
+                                var productData = (context as InventoryStoreRecord);
+                                if (productData != null)
+                                {
+                                    <div class="product-cell">
+                                        <div class="product-name">@productData.Product</div>
+                                        <span class="e-category-badge @CategoryBadgeClass(productData.Category)">@productData.Category</span>
+                                    </div>
+                                }
+                            }
+                        </Template>
+                    </GridColumn>
+                    <GridColumn Field=@nameof(InventoryStoreRecord.TotalVendorUnits) HeaderText="Total Vendor Units" AllowEditing="false" TextAlign="TextAlign.Right" Width="150"></GridColumn>
+                    <GridColumn Field=@nameof(InventoryStoreRecord.VendorA) HeaderText="Vendor A (units)" EditType="EditType.NumericEdit" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(InventoryStoreRecord.VendorB) HeaderText="Vendor B (units)" EditType="EditType.NumericEdit" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(InventoryStoreRecord.VendorC) HeaderText="Vendor C (units)" EditType="EditType.NumericEdit" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(InventoryStoreRecord.VendorD) HeaderText="Vendor D (units)" EditType="EditType.NumericEdit" TextAlign="TextAlign.Right" Width="120"></GridColumn>
+                    <GridColumn Field=@nameof(InventoryStoreRecord.UnitPrice) HeaderText="Price (per unit)" EditType="EditType.NumericEdit" Format="C2" TextAlign="TextAlign.Right" Width="140"></GridColumn>
+                </GridColumns>
+            </SfGrid>
+        </div>
+    </div>
+</div>
+
+@code {
+
+    public List<InventoryStoreRecord>? GridData { get; set; }
+    private bool enableUndoRedo;
+    private bool isUndoRedoEnabled;
+    private List<string> ToolbarItems => enableUndoRedo
+        ? new List<string> { "Add", "Delete", "Update", "Cancel", "Undo", "Redo" }
+        : new List<string> { "Add", "Delete", "Update", "Cancel" };
+
+	private async Task OnEnableUndoRedoChange(Microsoft.AspNetCore.Components.ChangeEventArgs args)
+    {
+        if (args.Value is bool checkedValue)
+        {
+            enableUndoRedo = checkedValue;
+        }
+    }
+
+	private static string CategoryBadgeClass(string category)
+    {
+        return category switch
+        {
+            "IT Asset" => "e-cat-it-asset",
+            "IT Infrastructure" => "e-cat-it-infrastructure",
+            "Admin" => "e-cat-admin",
+            "Security" => "e-cat-security",
+            "Facilities" => "e-cat-facilities",
+            "Finance" => "e-cat-finance",
+            "Sales" => "e-cat-sales",
+            "Marketing" => "e-cat-marketing",
+            "Training" => "e-cat-training",
+            _ => "e-cat-default"
+        };
+    }
+
+    protected override void OnInitialized()
+    {
+        GridData = InventoryStoreData.GetAllRecords().ToList();
+    }
+
+}
+@*Hidden:Lines*@
+<style>
+    /* Bold label for SfCheckBox (matches other samples in workspace) */
+    .e-checkbox-wrapper .e-checkbox + .e-label {
+        font-weight: bold;
+    }
+
+    /* Theme-specific spacing for the e-switch-control wrapper */
+    .fluent2-highcontrast .e-switch-control,
+    .fluent2-dark .e-switch-control,
+    .fluent2 .e-switch-control {
+        padding-bottom: 20px;
+        margin-left: -10px;
+    }
+
+    .highcontrast .e-switch-control,
+    .fluent .e-switch-control,
+    .fluent-dark .e-switch-control,
+    .material3 .e-switch-control,
+    .material3-dark .e-switch-control,
+    .bootstrap5\.3 .e-switch-control,
+    .bootstrap5\.3-dark .e-switch-control,
+    .tailwind3 .e-switch-control,
+    .tailwind3-dark .e-switch-control,
+    .material .e-switch-control,
+    .material-dark .e-switch-control,
+    .bootstrap4 .e-switch-control,
+    .bootstrap5 .e-switch-control,
+    .bootstrap5-dark .e-switch-control,
+    .tailwind .e-switch-control,
+    .tailwind-dark .e-switch-control,
+    .fabric .e-switch-control,
+    .fabric-dark .e-switch-control {
+        padding-bottom: 20px;
+    }
+
+    /* Product cell with category badge */
+    .product-cell {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 4px;
+        padding: 6px 0;
+    }
+
+    .product-cell .product-name {
+        font-weight: 600;
+        line-height: 1.25;
+    }
+
+    /* Base badge */
+    .e-category-badge {
+        display: inline-block;
+        padding: 2px 10px;
+        border-radius: 12px;
+        font-size: 12px;
+        font-weight: 500;
+        color: #ffffff;
+        line-height: 1.4;
+        margin-top: 2px;
+        white-space: nowrap;
+    }
+
+    /* Category color palette */
+    .e-cat-it-asset          { background-color: #6366f1; }
+    .e-cat-it-infrastructure { background-color: #10b981; }
+    .e-cat-admin             { background-color: #f59e0b; }
+    .e-cat-security          { background-color: #ef4444; }
+    .e-cat-facilities        { background-color: #0ea5e9; }
+    .e-cat-finance           { background-color: #14b8a6; }
+    .e-cat-sales             { background-color: #8b5cf6; }
+    .e-cat-marketing         { background-color: #ec4899; }
+    .e-cat-training          { background-color: #f97316; }
+    .e-cat-default           { background-color: #6b7280; }
+
+</style>
+@*End:Hidden*@

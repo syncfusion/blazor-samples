@@ -1,0 +1,148 @@
+@page "/sunburst-chart/drilldown"
+
+@using Syncfusion.Blazor
+@*Hidden:Lines*@
+@using ThemeHelper
+@*End:Hidden*@
+@using Syncfusion.Blazor.Charts
+
+@inject NavigationManager NavigationManager
+@*Hidden:Lines*@
+@inherits SampleBaseComponent
+@*End:Hidden*@
+
+<ActionDescription>
+<p>This Blazor Sunburst Chart example visualizes <b>Book Sales and Publications Volume (in Thousands of Units)</b> across major reading categories, age demographics, genres, and specific book editions.</p>
+
+<p>In this example, you can see how to render and configure a sunburst chart with drill-down functionality and asymmetric hierarchical depths creating a dynamic sun flare shape. Key features demonstrated here include:</p>
+<ul>
+    <li><code>SunburstDrillSettings</code> with <code>Enable</code> set to <code>true</code> enabling click-to-expand drill navigation</li>
+    <li><code>ShowBreadcrumbs</code> set to <code>true</code> rendering an interactive breadcrumb trail at the top of the chart to navigate back to parent levels</li>
+    <li>Uneven hierarchical branches (ranging from 2 levels for Magazines up to 4 levels for Children's and Fiction) mimicking natural hierarchical variations</li>
+    <li><code>SunburstLegendSettings</code> positioned at the <code>Right</code> with toggle capabilities</li>
+    <li><code>LabelRotationMode</code> set to <code>Angle</code> so radial text remains readable as you drill down and back up</li>
+    <li><code>EnableAnimation</code> with <code>AnimationType</code> set to <code>Rotation</code> for animated transitions between hierarchical depths</li>
+    <li>A custom <code>Palette</code> aligned to the active theme to color primary book categories consistently</li>
+</ul>
+
+<p><code>Tooltip</code> is enabled in this example. To see tooltip details, hover over or tap on a segment. Click any slice to drill into its sub-tree, and click the breadcrumbs to drill back up.</p>
+
+<p>More information about the sunburst chart drill-down can be found in this <a target='_blank' href='https://blazor.syncfusion.com/documentation/sunburst-chart/drill-down' aria-label="Navigate to the documentation for sunburst chart drill-down" rel='noopener'>documentation section</a>.</p>
+</ActionDescription>
+
+<div class="control-section" align='center'>
+    <SfSunburstChart TItem="NodeDetails"
+                     DataSource="@data"
+                     Palette="@Palette"
+                     IdMemberPath="@nameof(NodeDetails.Id)"
+                     ParentIdMemberPath="@nameof(NodeDetails.ParentId)"
+                     LabelMemberPath="@nameof(NodeDetails.Name)"
+                     ValueMemberPath="@nameof(NodeDetails.Value)"
+                     InnerRadius="0.15"
+                     Radius="@Radius"
+                     Title="Book Sales & Publications Volume"
+                     Subtitle="Source: Publishers Weekly & BookScan Report, 2024"
+                     ID="businessOpsChart"
+                     Theme="@Theme"
+                     Width="@Width"
+                     EnableAnimation="true"
+                     AnimationType="SunburstAnimationType.Rotation"
+                     Height="@Height">
+        <SunburstTitleSettings FontWeight="600" Size="16px" />
+        <SunburstSubtitleSettings FontWeight="400" Size="12px" />
+
+        <SunburstLegendSettings Visible="true"
+                                Position="@LegendPosition"
+                                ToggleVisibility="true">
+            <SunburstLegendTextStyle FontWeight="400" />
+        </SunburstLegendSettings>
+
+        <SunburstDataLabelSettings Visible="true"
+                                   RotationMode="SunburstLabelRotationMode.Angle">
+            <SunburstDataLabelTextStyle FontWeight="500" />
+        </SunburstDataLabelSettings>
+
+        <SunburstTooltipSettings Enable="true"
+                                 EnableHighlight="true"
+                                 HeaderText="Book Publications"
+                                 Format="${point.label} : ${point.value}" />
+
+        <SunburstDrillSettings Enable="true" ShowBreadcrumbs="true" />
+    </SfSunburstChart>
+</div>
+
+@code
+{
+    private Theme Theme { get; set; }
+    public string Width { get; set; } = "90%";
+    public string Height { get; set; } = "600px";
+    public double Radius { get; set; } = 0.9;
+    public string FontFamily { get; set; } = "Roboto";
+    public SunburstLegendPosition LegendPosition { get; set; } = SunburstLegendPosition.Right;
+
+    private string[] Palette = Array.Empty<string>();
+
+    protected override void OnInitialized()
+    {
+        Theme = ThemeHelper.GetCurrentTheme(NavigationManager.Uri);
+        FontFamily = ThemeHelper.GetFontFamily(NavigationManager.Uri);
+        Palette = SunburstThemeColors.GetDrilldownPalette(Theme);
+
+        @*Hidden:Lines*@
+        if (SampleService != null && SampleService.IsDevice)
+        {
+            Width = "100%";
+            Height = "360px";
+            Radius = 0.85;
+            LegendPosition = SunburstLegendPosition.Bottom;
+        }
+        @*End:Hidden*@
+    }
+
+    public class NodeDetails
+    {
+        public string Id { get; set; } = string.Empty;
+        public string ParentId { get; set; } = string.Empty;
+        public string Name { get; set; } = string.Empty;
+        public double Value { get; set; }
+    }
+
+    private List<NodeDetails> data = new()
+    {
+        // ============== Children's Books (Dominant category, flares 4 levels deep) ==============
+        new() { Id = "children", ParentId = "", Name = "Children's Books" },
+        new() { Id = "child-age3-5", ParentId = "children", Name = "Age 3-5" },
+        new() { Id = "child-age3-5-pic", ParentId = "child-age3-5", Name = "Picture Books" },
+        new() { Id = "child-age3-5-pic-bedtime", ParentId = "child-age3-5-pic", Name = "Bedtime Stories", Value = 45 },
+        new() { Id = "child-age3-5-pic-animal", ParentId = "child-age3-5-pic", Name = "Animal Tales", Value = 38 },
+        new() { Id = "child-age3-5-early", ParentId = "child-age3-5", Name = "Early Readers", Value = 55 },
+        new() { Id = "child-preteen", ParentId = "children", Name = "Pre-Teens 8-12" },
+        new() { Id = "child-preteen-fantasy", ParentId = "child-preteen", Name = "Middle Grade Fantasy", Value = 58 },
+        new() { Id = "child-preteen-mystery", ParentId = "child-preteen", Name = "Detective Club", Value = 32 },
+
+        // ============== Young Adult (3 levels) ==============
+        new() { Id = "ya", ParentId = "", Name = "Young Adult" },
+        new() { Id = "ya-dystopia", ParentId = "ya", Name = "Dystopian & Sci-Fi", Value = 52 },
+        new() { Id = "ya-romance", ParentId = "ya", Name = "YA Romance", Value = 44 },
+        new() { Id = "ya-fantasy", ParentId = "ya", Name = "Epic YA Fantasy", Value = 62 },
+
+        // ============== Fiction & Literature (Flares 4 levels in Mystery) ==============
+        new() { Id = "fiction", ParentId = "", Name = "Fiction" },
+        new() { Id = "fict-mystery", ParentId = "fiction", Name = "Mystery & Thriller" },
+        new() { Id = "fict-myst-cozy", ParentId = "fict-mystery", Name = "Cozy Mystery" },
+        new() { Id = "fict-myst-cozy-tea", ParentId = "fict-myst-cozy", Name = "Culinary Series", Value = 28 },
+        new() { Id = "fict-myst-cozy-craft", ParentId = "fict-myst-cozy", Name = "Craft & Hobby", Value = 18 },
+        new() { Id = "fict-myst-noir", ParentId = "fict-mystery", Name = "Nordic Noir", Value = 34 },
+        new() { Id = "fict-hist", ParentId = "fiction", Name = "Historical Fiction", Value = 40 },
+
+        // ============== Non-Fiction (3 levels) ==============
+        new() { Id = "nonfiction", ParentId = "", Name = "Non-Fiction" },
+        new() { Id = "nf-bio", ParentId = "nonfiction", Name = "Biographies", Value = 36 },
+        new() { Id = "nf-self", ParentId = "nonfiction", Name = "Self Help", Value = 42 },
+
+        // ============== Magazines & Periodicals (Shallow 2-level branch) ==============
+        new() { Id = "magazine", ParentId = "", Name = "Periodicals" },
+        new() { Id = "mag-tech", ParentId = "magazine", Name = "Tech Reviews", Value = 24 },
+        new() { Id = "mag-geo", ParentId = "magazine", Name = "Science & Geo", Value = 22 }
+    };
+}

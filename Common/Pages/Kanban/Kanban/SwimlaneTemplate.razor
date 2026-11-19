@@ -1,0 +1,119 @@
+@page "/kanban/swimlane-template"
+@inject Microsoft.AspNetCore.Components.NavigationManager UriHelper
+
+@using Syncfusion.Blazor.KanbanDemo
+@using Syncfusion.Blazor.Kanban
+@*Hidden:Lines*@
+@inherits SampleBaseComponent;
+@*End:Hidden*@
+
+<ActionDescription>
+<p>
+    This sample demonstrates how to customize the swimlane header in the <a class="e-kanban-swimlanetemplate-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component"
+                                                                                                                            href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board"
+                                                                                                                            target="_blank" rel="noopener">Blazor Kanban</a> component by visualizing a Construction Crews List. In this demo, swimlane headers display assignee photos with names across To Do, In Progress, Review, and Close stages.
+</p>
+<p>
+    Customize the swimlane header using the <a class="e-kanban-swimlanetemplate-reference-link" aria-label="Navigate to the API reference of Template property in Kanban"
+                                                                                                                            href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html#Syncfusion_Blazor_Kanban_KanbanSwimlaneSettings_Template"
+                                                                                                                            target="_blank" rel="noopener">Template</a> property of <a class="e-kanban-swimlanetemplate-reference-link" aria-label="Navigate to the API reference of KanbanSwimlaneSettings"
+                                                                                                                            href="https://help.syncfusion.com/cr/blazor/Syncfusion.Blazor.Kanban.KanbanSwimlaneSettings.html"
+                                                                                                                            target="_blank" rel="noopener">KanbanSwimlaneSettings</a> to render rich content.
+</p>
+<p>
+    Additional essential interactions that enhance analysis and control are also featured:
+</p>
+<ul>
+    <li>
+        <a aria-label="Navigate to the documentation for the swimlane in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/swimlane"
+           target="_blank" rel="noopener">Swimlane</a>: Group cards horizontally by a field such as assignee to organize work by ownership.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the swimlane template in the kanban component"
+               href="https://blazor.syncfusion.com/documentation/kanban/swimlane#template"
+           target="_blank" rel="noopener">Swimlane Template</a>: Render a custom layout for each swimlane header including images and text.
+    </li>
+    <li>
+        <a aria-label="Navigate to the documentation for the drag and drop in the kanban component"
+           href="https://blazor.syncfusion.com/documentation/kanban/drag-and-drop"
+           target="_blank" rel="noopener">Drag and Drop</a>: Move cards across columns to update their workflow status with a single action.
+    </li>
+</ul>
+<p>
+    Key interactive features demonstrated in this sample include:
+</p>
+<ul>
+    <li><b>Assignee Avatar</b>: Each swimlane header includes the assignee photo rendered from the configured asset path.</li>
+    <li><b>Assignee Name</b>: The assignee name is displayed alongside the avatar for quick identification.</li>
+    <li><b>Swimlane Rows</b>: Cards are grouped by the <code>AssigneeKey</code> field to drive the swimlane layout.</li>
+    <li><b>Custom Styling</b>: The swimlane template uses shared CSS so each header looks consistent across the board.</li>
+</ul>
+<p>
+    The <b>Swimlane Configuration</b> highlights the building blocks of a custom swimlane header:
+</p>
+<ul>
+    <li><b>KeyField</b>: Maps the data field that drives swimlane grouping (assignee in this demo).</li>
+    <li><b>TextField</b>: Maps the data field used to display the header text.</li>
+    <li><b>Template</b>: A Razor template that renders the avatar image and the header text inside each swimlane row.</li>
+</ul>
+<p>
+Looking for the full Blazor Kanban component overview, features, pricing, and documentation? Visit the <a class="e-kanban-swimlanetemplate-reference-link" aria-label="Navigate to the explore Syncfusion Blazor Kanban component" href="https://www.syncfusion.com/gantt-sdk/blazor-kanban-board" target="_blank" rel="noopener">Blazor Kanban</a> page.</p>
+</ActionDescription>
+
+
+<div class="col-lg-12 control-section">
+    <SfKanban KeyField="Status" DataSource="@CardData" Height="500px">
+        <KanbanColumns>
+            @foreach (ColumnModel item in ColumnData)
+            {
+                <KanbanColumn HeaderText="@item.HeaderText" KeyField="@item.KeyField"/>
+            }
+        </KanbanColumns>
+        <KanbanCardSettings ContentField="Summary" HeaderField="Id"></KanbanCardSettings>
+        <KanbanSwimlaneSettings KeyField="Assignee" TextField="Assignee">
+            <Template>
+                @{
+                    SwimlaneSettingsModel swimlane = (SwimlaneSettingsModel)context;
+                    <div class="swimlane-template e-swimlane-template-table">
+                        <div class="e-swimlane-row-text">
+                            <img src="@UriHelper.ToAbsoluteUri(
+                                $"{SampleService?.WebAssetsPath}images/kanban/{(swimlane?.KeyField ?? string.Empty).Replace(" ", "-").ToLower()}.png")"
+                                 alt="logo" />
+                            <span>@(swimlane?.TextField ?? string.Empty)</span>
+                        </div>
+                    </div>
+                }
+            </Template>
+        </KanbanSwimlaneSettings>
+     </SfKanban>
+</div>
+
+<style>
+    .swimlane-template {
+        font-size: 15px;
+        font-weight: 500;
+    }
+
+        .swimlane-template img {
+            height: 24px;
+            width: 24px;
+            border-radius: 50%;
+        }
+
+        .swimlane-template span {
+            padding-left: 10px;
+        }
+</style>
+
+@code{
+    
+    private IReadOnlyCollection<KanbanDataModel> CardData = KanbanDataModel.GetConstructionCrews();
+    private List<ColumnModel> ColumnData = new List<ColumnModel>()
+    {
+        new ColumnModel() { HeaderText = "Assigned", KeyField = new List<string>() { "Assigned" } },
+        new ColumnModel() { HeaderText = "En Route", KeyField = new List<string>() { "En Route" } },
+        new ColumnModel() { HeaderText = "On Site", KeyField = new List<string>() { "On Site" } },
+        new ColumnModel() { HeaderText = "Closed", KeyField = new List<string>() { "Closed" } }
+    };
+}
